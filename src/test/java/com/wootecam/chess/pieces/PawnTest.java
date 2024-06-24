@@ -1,7 +1,8 @@
-package com.wootecam;
+package com.wootecam.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.wootecam.chess.Color;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

@@ -1,4 +1,6 @@
-package com.wootecam;
+package com.wootecam.chess.pieces;
+
+import com.wootecam.chess.Color;
 
 public class Pawn {
     private static final Color DEFAULT_COLOR = Color.WHITE;

@@ -1,5 +1,6 @@
-package com.wootecam;
+package com.wootecam.chess;
 
+import com.wootecam.chess.pieces.Pawn;
 import java.util.ArrayList;
 import java.util.List;
 
