@@ -19,6 +19,13 @@ public class PawnTest {
         verifyPawn(Color.BLACK);
     }
 
+    @Test
+    @DisplayName("생성자에 색이 전달되지 않을 경우 흰색 폰이 생성되어야 한다")
+    public void create_defaultConstructor() {
+        pawn = new Pawn();
+        verifyPawn(Color.WHITE);
+    }
+
     private void verifyPawn(final Color color) {
         assertThat(pawn.getColor()).isEqualTo(color);
     }
