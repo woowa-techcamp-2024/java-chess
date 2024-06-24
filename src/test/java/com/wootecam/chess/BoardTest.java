@@ -23,12 +23,23 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("체스판 테스트")
 class BoardTest {
 
+    private static Board createBoard() {
+        return new Board();
+    }
+
+    private static Board createBoard(List<Pawn> pawns) {
+        Board board = new Board();
+        pawns.forEach(board::add);
+        return board;
+    }
+
+
     @Nested
     class 체스판에_말을_추가할_수_있다 {
 
         @Test
         void 말을_추가할_수_있다() {
-            var board = new Board();
+            var board = createBoard();
             var pawn = new Pawn();
 
             assertThatNoException().isThrownBy(() -> board.add(pawn));
@@ -49,10 +60,7 @@ class BoardTest {
         @MethodSource("pawnListForSize")
         @ParameterizedTest
         void 말의_개수를_조회할_수_있다(List<Pawn> pawnList) {
-            var board = new Board();
-            for (Pawn p : pawnList) {
-                board.add(p);
-            }
+            var board = createBoard(pawnList);
 
             assertThat(board.size()).isEqualTo(pawnList.size());
         }
@@ -72,10 +80,7 @@ class BoardTest {
         @MethodSource("pawnListForFind")
         @ParameterizedTest
         void 말을_조회할_수_있다(List<Pawn> pawnList) {
-            var board = new Board();
-            for (Pawn p : pawnList) {
-                board.add(p);
-            }
+            var board = createBoard(pawnList);
 
             for (int i = 0; i < pawnList.size(); ++i) {
                 assertThat(board.findPawn(i)).isEqualTo(pawnList.get(i));
@@ -83,10 +88,9 @@ class BoardTest {
         }
 
         @ValueSource(ints = {-1, 1})
-        @ParameterizedTest
+        @ParameterizedTest(name = "{0}번째 말 조회")
         void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
-            var board = new Board();
-            board.add(new Pawn(Color.WHITE));
+            var board = createBoard(List.of(new Pawn()));
 
             assertThatThrownBy(() -> board.findPawn(index))
                     .isInstanceOf(IllegalArgumentException.class);
