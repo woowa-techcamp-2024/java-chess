@@ -36,9 +36,8 @@ public class BoardTest {
     @Test
     @DisplayName("잘못된 index로 폰을 찾을 경우 에러를 발생시킨다")
     public void findPawn() throws Exception {
-        Board board = new Board();
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
         board.add(white);
+
         assertEquals(white, board.findPawn(0));
         try {
             board.findPawn(1);
