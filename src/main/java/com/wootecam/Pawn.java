@@ -1,19 +1,19 @@
 package com.wootecam;
 
 public class Pawn {
-    private static final String DEFAULT_COLOR = "white";
+    private static final Color DEFAULT_COLOR = Color.WHITE;
 
-    private final String color;
+    private final Color color;
 
     public Pawn() {
         this.color = DEFAULT_COLOR;
     }
 
-    public Pawn(String color) {
+    public Pawn(Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 }
