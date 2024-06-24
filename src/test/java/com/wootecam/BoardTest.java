@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("체스판 테스트")
-public class BoardTest {
+class BoardTest {
 
     @Nested
     class 체스판에_추가된_말의_개수를_조회할_수_있다 {
@@ -33,7 +33,7 @@ public class BoardTest {
 
         @MethodSource("pawnListForSize")
         @ParameterizedTest
-        public void 말의_개수를_조회할_수_있다(List<Pawn> pawnList) {
+        void 말의_개수를_조회할_수_있다(List<Pawn> pawnList) {
             var board = new Board();
 
             for (Pawn p : pawnList) {
@@ -57,7 +57,7 @@ public class BoardTest {
 
         @MethodSource("pawnListForFind")
         @ParameterizedTest
-        public void 말을_조회할_수_있다(List<Pawn> pawnList) {
+        void 말을_조회할_수_있다(List<Pawn> pawnList) {
             var board = new Board();
 
             for (Pawn p : pawnList) {
@@ -71,7 +71,7 @@ public class BoardTest {
 
         @ValueSource(ints = {-1, 1})
         @ParameterizedTest
-        public void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
+        void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
             var board = new Board();
             board.add(new Pawn(Color.WHITE));
 

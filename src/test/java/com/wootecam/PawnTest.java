@@ -12,18 +12,18 @@ import org.junit.jupiter.params.provider.EnumSource;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("폰 테스트")
-public class PawnTest {
+class PawnTest {
 
     @EnumSource(Color.class)
     @ParameterizedTest(name = "{0} 색 폰이 생성되어야 한다")
-    public void 해당_색을_가진_폰이_생성되어야_한다(Color color) {
+    void 해당_색을_가진_폰이_생성되어야_한다(Color color) {
         var pawn = new Pawn(color);
 
         assertThat(pawn.getColor()).isEqualTo(color);
     }
 
     @Test
-    public void 색깔이_주어지지_않았다면_하얀색_폰이_생성되어야_한다() {
+    void 색깔이_주어지지_않았다면_하얀색_폰이_생성되어야_한다() {
         var pawn = new Pawn();
 
         assertThat(pawn.getColor()).isEqualTo(Color.WHITE);
