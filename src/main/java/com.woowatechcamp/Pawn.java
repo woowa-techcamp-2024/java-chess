@@ -1,0 +1,13 @@
+package com.woowatechcamp;
+
+public class Pawn {
+    private final Color color;
+
+    public Pawn(String color) {
+        this.color = Color.fromString(color);
+    }
+
+    public String getColor() {
+        return color.getColor();
+    }
+}
