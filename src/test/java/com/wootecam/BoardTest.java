@@ -1,11 +1,11 @@
 package com.wootecam;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,7 +45,7 @@ public class BoardTest {
         board.add(pawn);
 
         // expect
-        Assertions.assertThatThrownBy(() -> board.findPawn(1))
+        assertThatThrownBy(() -> board.findPawn(1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("폰의 개수보다 큰 인덱스 입니다. size = 1");
     }
