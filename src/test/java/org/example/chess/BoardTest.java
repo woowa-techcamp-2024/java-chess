@@ -11,14 +11,10 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     private Board board;
-    private static Pawn white;
-    private static Pawn black;
 
-    @BeforeAll
-    public static void setUpPawn() {
-        white = new Pawn(Pawn.WHITE_COLOR);
-        black = new Pawn(Pawn.BLACK_COLOR);
-    }
+    private final Pawn white = new Pawn(Pawn.WHITE_COLOR);
+    private final Pawn black = new Pawn(Pawn.BLACK_COLOR);
+
 
     @BeforeEach
     public void setUpBoard() {
