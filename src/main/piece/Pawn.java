@@ -2,13 +2,13 @@ package piece;
 
 public class Pawn {
 
-    private final String color;
+    private final Color color;
 
-    public Pawn(final String color) {
+    public Pawn(final Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
