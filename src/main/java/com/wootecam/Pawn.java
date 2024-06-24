@@ -16,4 +16,9 @@ public class Pawn {
     public Color getColor() {
         return color;
     }
+
+    @Override
+    public String toString() {
+        return color + " Pawn";
+    }
 }
