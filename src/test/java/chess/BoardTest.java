@@ -2,6 +2,7 @@ package chess;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import chess.pieces.Pawn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
