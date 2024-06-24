@@ -2,8 +2,8 @@ package com.wootecam;
 
 public class Pawn {
 
-    private static final String COLOR_WHITE = "white";
-    private static final String COLOR_BLACK = "black";
+    public static final String COLOR_WHITE = "white";
+    public static final String COLOR_BLACK = "black";
 
     private final String color;
 
