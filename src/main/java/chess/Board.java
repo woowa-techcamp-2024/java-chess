@@ -1,10 +1,13 @@
-import pieces.Pawn;
+package chess;
+
+import chess.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
     List<Pawn> pawns;
+
     public Board() {
         this.pawns = new ArrayList<>();
     }

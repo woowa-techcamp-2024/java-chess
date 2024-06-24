@@ -1,4 +1,4 @@
-package pieces;
+package chess.pieces;
 
 import org.junit.jupiter.api.*;
 
@@ -16,12 +16,12 @@ public class PawnTest {
 
     @Test
     public void create_기본생성자() throws Exception {
-        Pawn pawn = new Pawn();
+        chess.pieces.Pawn pawn = new chess.pieces.Pawn();
         assertEquals("white", pawn.getColor());
     }
 
     public void verifyPawn(final String color) {
-        Pawn pawn = new Pawn(color);
+        chess.pieces.Pawn pawn = new chess.pieces.Pawn(color);
         assertThat(pawn.getColor()).isEqualTo(color);
     }
 }

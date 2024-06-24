@@ -1,4 +1,4 @@
-package pieces;
+package chess.pieces;
 
 public class Pawn {
     public static String WHITE_COLOR = "white";
