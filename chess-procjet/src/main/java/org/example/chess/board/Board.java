@@ -1,8 +1,8 @@
-package org.example.board;
+package org.example.chess.board;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.example.piece.Pawn;
+import org.example.chess.pieces.Pawn;
 
 public class Board {
 
@@ -26,4 +26,5 @@ public class Board {
         }
         return pawns.get(i);
     }
+
 }

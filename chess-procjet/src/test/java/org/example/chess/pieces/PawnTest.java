@@ -1,6 +1,4 @@
-package org.example.piece;
-
-import org.junit.jupiter.api.*;
+package org.example.chess.pieces;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,11 +8,11 @@ import org.junit.jupiter.api.Test;
 
 class PawnTest {
 
+    private Pawn pawn;
+
     @Test
     @DisplayName("폰 생성시 색을 지정해서 생성한다.")
     public void create() {
-        ;
-
         verifyPawn(Color.WHITE);
         verifyPawn(Color.BLACK);
     }

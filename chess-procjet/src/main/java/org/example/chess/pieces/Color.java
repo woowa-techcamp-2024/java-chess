@@ -1,4 +1,4 @@
-package org.example.piece;
+package org.example.chess.pieces;
 
 public enum Color {
 
