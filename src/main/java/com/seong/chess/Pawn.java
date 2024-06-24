@@ -1,13 +1,8 @@
 package com.seong.chess;
 
-public class Pawn {
-    private final String color;
+public class Pawn extends Piece {
 
     public Pawn(String color) {
-        this.color = color;
-    }
-
-    public String getColor() {
-        return color;
+        super(color);
     }
 }
