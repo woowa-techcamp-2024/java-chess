@@ -20,4 +20,10 @@ class PawnTest {
         assertThat(pawn.getColor()).isEqualTo(color);
     }
 
+    @Test
+    @DisplayName("기본생성자는 흰색 폰이 생성되어야 한다")
+    void create_기본생성자() {
+        Pawn pawn = new Pawn();
+        assertThat(pawn.getColor()).isEqualTo("white");
+    }
 }
