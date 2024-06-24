@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <testsuite name="wootecamp.chess.PawnTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-06-25T01:49:55" hostname="woowatech08ui-MacBookPro.local" time="0.057">
   <properties/>
   <testcase name="생성자 파라미터에 색깔을 전달해서 폰을 생성한다." classname="wootecamp.chess.PawnTest" time="0.055"/>
   <testcase name="기본 생성자는 흰색 폰을 생성한다." classname="wootecamp.chess.PawnTest" time="0.001"/>
+=======
+<testsuite name="wootecamp.chess.PawnTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-24T08:35:47" hostname="woowatech08ui-MacBookPro.local" time="0.046">
+  <properties/>
+  <testcase name="생성자 파라미터에 색깔을 전달해서 폰을 생성한다." classname="wootecamp.chess.PawnTest" time="0.046"/>
+>>>>>>> 1fc6201 (gitignore 수정)
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
