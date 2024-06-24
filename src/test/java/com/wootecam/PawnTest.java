@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -18,5 +19,11 @@ public class PawnTest {
     public void 해당_색을_가진_폰이_생성되어야_한다(String color) {
         var pawn = new Pawn(color);
         assertThat(pawn.getColor()).isEqualTo(color);
+    }
+
+    @Test
+    public void 색깔이_주어지지_않았다면_하얀색_폰이_생성되어야_한다() {
+        var pawn = new Pawn();
+        assertThat(pawn.getColor()).isEqualTo("white");
     }
 }
