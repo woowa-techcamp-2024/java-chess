@@ -3,6 +3,9 @@ package chess;
 public class Pawn {
     String color;
 
+    public static final String WHITE_COLOR = "white";
+    public static final String BLACK_COLOR = "black";
+
     public String getColor() {
         return color;
     }
@@ -12,6 +15,6 @@ public class Pawn {
     }
 
     public Pawn() {
-        this.color = "white";
+        this.color = WHITE_COLOR;
     }
 }
