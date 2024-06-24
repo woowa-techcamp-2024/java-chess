@@ -15,7 +15,7 @@ public class PawnTest {
     }
 
     @Test
-    public void create_기본생성자() throws Exception {
+    public void create_기본생성자() {
         chess.pieces.Pawn pawn = new chess.pieces.Pawn();
         assertEquals("white", pawn.getColor());
     }

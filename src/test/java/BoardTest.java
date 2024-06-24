@@ -6,7 +6,6 @@ import chess.pieces.Pawn;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTest {
     Board board;
@@ -16,7 +15,7 @@ public class BoardTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void create() {
         Pawn white = new Pawn(Pawn.WHITE_COLOR);
         board.add(white);
         assertEquals(1, board.size());
