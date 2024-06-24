@@ -9,8 +9,11 @@ public class PawnTest {
     @Test
     @DisplayName("흰색 폰이 생성되어야 한다")
     void create() {
-        Pawn pawn = new Pawn("white");
-        Assertions.assertThat(pawn.getColor()).isEqualTo("white");
+        Pawn pawnWhite = new Pawn("white");
+        Assertions.assertThat(pawnWhite.getColor()).isEqualTo("white");
+
+        Pawn pawnBlack = new Pawn("black");
+        Assertions.assertThat(pawnBlack.getColor()).isEqualTo("black");
     }
 
 }
