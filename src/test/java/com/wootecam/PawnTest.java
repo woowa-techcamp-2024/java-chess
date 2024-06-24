@@ -3,6 +3,7 @@ package com.wootecam;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -17,5 +18,14 @@ public class PawnTest {
 
         // then
         assertThat(pawn.getColor()).isEqualTo(color);
+    }
+
+    @Test
+    void create_기본생성자() {
+        // when
+        Pawn pawn = new Pawn();
+
+        // then
+        assertThat(pawn.getColor()).isEqualTo("white");
     }
 }
