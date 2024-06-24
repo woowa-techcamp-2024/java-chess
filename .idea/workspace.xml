@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9718a3f6-9362-4049-80d2-c922c1a20556" name="Changes" comment="refactor: pieces 패키지 생성 및 구조 변경&#10;&#10;- pawn 클래스 pieces 패키지로 이동" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="java-chess" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="java-chess" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="seminchoi &lt;choicco89@gmail.com&gt;" />
+        <option value="woowatech08 &lt;woowatech08@woowatech08ui-macbookpro.local&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;seminchoi&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/seminchoi/java-chess.git&quot;,
+    &quot;accountId&quot;: &quot;ed8f9e30-24a9-472f-ba57-914e7d531ae1&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2iJeocDxqCroiAPaHc4Wnfc4Wph" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.BoardTest.create.executor": "Run",
+    "Gradle.PawnTest.create.executor": "Run",
+    "Gradle.PawnTest.executor": "Run",
+    "JUnit.BoardTest.create.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/woowatech08/workspace/java-chess",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/woowatech08/workspace/java-chess/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.PawnTest">
+    <configuration name="BoardTest.create" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;wootecamp.chess.BoardTest.create&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;wootecamp.chess.PawnTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest.create" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;wootecamp.chess.PawnTest.create&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="BoardTest.create" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-chess.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="wootecamp.chess.pieces.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="wootecamp.chess" />
+      <option name="MAIN_CLASS_NAME" value="wootecamp.chess.BoardTest" />
+      <option name="METHOD_NAME" value="create" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.PawnTest" />
+        <item itemvalue="Gradle.BoardTest.create" />
+        <item itemvalue="JUnit.BoardTest.create" />
+        <item itemvalue="Gradle.PawnTest.create" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9718a3f6-9362-4049-80d2-c922c1a20556" name="Changes" comment="" />
+      <created>1719213284169</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719213284169</updated>
+      <workItem from="1719213285148" duration="1103000" />
+      <workItem from="1719214650901" duration="2726000" />
+      <workItem from="1719218539384" duration="2438000" />
+      <workItem from="1719275938961" duration="2760000" />
+      <workItem from="1719279674422" duration="2513000" />
+    </task>
+    <task id="LOCAL-00001" summary="init: 프로젝트 초기화&#10;&#10;- Java 17, Gradle(Groovy) 환경">
+      <option name="closed" value="true" />
+      <created>1719214515647</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719214515647</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init: 프로젝트 초기화&#10;&#10;- Java 17, Gradle(Groovy) 환경">
+      <option name="closed" value="true" />
+      <created>1719214815435</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719214815435</updated>
+    </task>
+    <task id="LOCAL-00003" summary="test: PawnTest 클래스 생성&#10;&#10;- pawn 생성자 테스트 케이스 작성">
+      <option name="closed" value="true" />
+      <created>1719214866965</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719214866965</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: Pawn 클래스 생성&#10;&#10;- 멤버변수, 생성자, getter 작성">
+      <option name="closed" value="true" />
+      <created>1719216317959</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719216317959</updated>
+    </task>
+    <task id="LOCAL-00005" summary="test: 생성 테스트 케이스 보강&#10;&#10;- 검은색으로 생성했을 때의 경우 추가">
+      <option name="closed" value="true" />
+      <created>1719217395831</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719217395831</updated>
+    </task>
+    <task id="LOCAL-00006" summary="test: 생성 테스트 케이스 보강&#10;&#10;- 검은색으로 생성했을 때의 경우 추가">
+      <option name="closed" value="true" />
+      <created>1719217442413</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719217442413</updated>
+    </task>
+    <task id="LOCAL-00007" summary="test: 생성 테스트 케이스 보강&#10;&#10;- 검은색으로 생성했을 때의 경우 추가">
+      <option name="closed" value="true" />
+      <created>1719217463809</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719217463809</updated>
+    </task>
+    <task id="LOCAL-00008" summary="test: 중복되는 문자열 지역변수로 추출&#10;&#10;- black, white 문자열 지역변수 추출">
+      <option name="closed" value="true" />
+      <created>1719218065127</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218065127</updated>
+    </task>
+    <task id="LOCAL-00009" summary="test: Pawn을 생성하고 검증하는 메소드 추출&#10;&#10;- Pawn의 색깔을 전달받아 생성하고 올바른 색상으로 생성되었는지 테스트">
+      <option name="closed" value="true" />
+      <created>1719218206737</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218206737</updated>
+    </task>
+    <task id="LOCAL-00010" summary="gitignore 수정">
+      <option name="closed" value="true" />
+      <created>1719218793531</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218793531</updated>
+    </task>
+    <task id="LOCAL-00011" summary="gitignore 수정">
+      <option name="closed" value="true" />
+      <created>1719218819233</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218819233</updated>
+    </task>
+    <task id="LOCAL-00012" summary="gitignore 수정">
+      <option name="closed" value="true" />
+      <created>1719218834083</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218834083</updated>
+    </task>
+    <task id="LOCAL-00013" summary="gitignore 수정">
+      <option name="closed" value="true" />
+      <created>1719218854549</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719218854549</updated>
+    </task>
+    <task id="LOCAL-00014" summary="test: PawnTest 기본 생성자 테스트 케이스 추가&#10;&#10;- 기본 생성자가 흰색 폰을 생성하는지 검증">
+      <option name="closed" value="true" />
+      <created>1719276141944</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719276141944</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: 기본 생성자 구현&#10;&#10;- 기본 생성자가 흰색 폰을 생성하도록 구현">
+      <option name="closed" value="true" />
+      <created>1719276180622</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1719276180622</updated>
+    </task>
+    <task id="LOCAL-00016" summary="refactor: Pawn의 색깔을 상수로 리팩토링&#10;&#10;- 관련된 코드 리팩토링">
+      <option name="closed" value="true" />
+      <created>1719276675211</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1719276675211</updated>
+    </task>
+    <task id="LOCAL-00017" summary="infra: gradle 환경 초기화">
+      <option name="closed" value="true" />
+      <created>1719279389718</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1719279389718</updated>
+    </task>
+    <task id="LOCAL-00018" summary="infra: gradle 환경 초기화">
+      <option name="closed" value="true" />
+      <created>1719279648121</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1719279648121</updated>
+    </task>
+    <task id="LOCAL-00019" summary="infra: gradle 환경 초기화">
+      <option name="closed" value="true" />
+      <created>1719279937530</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1719279937530</updated>
+    </task>
+    <task id="LOCAL-00020" summary="infra: gradle 환경 초기화">
+      <option name="closed" value="true" />
+      <created>1719280088930</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1719280088930</updated>
+    </task>
+    <task id="LOCAL-00021" summary="test: BoardTest 테스트 케이스 작성&#10;&#10;- Board를 생성하고 Pawn을 보드에 추가하는 테스트 케이스 작성">
+      <option name="closed" value="true" />
+      <created>1719280326830</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1719280326830</updated>
+    </task>
+    <task id="LOCAL-00022" summary="feat: Board 클래스 구현&#10;&#10;- Pawn들을 저장할 수 있는 멤버변수 선언&#10;- Pawn을 추가하는 add 메서드 구현&#10;- Board의 size를 확인할 수 있는 메서드 구현&#10;- 저장된 Pawn을 반환하는 메서드 구현">
+      <option name="closed" value="true" />
+      <created>1719280449230</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1719280449230</updated>
+    </task>
+    <task id="LOCAL-00023" summary="refactor: pieces 패키지 생성 및 구조 변경&#10;&#10;- pawn 클래스 pieces 패키지로 이동">
+      <option name="closed" value="true" />
+      <created>1719280774680</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1719280774680</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init: 프로젝트 초기화&#10;&#10;- Java 17, Gradle(Groovy) 환경" />
+    <MESSAGE value="test: PawnTest 클래스 생성&#10;&#10;- pawn 생성자 테스트 케이스 작성" />
+    <MESSAGE value="feat: Pawn 클래스 생성&#10;&#10;- 멤버변수, 생성자, getter 작성" />
+    <MESSAGE value="test: 생성 테스트 케이스 보강&#10;&#10;- 검은색으로 생성했을 때의 경우 추가" />
+    <MESSAGE value="test: 중복되는 문자열 지역변수로 추출&#10;&#10;- black, white 문자열 지역변수 추출" />
+    <MESSAGE value="test: Pawn을 생성하고 검증하는 메소드 추출&#10;&#10;- Pawn의 색깔을 전달받아 생성하고 올바른 색상으로 생성되었는지 테스트" />
+    <MESSAGE value="gitignore 수정" />
+    <MESSAGE value="test: PawnTest 기본 생성자 테스트 케이스 추가&#10;&#10;- 기본 생성자가 흰색 폰을 생성하는지 검증" />
+    <MESSAGE value="feat: 기본 생성자 구현&#10;&#10;- 기본 생성자가 흰색 폰을 생성하도록 구현" />
+    <MESSAGE value="refactor: Pawn의 색깔을 상수로 리팩토링&#10;&#10;- 관련된 코드 리팩토링" />
+    <MESSAGE value="infra: gradle 환경 초기화" />
+    <MESSAGE value="test: BoardTest 테스트 케이스 작성&#10;&#10;- Board를 생성하고 Pawn을 보드에 추가하는 테스트 케이스 작성" />
+    <MESSAGE value="feat: Board 클래스 구현&#10;&#10;- Pawn들을 저장할 수 있는 멤버변수 선언&#10;- Pawn을 추가하는 add 메서드 구현&#10;- Board의 size를 확인할 수 있는 메서드 구현&#10;- 저장된 Pawn을 반환하는 메서드 구현" />
+    <MESSAGE value="refactor: pieces 패키지 생성 및 구조 변경&#10;&#10;- pawn 클래스 pieces 패키지로 이동" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: pieces 패키지 생성 및 구조 변경&#10;&#10;- pawn 클래스 pieces 패키지로 이동" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
