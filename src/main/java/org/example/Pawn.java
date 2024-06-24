@@ -2,7 +2,7 @@ package org.example;
 
 public class Pawn {
 
-    private String color;
+    private final String color;
 
     public Pawn(String color) {
         this.color = color;
