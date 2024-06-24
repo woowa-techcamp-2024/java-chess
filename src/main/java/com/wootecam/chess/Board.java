@@ -16,8 +16,8 @@ public class Board {
     }
 
     public Pawn findPawn(final int pawnIndex) {
-        if (pawns.size() <= pawnIndex) {
-            String message = String.format("폰의 개수보다 큰 인덱스 입니다. size = %d", pawns.size());
+        if (pawnIndex < 0 || pawns.size() <= pawnIndex) {
+            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", pawns.size());
             throw new IllegalArgumentException(message);
         }
         return pawns.get(pawnIndex);

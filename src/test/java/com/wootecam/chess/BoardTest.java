@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class BoardTest {
 
@@ -43,15 +44,16 @@ public class BoardTest {
         );
     }
 
-    @Test
-    void 보드에_추가된_폰의_갯수보다_큰_인덱스의_폰을_찾으면_예외가_발생한다() {
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 2})
+    void 폰의개수보다_큰_인덱스거나_0미만의_인덱스라면_예외가_발생한다(int index) {
         // given
         Pawn pawn = new Pawn(Pawn.COLOR_WHITE);
         board.add(pawn);
 
         // expect
-        assertThatThrownBy(() -> board.findPawn(1))
+        assertThatThrownBy(() -> board.findPawn(index))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("폰의 개수보다 큰 인덱스 입니다. size = 1");
+                .hasMessage("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = " + board.size());
     }
 }
