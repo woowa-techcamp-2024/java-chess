@@ -1,13 +1,17 @@
 package chess;
 
 public class Pawn {
-    private final String color;
+    private final PawnColor color;
 
-    public Pawn(String color) {
+    public Pawn(PawnColor color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Pawn() {
+        this.color = PawnColor.WHITE;
+    }
+
+    public PawnColor getColor() {
         return color;
     }
 }
