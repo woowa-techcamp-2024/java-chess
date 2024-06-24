@@ -1,4 +1,4 @@
-package com.seong.chess;
+package com.seong.chess.pieces;
 
 public abstract class Piece {
     public static final String BLACK_COLOR = "black";

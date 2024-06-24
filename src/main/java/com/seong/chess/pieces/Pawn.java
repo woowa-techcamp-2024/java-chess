@@ -1,4 +1,4 @@
-package com.seong.chess;
+package com.seong.chess.pieces;
 
 public class Pawn extends Piece {
 

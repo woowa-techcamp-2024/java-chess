@@ -1,5 +1,8 @@
 package com.seong.chess;
 
+import com.seong.chess.pieces.Pawn;
+import com.seong.chess.pieces.Piece;
+
 import java.util.ArrayList;
 import java.util.List;
 
