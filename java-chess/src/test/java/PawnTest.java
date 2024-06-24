@@ -18,11 +18,6 @@ public class PawnTest {
 
     public void verifyPawn(String color) {
         Pawn pawn = new Pawn(color);
-
-        if (color.equals(white)) {
-            assertThat(pawn.getColor()).isEqualTo(white);
-        } else {
-            assertThat(pawn.getColor()).isEqualTo(black);
-        }
+        assertThat(pawn.getColor()).isEqualTo(color);
     }
 }
