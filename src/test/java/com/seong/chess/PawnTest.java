@@ -10,16 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PawnTest {
 
-    @Test
-    @DisplayName("흰색 폰이 생성되어야 한다")
-    public void create() {
-        Pawn pawn = new Pawn("white");
-        assertThat(pawn.getColor()).isEqualTo("white");
-    }
-
     @ParameterizedTest
     @CsvSource({
-            "black", "white"
+            Piece.BLACK_COLOR, Piece.WHITE_COLOR
     })
     @DisplayName("다양한 색을 가진 폰이 생성되어야 한다.")
     public void verifyPawn(final String color) {
@@ -29,8 +22,8 @@ public class PawnTest {
 
     @Test
     @DisplayName("흰색 폰이 기본으로 생성되어야 한다.")
-    public void create_기본생성자() throws Exception {
+    public void create_기본생성자() {
         Pawn pawn = new Pawn();
-        assertThat(pawn.getColor()).isEqualTo("white");
+        assertThat(pawn.getColor()).isEqualTo(Piece.WHITE_COLOR);
     }
 }

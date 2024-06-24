@@ -3,7 +3,7 @@ package com.seong.chess;
 public class Pawn extends Piece {
 
     public Pawn() {
-        super("white");
+        super(Piece.WHITE_COLOR);
     }
 
     public Pawn(String color) {
