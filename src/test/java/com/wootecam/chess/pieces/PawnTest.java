@@ -1,4 +1,4 @@
-package com.wootecam;
+package com.wootecam.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

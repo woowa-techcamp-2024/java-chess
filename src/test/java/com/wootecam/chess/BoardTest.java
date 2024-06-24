@@ -1,9 +1,10 @@
-package com.wootecam;
+package com.wootecam.chess;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.Pawn;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
