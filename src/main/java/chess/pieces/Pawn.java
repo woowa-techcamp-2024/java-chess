@@ -1,3 +1,5 @@
+package chess.pieces;
+
 public class Pawn implements ChessPiece {
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
