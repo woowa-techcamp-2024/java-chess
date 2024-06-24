@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class PawnTest {
 
     @Test
-    @DisplayName("흰색 폰이 생성되어야 한다")
+    @DisplayName("색상에 맞는 폰이 생성되어야 한다")
     void create() {
         String white = "white";
         String black = "black";
