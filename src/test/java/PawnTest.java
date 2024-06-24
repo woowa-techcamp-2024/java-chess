@@ -4,16 +4,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PawnTest {
+    private void verifyPawn(final String color){
+        Pawn pawn = new Pawn(color);
+        assertEquals(color,pawn.getColor());
+    }
+
     @Test
     @DisplayName("흰색 폰이 생성되어야 한다")
     public void create() {
         String white = "white";
         String black = "black";
 
-        Pawn pawn = new Pawn(white);
-        assertEquals(white,pawn.getColor());
-
-        Pawn blackPawn = new Pawn(black);
-        assertEquals(black,blackPawn.getColor());
+        verifyPawn(white);
+        verifyPawn(black);
     }
 }
