@@ -11,12 +11,12 @@ public class PawnTest {
     @Test
     void create() {
         String white = "white";
-        Pawn pawn = new Pawn(white);
-        verifyPawn(pawn, white);
+        Pawn pawn1 = new Pawn(white);
+        verifyPawn(pawn1, white);
 
         String black = "black";
-        Pawn blackPawn = new Pawn(black);
-        verifyPawn(blackPawn, black);
+        Pawn pawn2 = new Pawn(black);
+        verifyPawn(pawn2, black);
     }
 
     void verifyPawn(Pawn pawn, String color) {
