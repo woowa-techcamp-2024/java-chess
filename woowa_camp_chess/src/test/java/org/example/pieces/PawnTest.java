@@ -1,11 +1,12 @@
 package org.example.pieces;
+import org.example.chess.pieces.Pawn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.pieces.Pawn.BLACK_COLOR;
-import static org.example.pieces.Pawn.WHITE_COLOR;
+import static org.example.chess.pieces.Pawn.BLACK_COLOR;
+import static org.example.chess.pieces.Pawn.WHITE_COLOR;
 
 class PawnTest {
     @Test
