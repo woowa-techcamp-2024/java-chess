@@ -1,4 +1,4 @@
-public class Pawn {
+public class Pawn implements ChessPiece {
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
     private String color;
