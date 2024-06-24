@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PawnTest {
 
-    @DisplayName("흰색 폰이 생성되어야 한다.")
+    @DisplayName("색상이 있는 폰이 생성되어야 한다.")
     @Test
     void create() {
         String white = "white";
