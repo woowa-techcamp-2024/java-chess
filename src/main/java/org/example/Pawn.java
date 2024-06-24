@@ -2,8 +2,8 @@ package org.example;
 
 public class Pawn {
 
-    static final String WHITE = "white";
-    static final String BLACK = "black";
+    public static final String WHITE_COLOR = "white";
+    public static final String BLACK_COLOR = "black";
 
     private final String color;
 
@@ -12,7 +12,7 @@ public class Pawn {
     }
 
     public Pawn() {
-        this.color = WHITE;
+        this.color = WHITE_COLOR;
     }
 
     public String getColor() {
