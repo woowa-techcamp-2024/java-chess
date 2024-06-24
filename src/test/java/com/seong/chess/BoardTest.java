@@ -16,11 +16,11 @@ public class BoardTest {
     public void create() {
         Board board = new Board();
 
-        Pawn white = addPawn(board, Piece.WHITE_COLOR);
+        Pawn white = addPawn(board, Piece.Colors.WHITE_COLOR);
         assertThat(board.size()).isEqualTo(1);
         assertThat(board.findPawn(0)).isEqualTo(white);
 
-        Pawn black = addPawn(board, Piece.BLACK_COLOR);
+        Pawn black = addPawn(board, Piece.Colors.BLACK_COLOR);
         assertThat(board.size()).isEqualTo(2);
         assertThat(board.findPawn(1)).isEqualTo(black);
     }
