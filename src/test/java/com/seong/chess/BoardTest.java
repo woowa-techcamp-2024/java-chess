@@ -1,9 +1,12 @@
 package com.seong.chess;
 
 import com.seong.chess.pieces.Pawn;
+import com.seong.chess.pieces.Piece;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
@@ -13,14 +16,18 @@ public class BoardTest {
     public void create() {
         Board board = new Board();
 
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
+        Pawn white = addPawn(board, Piece.WHITE_COLOR);
+        assertThat(board.size()).isEqualTo(1);
+        assertThat(board.findPawn(0)).isEqualTo(white);
 
-        Pawn black = new Pawn(Pawn.BLACK_COLOR);
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        Pawn black = addPawn(board, Piece.BLACK_COLOR);
+        assertThat(board.size()).isEqualTo(2);
+        assertThat(board.findPawn(1)).isEqualTo(black);
+    }
+
+    private Pawn addPawn(Board board, String color) {
+        Pawn pawn = new Pawn(color);
+        board.add(pawn);
+        return pawn;
     }
 }
