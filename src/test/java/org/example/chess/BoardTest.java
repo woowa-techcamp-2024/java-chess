@@ -1,7 +1,8 @@
-package org.example;
+package org.example.chess;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.example.pieces.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

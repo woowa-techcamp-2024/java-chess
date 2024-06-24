@@ -1,4 +1,4 @@
-package org.example;
+package org.example.pieces;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.*;

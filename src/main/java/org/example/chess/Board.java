@@ -1,8 +1,8 @@
-package org.example;
+package org.example.chess;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import org.example.pieces.Pawn;
 
 public class Board {
 
