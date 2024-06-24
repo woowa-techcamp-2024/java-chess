@@ -2,17 +2,17 @@ package org.example.piece;
 
 public class Pawn {
 
-    private final String color; //todo: enum으로 변경
+    private final Color color;
 
-    public String getColor() {
+    public Color getColor() {
         return this.color;
     }
 
     public Pawn() {
-        this.color = "white";
+        this.color = Color.WHITE;
     }
 
-    public Pawn(String color) {
+    public Pawn(Color color) {
         this.color = color;
     }
 
