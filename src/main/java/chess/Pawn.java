@@ -6,7 +6,7 @@ public class Pawn {
     public Pawn() { this.color = Color.WHITE; }
 
     public Pawn(final String color) {
-        this.color = color;
+        this.color = Color.getColor(color);
     }
 
     public String getColor() {
