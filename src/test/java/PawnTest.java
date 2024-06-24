@@ -9,5 +9,8 @@ public class PawnTest {
     public void create() {
         Pawn pawn = new Pawn("white");
         assertEquals("white",pawn.getColor());
+
+        Pawn blackPawn = new Pawn("black");
+        assertEquals("black",blackPawn.getColor());
     }
 }
