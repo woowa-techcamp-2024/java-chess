@@ -1,5 +1,3 @@
-package com.example;
-
 public class Pawn {
     private String color;
 
