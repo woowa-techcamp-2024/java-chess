@@ -14,7 +14,7 @@ public class PawnTest {
     @Test
     public void create() {
         Pawn pawn = new Pawn();
-        assertThat(pawn.getColor()).isEqualTo(Pawn.WHITE);
+        assertThat(pawn.getColor()).isEqualTo(Pawn.WHITE_COLOR);
     }
 
     @DisplayName("색깔에 맞는 폰이 생성되어야 한다")
@@ -28,8 +28,8 @@ public class PawnTest {
 
     private static Stream<Arguments> argumentsStream() {
         return Stream.of(
-            Arguments.arguments(Pawn.WHITE, Pawn.WHITE),
-            Arguments.arguments(Pawn.BLACK, Pawn.BLACK)
+            Arguments.arguments(Pawn.WHITE_COLOR, Pawn.WHITE_COLOR),
+            Arguments.arguments(Pawn.BLACK_COLOR, Pawn.BLACK_COLOR)
         );
     }
 
