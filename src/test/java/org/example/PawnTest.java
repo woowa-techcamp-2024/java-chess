@@ -10,6 +10,13 @@ import static org.assertj.core.api.Assertions.*;
 
 public class PawnTest {
 
+    @DisplayName("기본 생성자로 폰이 생성되어야 한다")
+    @Test
+    public void create() {
+        Pawn pawn = new Pawn();
+        assertThat(pawn.getColor()).isEqualTo(Pawn.WHITE);
+    }
+
     @DisplayName("색깔에 맞는 폰이 생성되어야 한다")
     @ParameterizedTest(name = "폰의 색깔은 {1} 이어야 한다")
     @MethodSource("argumentsStream")
@@ -21,8 +28,8 @@ public class PawnTest {
 
     private static Stream<Arguments> argumentsStream() {
         return Stream.of(
-            Arguments.arguments("white", "white"),
-            Arguments.arguments("black", "black")
+            Arguments.arguments(Pawn.WHITE, Pawn.WHITE),
+            Arguments.arguments(Pawn.BLACK, Pawn.BLACK)
         );
     }
 
