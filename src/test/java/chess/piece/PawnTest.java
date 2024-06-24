@@ -1,18 +1,25 @@
 package chess.piece;
 
-import org.junit.jupiter.api.*;
-import static org.assertj.core.api.Assertions.*;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class PawnTest {
 
     @Test
     @DisplayName("흰색 폰이 생성되어야 한다")
     public void create() {
-        Pawn whitePawn = new Pawn("white");
-        assertThat(whitePawn.getColor()).isEqualTo("white");
+        String white = "white";
+        String black = "black";
 
-        Pawn blackPawn = new Pawn("white");
-        assertThat(blackPawn.getColor()).isEqualTo("white");
+        verifyPawn(white);
+
+        verifyPawn(black);
+    }
+
+    private void verifyPawn(final String color) {
+        Pawn pawn = new Pawn(color);
+
+        Assertions.assertThat(pawn.getColor()).isEqualTo(color);
     }
 }
-
