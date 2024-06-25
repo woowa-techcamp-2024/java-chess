@@ -86,4 +86,12 @@ public class Piece {
         this.color = color;
         this.representation = representation;
     }
+
+    public boolean isBlack() {
+        return this.color.equals(BLACK_COLOR);
+    }
+
+    public boolean isWhite() {
+        return this.color.equals(WHITE_COLOR);
+    }
 }
