@@ -1,9 +1,6 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.Color;
-import com.example.demo.piece.King;
-import com.example.demo.piece.Pawn;
-import com.example.demo.piece.Piece;
+import com.example.demo.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +34,19 @@ class BoardTest {
 
         Piece black = board.getPiece(Rank.EIGHT, File.D);
         assertThat(black).isInstanceOf(King.class);
+        assertThat(black.getColor()).isEqualTo(Color.BLACK);
+    }
+
+    @Test
+    @DisplayName("보드를 생성하면 퀸의 초기 상태가 설정되어 있다.")
+    public void create_queen(){
+        Board board = new Board();
+        Piece white = board.getPiece(Rank.ONE, File.E);
+        assertThat(white).isInstanceOf(Queen.class);
+        assertThat(white.getColor()).isEqualTo(Color.WHITE);
+
+        Piece black = board.getPiece(Rank.EIGHT, File.E);
+        assertThat(black).isInstanceOf(Queen.class);
         assertThat(black.getColor()).isEqualTo(Color.BLACK);
     }
 

@@ -1,9 +1,6 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.Color;
-import com.example.demo.piece.King;
-import com.example.demo.piece.Pawn;
-import com.example.demo.piece.Piece;
+import com.example.demo.piece.*;
 
 public class Board {
 
@@ -18,6 +15,7 @@ public class Board {
     public Board() {
         initPawn();
         initKing();
+        initQueen();
     }
 
     //--------------init board start----------------
@@ -31,6 +29,11 @@ public class Board {
     private void initKing(){
         setPiece(Rank.ONE, File.D, new King(Color.WHITE));
         setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
+    }
+
+    private void initQueen(){
+        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
+        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
     }
     //--------------init board end  ----------------
 
