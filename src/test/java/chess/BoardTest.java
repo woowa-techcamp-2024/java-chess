@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static chess.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
@@ -22,15 +23,15 @@ public class BoardTest {
     @Test
     @DisplayName("보드엔 폰이 추가되고 폰에 대한 정보를 얻을 수 있다.")
     public void create() throws Exception {
-        Position whitePosition = new Position(1, 2);
+        Position whitePosition = Position.of(1, 2);
         Pawn white = addPawn(board, whitePosition, PieceColor.WHITE);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(whitePosition));
+        assertEquals(1, board.pieceCount());
+        assertEquals(white, board.findPiece(whitePosition));
 
-        Position blackPosition = new Position(2, 7);
+        Position blackPosition = Position.of(2, 7);
         Pawn black = addPawn(board, blackPosition, PieceColor.BLACK);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(blackPosition));
+        assertEquals(2, board.pieceCount());
+        assertEquals(black, board.findPiece(blackPosition));
     }
 
     private Pawn addPawn(final Board board, final Position position, final PieceColor color) {
@@ -53,9 +54,17 @@ public class BoardTest {
     @DisplayName("보드 출력시 기물이 정상적으로 출력된다.")
     public void print() {
         board.initialize();
+        board.print();
 
-        String print = board.print();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
 
-        System.out.println(print);
+        assertEquals(
+                appendNewLine("♖♘♗♕♔♗♘♖") +
+                        appendNewLine("♙♙♙♙♙♙♙♙") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("♟♟♟♟♟♟♟♟") +
+                        appendNewLine("♜♞♝♛♚♝♞♜"),
+                board.showBoard());
     }
 }

@@ -7,38 +7,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static chess.BoardFactory.*;
 import static chess.utils.StringUtils.BLANK;
 import static chess.utils.StringUtils.appendNewLine;
 
 public class Board {
 
-    private static final int pawnNum = 8;
-    private static final int rowNum = 9;
-    private static final int whitePawnRow = 2;
-    private static final int blackPawnRow = 7;
-
-    private final Map<Position, Pawn> board = new HashMap<>();
+    private final Map<Position, Piece> board = new HashMap<>();
 
     public void initialize() {
-        createPawn(rowNum - whitePawnRow, PieceColor.WHITE);
-        createPawn(rowNum - blackPawnRow, PieceColor.BLACK);
+        createPawn(this);
+        createBishop(this);
+        createQueen(this);
+        createKing(this);
+        createKnight(this);
+        createRook(this);
     }
 
-    private void createPawn(int row, PieceColor color) {
-        for (int i = 1; i <= pawnNum; i++) {
-            board.put(new Position(row, i), Pawn.create(color));
-        }
+    public void add(final Position position, final Piece piece) {
+        this.board.put(position, piece);
     }
 
-    public void add(final Position position, final Pawn pawn) {
-        this.board.put(position, pawn);
-    }
-
-    public int size() {
+    public int pieceCount() {
         return this.board.size();
     }
 
-    public Pawn findPawn(final Position position) {
+    public Piece findPiece(final Position position) {
         return this.board.get(position);
     }
 
@@ -53,27 +47,30 @@ public class Board {
         return String.join("", Collections.nCopies((int) count, String.valueOf(representation)));
     }
 
-    public String print() {
+    public String showBoard() {
         StringBuilder chessBoard = new StringBuilder();
 
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
-                Position position = new Position(row, col);
+                Position position = Position.of(File.of(col), Rank.of(row));
                 char representation = getPieceInPosition(position);
 
                 chessBoard.append(representation);
             }
-
-            appendNewLine(chessBoard);
+            chessBoard.append(appendNewLine(""));
         }
 
         return chessBoard.toString();
     }
 
-    private char getPieceInPosition(final Position position) {
-        Optional<Pawn> pawn = Optional.ofNullable(board.get(position));
+    public void print() {
+        System.out.println(showBoard());
+    }
 
-        return pawn.map(value ->
+    private char getPieceInPosition(final Position position) {
+        Optional<Piece> piece = Optional.ofNullable(board.get(position));
+
+        return piece.map(value ->
                         PieceRepresentation.getPieceRepresentation(value.getColor(), value.getType()))
                 .orElse(BLANK);
     }
