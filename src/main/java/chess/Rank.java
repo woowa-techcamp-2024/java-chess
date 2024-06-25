@@ -53,4 +53,8 @@ public class Rank {
                 .map(String::valueOf)
                 .collect(Collectors.joining());
     }
+
+    public Piece getPieceByIndex(int index) {
+        return pieces.get(index);
+    }
 }
