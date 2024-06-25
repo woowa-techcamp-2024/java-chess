@@ -11,11 +11,8 @@ public class Column {
         this.point = point;
     }
 
-    public boolean isSameRow(int row) {
-        return point.r() == row;
-    }
-
-    public void initialize(Piece piece) {
+    public Column(Point point, Piece piece) {
+        this.point = point;
         this.piece = piece;
     }
 
@@ -24,5 +21,9 @@ public class Column {
             return '.';
         }
         return piece.getRepresentation();
+    }
+
+    public boolean hasPiece() {
+        return piece != null;
     }
 }
