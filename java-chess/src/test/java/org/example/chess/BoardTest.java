@@ -3,8 +3,6 @@ package org.example.chess;
 import org.example.chess.pieces.Pawn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,6 +36,15 @@ public class BoardTest {
         board.add(black);
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
+    }
+
+    @Test
+    public void initialize() throws Exception {
+        Board board = new Board();
+        board.initialize();
+
+        assertEquals("pppppppp", board.getWhitePawnsRepresentation());
+        assertEquals("PPPPPPPP", board.getBlackPawnsRespresentation());
     }
 
     @BeforeAll

@@ -1,5 +1,7 @@
 package org.example.chess.pieces;
 
+import org.example.chess.pieces.global.Position;
+
 public class Pawn {
     private final Color color;
     private Position position;
@@ -16,8 +18,24 @@ public class Pawn {
         return this.color;
     }
 
+    public boolean isWhite() {
+        return this.color == Color.WHITE;
+    }
+
+    public boolean isBlack() {
+        return this.color == Color.BLACK;
+    }
+
     public String getRepresentation() {
         return this.color.representation;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public enum Color {
@@ -31,16 +49,6 @@ public class Pawn {
 
         public String getRepresentation(){
             return this.representation;
-        }
-    }
-
-    public class Position {
-        private int row;
-        private int col;
-
-        public Position(int row, int col) {
-            this.row = row;
-            this.col = col;
         }
     }
 }

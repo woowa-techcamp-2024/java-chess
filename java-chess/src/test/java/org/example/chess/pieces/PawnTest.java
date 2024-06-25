@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PawnTest {
     private static final Pawn.Color white = Pawn.Color.WHITE;
