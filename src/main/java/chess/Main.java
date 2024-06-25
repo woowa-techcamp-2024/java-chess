@@ -11,7 +11,7 @@ public class Main {
 
         while(true) {
             String operator = scanner.next();
-            if (operator.equals("start")) System.out.println(board.print());
+            if (operator.equals("start")) System.out.println(board.showBoard());
             if (operator.equals("end")) return;
         }
     }
