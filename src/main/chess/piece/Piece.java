@@ -1,5 +1,7 @@
 package chess.piece;
 
+import java.lang.reflect.Constructor;
+
 public abstract class Piece {
 
     private final Color color;
@@ -12,7 +14,7 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public Color getColor() {
+    protected Color getColor() {
         return color;
     }
 
@@ -33,52 +35,41 @@ public abstract class Piece {
 
     protected abstract String blackRepresentation();
 
-    public static Pawn createWhitePawn() {
-        return new Pawn(Color.WHITE);
+    public static Piece createBlack(Type type) {
+        return create(type.type, Color.BLACK);
     }
 
-    public static Pawn createBlackPawn() {
-        return new Pawn(Color.BLACK);
+    public static Piece createWhite(Type type) {
+        return create(type.type, Color.WHITE);
     }
 
-    public static Knight createWhiteKnight() {
-        return new Knight(Color.WHITE);
+    private static <T extends Piece> T create(Class<T> type, Color color) {
+        try {
+            Constructor<T> constructor = type.getDeclaredConstructor(Color.class);
+            constructor.setAccessible(true);
+            return constructor.newInstance(color);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Knight createBlackKnight() {
-        return new Knight(Color.BLACK);
+    public enum Color {
+        BLACK, WHITE
     }
 
-    public static Bishop createWhiteBishop() {
-        return new Bishop(Color.WHITE);
-    }
+    public enum Type {
+        PAWN(Pawn.class),
+        KNIGHT(Knight.class),
+        BISHOP(Bishop.class),
+        ROOK(Rook.class),
+        QUEEN(Queen.class),
+        KING(King.class);
 
-    public static Bishop createBlackBishop() {
-        return new Bishop(Color.BLACK);
-    }
+        private final Class<? extends Piece> type;
 
-    public static Rook createWhiteRook() {
-        return new Rook(Color.WHITE);
-    }
-
-    public static Rook createBlackRook() {
-        return new Rook(Color.BLACK);
-    }
-
-    public static Queen createWhiteQueen() {
-        return new Queen(Color.WHITE);
-    }
-
-    public static Queen createBlackQueen() {
-        return new Queen(Color.BLACK);
-    }
-
-    public static King createWhiteKing() {
-        return new King(Color.WHITE);
-    }
-
-    public static King createBlackKing() {
-        return new King(Color.BLACK);
+        Type(Class<? extends Piece> type) {
+            this.type = type;
+        }
     }
 
 }

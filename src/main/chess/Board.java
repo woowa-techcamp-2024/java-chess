@@ -24,28 +24,28 @@ public class Board {
 
     public void initialize() {
         clear();
-        set(0, 0, Piece.createWhiteRook());
-        set(0, 1, Piece.createWhiteKnight());
-        set(0, 2, Piece.createWhiteBishop());
-        set(0, 3, Piece.createWhiteQueen());
-        set(0, 4, Piece.createWhiteKing());
-        set(0, 5, Piece.createWhiteBishop());
-        set(0, 6, Piece.createWhiteKnight());
-        set(0, 7, Piece.createWhiteRook());
+        set(0, 0, Piece.createWhite(Piece.Type.ROOK));
+        set(0, 1, Piece.createWhite(Piece.Type.KNIGHT));
+        set(0, 2, Piece.createWhite(Piece.Type.BISHOP));
+        set(0, 3, Piece.createWhite(Piece.Type.QUEEN));
+        set(0, 4, Piece.createWhite(Piece.Type.KING));
+        set(0, 5, Piece.createWhite(Piece.Type.BISHOP));
+        set(0, 6, Piece.createWhite(Piece.Type.KNIGHT));
+        set(0, 7, Piece.createWhite(Piece.Type.ROOK));
         for (int c = 0; c < LENGTH; c++) {
-            set(1, c, Piece.createWhitePawn());
+            set(1, c, Piece.createWhite(Piece.Type.PAWN));
         }
         for (int c = 0; c < LENGTH; c++) {
-            set(6, c, Piece.createBlackPawn());
+            set(6, c, Piece.createBlack(Piece.Type.PAWN));
         }
-        set(7, 0, Piece.createBlackRook());
-        set(7, 1, Piece.createBlackKnight());
-        set(7, 2, Piece.createBlackBishop());
-        set(7, 3, Piece.createBlackQueen());
-        set(7, 4, Piece.createBlackKing());
-        set(7, 5, Piece.createBlackBishop());
-        set(7, 6, Piece.createBlackKnight());
-        set(7, 7, Piece.createBlackRook());
+        set(7, 0, Piece.createBlack(Piece.Type.ROOK));
+        set(7, 1, Piece.createBlack(Piece.Type.KNIGHT));
+        set(7, 2, Piece.createBlack(Piece.Type.BISHOP));
+        set(7, 3, Piece.createBlack(Piece.Type.QUEEN));
+        set(7, 4, Piece.createBlack(Piece.Type.KING));
+        set(7, 5, Piece.createBlack(Piece.Type.BISHOP));
+        set(7, 6, Piece.createBlack(Piece.Type.KNIGHT));
+        set(7, 7, Piece.createBlack(Piece.Type.ROOK));
     }
 
     Piece get(int r, int c) {
