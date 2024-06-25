@@ -50,6 +50,12 @@ public class Board {
                 .reduce(0, Integer::sum);
     }
 
+    public int pieceCount(Piece.Type type, Piece.Color color) {
+        return ranks.stream()
+                .map(rank -> rank.getPieceCount(type, color))
+                .reduce(0, Integer::sum);
+    }
+
     public String showBoard() {
         return ranks.stream()
                 .map(Rank::toString)

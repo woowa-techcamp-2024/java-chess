@@ -96,6 +96,10 @@ public class Piece {
         return type != Type.BLANK;
     }
 
+    public boolean isSameTypeAndColor(Type type, Color color) {
+        return this.type == type && this.color == color;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(getRepresentation());

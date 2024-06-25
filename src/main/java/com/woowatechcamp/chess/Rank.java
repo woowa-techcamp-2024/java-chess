@@ -23,6 +23,12 @@ public class Rank {
                 .count();
     }
 
+    public int getPieceCount(Piece.Type type, Piece.Color color) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isSameTypeAndColor(type, color))
+                .count();
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
