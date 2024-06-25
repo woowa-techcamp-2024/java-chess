@@ -1,33 +1,23 @@
 package chess.pieces;
 
 public class Piece implements ChessPiece {
-    public static final String WHITE_COLOR = "white";
-    public static final String BLACK_COLOR = "black";
-    public static final char WHITE_REPRESENTATION = 'p';
-    public static final char BLACK_REPRESENTATION = 'P';
-    private String color;
-    private char representation;
+    private final String color;
+    private final char representation;
+    private final String type;
 
-    public Piece() {
-        this(WHITE_COLOR,WHITE_REPRESENTATION);
-    }
-    public Piece(String color){
-        this(color,getRepresentationAccordingToColor(color));
+    private Piece(PieceTypes values){
+        this(values.getColor(),values.getRepresentation(),values.getType());
     }
 
-    private Piece(String color,char representation) {
+    private Piece(String color, char representation,String type) {
         this.color = color;
         this.representation = representation;
+        this.type = type;
     }
 
-    private static char getRepresentationAccordingToColor(String color) {
-        return switch(color){
-            case WHITE_COLOR -> WHITE_REPRESENTATION;
-            case BLACK_COLOR -> BLACK_REPRESENTATION;
-            default -> throw new IllegalArgumentException("해당 색상의 Pawn을 생성할 수 없습니다.");
-        };
+    public static Piece createPiece(PieceTypes piece) {
+        return new Piece(piece);
     }
-
 
     public String getColor() {
         return color;
@@ -35,5 +25,9 @@ public class Piece implements ChessPiece {
 
     public char getRepresentation() {
         return representation;
+    }
+
+    public String getType() {
+        return type;
     }
 }
