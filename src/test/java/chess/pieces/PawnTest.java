@@ -1,6 +1,6 @@
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+package chess.pieces;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,12 +17,12 @@ class PawnTest {
     }
 
     private void verifyPawn(final Pawn pawn, final String expectedColor) {
-        assertThat(pawn.getColor()).isEqualTo(expectedColor);
+        Assertions.assertThat(pawn.getColor()).isEqualTo(expectedColor);
     }
 
     @Test
     public void create_기본생성자() {
         Pawn pawn = new Pawn();
-        assertEquals("white", pawn.getColor());
+        org.junit.jupiter.api.Assertions.assertEquals("white", pawn.getColor());
     }
 }
