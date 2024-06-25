@@ -67,4 +67,37 @@ public class Board {
                 .map(Rank::toString)
                 .reduce("", String::concat);
     }
+
+    public void move(String position, Piece piece) {
+        validatePosition(position);
+        int xPos = getXPosition(position);
+        int yPos = getYPosition(position);
+        ranks.get(yPos)
+                .setPiece(xPos, piece);
+    }
+
+    private void validatePosition(String position) {
+        if (position.charAt(0) < 'a' || position.charAt(0) > 'h') {
+            throw new IllegalArgumentException("Invalid XPosition: " + position);
+        }
+        if (position.charAt(1) < '1' || position.charAt(1) > '8') {
+            throw new IllegalArgumentException("Invalid YPosition: " + position);
+        }
+    }
+
+    private int getXPosition(String position) {
+        return position.charAt(0) - 'a';
+    }
+
+    private int getYPosition(String position) {
+        return 7 - (position.charAt(1) - '1');
+    }
+
+    public Object findPiece(String position) {
+        validatePosition(position);
+        int xPos = getXPosition(position);
+        int yPos = getYPosition(position);
+        return ranks.get(yPos)
+                .getPiece(xPos);
+    }
 }

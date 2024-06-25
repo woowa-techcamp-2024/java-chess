@@ -47,4 +47,16 @@ public class BoardTest {
         assertThat(blankRank + blankRank + blankRank + blankRank +
                 blankRank + blankRank + blankRank + blankRank).isEqualTo(board.showBoard());
     }
+
+    @Test
+    public void 기물을_이동시킨다() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+         assertThat(piece).isEqualTo(board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
 }

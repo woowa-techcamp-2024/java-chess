@@ -2,14 +2,23 @@ package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Piece;
 
+import java.util.Arrays;
 import java.util.List;
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Rank {
+    private static final int ROW_LENGTH = 8;
     private final List<Piece> pieces;
 
-    Rank(Piece... piece) {
-        this.pieces = List.of(piece);
+    Rank(Piece... pieces) {
+        validatePieces(pieces);
+        this.pieces = Arrays.asList(pieces);
+    }
+
+    private void validatePieces(Piece[] pieces) {
+        if (pieces.length != ROW_LENGTH) {
+            throw new IllegalArgumentException("Invalid pieces length");
+        }
     }
 
     public static Rank createBlankRank() {
@@ -27,6 +36,14 @@ public class Rank {
         return (int) pieces.stream()
                 .filter(piece -> piece.isSameTypeAndColor(type, color))
                 .count();
+    }
+
+    public void setPiece(int xPos, Piece piece) {
+        pieces.set(xPos, piece);
+    }
+
+    public Piece getPiece(int xPos) {
+        return pieces.get(xPos);
     }
 
     @Override
