@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
-import woowa.camp.pieces.Pawn;
+import woowa.camp.pieces.Piece;
 
 public class Board {
 
@@ -15,21 +15,21 @@ public class Board {
     public static final int MAX_ROW = 8;
     public static final int MAX_COL = 8;
 
-    private final List<List<Pawn>> board = new ArrayList<>(new ArrayList<>());
+    private final List<List<Piece>> board = new ArrayList<>(new ArrayList<>());
 
-    private final List<Pawn> pawns = new ArrayList<>();
+    private final List<Piece> pieces = new ArrayList<>();
 
-    public void add(final Pawn pawn) {
-        pawns.add(pawn);
+    public void add(final Piece piece) {
+        pieces.add(piece);
     }
 
     public int size() {
-        return pawns.size();
+        return pieces.size();
     }
 
-    public Pawn findPawn(final int pawnIndex) {
+    public Piece findPawn(final int pawnIndex) {
         validateFindPawn(pawnIndex);
-        return pawns.get(pawnIndex);
+        return pieces.get(pawnIndex);
     }
 
     private void validateFindPawn(final int pawnIndex) {
@@ -52,21 +52,21 @@ public class Board {
 
     private void initBoard() {
         for (int row = 0; row < MAX_ROW; row++) {
-            List<Pawn> rows = new ArrayList<>(Collections.nCopies(8, null));
+            List<Piece> rows = new ArrayList<>(Collections.nCopies(8, null));
             board.add(rows);
         }
     }
 
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL).forEach(col -> {
-            final Pawn pawn = new Pawn(color);
-            addPawn(initRow, col, pawn);
+            final Piece piece = new Piece(color);
+            addPawn(initRow, col, piece);
         });
     }
 
-    private void addPawn(final int row, final int col, final Pawn pawn) {
-        board.get(row).set(col, pawn);
-        pawns.add(pawn);
+    private void addPawn(final int row, final int col, final Piece piece) {
+        board.get(row).set(col, piece);
+        pieces.add(piece);
     }
 
     public String getPawnsResult(final Color color) {
@@ -76,13 +76,13 @@ public class Board {
     }
 
     private void appendPawnsResultFilteredByColor(final Color color, final StringBuilder sb) {
-        pawns.stream()
+        pieces.stream()
                 .filter(isSameColor(color))
-                .forEach(filteredPawn -> sb.append(filteredPawn.getRepresentation()));
+                .forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
     }
 
-    private Predicate<Pawn> isSameColor(final Color color) {
-        return pawn -> pawn.getColor().equals(color.getName());
+    private Predicate<Piece> isSameColor(final Color color) {
+        return piece -> piece.getColor().equals(color.getName());
     }
 
     public String print() {
@@ -97,12 +97,12 @@ public class Board {
     private void appendRowRepresentation(int row, StringBuilder sb) {
         for (int col = 0; col < MAX_COL; col++) {
             getPawnByPosition(row, col)
-                    .map(Pawn::getRepresentation)
+                    .map(Piece::getRepresentation)
                     .ifPresentOrElse(sb::append, () -> sb.append("."));
         }
     }
 
-    private Optional<Pawn> getPawnByPosition(final int row, final int col) {
+    private Optional<Piece> getPawnByPosition(final int row, final int col) {
         return Optional.ofNullable(board.get(row).get(col));
     }
 

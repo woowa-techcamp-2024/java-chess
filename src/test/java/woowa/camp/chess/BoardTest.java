@@ -7,19 +7,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import woowa.camp.pieces.Color;
-import woowa.camp.pieces.Pawn;
+import woowa.camp.pieces.Piece;
 
 public class BoardTest {
 
     Board board;
-    Pawn white;
-    Pawn black;
+    Piece white;
+    Piece black;
 
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = new Pawn(Color.PAWN_WHITE);
-        black = new Pawn(Color.PAWN_BLACK);
+        white = new Piece(Color.PAWN_WHITE);
+        black = new Piece(Color.PAWN_BLACK);
     }
 
     @Test
@@ -38,8 +38,8 @@ public class BoardTest {
         assertThat(board.size()).isEqualTo(expectedBoardSize);
     }
 
-    private void verifyFindPawn(Board board, int findPawnIndex, Pawn expectedPawn) {
-        assertThat(board.findPawn(findPawnIndex)).isEqualTo(expectedPawn);
+    private void verifyFindPawn(Board board, int findPawnIndex, Piece expectedPiece) {
+        assertThat(board.findPawn(findPawnIndex)).isEqualTo(expectedPiece);
     }
 
     @Test

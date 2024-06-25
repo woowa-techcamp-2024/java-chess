@@ -1,14 +1,14 @@
 package woowa.camp.pieces;
 
-public class Pawn {
+public class Piece {
 
     private final Color color;
 
-    public Pawn() {
+    public Piece() {
         this.color = Color.PAWN_WHITE;
     }
 
-    public Pawn(final Color color) {
+    public Piece(final Color color) {
         this.color = color;
     }
 
