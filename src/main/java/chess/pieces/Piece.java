@@ -39,6 +39,11 @@ public class Piece {
         this.type = type;
     }
 
+    public static Piece createBlank() {
+        return new Piece(Color.NO_COLOR, Type.NO_PIECE);
+    }
+
+
     public static Piece createWhitePawn() {
         return new Piece(Color.WHITE, Type.PAWN);
     }
@@ -87,17 +92,16 @@ public class Piece {
         return new Piece(Color.BLACK, Type.KING);
     }
 
-
-    public Color getColor() {
-        return color;
-    }
-
     public char getRepresentation() {
         return isBlack() ? type.getBlackRepresentation() : type.getWhiteRepresentation();
     }
 
     public boolean isBlack() {
         return this.color.equals(Color.BLACK);
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public boolean isWhite() {
