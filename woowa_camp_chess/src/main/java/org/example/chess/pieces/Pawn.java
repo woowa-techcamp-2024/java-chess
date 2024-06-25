@@ -1,13 +1,12 @@
 package org.example.chess.pieces;
 
-public class Pawn {
+public class Pawn extends Piece{
+
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
     public static final char WHITE_REPRESENTATION = 'p';
     public static final char BLACK_REPRESENTATION = 'P';
 
-    String color;
-    char representation;
 
     public Pawn(String color, char representation) {
         this.color = color;
