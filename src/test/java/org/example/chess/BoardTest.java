@@ -19,8 +19,8 @@ public class BoardTest {
 
     @Test
     public void 폰_배열검사() throws Exception {
-        assertEquals(Piece.WHITE_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
-        assertEquals(Piece.BLACK_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
+        assertEquals(Piece.WHITE_PAWN_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
+        assertEquals(Piece.BLACK_PAWN_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
     }
 
     @Test
@@ -29,12 +29,12 @@ public class BoardTest {
 
         String expected =
             emptyLine +
-                Piece.WHITE_REPRESENTATION.repeat(boardSize) + "\n" +
+                Piece.WHITE_PAWN_REPRESENTATION.repeat(boardSize) + "\n" +
                 emptyLine +
                 emptyLine +
                 emptyLine +
                 emptyLine +
-                Piece.BLACK_REPRESENTATION.repeat(boardSize) + "\n" +
+                Piece.BLACK_PAWN_REPRESENTATION.repeat(boardSize) + "\n" +
                 emptyLine;
 
         assertEquals(expected, board.print());

@@ -24,11 +24,11 @@ public class Board {
     }
 
     private void addWhitePawn() {
-        whitePieces.add(new Piece(Piece.WHITE_COLOR));
+        whitePieces.add(Piece.createWhitePawn());
     }
 
     private void addBlackPawn() {
-        blackPieces.add(new Piece(Piece.BLACK_COLOR));
+        blackPieces.add(Piece.createBlackPawn());
     }
 
     public String getWhitePawnsResult() {
