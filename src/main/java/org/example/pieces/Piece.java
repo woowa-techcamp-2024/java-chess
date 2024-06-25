@@ -1,6 +1,6 @@
 package org.example.pieces;
 
-public class Pawn {
+public class Piece {
 
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
@@ -9,15 +9,15 @@ public class Pawn {
     public static final String BLACK_REPRESENTATION = "\u265F";
 
     private final String color;
-    private String representation;
+    private final String representation;
 
-    public Pawn(String color) {
+    public Piece(String color) {
         this.color = color;
         this.representation =
             color.equals(WHITE_COLOR) ? WHITE_REPRESENTATION : BLACK_REPRESENTATION;
     }
 
-    public Pawn() {
+    public Piece() {
         this(WHITE_COLOR);
     }
 

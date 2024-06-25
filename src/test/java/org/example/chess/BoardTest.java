@@ -2,10 +2,8 @@ package org.example.chess;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.example.pieces.Pawn;
-import org.junit.jupiter.api.BeforeAll;
+import org.example.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -21,8 +19,8 @@ public class BoardTest {
 
     @Test
     public void 폰_배열검사() throws Exception {
-        assertEquals(Pawn.WHITE_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
-        assertEquals(Pawn.BLACK_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
+        assertEquals(Piece.WHITE_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
+        assertEquals(Piece.BLACK_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
     }
 
     @Test
@@ -31,12 +29,12 @@ public class BoardTest {
 
         String expected =
             emptyLine +
-                Pawn.WHITE_REPRESENTATION.repeat(boardSize) + "\n" +
+                Piece.WHITE_REPRESENTATION.repeat(boardSize) + "\n" +
                 emptyLine +
                 emptyLine +
                 emptyLine +
                 emptyLine +
-                Pawn.BLACK_REPRESENTATION.repeat(boardSize) + "\n" +
+                Piece.BLACK_REPRESENTATION.repeat(boardSize) + "\n" +
                 emptyLine;
 
         assertEquals(expected, board.print());

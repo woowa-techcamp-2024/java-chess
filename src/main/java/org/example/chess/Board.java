@@ -4,12 +4,12 @@ import static org.example.utils.StringUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.example.pieces.Pawn;
+import org.example.pieces.Piece;
 
 public class Board {
 
-    private final List<Pawn> whitePawns = new ArrayList<>();
-    private final List<Pawn> blackPawns = new ArrayList<>();
+    private final List<Piece> whitePieces = new ArrayList<>();
+    private final List<Piece> blackPieces = new ArrayList<>();
     private final int BOARD_SIZE = 8;
 
     public void initialize() {
@@ -24,25 +24,25 @@ public class Board {
     }
 
     private void addWhitePawn() {
-        whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
+        whitePieces.add(new Piece(Piece.WHITE_COLOR));
     }
 
     private void addBlackPawn() {
-        blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+        blackPieces.add(new Piece(Piece.BLACK_COLOR));
     }
 
     public String getWhitePawnsResult() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn pawn : whitePawns) {
-            sb.append(pawn.getRepresentation());
+        for (Piece piece : whitePieces) {
+            sb.append(piece.getRepresentation());
         }
         return sb.toString();
     }
 
     public String getBlackPawnsResult() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn pawn : blackPawns) {
-            sb.append(pawn.getRepresentation());
+        for (Piece piece : blackPieces) {
+            sb.append(piece.getRepresentation());
         }
         return sb.toString();
     }
@@ -68,11 +68,11 @@ public class Board {
     }
 
     public int size() {
-        return whitePawns.size();
+        return whitePieces.size();
     }
 
-    public Pawn findPawn(int id) {
+    public Piece findPawn(int id) {
         // index를 넘어가는 경우 에러를 발생시키는 코드 추가하기
-        return whitePawns.get(id);
+        return whitePieces.get(id);
     }
 }
