@@ -18,6 +18,11 @@ public class Bishop implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 3;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "b";

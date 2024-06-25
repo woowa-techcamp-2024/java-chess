@@ -18,6 +18,11 @@ public class King implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 0;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "k";

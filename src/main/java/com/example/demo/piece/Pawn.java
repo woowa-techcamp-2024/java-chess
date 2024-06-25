@@ -17,6 +17,11 @@ public class Pawn implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 0.5f;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "p";

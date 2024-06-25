@@ -18,6 +18,11 @@ public class Queen implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 9;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "q";

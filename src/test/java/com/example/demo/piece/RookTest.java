@@ -41,4 +41,11 @@ class RookTest {
         Piece rook = new Rook(Color.WHITE);
         assertThat(rook.toString()).isEqualTo("r");
     }
+
+    @Test
+    @DisplayName("룩의 점수는 5점이다.")
+    public void score() {
+        Piece rook = new Rook();
+        assertThat(rook.getPoint()).isEqualTo(5);
+    }
 }

@@ -18,6 +18,11 @@ public class Rook implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 5;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "r";

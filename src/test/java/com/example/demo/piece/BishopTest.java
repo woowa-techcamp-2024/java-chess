@@ -42,4 +42,10 @@ class BishopTest {
         assertThat(bishop.toString()).isEqualTo("b");
     }
 
+    @Test
+    @DisplayName("비숍의 점수는 3점이다.")
+    public void score(){
+        Piece bishop = new Bishop();
+        assertThat(bishop.getPoint()).isEqualTo(3);
+    }
 }

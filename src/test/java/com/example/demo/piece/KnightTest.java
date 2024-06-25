@@ -41,4 +41,11 @@ class KnightTest {
         Piece knight = new Knight(Color.WHITE);
         assertThat(knight.toString()).isEqualTo("n");
     }
+
+    @Test
+    @DisplayName("나이트의 점수는 2.5점이다.")
+    public void score(){
+        Piece knight = new Knight();
+        assertThat(knight.getPoint()).isEqualTo(2.5f);
+    }
 }

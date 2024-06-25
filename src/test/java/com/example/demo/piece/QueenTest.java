@@ -42,4 +42,10 @@ class QueenTest {
         assertThat(queen.toString()).isEqualTo("q");
     }
 
+    @Test
+    @DisplayName("퀀의 점수는 9점이다.")
+    public void score(){
+        Piece queen = new Queen();
+        assertThat(queen.getPoint()).isEqualTo(9);
+    }
 }
