@@ -1,4 +1,4 @@
-package com.woowatechcamp;
+package com.woowatechcamp.chess.pieces;
 
 public class Pawn {
     private final Color color;

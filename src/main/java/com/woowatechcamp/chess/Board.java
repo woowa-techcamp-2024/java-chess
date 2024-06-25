@@ -1,4 +1,6 @@
-package com.woowatechcamp;
+package com.woowatechcamp.chess;
+
+import com.woowatechcamp.chess.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;

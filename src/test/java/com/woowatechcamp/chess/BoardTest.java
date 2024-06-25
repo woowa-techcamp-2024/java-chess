@@ -1,6 +1,8 @@
-package com.woowatechcamp;
+package com.woowatechcamp.chess;
 import static org.junit.Assert.*;
 
+import com.woowatechcamp.chess.pieces.Color;
+import com.woowatechcamp.chess.pieces.Pawn;
 import org.junit.Test;
 
 public class BoardTest {

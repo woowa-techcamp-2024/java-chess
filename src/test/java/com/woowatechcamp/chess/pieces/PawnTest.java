@@ -1,8 +1,10 @@
-package com.woowatechcamp;
+package com.woowatechcamp.chess.pieces;
 
 import java.util.List;
+
+import com.woowatechcamp.chess.pieces.Pawn;
 import org.junit.jupiter.api.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PawnTest {
 
