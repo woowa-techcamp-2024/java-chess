@@ -13,14 +13,19 @@ public class BoardTest {
     public void create() throws Exception {
         Board board = new Board();
 
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
-        board.add(white);
+        Pawn white = addPawn(board, Pawn.WHITE_COLOR);
         assertEquals(1, board.size());
         assertEquals(white, board.findPawn(0));
 
-        Pawn black = new Pawn(Pawn.BLACK_COLOR);
-        board.add(black);
+        Pawn black = addPawn(board, Pawn.BLACK_COLOR);
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
+    }
+
+    private Pawn addPawn(final Board board, final String color) {
+        Pawn pawn = new Pawn(color);
+        board.add(pawn);
+
+        return pawn;
     }
 }
