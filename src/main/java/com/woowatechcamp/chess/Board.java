@@ -5,10 +5,10 @@ import com.woowatechcamp.chess.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
+import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Board {
     private static final char EMPTY_REPRESENTATION = '.';
-    private static final char NEW_LINE = '\n';
     private final List<Pawn> whitePawns;
     private final List<Pawn> blackPawns;
 
@@ -53,11 +53,13 @@ public class Board {
     public void print() {
         StringBuilder result = new StringBuilder();
         addEmptyRowRepresentation(result);
-        result.append(getBlackPawnsResult()).append(NEW_LINE);
+        result.append(getBlackPawnsResult());
+        appendNewLine(result);
         for (int i = 0; i < 4; i++) {
             addEmptyRowRepresentation(result);
         }
-        result.append(getWhitePawnsResult()).append(NEW_LINE);
+        result.append(getWhitePawnsResult());
+        appendNewLine(result);
         addEmptyRowRepresentation(result);
         System.out.println(result);
     }
@@ -66,6 +68,6 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             result.append(EMPTY_REPRESENTATION);
         }
-        result.append(NEW_LINE);
+        appendNewLine(result);
     }
 }
