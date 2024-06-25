@@ -6,7 +6,7 @@ public class Piece {
     private final String color;
     private final char representation;
     private final PieceType pieceType;
-
+    public static final int CASE_DIFFERENCE = 32;
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
     public static final char WHITE_REPRESENTATION = 'p';
@@ -14,7 +14,7 @@ public class Piece {
 
     public Piece(String color, PieceType pieceType) {
         this.color = color;
-        this.representation = color.equals(BLACK_COLOR) ? (char) (pieceType.getAbbreviation() + 32)  : pieceType.getAbbreviation();
+        this.representation = color.equals(WHITE_COLOR) ? (char) (pieceType.getAbbreviation() + CASE_DIFFERENCE)  : pieceType.getAbbreviation();
         this.pieceType = pieceType;
     }
 
