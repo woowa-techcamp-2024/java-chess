@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Pawn;
 
 public class BoardTest {
@@ -17,8 +18,8 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = new Pawn(Pawn.WHITE_COLOR);
-        black = new Pawn(Pawn.BLACK_COLOR);
+        white = new Pawn(Color.PAWN_WHITE);
+        black = new Pawn(Color.PAWN_BLACK);
     }
 
     @Test
@@ -43,7 +44,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("[Exception] 체스판의 Pawn을 찾을 때 올바르지 않은 범위이면, 예외가 발생한다.")
-    void temp() {
+    void findOutOfRange() {
         board.add(white);
         board.add(black);
 
@@ -56,6 +57,53 @@ public class BoardTest {
     private void verifyOutOfRangeFindPawn(Board board, int lowerBound, int upperBound) {
         assertThatThrownBy(() -> board.findPawn(lowerBound)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> board.findPawn(upperBound)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board이 관리하고 있는 Pawn의 결과를 확인")
+    void getPawnsResult() {
+        board.initialize();
+        String expectedWhitePawnsResult = "pppppppp";
+        String expectedBlackPawnsResult = "PPPPPPPP";
+
+        assertThat(board.getPawnsResult(Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getPawnsResult(Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board가 가지고 있는 검은색 Pawn과 흰색 Pawn은 각각 8개이다.")
+    void initialPawnSize() {
+        board.initialize();
+        int expectedPawnsCount = Board.MAX_PAWN;
+
+        verifyInitialPawnsCount(board, expectedPawnsCount);
+    }
+
+    private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
+        assertThat(board.getPawnsResult(Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPawnsResult(Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
+    }
+
+    @Test
+    @DisplayName("[Success] print 메서드 콘솔 출력 테스트")
+    void print() {
+        board.initialize();
+        String print = board.print();
+        System.out.println(print);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board의 크기는 8 x 8 이다.")
+    void initialBoardSize() {
+        board.initialize();
+
+        int resultBoardRowSize = board.getBoardRowSize();
+        int resultBoardColSize = board.getBoardColSize();
+        int expectedBoardRowSize = Board.MAX_ROW;
+        int expectedBoardColSize = Board.MAX_COL;
+
+        assertThat(resultBoardRowSize).isEqualTo(expectedBoardRowSize);
+        assertThat(resultBoardColSize).isEqualTo(expectedBoardColSize);
     }
 
 }

@@ -2,21 +2,22 @@ package woowa.camp.pieces;
 
 public class Pawn {
 
-    public static final String WHITE_COLOR = "white";
-    public static final String BLACK_COLOR = "black";
-
-    private final String color;
+    private final Color color;
 
     public Pawn() {
-        this.color = WHITE_COLOR;
+        this.color = Color.PAWN_WHITE;
     }
 
-    public Pawn(String color) {
+    public Pawn(final Color color) {
         this.color = color;
     }
 
     public String getColor() {
-        return color;
+        return color.getName();
+    }
+
+    public String getRepresentation() {
+        return color.getRepresentation();
     }
 
 }
