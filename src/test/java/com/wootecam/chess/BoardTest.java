@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
 import java.util.List;
@@ -52,12 +51,12 @@ class BoardTest {
 
         static Stream<Arguments> pawnListForSize() {
             return Stream.of(
-                    Arguments.arguments(List.of(new Piece(PieceType.PAWN, Color.WHITE))),
+                    Arguments.arguments(List.of(Piece.createWhitePawn())),
                     Arguments.arguments(
-                            List.of(new Piece(PieceType.PAWN, Color.WHITE), new Piece(PieceType.PAWN, Color.BLACK))),
+                            List.of(Piece.createWhitePawn(), Piece.createBlackPawn())),
                     Arguments.arguments(
-                            List.of(new Piece(PieceType.PAWN, Color.BLACK), new Piece(PieceType.PAWN, Color.BLACK),
-                                    new Piece(PieceType.PAWN, Color.WHITE)))
+                            List.of(Piece.createBlackPawn(), Piece.createBlackPawn(),
+                                    Piece.createWhitePawn()))
             );
         }
 
@@ -75,13 +74,10 @@ class BoardTest {
 
         static Stream<Arguments> pawnListForFind() {
             return Stream.of(
-                    Arguments.arguments(List.of(new Piece(PieceType.PAWN, Color.WHITE))),
+                    Arguments.arguments(List.of(Piece.createWhitePawn())),
+                    Arguments.arguments(List.of(Piece.createWhitePawn(), Piece.createBlackPawn())),
                     Arguments.arguments(
-                            List.of(new Piece(PieceType.PAWN, Color.WHITE), new Piece(PieceType.PAWN, Color.BLACK))),
-                    Arguments.arguments(
-                            List.of(new Piece(PieceType.PAWN, Color.BLACK), new Piece(PieceType.PAWN, Color.BLACK),
-                                    new Piece(PieceType.PAWN, Color.WHITE)))
-            );
+                            List.of(Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createWhitePawn())));
         }
 
         @MethodSource("pawnListForFind")
@@ -97,7 +93,7 @@ class BoardTest {
         @ValueSource(ints = {-1, 1})
         @ParameterizedTest(name = "{0}번째 말 조회")
         void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
-            var board = createBoard(List.of(new Piece(PieceType.PAWN)));
+            var board = createBoard(List.of(Piece.createWhitePawn()));
 
             assertThatThrownBy(() -> board.findPawn(index))
                     .isInstanceOf(IllegalArgumentException.class);

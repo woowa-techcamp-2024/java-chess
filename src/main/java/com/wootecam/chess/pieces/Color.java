@@ -9,4 +9,12 @@ public enum Color {
     Color(String displayName) {
         this.displayName = displayName;
     }
+
+    public boolean isWhite() {
+        return this == WHITE;
+    }
+
+    public boolean isBlack() {
+        return this == BLACK;
+    }
 }

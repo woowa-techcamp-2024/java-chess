@@ -1,7 +1,6 @@
 package com.wootecam.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -43,9 +42,7 @@ class PieceTest {
         void 해당_색을_가진_기물이_생성되어야_한다(PieceType pieceType, Color color) {
             var piece = new Piece(pieceType, color);
 
-            assertAll(
-                    () -> assertThat(piece.getColor()).isEqualTo(color),
-                    () -> assertThat(piece.getColor()).isEqualTo(color));
+            assertThat(piece.getColor()).isEqualTo(color);
         }
 
         @MethodSource("pieceAndColor")

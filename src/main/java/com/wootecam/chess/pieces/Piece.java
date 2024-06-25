@@ -19,6 +19,54 @@ public class Piece {
         this.representation = PieceRepresentation.findByTypeAndColor(pieceType, color);
     }
 
+    public static Piece createWhitePawn() {
+        return new Pawn(PieceType.PAWN, Color.WHITE);
+    }
+
+    public static Piece createWhiteKnight() {
+        return new Knight(PieceType.KNIGHT, Color.WHITE);
+    }
+
+    public static Piece createWhiteRook() {
+        return new Rook(PieceType.ROOK, Color.WHITE);
+    }
+
+    public static Piece createWhiteBishop() {
+        return new Bishop(PieceType.BISHOP, Color.WHITE);
+    }
+
+    public static Piece createWhiteQueen() {
+        return new Queen(PieceType.QUEEN, Color.WHITE);
+    }
+
+    public static Piece createWhiteKing() {
+        return new King(PieceType.KING, Color.WHITE);
+    }
+
+    public static Piece createBlackPawn() {
+        return new Pawn(PieceType.PAWN, Color.BLACK);
+    }
+
+    public static Piece createBlackKnight() {
+        return new Knight(PieceType.KNIGHT, Color.BLACK);
+    }
+
+    public static Piece createBlackRook() {
+        return new Rook(PieceType.ROOK, Color.BLACK);
+    }
+
+    public static Piece createBlackBishop() {
+        return new Bishop(PieceType.BISHOP, Color.BLACK);
+    }
+
+    public static Piece createBlackQueen() {
+        return new Queen(PieceType.QUEEN, Color.BLACK);
+    }
+
+    public static Piece createBlackKing() {
+        return new King(PieceType.KING, Color.BLACK);
+    }
+
     public Color getColor() {
         return color;
     }
