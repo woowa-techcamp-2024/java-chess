@@ -8,11 +8,9 @@ import java.util.List;
 
 public class Rank {
 
-    private final int row;
     private final List<Piece> pieces = new ArrayList<>();
 
-    public Rank(int row) {
-        this.row = row;
+    public Rank() {
     }
 
     public void add(Piece piece) {
@@ -39,7 +37,7 @@ public class Rank {
                 .count();
     }
 
-    public Piece indexOf(int index) {
+    public Piece get(int index) {
         return pieces.get(index);
     }
 }

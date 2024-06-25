@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+
+    private record Position(int col, int row) {
+
+    }
+
     private static final int BLACK_PIECE_LINE = 0;
     private static final int BLACK_PAWN_LINE = 1;
     private static final int WHITE_PAWN_LINE = 6;
@@ -25,8 +30,8 @@ public class Board {
     }
 
     private void initializeBlackPieces() {
-        Rank blackPieceLine = new Rank(BLACK_PIECE_LINE);
-        Rank blackPawnLine = new Rank(BLACK_PAWN_LINE);
+        Rank blackPieceLine = new Rank();
+        Rank blackPawnLine = new Rank();
         ranks.add(blackPieceLine);
         ranks.add(blackPawnLine);
 
@@ -45,7 +50,7 @@ public class Board {
 
     private void initializeBlank() {
         for (int i = 2; i < 6; i++) {
-            Rank blankRank = new Rank(i);
+            Rank blankRank = new Rank();
             ranks.add(blankRank);
             for (int j = 0; j < BOARD_LENGTH; j++) {
                 blankRank.add(Piece.createBlank());
@@ -54,8 +59,8 @@ public class Board {
     }
 
     private void initializeWhitePieces() {
-        Rank whitePawnLine = new Rank(WHITE_PAWN_LINE);
-        Rank whitePieceLine = new Rank(WHITE_PIECE_LINE);
+        Rank whitePawnLine = new Rank();
+        Rank whitePieceLine = new Rank();
         ranks.add(whitePawnLine);
         ranks.add(whitePieceLine);
 
@@ -91,10 +96,17 @@ public class Board {
                 .map(rank -> rank.pieceCount(type, color))
                 .reduce(0, Integer::sum);
     }
-
-    public Piece findPiece(String position) {
-        int col = position.charAt(0) - 'a';
-        int row = 8 - Character.getNumericValue(position.charAt(1));
-        return ranks.get(row).indexOf(col);
+    
+    public Piece findPiece(String rawPosition) {
+        Position position = getPosition(rawPosition);
+        return ranks.get(position.row).get(position.col);
     }
+
+    private Position getPosition(String rawPosition) {
+        int col = rawPosition.charAt(0) - 'a';
+        int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
+        return new Position(col, row);
+    }
+
+
 }
