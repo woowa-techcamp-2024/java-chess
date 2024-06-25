@@ -17,6 +17,7 @@ public class Board {
      */
     public Board() {
         initPawn();
+        initKing();
     }
 
     //--------------init board start----------------
