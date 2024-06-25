@@ -3,6 +3,7 @@ package woowa.camp.chess;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Pawn;
@@ -67,24 +68,20 @@ public class Board {
         pawns.add(pawn);
     }
 
-    public String getWhitePawnsResult() {
+    public String getPawnsResult(final Color color) {
         final StringBuilder sb = new StringBuilder();
-
-        pawns.stream()
-                .filter(pawn -> pawn.getColor().equals(Color.PAWN_WHITE.getName()))
-                .forEach(filteredPawn -> sb.append(filteredPawn.getRepresentation()));
-
+        appendPawnsResultFilteredByColor(color, sb);
         return sb.toString();
     }
 
-    public String getBlackPawnsResult() {
-        final StringBuilder sb = new StringBuilder();
-
+    private void appendPawnsResultFilteredByColor(final Color color, final StringBuilder sb) {
         pawns.stream()
-                .filter(pawn -> pawn.getColor().equals(Color.PAWN_BLACK.getName()))
+                .filter(isSameColor(color))
                 .forEach(filteredPawn -> sb.append(filteredPawn.getRepresentation()));
+    }
 
-        return sb.toString();
+    private Predicate<Pawn> isSameColor(final Color color) {
+        return pawn -> pawn.getColor().equals(color.getName());
     }
 
 }
