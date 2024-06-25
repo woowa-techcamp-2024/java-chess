@@ -1,13 +1,17 @@
 package com.example.demo.piece;
 
 public class Pawn {
-    private String color;
+    private Color color;
 
-    public Pawn(String color) {
+    public Pawn() {
+        this(Color.WHITE);
+    }
+
+    public Pawn(Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 }
