@@ -12,7 +12,8 @@ public enum Type {
     BLACK_BISHOP('♝'),
     BLACK_ROOK('♜'),
     BLACK_QUEEN('♛'),
-    BLACK_KING('♚');
+    BLACK_KING('♚'),
+    EMPTY('.');
 
     private char symbol;
 

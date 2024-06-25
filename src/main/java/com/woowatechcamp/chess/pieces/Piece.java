@@ -1,8 +1,8 @@
 package com.woowatechcamp.chess.pieces;
 
 public class Piece {
-    private final Type type;
     private final Color color;
+    private final Type type;
 
     private Piece(Color color, Type type) {
         this.color = color;
@@ -57,12 +57,24 @@ public class Piece {
         return new Piece(Color.BLACK, Type.BLACK_KING);
     }
 
+    public static Piece createEmpty() {
+        return new Piece(Color.NONE, Type.EMPTY);
+    }
+
     public Color getColor() {
         return color;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public char getRepresentation() {
         return type.getSymbol();
+    }
+
+    public boolean isNotEmpty() {
+        return type != Type.EMPTY;
     }
 
     @Override
