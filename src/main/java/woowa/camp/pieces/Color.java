@@ -2,13 +2,13 @@ package woowa.camp.pieces;
 
 public enum Color {
 
-    PAWN_WHITE("white", 'p'),
-    PAWN_BLACK("black", 'P');
+    PAWN_WHITE("white", "p"),
+    PAWN_BLACK("black", "P");
 
     private final String name;
-    private final char representation;
+    private final String representation;
 
-    Color(String name, char representation) {
+    Color(String name, String representation) {
         this.name = name;
         this.representation = representation;
     }
@@ -17,7 +17,7 @@ public enum Color {
         return name;
     }
 
-    public char getRepresentation() {
+    public String getRepresentation() {
         return representation;
     }
 }
