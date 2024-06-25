@@ -16,7 +16,7 @@ class BoardTest {
     @Test
     @DisplayName("보드를 생성하면 폰의 초기 상태가 설정되어 있다.")
     public void create_pawn() {
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         for(File file: File.values()){
             Piece black = board.getPiece(Rank.TWO, file);
@@ -33,7 +33,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("kingLocations")
     public void create_king(Rank rank, File file, Color color){
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(King.class);
@@ -51,7 +51,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("queenLocations")
     public void create_queen(Rank rank, File file, Color color){
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Queen.class);
@@ -69,7 +69,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("bishopLocations")
     public void create_bishop(Rank rank, File file, Color color){
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Bishop.class);
@@ -89,7 +89,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("knightLocations")
     public void create_knight(Rank rank, File file, Color color){
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Knight.class);
@@ -109,7 +109,7 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("rookLocations")
     public void create_rook(Rank rank, File file, Color color){
-        Board board = new Board();
+        Board board = Board.createBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Rook.class);
@@ -128,7 +128,12 @@ class BoardTest {
     @Test
     @DisplayName("보드를 출력한다.")
     public void printBoard(){
-        Board board = new Board();
+        Board board = Board.createBoard();
         System.out.println(board);
+    }
+
+    @Test
+    @DisplayName("퀸1 + 룩1 + 나이트1 + 비숍1 = 19.5점")
+    public void getScore(){
     }
 }

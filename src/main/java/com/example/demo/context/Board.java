@@ -12,13 +12,17 @@ public class Board {
      * </p>
      * <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Immortal_game_animation.gif" />
      */
-    public Board() {
-        initPawn();
-        initKing();
-        initQueen();
-        initBishop();
-        initKnight();
-        initRook();
+    public static Board createBoard() {
+        Board board = new Board();
+
+        board.initPawn();
+        board.initKing();
+        board.initQueen();
+        board.initBishop();
+        board.initKnight();
+        board.initRook();
+
+        return board;
     }
 
     //--------------init board start----------------
