@@ -23,7 +23,7 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieceList = new ArrayList<>();
             for (int j = 0; j < BOARD_SIZE; j++) {
-                pieceList.add(null);
+                pieceList.add(Piece.createBlank());
             }
             board.add(pieceList);
         }
@@ -81,8 +81,7 @@ public class Board {
             StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < BOARD_SIZE; j++) {
                 Piece piece = board.get(i).get(j);
-                if (Objects.equals(piece, null)) stringBuilder.append('.');
-                else stringBuilder.append(piece.getType());
+                stringBuilder.append(piece.getType());
             }
 
             String line = appendNewLine(stringBuilder.toString());
