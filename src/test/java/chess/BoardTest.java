@@ -1,9 +1,12 @@
 package chess;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import chess.pieces.Pawn;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
+
     @Test
     public void create() {
         Board board = new Board();
@@ -15,7 +18,7 @@ public class BoardTest {
 
         Pawn black = new Pawn(Pawn.BLACK_COLOR);
         board.add(black);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(1));
+        assertEquals(2, board.size());
+        assertEquals(black, board.findPawn(1));
     }
 }
