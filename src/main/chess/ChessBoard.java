@@ -100,7 +100,7 @@ public class ChessBoard {
             for (int c = 0; c < LENGTH; c++) {
                 sb.append(cellAt(r, c));
             }
-            sb.append("\n");
+            sb.append(StringUtils.NEWLINE);
         }
         return sb.toString();
     }
