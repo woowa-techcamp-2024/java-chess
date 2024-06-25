@@ -25,6 +25,7 @@ public class Piece {
     public static final String BLACK_KING_REPRESENTATION = "K";
 
     public static final String EMPTY = ".";
+    public static final Piece EMPTY_PIECE = new Piece(EMPTY, EMPTY, EMPTY);
 
     private final String name;
     private final String color;
@@ -84,8 +85,8 @@ public class Piece {
         return new Piece(KING, BLACK_COLOR, BLACK_KING_REPRESENTATION);
     }
 
-    public static Piece createEmpty() {
-        return new Piece(EMPTY, EMPTY, EMPTY);
+    public boolean isEmptyPiece() {
+        return this.equals(EMPTY_PIECE);
     }
 
     public String getName() {
