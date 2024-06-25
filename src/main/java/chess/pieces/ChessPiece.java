@@ -1,7 +1,7 @@
 package chess.pieces;
 
 public interface ChessPiece {
-    String getColor();
+    PieceTypes.Color getColor();
     char getRepresentation();
-    String getType();
+    PieceTypes.Type getType();
 }

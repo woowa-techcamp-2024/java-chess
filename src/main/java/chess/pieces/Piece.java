@@ -1,15 +1,17 @@
 package chess.pieces;
 
+import static chess.pieces.PieceTypes.*;
+
 public class Piece implements ChessPiece {
-    private final String color;
+    private final Color color;
     private final char representation;
-    private final String type;
+    private final Type type;
 
     private Piece(PieceTypes values){
         this(values.getColor(),values.getRepresentation(),values.getType());
     }
 
-    private Piece(String color, char representation,String type) {
+    private Piece(Color color, char representation, Type type) {
         this.color = color;
         this.representation = representation;
         this.type = type;
@@ -19,7 +21,7 @@ public class Piece implements ChessPiece {
         return new Piece(piece);
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -27,15 +29,15 @@ public class Piece implements ChessPiece {
         return representation;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
     public boolean isBlack(){
-        return "black".equals(this.color);
+        return Color.BLACK.equals(color);
     }
 
     public boolean isWhite(){
-        return "white".equals(this.color);
+        return Color.WHITE.equals(color);
     }
 }

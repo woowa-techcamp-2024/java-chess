@@ -1,35 +1,51 @@
 package chess.pieces;
 
 public enum PieceTypes {
-    WHITE_PAWN("white","pawn",'p'),
-    BLACK_PAWN("black","pawn",'P'),
-    WHITE_KNIGHT("white","knight",'n'),
-    BLACK_KNIGHT("black","knight",'N'),
-    WHITE_ROOK("white","rook",'r'),
-    BLACK_ROOK("black","rook",'R'),
-    WHITE_BISHOP("white","bishop",'b'),
-    BLACK_BISHOP("black","bishop",'B'),
-    WHITE_QUEEN("white","queen",'q'),
-    BLACK_QUEEN("black","queen",'Q'),
-    WHITE_KING("white","king",'k'),
-    BLACK_KING("black","king",'K'),
+    WHITE_PAWN(Color.WHITE,Type.PAWN),
+    BLACK_PAWN(Color.BLACK,Type.PAWN),
+    WHITE_KNIGHT(Color.WHITE,Type.KNIGHT),
+    BLACK_KNIGHT(Color.BLACK,Type.KNIGHT),
+    WHITE_ROOK(Color.WHITE,Type.ROOK),
+    BLACK_ROOK(Color.BLACK,Type.ROOK),
+    WHITE_BISHOP(Color.WHITE,Type.BISHOP),
+    BLACK_BISHOP(Color.BLACK,Type.BISHOP),
+    WHITE_QUEEN(Color.WHITE,Type.QUEEN),
+    BLACK_QUEEN(Color.BLACK,Type.QUEEN),
+    WHITE_KING(Color.WHITE,Type.KING),
+    BLACK_KING(Color.BLACK,Type.KING),
     ;
+    public enum Color{
+        WHITE,BLACK,NOCOLOR;
+    }
+    public enum Type{
+        PAWN('p'),ROOK('r'),KNIGHT('n'),BISHOP('b'),QUEEN('q'),KING('k'),NO_PIECE('.');
+        private final char representation;
+        Type(char representation){
+            this.representation = representation;
+        }
 
-    private final String color;
-    private final String type;
-    private final char representation;
-
-    PieceTypes(String color, String type, char representation) {
-        this.color = color;
-        this.type = type;
-        this.representation = representation;
+        public char getRepresentation(){
+            return this.representation;
+        }
     }
 
-    public String getColor() {
+
+    private final Color color;
+    private final Type type;
+    private final char representation;
+
+    PieceTypes(Color color, Type type) {
+        this.color = color;
+        this.type = type;
+        char representation = this.type.getRepresentation();
+        this.representation = color.equals(Color.WHITE) ? representation : Character.toUpperCase(representation);
+    }
+
+    public Color getColor() {
         return color;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
