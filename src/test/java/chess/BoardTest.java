@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 
 import static chess.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +36,18 @@ public class BoardTest {
     @DisplayName("체스판을 출력할 수 있다")
     public void showBoard() {
         board.initialize();
+        System.out.println(board.showBoard());
+
+        board.updateBoard(List.of(
+                ".KR.....",
+                "P.PB....",
+                ".P..Q...",
+                "........",
+                ".....nq.",
+                ".....p..",
+                "......p.",
+                "....rk.."
+        ));
         System.out.println(board.showBoard());
     }
 }

@@ -84,4 +84,15 @@ public class Board {
         }
         return printResult.toString();
     }
+
+    // test를 위한 메서드
+    public void updateBoard(final List<String> exampleBoard) {
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            List<Piece> pieces = new ArrayList<>();
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                pieces.add(Piece.create(exampleBoard.get(i).charAt(j)));
+            }
+            board.set(i, new Rank(pieces));
+        }
+    }
 }
