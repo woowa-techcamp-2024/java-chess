@@ -6,7 +6,7 @@ import org.example.chess.pieces.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-//import static org.example.chess.pieces.Pawn.*;
+import static org.example.chess.pieces.Pawn.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
