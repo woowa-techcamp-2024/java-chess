@@ -1,40 +1,62 @@
 package com.woopaca.javachess.chess;
 
-import com.woopaca.javachess.chess.pieces.Pawn;
+import com.woopaca.javachess.chess.pieces.Piece;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.woopaca.javachess.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("체스판 테스트")
 public class BoardTest {
 
+    Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = new Board();
+    }
+
     @DisplayName("체스판에 폰을 추가할 수 있다.")
     @Test
     void create() {
-        Board board = new Board();
+        Piece whitePiece = Piece.createWhitePawn();
+        Piece blackPiece = Piece.createBlackPawn();
 
-        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
-
-        board.add(whitePawn);
+        board.add(whitePiece);
         assertThat(board.size()).isEqualTo(1);
-        assertThat(board.findPawn(0)).isEqualTo(whitePawn);
+        assertThat(board.findPiece(0)).isEqualTo(whitePiece);
 
-        board.add(blackPawn);
+        board.add(blackPiece);
         assertThat(board.size()).isEqualTo(2);
-        assertThat(board.findPawn(1)).isEqualTo(blackPawn);
+        assertThat(board.findPiece(1)).isEqualTo(blackPiece);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")
     @Test
     void initialize() {
-        Board board = new Board();
         board.initialize();
         assertThat(board.getWhitePawnsResult()).isEqualTo("♙♙♙♙♙♙♙♙");
         assertThat(board.getBlackPawnsResult()).isEqualTo("♟♟♟♟♟♟♟♟");
 
         System.out.println(board.print());
+    }
+
+    @DisplayName("체스판의 모든 기물의 상태를 볼 수 있다.")
+    @Test
+    void print() {
+        board.initialize();
+        assertThat(board.pieceCount()).isEqualTo(32);
+
+        String blankRow = appendNewLine("........");
+        assertThat(board.showBoard()).isEqualTo(
+                appendNewLine("♜♞♝♛♚♝♞♜") +
+                        appendNewLine("♟♟♟♟♟♟♟♟") +
+                        blankRow + blankRow + blankRow + blankRow +
+                        appendNewLine("♙♙♙♙♙♙♙♙") +
+                        appendNewLine("♖♘♗♕♔♗♘♖")
+        );
     }
 
 }
