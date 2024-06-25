@@ -48,4 +48,12 @@ public class PieceTest {
         assertThat(blackPawn.isBlack()).isTrue();
         assertThat(blackPawn.isWhite()).isFalse();
     }
+
+    @DisplayName("각 기물의 표현 문자를 조회할 수 있다.")
+    @Test
+    void getRepresentationPerPiece() {
+        assertThat(Type.PAWN.getWhiteRepresentation()).isEqualTo('♙');
+        assertThat(Type.PAWN.getBlackRepresentation()).isEqualTo('♟');
+    }
+
 }
