@@ -46,51 +46,59 @@ public class Piece {
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(Type.PAWN, Color.WHITE);
+        return createWhite(Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(Type.PAWN, Color.BLACK);
+        return createBlack(Type.PAWN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(Type.KING, Color.WHITE);
+        return createWhite(Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(Type.KING, Color.BLACK);
+        return createBlack(Type.KING);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(Type.QUEEN, Color.WHITE);
+        return createWhite(Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(Type.QUEEN, Color.BLACK);
+        return createBlack(Type.QUEEN);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(Type.ROOK, Color.WHITE);
+        return createWhite(Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(Type.ROOK, Color.BLACK);
+        return createBlack(Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(Type.BISHOP, Color.WHITE);
+        return createWhite(Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(Type.BISHOP, Color.BLACK);
+        return createBlack(Type.BISHOP);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(Type.KNIGHT, Color.WHITE);
+        return createWhite(Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(Type.KNIGHT, Color.BLACK);
+        return createBlack(Type.KNIGHT);
+    }
+
+    private static Piece createWhite(Type type) {
+        return new Piece(type, Color.WHITE);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(type, Color.BLACK);
     }
 
     public char getRepresentation() {
