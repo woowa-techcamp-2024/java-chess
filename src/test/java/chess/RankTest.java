@@ -74,7 +74,7 @@ class RankTest {
 
     @DisplayName("랭크에서 piece의 개수를 반환할 수 있다")
     @Test
-    void getPieceCount() {
+    void getTotalPieceCount() {
         // given
         List<Piece> pieces = List.of(
                 Piece.createBlank(),
@@ -90,7 +90,7 @@ class RankTest {
         Rank rank = Rank.initializeRank(pieces);
 
         // when
-        int pieceCount = rank.getPieceCount();
+        int pieceCount = rank.getTotalPieceCount();
 
         // then
         assertEquals(5, pieceCount);

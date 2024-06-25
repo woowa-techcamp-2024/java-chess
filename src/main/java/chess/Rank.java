@@ -23,7 +23,7 @@ public class Rank {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public int getPieceCount() {
+    public int getTotalPieceCount() {
         return pieceCount;
     }
 
