@@ -3,6 +3,7 @@ package com.seong.chess.pieces;
 public abstract class Piece {
 
     public static class Colors {
+
         public static final String BLACK_COLOR = "black";
         public static final String WHITE_COLOR = "white";
     }
@@ -16,4 +17,6 @@ public abstract class Piece {
     public String getColor() {
         return color;
     }
+
+    public abstract char getRepresentation();
 }
