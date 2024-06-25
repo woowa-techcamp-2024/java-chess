@@ -16,14 +16,14 @@ public class PieceTest {
     @DisplayName("색깔에 맞는 기물이 생성되어야 한다")
     @ParameterizedTest(name = "기물의 색깔은 {1}이고 표현은 {2}이어야 한다.")
     @MethodSource("argumentsStream")
-    public void create(Piece piece, Color color, String representation) {
+    public void create(Piece piece, Color color, char representation) {
         verifyPiece(piece, color, representation);
     }
 
     @DisplayName("기물의 색상을 확인")
     @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
     @MethodSource("argumentsStream")
-    public void checkIsBlack(Piece piece, Color color, String notUsed) {
+    public void checkIsBlack(Piece piece, Color color, char notUsed) {
         verifyColor(piece, color);
     }
 
@@ -39,7 +39,7 @@ public class PieceTest {
         }
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final String representation) {
+    private void verifyPiece(final Piece piece, final Color color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
