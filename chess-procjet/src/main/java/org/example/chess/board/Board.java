@@ -122,6 +122,9 @@ public class Board {
     }
 
     public Piece findPiece(String position) {
-        return null;
+        int row = BOARD_SIZE - (position.charAt(1) - '1') - 1;
+        int col = position.charAt(0) - 'a';
+
+        return board.get(row).getPieces().get(col);
     }
 }

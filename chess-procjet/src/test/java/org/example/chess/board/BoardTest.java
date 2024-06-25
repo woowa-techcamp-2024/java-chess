@@ -54,6 +54,7 @@ class BoardTest {
     @Test
     void findPiece() throws Exception {
         board.initialize();
+        System.out.println(board.findPiece("a8"));
 
         assertEquals(PieceFactory.createBlackRook(), board.findPiece("a8"));
         assertEquals(PieceFactory.createBlackRook(), board.findPiece("h8"));

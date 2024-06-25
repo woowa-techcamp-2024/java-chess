@@ -1,5 +1,7 @@
 package org.example.chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
 
     private final Color color;
@@ -142,5 +144,31 @@ public class Piece {
         public static Piece createBlackKing() {
             return createBlack(Type.KING);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return color == piece.color && type == piece.type && Objects.equals(representation, piece.representation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type, representation);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "color=" + color +
+                ", type=" + type +
+                ", representation='" + representation + '\'' +
+                '}';
     }
 }
