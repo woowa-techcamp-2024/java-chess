@@ -1,13 +1,13 @@
 package pieces;
 
-public enum PawnColor {
+public enum PieceColor {
     WHITE("white"),
     BLACK("black"),
     ;
 
     private final String color;
 
-    PawnColor(String color) {
+    PieceColor(String color) {
         this.color = color;
     }
 
