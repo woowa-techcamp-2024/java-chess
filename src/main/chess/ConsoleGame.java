@@ -9,7 +9,7 @@ public class ConsoleGame {
         Scanner sc = new Scanner(System.in);
 
         gameLoop:
-        while(true) {
+        while (true) {
             String input = sc.nextLine();
             switch (input) {
                 case "start":

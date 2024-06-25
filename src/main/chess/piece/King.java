@@ -2,24 +2,24 @@ package chess.piece;
 
 import chess.ChessStrings;
 
-public class Pawn extends Piece {
+public class King extends Piece {
 
-    protected Pawn() {
+    protected King() {
         super();
     }
 
-    protected Pawn(final Color color) {
+    protected King(final Color color) {
         super(color);
     }
 
     @Override
     protected String whiteRepresentation() {
-        return ChessStrings.WHITE_PAWN;
+        return ChessStrings.WHITE_KING;
     }
 
     @Override
     protected String blackRepresentation() {
-        return ChessStrings.BLACK_PAWN;
+        return ChessStrings.BLACK_KING;
     }
 
 }

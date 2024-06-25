@@ -1,6 +1,5 @@
 package chess;
 
-import chess.piece.Color;
 import chess.piece.Pawn;
 import chess.piece.Piece;
 
@@ -8,13 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ChessBoard {
+public class Board {
 
     public static final int LENGTH = 8;
 
     private final Cell[][] cells;
 
-    public ChessBoard() {
+    public Board() {
         this.cells = new Cell[LENGTH][LENGTH];
         for (int r = 0; r < LENGTH; r++) {
             for (int c = 0; c < LENGTH; c++) {
@@ -25,12 +24,28 @@ public class ChessBoard {
 
     public void initialize() {
         clear();
+        set(0, 0, Piece.createWhiteRook());
+        set(0, 1, Piece.createWhiteKnight());
+        set(0, 2, Piece.createWhiteBishop());
+        set(0, 3, Piece.createWhiteQueen());
+        set(0, 4, Piece.createWhiteKing());
+        set(0, 5, Piece.createWhiteBishop());
+        set(0, 6, Piece.createWhiteKnight());
+        set(0, 7, Piece.createWhiteRook());
         for (int c = 0; c < LENGTH; c++) {
-            set(1, c, new Pawn(Color.WHITE));
+            set(1, c, Piece.createWhitePawn());
         }
         for (int c = 0; c < LENGTH; c++) {
-            set(6, c, new Pawn(Color.BLACK));
+            set(6, c, Piece.createBlackPawn());
         }
+        set(7, 0, Piece.createBlackRook());
+        set(7, 1, Piece.createBlackKnight());
+        set(7, 2, Piece.createBlackBishop());
+        set(7, 3, Piece.createBlackQueen());
+        set(7, 4, Piece.createBlackKing());
+        set(7, 5, Piece.createBlackBishop());
+        set(7, 6, Piece.createBlackKnight());
+        set(7, 7, Piece.createBlackRook());
     }
 
     Piece get(int r, int c) {
@@ -100,7 +115,7 @@ public class ChessBoard {
             for (int c = 0; c < LENGTH; c++) {
                 sb.append(cellAt(r, c));
             }
-            sb.append("\n");
+            sb.append(StringUtils.NEWLINE);
         }
         return sb.toString();
     }
