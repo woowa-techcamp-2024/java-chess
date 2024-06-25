@@ -1,7 +1,8 @@
-package org.example.pieces;
+package org.example.chess.pieces;
 
 public class Pawn {
-    private static final String WHITE_COLOR = "white";
+    public static final String WHITE_COLOR = "white";
+    public static final String BLACK_COLOR = "black";
 
     String color;
 
