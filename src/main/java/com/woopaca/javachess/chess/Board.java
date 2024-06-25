@@ -16,15 +16,17 @@ public class Board {
 
     {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            pawns[i] = new ArrayList<>();
+            pawns[i] = new ArrayList<>(BOARD_SIZE);
         }
     }
 
     public void add(Pawn pawn) {
+        // FIXME 요구사항에 맞게 수정하기
         pawns[0].add(pawn);
     }
 
     public int size() {
+        // FIXME 요구사항에 맞게 수정하기
         int size = 0;
         for (List<Pawn> pawn : pawns) {
             size += pawn.size();
@@ -33,6 +35,7 @@ public class Board {
     }
 
     public Pawn findPawn(int index) {
+        // FIXME 요구사항에 맞게 수정하기
         return null;
     }
 
