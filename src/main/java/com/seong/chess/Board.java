@@ -3,6 +3,8 @@ package com.seong.chess;
 import static com.seong.chess.utils.StringUtils.appendNewLine;
 
 import com.seong.chess.pieces.Piece;
+import com.seong.chess.pieces.Piece.Color;
+import com.seong.chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,12 @@ public class Board {
     public int pieceCount() {
         return ranks.stream()
                 .map(Rank::pieceCount)
+                .reduce(0, Integer::sum);
+    }
+
+    public int pieceCount(Type type, Color color) {
+        return ranks.stream()
+                .map(rank -> rank.pieceCount(type, color))
                 .reduce(0, Integer::sum);
     }
 }

@@ -1,6 +1,8 @@
 package com.seong.chess;
 
 import com.seong.chess.pieces.Piece;
+import com.seong.chess.pieces.Piece.Color;
+import com.seong.chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,12 @@ public class Rank {
     public int pieceCount() {
         return (int) pieces.stream()
                 .filter(Piece::isNotBlank)
+                .count();
+    }
+
+    public int pieceCount(Type type, Color color) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isEqual(type, color))
                 .count();
     }
 }
