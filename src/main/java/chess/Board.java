@@ -1,20 +1,21 @@
 package chess;
 
 import chess.pieces.Piece;
+import chess.pieces.Rank;
+
 import static chess.utils.StringUtils.appendNewLine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
-    private final List<List<Piece>> board = new ArrayList<>();
+    private final List<Rank> board = new ArrayList<>();
     public static final int BOARD_SIZE = 8;
 
     public int pieceCount() {
         int count = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
-            count += (int) board.get(i).stream().filter(piece -> !Objects.equals(piece, null)).count();
+            count += board.get(i).getCount();
         }
         return count;
     }
@@ -25,7 +26,7 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 pieceList.add(Piece.createBlank());
             }
-            board.add(pieceList);
+            board.add(new Rank(pieceList));
         }
     }
 
@@ -39,14 +40,14 @@ public class Board {
         pieceList.add(Piece.createWhiteBishop());
         pieceList.add(Piece.createWhiteKnight());
         pieceList.add(Piece.createWhiteRook());
-        board.set(7, pieceList);
+        board.set(7, new Rank(pieceList));
 
         List<Piece> pawnList = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece piece = Piece.createWhitePawn();
             pawnList.add(piece);
         }
-        board.set(6, pawnList);
+        board.set(6, new Rank(pawnList));
     }
 
     private void initializeBlackPiece() {
@@ -59,14 +60,14 @@ public class Board {
         pieceList.add(Piece.createBlackBishop());
         pieceList.add(Piece.createBlackKnight());
         pieceList.add(Piece.createBlackRook());
-        board.set(0, pieceList);
+        board.set(0, new Rank(pieceList));
 
         List<Piece> pawnList = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece piece = Piece.createBlackPawn();
             pawnList.add(piece);
         }
-        board.set(1, pawnList);
+        board.set(1, new Rank(pawnList));
     }
 
     public void initialize() {
@@ -78,13 +79,7 @@ public class Board {
     public String showBoard() {
         StringBuilder printResult = new StringBuilder();
         for (int i = 0; i < BOARD_SIZE; i++) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                Piece piece = board.get(i).get(j);
-                stringBuilder.append(piece.getType());
-            }
-
-            String line = appendNewLine(stringBuilder.toString());
+            String line = appendNewLine(board.get(i).showRank());
             printResult.append(line);
         }
         return printResult.toString();
