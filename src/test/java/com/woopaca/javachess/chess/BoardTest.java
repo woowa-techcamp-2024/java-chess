@@ -19,11 +19,11 @@ public class BoardTest {
 
         board.add(whitePiece);
         assertThat(board.size()).isEqualTo(1);
-        assertThat(board.findPawn(0)).isEqualTo(whitePiece);
+        assertThat(board.findPiece(0)).isEqualTo(whitePiece);
 
         board.add(blackPiece);
         assertThat(board.size()).isEqualTo(2);
-        assertThat(board.findPawn(1)).isEqualTo(blackPiece);
+        assertThat(board.findPiece(1)).isEqualTo(blackPiece);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")

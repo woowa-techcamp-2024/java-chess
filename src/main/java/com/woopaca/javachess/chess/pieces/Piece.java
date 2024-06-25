@@ -65,6 +65,10 @@ public class Piece {
         return color;
     }
 
+    public PieceType getType() {
+        return type;
+    }
+
     public char getRepresentation() {
         if (color.equals(WHITE_COLOR)) {
             return type.getWhiteRepresentation();
