@@ -94,6 +94,10 @@ public class Piece {
         return this.color.equals(Color.WHITE);
     }
 
+    public boolean isBlank() {
+        return this.type.equals(Type.NO_PIECE);
+    }
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
