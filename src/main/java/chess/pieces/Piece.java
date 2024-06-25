@@ -100,7 +100,25 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, NO_PIECE;
-    }
+        PAWN('p'),
+        KNIGHT('n'),
+        BISHOP('b'),
+        ROOK('r'),
+        QUEEN('q'),
+        KING('k');
 
+        private final char representation;
+
+        public char getWhiteRepresentation() {
+            return representation;
+        }
+
+        public char getBlackRepresentation() {
+            return Character.toUpperCase(representation);
+        }
+
+        Type(char representation) {
+            this.representation = representation;
+        }
+    }
 }
