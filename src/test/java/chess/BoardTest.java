@@ -34,7 +34,7 @@ public class BoardTest {
     }
 
     private Pawn addPawn(final Board board, final Position position, final PieceColor color) {
-        Pawn pawn = new Pawn(color);
+        Pawn pawn = Pawn.create(color);
         board.add(position, pawn);
 
         return pawn;

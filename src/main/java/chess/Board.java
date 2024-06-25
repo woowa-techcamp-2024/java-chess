@@ -26,7 +26,7 @@ public class Board {
 
     private void createPawn(int row, PieceColor color) {
         for (int i = 1; i <= pawnNum; i++) {
-            board.put(new Position(row, i), new Pawn(color));
+            board.put(new Position(row, i), Pawn.create(color));
         }
     }
 
