@@ -88,6 +88,7 @@ class BoardTest {
 
         addPiece("f2", Pawn.createWhite());
         addPiece("g2", Pawn.createWhite());
+        addPiece("g3", Pawn.createWhite());
         addPiece("e1", Rook.createWhite());
         addPiece("f1", King.createWhite());
 

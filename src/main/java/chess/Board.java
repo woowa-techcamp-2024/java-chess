@@ -158,10 +158,30 @@ public class Board {
     }
 
     public double calculatePoint(Piece.Color color) {
-        return pieces.stream()
+        Double point = pieces.stream()
                 .filter(piece -> piece.getColor().equals(color))
                 .mapToDouble(Piece::getDefaultPoint)
                 .sum();
+
+        for (char c = 'a'; c <= 'h'; c++) {
+            int pawnCount = getPawnCountInSameFile(color, c);
+            if (pawnCount >= 2) {
+                point -= 0.5 * pawnCount;
+            }
+        }
+
+        return point;
+    }
+
+    private int getPawnCountInSameFile(Piece.Color color, char file) {
+        int count = 0;
+        for (int i = 1; i <= 8; i++) {
+            Piece piece = boardMap.get(ChessPoint.of(file, i));
+            if (piece instanceof Pawn && piece.getColor().equals(color)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public List<Piece> sortByPointAsc() {
