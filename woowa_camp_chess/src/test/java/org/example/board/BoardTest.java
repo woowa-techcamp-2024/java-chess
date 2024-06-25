@@ -6,7 +6,6 @@ import org.example.chess.pieces.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-//import static org.example.chess.pieces.Pawn.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
@@ -16,10 +15,10 @@ public class BoardTest {
     public void create() {
         Board board = new Board();
 
-        Pawn white = new Pawn(WHITE_COLOR);
+        Pawn white = new Pawn(Pawn.WHITE_COLOR);
         verifyAddPawn(board, white, 1, 0);
 
-        Pawn black = new Pawn(BLACK_COLOR);
+        Pawn black = new Pawn(Pawn.BLACK_COLOR);
         verifyAddPawn(board, black, 2, 1);
     }
 
