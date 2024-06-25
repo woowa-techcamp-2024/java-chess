@@ -112,4 +112,12 @@ public class Board {
                 .collect(Collectors.joining());
     }
 
+    public int pieceCount() {
+        return size();
+    }
+
+    public String showBoard() {
+        return print();
+    }
+
 }
