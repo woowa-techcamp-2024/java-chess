@@ -18,12 +18,12 @@ public class BoardTest {
         Piece white = Piece.createPiece(PieceTypes.WHITE_PAWN);
         board.add(white);
         assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
+        assertEquals(white, board.findPiece(0));
 
         Piece black = Piece.createPiece(PieceTypes.BLACK_PAWN);
         board.add(black);
         assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        assertEquals(black, board.findPiece(1));
     }
 
     @Test
