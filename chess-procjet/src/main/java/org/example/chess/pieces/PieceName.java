@@ -2,7 +2,7 @@ package org.example.chess.pieces;
 
 public enum PieceName {
     PAWN("P"),
-    KNIGHT("K"),
+    KNIGHT("N"),
     ROOK("R"),
     BISHOP("B"),
     QUEEN("Q"),

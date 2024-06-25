@@ -18,8 +18,8 @@ class PieceTest {
         verifyPiece(PieceFactory.createBlackQueen(), Color.BLACK, "Q");
         verifyPiece(PieceFactory.createWhiteBishop(), Color.WHITE, "b");
         verifyPiece(PieceFactory.createBlackBishop(), Color.BLACK, "B");
-        verifyPiece(PieceFactory.createWhiteKnight(), Color.WHITE, "k");
-        verifyPiece(PieceFactory.createBlackKnight(), Color.BLACK, "K");
+        verifyPiece(PieceFactory.createWhiteKnight(), Color.WHITE, "n");
+        verifyPiece(PieceFactory.createBlackKnight(), Color.BLACK, "N");
         verifyPiece(PieceFactory.createWhiteRook(), Color.WHITE, "r");
         verifyPiece(PieceFactory.createBlackRook(), Color.BLACK, "R");
     }
