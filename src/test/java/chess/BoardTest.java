@@ -2,6 +2,8 @@ package chess;
 
 import chess.pieces.Piece;
 import chess.pieces.PieceTypes;
+import chess.pieces.PieceTypes.Color;
+import chess.pieces.PieceTypes.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,5 +42,24 @@ public class BoardTest {
                 pppppppp
                 rnbqkbnr
                 """,board.print());
+    }
+
+    @Test
+    public void findPieceWithColorAndTypeTest(){
+        board.initialize();
+
+        assertEquals(8,board.findPieceWithColorAndType(Color.BLACK, Type.PAWN));
+        assertEquals(8,board.findPieceWithColorAndType(Color.WHITE, Type.PAWN));
+        assertEquals(2,board.findPieceWithColorAndType(Color.BLACK,Type.KNIGHT));
+        assertEquals(2,board.findPieceWithColorAndType(Color.WHITE,Type.KNIGHT));
+        assertEquals(2,board.findPieceWithColorAndType(Color.BLACK,Type.ROOK));
+        assertEquals(2,board.findPieceWithColorAndType(Color.WHITE,Type.ROOK));
+        assertEquals(2,board.findPieceWithColorAndType(Color.BLACK,Type.BISHOP));
+        assertEquals(2,board.findPieceWithColorAndType(Color.WHITE,Type.BISHOP));
+        assertEquals(1,board.findPieceWithColorAndType(Color.BLACK,Type.QUEEN));
+        assertEquals(1,board.findPieceWithColorAndType(Color.WHITE,Type.QUEEN));
+        assertEquals(1,board.findPieceWithColorAndType(Color.BLACK,Type.KING));
+        assertEquals(1,board.findPieceWithColorAndType(Color.WHITE,Type.KING));
+
     }
 }
