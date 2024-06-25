@@ -8,32 +8,35 @@ import chess.pieces.Pawn;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BoardTest {
+class BoardTest {
     Board board;
     String initializedBoard;
 
     @BeforeEach()
     public void setUp() {
         board = new Board();
-        initializedBoard = "........\n" +
-                "PPPPPPPP\n" +
-                "........\n" +
-                "........\n" +
-                "........\n" +
-                "........\n" +
-                "pppppppp\n" +
-                "........\n";
+        initializedBoard =
+                """
+                   ........
+                   PPPPPPPP
+                   ........
+                   ........
+                   ........
+                   ........
+                   pppppppp
+                   ........
+                   """;
     }
 
     @Test
-    public void initialize() {
+    void initialize() {
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
     @Test
-    public void print() {
+    void print() {
         board.initialize();
 
 
@@ -41,7 +44,7 @@ public class BoardTest {
         System.out.println(board.print());
     }
     @Test
-    public void create() {
+    void create() {
         Pawn white = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
         board.add(white);
         assertEquals(1, board.size());
@@ -55,7 +58,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("체스 판에 Pawn 이외의 객체가 추가되지 않도록 한다.")
-    public void add_not_Pawn() {
+    void add_not_Pawn() {
         assertThatThrownBy(() -> {
             Object o = new Object();
             board.add((Pawn) o);
