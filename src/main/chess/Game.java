@@ -2,10 +2,10 @@ package chess;
 
 public class Game {
 
-    private ChessBoard board;
+    private Board board;
 
     public Game() {
-        this.board = new ChessBoard();
+        this.board = new Board();
     }
 
     public void initialize() {

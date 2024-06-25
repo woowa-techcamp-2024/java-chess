@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ChessBoard {
+public class Board {
 
     public static final int LENGTH = 8;
 
     private final Cell[][] cells;
 
-    public ChessBoard() {
+    public Board() {
         this.cells = new Cell[LENGTH][LENGTH];
         for (int r = 0; r < LENGTH; r++) {
             for (int c = 0; c < LENGTH; c++) {
