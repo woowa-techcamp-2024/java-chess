@@ -53,6 +53,16 @@ public class Board {
         }
     }
 
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < BOARD_SIZE; i++) {
+            for(int j = 0; j < BOARD_SIZE; j++) {
+                sb.append(MAP[i][j]);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
 
 }
