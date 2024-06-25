@@ -5,15 +5,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.chess.pieces.Pawn.BLACK_COLOR;
-import static org.example.chess.pieces.Pawn.WHITE_COLOR;
 
 class PawnTest {
     @Test
     @DisplayName("올바른 색의 폰이 생성되어야 한다")
     public void create() {
-        verifyPawn(BLACK_COLOR);
-        verifyPawn(WHITE_COLOR);
+        final String BLACK = "black";
+        final String WHITE = "white";
+        verifyPawn(BLACK);
+        verifyPawn(WHITE);
     }
 
     @Test
