@@ -15,15 +15,21 @@ public class Board {
     private final Piece[][] board;
 
     public Board() {
-        board = new Piece[BOARD_SIZE][];
-        for (int i = 0; i < board.length; i++) {
-            board[i] = fillBlank();
+        board = new Piece[BOARD_SIZE][BOARD_SIZE];
+        for (int i = 1; i <= board.length; i++) {
+            fillBlank(i);
         }
     }
 
     public void initialize() {
+        fillBlank(1);
         fillPawn(2, Color.WHITE);
+        fillBlank(3);
+        fillBlank(4);
+        fillBlank(5);
+        fillBlank(6);
         fillPawn(7, Color.BLACK);
+        fillBlank(8);
     }
 
     public void addPiece(Piece piece, Location location) {
@@ -68,12 +74,10 @@ public class Board {
         }
     }
 
-    private static Piece[] fillBlank() {
-        var pieces = new Piece[8];
-        for (int i = 0; i < pieces.length; i++) {
-            pieces[i] = new Blank();
+    private void fillBlank(int row) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            board[row - 1][i] = new Blank();
         }
-        return pieces;
     }
 
 }
