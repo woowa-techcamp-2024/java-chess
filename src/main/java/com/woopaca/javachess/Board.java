@@ -1,6 +1,4 @@
-package com.woopaca.javachess.chess;
-
-import com.woopaca.javachess.chess.pieces.Pawn;
+package com.woopaca.javachess;
 
 import java.util.ArrayList;
 import java.util.List;

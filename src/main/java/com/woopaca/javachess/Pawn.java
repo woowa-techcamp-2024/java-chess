@@ -1,4 +1,4 @@
-package com.woopaca.javachess.chess.pieces;
+package com.woopaca.javachess;
 
 public class Pawn {
 

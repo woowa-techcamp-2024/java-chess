@@ -1,4 +1,4 @@
-package com.woopaca.javachess.chess.pieces;
+package com.woopaca.javachess;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,5 @@
-package com.woopaca.javachess.chess;
+package com.woopaca.javachess;
 
-import com.woopaca.javachess.chess.pieces.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
