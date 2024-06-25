@@ -64,6 +64,13 @@ public class Board {
         return cells[r][c];
     }
 
+    public int countPiece(Piece.Color color, Piece.Type type) {
+        return (int) stream().filter(cell -> !cell.isEmpty())
+                .map(cell -> cell.getPiece())
+                .filter(piece -> piece.isColor(color) && piece.isType(type))
+                .count();
+    }
+
     public List<Pawn> findPawns() {
         return stream().filter(cell -> !cell.isEmpty())
                 .map(cell -> cell.piece)

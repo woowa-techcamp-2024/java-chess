@@ -26,6 +26,10 @@ public abstract class Piece {
         return this.color == color;
     }
 
+    public boolean isType(Type type) {
+        return type.type.isInstance(this);
+    }
+
     @Override
     public final String toString() {
         return isWhite() ? whiteRepresentation() : blackRepresentation();

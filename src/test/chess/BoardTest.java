@@ -61,4 +61,13 @@ public class BoardTest {
                 """);
     }
 
+    @Test
+    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환해야 한다")
+    public void count() {
+        Board board = new Board();
+        board.initialize();
+        assertThat(board.countPiece(Piece.Color.BLACK, Piece.Type.PAWN)).isEqualTo(8);
+        assertThat(board.countPiece(Piece.Color.WHITE, Piece.Type.ROOK)).isEqualTo(2);
+    }
+
 }
