@@ -2,32 +2,16 @@ package chess;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import chess.pieces.Colors;
-import chess.pieces.Pawn;
+import static utils.StringUtils.appendNewLine;
 
 import org.junit.jupiter.api.*;
 
 public class BoardTest {
-    Board board;
+    private Board board;
 
     @BeforeEach
     public void setUp() {
         board = new Board();
-    }
-
-    @Test
-    @DisplayName("체스판에 흰색과 검은색 Pawn을 추가한다")
-    public void create() {
-        Pawn white = new Pawn(Colors.WHITE);
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findWhitePawn(0));
-
-        Pawn black = new Pawn(Colors.BLACK);
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findBlackPawn(0));
     }
 
     @Test
@@ -46,5 +30,20 @@ public class BoardTest {
         String print = board.print();
         assertThat(print).hasSize(72);
         System.out.println(print);
+    }
+
+    @Test
+    @DisplayName("전체 체스판의 상태를 확인한다")
+    public void create() throws Exception {
+        board.initialize();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+                appendNewLine("♜♞♝♛♚♝♞♜") +
+                appendNewLine("♟♟♟♟♟♟♟♟") +
+                blankRank + blankRank + blankRank + blankRank +
+                appendNewLine("♙♙♙♙♙♙♙♙") +
+                appendNewLine("♖♘♗♕♔♗♘♖"),
+                board.print());
     }
 }
