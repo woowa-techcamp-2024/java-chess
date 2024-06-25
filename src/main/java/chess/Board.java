@@ -12,10 +12,13 @@ public class Board {
     private List<ChessPiece> pieces;
     private List<Pawn> whitePawns;
     private List<Pawn> blackPawns;
+
+    private ChessPiece[][] board;
     public Board(){
         pieces = new ArrayList<>();
         whitePawns = new ArrayList<>();
         blackPawns = new ArrayList<>();
+        board = new ChessPiece[HEIGHT][WIDTH];
     }
 
     public int size(){
@@ -38,6 +41,8 @@ public class Board {
             blackPawns.add(blackPawn);
             pieces.add(whitePawn);
             pieces.add(blackPawn);
+            board[1][w] = blackPawn;
+            board[6][w] = whitePawn;
         }
     }
 
@@ -57,4 +62,14 @@ public class Board {
         return getResult(blackPawns);
     }
 
+    public String print(){
+        StringBuilder sb = new StringBuilder();
+        for(int h=0;h<HEIGHT;h++){
+            for(int w=0;w<WIDTH;w++){
+                sb.append(board[h][w] == null ? '.' : board[h][w].getRepresentation());
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
 }
