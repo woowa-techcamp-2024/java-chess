@@ -8,8 +8,9 @@ import chess.pieces.PieceTypes.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static chess.pieces.PieceTypes.BLACK_ROOK;
-import static chess.pieces.PieceTypes.WHITE_ROOK;
+import java.util.Optional;
+
+import static chess.pieces.PieceTypes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
@@ -98,6 +99,29 @@ public class BoardTest {
 
         //then
         assertEquals(0,board.pieceCount());
+    }
 
+    @Test
+    public void caculcatePoint() throws Exception {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createPiece(BLACK_PAWN));
+        addPiece("e6", Piece.createPiece(BLACK_QUEEN));
+        addPiece("b8", Piece.createPiece(BLACK_KING));
+        addPiece("c8", Piece.createPiece(BLACK_ROOK));
+
+        addPiece("f2", Piece.createPiece(WHITE_PAWN));
+        addPiece("g2", Piece.createPiece(WHITE_PAWN));
+        addPiece("e1", Piece.createPiece(WHITE_ROOK));
+        addPiece("f1", Piece.createPiece(WHITE_KING));
+
+        assertEquals(15.0, board.caculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.caculatePoint(Color.WHITE), 0.01);
+
+        System.out.println(board.print());
+    }
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
     }
 }
