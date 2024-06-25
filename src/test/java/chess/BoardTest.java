@@ -40,4 +40,13 @@ class BoardTest {
         assertEquals(index + 1, board.size());
         assertEquals(pawn, board.findPawn(index));
     }
+
+    @DisplayName("체스판을 초기화한다.")
+    @Test
+    void initialize() {
+        Board board = new Board();
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
 }
