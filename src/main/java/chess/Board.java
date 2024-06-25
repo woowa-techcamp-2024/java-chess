@@ -16,10 +16,28 @@ public class Board {
     private static final int WHITE_PAWN_ROW = 1;
     private static final int BLACK_PAWN_ROW = 6;
 
+    private static final String EMPTY_ROW = "........";
+
 
     public void initialize() {
         initializePawns(WHITE_PAWN_ROW, Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
         initializePawns(BLACK_PAWN_ROW, Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+
+        for (List<Pawn> pawn : pawns) {
+            if(pawn.isEmpty()) {
+                sb.append(EMPTY_ROW).append("\n");
+                continue;
+            }
+            pawn.stream()
+                    .map(Pawn::getRepresentation)
+                    .forEach(sb::append);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public String getWhitePawnsResult() {
