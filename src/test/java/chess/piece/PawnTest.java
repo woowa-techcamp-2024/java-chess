@@ -17,7 +17,7 @@ class PawnTest {
     }
 
     void verifyPawn(final String color, final char representation) {
-        Pawn pawn = new Pawn(color, representation);
+        Pawn pawn = color.equals(Pawn.WHITE_COLOR) ? Pawn.createWhitePawn() : Pawn.createBlackPawn();
         assertEquals(color, pawn.getColor());
         assertEquals(representation, pawn.getRepresentation());
     }
@@ -25,7 +25,7 @@ class PawnTest {
     @Test
     @DisplayName("기본생성자는 흰색 폰이 생성되어야 한다")
     void create_기본생성자() {
-        Pawn pawn = new Pawn();
+        Pawn pawn = Pawn.createWhitePawn();
         assertEquals(Pawn.WHITE_COLOR, pawn.getColor());
         assertEquals(Pawn.WHITE_REPRESENTATION, pawn.getRepresentation());
     }
