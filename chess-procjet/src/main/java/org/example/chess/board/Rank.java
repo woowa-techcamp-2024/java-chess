@@ -8,6 +8,14 @@ public class Rank {
 
     private final List<Piece> pieces = new ArrayList<>();
 
+    public void addPiece(Piece piece) {
+        pieces.add(piece);
+    }
+
+    public void changePiece(int col, Piece piece) {
+        pieces.set(col, piece);
+    }
+
     public List<Piece> getPieces() {
         return pieces;
     }

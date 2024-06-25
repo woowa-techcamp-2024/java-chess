@@ -20,15 +20,15 @@ public class Board {
     private static final int WHITE_INIT_ROW = 7;
     private static final int WHITE_PAWN_INIT_ROW = 6;
 
-    private final List<List<Piece>> board = new ArrayList<>();
+    private final List<Rank> board = new ArrayList<>();
 
     public void initialize() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            List<Piece> row = new ArrayList<>();
+            Rank rank = new Rank();
             for (int j = 0; j < BOARD_SIZE; j++) {
-                row.add(PieceFactory.createBlank());
+                rank.addPiece(PieceFactory.createBlank());
             }
-            board.add(row);
+            board.add(rank);
         }
         addPieceToBoard();
     }
@@ -42,18 +42,18 @@ public class Board {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
-            board.get(BLACK_PAWN_INIT_ROW).set(i, blackPawn);
+            board.get(BLACK_PAWN_INIT_ROW).changePiece(i, blackPawn);
         }
 
-        List<Piece> blackPiecesExceptPawn = new ArrayList<>();
-        blackPiecesExceptPawn.add(PieceFactory.createBlackRook());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackKnight());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackBishop());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackQueen());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackKing());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackBishop());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackKnight());
-        blackPiecesExceptPawn.add(PieceFactory.createBlackRook());
+        Rank blackPiecesExceptPawn = new Rank();
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackRook());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackKnight());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackBishop());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackQueen());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackKing());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackBishop());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackKnight());
+        blackPiecesExceptPawn.addPiece(PieceFactory.createBlackRook());
 
         board.set(BLACK_INIT_ROW, blackPiecesExceptPawn);
     }
@@ -62,18 +62,18 @@ public class Board {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece whitePawn = PieceFactory.createWhitePawn();
-            board.get(WHITE_PAWN_INIT_ROW).set(i, whitePawn);
+            board.get(WHITE_PAWN_INIT_ROW).changePiece(i, whitePawn);
         }
 
-        List<Piece> whitePieceExceptPawn = new ArrayList<>();
-        whitePieceExceptPawn.add(PieceFactory.createWhiteRook());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteKnight());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteBishop());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteQueen());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteKing());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteBishop());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteKnight());
-        whitePieceExceptPawn.add(PieceFactory.createWhiteRook());
+        Rank whitePieceExceptPawn = new Rank();
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteRook());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteKnight());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteBishop());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteQueen());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteKing());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteBishop());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteKnight());
+        whitePieceExceptPawn.addPiece(PieceFactory.createWhiteRook());
 
         board.set(WHITE_INIT_ROW, whitePieceExceptPawn);
     }
@@ -87,15 +87,15 @@ public class Board {
 
     public int pieceCount() {
         return (int) board.stream()
-                .flatMap(List::stream)
+                .flatMap(rank -> rank.getPieces().stream())
                 .filter(p -> (p.isBlack() || p.isWhite()))
                 .count();
     }
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-        for (List<Piece> row : board) {
-            sb.append(appendNewLine(row.stream()
+        for (Rank row : board) {
+            sb.append(appendNewLine(row.getPieces().stream()
                     .map(Piece::getRepresentation)
                     .collect(Collectors.joining())));
         }
