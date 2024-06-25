@@ -1,14 +1,14 @@
 package com.example.demo.piece;
 
-public class Rook implements Piece {
+public class Bishop implements Piece {
 
     private final Color color;
 
-    public Rook() {
+    public Bishop() {
         this(Color.WHITE);
     }
 
-    public Rook(Color color) {
+    public Bishop(Color color) {
         this.color = color;
     }
 
@@ -20,8 +20,8 @@ public class Rook implements Piece {
     @Override
     public String toString(){
         return switch (color) {
-            case WHITE -> "r";
-            case BLACK -> "R";
+            case WHITE -> "b";
+            case BLACK -> "B";
         };
     }
 }

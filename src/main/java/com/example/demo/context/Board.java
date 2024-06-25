@@ -39,10 +39,10 @@ public class Board {
     }
 
     private void initRook(){
-        setPiece(Rank.ONE, File.C, new Rook(Color.WHITE));
-        setPiece(Rank.ONE, File.F, new Rook(Color.WHITE));
-        setPiece(Rank.EIGHT, File.C, new Rook(Color.BLACK));
-        setPiece(Rank.EIGHT, File.F, new Rook(Color.BLACK));
+        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE));
+        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE));
+        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK));
+        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK));
     }
 
     private void initKnight(){

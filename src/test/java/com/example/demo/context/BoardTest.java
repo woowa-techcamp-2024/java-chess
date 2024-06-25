@@ -72,7 +72,7 @@ class BoardTest {
         Board board = new Board();
 
         Piece piece = board.getPiece(rank, file);
-        assertThat(piece).isInstanceOf(Rook.class);
+        assertThat(piece).isInstanceOf(Bishop.class);
         assertThat(piece.getColor()).isEqualTo(color);
     }
 
