@@ -5,12 +5,12 @@ import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
 import utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Board {
+    public static Map<String, Position> cmdToPos = new HashMap<>();
+
     private List<Piece> pieces;
     private List<List<Piece>> boardMap;
     private int pieceCount = 0;
@@ -67,6 +67,18 @@ public class Board {
         }
 
         pieceCount = 32;
+
+        initializeCmdToPos();
+    }
+
+    private void initializeCmdToPos() {
+        for (int i = '1'; i <= '9'; i++ ) {
+            for (int j = 'a'; j <= 'h'; j++ ) {
+                // change int to char and concat them
+                String command = Character.toString(j) + Character.toString(i);
+                cmdToPos.put(command, new Position(command));
+            }
+        }
     }
 
     public void add(Piece piece) {
@@ -91,9 +103,9 @@ public class Board {
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-        for (List<Piece> row : boardMap) {
-            for (Piece c : row) {
-                sb.append(c.getType());
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 0; j < 8; j++) {
+                sb.append(boardMap.get(i).get(j).getType());
             }
             sb.append("\n");
         }
@@ -119,7 +131,24 @@ public class Board {
         return count;
     }
 
-    public Piece findPieceBYPos(String cmd) {
-        return boardMap.get(cmd.charAt(1) - '1').get(cmd.charAt(0) - 'a');
+    public Piece findPiece(String cmd) {
+        Position pos = cmdToPos.get(cmd);
+        return boardMap.get(pos.getRow()).get(pos.getColumn());
+    }
+
+    public void initializeEmpty() {
+        boardMap = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            List<Piece> p = new ArrayList<>();
+            for (int j = 0; j < 8; j++) {
+                p.add(Piece.createBlank());
+            }
+            boardMap.add(p);
+        }
+    }
+
+    public void move(String position, Piece piece) {
+        Position pos = cmdToPos.get(position);
+        boardMap.get(pos.getRow()).set(pos.getColumn(), piece);
     }
 }
