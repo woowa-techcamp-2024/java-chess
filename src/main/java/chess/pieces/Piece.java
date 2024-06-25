@@ -2,22 +2,18 @@ package chess.pieces;
 
 // VO
 public class Piece {
-    private final String name;  // pawn, knight, rook, bishop, queen, king
-    private final Colors color;
     private final Representations representation;
 
-    private Piece(String name, Colors color, Representations representation) {
-        this.name = name;
-        this.color = color;
+    private Piece(Representations representation) {
         this.representation = representation;
     }
 
     public String getName() {
-        return name;
+        return representation.name();
     }
 
     public Colors getColor() {
-        return color;
+        return representation.getColor();
     }
 
     public Representations getRepresentation() {
@@ -25,50 +21,50 @@ public class Piece {
     }
 
     static public Piece createWhitePawn() {
-        return new Piece("pawn", Colors.WHITE, Representations.WHITE_PAWN);
+        return new Piece(Representations.WHITE_PAWN);
     }
 
     static public Piece createBlackPawn() {
-        return new Piece("pawn", Colors.BLACK, Representations.BLACK_PAWN);
+        return new Piece(Representations.BLACK_PAWN);
     }
 
     static public Piece createWhiteKing() {
-        return new Piece("king", Colors.WHITE, Representations.WHITE_KING);
+        return new Piece(Representations.WHITE_KING);
     }
 
     static public Piece createBlackKing() {
-        return new Piece("king", Colors.BLACK, Representations.BLACK_KING);
+        return new Piece(Representations.BLACK_KING);
     }
 
     static public Piece createWhiteRook() {
-        return new Piece("rook", Colors.WHITE, Representations.WHITE_ROOK);
+        return new Piece(Representations.WHITE_ROOK);
     }
 
     static public Piece createBlackRook() {
-        return new Piece("rook", Colors.BLACK, Representations.BLACK_ROOK);
+        return new Piece(Representations.BLACK_ROOK);
     }
 
     static public Piece createWhiteKnight() {
-        return new Piece("knight", Colors.WHITE, Representations.WHITE_KNIGHT);
+        return new Piece(Representations.WHITE_KNIGHT);
     }
 
     static public Piece createBlackKnight() {
-        return new Piece("knight", Colors.BLACK, Representations.BLACK_KNIGHT);
+        return new Piece(Representations.BLACK_KNIGHT);
     }
 
     static public Piece createWhiteBishop() {
-        return new Piece("bishop", Colors.WHITE, Representations.WHITE_BISHOP);
+        return new Piece(Representations.WHITE_BISHOP);
     }
 
     static public Piece createBlackBishop() {
-        return new Piece("bishop", Colors.BLACK, Representations.BLACK_BISHOP);
+        return new Piece(Representations.BLACK_BISHOP);
     }
 
     static public Piece createWhiteQueen() {
-        return new Piece("queen", Colors.WHITE, Representations.WHITE_QUEEN);
+        return new Piece(Representations.WHITE_QUEEN);
     }
 
     static public Piece createBlackQueen() {
-        return new Piece("queen", Colors.BLACK, Representations.BLACK_QUEEN);
+        return new Piece(Representations.BLACK_QUEEN);
     }
 }
