@@ -1,6 +1,6 @@
 package com.example.demo.piece;
 
-public interface Piece {
+public interface Piece extends Comparable<Piece> {
 
     Color getColor();
 

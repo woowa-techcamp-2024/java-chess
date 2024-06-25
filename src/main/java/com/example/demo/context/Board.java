@@ -2,6 +2,10 @@ package com.example.demo.context;
 
 import com.example.demo.piece.*;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+
 public class Board {
 
     Piece[][] pieceLocation = new Piece[8][8];
@@ -26,31 +30,31 @@ public class Board {
     }
 
     //--------------init board start----------------
-    private void initPawn(){
+    private void initPawn() {
         for (File file : File.values()) {
             setPiece(Rank.TWO, file, new Pawn(Color.WHITE));
             setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK));
         }
     }
 
-    private void initKing(){
+    private void initKing() {
         setPiece(Rank.ONE, File.D, new King(Color.WHITE));
         setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
     }
 
-    private void initQueen(){
+    private void initQueen() {
         setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
         setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
     }
 
-    private void initBishop(){
+    private void initBishop() {
         setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE));
         setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE));
         setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK));
         setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK));
     }
 
-    private void initKnight(){
+    private void initKnight() {
         setPiece(Rank.ONE, File.B, new Knight(Color.WHITE));
         setPiece(Rank.ONE, File.G, new Knight(Color.WHITE));
         setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK));
@@ -94,26 +98,34 @@ public class Board {
      * 다음과 같은 규칙을 반영하여 플레이어의 점수를 계산하여 반환한다.
      * <li>각 기물의 점수는 queen은 9점, rook은 5점, bishop은 3점, knight는 2.5점이다.</li>
      * <li>pawn의 기본 점수는 1점이다. 하지만 같은 세로줄에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.</li>
+     *
      * @param color 점수를 계산하는 플레이어의 색상
      * @return 계산된 점수
      */
-    public float getScore(Color color){
+    public float getScore(Color color) {
         float score = 0;
         for (File file : File.values()) {
             int pawnCount = 0;
             for (Rank rank : Rank.values()) {
                 Piece piece = getPiece(rank, file);
-                if(piece != null && piece.getColor() == color){
-                    if(piece instanceof Pawn){
+                if (piece != null && piece.getColor() == color) {
+                    if (piece instanceof Pawn) {
                         pawnCount++;
                     }
                     score += piece.getPoint();
                 }
             }
-            if(pawnCount != 0){
+            if (pawnCount != 0) {
                 score += 0.5f * pawnCount;
             }
         }
         return score;
+    }
+
+    public Collection<Piece> getPieces(Color color) {
+        return Arrays.stream(this.pieceLocation).flatMap(Arrays::stream)
+                .filter(piece -> piece != null && piece.getColor() == color)
+                .sorted(Comparator.reverseOrder())
+                .toList();
     }
 }

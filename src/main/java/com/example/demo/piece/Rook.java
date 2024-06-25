@@ -29,4 +29,9 @@ public class Rook implements Piece {
             case BLACK -> "R";
         };
     }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
+    }
 }

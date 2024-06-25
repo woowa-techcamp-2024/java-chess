@@ -29,4 +29,9 @@ public class King implements Piece {
             case BLACK -> "K";
         };
     }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
+    }
 }

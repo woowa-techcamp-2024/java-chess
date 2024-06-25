@@ -29,4 +29,9 @@ public class Knight implements Piece {
             case BLACK -> "N";
         };
     }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
+    }
 }

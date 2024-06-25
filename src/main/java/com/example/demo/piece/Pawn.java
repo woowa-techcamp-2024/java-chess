@@ -28,4 +28,9 @@ public class Pawn implements Piece {
             case BLACK -> "P";
         };
     }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
+    }
 }

@@ -29,4 +29,9 @@ public class Bishop implements Piece {
             case BLACK -> "B";
         };
     }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
+    }
 }
