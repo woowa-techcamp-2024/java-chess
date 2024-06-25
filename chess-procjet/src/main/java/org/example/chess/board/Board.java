@@ -15,7 +15,7 @@ import org.example.chess.pieces.Piece.Type;
 
 public class Board {
 
-    private static final int BOARD_SIZE = 8;
+    protected static final int BOARD_SIZE = 8;
     private static final int MAX_PIECES = 32;
     private static final int BLACK_INIT_ROW = 0;
     private static final int BLACK_PAWN_INIT_ROW = 1;
@@ -25,13 +25,7 @@ public class Board {
     private final List<Rank> board = new ArrayList<>();
 
     public void initialize() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            Rank rank = new Rank();
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                rank.addPiece(PieceFactory.createBlank());
-            }
-            board.add(rank);
-        }
+        initializeEmpty();
         addPieceToBoard();
     }
 
@@ -121,18 +115,30 @@ public class Board {
         return count;
     }
 
-    public Piece findPiece(String position) {
-        int row = BOARD_SIZE - (position.charAt(1) - '1') - 1;
-        int col = position.charAt(0) - 'a';
+    public Piece findPiece(String pos) {
+        Position position = new Position(pos);
+        int r = position.getR();
+        int c = position.getC();
 
-        return board.get(row).getPieces().get(col);
+        return board.get(r).getPieces().get(c);
     }
 
     public void initializeEmpty() {
-
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Rank rank = new Rank();
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                rank.addPiece(PieceFactory.createBlank());
+            }
+            board.add(rank);
+        }
     }
 
     public void move(String position, Piece piece) {
+        Position pos = new Position(position);
+        int r = pos.getR();
+        int c = pos.getC();
 
+        Rank row = board.get(r);
+        row.changePiece(c, piece);
     }
 }
