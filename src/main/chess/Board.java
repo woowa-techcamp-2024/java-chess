@@ -67,5 +67,22 @@ public class Board {
         private void setPiece(Piece piece) {
             this.piece = piece;
         }
+
+        @Override
+        public String toString() {
+            return isEmpty() ? "." : getPiece().toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int r = LENGTH - 1; r >= 0; r--) {
+            for (int c = 0; c < LENGTH; c++) {
+                sb.append(cellAt(r, c));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
