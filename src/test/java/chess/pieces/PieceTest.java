@@ -2,7 +2,8 @@ package chess.pieces;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
     @Test
@@ -36,11 +37,11 @@ public class PieceTest {
     @DisplayName("검정색과 하얀색을 구분할 수 있어야 한다")
     public void isColor() {
         Piece white = Piece.createWhitePawn();
-        assertEquals(true, white.isWhite());
-        assertEquals(false, white.isBlack());
+        assertTrue(white.isWhite());
+        assertFalse(white.isBlack());
 
-        Piece black = Piece.createWhitePawn();
-        assertEquals(false, white.isWhite());
-        assertEquals(true, white.isBlack());
+        Piece black = Piece.createBlackPawn();
+        assertFalse(black.isWhite());
+        assertTrue(black.isBlack());
     }
 }
