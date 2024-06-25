@@ -9,15 +9,19 @@ import java.util.Map;
 public class Board {
 
     private static final int pawnNum = 8;
-    private static final int whitePawnY = 2;
-    private static final int blackPawnY = 7;
+    private static final int whitePawnRow = 2;
+    private static final int blackPawnRow = 7;
 
     private final Map<Position, Pawn> board = new HashMap<>();
 
     public void initialize() {
+        createPawn(whitePawnRow, PieceColor.WHITE);
+        createPawn(blackPawnRow, PieceColor.BLACK);
+    }
+
+    private void createPawn(int row, PieceColor color) {
         for (int i = 1; i <= pawnNum; i++) {
-            board.put(new Position(whitePawnY, i), new Pawn(PieceColor.WHITE));
-            board.put(new Position(blackPawnY, i), new Pawn(PieceColor.BLACK));
+            board.put(new Position(row, i), new Pawn(color));
         }
     }
 
@@ -42,5 +46,9 @@ public class Board {
         char representation = PieceRepresentation.getPieceRepresentation(color, type);
 
         return String.join("", Collections.nCopies((int) count, String.valueOf(representation)));
+    }
+
+    public String print() {
+
     }
 }
