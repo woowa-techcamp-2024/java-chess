@@ -1,18 +1,11 @@
 package pieces;
 
-public class Pawn {
+public class Pawn extends Piece {
 
-    private final Color color;
+    public static final char BLACK_REPRESENTATION = 'P';
+    public static final char WHITE_REPRESENTATION = 'p';
 
-    public Pawn(Color color) {
-        this.color = color;
-    }
-
-    public Pawn() {
-        this.color = Color.WHITE;
-    }
-
-    public Color getColor() {
-        return color;
+    public Pawn(Color color, char representation) {
+        super(color, representation);
     }
 }
