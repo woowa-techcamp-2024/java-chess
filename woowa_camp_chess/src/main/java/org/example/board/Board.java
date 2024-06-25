@@ -1,6 +1,6 @@
-package org.example.chess.board;
+package org.example.board;
 
-import org.example.chess.pieces.Pawn;
+import org.example.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;

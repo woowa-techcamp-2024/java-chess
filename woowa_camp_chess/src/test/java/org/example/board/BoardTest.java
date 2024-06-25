@@ -1,9 +1,7 @@
 package org.example.board;
 
 
-import org.example.chess.board.Board;
-import org.example.chess.pieces.Pawn;
-import org.junit.jupiter.api.DisplayName;
+import org.example.pieces.Pawn;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BoardTest {
 
     @Test
-    @DisplayName("보드에 폰을 추가한다.")
     public void create() {
         Board board = new Board();
 
@@ -25,5 +22,4 @@ public class BoardTest {
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
     }
-
 }
