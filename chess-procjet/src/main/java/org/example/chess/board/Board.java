@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.PieceFactory;
+import org.example.chess.pieces.Piece.Type;
 
 public class Board {
 
@@ -100,5 +102,9 @@ public class Board {
                     .collect(Collectors.joining())));
         }
         return sb.toString();
+    }
+
+    public int countPiecesByColorAndType(Color color, Type type) {
+        return 0;
     }
 }
