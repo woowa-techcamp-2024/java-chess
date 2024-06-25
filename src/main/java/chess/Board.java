@@ -1,8 +1,8 @@
 package chess;
 
-import chess.piece.Pawn;
-import chess.piece.Piece;
+import chess.piece.*;
 import chess.util.ChessPoint;
+import chess.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,39 +28,50 @@ public class Board {
         pieces.clear();
         boardMap.clear();
 
-        // add pawns
+        // Add pawns
         for (int i = 0; i < 8; i++) {
-            Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-            Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
-            pieces.add(whitePawn);
-            pieces.add(blackPawn);
-            boardMap.put(ChessPoint.of((char) ('a' + i), 2), whitePawn);
-            boardMap.put(ChessPoint.of((char) ('a' + i), 7), blackPawn);
+            addPiece(Pawn.createWhitePawn(), ChessPoint.of((char) ('a' + i), 2));
+            addPiece(Pawn.createBlackPawn(), ChessPoint.of((char) ('a' + i), 7));
         }
+
+        // Add other pieces
+        addPiece(Rook.createWhiteRook(), ChessPoint.of("a1"));
+        addPiece(Rook.createWhiteRook(), ChessPoint.of("h1"));
+        addPiece(Rook.createBlackRook(), ChessPoint.of("a8"));
+        addPiece(Rook.createBlackRook(), ChessPoint.of("h8"));
+
+        addPiece(Knight.createWhiteKnight(), ChessPoint.of("b1"));
+        addPiece(Knight.createWhiteKnight(), ChessPoint.of("g1"));
+        addPiece(Knight.createBlackKnight(), ChessPoint.of("b8"));
+        addPiece(Knight.createBlackKnight(), ChessPoint.of("g8"));
+
+        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("c1"));
+        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("f1"));
+        addPiece(Bishop.createBlackBishop(), ChessPoint.of("c8"));
+        addPiece(Bishop.createBlackBishop(), ChessPoint.of("f8"));
+
+        addPiece(Queen.createWhiteQueen(), ChessPoint.of("d1"));
+        addPiece(Queen.createBlackQueen(), ChessPoint.of("d8"));
+
+        addPiece(King.createWhiteKing(), ChessPoint.of("e1"));
+        addPiece(King.createBlackKing(), ChessPoint.of("e8"));
     }
 
+    private void addPiece(Piece piece, ChessPoint point) {
+        pieces.add(piece);
+        boardMap.put(point, piece);
+    }
 
     public void print() {
-        printFile();
-        for (int i = 8; i >= 1; i--) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(i).append('\t');
-            for (char c = 'a'; c <= 'h'; c++) {
-                Piece piece = boardMap.get(ChessPoint.of(c, i));
-                sb.append(piece == null ? "." : piece.getRepresentation()).append('\t');
-            }
-            sb.append(i);
-            System.out.println(sb);
-        }
-        printFile();
+        System.out.println(showBoard());
     }
 
-    private void printFile() {
+    private String getFile() {
         StringBuilder sb = new StringBuilder();
         for (char c = 'a'; c <= 'h'; c++) {
             sb.append('\t').append(c);
         }
-        System.out.println(sb);
+        return sb.toString();
     }
 
     public Pawn findPawn(int index) {
@@ -100,5 +111,24 @@ public class Board {
                 .map(type::cast)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 index에 맞는 Piece가 없습니다."));
+    }
+
+    public int pieceCount() {
+        return pieces.size();
+    }
+
+    public String showBoard() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getFile()).append(StringUtils.NEW_LINE);
+        for (int i = 8; i >= 1; i--) {
+            sb.append(i).append('\t');
+            for (char c = 'a'; c <= 'h'; c++) {
+                Piece piece = boardMap.get(ChessPoint.of(c, i));
+                sb.append(piece == null ? "." : piece.getRepresentation()).append('\t');
+            }
+            sb.append(i).append(StringUtils.NEW_LINE);
+        }
+        sb.append(getFile());
+        return sb.toString();
     }
 }
