@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.Pawn;
+import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,6 @@ public class Board {
             sb.append("\n");
         }
 
-        return sb.toString();
+        return StringUtils.replaceNewLine(sb.toString());
     }
 }
