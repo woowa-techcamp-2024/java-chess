@@ -36,12 +36,6 @@ class BoardTest {
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
-
-    @Test
-    void getBoardPiece() {
-        board.initialize();
-    }
-
     @Test
     void create() {
         board.initialize();
@@ -72,5 +66,17 @@ class BoardTest {
         board.initialize();
 
         assertEquals(8, board.findPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+    }
+
+    @Test
+    @DisplayName("주어진 위치의 기물을 조회")
+    void findPiece_by_pos() {
+        board.initialize();
+
+        assertEquals(Piece.createBlack(Piece.Type.ROOK).getType(), board.findPieceBYPos("a8").getType());
+        assertEquals(Piece.createBlack(Piece.Type.ROOK).getType(), board.findPieceBYPos("h8").getType());
+        assertEquals(Piece.createWhite(Piece.Type.ROOK).getType(), board.findPieceBYPos("a1").getType());
+        assertEquals(Piece.createWhite(Piece.Type.ROOK).getType(), board.findPieceBYPos("h1").getType());
+
     }
 }

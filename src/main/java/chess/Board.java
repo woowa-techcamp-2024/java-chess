@@ -118,4 +118,8 @@ public class Board {
 
         return count;
     }
+
+    public Piece findPieceBYPos(String cmd) {
+        return boardMap.get(cmd.charAt(1) - '1').get(cmd.charAt(0) - 'a');
+    }
 }
