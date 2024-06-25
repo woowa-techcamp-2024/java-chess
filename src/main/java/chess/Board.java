@@ -6,6 +6,8 @@ import chess.pieces.Pawn;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.StringUtils.*;
+
 public class Board {
     List<Pawn> whitePawns = new ArrayList<>();
     List<Pawn> blackPawns = new ArrayList<>();
@@ -43,21 +45,19 @@ public class Board {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getBlank());
-        sb.append(getBlackPawnsResult());
-        sb.append("\n");
+        sb.append(appendNewLine(getBlackPawnsResult()));
         sb.append(getBlank());
         sb.append(getBlank());
         sb.append(getBlank());
         sb.append(getBlank());
-        sb.append(getWhitePawnsResult());
-        sb.append("\n");
+        sb.append(appendNewLine(getWhitePawnsResult()));
         sb.append(getBlank());
 
         return sb.toString();
     }
 
     private String getBlank() {
-        return "........\n";
+        return appendNewLine( "........");
     }
 
     private String getPawnsResult(Colors color) {
