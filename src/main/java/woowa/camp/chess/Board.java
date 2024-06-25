@@ -44,8 +44,8 @@ public class Board {
 
     public void initialize() {
         initBoard();
-        initWhitePawns();
-        initBlackPawns();
+        initPawns(1, Color.PAWN_BLACK);
+        initPawns(6, Color.PAWN_WHITE);
     }
 
     private void initBoard() {
@@ -55,19 +55,10 @@ public class Board {
         }
     }
 
-    private void initWhitePawns() {
-        final int initRow = 6;
+    private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL).forEach(col -> {
-            final Pawn whitePawn = new Pawn(Color.PAWN_WHITE);
-            addPawn(initRow, col, whitePawn);
-        });
-    }
-
-    private void initBlackPawns() {
-        final int initRow = 1;
-        IntStream.range(0, MAX_COL).forEach(col -> {
-            final Pawn blackPawn = new Pawn(Color.PAWN_BLACK);
-            addPawn(initRow, col, blackPawn);
+            final Pawn pawn = new Pawn(color);
+            addPawn(initRow, col, pawn);
         });
     }
 
