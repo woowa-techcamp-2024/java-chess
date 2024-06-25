@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Blank;
 import chess.pieces.Piece;
 import chess.pieces.values.Location;
 
@@ -14,8 +15,12 @@ public class Board {
     public Board() {
         board = new HashMap<>();
         for (char row : ROWS) {
-            board.put(row, new Piece[8]);
+            board.put(row, fillBlank());
         }
+    }
+
+    public void initialize() {
+
     }
 
     public void addPiece(Piece piece, Location location) {
@@ -35,6 +40,14 @@ public class Board {
             result += (int) Arrays.stream(pieces).filter(Objects::nonNull).count();
         }
         return result;
+    }
+
+    private static Piece[] fillBlank() {
+        var pieces = new Piece[8];
+        for (int i = 0; i < pieces.length; i++) {
+            pieces[i] = new Blank();
+        }
+        return pieces;
     }
 
 }
