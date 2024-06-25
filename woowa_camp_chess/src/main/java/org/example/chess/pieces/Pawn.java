@@ -29,4 +29,8 @@ public class Pawn {
     public char getRepresentation() {
         return representation;
     }
+
+    public static Pawn createBlackPawn() {
+        return new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
+    }
 }
