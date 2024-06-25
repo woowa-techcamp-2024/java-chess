@@ -22,6 +22,8 @@ public class Board {
     private static final int BLACK_FIRST_ROW = 0;
     private static final int WHITE_FIRST_ROW = 7;
 
+    private static final int BLANK_ROW_START = 2;
+    private static final int BLANK_ROW_END = 6;
     private static final String EMPTY_ROW = "........";
 
 
@@ -29,8 +31,16 @@ public class Board {
         pieceCount = INITIAL_PIECE_COUNT;
         initializeWhiteFirstRow();
         initializeBlackFirstRow();
+        initializeEmtpyRows();
         initializeWhitePawns();
         initializeBlackPawns();
+    }
+
+    private void initializeEmtpyRows() {
+        IntStream.range(BLANK_ROW_START, BLANK_ROW_END).forEach(i ->
+                pieces.get(i).addAll(IntStream.range(0, BOARD_WIDTH)
+                        .mapToObj(c -> Piece.createBlank())
+                        .collect(Collectors.toCollection(ArrayList::new))));
     }
 
     private void initializeBlackFirstRow() {
