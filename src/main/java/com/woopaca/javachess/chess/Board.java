@@ -54,8 +54,8 @@ public class Board {
     }
 
     public String getBlackPawnsResult() {
-        List<Pawn> whitePawns = pawns[BLACK_PAWNS_ROW];
-        return whitePawns.stream()
+        List<Pawn> blackPawns = pawns[BLACK_PAWNS_ROW];
+        return blackPawns.stream()
                 .map(pawn -> String.valueOf(pawn.getRepresentation()))
                 .collect(Collectors.joining());
     }
