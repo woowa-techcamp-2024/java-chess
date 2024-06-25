@@ -90,7 +90,7 @@ public class BoardTest {
     }
 
     @Test
-    public void temp() throws Exception{
+    public void initializeEmptytest() throws Exception{
         //given
 
         //when

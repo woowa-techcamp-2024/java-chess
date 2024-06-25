@@ -119,6 +119,14 @@ public class Board {
         }
     }
 
+    public void initializeEmpty(){
+        for(int h=0;h<HEIGHT;h++){
+            for(int w=0;w<WIDTH;w++){
+                board[h][w] = Piece.createPiece(NO_PIECE);
+            }
+        }
+    }
+
     public String print(){
         StringBuilder sb = new StringBuilder();
         for(int h=HEIGHT-1;h>=0;h--){
