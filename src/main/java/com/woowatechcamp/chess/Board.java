@@ -1,7 +1,8 @@
 package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Color;
-import com.woowatechcamp.chess.pieces.Pawn;
+import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,44 +10,44 @@ import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Board {
     private static final char EMPTY_REPRESENTATION = '.';
-    private final List<Pawn> whitePawns;
-    private final List<Pawn> blackPawns;
+    private final List<Piece> whitePieces;
+    private final List<Piece> blackPieces;
 
     public Board() {
-        whitePawns = new ArrayList<>();
-        blackPawns = new ArrayList<>();
+        whitePieces = new ArrayList<>();
+        blackPieces = new ArrayList<>();
     }
 
     public void initialize() {
         for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Color.WHITE));
-            blackPawns.add(new Pawn(Color.BLACK));
+            whitePieces.add(Piece.createWhitePawn());
+            blackPieces.add(Piece.createBlackPawn());
         }
     }
 
-    public void add(Pawn pawn) {
-        if (pawn.getColor() == Color.WHITE) {
-            whitePawns.add(pawn);
+    public void add(Piece piece) {
+        if (piece.getColor() == Color.WHITE) {
+            whitePieces.add(piece);
             return;
         }
-        blackPawns.add(pawn);
+        blackPieces.add(piece);
     }
 
     public int size() {
-        return whitePawns.size() + blackPawns.size();
+        return whitePieces.size() + blackPieces.size();
     }
 
     public String getWhitePawnsResult() {
-        return piecesToString(whitePawns);
+        return piecesToString(whitePieces);
     }
 
     public String getBlackPawnsResult() {
-        return piecesToString(blackPawns);
+        return piecesToString(blackPieces);
     }
 
-    private String piecesToString(List<Pawn> pieces) {
+    private String piecesToString(List<Piece> pieces) {
         StringBuilder result = new StringBuilder();
-        pieces.forEach(pawn -> result.append(pawn.toString()));
+        pieces.forEach(piece -> result.append(piece.toString()));
         return result.toString();
     }
 
