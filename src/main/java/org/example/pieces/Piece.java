@@ -30,64 +30,64 @@ public class Piece {
 
         public char getBlackRepresentation() {
             final int offsetNumber = 6;
-            return (char)(representation+ offsetNumber);
+            return (char) (representation + offsetNumber);
         }
     }
 
     private final Color color;
-    private final char representation;
+    private final Type representation;
 
-    private Piece(Color color, char representation) {
+    private Piece(Color color, Type representation) {
         this.color = color;
         this.representation = representation;
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(WHITE, Type.PAWN.getWhiteRepresentation());
+        return new Piece(WHITE, Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(BLACK, Type.PAWN.getBlackRepresentation());
+        return new Piece(BLACK, Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(WHITE, Type.KNIGHT.getWhiteRepresentation());
+        return new Piece(WHITE, Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(BLACK, Type.KNIGHT.getBlackRepresentation());
+        return new Piece(BLACK, Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(WHITE, Type.ROOK.getWhiteRepresentation());
+        return new Piece(WHITE, Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(BLACK, Type.ROOK.getBlackRepresentation());
+        return new Piece(BLACK, Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(WHITE, Type.BISHOP.getWhiteRepresentation());
+        return new Piece(WHITE, Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(BLACK, Type.BISHOP.getBlackRepresentation());
+        return new Piece(BLACK, Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(WHITE, Type.QUEEN.getWhiteRepresentation());
+        return new Piece(WHITE, Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(BLACK, Type.QUEEN.getBlackRepresentation());
+        return new Piece(BLACK, Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(WHITE, Type.KING.getWhiteRepresentation());
+        return new Piece(WHITE, Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(BLACK, Type.KING.getBlackRepresentation());
+        return new Piece(BLACK, Type.KING);
     }
 
     public Color getColor() {
@@ -95,7 +95,8 @@ public class Piece {
     }
 
     public char getRepresentation() {
-        return representation;
+        return color.equals(WHITE) ?
+            representation.getWhiteRepresentation() : representation.getBlackRepresentation();
     }
 
     public boolean isWhite() {
