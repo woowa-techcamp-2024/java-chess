@@ -24,7 +24,7 @@ public class PieceTest {
     @DisplayName("기물의 색상을 확인")
     @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
     @MethodSource("argumentsStream")
-    public void checkIsBlack(Piece piece, Color color, Type notUsed) {
+    public void checkIsBlack(Piece piece, Color color, char notUsed) {
         verifyColor(piece, color);
     }
 
@@ -40,7 +40,7 @@ public class PieceTest {
         }
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final Type representation) {
+    private void verifyPiece(final Piece piece, final Color color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
