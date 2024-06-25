@@ -4,6 +4,7 @@ import chess.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Board {
@@ -43,7 +44,7 @@ public class Board {
             add(pawn);
             pawnList.add(pawn);
         }
-        board.add(column, pawnList);
+        board.set(column, pawnList);
     }
 
     public void initialize() {
@@ -65,5 +66,18 @@ public class Board {
 
     public String getBlackPawnsResult() {
         return getPawnsResult(Pawn.BLACK_COLOR);
+    }
+
+    public String print() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                Pawn pawn = board.get(i).get(j);
+                if (Objects.equals(pawn, null)) stringBuilder.append('.');
+                else stringBuilder.append(pawn.getRepresentation());
+            }
+            stringBuilder.append('\n');
+        }
+        return stringBuilder.toString();
     }
 }
