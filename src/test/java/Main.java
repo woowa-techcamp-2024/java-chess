@@ -11,7 +11,7 @@ public class Main {
                 if (input.equals("start")) {
                     Board board = new Board();
                     board.initialize();
-                    System.out.println(board.print());
+                    System.out.println(board.showBoard());
                 }
                 if (input.equals("exit")) {
                     break;
