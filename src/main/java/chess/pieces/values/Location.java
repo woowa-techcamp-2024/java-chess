@@ -1,20 +1,32 @@
 package chess.pieces.values;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Location {
 
-    private final int x;
-    private final int y;
+    private static final Pattern PATTERN = Pattern.compile("[a-h][1-8]");
 
-    private Location(int x, int y) {
+    private final int x;
+    private final char y;
+
+    private Location(int x, char y) {
         this.x = x;
         this.y = y;
     }
 
+    public static Location from(String location) {
+        if (!PATTERN.matcher(location).matches()) {
+            throw new IllegalArgumentException("Invalid Location Input");
+        }
+        var x = Integer.parseInt(location.substring(1));
+        var y = location.charAt(0);
+        return new Location(x, y);
+    }
+
     public static Location of(int x, char y) {
         verifyCurrentLocation(x, y);
-        return new Location(x, convertIdxToInt(y));
+        return new Location(x, y);
     }
 
     public int getX() {
@@ -35,10 +47,6 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    private static int convertIdxToInt(char y) {
-        return y - 'a';
     }
 
     private static void verifyCurrentLocation(int x, char y) {

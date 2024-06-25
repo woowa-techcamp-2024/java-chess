@@ -18,7 +18,7 @@ class LocationTest {
     void create(int x, char y) {
         var actualResult = Location.of(x, y);
         assertThat(actualResult.getX()).isEqualTo(x);
-        assertThat(actualResult.getY()).isEqualTo((int) y - 'a');
+        assertThat(actualResult.getY()).isEqualTo(y);
     }
 
     @MethodSource
@@ -28,6 +28,40 @@ class LocationTest {
         assertThatThrownBy(() -> Location.of(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid Location Input");
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    @DisplayName("문자열을 기반으로 위치를 생성한다.")
+    void createViaString(String locationStr) {
+        var actualResult = Location.from(locationStr);
+        assertThat(actualResult.getX()).isEqualTo(Integer.parseInt(locationStr.substring(1)));
+        assertThat(actualResult.getY()).isEqualTo(locationStr.charAt(0));
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    @DisplayName("잘못된 문자열이 입력되면 위치 생성에 실패한다.")
+    void createViaStringFail(String locationStr) {
+        assertThatThrownBy(() -> Location.from(locationStr))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Invalid Location Input");
+    }
+
+    private static Stream<Arguments> createViaString() {
+        return Stream.of(
+                Arguments.of("a1"),
+                Arguments.of("b3"),
+                Arguments.of("h8")
+        );
+    }
+
+    private static Stream<Arguments> createViaStringFail() {
+        return Stream.of(
+                Arguments.of("1a"),
+                Arguments.of("3b"),
+                Arguments.of("8h")
+        );
     }
 
     private static Stream<Arguments> create() {

@@ -6,103 +6,85 @@ import chess.pieces.enums.Color;
 import chess.pieces.values.Location;
 import utils.StringUtils;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Board {
 
-    private static final int BOARD_SIZE = 8;
+    private static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
+    private static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-    private final Piece[][] board;
+    private final Map<Location, Piece> board;
 
     public Board() {
-        board = new Piece[BOARD_SIZE][BOARD_SIZE];
-        for (int i = 1; i <= board.length; i++) {
-            fillBlank(i);
+        board = new HashMap<>();
+        for (int row : ROWS) {
+            for (char col : COLS) {
+                board.put(Location.of(row, col), Piece.getBlank());
+            }
         }
     }
 
     public void initialize() {
-        fillPieces(Color.WHITE);
-        fillBlank(3, 4, 5, 6);
-        fillPieces(Color.BLACK);
+        fillPieces(1, Color.WHITE);
+        fillPawns(2, Color.WHITE);
+        fillBlanks(3, 4, 5, 6);
+        fillPawns(7, Color.BLACK);
+        fillPieces(8, Color.BLACK);
     }
 
-    public Piece getPiece(Location location) {
-        return board[location.getX() - 1][location.getY()];
+    public Piece getPiece(String locationStr) {
+        var location = Location.from(locationStr);
+        return board.get(location);
     }
 
     public int size() {
-        var result = 0;
-        for (Piece[] pieces : board) {
-            result += (int) Arrays.stream(pieces).filter(piece -> !(piece instanceof Blank)).count();
-        }
-        return result;
+        return (int) board.values().stream().filter(piece -> !(piece instanceof Blank)).count();
     }
 
     public String printRow(int row) {
         var sb = new StringBuilder();
-        for (Piece piece : board[row - 1]) {
-            sb.append(piece);
+        for (char col : COLS) {
+            sb.append(board.get(Location.of(row, col)));
         }
         return StringUtils.appendNewLine(sb.toString());
     }
 
     public String print() {
         var sb = new StringBuilder();
-        for (int i = board.length; i > 0; i--) {
-            sb.append(printRow(i));
+        for (int i = ROWS.length - 1; i >= 0; i--) {
+            sb.append(printRow(ROWS[i]));
         }
         return sb.toString();
     }
 
-    private void addPiece(Piece piece, Location location) {
-        piece.moveLocation(location);
-        board[location.getX() - 1][location.getY()] = piece;
+    private void addPiece(Location location, Piece piece) {
+        board.put(location, piece);
     }
 
-    private void fillPawn(int row, Color color) {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            var pawn = switch (color) {
-                case WHITE -> Piece.createWhitePawn();
-                case BLACK -> Piece.createBlackPawn();
-            };
-            addPiece(pawn, Location.of(row, (char) ('a' + i)));
+    private void fillPawns(int row, Color color) {
+        for (char col : COLS) {
+            board.put(Location.of(row, col), Piece.createPawn(color));
         }
     }
 
-    private void fillBlank(int... rows) {
+    private void fillBlanks(int... rows) {
         for (int row : rows) {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                board[row - 1][i] = Piece.getBlank();
+            for (char col : COLS) {
+                board.put(Location.of(row, col), Piece.getBlank());
             }
         }
     }
 
-    private void fillPieces(Color color) {
-        switch (color) {
-            case WHITE -> {
-                addPiece(Piece.createWhiteRook(), Location.of(1, 'a'));
-                addPiece(Piece.createWhiteKnight(), Location.of(1, 'b'));
-                addPiece(Piece.createWhiteBishop(), Location.of(1, 'c'));
-                addPiece(Piece.createWhiteQueen(), Location.of(1, 'd'));
-                addPiece(Piece.createWhiteKing(), Location.of(1, 'e'));
-                addPiece(Piece.createWhiteBishop(), Location.of(1, 'f'));
-                addPiece(Piece.createWhiteKnight(), Location.of(1, 'g'));
-                addPiece(Piece.createWhiteRook(), Location.of(1, 'h'));
-                fillPawn(2, color);
-            }
-            case BLACK -> {
-                addPiece(Piece.createBlackRook(), Location.of(8, 'a'));
-                addPiece(Piece.createBlackKnight(), Location.of(8, 'b'));
-                addPiece(Piece.createBlackBishop(), Location.of(8, 'c'));
-                addPiece(Piece.createBlackQueen(), Location.of(8, 'd'));
-                addPiece(Piece.createBlackKing(), Location.of(8, 'e'));
-                addPiece(Piece.createBlackBishop(), Location.of(8, 'f'));
-                addPiece(Piece.createBlackKnight(), Location.of(8, 'g'));
-                addPiece(Piece.createBlackRook(), Location.of(8, 'h'));
-                fillPawn(7, color);
-            }
-        }
+    private void fillPieces(int row, Color color) {
+        addPiece(Location.of(row, 'a'), Piece.createRook(color));
+        addPiece(Location.of(row, 'b'), Piece.createKnight(color));
+        addPiece(Location.of(row, 'c'), Piece.createBishop(color));
+        addPiece(Location.of(row, 'd'), Piece.createQueen(color));
+        addPiece(Location.of(row, 'e'), Piece.createKing(color));
+        addPiece(Location.of(row, 'f'), Piece.createBishop(color));
+        addPiece(Location.of(row, 'g'), Piece.createKnight(color));
+        addPiece(Location.of(row, 'h'), Piece.createRook(color));
     }
 
 }
