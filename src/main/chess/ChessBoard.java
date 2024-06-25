@@ -1,6 +1,5 @@
 package chess;
 
-import chess.piece.Color;
 import chess.piece.Pawn;
 import chess.piece.Piece;
 
@@ -26,10 +25,10 @@ public class ChessBoard {
     public void initialize() {
         clear();
         for (int c = 0; c < LENGTH; c++) {
-            set(1, c, new Pawn(Color.WHITE));
+            set(1, c, Piece.createWhitePawn());
         }
         for (int c = 0; c < LENGTH; c++) {
-            set(6, c, new Pawn(Color.BLACK));
+            set(6, c, Piece.createBlackPawn());
         }
     }
 

@@ -4,11 +4,11 @@ import chess.ChessStrings;
 
 public class Bishop extends Piece {
 
-    public Bishop() {
+    protected Bishop() {
         super();
     }
 
-    public Bishop(final Color color) {
+    protected Bishop(final Color color) {
         super(color);
     }
 

@@ -4,11 +4,11 @@ import chess.ChessStrings;
 
 public class Rook extends Piece {
 
-    public Rook() {
+    protected Rook() {
         super();
     }
 
-    public Rook(final Color color) {
+    protected Rook(final Color color) {
         super(color);
     }
 

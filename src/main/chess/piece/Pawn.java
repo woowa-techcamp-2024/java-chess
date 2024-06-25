@@ -4,11 +4,11 @@ import chess.ChessStrings;
 
 public class Pawn extends Piece {
 
-    public Pawn() {
+    protected Pawn() {
         super();
     }
 
-    public Pawn(final Color color) {
+    protected Pawn(final Color color) {
         super(color);
     }
 

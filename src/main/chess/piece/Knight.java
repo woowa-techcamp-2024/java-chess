@@ -4,11 +4,11 @@ import chess.ChessStrings;
 
 public class Knight extends Piece {
 
-    public Knight() {
+    protected Knight() {
         super();
     }
 
-    public Knight(final Color color) {
+    protected Knight(final Color color) {
         super(color);
     }
 
