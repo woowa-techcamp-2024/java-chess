@@ -84,4 +84,12 @@ public class BoardTest {
         assertThat(board.getPawnsResult(Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
     }
 
+    @Test
+    @DisplayName("[Success] print 메서드 콘솔 출력 테스트")
+    void print() {
+        board.initialize();
+        String print = board.print();
+        System.out.println(print);
+    }
+
 }
