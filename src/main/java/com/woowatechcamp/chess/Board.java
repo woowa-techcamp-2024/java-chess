@@ -35,14 +35,16 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder result = new StringBuilder();
-        whitePawns.forEach(pawn -> result.append(pawn.toString()));
-        return result.toString();
+        return piecesToString(whitePawns);
     }
 
     public String getBlackPawnsResult() {
+        return piecesToString(blackPawns);
+    }
+
+    private String piecesToString(List<Pawn> pieces) {
         StringBuilder result = new StringBuilder();
-        blackPawns.forEach(pawn -> result.append(pawn.toString()));
+        pieces.forEach(pawn -> result.append(pawn.toString()));
         return result.toString();
     }
 }
