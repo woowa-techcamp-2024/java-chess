@@ -34,17 +34,25 @@ public class Board {
         return pieces.get(index);
     }
 
-    public ChessPiece findPiece(String position){
+    private int getCol(String position){
         if(position == null || position.length() > 2) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
         char col = position.charAt(0);
+        if(!('a'<=col && col<='h')) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
+        return col-'a';
+    }
+
+    private int getRow(String position){
+        if(position == null || position.length() > 2) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
         char row = position.charAt(1);
 
-        if(!('a'<=col && col<='h') || !('1'<=row&&row<='8')) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
+        if(!('1'<=row&&row<='8')) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
+        return row-'1';
+    }
 
-        int colIndex = col-'a';
-        int rowIndex = row-'1';
-
-        return board[rowIndex][colIndex];
+    public ChessPiece findPiece(String position){
+        int row = getRow(position);
+        int col = getCol(position);
+        return board[row][col];
     }
 
     public int pieceCount(){
