@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.Type;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,9 +49,16 @@ public class BoardTest {
 
             private static Stream<Arguments> generatePawns() {
                 return Stream.of(
-                        Arguments.of(List.of(new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 1),
-                        Arguments.of(List.of(new Piece(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
-                                new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 2)
+                        Arguments.of(
+                                List.of(new Piece(Color.WHITE, Type.PAWN)),
+                                0,
+                                1
+                        ),
+                        Arguments.of(
+                                List.of(new Piece(Color.BLACK, Type.PAWN), new Piece(Color.WHITE, Type.PAWN)),
+                                0,
+                                2
+                        )
                 );
             }
         }
@@ -65,7 +74,7 @@ public class BoardTest {
             @ValueSource(ints = {-1, 2})
             void 예외가_발생한다(int invalidIndex) {
                 // given
-                Piece piece = new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION);
+                Piece piece = new Piece(Color.WHITE, Type.PAWN);
                 board.add(piece);
 
                 // expect

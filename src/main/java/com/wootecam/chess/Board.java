@@ -2,7 +2,9 @@ package com.wootecam.chess;
 
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,15 +24,15 @@ public class Board {
     }
 
     public void initialize() {
-        blackPawnPieces.addAll(createPawns(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION));
-        whitePawnPieces.addAll(createPawns(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION));
+        blackPawnPieces.addAll(createPawns(Color.BLACK));
+        whitePawnPieces.addAll(createPawns(Color.WHITE));
         blackOtherPieces.addAll((createBlackOtherPieces()));
         whiteOtherPieces.addAll((createWhiteOtherPieces()));
     }
 
-    private List<Piece> createPawns(String color, String representation) {
+    private List<Piece> createPawns(Color color) {
         return IntStream.range(0, PIECE_COUNT)
-                .mapToObj(i -> new Piece(color, representation))
+                .mapToObj(i -> new Piece(color, Type.PAWN))
                 .toList();
     }
 

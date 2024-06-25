@@ -4,27 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class PiecesTest {
-
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p
-            black, P
-            """
-    )
-    void 지정한_색상과_기물을_지정한_폰을_생성할_수_있다(String color, String representation) {
-        // when
-        Piece piece = new Piece(color, representation);
-
-        // then
-        assertAll(
-                () -> assertThat(piece.getColor()).isEqualTo(color),
-                () -> assertThat(piece.getRepresentation()).isEqualTo(representation)
-        );
-    }
 
     @Test
     void 모든_기물을_생성할_수_있다() {
@@ -49,49 +30,49 @@ public class PiecesTest {
 
         // then
         assertAll(
-                () -> verifyPiece(whitePawn, Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION),
-                () -> verifyPiece(blackPawn, Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
-                () -> verifyPiece(whiteKnight, Piece.COLOR_WHITE, Piece.WHITE_KNIGHT_REPRESENTATION),
-                () -> verifyPiece(blackKnight, Piece.COLOR_BLACK, Piece.BLACK_KNIGHT_REPRESENTATION),
-                () -> verifyPiece(whiteRook, Piece.COLOR_WHITE, Piece.WHITE_ROOK_REPRESENTATION),
-                () -> verifyPiece(blackRook, Piece.COLOR_BLACK, Piece.BLACK_ROOK_REPRESENTATION),
-                () -> verifyPiece(whiteBishop, Piece.COLOR_WHITE, Piece.WHITE_BISHOP_REPRESENTATION),
-                () -> verifyPiece(blackBishop, Piece.COLOR_BLACK, Piece.BLACK_BISHOP_REPRESENTATION),
-                () -> verifyPiece(whiteQueen, Piece.COLOR_WHITE, Piece.WHITE_QUEEN_REPRESENTATION),
-                () -> verifyPiece(blackQueen, Piece.COLOR_BLACK, Piece.BLACK_QUEEN_REPRESENTATION),
-                () -> verifyPiece(whiteKing, Piece.COLOR_WHITE, Piece.WHITE_KING_REPRESENTATION),
-                () -> verifyPiece(blackKing, Piece.COLOR_BLACK, Piece.BLACK_KING_REPRESENTATION)
+                () -> verifyPiece(whitePawn, Color.WHITE, Type.PAWN),
+                () -> verifyPiece(blackPawn, Color.BLACK, Type.PAWN),
+                () -> verifyPiece(whiteKnight, Color.WHITE, Type.KNIGHT),
+                () -> verifyPiece(blackKnight, Color.BLACK, Type.KNIGHT),
+                () -> verifyPiece(whiteRook, Color.WHITE, Type.ROOK),
+                () -> verifyPiece(blackRook, Color.BLACK, Type.ROOK),
+                () -> verifyPiece(whiteBishop, Color.WHITE, Type.BISHOP),
+                () -> verifyPiece(blackBishop, Color.BLACK, Type.BISHOP),
+                () -> verifyPiece(whiteQueen, Color.WHITE, Type.QUEEN),
+                () -> verifyPiece(blackQueen, Color.BLACK, Type.QUEEN),
+                () -> verifyPiece(whiteKing, Color.WHITE, Type.KING),
+                () -> verifyPiece(blackKing, Color.BLACK, Type.KING)
         );
     }
 
-    private void verifyPiece(Piece piece, String color, String representation) {
+    private void verifyPiece(Piece piece, Color color, Type representation) {
         assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(representation);
+        assertThat(piece.getRepresentation()).isEqualTo(representation.findRepresentation(color));
     }
 
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p, true
-            black, P, false
-            """)
-    void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
+    @Test
+    void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다() {
         // given
-        Piece pawn = new Piece(color, representation);
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
 
         // when
-        assertThat(pawn.isWhite()).isEqualTo(expected);
+        assertAll(
+                () -> assertThat(whitePawn.isWhite()).isTrue(),
+                () -> assertThat(blackPawn.isWhite()).isFalse()
+        );
     }
 
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p, false
-            black, P, true
-            """)
-    void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
+    @Test
+    void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다() {
         // given
-        Piece pawn = new Piece(color, representation);
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
 
         // when
-        assertThat(pawn.isBlack()).isEqualTo(expected);
+        assertAll(
+                () -> assertThat(whitePawn.isBlack()).isFalse(),
+                () -> assertThat(blackPawn.isBlack()).isTrue()
+        );
     }
 }
