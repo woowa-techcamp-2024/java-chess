@@ -1,9 +1,9 @@
 package pieces;
 
 public enum PieceColor {
-    WHITE("white"),
-    BLACK("black"),
-    NO_COLOR("no_color")
+    WHITE("WHITE"),
+    BLACK("BLACK"),
+    NO_COLOR("NO_COLOR")
     ;
 
     private final String color;

@@ -25,7 +25,7 @@ public class Rank {
     {
         for(int i=0; i < NUM_COL; i++)
         {
-            pieces.add(new Piece(PieceColor.BLACK, PieceType.NO_PIECE, PieceUnicode.BLANK));
+            pieces.add(new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE));
         }
     }
 
@@ -33,7 +33,7 @@ public class Rank {
     {
         StringBuilder sb = new StringBuilder();
         for(Piece piece : pieces){
-            sb.append(piece.represent().getUnicode());
+            sb.append(piece.getRepresent());
         }
         return sb.toString();
     }
