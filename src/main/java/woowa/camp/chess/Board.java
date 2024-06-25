@@ -3,6 +3,7 @@ package woowa.camp.chess;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
@@ -82,6 +83,27 @@ public class Board {
 
     private Predicate<Pawn> isSameColor(final Color color) {
         return pawn -> pawn.getColor().equals(color.getName());
+    }
+
+    public String print() {
+        final StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < MAX_ROW; row++) {
+            appendRowRepresentation(row, sb);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    private void appendRowRepresentation(int row, StringBuilder sb) {
+        for (int col = 0; col < MAX_COL; col++) {
+            getPawnByPosition(row, col)
+                    .map(Pawn::getRepresentation)
+                    .ifPresentOrElse(sb::append, () -> sb.append("."));
+        }
+    }
+
+    private Optional<Pawn> getPawnByPosition(final int row, final int col) {
+        return Optional.ofNullable(board.get(row).get(col));
     }
 
 }
