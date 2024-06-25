@@ -1,10 +1,19 @@
 package woowa.camp.chess;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
+import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Pawn;
 
 public class Board {
+
+    public static final int MAX_PAWN = 8;
+    public static final int MAX_ROW = 8;
+    public static final int MAX_COL = 8;
+
+    private final List<List<Pawn>> board = new ArrayList<>(new ArrayList<>());
 
     private final List<Pawn> pawns = new ArrayList<>();
 
@@ -31,6 +40,40 @@ public class Board {
 
     private boolean isOutOfRange(int size, int index) {
         return index < 0 || index >= size;
+    }
+
+    public void initialize() {
+        initBoard();
+        initWhitePawns();
+        initBlackPawns();
+    }
+
+    private void initBoard() {
+        for (int row = 0; row < MAX_ROW; row++) {
+            List<Pawn> rows = new ArrayList<>(Collections.nCopies(8, null));
+            board.add(rows);
+        }
+    }
+
+    private void initWhitePawns() {
+        final int initRow = 6;
+        IntStream.range(0, MAX_COL).forEach(col -> {
+            final Pawn whitePawn = new Pawn(Color.PAWN_WHITE);
+            addPawn(initRow, col, whitePawn);
+        });
+    }
+
+    private void initBlackPawns() {
+        final int initRow = 1;
+        IntStream.range(0, MAX_COL).forEach(col -> {
+            final Pawn blackPawn = new Pawn(Color.PAWN_BLACK);
+            addPawn(initRow, col, blackPawn);
+        });
+    }
+
+    private void addPawn(final int row, final int col, final Pawn pawn) {
+        board.get(row).set(col, pawn);
+        pawns.add(pawn);
     }
 
 }
