@@ -1,19 +1,13 @@
 package piece;
 
-public class Pawn {
-
-    private final Color color;
+public class Pawn extends Piece {
 
     public Pawn() {
-        this.color = Color.WHITE;
+        super();
     }
 
     public Pawn(final Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
-        return color;
+        super(color);
     }
 
 }
