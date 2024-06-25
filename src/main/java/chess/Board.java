@@ -19,6 +19,7 @@ public class Board {
         whitePawns = new ArrayList<>();
         blackPawns = new ArrayList<>();
         board = new ChessPiece[HEIGHT][WIDTH];
+        initialize();
     }
 
     public int size(){
