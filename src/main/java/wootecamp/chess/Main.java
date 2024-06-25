@@ -24,7 +24,7 @@ public class Main {
 
     private static void start(Board board) {
         board.initialize();
-        System.out.println(board.getBoardState());
+        System.out.println(board.showBoard());
     }
 
 }
