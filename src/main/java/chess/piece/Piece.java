@@ -1,13 +1,14 @@
 package chess.piece;
 
 public abstract class Piece {
-    public static final String WHITE_COLOR = "white";
-    public static final String BLACK_COLOR = "black";
+    public enum Color {
+        WHITE, BLACK
+    }
 
-    protected final String color;
+    protected final Color color;
     protected final char representation;
 
-    protected Piece(String color, char representation) {
+    protected Piece(Color color, char representation) {
         this.color = color;
         this.representation = representation;
     }
@@ -16,15 +17,17 @@ public abstract class Piece {
         return representation;
     }
 
-    public String getColor(){
+    public Color getColor(){
         return color;
     }
 
     public boolean isWhite() {
-        return color.equals(WHITE_COLOR);
+        return color.equals(Color.WHITE);
     }
 
     public boolean isBlack() {
-        return color.equals(BLACK_COLOR);
+        return color.equals(Color.BLACK);
     }
+
+    public abstract double getDefaultPoint();
 }
