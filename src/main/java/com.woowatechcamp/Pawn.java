@@ -7,6 +7,10 @@ public class Pawn {
         this.color = Color.WHITE;
     }
 
+    public Pawn(Color color) {
+        this.color = color;
+    }
+
     public Pawn(String color) {
         this.color = Color.fromString(color);
     }
