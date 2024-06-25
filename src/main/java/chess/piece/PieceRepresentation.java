@@ -15,10 +15,10 @@ public enum PieceRepresentation {
         this.representation = representation;
     }
 
-    public static char getPieceRepresentation(final Pawn pawn) {
+    public static char getPieceRepresentation(final PieceColor color, final Type type) {
         return Arrays.stream(PieceRepresentation.values())
-                .filter(pieceRepresentation -> pieceRepresentation.type.equals(pawn.getType()))
-                .filter(pieceRepresentation -> pieceRepresentation.pieceColor.equals(pawn.getColor()))
+                .filter(pieceRepresentation -> pieceRepresentation.type.equals(type))
+                .filter(pieceRepresentation -> pieceRepresentation.pieceColor.equals(color))
                 .findAny().get().representation;
     }
 

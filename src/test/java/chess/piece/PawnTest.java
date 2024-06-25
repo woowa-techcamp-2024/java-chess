@@ -20,7 +20,7 @@ public class PawnTest {
         Pawn pawn = new Pawn(color);
 
         assertThat(pawn.getColor()).isEqualTo(color);
-        assertThat(PieceRepresentation.getPieceRepresentation(pawn))
+        assertThat(PieceRepresentation.getPieceRepresentation(pawn.getColor(), pawn.getType()))
                 .isEqualTo(representation.getPieceRepresentation());
     }
 }
