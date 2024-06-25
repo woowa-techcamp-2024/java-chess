@@ -23,7 +23,7 @@ class BoardTest {
 
     @Test
     @DisplayName("보드에 폰을 추가할 수 있다")
-    void create() throws Exception {
+    void create() {
         board.add(white);
         assertEquals(1, board.size());
         assertEquals(white, board.findPawn(0));
@@ -35,14 +35,14 @@ class BoardTest {
 
     @Test
     @DisplayName("보드를 초기화할 수 있다")
-    void initialize() throws Exception {
+    void initialize() {
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
     @Test
     @DisplayName("보드를 출력할 수 있다")
-    void print() throws Exception {
+    void print()  {
         // given
         String givenBoard = givenBoardPrint();
 
