@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Pawn;
 import java.util.List;
 import java.util.stream.Stream;
