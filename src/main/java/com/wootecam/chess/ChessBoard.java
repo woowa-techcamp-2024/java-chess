@@ -16,6 +16,9 @@ public class ChessBoard {
     }
 
     public void add(Pawn pawn) {
+        if (totalPieces >= TOTAL_CELLS) {
+            throw new IllegalArgumentException("Cannot add anymore pawns");
+        }
         add(pawn, totalPieces);
     }
 
