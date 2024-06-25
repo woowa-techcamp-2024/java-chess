@@ -2,6 +2,7 @@ package chess.pieces;
 
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PieceTest {
@@ -25,5 +26,15 @@ public class PieceTest {
     private void verifyPiece(Piece piece, Piece.Color color, char symbol) {
         assertEquals(color, piece.getColor());
         assertEquals(symbol, piece.getRepresentation().getSymbol());
+    }
+
+    @Test
+    public void 색_확인() {
+        Piece whitePawn = Piece.createWhitePawn();
+        Piece blackPawn = Piece.createBlackPawn();
+        assertThat(whitePawn.isWhite()).isTrue();
+        assertThat(blackPawn.isBlack()).isTrue();
+        assertThat(whitePawn.isBlack()).isFalse();
+        assertThat(blackPawn.isWhite()).isFalse();
     }
 }
