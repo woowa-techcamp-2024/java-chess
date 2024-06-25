@@ -78,7 +78,7 @@ public class Board {
                 .collect(Collectors.joining(NEWLINE));
     }
 
-    public int pieceCount() {
+    public int getTotalPieceCount() {
         return pieceCount;
     }
 
