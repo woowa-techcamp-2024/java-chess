@@ -7,10 +7,15 @@ import org.example.chess.pieces.Pawn;
 
 public class Board {
 
+    private final int BOARD_SIZE = 8;
     private final int MAX_PAWNS = 32;
+    private final int BLACK_INIT_ROW = 1;
+    private final int WHITE_INIT_ROW = 6;
+
     private final List<Pawn> pawns = new ArrayList<>();
     private final List<Pawn> blackPawnsResult = new ArrayList<>();
     private final List<Pawn> whitePawnsResult = new ArrayList<>();
+    private final char[][] board;
 
     public void add(Pawn pawn) {
         if (pawns.size() > MAX_PAWNS) {
@@ -33,14 +38,42 @@ public class Board {
     public void initialize() {
         // 보드판에 흰색 폰 8개, 검은색 폰 8개를 놓도록 초기화하는 메서드
         for (int i = 0; i < 8; i++) {
-            blackPawnsResult.add(new Pawn(Color.BLACK, Pawn.BLACK_REPRESENTATION));
-            whitePawnsResult.add(new Pawn(Color.WHITE, Pawn.WHITE_REPRESENTATION));
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = '.';
+            }
         }
+        addPawnsToBoard();
+    }
 
+    private void addPawnsToBoard() {
+        initBlackPawnsResult();
+        initWhitePawnsResult();
+    }
+
+    private void initBlackPawnsResult() {
+        for (int i = 0; i < 8; i++) {
+            Pawn blackPawn = new Pawn(Color.BLACK, Pawn.BLACK_REPRESENTATION);
+            blackPawnsResult.add(blackPawn);
+            board[BLACK_INIT_ROW][i] = blackPawn.getRepresentation();
+        }
+    }
+
+    private void initWhitePawnsResult() {
+        for (int i = 0; i < 8; i++) {
+            Pawn whitePawn = new Pawn(Color.WHITE, Pawn.WHITE_REPRESENTATION);
+            whitePawnsResult.add(whitePawn);
+            board[WHITE_INIT_ROW][i] = whitePawn.getRepresentation();
+        }
     }
 
     public void print() {
-        // 현재 포드판의 상태를 출력해주는 메서드.
+        // 현재 보드판의 상태를 출력해주는 메서드.
+        StringBuilder sb = new StringBuilder();
+        for (char[] row : board) {
+            sb.append(row);
+            sb.append("\n");
+        }
+        System.out.println(sb.toString());
     }
 
     public String getBlackPawnsResult() {
@@ -57,5 +90,9 @@ public class Board {
             sb.append(pawn.getRepresentation());
         }
         return sb.toString();
+    }
+
+    public Board() {
+        this.board = new char[BOARD_SIZE][BOARD_SIZE];
     }
 }
