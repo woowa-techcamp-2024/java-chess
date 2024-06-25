@@ -2,34 +2,42 @@ package org.example.board;
 
 
 import org.example.chess.board.Board;
-import org.example.chess.pieces.Pawn;
+import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.PieceType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
+    private Board board;
+
+    @BeforeEach
+    public void setup() {
+        board = new Board();
+    }
 
     @Test
     public void create() {
-        Board board = new Board();
-
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
-
-        Pawn black = new Pawn(Pawn.BLACK_COLOR);
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        board.initialize();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+                appendNewLine("RNBQKBNR") +
+                appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                appendNewLine("pppppppp") +
+                appendNewLine("rnbqkbnr"),
+                board.showBoard()
+        );
     }
 
     @Test
     public void initialize() {
-        Board board = new Board();
         board.initialize();
-        assertEquals("pppppppp", board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
-        System.out.println(board.print());
+        assertEquals("PPPPPPPPNNBBRRQK", board.getBlackPawnsResult());
+        assertEquals("ppppppppnnbbrrqk", board.getWhitePawnsResult());
+        System.out.println(board.showBoard());
     }
 }
