@@ -1,50 +1,31 @@
 package chess;
 
 import static chess.Board.BOARD_SIZE;
+import static pieces.Piece.PieceType.BLANK;
 
 import java.util.ArrayList;
 import java.util.List;
 import pieces.Piece;
+import pieces.Piece.Color;
+import pieces.Piece.PieceType;
 
 public class Rank {
 
     private final List<Piece> ranks = new ArrayList<>();
 
     public Rank(int row) {
-        if (row == 1) {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                ranks.add(Piece.createBlackPawn());
-            }
-        } else if (row == 6) {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                ranks.add(Piece.createWhitePawn());
-            }
-        } else if (row == 0) {
-            ranks.add(Piece.createBlackRook());
-            ranks.add(Piece.createBlackKnight());
-            ranks.add(Piece.createBlackBishop());
-            ranks.add(Piece.createBlackQueen());
-            ranks.add(Piece.createBlackKing());
-            ranks.add(Piece.createBlackBishop());
-            ranks.add(Piece.createBlackKnight());
-            ranks.add(Piece.createBlackRook());
-        } else if (row == 7) {
-            ranks.add(Piece.createWhiteRook());
-            ranks.add(Piece.createWhiteKnight());
-            ranks.add(Piece.createWhiteBishop());
-            ranks.add(Piece.createWhiteQueen());
-            ranks.add(Piece.createWhiteKing());
-            ranks.add(Piece.createWhiteBishop());
-            ranks.add(Piece.createWhiteKnight());
-            ranks.add(Piece.createWhiteRook());
-        } else {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                ranks.add(Piece.createBlank());
-            }
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            ranks.add(Position.getPieceByDefaultPosition(row, ranks.size()));
         }
     }
 
-    public int getPieceCount() {
+    public void initializeEmpty() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            ranks.set(i, Piece.createPiece(Color.BLANK, BLANK));
+        }
+    }
+
+    public int totalPieceCount() {
         int result = 0;
         for (Piece rank : ranks) {
             if (!rank.isBlank()) {
@@ -54,12 +35,20 @@ public class Rank {
         return result;
     }
 
+    public int getPieceCountByPieceType(PieceType pieceType) {
+        return (int) ranks.stream()
+            .filter(rank -> rank.getPieceType() == pieceType)
+            .count();
+    }
+
+    public List<Piece> getRanks() {
+        return ranks;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Piece rank : ranks) {
-            stringBuilder.append(rank.getRepresentation());
-        }
+        ranks.forEach(rank -> stringBuilder.append(rank.getRepresentation()));
         return stringBuilder.toString();
     }
 }
