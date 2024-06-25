@@ -1,6 +1,6 @@
 package com.example.demo.piece;
 
-public class Pawn {
+public class Pawn implements Piece {
     private Color color;
 
     public Pawn() {
