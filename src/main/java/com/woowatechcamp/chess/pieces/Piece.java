@@ -69,6 +69,14 @@ public class Piece {
         return type;
     }
 
+    public boolean isWhite() {
+        return color == Color.WHITE;
+    }
+
+    public boolean isBlack() {
+        return color == Color.BLACK;
+    }
+
     public char getRepresentation() {
         return type.getSymbol();
     }

@@ -27,4 +27,16 @@ public class PieceTest {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
+
+    @Test
+    void 기물이_흰색일_경우_isWhite가_true_이다() {
+        Piece piece = Piece.createWhitePawn();
+        assertThat(piece.isWhite()).isTrue();
+    }
+
+    @Test
+    void 기물이_검은색일_경우_isBlack가_true_이다() {
+        Piece piece = Piece.createBlackPawn();
+        assertThat(piece.isBlack()).isTrue();
+    }
 }
