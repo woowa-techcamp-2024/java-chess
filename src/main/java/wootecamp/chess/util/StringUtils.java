@@ -5,4 +5,8 @@ public class StringUtils {
 
     private StringUtils() {
     }
+
+    public static String appendNewline(final String input) {
+        return input + NEWLINE;
+    }
 }
