@@ -19,15 +19,38 @@ public class Board {
     }
 
     public void initialize() {
-        initializePieces(Color.BLACK, MAX_COL);
-        initializePieces(Color.WHITE, chessBoard.size() - 2 * MAX_COL);
+        putBlackPieces();
+        putWhitePieces();
     }
 
-    private void initializePieces(Color color, int startIndex) {
+    private void putBlackPieces() {
+        add(Piece.createBlackRook());
+        add(Piece.createBlackKnight());
+        add(Piece.createBlackBishop());
+        add(Piece.createBlackQueen());
+        add(Piece.createBlackKing());
+        add(Piece.createBlackBishop());
+        add(Piece.createBlackKnight());
+        add(Piece.createBlackRook());
         for (int i = 0; i < MAX_COL; ++i) {
-            Piece piece = new Piece(PieceType.PAWN, color);
-            add(piece, startIndex + i);
+            add(Piece.createBlackPawn());
         }
+    }
+
+    private void putWhitePieces() {
+        int startIdx = ChessBoard.TOTAL_CELLS - 2 * MAX_COL;
+
+        for (int i = 0; i < MAX_COL; ++i) {
+            add(Piece.createWhitePawn(), startIdx++);
+        }
+        add(Piece.createWhiteRook(), startIdx++);
+        add(Piece.createWhiteKnight(), startIdx++);
+        add(Piece.createWhiteBishop(), startIdx++);
+        add(Piece.createWhiteQueen(), startIdx++);
+        add(Piece.createWhiteKing(), startIdx++);
+        add(Piece.createWhiteBishop(), startIdx++);
+        add(Piece.createWhiteKnight(), startIdx++);
+        add(Piece.createWhiteRook(), startIdx);
     }
 
     public void add(Piece piece) {
@@ -61,7 +84,7 @@ public class Board {
 
     private String getPawnResult(Color color) {
         return pieces.stream()
-                .filter(p -> p.getColor() == color)
+                .filter(p -> p.getColor() == color && p.getType() == PieceType.PAWN)
                 .map(p -> p.getRepresentation().value)
                 .collect(Collectors.joining());
     }

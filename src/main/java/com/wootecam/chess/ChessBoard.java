@@ -7,7 +7,7 @@ import com.wootecam.chess.utils.StringUtils;
 public class ChessBoard {
     private static final int MAX_ROW = 8;
     public static final int MAX_COL = 8;
-    private static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
+    public static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
 
     private final Piece[][] cells;
     private int totalPieces;
@@ -35,10 +35,6 @@ public class ChessBoard {
 
         cells[row][col] = piece;
         ++totalPieces;
-    }
-
-    public int size() {
-        return TOTAL_CELLS;
     }
 
     public String print() {

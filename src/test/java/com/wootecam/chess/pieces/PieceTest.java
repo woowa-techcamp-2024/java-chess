@@ -1,6 +1,7 @@
 package com.wootecam.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -68,6 +69,29 @@ class PieceTest {
             var piece = new Piece(type);
 
             assertThat(piece.getRepresentation()).isEqualTo(PieceRepresentation.findByTypeAndColor(type, Color.WHITE));
+        }
+    }
+
+    @Nested
+    class 기물의_색을_확인한다 {
+
+        static Stream<Arguments> pieceAndColor() {
+            return Stream.of(
+                    Arguments.arguments(PieceType.PAWN, Color.WHITE, true, false),
+                    Arguments.arguments(PieceType.KING, Color.WHITE, true, false),
+                    Arguments.arguments(PieceType.PAWN, Color.BLACK, false, true),
+                    Arguments.arguments(PieceType.QUEEN, Color.BLACK, false, true)
+            );
+        }
+
+        @MethodSource("pieceAndColor")
+        @ParameterizedTest(name = "{1}색 {0}은 {1}색이다")
+        void 기물의_색을_확인할_수_있다(PieceType type, Color color, boolean isWhite, boolean isBlack) {
+            var piece = new Piece(type, color);
+
+            assertAll(
+                    () -> assertThat(piece.isWhite()).isEqualTo(isWhite),
+                    () -> assertThat(piece.isBlack()).isEqualTo(isBlack));
         }
     }
 }

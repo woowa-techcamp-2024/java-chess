@@ -104,12 +104,12 @@ class BoardTest {
     class 체스판을_초기화한다 {
 
         @Test
-        void 체스판을_초기화하면_흰색_폰과_검은색_폰이_각각_열의_길이만큼_존재해야_한다() {
+        void 체스판을_초기화하면_총_32개_기물들이_존재해야_한다() {
             var board = createBoard();
 
             board.initialize();
 
-            assertThat(board.size()).isEqualTo(ChessBoard.MAX_COL * 2);
+            assertThat(board.size()).isEqualTo(32);
         }
     }
 
@@ -137,19 +137,19 @@ class BoardTest {
     class 체스판의_상태를_조회한다 {
 
         @Test
-        void 체스판_초기화_시_검은색과_하얀색_폰은_각각_열의_개수만큼_존재한다() {
+        void 체스판_초기화_시_모든_기물들이_제자리에_배치되어_있어야_한다() {
             var board = createBoard();
             board.initialize();
 
             assertThat(board.print()).isEqualTo("""
-                    ........
+                    RKBQKBKR
                     PPPPPPPP
                     ........
                     ........
                     ........
                     ........
                     pppppppp
-                    ........
+                    rkbqkbkr
                     """);
         }
     }
