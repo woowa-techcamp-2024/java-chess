@@ -14,11 +14,19 @@ public class BoardTest {
         Pawn white = new Pawn(Pawn.Color.WHITE);
         board.add(white);
         assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
+        assertEquals(white, board.findPawn(0, Pawn.Color.WHITE));
 
         Pawn black = new Pawn(Pawn.Color.BLACK);
         board.add(black);
         assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        assertEquals(black, board.findPawn(0, Pawn.Color.BLACK));
+    }
+
+    @Test
+    public void initialize() {
+        Board board = new Board();
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 }
