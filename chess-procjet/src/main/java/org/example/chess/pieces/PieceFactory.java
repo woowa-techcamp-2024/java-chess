@@ -3,51 +3,51 @@ package org.example.chess.pieces;
 public class PieceFactory {
 
     public static Piece createWhitePawn() {
-        return Piece.createPiece(Color.WHITE, PieceName.PAWN);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return Piece.createPiece(Color.BLACK, PieceName.PAWN);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return Piece.createPiece(Color.WHITE, PieceName.KNIGHT);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return Piece.createPiece(Color.BLACK, PieceName.KNIGHT);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return Piece.createPiece(Color.WHITE, PieceName.ROOK);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return Piece.createPiece(Color.BLACK, PieceName.ROOK);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return Piece.createPiece(Color.WHITE, PieceName.BISHOP);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return Piece.createPiece(Color.BLACK, PieceName.BISHOP);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return Piece.createPiece(Color.WHITE, PieceName.QUEEN);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return Piece.createPiece(Color.BLACK, PieceName.QUEEN);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return Piece.createPiece(Color.WHITE, PieceName.KING);
+        return Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return Piece.createPiece(Color.BLACK, PieceName.KING);
+        return Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING);
     }
 }
 
