@@ -106,4 +106,36 @@ public class Board {
         Position position = new Position(givenPosition);
         ranks.get(position.getRowIdx()).setPiece(position.getColIdx(), piece);
     }
+
+    public double calculatePoint(PieceColor color)
+    {
+        double point = 0;
+        point += calculatePawnPoint(color);
+        for(int rowIdx = 0; rowIdx < NUM_ROW; rowIdx++)
+        {
+            point += ranks.get(rowIdx).calculatePoint(color);
+        }
+        return point;
+    }
+
+    private double calculatePawnPoint(PieceColor color) {
+        double point = 0.0;
+        for(int colIdx = 0; colIdx < NUM_COL; colIdx++)
+        {
+            int numPawn = 0;
+            for(int rowIdx = 0; rowIdx < NUM_ROW; rowIdx++)
+            {
+                if(ranks.get(rowIdx).isPawn(color, colIdx)){
+                    numPawn += 1;
+                }
+            }
+            if(numPawn == 1){
+                point += PieceType.PAWN.getPoint();
+            }
+            else if(numPawn >= 2){
+                point += numPawn*PieceType.PAWN.getPoint()/2;
+            }
+        }
+        return point;
+    }
 }

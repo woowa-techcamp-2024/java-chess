@@ -134,4 +134,30 @@ public class BoardTest {
         board.move("b5", whiteBishop);
         assertEquals(whiteBishop, board.findPiece("b5"));
     }
+
+    @Test
+    public void calculatePoint() throws Exception
+    {
+        board = new Board();
+
+        addPiece("b6", new Piece(PieceColor.BLACK, PieceType.PAWN));
+        addPiece("e6", new Piece(PieceColor.BLACK, PieceType.QUEEN));
+        addPiece("b8", new Piece(PieceColor.BLACK, PieceType.KING));
+        addPiece("c8", new Piece(PieceColor.BLACK, PieceType.ROOK));
+
+        addPiece("f2", new Piece(PieceColor.WHITE, PieceType.PAWN));
+        addPiece("g2", new Piece(PieceColor.WHITE, PieceType.PAWN));
+        addPiece("e1", new Piece(PieceColor.WHITE, PieceType.ROOK));
+        addPiece("f1", new Piece(PieceColor.WHITE, PieceType.KING));
+
+        System.out.println(board.show());
+
+        assertEquals(15.0, board.calculatePoint(PieceColor.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(PieceColor.WHITE), 0.01);
+
+    }
+
+    private void addPiece(String position, Piece piece){
+        board.move(position, piece);
+    }
 }

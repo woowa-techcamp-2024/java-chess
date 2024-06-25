@@ -60,4 +60,20 @@ public class Rank {
     public void setPiece(int idx, Piece piece){
         pieces.set(idx, piece);
     }
+
+    public boolean isPawn(PieceColor color, int colIdx){
+        Piece piece = pieces.get(colIdx);
+        return piece.type().equals(PieceType.PAWN) && piece.color().equals(color);
+    }
+
+    public double calculatePoint(PieceColor color){
+        double point = 0.0;
+        for(Piece piece : pieces)
+        {
+            if(piece.color().equals(color) && !piece.type().equals(PieceType.PAWN)){
+                point += piece.type().getPoint();
+            }
+        }
+        return point;
+    }
 }
