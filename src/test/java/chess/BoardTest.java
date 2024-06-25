@@ -1,9 +1,6 @@
 package chess;
 
-import chess.piece.Pawn;
-import chess.piece.PieceColor;
-import chess.piece.Position;
-import chess.piece.Type;
+import chess.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,5 +75,28 @@ public class BoardTest {
                         appendNewLine("♖♘♗♕♔♗♘♖1") +
                         appendNewLine("abcdefgh"),
                 board.showBoard());
+    }
+
+    @Test
+    @DisplayName("포지션에 해당하는 기물을 찾는다.")
+    public void findPiece() throws Exception {
+        board.initialize();
+
+        verifyRookPiece("a8", PieceColor.BLACK);
+        verifyRookPiece("h8", PieceColor.BLACK);
+        verifyRookPiece("a1", PieceColor.WHITE);
+        verifyRookPiece("h1", PieceColor.WHITE);
+        verifyKingPiece("e8", PieceColor.BLACK);
+        verifyKingPiece("e1", PieceColor.WHITE);
+    }
+
+    private void verifyRookPiece(final String point, final PieceColor pieceColor) {
+        assertEquals(Rook.create(pieceColor).getType(), board.findPiece(point).getType());
+        assertEquals(Rook.create(pieceColor).getColor(), board.findPiece(point).getColor());
+    }
+
+    private void verifyKingPiece(final String point, final PieceColor pieceColor) {
+        assertEquals(King.create(pieceColor).getType(), board.findPiece(point).getType());
+        assertEquals(King.create(pieceColor).getColor(), board.findPiece(point).getColor());
     }
 }

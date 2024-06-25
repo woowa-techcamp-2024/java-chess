@@ -35,6 +35,13 @@ public class Board {
         return this.board.get(position);
     }
 
+    public Piece findPiece(final String position) {
+        File file = File.of(position.charAt(0));
+        Rank rank = Rank.of(Character.getNumericValue(position.charAt(1)));
+
+        return this.board.get(Position.of(file, rank));
+    }
+
     public long getPieceResult(final PieceColor color, final Type type) {
         return board.values().stream()
                 .filter(pawn -> pawn.getColor().equals(color))
