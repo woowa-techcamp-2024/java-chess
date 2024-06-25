@@ -3,87 +3,73 @@ package chess.pieces;
 import java.util.Objects;
 
 public class Piece {
-    private final String color;
-    private final char representation;
+    private final Color color;
+    private final Type type;
 
-    public static final String WHITE_COLOR = "white";
-    public static final String BLACK_COLOR = "black";
-
-    public static final char WHITE_PAWN_REPRESENTATION = 'p';
-    public static final char BLACK_PAWN_REPRESENTATION = 'P';
-    public static final char WHITE_KNIGHT_REPRESENTATION = 'n';
-    public static final char BLACK_KNIGHT_REPRESENTATION = 'N';
-    public static final char WHITE_ROOK_REPRESENTATION = 'r';
-    public static final char BLACK_ROOK_REPRESENTATION = 'R';
-    public static final char WHITE_BISHOP_REPRESENTATION = 'b';
-    public static final char BLACK_BISHOP_REPRESENTATION = 'B';
-    public static final char WHITE_QUEEN_REPRESENTATION = 'q';
-    public static final char BLACK_QUEEN_REPRESENTATION = 'Q';
-    public static final char WHITE_KING_REPRESENTATION = 'k';
-    public static final char BLACK_KING_REPRESENTATION = 'K';
-
-    private Piece(final String color, final char representation) {
+    private Piece(final Color color, final Type type) {
         this.color = color;
-        this.representation = representation;
+        this.type = type;
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(WHITE_COLOR, WHITE_PAWN_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(BLACK_COLOR, BLACK_PAWN_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(WHITE_COLOR, WHITE_KNIGHT_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(BLACK_COLOR, BLACK_KNIGHT_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(WHITE_COLOR, WHITE_ROOK_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(BLACK_COLOR, BLACK_ROOK_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(WHITE_COLOR, WHITE_BISHOP_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(BLACK_COLOR, BLACK_BISHOP_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(WHITE_COLOR, WHITE_QUEEN_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(BLACK_COLOR, BLACK_QUEEN_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(WHITE_COLOR, WHITE_KING_REPRESENTATION);
+        return new Piece(Color.WHITE, Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(BLACK_COLOR, BLACK_KING_REPRESENTATION);
+        return new Piece(Color.BLACK, Type.KING);
     }
 
-    public String getColor() {
+    public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE); }
+
+    public Color getColor() {
         return this.color;
     }
 
-    public char getRepresentation() {
-        return this.representation;
+    public Type getType() {
+        return this.type;
     }
 
-    public boolean isWhite() { return Objects.equals(this.color, WHITE_COLOR); }
+    public boolean isWhite() { return Objects.equals(this.color, Color.WHITE); }
 
-    public boolean isBlack() { return Objects.equals(this.color, BLACK_COLOR); }
+    public boolean isBlack() { return Objects.equals(this.color, Color.BLACK); }
 }

@@ -82,7 +82,7 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 Piece piece = board.get(i).get(j);
                 if (Objects.equals(piece, null)) stringBuilder.append('.');
-                else stringBuilder.append(piece.getRepresentation());
+                else stringBuilder.append(piece.getType());
             }
 
             String line = appendNewLine(stringBuilder.toString());
