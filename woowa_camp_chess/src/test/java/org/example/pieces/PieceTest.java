@@ -20,32 +20,31 @@ class PieceTest {
     @Test
     @DisplayName("올바른 색과 코드의 폰이 생성되어야 한다")
     public void create() {
-        verifyPiece(BLACK_COLOR,PieceType.PAWN);
-        verifyPiece(WHITE_COLOR,PieceType.PAWN);
+        verifyPiece(Piece.createBlackPawn(),BLACK_COLOR,PieceType.PAWN);
+        verifyPiece(Piece.createWhitePawn(),WHITE_COLOR,PieceType.PAWN);
     }
 
     @Test
     @DisplayName("올바른 색과 코드의 피스가 생성되어야 한다")
     public void create_piece() {
-        verifyPiece(BLACK_COLOR,PieceType.PAWN);
-        verifyPiece(WHITE_COLOR,PieceType.PAWN);
-        verifyPiece(BLACK_COLOR,PieceType.KNIGHT);
-        verifyPiece(WHITE_COLOR,PieceType.KNIGHT);
-        verifyPiece(BLACK_COLOR,PieceType.BISHOP);
-        verifyPiece(WHITE_COLOR,PieceType.BISHOP);
-        verifyPiece(BLACK_COLOR,PieceType.ROOK);
-        verifyPiece(WHITE_COLOR,PieceType.ROOK);
-        verifyPiece(BLACK_COLOR,PieceType.QUEEN);
-        verifyPiece(WHITE_COLOR,PieceType.QUEEN);
-        verifyPiece(BLACK_COLOR,PieceType.KING);
-        verifyPiece(WHITE_COLOR,PieceType.KING);
+        verifyPiece(Piece.createBlackPawn(),BLACK_COLOR,PieceType.PAWN);
+        verifyPiece(Piece.createWhitePawn(),WHITE_COLOR,PieceType.PAWN);
+        verifyPiece(Piece.createBlackKnight(),BLACK_COLOR,PieceType.KNIGHT);
+        verifyPiece(Piece.createWhiteKnight(),WHITE_COLOR,PieceType.KNIGHT);
+        verifyPiece(Piece.createBlackBishop(),BLACK_COLOR,PieceType.BISHOP);
+        verifyPiece(Piece.createWhiteBishop(),WHITE_COLOR,PieceType.BISHOP);
+        verifyPiece(Piece.createBlackRook(),BLACK_COLOR,PieceType.ROOK);
+        verifyPiece(Piece.createWhiteRook(),WHITE_COLOR,PieceType.ROOK);
+        verifyPiece(Piece.createBlackQueen(),BLACK_COLOR,PieceType.QUEEN);
+        verifyPiece(Piece.createWhiteQueen(),WHITE_COLOR,PieceType.QUEEN);
+        verifyPiece(Piece.createBlackKing(),BLACK_COLOR,PieceType.KING);
+        verifyPiece(Piece.createWhiteKing(),WHITE_COLOR,PieceType.KING);
     }
 
 
 
-    private static void verifyPiece(final String color, PieceType pieceType) {
-        Piece piece1 = new Piece(color, pieceType);
-        assertThat(piece1.getColor()).isEqualTo(color);
-        assertThat(piece1.getRepresentation()).isEqualTo(color.equals(Piece.BLACK_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() -32 ));
+    private static void verifyPiece(final Piece piece, final String color, PieceType pieceType) {
+        assertThat(piece.getColor()).isEqualTo(color);
+        assertThat(piece.getRepresentation()).isEqualTo(color.equals(Piece.BLACK_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() - 32 ));
     }
 }
