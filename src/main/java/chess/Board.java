@@ -7,16 +7,14 @@ import java.util.List;
 
 public class Board {
 
-    private int size;
     private final List<Pawn> pawns = new ArrayList<>();
 
     public void add(Pawn pawn){
         pawns.add(pawn);
-        size++;
     }
 
-    public int size(){
-        return this.size;
+    public int size() {
+        return pawns.size();
     }
 
     public Pawn findPawn(int idx) {
