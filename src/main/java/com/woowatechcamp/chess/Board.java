@@ -1,71 +1,72 @@
 package com.woowatechcamp.chess;
 
-import com.woowatechcamp.chess.pieces.Color;
-import com.woowatechcamp.chess.pieces.Pawn;
+import com.woowatechcamp.chess.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Board {
-    private static final char EMPTY_REPRESENTATION = '.';
-    private static final char NEW_LINE = '\n';
-    private final List<Pawn> whitePawns;
-    private final List<Pawn> blackPawns;
+    private final List<List<Piece>> pieces;
 
     public Board() {
-        whitePawns = new ArrayList<>();
-        blackPawns = new ArrayList<>();
+        pieces = new ArrayList<>();
     }
 
     public void initialize() {
-        for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Color.WHITE));
-            blackPawns.add(new Pawn(Color.BLACK));
+        pieces.add(Arrays.asList(
+                Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(),
+                Piece.createBlackQueen(), Piece.createBlackKing(), Piece.createBlackBishop(),
+                Piece.createBlackKnight(), Piece.createBlackRook()
+        ));
+        pieces.add(Arrays.asList(
+                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
+                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
+                Piece.createBlackPawn(), Piece.createBlackPawn()
+        ));
+
+        for (int i = 0; i < 4; i++) {
+            pieces.add(Arrays.asList(
+                    Piece.createEmpty(), Piece.createEmpty(), Piece.createEmpty(),
+                    Piece.createEmpty(), Piece.createEmpty(), Piece.createEmpty(),
+                    Piece.createEmpty(), Piece.createEmpty()
+            ));
         }
+
+        pieces.add(Arrays.asList(
+                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
+                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
+                Piece.createWhitePawn(), Piece.createWhitePawn()
+        ));
+        pieces.add(Arrays.asList(
+                Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(),
+                Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(),
+                Piece.createWhiteKnight(), Piece.createWhiteRook()
+        ));
     }
 
-    public void add(Pawn pawn) {
-        if (pawn.getColor() == Color.WHITE) {
-            whitePawns.add(pawn);
-            return;
-        }
-        blackPawns.add(pawn);
-    }
-
-    public int size() {
-        return whitePawns.size() + blackPawns.size();
-    }
-
-    public String getWhitePawnsResult() {
-        return piecesToString(whitePawns);
-    }
-
-    public String getBlackPawnsResult() {
-        return piecesToString(blackPawns);
-    }
-
-    private String piecesToString(List<Pawn> pieces) {
+    private String piecesToString(List<Piece> pieces) {
         StringBuilder result = new StringBuilder();
-        pieces.forEach(pawn -> result.append(pawn.toString()));
+        pieces.forEach(piece -> result.append(piece.toString()));
+        appendNewLine(result);
         return result.toString();
     }
 
     public void print() {
-        StringBuilder result = new StringBuilder();
-        addEmptyRowRepresentation(result);
-        result.append(getBlackPawnsResult()).append(NEW_LINE);
-        for (int i = 0; i < 4; i++) {
-            addEmptyRowRepresentation(result);
-        }
-        result.append(getWhitePawnsResult()).append(NEW_LINE);
-        addEmptyRowRepresentation(result);
-        System.out.println(result);
+        System.out.println(showBoard());
     }
 
-    private void addEmptyRowRepresentation(StringBuilder result) {
-        for (int i = 0; i < 8; i++) {
-            result.append(EMPTY_REPRESENTATION);
-        }
-        result.append(NEW_LINE);
+    public int pieceCount() {
+        return (int) pieces.stream()
+                .flatMap(List::stream)
+                .filter(Piece::isNotEmpty)
+                .count();
+    }
+
+    public String showBoard() {
+        StringBuilder result = new StringBuilder();
+        pieces.forEach(row -> result.append(piecesToString(row)));
+        return result.toString();
     }
 }
