@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.wootecam.chess.pieces.Color;
-import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -28,9 +29,9 @@ class BoardTest {
         return new Board();
     }
 
-    private static Board createBoard(List<Pawn> pawns) {
+    private static Board createBoard(List<Piece> pieces) {
         Board board = new Board();
-        pawns.forEach(board::add);
+        pieces.forEach(board::add);
         return board;
     }
 
@@ -40,7 +41,7 @@ class BoardTest {
         @Test
         void 말을_추가할_수_있다() {
             var board = createBoard();
-            var pawn = new Pawn();
+            var pawn = new Piece(PieceType.PAWN);
 
             assertThatNoException().isThrownBy(() -> board.add(pawn));
         }
@@ -51,18 +52,21 @@ class BoardTest {
 
         static Stream<Arguments> pawnListForSize() {
             return Stream.of(
-                    Arguments.arguments(List.of(new Pawn(Color.WHITE))),
-                    Arguments.arguments(List.of(new Pawn(Color.WHITE), new Pawn(Color.BLACK))),
-                    Arguments.arguments(List.of(new Pawn(Color.BLACK), new Pawn(Color.BLACK), new Pawn(Color.WHITE)))
+                    Arguments.arguments(List.of(new Piece(PieceType.PAWN, Color.WHITE))),
+                    Arguments.arguments(
+                            List.of(new Piece(PieceType.PAWN, Color.WHITE), new Piece(PieceType.PAWN, Color.BLACK))),
+                    Arguments.arguments(
+                            List.of(new Piece(PieceType.PAWN, Color.BLACK), new Piece(PieceType.PAWN, Color.BLACK),
+                                    new Piece(PieceType.PAWN, Color.WHITE)))
             );
         }
 
         @MethodSource("pawnListForSize")
         @ParameterizedTest
-        void 말의_개수를_조회할_수_있다(List<Pawn> pawnList) {
-            var board = createBoard(pawnList);
+        void 말의_개수를_조회할_수_있다(List<Piece> pieceList) {
+            var board = createBoard(pieceList);
 
-            assertThat(board.size()).isEqualTo(pawnList.size());
+            assertThat(board.size()).isEqualTo(pieceList.size());
         }
     }
 
@@ -71,26 +75,29 @@ class BoardTest {
 
         static Stream<Arguments> pawnListForFind() {
             return Stream.of(
-                    Arguments.arguments(List.of(new Pawn(Color.WHITE))),
-                    Arguments.arguments(List.of(new Pawn(Color.WHITE), new Pawn(Color.BLACK))),
-                    Arguments.arguments(List.of(new Pawn(Color.BLACK), new Pawn(Color.BLACK), new Pawn(Color.WHITE)))
+                    Arguments.arguments(List.of(new Piece(PieceType.PAWN, Color.WHITE))),
+                    Arguments.arguments(
+                            List.of(new Piece(PieceType.PAWN, Color.WHITE), new Piece(PieceType.PAWN, Color.BLACK))),
+                    Arguments.arguments(
+                            List.of(new Piece(PieceType.PAWN, Color.BLACK), new Piece(PieceType.PAWN, Color.BLACK),
+                                    new Piece(PieceType.PAWN, Color.WHITE)))
             );
         }
 
         @MethodSource("pawnListForFind")
         @ParameterizedTest
-        void 말을_조회할_수_있다(List<Pawn> pawnList) {
-            var board = createBoard(pawnList);
+        void 말을_조회할_수_있다(List<Piece> pieceList) {
+            var board = createBoard(pieceList);
 
-            for (int i = 0; i < pawnList.size(); ++i) {
-                assertThat(board.findPawn(i)).isEqualTo(pawnList.get(i));
+            for (int i = 0; i < pieceList.size(); ++i) {
+                assertThat(board.findPawn(i)).isEqualTo(pieceList.get(i));
             }
         }
 
         @ValueSource(ints = {-1, 1})
         @ParameterizedTest(name = "{0}번째 말 조회")
         void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
-            var board = createBoard(List.of(new Pawn()));
+            var board = createBoard(List.of(new Piece(PieceType.PAWN)));
 
             assertThatThrownBy(() -> board.findPawn(index))
                     .isInstanceOf(IllegalArgumentException.class);

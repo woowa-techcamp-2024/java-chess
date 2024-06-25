@@ -3,51 +3,52 @@ package com.wootecam.chess;
 import static com.wootecam.chess.ChessBoard.MAX_COL;
 
 import com.wootecam.chess.pieces.Color;
-import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Board {
     private final ChessBoard chessBoard;
-    private final List<Pawn> pawns;
+    private final List<Piece> pieces;
 
     public Board() {
         chessBoard = new ChessBoard();
-        this.pawns = new ArrayList<>();
+        this.pieces = new ArrayList<>();
     }
 
     public void initialize() {
-        initializePawn(Color.BLACK, MAX_COL);
-        initializePawn(Color.WHITE, chessBoard.size() - 2 * MAX_COL);
+        initializePieces(Color.BLACK, MAX_COL);
+        initializePieces(Color.WHITE, chessBoard.size() - 2 * MAX_COL);
     }
 
-    private void initializePawn(Color color, int startIndex) {
+    private void initializePieces(Color color, int startIndex) {
         for (int i = 0; i < MAX_COL; ++i) {
-            Pawn pawn = new Pawn(color);
-            add(pawn, startIndex + i);
+            Piece piece = new Piece(PieceType.PAWN, color);
+            add(piece, startIndex + i);
         }
     }
 
-    public void add(Pawn pawn) {
-        chessBoard.add(pawn);
-        pawns.add(pawn);
+    public void add(Piece piece) {
+        chessBoard.add(piece);
+        pieces.add(piece);
     }
 
-    public void add(Pawn pawn, int index) {
-        chessBoard.add(pawn, index);
-        pawns.add(pawn);
+    public void add(Piece piece, int index) {
+        chessBoard.add(piece, index);
+        pieces.add(piece);
     }
 
     public int size() {
-        return pawns.size();
+        return pieces.size();
     }
 
-    public Pawn findPawn(int index) {
-        if (index < 0 || index >= pawns.size()) {
+    public Piece findPawn(int index) {
+        if (index < 0 || index >= pieces.size()) {
             throw new IllegalArgumentException("The specified pawn is not found");
         }
-        return pawns.get(index);
+        return pieces.get(index);
     }
 
     public String getWhitePawnsResult() {
@@ -59,7 +60,7 @@ public class Board {
     }
 
     private String getPawnResult(Color color) {
-        return pawns.stream()
+        return pieces.stream()
                 .filter(p -> p.getColor() == color)
                 .map(p -> p.getRepresentation().value)
                 .collect(Collectors.joining());

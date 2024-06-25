@@ -1,19 +1,22 @@
 package com.wootecam.chess.pieces;
 
-public class Pawn {
+public class Piece {
     private static final Color DEFAULT_COLOR = Color.WHITE;
 
+    private final PieceType type;
     private final Color color;
     private final PieceRepresentation representation;
 
-    public Pawn() {
+    public Piece(PieceType pieceType) {
+        this.type = pieceType;
         this.color = DEFAULT_COLOR;
-        this.representation = this.color.getRepresentation();
+        this.representation = PieceRepresentation.findByTypeAndColor(pieceType, DEFAULT_COLOR);
     }
 
-    public Pawn(Color color) {
+    public Piece(PieceType pieceType, Color color) {
+        this.type = pieceType;
         this.color = color;
-        this.representation = this.color.getRepresentation();
+        this.representation = PieceRepresentation.findByTypeAndColor(pieceType, color);
     }
 
     public Color getColor() {
@@ -26,6 +29,6 @@ public class Pawn {
 
     @Override
     public String toString() {
-        return color + " Pawn";
+        return representation.value;
     }
 }

@@ -9,11 +9,4 @@ public enum Color {
     Color(String displayName) {
         this.displayName = displayName;
     }
-
-    public PieceRepresentation getRepresentation() {
-        return switch (this) {
-            case WHITE -> PieceRepresentation.WHITE_PAWN;
-            case BLACK -> PieceRepresentation.BLACK_PAWN;
-        };
-    }
 }
