@@ -10,11 +10,8 @@ public class PawnTest {
     @Test
     @DisplayName("생성자 파라미터에 색깔을 전달해서 폰을 생성한다.")
     void create() {
-        final String WHITE_COLOR = "white";
-        final String BLACK_COLOR = "black";
-
-        verifyPawn(WHITE_COLOR);
-        verifyPawn(BLACK_COLOR);
+        verifyPawn(Pawn.WHITE_COLOR);
+        verifyPawn(Pawn.BLACK_COLOR);
     }
 
     void verifyPawn(final String color) {
@@ -26,6 +23,6 @@ public class PawnTest {
     @DisplayName("기본 생성자는 흰색 폰을 생성한다.")
     void create_defaultConstructor() {
         Pawn pawn = new Pawn();
-        assertThat(pawn.getColor()).isEqualTo("white");
+        assertThat(pawn.getColor()).isEqualTo(Pawn.WHITE_COLOR);
     }
 }
