@@ -18,15 +18,34 @@ class PieceTest {
     }
 
     @Test
-    @DisplayName("올바른 색의 폰이 생성되어야 한다")
+    @DisplayName("올바른 색과 코드의 폰이 생성되어야 한다")
     public void create() {
-        verifyPawn(BLACK_COLOR);
-        verifyPawn(WHITE_COLOR);
+        verifyPiece(BLACK_COLOR,PieceType.PAWN);
+        verifyPiece(WHITE_COLOR,PieceType.PAWN);
     }
 
-    private static void verifyPawn(final String color) {
-        Piece piece1 = new Piece(color, PieceType.PAWN);
+    @Test
+    @DisplayName("올바른 색과 코드의 피스가 생성되어야 한다")
+    public void create_piece() {
+        verifyPiece(BLACK_COLOR,PieceType.PAWN);
+        verifyPiece(WHITE_COLOR,PieceType.PAWN);
+        verifyPiece(BLACK_COLOR,PieceType.KNIGHT);
+        verifyPiece(WHITE_COLOR,PieceType.KNIGHT);
+        verifyPiece(BLACK_COLOR,PieceType.BISHOP);
+        verifyPiece(WHITE_COLOR,PieceType.BISHOP);
+        verifyPiece(BLACK_COLOR,PieceType.ROOK);
+        verifyPiece(WHITE_COLOR,PieceType.ROOK);
+        verifyPiece(BLACK_COLOR,PieceType.QUEEN);
+        verifyPiece(WHITE_COLOR,PieceType.QUEEN);
+        verifyPiece(BLACK_COLOR,PieceType.KING);
+        verifyPiece(WHITE_COLOR,PieceType.KING);
+    }
+
+
+
+    private static void verifyPiece(final String color, PieceType pieceType) {
+        Piece piece1 = new Piece(color, pieceType);
         assertThat(piece1.getColor()).isEqualTo(color);
-        assertThat(piece1.getRepresentation()).isEqualTo(color.equals(Piece.BLACK_COLOR) ? PieceType.PAWN.getAbbreviation() : (char) (PieceType.PAWN.getAbbreviation() -32 ));
+        assertThat(piece1.getRepresentation()).isEqualTo(color.equals(Piece.BLACK_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() -32 ));
     }
 }
