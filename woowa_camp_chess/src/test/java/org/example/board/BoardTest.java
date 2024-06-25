@@ -23,4 +23,12 @@ public class BoardTest {
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
     }
+
+    @Test
+    public void initialize() {
+        Board board = new Board();
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
 }
