@@ -6,8 +6,8 @@ public class Pawn {
 
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
-    public static final char WHITE_REPRESENTATION = 'P';
-    public static final char BLACK_REPRESENTATION = 'p';
+    public static final char BLACK_REPRESENTATION = 'P';
+    public static final char WHITE_REPRESENTATION = 'p';
 
     public String getColor() {
         return color;
