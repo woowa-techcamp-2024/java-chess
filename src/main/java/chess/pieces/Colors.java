@@ -1,7 +1,7 @@
 package chess.pieces;
 
 public enum Colors {
-    WHITE, BLACK;
+    WHITE, BLACK, NOCOLOR;
 
     public boolean isWhite() {
         return this == WHITE;
@@ -9,5 +9,9 @@ public enum Colors {
 
     public boolean isBlack() {
         return this == BLACK;
+    }
+
+    public boolean isNoColor() {
+        return this == NOCOLOR;
     }
 }

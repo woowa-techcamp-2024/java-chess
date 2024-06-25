@@ -1,33 +1,26 @@
 package chess.pieces;
 
 public enum Representations {
-    WHITE_PAWN("♙", Colors.WHITE),
-    BLACK_PAWN("♟", Colors.BLACK),
-    WHITE_KING("♔", Colors.WHITE),
-    BLACK_KING("♚", Colors.BLACK),
-    WHITE_QUEEN("♕", Colors.WHITE),
-    BLACK_QUEEN("♛", Colors.BLACK),
-    WHITE_BISHOP("♗", Colors.WHITE),
-    BLACK_BISHOP("♝", Colors.BLACK),
-    WHITE_KNIGHT("♘", Colors.WHITE),
-    BLACK_KNIGHT("♞", Colors.BLACK),
-    WHITE_ROOK("♖", Colors.WHITE),
-    BLACK_ROOK("♜", Colors.BLACK);
+    WHITE_PAWN("♙", Type.PAWN, Colors.WHITE),
+    BLACK_PAWN("♟", Type.PAWN, Colors.BLACK),
+    WHITE_KING("♔", Type.KING, Colors.WHITE),
+    BLACK_KING("♚", Type.KING, Colors.BLACK),
+    WHITE_QUEEN("♕", Type.QUEEN, Colors.WHITE),
+    BLACK_QUEEN("♛", Type.QUEEN, Colors.BLACK),
+    WHITE_BISHOP("♗", Type.BISHOP, Colors.WHITE),
+    BLACK_BISHOP("♝", Type.BISHOP, Colors.BLACK),
+    WHITE_KNIGHT("♘", Type.KNIGHT, Colors.WHITE),
+    BLACK_KNIGHT("♞", Type.KNIGHT, Colors.BLACK),
+    WHITE_ROOK("♖", Type.ROOK, Colors.WHITE),
+    BLACK_ROOK("♜", Type.ROOK, Colors.BLACK);
 
     private String symbol;
+    private Type type;
     private Colors color;
 
-    private Representations(String symbol, Colors color) {
+    private Representations(String symbol, Type type, Colors color) {
         this.symbol = symbol;
         this.color = color;
-    }
-
-    public static Representations getPawn(Colors color) {
-        if (color == Colors.WHITE) {
-            return WHITE_PAWN;
-        } else {
-            return BLACK_PAWN;
-        }
     }
 
     public String getSymbol() {
@@ -36,5 +29,19 @@ public enum Representations {
 
     public Colors getColor() {
         return color;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public enum Type {
+        PAWN,
+        KING,
+        QUEEN,
+        BISHOP,
+        KNIGHT,
+        ROOK,
+        NO_PIECE
     }
 }
