@@ -67,4 +67,8 @@ public class Piece {
     static public Piece createBlackQueen() {
         return new Piece(Representations.BLACK_QUEEN);
     }
+
+    static public Piece createBlank() {
+        return new Piece(Representations.BLANK);
+    }
 }

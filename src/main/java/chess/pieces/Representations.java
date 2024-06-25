@@ -12,7 +12,8 @@ public enum Representations {
     WHITE_KNIGHT("♘", Type.KNIGHT, Colors.WHITE),
     BLACK_KNIGHT("♞", Type.KNIGHT, Colors.BLACK),
     WHITE_ROOK("♖", Type.ROOK, Colors.WHITE),
-    BLACK_ROOK("♜", Type.ROOK, Colors.BLACK);
+    BLACK_ROOK("♜", Type.ROOK, Colors.BLACK),
+    BLANK("", Type.NO_PIECE, Colors.NOCOLOR);
 
     private String symbol;
     private Type type;
@@ -20,6 +21,7 @@ public enum Representations {
 
     private Representations(String symbol, Type type, Colors color) {
         this.symbol = symbol;
+        this.type = type;
         this.color = color;
     }
 
