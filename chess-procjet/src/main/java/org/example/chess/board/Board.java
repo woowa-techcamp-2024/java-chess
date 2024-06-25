@@ -5,8 +5,7 @@ import static org.example.utils.StringUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.chess.pieces.Color;
-import org.example.chess.pieces.Pawn;
-import org.example.utils.StringUtils;
+import org.example.chess.pieces.Piece;
 
 public class Board {
 
@@ -15,27 +14,27 @@ public class Board {
     private final int BLACK_INIT_ROW = 1;
     private final int WHITE_INIT_ROW = 6;
 
-    private final List<Pawn> pawns = new ArrayList<>();
-    private final List<Pawn> blackPawnsResult = new ArrayList<>();
-    private final List<Pawn> whitePawnsResult = new ArrayList<>();
+    private final List<Piece> pieces = new ArrayList<>();
+    private final List<Piece> blackPawnsResult = new ArrayList<>();
+    private final List<Piece> whitePawnsResult = new ArrayList<>();
     private final char[][] board;
 
-    public void add(Pawn pawn) {
-        if (pawns.size() > MAX_PAWNS) {
+    public void add(Piece piece) {
+        if (pieces.size() > MAX_PAWNS) {
             throw new IllegalArgumentException("한 보드판에는 최대 32개의 말이 존재할 수 있습니다.");
         }
-        pawns.add(pawn);
+        pieces.add(piece);
     }
 
     public int size() {
-        return pawns.size();
+        return pieces.size();
     }
 
-    public Pawn findPawn(int i) {
-        if (i < 0 || i >= pawns.size()) {
+    public Piece findPawn(int i) {
+        if (i < 0 || i >= pieces.size()) {
             throw new IllegalArgumentException("존재하지 않는 말입니다.");
         }
-        return pawns.get(i);
+        return pieces.get(i);
     }
 
     public void initialize() {
@@ -55,17 +54,17 @@ public class Board {
 
     private void initBlackPawnsResult() {
         for (int i = 0; i < 8; i++) {
-            Pawn blackPawn = new Pawn(Color.BLACK, Pawn.BLACK_REPRESENTATION);
-            blackPawnsResult.add(blackPawn);
-            board[BLACK_INIT_ROW][i] = blackPawn.getRepresentation();
+            Piece blackPiece = new Piece(Color.BLACK, Piece.BLACK_REPRESENTATION);
+            blackPawnsResult.add(blackPiece);
+            board[BLACK_INIT_ROW][i] = blackPiece.getRepresentation();
         }
     }
 
     private void initWhitePawnsResult() {
         for (int i = 0; i < 8; i++) {
-            Pawn whitePawn = new Pawn(Color.WHITE, Pawn.WHITE_REPRESENTATION);
-            whitePawnsResult.add(whitePawn);
-            board[WHITE_INIT_ROW][i] = whitePawn.getRepresentation();
+            Piece whitePiece = new Piece(Color.WHITE, Piece.WHITE_REPRESENTATION);
+            whitePawnsResult.add(whitePiece);
+            board[WHITE_INIT_ROW][i] = whitePiece.getRepresentation();
         }
     }
 
@@ -81,16 +80,16 @@ public class Board {
 
     public String getBlackPawnsResult() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn pawn : blackPawnsResult) {
-            sb.append(pawn.getRepresentation());
+        for (Piece piece : blackPawnsResult) {
+            sb.append(piece.getRepresentation());
         }
         return sb.toString();
     }
 
     public String getWhitePawnsResult() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn pawn : whitePawnsResult) {
-            sb.append(pawn.getRepresentation());
+        for (Piece piece : whitePawnsResult) {
+            sb.append(piece.getRepresentation());
         }
         return sb.toString();
     }

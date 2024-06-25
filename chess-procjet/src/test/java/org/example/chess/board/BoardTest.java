@@ -3,7 +3,7 @@ package org.example.chess.board;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.example.chess.pieces.Color;
-import org.example.chess.pieces.Pawn;
+import org.example.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,14 +19,14 @@ class BoardTest {
 
     @Test
     void create() throws Exception {
-        addPawnToBoardAndVerify(new Pawn(Color.WHITE, Pawn.WHITE_REPRESENTATION), 0);
-        addPawnToBoardAndVerify(new Pawn(Color.BLACK, Pawn.BLACK_REPRESENTATION), 1);
+        addPawnToBoardAndVerify(new Piece(Color.WHITE, Piece.WHITE_REPRESENTATION), 0);
+        addPawnToBoardAndVerify(new Piece(Color.BLACK, Piece.BLACK_REPRESENTATION), 1);
     }
 
-    private void addPawnToBoardAndVerify(Pawn pawn, int expectedIdx) {
-        board.add(pawn);
+    private void addPawnToBoardAndVerify(Piece piece, int expectedIdx) {
+        board.add(piece);
         assertEquals(expectedIdx + 1, board.size());
-        assertEquals(pawn, board.findPawn(expectedIdx));
+        assertEquals(piece, board.findPawn(expectedIdx));
     }
 
     @Test
