@@ -21,7 +21,7 @@ public class Board {
     private static final int BLANK_ROW_END = 6;
 
 
-    public void initialize() {
+    private void initialize() {
         pieceCount = INITIAL_PIECE_COUNT;
         initializeBlackFirstRow();
         initializeBlackPawns();
@@ -88,6 +88,7 @@ public class Board {
 
     protected Board() {
         ranks = new ArrayList<>();
+        initialize();
     }
 
     private void initializeWhitePawns() {

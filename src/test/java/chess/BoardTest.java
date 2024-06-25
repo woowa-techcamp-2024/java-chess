@@ -19,7 +19,6 @@ class BoardTest {
     @Test
     @DisplayName("보드를 생성할 수 있다")
     void create() {
-        board.initialize();
 
         assertEquals(32, board.pieceCount());
         assertEquals(givenBoardPrint(), board.showBoard());
