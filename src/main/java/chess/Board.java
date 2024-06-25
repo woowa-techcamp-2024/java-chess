@@ -6,6 +6,7 @@ import static chess.utils.StringUtils.appendNewLine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Board {
     private final List<Rank> board = new ArrayList<>();
@@ -100,6 +101,33 @@ public class Board {
     public void move(final String position, final Piece piece) {
         Position piecePosition = new Position(position);
         board.get(piecePosition.getY()).move(piecePosition.getX(), piece);
+    }
+
+    private double calculatePawns(int[] pawns) {
+        double result = 0;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (pawns[i] == 1) result += 1;
+            else result += 0.5 * pawns[i];
+        }
+        return result;
+    }
+
+    public double calculatePoint(final Color color) {
+        double point = 0;
+        int[] pawns = new int[BOARD_SIZE];
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Rank rank = board.get(i);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                Piece piece = rank.get(j);
+                if (!Objects.equals(piece.getColor(), color)) continue;
+
+                if (Objects.equals(piece.getType(), Type.PAWN)) pawns[j] += 1;
+                else point += piece.getType().getDefaultPoint();
+            }
+        }
+        point += calculatePawns(pawns);
+        return point;
     }
 
     // test를 위한 메서드
