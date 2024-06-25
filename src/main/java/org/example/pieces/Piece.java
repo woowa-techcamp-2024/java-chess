@@ -12,28 +12,27 @@ public class Piece {
         PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING, NO_PIECE;
     }
 
-    public static final String WHITE_PAWN_REPRESENTATION = "\u2659";
-    public static final String BLACK_PAWN_REPRESENTATION = "\u265F";
+    public static final char WHITE_PAWN_REPRESENTATION = '♙';
+    public static final char BLACK_PAWN_REPRESENTATION = '♟';
 
-    public static final String WHITE_KNIGHT_REPRESENTATION = "\u2658";
-    public static final String BLACK_KNIGHT_REPRESENTATION = "\u265E";
+    public static final char WHITE_KNIGHT_REPRESENTATION = '♘';
+    public static final char BLACK_KNIGHT_REPRESENTATION = '♞';
 
-    public static final String WHITE_ROOK_REPRESENTATION = "\u2656";
-    public static final String BLACK_ROOK_REPRESENTATION = "\u265C";
+    public static final char WHITE_ROOK_REPRESENTATION = '♖';
+    public static final char BLACK_ROOK_REPRESENTATION = '♜';
 
-    public static final String WHITE_BISHOP_REPRESENTATION = "\u2657";
-    public static final String BLACK_BISHOP_REPRESENTATION = "\u265D";
+    public static final char WHITE_BISHOP_REPRESENTATION = '♗';
+    public static final char BLACK_BISHOP_REPRESENTATION = '♝';
 
-    public static final String WHITE_QUEEN_REPRESENTATION = "\u2655";
-    public static final String BLACK_QUEEN_REPRESENTATION = "\u265B";
+    public static final char WHITE_QUEEN_REPRESENTATION = '♕';
+    public static final char BLACK_QUEEN_REPRESENTATION = '♛';
 
-    public static final String WHITE_KING_REPRESENTATION = "\u2654";
-    public static final String BLACK_KING_REPRESENTATION = "\u265A";
-
+    public static final char WHITE_KING_REPRESENTATION = '♔';
+    public static final char BLACK_KING_REPRESENTATION = '♚';
     private final Color color;
-    private final String representation;
+    private final char representation;
 
-    private Piece(Color color, String representation) {
+    private Piece(Color color, char representation) {
         this.color = color;
         this.representation = representation;
     }
@@ -90,7 +89,7 @@ public class Piece {
         return color;
     }
 
-    public String getRepresentation() {
+    public char getRepresentation() {
         return representation;
     }
 
