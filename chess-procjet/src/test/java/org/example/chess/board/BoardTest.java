@@ -18,8 +18,8 @@ class BoardTest {
 
     @Test
     void create() throws Exception {
-        addPawnToBoardAndVerify(new Pawn(Color.WHITE), 0);
-        addPawnToBoardAndVerify(new Pawn(Color.BLACK), 1);
+        addPawnToBoardAndVerify(new Pawn(Color.WHITE, Pawn.WHITE_REPRESENTATION), 0);
+        addPawnToBoardAndVerify(new Pawn(Color.BLACK, Pawn.BLACK_REPRESENTATION), 1);
     }
 
     private void addPawnToBoardAndVerify(Pawn pawn, int expectedIdx) {
