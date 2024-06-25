@@ -16,16 +16,14 @@ public class BoardTest {
         Board board = new Board();
 
         Pawn white = new Pawn(Pawn.WHITE_COLOR);
-        verifyAddPawn(board, white, 1, 0);
+        board.add(white);
+        assertEquals(1, board.size());
+        assertEquals(white, board.findPawn(0));
 
         Pawn black = new Pawn(Pawn.BLACK_COLOR);
-        verifyAddPawn(board, black, 2, 1);
-    }
-
-    private static void verifyAddPawn(Board board, Pawn white, int expected, int i) {
-        board.add(white);
-        assertEquals(expected, board.size());
-        assertEquals(white, board.findPawn(i));
+        board.add(black);
+        assertEquals(2, board.size());
+        assertEquals(black, board.findPawn(1));
     }
 
 }
