@@ -70,4 +70,25 @@ public class Board {
         }
         return sb.toString();
     }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+        for (int row = MIN_ROWS; row < MAX_ROWS; row++) {
+            switch (row) {
+                case 1:
+                    sb.append(getBlackPawnsResult()).append('\n');
+                    break;
+                case 6:
+                    sb.append(getWhitePawnsResult()).append('\n');
+                    break;
+                default:
+                    sb.append(getBlankRowResult()).append('\n');
+            }
+        }
+        return sb.toString();
+    }
+
+    private String getBlankRowResult() {
+        return "********";
+    }
 }
