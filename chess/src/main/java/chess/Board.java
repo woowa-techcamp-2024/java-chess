@@ -94,4 +94,19 @@ public class Board {
                 .mapToLong(rank -> rank.countColorPiece(color, type))
                 .sum();
     }
+
+    public Piece findPiece(String position)
+    {
+        char colChar = position.charAt(0);
+        char rowChar = position.charAt(1);
+        int colIdx = colChar - 'a';
+        int rowIdx = 8-Character.getNumericValue(rowChar);
+        return ranks.get(rowIdx).getPiece(colIdx);
+    }
+
+    public void move(String position, Piece piece)
+    {
+
+
+    }
 }

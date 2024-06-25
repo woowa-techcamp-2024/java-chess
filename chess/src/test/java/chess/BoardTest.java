@@ -2,6 +2,7 @@ package chess;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pieces.Piece;
 import pieces.PieceColor;
 import pieces.PieceType;
 import pieces.PieceUnicode;
@@ -13,6 +14,7 @@ public class BoardTest {
     private final int NUM_COL = 8;
     private final String BLANK = ".";
     private static Board board;
+
     @BeforeAll
     public static void beforeAll()
     {
@@ -81,5 +83,45 @@ public class BoardTest {
         assertEquals(2, board.countColorPiece(PieceColor.WHITE, PieceType.BISHOP));
         assertEquals(1, board.countColorPiece(PieceColor.WHITE, PieceType.QUEEN));
         assertEquals(1, board.countColorPiece(PieceColor.WHITE, PieceType.KING));
+    }
+
+    @Test
+    public void findPiece(){
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.ROOK), board.findPiece("a8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.KNIGHT), board.findPiece("b8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.BISHOP), board.findPiece("c8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.QUEEN), board.findPiece("d8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.KING), board.findPiece("e8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.BISHOP), board.findPiece("f8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.KNIGHT), board.findPiece("g8"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.ROOK), board.findPiece("h8"));
+
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("a7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("b7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("c7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("d7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("e7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("f7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("g7"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("h7"));
+
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("a2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("b2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("c2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("d2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("e2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("f2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("g2"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.PAWN), board.findPiece("h2"));
+
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.ROOK), board.findPiece("a1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.KNIGHT), board.findPiece("b1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.BISHOP), board.findPiece("c1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.QUEEN), board.findPiece("d1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.KING), board.findPiece("e1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.BISHOP), board.findPiece("f1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.KNIGHT), board.findPiece("g1"));
+        assertEquals(new Piece(PieceColor.WHITE, PieceType.ROOK), board.findPiece("h1"));
+
     }
 }

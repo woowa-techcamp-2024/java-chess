@@ -53,4 +53,8 @@ public class Rank {
     {
         return pieces.stream().filter(p -> p.color().equals(color) && p.type().equals(type)).count();
     }
+
+    public Piece getPiece(int idx){
+        return pieces.get(idx);
+    }
 }
