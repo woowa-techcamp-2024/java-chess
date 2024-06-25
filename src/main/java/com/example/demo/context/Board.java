@@ -16,6 +16,7 @@ public class Board {
         initPawn();
         initKing();
         initQueen();
+        initRook();
     }
 
     //--------------init board start----------------
@@ -34,6 +35,13 @@ public class Board {
     private void initQueen(){
         setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
         setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
+    }
+
+    private void initRook(){
+        setPiece(Rank.ONE, File.C, new Rook(Color.WHITE));
+        setPiece(Rank.ONE, File.F, new Rook(Color.WHITE));
+        setPiece(Rank.EIGHT, File.C, new Rook(Color.BLACK));
+        setPiece(Rank.EIGHT, File.F, new Rook(Color.BLACK));
     }
     //--------------init board end  ----------------
 

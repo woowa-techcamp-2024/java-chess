@@ -3,6 +3,11 @@ package com.example.demo.context;
 import com.example.demo.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,30 +29,60 @@ class BoardTest {
         }
     }
 
-    @Test
     @DisplayName("보드를 생성하면 킹의 초기 상태가 설정되어 있다.")
-    public void create_kine(){
+    @ParameterizedTest
+    @MethodSource("kingLocations")
+    public void create_king(Rank rank, File file, Color color){
         Board board = new Board();
-        Piece white = board.getPiece(Rank.ONE, File.D);
-        assertThat(white).isInstanceOf(King.class);
-        assertThat(white.getColor()).isEqualTo(Color.WHITE);
 
-        Piece black = board.getPiece(Rank.EIGHT, File.D);
-        assertThat(black).isInstanceOf(King.class);
-        assertThat(black.getColor()).isEqualTo(Color.BLACK);
+        Piece piece = board.getPiece(rank, file);
+        assertThat(piece).isInstanceOf(King.class);
+        assertThat(piece.getColor()).isEqualTo(color);
     }
 
-    @Test
-    @DisplayName("보드를 생성하면 퀸의 초기 상태가 설정되어 있다.")
-    public void create_queen(){
-        Board board = new Board();
-        Piece white = board.getPiece(Rank.ONE, File.E);
-        assertThat(white).isInstanceOf(Queen.class);
-        assertThat(white.getColor()).isEqualTo(Color.WHITE);
+    private static Stream<Arguments> kingLocations(){
+        return Stream.of(
+                Arguments.of(Rank.ONE, File.D, Color.WHITE),
+                Arguments.of(Rank.EIGHT, File.D, Color.BLACK)
+        );
+    }
 
-        Piece black = board.getPiece(Rank.EIGHT, File.E);
-        assertThat(black).isInstanceOf(Queen.class);
-        assertThat(black.getColor()).isEqualTo(Color.BLACK);
+    @DisplayName("보드를 생성하면 퀸의 초기 상태가 설정되어 있다.")
+    @ParameterizedTest
+    @MethodSource("queenLocations")
+    public void create_queen(Rank rank, File file, Color color){
+        Board board = new Board();
+
+        Piece piece = board.getPiece(rank, file);
+        assertThat(piece).isInstanceOf(Queen.class);
+        assertThat(piece.getColor()).isEqualTo(color);
+    }
+
+    private static Stream<Arguments> queenLocations(){
+        return Stream.of(
+                Arguments.of(Rank.ONE, File.E, Color.WHITE),
+                Arguments.of(Rank.EIGHT, File.E, Color.BLACK)
+        );
+    }
+
+    @DisplayName("보드를 생성하면 룩의 초기 상태가 설정되어 있다.")
+    @ParameterizedTest
+    @MethodSource("rookLocations")
+    public void create_rook(Rank rank, File file, Color color){
+        Board board = new Board();
+
+        Piece piece = board.getPiece(rank, file);
+        assertThat(piece).isInstanceOf(Rook.class);
+        assertThat(piece.getColor()).isEqualTo(color);
+    }
+
+    private static Stream<Arguments> rookLocations(){
+        return Stream.of(
+                Arguments.of(Rank.ONE, File.C, Color.WHITE),
+                Arguments.of(Rank.ONE, File.F, Color.WHITE),
+                Arguments.of(Rank.EIGHT, File.C, Color.BLACK),
+                Arguments.of(Rank.EIGHT, File.F, Color.BLACK)
+        );
     }
 
     @Test
