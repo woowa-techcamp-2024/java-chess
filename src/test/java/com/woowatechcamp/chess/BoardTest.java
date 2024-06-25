@@ -39,4 +39,12 @@ public class BoardTest {
         assertThat(1).isEqualTo(board.pieceCount(Piece.Type.QUEEN, Piece.Color.BLACK));
         assertThat(8).isEqualTo(board.pieceCount(Piece.Type.PAWN, Piece.Color.BLACK));
     }
+
+    @Test
+    public void 빈_체스판을_생성한다() {
+        board.initializeEmpty();
+        String blankRank = appendNewLine("........");
+        assertThat(blankRank + blankRank + blankRank + blankRank +
+                blankRank + blankRank + blankRank + blankRank).isEqualTo(board.showBoard());
+    }
 }

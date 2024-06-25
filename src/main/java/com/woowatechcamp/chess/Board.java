@@ -40,6 +40,12 @@ public class Board {
         ));
     }
 
+    public void initializeEmpty() {
+        for (int i = 0; i < 8; i++) {
+            ranks.add(Rank.createBlankRank());
+        }
+    }
+
     public void print() {
         System.out.println(showBoard());
     }
