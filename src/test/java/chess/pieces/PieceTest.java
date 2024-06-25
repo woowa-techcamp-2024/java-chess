@@ -7,6 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PieceTest {
 
+    @Test
+    @DisplayName("기물의 색상에 따라 다른 representation을 반환한다")
+    void getRepresentationPerPiece()  {
+        assertEquals('p', Piece.Type.PAWN.getWhiteRepresentation());
+        assertEquals('P', Piece.Type.PAWN.getBlackRepresentation());
+    }
+
     @DisplayName("정적 팩토리 메서드를 이용하여 원하는 폰을 생성할 수 있다")
     @Test
     void create_piece() {
