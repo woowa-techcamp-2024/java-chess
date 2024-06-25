@@ -80,6 +80,34 @@ class BoardTest {
         assertThat(actualWhiteScore).isEqualTo(9);
     }
 
+    @Test
+    @DisplayName("체스 판에서 색에 맞는 말을 정렬한다.")
+    void getPiecesByColor() {
+        board.addPiece(Location.from("a1"), Piece.createRook(Color.WHITE));
+        board.addPiece(Location.from("b1"), Piece.createKnight(Color.WHITE));
+        board.addPiece(Location.from("c3"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c4"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c5"), Piece.createPawn(Color.WHITE));
+        var actualWhitePieces = board.getPiecesByColor(Color.WHITE);
+
+        assertThat(actualWhitePieces).extracting("symbol")
+                .containsExactly(Symbol.WHITE_ROOK, Symbol.WHITE_KNIGHT, Symbol.WHITE_PAWN, Symbol.WHITE_PAWN, Symbol.WHITE_PAWN);
+    }
+
+    @Test
+    @DisplayName("체스 판에서 색에 맞는 말을 역순으로 정렬한다.")
+    void getPiecesByColorReverse() {
+        board.addPiece(Location.from("a1"), Piece.createRook(Color.WHITE));
+        board.addPiece(Location.from("b1"), Piece.createKnight(Color.WHITE));
+        board.addPiece(Location.from("c3"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c4"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c5"), Piece.createPawn(Color.WHITE));
+        var actualWhitePieces = board.getPiecesByColor(Color.WHITE, true);
+
+        assertThat(actualWhitePieces).extracting("symbol")
+                .containsExactly(Symbol.WHITE_PAWN, Symbol.WHITE_PAWN, Symbol.WHITE_PAWN, Symbol.WHITE_KNIGHT, Symbol.WHITE_ROOK);
+    }
+
     private static Stream<Arguments> findPieceWithTypeAndColor() {
         return Stream.of(
                 Arguments.of(Type.ROOK, Color.WHITE, 2),

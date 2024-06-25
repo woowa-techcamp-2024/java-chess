@@ -8,7 +8,9 @@ import chess.pieces.enums.Type;
 import chess.pieces.values.Location;
 import utils.StringUtils;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -54,6 +56,18 @@ public class Board {
                 .mapToDouble(Piece::getScore).sum();
         score += calculatePawnScore(color);
         return score;
+    }
+
+    public List<Piece> getPiecesByColor(Color color) {
+        return getPiecesByColor(color, false);
+    }
+
+    public List<Piece> getPiecesByColor(Color color, boolean reverse) {
+        return board.values().stream()
+                .filter(piece -> !(piece instanceof Blank))
+                .filter(piece -> piece.getColor().equals(color))
+                .sorted(reverse ? Comparator.comparingDouble(Piece::getScore) : Comparator.comparingDouble(Piece::getScore).reversed())
+                .toList();
     }
 
     public Piece getPiece(String locationStr) {
