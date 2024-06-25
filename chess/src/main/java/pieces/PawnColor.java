@@ -1,9 +1,13 @@
-package chess;
+package pieces;
 
-public class Pawn {
+public enum PawnColor {
+    WHITE("white"),
+    BLACK("black"),
+    ;
+
     private final String color;
 
-    public Pawn(String color) {
+    PawnColor(String color) {
         this.color = color;
     }
 
