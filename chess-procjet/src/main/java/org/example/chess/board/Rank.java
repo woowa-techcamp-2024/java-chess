@@ -28,7 +28,7 @@ public class Rank {
                 .count();
     }
 
-    public int countBlackPieces(Type type) {
+    public int countBlackPiecesWithType(Type type) {
         return (int) pieces.stream()
                 .filter(piece -> piece.isBlack() && piece.getType() == type)
                 .count();
