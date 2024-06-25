@@ -1,6 +1,6 @@
 package pe.goblin.chess.board;
 
-import pe.goblin.chess.pawn.Piece;
+import pe.goblin.chess.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +49,8 @@ public class Board {
     public void initialize() {
         ArrayList<Piece> initializingPieces = new ArrayList<>();
         for (int i = MIN_ROWS; i < MAX_ROWS; i++) {
-            initializingPieces.add(new Piece(Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION));
-            initializingPieces.add(new Piece(Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION));
+            initializingPieces.add(Piece.createWhitePawn());
+            initializingPieces.add(Piece.createBlackPawn());
         }
         this.pieces = initializingPieces;
     }
