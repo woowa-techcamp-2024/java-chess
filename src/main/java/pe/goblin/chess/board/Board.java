@@ -1,6 +1,7 @@
 package pe.goblin.chess.board;
 
 import pe.goblin.chess.pawn.Pawn;
+import pe.goblin.chess.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,13 +77,13 @@ public class Board {
         for (int row = MIN_ROWS; row < MAX_ROWS; row++) {
             switch (row) {
                 case 1:
-                    sb.append(getBlackPawnsResult()).append('\n');
+                    sb.append(StringUtils.appendNewLine(getBlackPawnsResult()));
                     break;
                 case 6:
-                    sb.append(getWhitePawnsResult()).append('\n');
+                    sb.append(StringUtils.appendNewLine(getWhitePawnsResult()));
                     break;
                 default:
-                    sb.append(getBlankRowResult()).append('\n');
+                    sb.append(StringUtils.appendNewLine(getBlankRowResult()));
             }
         }
         return sb.toString();
