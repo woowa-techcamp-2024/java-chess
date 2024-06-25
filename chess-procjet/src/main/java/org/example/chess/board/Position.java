@@ -2,8 +2,6 @@ package org.example.chess.board;
 
 import static org.example.chess.board.Board.BOARD_SIZE;
 
-import java.security.PublicKey;
-
 public class Position {
 
     private final int r;
@@ -15,8 +13,13 @@ public class Position {
     }
 
     public Position(String pos) {
-        this.r = BOARD_SIZE - (pos.charAt(1) - '1') - 1;
-        this.c = pos.charAt(0) - 'a';
+        int r = BOARD_SIZE - (pos.charAt(1) - '1') - 1;
+        int c = pos.charAt(0) - 'a';
+        if (!isValidPosition(r, c)) {
+            throw new IllegalArgumentException("올바른 위치를 입력해주세요");
+        }
+        this.r = r;
+        this.c = c;
     }
 
     public int getR() {
@@ -25,5 +28,9 @@ public class Position {
 
     public int getC() {
         return c;
+    }
+
+    private boolean isValidPosition(int r, int c) {
+        return r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE;
     }
 }
