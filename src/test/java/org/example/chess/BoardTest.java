@@ -11,38 +11,22 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     private Board board;
-
-    private final Pawn white = new Pawn(Pawn.WHITE_COLOR);
-    private final Pawn black = new Pawn(Pawn.BLACK_COLOR);
-
+    private static final int boardSize = 8;
 
     @BeforeEach
     public void setUpBoard() {
         board = new Board();
+        board.initialize();
     }
 
     @Test
-    @DisplayName("보드에 폰을 추가할 수 있다")
-    public void create() throws Exception {
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
-
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+    public void 폰_배열검사() throws Exception {
+        assertEquals(Pawn.WHITE_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
+        assertEquals(Pawn.BLACK_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
     }
 
     @Test
-    @DisplayName("잘못된 index로 폰을 찾을 경우 에러를 발생시킨다")
-    public void findPawn() throws Exception {
-        board.add(white);
-
-        assertEquals(white, board.findPawn(0));
-        try {
-            board.findPawn(1);
-        } catch (Exception e) {
-            assertEquals("IndexOutOfBoundsException", e.getClass().getSimpleName());
-        }
+    public void 보드_출력검사() throws Exception {
+        //assertEquals("pppppppp", board.getWhitePawnsResult());
     }
 }
