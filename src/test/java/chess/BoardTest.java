@@ -1,4 +1,5 @@
-import chess.Board;
+package chess;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,12 @@ public class BoardTest {
 
     @Test
     public void create() {
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
+        Pawn white = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
         board.add(white);
         assertEquals(1, board.size());
         assertEquals(white, board.findPawn(0));
 
-        Pawn black = new Pawn(Pawn.BLACK_COLOR);
+        Pawn black = new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
         board.add(black);
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
