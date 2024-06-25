@@ -1,7 +1,5 @@
 package chess.piece;
 
-import chess.ChessStrings;
-
 public abstract class Piece {
 
     private final Color color;
