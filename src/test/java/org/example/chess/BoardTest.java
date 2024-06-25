@@ -20,13 +20,12 @@ public class BoardTest {
 
     @Test
     public void 폰_배열검사() throws Exception {
-        assertEquals(Piece.WHITE_PAWN_REPRESENTATION.repeat(boardSize), board.getWhitePawnsResult());
-        assertEquals(Piece.BLACK_PAWN_REPRESENTATION.repeat(boardSize), board.getBlackPawnsResult());
+        assertEquals("♙♙♙♙♙♙♙♙♖♘♗♕♔♗♘♖", board.getWhitePawnsResult());
+        assertEquals("♜♞♝♛♚♝♞♜♟♟♟♟♟♟♟♟", board.getBlackPawnsResult());
     }
 
     @Test
     public void create() throws Exception {
-        board.initialize();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
