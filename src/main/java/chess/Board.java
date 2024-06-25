@@ -2,7 +2,6 @@ package chess;
 
 import chess.pieces.ChessPiece;
 import chess.pieces.Piece;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +32,27 @@ public class Board {
 
     public ChessPiece findPiece(int index){
         return pieces.get(index);
+    }
+
+    public ChessPiece findPiece(String position){
+        if(position == null || position.length() > 2) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
+        char col = position.charAt(0);
+        char row = position.charAt(1);
+
+        if(!('a'<=col && col<='h') || !('1'<=row&&row<='8')) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
+
+        int colIndex = col-'a';
+        int rowIndex = row-'1';
+
+        return board[rowIndex][colIndex];
+    }
+
+    public int pieceCount(){
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(p->p!=null&&!Type.NO_PIECE.equals(p.getType()))
+                .toList()
+                .size();
     }
 
     private void setPiece(int x,int y,ChessPiece piece){
