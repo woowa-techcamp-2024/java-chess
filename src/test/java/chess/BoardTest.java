@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import chess.pieces.Pawn;
 
+import static chess.utils.StringUtils.NEWLINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
@@ -54,14 +55,14 @@ class BoardTest {
     }
     private String givenBoardPrint() {
         StringBuilder sb = new StringBuilder();
-            sb.append("........").append("\n");
-            sb.append("pppppppp").append("\n");
-            sb.append("........").append("\n");
-            sb.append("........").append("\n");
-            sb.append("........").append("\n");
-            sb.append("........").append("\n");
-            sb.append("PPPPPPPP").append("\n");
-            sb.append("........").append("\n");
+            sb.append("........").append(NEWLINE);
+            sb.append("pppppppp").append(NEWLINE);
+            sb.append("........").append(NEWLINE);
+            sb.append("........").append(NEWLINE);
+            sb.append("........").append(NEWLINE);
+            sb.append("........").append(NEWLINE);
+            sb.append("PPPPPPPP").append(NEWLINE);
+            sb.append("........").append(NEWLINE);
         return sb.toString();
     }
 }

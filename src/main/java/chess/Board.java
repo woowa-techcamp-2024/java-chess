@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static chess.utils.StringUtils.appendNewLine;
+
 public class Board {
 
     private final List<List<Pawn>> pawns;
@@ -29,13 +31,14 @@ public class Board {
 
         for (List<Pawn> pawn : pawns) {
             if(pawn.isEmpty()) {
-                sb.append(EMPTY_ROW).append("\n");
+                sb.append(EMPTY_ROW);
+                appendNewLine(sb);
                 continue;
             }
             pawn.stream()
                     .map(Pawn::getRepresentation)
                     .forEach(sb::append);
-            sb.append("\n");
+            appendNewLine(sb);
         }
         return sb.toString();
     }
