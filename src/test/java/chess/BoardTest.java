@@ -115,8 +115,8 @@ public class BoardTest {
         addPiece("e1", Piece.createPiece(WHITE_ROOK));
         addPiece("f1", Piece.createPiece(WHITE_KING));
 
-        assertEquals(15.0, board.caculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.caculatePoint(Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(board.print());
     }
