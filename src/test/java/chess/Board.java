@@ -54,4 +54,24 @@ public class Board {
         }
         return builder.toString();
     }
+
+    public String print() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n........");
+        builder.append("\n");
+        for (Pawn pawn : blackPawns) {
+            builder.append(pawn.getRepresentation());
+        }
+        builder.append("\n........");
+        builder.append("\n........");
+        builder.append("\n........");
+        builder.append("\n........");
+        builder.append("\n........");
+        builder.append("\n");
+        for (Pawn pawn : whitePawns) {
+            builder.append(pawn.getRepresentation());
+        }
+        builder.append("\n........");
+        return builder.toString();
+    }
 }
