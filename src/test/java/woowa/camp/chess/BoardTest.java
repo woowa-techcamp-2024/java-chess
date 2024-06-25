@@ -66,8 +66,8 @@ public class BoardTest {
         String expectedWhitePawnsResult = "pppppppp";
         String expectedBlackPawnsResult = "PPPPPPPP";
 
-        assertThat(board.getWhitePawnsResult()).isEqualTo(expectedWhitePawnsResult);
-        assertThat(board.getBlackPawnsResult()).isEqualTo(expectedBlackPawnsResult);
+        assertThat(board.getPawnsResult(Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getPawnsResult(Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
     }
 
     @Test
@@ -80,8 +80,8 @@ public class BoardTest {
     }
 
     private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
-        assertThat(board.getWhitePawnsResult().length()).isEqualTo(expectedPawnsCount);
-        assertThat(board.getBlackPawnsResult().length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPawnsResult(Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPawnsResult(Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
     }
 
 }
