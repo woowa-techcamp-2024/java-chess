@@ -6,6 +6,11 @@ public class Piece {
 
     public enum Color {
         WHITE, BLACK, NO_COLOR;
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
     }
 
     public enum Type {

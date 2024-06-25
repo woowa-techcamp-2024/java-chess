@@ -22,7 +22,7 @@ public class PieceTest {
     }
 
     @DisplayName("기물의 색상을 확인")
-    @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
+    @ParameterizedTest(name = "기물의 색깔은 {1}이다.")
     @MethodSource("argumentsStream")
     public void checkIsBlack(Piece piece, Color color, char notUsed) {
         verifyColor(piece, color);
