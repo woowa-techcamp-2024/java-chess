@@ -106,4 +106,11 @@ public class Board {
         return Optional.ofNullable(board.get(row).get(col));
     }
 
+    public int getBoardRowSize() {
+        return board.get(0).size();
+    }
+
+    public int getBoardColSize() {
+        return board.size();
+    }
 }

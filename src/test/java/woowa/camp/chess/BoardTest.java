@@ -92,4 +92,18 @@ public class BoardTest {
         System.out.println(print);
     }
 
+    @Test
+    @DisplayName("[Success] 초기화한 Board의 크기는 8 x 8 이다.")
+    void initialBoardSize() {
+        board.initialize();
+
+        int resultBoardRowSize = board.getBoardRowSize();
+        int resultBoardColSize = board.getBoardColSize();
+        int expectedBoardRowSize = Board.MAX_ROW;
+        int expectedBoardColSize = Board.MAX_COL;
+
+        assertThat(resultBoardRowSize).isEqualTo(expectedBoardRowSize);
+        assertThat(resultBoardColSize).isEqualTo(expectedBoardColSize);
+    }
+
 }
