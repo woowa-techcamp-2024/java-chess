@@ -8,6 +8,14 @@ public class Piece {
 
     private final Representation representation;
 
+    public boolean isWhite() {
+        return color == Color.WHITE;
+    }
+
+    public boolean isBlack() {
+        return color == Color.BLACK;
+    }
+
     public enum Name { PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING }
 
     public enum Color { WHITE, BLACK }
