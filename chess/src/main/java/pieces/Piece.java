@@ -1,10 +1,6 @@
 package pieces;
 
-public record Piece(PieceColor color, PieceUnicode represent) {
-    public Piece() {
-        this(PieceColor.WHITE, PieceUnicode.WHITE_PAWN);
-    }
-
+public record Piece(PieceColor color, PieceType type, PieceUnicode represent) {
     public boolean isBlack()
     {
         return color.equals(PieceColor.BLACK);

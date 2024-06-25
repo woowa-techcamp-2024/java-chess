@@ -23,7 +23,7 @@ public class BoardTest {
                 .append(BLANK.repeat(NUM_COL)).append("\n")
                 .append(BLANK.repeat(NUM_COL)).append("\n")
                 .append(generateWhiteInitLine());
-        assertEquals(sb.toString(), board.show());
+        assertEquals(sb.toString().strip(), board.show());
         assertEquals(NUM_COL*4, board.getNumOfPieces());
     }
 

@@ -14,6 +14,8 @@ public enum PieceUnicode {
     BLACK_ROOK("\u265c"),
     BLACK_QUEEN("\u265b"),
     BLACK_KING("\u265a"),
+
+    BLANK("."),
     ;
     private String unicode;
 

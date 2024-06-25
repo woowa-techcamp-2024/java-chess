@@ -12,19 +12,21 @@ public class PieceFactoryTest {
     public void create_piece()
     {
         PieceFactory pieceFactory = new PieceFactory();
-        verifyPiece(pieceFactory.createBlackPawn(), PieceColor.BLACK, PieceUnicode.BLACK_PAWN);
-        verifyPiece(pieceFactory.createBlackKnight(), PieceColor.BLACK, PieceUnicode.BLACK_KNIGHT);
-        verifyPiece(pieceFactory.createBlackBishop(), PieceColor.BLACK, PieceUnicode.BLACK_BISHOP);
-        verifyPiece(pieceFactory.createBlackRook(), PieceColor.BLACK, PieceUnicode.BLACK_ROOK);
-        verifyPiece(pieceFactory.createBlackQueen(), PieceColor.BLACK, PieceUnicode.BLACK_QUEEN);
-        verifyPiece(pieceFactory.createBlackKing(), PieceColor.BLACK, PieceUnicode.BLACK_KING);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.PAWN), PieceColor.BLACK, PieceUnicode.BLACK_PAWN);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.KNIGHT), PieceColor.BLACK, PieceUnicode.BLACK_KNIGHT);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.BISHOP), PieceColor.BLACK, PieceUnicode.BLACK_BISHOP);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.ROOK), PieceColor.BLACK, PieceUnicode.BLACK_ROOK);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.QUEEN), PieceColor.BLACK, PieceUnicode.BLACK_QUEEN);
+        verifyPiece(pieceFactory.createBlackPiece(PieceType.KING), PieceColor.BLACK, PieceUnicode.BLACK_KING);
 
-        verifyPiece(pieceFactory.createWhitePawn(), PieceColor.WHITE, PieceUnicode.WHITE_PAWN);
-        verifyPiece(pieceFactory.createWhiteKnight(), PieceColor.WHITE, PieceUnicode.WHITE_KNIGHT);
-        verifyPiece(pieceFactory.createWhiteBishop(), PieceColor.WHITE, PieceUnicode.WHITE_BISHOP);
-        verifyPiece(pieceFactory.createWhiteRook(), PieceColor.WHITE, PieceUnicode.WHITE_ROOK);
-        verifyPiece(pieceFactory.createWhiteQueen(), PieceColor.WHITE, PieceUnicode.WHITE_QUEEN);
-        verifyPiece(pieceFactory.createWhiteKing(), PieceColor.WHITE, PieceUnicode.WHITE_KING);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.PAWN), PieceColor.WHITE, PieceUnicode.WHITE_PAWN);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.KNIGHT), PieceColor.WHITE, PieceUnicode.WHITE_KNIGHT);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.BISHOP), PieceColor.WHITE, PieceUnicode.WHITE_BISHOP);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.ROOK), PieceColor.WHITE, PieceUnicode.WHITE_ROOK);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.QUEEN), PieceColor.WHITE, PieceUnicode.WHITE_QUEEN);
+        verifyPiece(pieceFactory.createWhitePiece(PieceType.KING), PieceColor.WHITE, PieceUnicode.WHITE_KING);
+
+        verifyPiece(pieceFactory.createBlank(), PieceColor.NO_COLOR, PieceUnicode.BLANK);
     }
 
     private void verifyPiece(final Piece piece, final PieceColor color, final PieceUnicode pieceUnicode){

@@ -8,12 +8,12 @@ public class PieceTest {
     @Test
     public void isBlackIsWhite()
     {
-        Piece blackPawn = new Piece(PieceColor.BLACK, PieceUnicode.BLACK_PAWN);
+        Piece blackPawn = new Piece(PieceColor.BLACK, PieceType.PAWN, PieceUnicode.BLACK_PAWN);
         assertEquals(true, blackPawn.isBlack());
         assertEquals(false, blackPawn.isWhite());
 
 
-        Piece whitePawn = new Piece(PieceColor.WHITE, PieceUnicode.WHITE_PAWN);
+        Piece whitePawn = new Piece(PieceColor.WHITE, PieceType.PAWN, PieceUnicode.WHITE_PAWN);
         assertEquals(false, whitePawn.isBlack());
         assertEquals(true, whitePawn.isWhite());
     }

@@ -2,90 +2,92 @@ package chess;
 
 import pieces.Piece;
 import pieces.PieceFactory;
+import pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+    private final int NUM_ROW = 8;
     private final int NUM_COL = 8;
+
     private final String BLANK = ".";
-    private final List<Piece> whitePieces;
-    private final List<Piece> blackPieces;
-    private final List<Piece> whitePawns;
-    private final List<Piece> blackPawns;
-    private int numOfPieces = 0;
+    private final List<Rank> ranks;
     private final PieceFactory pieceFactory;
 
     public Board() {
-        this.whitePieces = new ArrayList<>();
-        this.blackPieces = new ArrayList<>();
-        this.whitePawns = new ArrayList<>();
-        this.blackPawns = new ArrayList<>();
+        ranks = new ArrayList<>();
+        for(int i=0; i < NUM_ROW; i++){
+            ranks.add(new Rank());
+        }
         this.pieceFactory = new PieceFactory();
     }
 
     public int getNumOfPieces() {
-        return numOfPieces;
+        int num = 0;
+        for(Rank rank : ranks){
+            num += rank.getNumOfPieces();
+        }
+        return num;
     }
 
     public void initialize() {
-        whitePieces.add(pieceFactory.createWhiteRook());
-        whitePieces.add(pieceFactory.createWhiteKnight());
-        whitePieces.add(pieceFactory.createWhiteBishop());
-        whitePieces.add(pieceFactory.createWhiteQueen());
-        whitePieces.add(pieceFactory.createWhiteKing());
-        whitePieces.add(pieceFactory.createWhiteBishop());
-        whitePieces.add(pieceFactory.createWhiteKnight());
-        whitePieces.add(pieceFactory.createWhiteRook());
+        initBlackPieces();
+        initBlackPawns();
+        initWhitePawns();
+        initWhitePieces();
+    }
 
-        blackPieces.add(pieceFactory.createBlackRook());
-        blackPieces.add(pieceFactory.createBlackKnight());
-        blackPieces.add(pieceFactory.createBlackBishop());
-        blackPieces.add(pieceFactory.createBlackQueen());
-        blackPieces.add(pieceFactory.createBlackKing());
-        blackPieces.add(pieceFactory.createBlackBishop());
-        blackPieces.add(pieceFactory.createBlackKnight());
-        blackPieces.add(pieceFactory.createBlackRook());
+    private void initBlackPieces()
+    {
+        List<Piece> pieces = new ArrayList<>();
+        pieces.add(pieceFactory.createBlackPiece(PieceType.ROOK));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.KNIGHT));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.BISHOP));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.QUEEN));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.KING));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.BISHOP));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.KNIGHT));
+        pieces.add(pieceFactory.createBlackPiece(PieceType.ROOK));
+        ranks.set(0, new Rank(pieces));
+    }
 
-        for (int i = 0; i < NUM_COL; i++) {
-            whitePawns.add(pieceFactory.createWhitePawn());
-            blackPawns.add(pieceFactory.createBlackPawn());
+    private void initBlackPawns()
+    {
+        List<Piece> pieces = new ArrayList<>();
+        for(int i=0; i < NUM_COL; i++){
+            pieces.add(pieceFactory.createBlackPiece(PieceType.PAWN));
         }
-        numOfPieces = 32;
+        ranks.set(1, new Rank(pieces));
+    }
+
+    private void initWhitePawns()
+    {
+        List<Piece> pieces = new ArrayList<>();
+        for(int i=0; i < NUM_COL; i++){
+            pieces.add(pieceFactory.createWhitePiece(PieceType.PAWN));
+        }
+        ranks.set(6, new Rank(pieces));
+    }
+
+    private void initWhitePieces(){
+        List<Piece> pieces = new ArrayList<>();
+        pieces.add(pieceFactory.createWhitePiece(PieceType.ROOK));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.KNIGHT));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.BISHOP));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.QUEEN));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.KING));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.BISHOP));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.KNIGHT));
+        pieces.add(pieceFactory.createWhitePiece(PieceType.ROOK));
+        ranks.set(7, new Rank(pieces));
     }
 
     public String show() {
         StringBuilder sb = new StringBuilder();
-        sb
-                .append(getRepresentation(blackPieces)).append("\n")
-                .append(getBlackPawnsResult()).append("\n")
-                .append(getBlankLine()).append("\n")
-                .append(getBlankLine()).append("\n")
-                .append(getBlankLine()).append("\n")
-                .append(getBlankLine()).append("\n")
-                .append(getWhitePawnsResult()).append("\n")
-                .append(getRepresentation(whitePieces));
-        return sb.toString();
-    }
-
-    private String getBlankLine() {
-        return BLANK.repeat(NUM_COL);
-    }
-
-    public String getWhitePawnsResult() {
-        return getRepresentation(whitePawns);
-    }
-
-    public String getBlackPawnsResult() {
-        return getRepresentation(blackPawns);
-    }
-
-    private String getRepresentation(List<Piece> pieces) {
-        StringBuilder sb = new StringBuilder();
-        for(Piece piece : pieces)
-        {
-            sb.append(piece.represent().getUnicode());
+        for(Rank rank : ranks){
+            sb.append(rank.toString()).append("\n");
         }
-        return sb.toString();
+        return sb.toString().strip();
     }
 }
