@@ -3,6 +3,10 @@ package org.example.character;
 public class Pawn {
     private Color color;
 
+    public Pawn() {
+        this.color = Color.WHITE;
+    }
+
     public Pawn(Color color) {
         this.color = color;
     }
