@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.example.chess.pieces.Color;
 import org.example.chess.pieces.Pawn;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -26,5 +27,13 @@ class BoardTest {
         board.add(pawn);
         assertEquals(expectedIdx + 1, board.size());
         assertEquals(pawn, board.findPawn(expectedIdx));
+    }
+
+    @Test
+    @DisplayName("폰을 생성해 체스판을 초기화한다.")
+    void initialize() throws Exception {
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 }

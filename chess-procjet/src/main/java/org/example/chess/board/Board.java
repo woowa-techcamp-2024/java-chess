@@ -29,10 +29,18 @@ public class Board {
 
     public void initialize() {
         // 보드판에 흰색 폰 8개, 검은색 폰 8개를 놓도록 초기화하는 메서드
+
     }
 
     public void print() {
         // 현재 포드판의 상태를 출력해주는 메서드.
     }
 
+    public String getBlackPawnsResult() {
+        return null;
+    }
+
+    public String getWhitePawnsResult() {
+        return null;
+    }
 }
