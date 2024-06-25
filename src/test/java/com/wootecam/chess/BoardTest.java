@@ -1,10 +1,11 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.Piece;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,23 +33,23 @@ public class BoardTest {
 
             @ParameterizedTest
             @MethodSource("generatePawns")
-            void 순서가_보장된다(List<Pawn> pawns, int pawnIndex, int size) {
+            void 순서가_보장된다(List<Piece> pieces, int pawnIndex, int size) {
                 // when
-                pawns.forEach(board::add);
-                Pawn findPawn = board.findPawn(pawnIndex);
+                pieces.forEach(board::add);
+                Piece findPiece = board.findPiece(pawnIndex);
 
                 // then
                 assertAll(
                         () -> assertThat(board.size()).isEqualTo(size),
-                        () -> assertThat(findPawn).isEqualTo(pawns.get(pawnIndex))
+                        () -> assertThat(findPiece).isEqualTo(pieces.get(pawnIndex))
                 );
             }
 
             private static Stream<Arguments> generatePawns() {
                 return Stream.of(
-                        Arguments.of(List.of(new Pawn(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION)), 0, 1),
-                        Arguments.of(List.of(new Pawn(Pawn.COLOR_BLACK, Pawn.BLACK_REPRESENTATION),
-                                new Pawn(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION)), 0, 2)
+                        Arguments.of(List.of(new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 1),
+                        Arguments.of(List.of(new Piece(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
+                                new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 2)
                 );
             }
         }
@@ -64,11 +65,11 @@ public class BoardTest {
             @ValueSource(ints = {-1, 2})
             void 예외가_발생한다(int invalidIndex) {
                 // given
-                Pawn pawn = new Pawn();
-                board.add(pawn);
+                Piece piece = new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION);
+                board.add(piece);
 
                 // expect
-                assertThatThrownBy(() -> board.findPawn(invalidIndex))
+                assertThatThrownBy(() -> board.findPiece(invalidIndex))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = " + board.size());
             }
@@ -81,13 +82,6 @@ public class BoardTest {
         @Nested
         class 보드를_생성하고_호출하면 {
 
-            private Board board;
-
-            @BeforeEach
-            void setUp() {
-                board = new Board();
-            }
-
             @Test
             void 흰색_검정색_폰의_갯수를_각각_8개로_초기화한다() {
                 // when
@@ -98,6 +92,57 @@ public class BoardTest {
                         () -> assertThat(board.getBlackPawnsResults()).isEqualTo("PPPPPPPP"),
                         () -> assertThat(board.getWhitePawnsResults()).isEqualTo("pppppppp")
                 );
+            }
+        }
+    }
+
+    @Nested
+    class showBoard_메소드는 {
+
+        @Nested
+        class 보드를_생성하고_호출하면 {
+
+            @Test
+            void 현재_보드의_상태를_문자열로_반환한다() {
+                // given
+                board.initialize();
+                String expectedResults = generateDefaultBoardResults();
+
+                // when
+                String currentBoardResults = board.showBoard();
+
+                // then
+                assertThat(currentBoardResults).isEqualTo(expectedResults);
+            }
+
+            private String generateDefaultBoardResults() {
+                String blankRank = appendNewLine("........");
+
+                return appendNewLine("RNBQKBNR") +
+                        appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr");
+            }
+        }
+    }
+
+    @Nested
+    class pieceCount_메소드는 {
+
+        @Nested
+        class 보드를_생성하고_호춣하면 {
+
+            @Test
+            void 현재_보드에_존재하는_기물의_갯수를_반환한다() {
+                // given
+                board.initialize();
+
+                // when
+                int count = board.pieceCount();
+
+                // then
+                assertThat(count).isEqualTo(32);
             }
         }
     }

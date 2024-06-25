@@ -1,81 +1,119 @@
 package com.wootecam.chess;
 
-import com.wootecam.chess.pieces.Pawn;
+import static com.wootecam.chess.utils.StringUtils.appendNewLine;
+
+import com.wootecam.chess.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Board {
 
     private static final String EMPTY_PIECES_RESULTS = "........";
-    private static final String NEXT_LINE = System.lineSeparator();
-    private static final int PAWN_COUNT = 8;
+    private static final int PIECE_COUNT = 8;
 
-    private final List<Pawn> blackPawns = new ArrayList<>();
-    private final List<Pawn> whitePawns = new ArrayList<>();
+    private final List<Piece> blackPawnPieces = new ArrayList<>();
+    private final List<Piece> blackOtherPieces = new ArrayList<>();
+    private final List<Piece> whitePawnPieces = new ArrayList<>();
+    private final List<Piece> whiteOtherPieces = new ArrayList<>();
 
     public Board() {
     }
 
     public void initialize() {
-        blackPawns.addAll(createPawns(Pawn.COLOR_BLACK, Pawn.BLACK_REPRESENTATION));
-        whitePawns.addAll(createPawns(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION));
+        blackPawnPieces.addAll(createPawns(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION));
+        whitePawnPieces.addAll(createPawns(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION));
+        blackOtherPieces.addAll((createBlackOtherPieces()));
+        whiteOtherPieces.addAll((createWhiteOtherPieces()));
     }
 
-    private List<Pawn> createPawns(String color, String representation) {
-        return IntStream.range(0, PAWN_COUNT)
-                .mapToObj(i -> new Pawn(color, representation))
+    private List<Piece> createPawns(String color, String representation) {
+        return IntStream.range(0, PIECE_COUNT)
+                .mapToObj(i -> new Piece(color, representation))
                 .toList();
     }
 
-    public void add(final Pawn pawn) {
-        whitePawns.add(pawn);
+    private List<Piece> createBlackOtherPieces() {
+        return List.of(
+                Piece.createBlackRook(),
+                Piece.createBlackKnight(),
+                Piece.createBlackBishop(),
+                Piece.createBlackQueen(),
+                Piece.createBlackKing(),
+                Piece.createBlackBishop(),
+                Piece.createBlackKnight(),
+                Piece.createBlackRook()
+        );
     }
 
-    public Pawn findPawn(final int pawnIndex) {
-        if (pawnIndex < 0 || whitePawns.size() <= pawnIndex) {
-            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePawns.size());
+    private List<Piece> createWhiteOtherPieces() {
+        return List.of(
+                Piece.createWhiteRook(),
+                Piece.createWhiteKnight(),
+                Piece.createWhiteBishop(),
+                Piece.createWhiteQueen(),
+                Piece.createWhiteKing(),
+                Piece.createWhiteBishop(),
+                Piece.createWhiteKnight(),
+                Piece.createWhiteRook()
+        );
+    }
+
+    public void add(final Piece piece) {
+        whitePawnPieces.add(piece);
+    }
+
+    public Piece findPiece(final int pieceIndex) {
+        if (pieceIndex < 0 || whitePawnPieces.size() <= pieceIndex) {
+            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePawnPieces.size());
             throw new IllegalArgumentException(message);
         }
 
-        return whitePawns.get(pawnIndex);
+        return whitePawnPieces.get(pieceIndex);
+    }
+
+    public String showBoard() {
+        StringBuilder boardResults = new StringBuilder();
+
+        boardResults.append(appendNewLine(createPiecesResults(blackOtherPieces)))
+                .append(appendNewLine(createPiecesResults(blackPawnPieces)))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(createPiecesResults(whitePawnPieces)))
+                .append(appendNewLine(createPiecesResults(whiteOtherPieces)));
+
+        return boardResults.toString();
     }
 
     public void print() {
-        StringBuilder boardResults = new StringBuilder();
+        System.out.println(showBoard());
+    }
 
-        boardResults.append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(getBlackPawnsResults()).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(getWhitePawnsResults()).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE);
-
-        System.out.println(boardResults);
+    public int pieceCount() {
+        return blackPawnPieces.size()
+                + blackOtherPieces.size()
+                + whitePawnPieces.size()
+                + whiteOtherPieces.size();
     }
 
     public int size() {
-        return whitePawns.size();
+        return whitePawnPieces.size();
     }
 
     public String getWhitePawnsResults() {
-        StringBuilder results = createPawnsResults(whitePawns);
-
-        return results.toString();
+        return createPiecesResults(whitePawnPieces);
     }
 
     public String getBlackPawnsResults() {
-        StringBuilder results = createPawnsResults(blackPawns);
-
-        return results.toString();
+        return createPiecesResults(blackPawnPieces);
     }
 
-    private StringBuilder createPawnsResults(List<Pawn> pawns) {
-        StringBuilder results = new StringBuilder();
-        pawns.forEach(pawn -> results.append(pawn.getRepresentation()));
-
-        return results;
+    private String createPiecesResults(List<Piece> pieces) {
+        return pieces.stream()
+                .map(Piece::getRepresentation)
+                .collect(Collectors.joining());
     }
 }
