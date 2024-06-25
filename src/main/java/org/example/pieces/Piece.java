@@ -5,7 +5,7 @@ import static org.example.pieces.Piece.Color.*;
 public class Piece {
 
     public enum Color {
-        WHITE, BLACK, NOCOLOR;
+        WHITE, BLACK, NO_COLOR;
     }
 
     public enum Type {
@@ -15,7 +15,7 @@ public class Piece {
         BISHOP('♗'),
         QUEEN('♕'),
         KING('♔'),
-        NO_PIECE(' ');  // 빈 문자로 설정
+        NO_PIECE('.');  // 빈 문자로 설정
 
         private final char representation;
 
@@ -30,6 +30,10 @@ public class Piece {
 
         public char getBlackRepresentation() {
             final int offsetNumber = 6;
+            if (this == NO_PIECE) {
+                return representation;
+            }
+
             return (char) (representation + offsetNumber);
         }
     }
@@ -88,6 +92,10 @@ public class Piece {
 
     public static Piece createBlackKing() {
         return new Piece(BLACK, Type.KING);
+    }
+
+    public static Piece createNoColorPiece() {
+        return new Piece(NO_COLOR, Type.NO_PIECE);
     }
 
     public Color getColor() {
