@@ -6,6 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import chess.pieces.Piece;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
@@ -50,15 +55,6 @@ class BoardTest {
                         appendNewLine("pppppppp")+
                         appendNewLine("rnbqkbnr"),
                 board.showBoard());
-    }
-
-    @Test
-    @DisplayName("체스 판에 Pawn 이외의 객체가 추가되지 않도록 한다.")
-    void add_not_Pawn() {
-        assertThatThrownBy(() -> {
-            Object o = new Object();
-            board.add((Piece) o);
-        }).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -116,4 +112,17 @@ class BoardTest {
 
 
     }
+
+    @Test
+    @DisplayName("기물의 점수가 높은 순으로 정렬")
+    void sortByScore() {
+        board.initialize();
+        List<Piece> whitePieces = new ArrayList<>(board.getWhitePieces());
+        whitePieces.sort(Comparator.comparing(Piece::getDefaultScore).reversed());
+        for (Piece whitePiece : whitePieces) {
+
+            System.out.println(whitePiece.getDefaultScore());
+        }
+    }
+
 }

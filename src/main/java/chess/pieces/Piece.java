@@ -15,8 +15,8 @@ public class Piece {
         private final String blackRepresentation;
         private final double defaultPoint;
 
-        Type(String whitRepresentation, String blackRepresentation, double defaultPoint) {
-            this.whitRepresentation = whitRepresentation;
+        Type(String whiteRepresentation, String blackRepresentation, double defaultPoint) {
+            this.whitRepresentation = whiteRepresentation;
             this.blackRepresentation = blackRepresentation;
             this.defaultPoint = defaultPoint;
         }
@@ -36,30 +36,37 @@ public class Piece {
 
     private final String color;
     private final String representation;
+    private final double defaultScore;
 
-    private Piece(String color, String representation) {
+    private Piece(String color, String representation, double defaultScore) {
         this.color = color;
         this.representation = representation;
+        this.defaultScore = defaultScore;
+
     }
 
     public static Piece createBlank() {
-        return Piece.of(Color.NOCOLOR.name(), Type.NO_PIECE.getBlackRepresentation());
+        return Piece.of(Color.NOCOLOR.name(), Type.NO_PIECE.getBlackRepresentation(), Type.NO_PIECE.getDefaultPoint());
     }
 
     public static Piece createWhite(Type type) {
-        return Piece.of(Color.WHITE.name(), type.getWhiteRepresentation());
+        return Piece.of(Color.WHITE.name(), type.getWhiteRepresentation(), type.getDefaultPoint());
     }
 
     public static Piece createBlack(Type type) {
-        return Piece.of(Color.BLACK.name(), type.getBlackRepresentation());
+        return Piece.of(Color.BLACK.name(), type.getBlackRepresentation(), type.getDefaultPoint());
     }
 
-    public static  Piece of(final String color, final String representation) {
-        return new Piece(color, representation);
+    public static  Piece of(final String color, final String representation, final double defaultPoint) {
+        return new Piece(color, representation, defaultPoint);
     }
 
     public String getColor() {
         return color;
+    }
+
+    public double getDefaultScore() {
+        return defaultScore;
     }
 
     public String getType() {
