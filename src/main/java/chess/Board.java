@@ -18,8 +18,8 @@ public class Board {
 
 
     public void initialize() {
-        initializeWhitePawns();
-        initializeBlackPawns();
+        initializePawns(WHITE_PAWN_ROW, Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
+        initializePawns(BLACK_PAWN_ROW, Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
     }
 
     public String getWhitePawnsResult() {
@@ -55,19 +55,13 @@ public class Board {
                 .collect(Collectors.joining());
     }
 
-    private void initializeWhitePawns() {
-        ArrayList<Pawn> whitePawns = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION))
+    private void initializePawns(int row, String color, char representation) {
+        ArrayList<Pawn> initializedPawns = IntStream.range(0, BOARD_WIDTH)
+                .mapToObj(i -> new Pawn(color, representation))
                 .collect(Collectors.toCollection(ArrayList::new));
-        pawns.get(WHITE_PAWN_ROW).addAll(whitePawns);
+        this.pawns.get(row).addAll(initializedPawns);
     }
 
-    private void initializeBlackPawns() {
-        ArrayList<Pawn> blackPawns = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION))
-                .collect(Collectors.toCollection(ArrayList::new));
-        pawns.get(BLACK_PAWN_ROW).addAll(blackPawns);
-    }
     private void validateIndex(int index) {
         if (index < 0 || index / BOARD_WIDTH >= BOARD_HEIGHT) {
             throw new IllegalArgumentException("Index out of range");
