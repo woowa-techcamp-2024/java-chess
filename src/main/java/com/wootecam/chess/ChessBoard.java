@@ -2,6 +2,7 @@ package com.wootecam.chess;
 
 import com.wootecam.chess.pieces.Pawn;
 import com.wootecam.chess.pieces.PieceRepresentation;
+import com.wootecam.chess.utils.StringUtils;
 
 public class ChessBoard {
     private static final int MAX_ROW = 8;
@@ -47,7 +48,7 @@ public class ChessBoard {
             for (Pawn cell : rows) {
                 updateCurState(cell, curState);
             }
-            curState.append(System.lineSeparator());
+            StringUtils.appendNewLine(curState);
         }
 
         return curState.toString();
