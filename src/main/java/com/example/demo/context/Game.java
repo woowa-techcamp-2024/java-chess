@@ -47,6 +47,13 @@ public class Game {
         board.setPiece(to, piece);
     }
 
+    /**
+     * 구현된 체스 규칙에 맞는지 확인할 때, 사용합니다.
+     * @param type 이동할 체스말의 타입을 나타냅니다.
+     * @param from 이동할 체스말의 현재 위치를 나타냅니다.
+     * @param to 이동할 위치를 나타냅니다.
+     * @return 이동이 가능한 경우 true를 반환하고 이동이 불가능한 경우에는 false를 반환합니다.
+     */
     public boolean accept(Type type, Location from, Location to){
         return true;
     }
