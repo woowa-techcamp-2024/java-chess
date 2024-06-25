@@ -1,6 +1,6 @@
 package wootecamp.chess.pieces;
 
-public class Pawn {
+public class Piece {
     public static final String WHITE_COLOR = "white";
     public static final String WHITE_REPRESENTATION = "p";
     public static final String BLACK_COLOR = "black";
@@ -9,12 +9,12 @@ public class Pawn {
     private String color;
     private String representation;
 
-    public Pawn() {
+    public Piece() {
         this.color = WHITE_COLOR;
         this.representation = WHITE_REPRESENTATION;
     }
 
-    public Pawn(final String color) {
+    public Piece(final String color) {
         this.color = color;
         this.representation = decideRepresentation(color);
     }

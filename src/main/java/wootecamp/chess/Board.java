@@ -1,13 +1,10 @@
 package wootecamp.chess;
 
-import wootecamp.chess.pieces.Pawn;
+import wootecamp.chess.pieces.Piece;
 import wootecamp.chess.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class Board {
     private static final int BOARD_SIZE = 8;
@@ -16,8 +13,8 @@ public class Board {
 
     private static final String EMPTY_RANK_MESSAGE = "........";
 
-    private List<Pawn> whitePawns = new ArrayList<>();
-    private List<Pawn> blackPawns = new ArrayList<>();
+    private List<Piece> whitePawns = new ArrayList<>();
+    private List<Piece> blackPawns = new ArrayList<>();
     private boolean isInit = false;
 
     public void initialize() {
@@ -29,14 +26,14 @@ public class Board {
     private void initializeWhitePawns() {
         whitePawns = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
-            whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
+            whitePawns.add(new Piece(Piece.WHITE_COLOR));
         }
     }
 
     private void initializeBlackPawns() {
         blackPawns = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
-            blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+            blackPawns.add(new Piece(Piece.BLACK_COLOR));
         }
     }
 
