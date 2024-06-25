@@ -22,8 +22,8 @@ public class Board {
 
 
     public void initialize() {
-        initializePawns(WHITE_PAWN_ROW, Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION);
-        initializePawns(BLACK_PAWN_ROW, Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION);
+        initializeWhitePawns();
+        initializeBlackPawns();
     }
 
     public String print() {
@@ -76,11 +76,18 @@ public class Board {
                 .collect(Collectors.joining());
     }
 
-    private void initializePawns(int row, String color, char representation) {
+    private void initializeWhitePawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> new Piece(color, representation))
+                .mapToObj(i -> Piece.createWhitePawn())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pawns.get(row).addAll(initializedPieces);
+        this.pawns.get(WHITE_PAWN_ROW).addAll(initializedPieces);
+    }
+
+    private void initializeBlackPawns() {
+        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
+                .mapToObj(i -> Piece.createBlackPawn())
+                .collect(Collectors.toCollection(ArrayList::new));
+        this.pawns.get(BLACK_PAWN_ROW).addAll(initializedPieces);
     }
 
     private void validateIndex(int index) {

@@ -18,8 +18,8 @@ class BoardTest {
     void setUp() {
         board = new Board();
         board.initialize();
-        white = new Piece(Piece.WHITE_COLOR);
-        black = new Piece(Piece.BLACK_COLOR);
+        white = Piece.createWhitePawn();
+        black = Piece.createBlackPawn();
     }
 
     @Test
