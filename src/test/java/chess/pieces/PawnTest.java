@@ -1,6 +1,5 @@
-package pieces;
+package chess.pieces;
 
-import chess.pieces.Pawn;
 import chess.pieces.enums.Color;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
