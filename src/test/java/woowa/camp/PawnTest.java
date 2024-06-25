@@ -19,6 +19,13 @@ public class PawnTest {
         verifyPawnColor(pawnBlack, black);
     }
 
+    @Test
+    @DisplayName("[Success] 색이 없는 Pawn을 생성하는 경우 기본 색상이 흰색(white)이다")
+    void default_create_is_white() {
+        Pawn pawn = new Pawn();
+        verifyPawnColor(pawn, "white");
+    }
+
     private void verifyPawnColor(final Pawn pawn, final String color) {
         assertThat(pawn.getColor()).isEqualTo(color);
     }
