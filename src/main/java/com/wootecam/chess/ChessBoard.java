@@ -1,6 +1,7 @@
 package com.wootecam.chess;
 
 import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.PieceRepresentation;
 
 public class ChessBoard {
     private static final int MAX_ROW = 8;
@@ -34,5 +35,22 @@ public class ChessBoard {
 
     public int size() {
         return TOTAL_CELLS;
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Pawn[] row : cells) {
+            for (Pawn pawn : row) {
+                if (pawn == null) {
+                    sb.append(PieceRepresentation.NONE.value);
+                } else {
+                    sb.append(pawn.getRepresentation().value);
+                }
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 }

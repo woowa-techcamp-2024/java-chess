@@ -18,16 +18,16 @@ public class Board {
     }
 
     public void initialize() {
-        int whitePawnIndex = MAX_COL;
-        for (int i = 0; i < MAX_COL; ++i) {
-            Pawn pawn = new Pawn(Color.WHITE);
-            add(pawn, whitePawnIndex + i);
-        }
-
-        int blackPawnIndex = chessBoard.size() - MAX_COL;
+        int blackPawnIndex = MAX_COL;
         for (int i = 0; i < MAX_COL; ++i) {
             Pawn pawn = new Pawn(Color.BLACK);
             add(pawn, blackPawnIndex + i);
+        }
+
+        int whitePawnIndex = chessBoard.size() - 2 * MAX_COL;
+        for (int i = 0; i < MAX_COL; ++i) {
+            Pawn pawn = new Pawn(Color.WHITE);
+            add(pawn, whitePawnIndex + i);
         }
     }
 
@@ -64,5 +64,9 @@ public class Board {
                 .filter(p -> p.getColor() == Color.BLACK)
                 .map(p -> p.getRepresentation().value)
                 .collect(Collectors.joining());
+    }
+
+    public String print() {
+        return chessBoard.print();
     }
 }
