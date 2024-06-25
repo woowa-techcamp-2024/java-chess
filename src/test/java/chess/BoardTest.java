@@ -7,24 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
 
-    public static Board board;
+    private Board board;
 
-    @BeforeAll
-    static void setBoard(){
+    @BeforeEach
+    void setBoard() {
         board = new Board();
     }
 
     @Test
-    @DisplayName("보드에 폰이 추가 되어야한다.")
-    public void create() throws Exception {
-        verifyBoard(Pawn.BLACK_COLOR);
-        verifyBoard(Pawn.WHITE_COLOR);
+    @DisplayName("보드판 초기화 후 흰 폰과 검은 폰이 출력되어야 한다.")
+    public void initialize() throws Exception {
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
-
-    private void verifyBoard(final String color) {
-        Pawn pawn = new Pawn(color);
-        board.add(pawn);
-        assertEquals(pawn, board.findPawn(board.size() - 1));
-    }
-
 }
