@@ -40,10 +40,14 @@ public class Board {
 
 
     public String getWhitePawnsResult() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.valueOf(Pawn.WHITE_REPRESENTATION).repeat(whitePawnList.size()));
+        return sb.toString();
     }
 
     public String getBlackPawnsResult() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.valueOf(Pawn.BLACK_REPRESENTATION).repeat(blackPawnList.size()));
+        return sb.toString();
     }
 }
