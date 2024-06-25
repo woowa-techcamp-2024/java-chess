@@ -65,10 +65,10 @@ class BoardTest {
         );
     }
 
-    @DisplayName("보드를 생성하면 룩의 초기 상태가 설정되어 있다.")
+    @DisplayName("보드를 생성하면 비숍의 초기 상태가 설정되어 있다.")
     @ParameterizedTest
-    @MethodSource("rookLocations")
-    public void create_rook(Rank rank, File file, Color color){
+    @MethodSource("bishopLocations")
+    public void create_bishop(Rank rank, File file, Color color){
         Board board = new Board();
 
         Piece piece = board.getPiece(rank, file);
@@ -76,7 +76,7 @@ class BoardTest {
         assertThat(piece.getColor()).isEqualTo(color);
     }
 
-    private static Stream<Arguments> rookLocations(){
+    private static Stream<Arguments> bishopLocations(){
         return Stream.of(
                 Arguments.of(Rank.ONE, File.C, Color.WHITE),
                 Arguments.of(Rank.ONE, File.F, Color.WHITE),
@@ -105,6 +105,25 @@ class BoardTest {
         );
     }
 
+    @DisplayName("보드를 생성하면 룩의 초기 상태가 설정되어 있다.")
+    @ParameterizedTest
+    @MethodSource("rookLocations")
+    public void create_rook(Rank rank, File file, Color color){
+        Board board = new Board();
+
+        Piece piece = board.getPiece(rank, file);
+        assertThat(piece).isInstanceOf(Rook.class);
+        assertThat(piece.getColor()).isEqualTo(color);
+    }
+
+    private static Stream<Arguments> rookLocations(){
+        return Stream.of(
+                Arguments.of(Rank.ONE, File.A, Color.WHITE),
+                Arguments.of(Rank.ONE, File.H, Color.WHITE),
+                Arguments.of(Rank.EIGHT, File.A, Color.BLACK),
+                Arguments.of(Rank.EIGHT, File.H, Color.BLACK)
+        );
+    }
 
     @Test
     @DisplayName("보드를 출력한다.")
