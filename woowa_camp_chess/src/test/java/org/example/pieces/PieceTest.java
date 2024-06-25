@@ -1,6 +1,7 @@
 package org.example.pieces;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.PieceType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,10 +42,18 @@ class PieceTest {
         verifyPiece(Piece.createWhiteKing(),WHITE_COLOR,PieceType.KING);
     }
 
+    @Test
+    @DisplayName("색을 구분한 결과값을 내야한다")
+    public void compare_color() {
+        Piece piece = new Piece(WHITE_COLOR, PieceType.PAWN);
+        Assertions.assertTrue(piece.isWhite());
+        Assertions.assertFalse(piece.isBlack());
+    }
+
 
 
     private static void verifyPiece(final Piece piece, final String color, PieceType pieceType) {
         assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(color.equals(Piece.BLACK_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() - 32 ));
+        assertThat(piece.getRepresentation()).isEqualTo(color.equals(WHITE_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() + 32 ));
     }
 }

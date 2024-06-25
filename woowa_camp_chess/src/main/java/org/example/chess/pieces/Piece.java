@@ -14,7 +14,7 @@ public class Piece {
 
     public Piece(String color, PieceType pieceType) {
         this.color = color;
-        this.representation = color.equals(WHITE_COLOR) ? (char) (pieceType.getAbbreviation() - 32)  : pieceType.getAbbreviation();
+        this.representation = color.equals(BLACK_COLOR) ? (char) (pieceType.getAbbreviation() + 32)  : pieceType.getAbbreviation();
         this.pieceType = pieceType;
     }
 
@@ -79,5 +79,13 @@ public class Piece {
 
     public static Piece createWhiteKing() {
         return new Piece(Piece.WHITE_COLOR, PieceType.KING);
+    }
+
+    public boolean isWhite() {
+        return this.color.equals(Piece.WHITE_COLOR);
+    }
+
+    public boolean isBlack() {
+        return this.color.equals(Piece.BLACK_COLOR);
     }
 }
