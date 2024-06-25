@@ -1,5 +1,7 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.utils.StringUtils.appendNewLine;
+
 import com.wootecam.chess.pieces.Pawn;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,6 @@ import java.util.stream.IntStream;
 public class Board {
 
     private static final String EMPTY_PIECES_RESULTS = "........";
-    private static final String NEXT_LINE = System.lineSeparator();
     private static final int PAWN_COUNT = 8;
 
     private final List<Pawn> blackPawns = new ArrayList<>();
@@ -44,14 +45,14 @@ public class Board {
     public void print() {
         StringBuilder boardResults = new StringBuilder();
 
-        boardResults.append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(getBlackPawnsResults()).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
-                .append(getWhitePawnsResults()).append(NEXT_LINE)
-                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE);
+        boardResults.append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(getBlackPawnsResults()))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS))
+                .append(appendNewLine(getWhitePawnsResults()))
+                .append(appendNewLine(EMPTY_PIECES_RESULTS));
 
         System.out.println(boardResults);
     }
