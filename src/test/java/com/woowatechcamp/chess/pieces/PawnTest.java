@@ -1,8 +1,10 @@
-package com.woowatechcamp;import org.junit.jupiter.api.*;
+package com.woowatechcamp.chess.pieces;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import com.woowatechcamp.chess.pieces.Pawn;
+import org.junit.jupiter.api.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PawnTest {
 
@@ -14,5 +16,11 @@ public class PawnTest {
             Pawn pawn = new Pawn(color);
             assertThat(pawn.getColor()).isEqualTo(color);
         }
+    }
+
+    @Test
+    public void create_기본생성자() throws Exception {
+        Pawn pawn = new Pawn();
+        assertThat(pawn.getColor()).isEqualTo("white");
     }
 }
