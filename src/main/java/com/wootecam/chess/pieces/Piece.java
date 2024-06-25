@@ -3,11 +3,11 @@ package com.wootecam.chess.pieces;
 public class Piece {
 
     private final Color color;
-    private final Type representation;
+    private final Type type;
 
-    public Piece(Color color, Type representation) {
+    public Piece(Color color, Type type) {
         this.color = color;
-        this.representation = representation;
+        this.type = type;
     }
 
     public static Piece createWhitePawn() {
@@ -58,12 +58,20 @@ public class Piece {
         return new Piece(Color.BLACK, Type.KING);
     }
 
+    public static Piece createBlank() {
+        return new Piece(Color.NO_COLOR, Type.NO_PIECE);
+    }
+
     public Color getColor() {
         return color;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public String getRepresentation() {
-        return representation.findRepresentation(color);
+        return type.findRepresentation(color);
     }
 
     public boolean isWhite() {

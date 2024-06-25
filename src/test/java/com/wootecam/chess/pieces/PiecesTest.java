@@ -10,44 +10,40 @@ public class PiecesTest {
     @Test
     void 모든_기물을_생성할_수_있다() {
         // when
-        Piece whitePawn = Piece.createWhitePawn();
-        Piece blackPawn = Piece.createBlackPawn();
-
-        Piece whiteKnight = Piece.createWhiteKnight();
-        Piece blackKnight = Piece.createBlackKnight();
-
-        Piece whiteRook = Piece.createWhiteRook();
-        Piece blackRook = Piece.createBlackRook();
-
-        Piece whiteBishop = Piece.createWhiteBishop();
-        Piece blackBishop = Piece.createBlackBishop();
-
-        Piece whiteQueen = Piece.createWhiteQueen();
-        Piece blackQueen = Piece.createBlackQueen();
-
-        Piece whiteKing = Piece.createWhiteKing();
-        Piece blackKing = Piece.createBlackKing();
+        Piece blank = Piece.createBlank();
 
         // then
         assertAll(
-                () -> verifyPiece(whitePawn, Color.WHITE, Type.PAWN),
-                () -> verifyPiece(blackPawn, Color.BLACK, Type.PAWN),
-                () -> verifyPiece(whiteKnight, Color.WHITE, Type.KNIGHT),
-                () -> verifyPiece(blackKnight, Color.BLACK, Type.KNIGHT),
-                () -> verifyPiece(whiteRook, Color.WHITE, Type.ROOK),
-                () -> verifyPiece(blackRook, Color.BLACK, Type.ROOK),
-                () -> verifyPiece(whiteBishop, Color.WHITE, Type.BISHOP),
-                () -> verifyPiece(blackBishop, Color.BLACK, Type.BISHOP),
-                () -> verifyPiece(whiteQueen, Color.WHITE, Type.QUEEN),
-                () -> verifyPiece(blackQueen, Color.BLACK, Type.QUEEN),
-                () -> verifyPiece(whiteKing, Color.WHITE, Type.KING),
-                () -> verifyPiece(blackKing, Color.BLACK, Type.KING)
+                () -> verifyPiece(Piece.createWhitePawn(), Color.WHITE, Type.PAWN),
+                () -> verifyPiece(Piece.createBlackPawn(), Color.BLACK, Type.PAWN),
+                () -> verifyPiece(Piece.createWhiteKnight(), Color.WHITE, Type.KNIGHT),
+                () -> verifyPiece(Piece.createBlackKnight(), Color.BLACK, Type.KNIGHT),
+                () -> verifyPiece(Piece.createWhiteRook(), Color.WHITE, Type.ROOK),
+                () -> verifyPiece(Piece.createBlackRook(), Color.BLACK, Type.ROOK),
+                () -> verifyPiece(Piece.createWhiteBishop(), Color.WHITE, Type.BISHOP),
+                () -> verifyPiece(Piece.createBlackBishop(), Color.BLACK, Type.BISHOP),
+                () -> verifyPiece(Piece.createWhiteQueen(), Color.WHITE, Type.QUEEN),
+                () -> verifyPiece(Piece.createBlackQueen(), Color.BLACK, Type.QUEEN),
+                () -> verifyPiece(Piece.createWhiteKing(), Color.WHITE, Type.KING),
+                () -> verifyPiece(Piece.createBlackKing(), Color.BLACK, Type.KING)
         );
     }
 
     private void verifyPiece(Piece piece, Color color, Type representation) {
         assertThat(piece.getColor()).isEqualTo(color);
         assertThat(piece.getRepresentation()).isEqualTo(representation.findRepresentation(color));
+    }
+
+    @Test
+    void 기물이_존재하지_않는_Piece도_생성할_수_잇다() {
+        // when
+        Piece blankPiece = Piece.createBlank();
+
+        assertAll(
+                () -> assertThat(blankPiece.isWhite()).isFalse(),
+                () -> assertThat(blankPiece.isBlack()).isFalse(),
+                () -> assertThat(blankPiece.getType()).isEqualTo(Type.NO_PIECE)
+        );
     }
 
     @Test
