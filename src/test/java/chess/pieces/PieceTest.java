@@ -24,6 +24,59 @@ class PieceTest {
         verifyPiece(Piece.createBlackKing(), Piece.BLACK_COLOR, Piece.BLACK_KING_REPRESENTATION);
     }
 
+    @DisplayName("검정색 폰일 때 isBlack이면 true를 반환한다")
+    @Test
+    void isBlackWhenBlackPawn() {
+        // given
+        Piece blackPawn = Piece.createBlackPawn();
+
+        // when
+        boolean isBlack = blackPawn.isBlack();
+
+        // then
+        assertEquals(true, isBlack);
+    }
+
+    @DisplayName("흰색 폰일 때 isBlack이면 true를 반환한다")
+    @Test
+    void isBlackWhenWhitePawn() {
+        // given
+        Piece blackPawn = Piece.createWhitePawn();
+
+        // when
+        boolean isBlack = blackPawn.isBlack();
+
+        // then
+        assertEquals(false, isBlack);
+    }
+
+    @DisplayName("검정색 폰일 때 isWhite이면 false를 반환한다")
+    @Test
+    void isWhiteWhenBlackPawn() {
+        // given
+        Piece blackPawn = Piece.createBlackPawn();
+
+        // when
+        boolean isWhite = blackPawn.isWhite();
+
+        // then
+        assertEquals(false, isWhite);
+    }
+
+    @DisplayName("흰색 폰일 때 isWhite이면 true를 반환한다")
+    @Test
+    void isWhiteWhenWhitePawn() {
+        // given
+        Piece blackPawn = Piece.createWhitePawn();
+
+        // when
+        boolean isWhite = blackPawn.isWhite();
+
+        // then
+        assertEquals(true, isWhite);
+    }
+
+
     private void verifyPiece(final Piece piece, final String color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
