@@ -43,9 +43,19 @@ public class BoardTest {
     @Test
     @DisplayName("보드 초기화시 색별로 폰이 8개씩 생성된다.")
     public void initialize() throws Exception {
-        Board board = new Board();
         board.initialize();
+
         assertEquals("♙♙♙♙♙♙♙♙", board.getPieceResult(PieceColor.WHITE, Type.PAWN));
         assertEquals("♟♟♟♟♟♟♟♟", board.getPieceResult(PieceColor.BLACK, Type.PAWN));
+    }
+
+    @Test
+    @DisplayName("보드 출력시 기물이 정상적으로 출력된다.")
+    public void print() {
+        board.initialize();
+
+        String print = board.print();
+
+        System.out.println(print);
     }
 }
