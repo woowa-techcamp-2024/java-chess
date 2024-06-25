@@ -1,11 +1,12 @@
 package pe.goblin.chess.board;
 
 import pe.goblin.chess.pawn.Piece;
-import pe.goblin.chess.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static pe.goblin.chess.utils.StringUtils.appendNewLine;
 
 /**
  * 체스 판에 Pawn 이외의 객체가 추가되지 않도록 한다.
@@ -77,13 +78,13 @@ public class Board {
         for (int row = MIN_ROWS; row < MAX_ROWS; row++) {
             switch (row) {
                 case 1:
-                    sb.append(StringUtils.appendNewLine(getBlackPawnsResult()));
+                    sb.append(appendNewLine(getBlackPawnsResult()));
                     break;
                 case 6:
-                    sb.append(StringUtils.appendNewLine(getWhitePawnsResult()));
+                    sb.append(appendNewLine(getWhitePawnsResult()));
                     break;
                 default:
-                    sb.append(StringUtils.appendNewLine(getBlankRowResult()));
+                    sb.append(appendNewLine(getBlankRowResult()));
             }
         }
         return sb.toString();
