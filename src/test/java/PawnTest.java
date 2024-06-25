@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PawnTest {
 
@@ -17,5 +18,11 @@ public class PawnTest {
         final String color = "black";
         Pawn pawn = new Pawn(color);
         assertThat(pawn.verifyPawn(color)).isTrue();
+    }
+
+    @Test
+    public void 기본_폰_생성() throws Exception {
+        Pawn pawn = new Pawn();
+        assertEquals("white", pawn.getColor());
     }
 }
