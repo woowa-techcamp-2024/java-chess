@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.Piece;
+import chess.pieces.PieceTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +15,12 @@ public class BoardTest {
     }
     @Test
     public void create() throws Exception {
-        Piece white = new Piece(Piece.WHITE_COLOR);
+        Piece white = Piece.createPiece(PieceTypes.WHITE_PAWN);
         board.add(white);
         assertEquals(1, board.size());
         assertEquals(white, board.findPawn(0));
 
-        Piece black = new Piece(Piece.BLACK_COLOR);
+        Piece black = Piece.createPiece(PieceTypes.BLACK_PAWN);
         board.add(black);
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));

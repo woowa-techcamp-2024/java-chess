@@ -2,6 +2,7 @@ package chess;
 
 import chess.pieces.ChessPiece;
 import chess.pieces.Piece;
+import chess.pieces.PieceTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ public class Board {
 
     public void initialize(){
         for(int w=0;w<WIDTH;w++){
-            Piece whitePawn = new Piece(Piece.WHITE_COLOR);
-            Piece blackPawn = new Piece(Piece.BLACK_COLOR);
+            Piece whitePawn = Piece.createPiece(PieceTypes.WHITE_PAWN);
+            Piece blackPawn = Piece.createPiece(PieceTypes.BLACK_PAWN);
             whitePawns.add(whitePawn);
             blackPawns.add(blackPawn);
             pieces.add(whitePawn);

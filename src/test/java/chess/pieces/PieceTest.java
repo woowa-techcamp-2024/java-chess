@@ -5,24 +5,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PieceTest {
-    private void verifyPawn(final String color,final char representation){
-        Piece pawn = new Piece(color);
-        assertEquals(color,pawn.getColor());
-        assertEquals(representation,pawn.getRepresentation());
+    private void verifyPiece(final Piece piece,final PieceTypes type){
+        verifyPiece(piece,type.getColor(),type.getRepresentation(),type.getType());
+    }
+    private void verifyPiece(final Piece piece,final String color,final char representation,final String type){
+        assertEquals(color,piece.getColor());
+        assertEquals(representation,piece.getRepresentation());
+        assertEquals(type,piece.getType());
     }
 
     @Test
     public void create() {
-        String white = Piece.WHITE_COLOR;
-        String black = Piece.BLACK_COLOR;
-        verifyPawn(white, Piece.WHITE_REPRESENTATION);
-        verifyPawn(black, Piece.BLACK_REPRESENTATION);
-    }
-
-    @Test
-    public void create_기본생성자() throws Exception{
-        Piece pawn = new Piece();
-        assertEquals(Piece.WHITE_COLOR,pawn.getColor());
-        assertEquals(Piece.WHITE_REPRESENTATION,pawn.getRepresentation());
+        Piece white = Piece.createPiece(PieceTypes.WHITE_PAWN);
+        Piece black = Piece.createPiece(PieceTypes.BLACK_PAWN);
+        verifyPiece(white, PieceTypes.WHITE_PAWN);
+        verifyPiece(black, PieceTypes.BLACK_PAWN);
     }
 }
