@@ -1,6 +1,6 @@
-package com.wootecam.chess;
+package com.wootecam.chess.board;
 
-import static com.wootecam.chess.ChessBoard.MAX_COL;
+import static com.wootecam.chess.board.ChessBoard.MAX_COL;
 
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;

@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.wootecam.chess.board.Board;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -23,6 +25,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("체스판 테스트")
 class BoardTest {
+    private Board board;
 
     private static Board createBoard() {
         return new Board();
@@ -70,7 +73,7 @@ class BoardTest {
     }
 
     @Nested
-    class 추가된_순서로_말을_조회할_수_있다 {
+    class 체스판에_추가된_순서로_말을_조회할_수_있다 {
 
         static Stream<Arguments> pawnListForFind() {
             return Stream.of(
@@ -103,42 +106,20 @@ class BoardTest {
     @Nested
     class 체스판을_초기화한다 {
 
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
         @Test
         void 체스판을_초기화하면_총_32개_기물들이_존재해야_한다() {
-            var board = createBoard();
-
             board.initialize();
 
             assertThat(board.size()).isEqualTo(32);
         }
-    }
-
-    @Nested
-    class 체스판에_존재하는_폰의_상태를_조회한다 {
 
         @Test
-        void 체스판_초기화_시_검은색_폰은_열의_개수만큼_존재한다() {
-            var board = createBoard();
-            board.initialize();
-
-            assertThat(board.getWhitePawnsResult()).isEqualTo("pppppppp");
-        }
-
-        @Test
-        void 체스판_초기화_시_하얀색_폰은_열의_개수만큼_존재한다() {
-            var board = createBoard();
-            board.initialize();
-
-            assertThat(board.getBlackPawnsResult()).isEqualTo("PPPPPPPP");
-        }
-    }
-
-    @Nested
-    class 체스판의_상태를_조회한다 {
-
-        @Test
-        void 체스판_초기화_시_모든_기물들이_제자리에_배치되어_있어야_한다() {
-            var board = createBoard();
+        void 체스판을_초기화하면_모든_기물들이_제자리에_배치되어_있어야_한다() {
             board.initialize();
 
             assertThat(board.print()).isEqualTo("""
@@ -151,6 +132,26 @@ class BoardTest {
                     pppppppp
                     rkbqkbkr
                     """);
+        }
+    }
+
+    @Nested
+    class 체스판에_존재하는_폰의_상태를_조회한다 {
+
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+            board.initialize();
+        }
+
+        @Test
+        void 체스판_초기화_시_검은색_폰은_열의_개수만큼_존재한다() {
+            assertThat(board.getWhitePawnsResult()).isEqualTo("pppppppp");
+        }
+
+        @Test
+        void 체스판_초기화_시_하얀색_폰은_열의_개수만큼_존재한다() {
+            assertThat(board.getBlackPawnsResult()).isEqualTo("PPPPPPPP");
         }
     }
 }

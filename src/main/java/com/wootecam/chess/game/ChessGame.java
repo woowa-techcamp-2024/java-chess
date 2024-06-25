@@ -1,4 +1,6 @@
-package com.wootecam.chess;
+package com.wootecam.chess.game;
+
+import com.wootecam.chess.board.Board;
 
 public class ChessGame {
     private Board board;

@@ -8,6 +8,8 @@ import static com.wootecam.chess.pieces.PieceType.QUEEN;
 import static com.wootecam.chess.pieces.PieceType.ROOK;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum PieceRepresentation {
     BLACK_PAWN(PAWN, Color.BLACK, "P"),
@@ -24,6 +26,10 @@ public enum PieceRepresentation {
     WHITE_KING(KING, Color.WHITE, "k"),
     NONE(null, null, ".");
 
+    private static final Map<PieceAttributes, PieceRepresentation> CONVERTOR = Arrays.stream(values())
+            .collect(Collectors.toMap(
+                    pieceRepresentation -> new PieceAttributes(pieceRepresentation.type, pieceRepresentation.color),
+                    pieceRepresentation -> pieceRepresentation));
     private final PieceType type;
     private final Color color;
     public final String value;
@@ -35,9 +41,9 @@ public enum PieceRepresentation {
     }
 
     public static PieceRepresentation findByTypeAndColor(PieceType type, Color color) {
-        return Arrays.stream(values())
-                .filter(pr -> pr.type == type && pr.color == color)
-                .findFirst()
-                .orElse(NONE);
+        return CONVERTOR.getOrDefault(new PieceAttributes(type, color), NONE);
+    }
+
+    private record PieceAttributes(PieceType type, Color color) {
     }
 }

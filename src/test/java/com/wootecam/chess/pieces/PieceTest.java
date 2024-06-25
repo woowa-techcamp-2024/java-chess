@@ -54,21 +54,25 @@ class PieceTest {
             assertThat(piece.getRepresentation()).isEqualTo(PieceRepresentation.findByTypeAndColor(pieceType, color));
         }
 
+        @Nested
+        class 색깔이_주어지지_않았다면 {
 
-        @EnumSource(PieceType.class)
-        @ParameterizedTest
-        void 색깔이_주어지지_않았다면_하얀색_기물이_생성되어야_한다(PieceType type) {
-            var piece = new Piece(type);
+            @EnumSource(PieceType.class)
+            @ParameterizedTest
+            void 하얀색_기물이_생성되어야_한다(PieceType type) {
+                var piece = new Piece(type);
 
-            assertThat(piece.getColor()).isEqualTo(Color.WHITE);
-        }
+                assertThat(piece.getColor()).isEqualTo(Color.WHITE);
+            }
 
-        @EnumSource(PieceType.class)
-        @ParameterizedTest
-        void 색깔이_주어지지_않았다면_하얀색_기물의_표현값이_반환되어야_한다(PieceType type) {
-            var piece = new Piece(type);
+            @EnumSource(PieceType.class)
+            @ParameterizedTest
+            void 하얀색_기물의_표현값이_반환되어야_한다(PieceType type) {
+                var piece = new Piece(type);
 
-            assertThat(piece.getRepresentation()).isEqualTo(PieceRepresentation.findByTypeAndColor(type, Color.WHITE));
+                assertThat(piece.getRepresentation()).isEqualTo(
+                        PieceRepresentation.findByTypeAndColor(type, Color.WHITE));
+            }
         }
     }
 

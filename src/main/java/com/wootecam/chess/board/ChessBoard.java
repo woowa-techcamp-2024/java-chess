@@ -1,4 +1,4 @@
-package com.wootecam.chess;
+package com.wootecam.chess.board;
 
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceRepresentation;

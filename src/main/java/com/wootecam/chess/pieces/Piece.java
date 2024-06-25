@@ -67,6 +67,14 @@ public class Piece {
         return new King(PieceType.KING, Color.BLACK);
     }
 
+    public boolean isWhite() {
+        return color.isWhite();
+    }
+
+    public boolean isBlack() {
+        return color.isBlack();
+    }
+
     public PieceType getType() {
         return type;
     }
@@ -82,13 +90,5 @@ public class Piece {
     @Override
     public String toString() {
         return representation.value;
-    }
-
-    public boolean isWhite() {
-        return color.isWhite();
-    }
-
-    public boolean isBlack() {
-        return color.isBlack();
     }
 }
