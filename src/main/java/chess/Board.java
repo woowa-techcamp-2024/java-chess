@@ -19,6 +19,8 @@ public class Board {
     private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
+    private static final int WIDTH_INDEX = 0;
+    private static final int RANK_INDEX = 1;
 
 
     private void initialize() {
@@ -111,16 +113,20 @@ public class Board {
 
 
     public Piece findPiece(String coordinate) {
+        validateCoordinate(coordinate);
+        int index = convertWidthIndex(coordinate.charAt(WIDTH_INDEX));
+        int rank = convertRankIndex(coordinate.charAt(RANK_INDEX));
+
+        return ranks.get(rank).getPieceByIndex(index);
+    }
+
+    private void validateCoordinate(String coordinate) {
         if(coordinate == null || coordinate.isBlank()) {
             throw new IllegalArgumentException("좌표를 입력해주세요.");
         }
         if(coordinate.length() != 2) {
             throw new IllegalArgumentException("좌표는 2글자여야 합니다.");
         }
-        int index = convertWidthIndex(coordinate.charAt(0));
-        int rank = convertRankIndex(coordinate.charAt(1));
-
-        return ranks.get(rank).getPieceByIndex(index);
     }
 
     private int convertRankIndex(char rank) {
