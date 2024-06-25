@@ -1,6 +1,6 @@
 package chess.pieces;
 
-public class Pawn implements ChessPiece {
+public class Piece implements ChessPiece {
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
     public static final char WHITE_REPRESENTATION = 'p';
@@ -8,14 +8,14 @@ public class Pawn implements ChessPiece {
     private String color;
     private char representation;
 
-    public Pawn() {
+    public Piece() {
         this(WHITE_COLOR,WHITE_REPRESENTATION);
     }
-    public Pawn(String color){
+    public Piece(String color){
         this(color,getRepresentationAccordingToColor(color));
     }
 
-    private Pawn(String color,char representation) {
+    private Piece(String color,char representation) {
         this.color = color;
         this.representation = representation;
     }
