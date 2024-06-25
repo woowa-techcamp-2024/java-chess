@@ -41,20 +41,20 @@ public class Board {
         }
     }
 
-    public String getWhitePawnsResult(){
-        return whitePawns.stream()
-                .map(Pawn::getRepresentation)
+    private String getResult(List<? extends ChessPiece> pieces){
+        return pieces.stream()
+                .map(ChessPiece::getRepresentation)
                 .map(String::valueOf)
                 .reduce((x,y)->x+y)
                 .get();
     }
 
+    public String getWhitePawnsResult(){
+        return getResult(whitePawns);
+    }
+
     public String getBlackPawnsResult(){
-        return blackPawns.stream()
-                .map(Pawn::getRepresentation)
-                .map(String::valueOf)
-                .reduce((x,y)->x+y)
-                .get();
+        return getResult(blackPawns);
     }
 
 }
