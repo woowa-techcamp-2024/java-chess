@@ -9,14 +9,16 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN("p", "P"), KNIGHT("n","N"), BISHOP("b","B"), ROOK("r","R"), QUEEN("q","Q"), KING("k","K"), NO_PIECE(".",".");
+        PAWN("p", "P", 1.0), KNIGHT("n","N", 2.5), BISHOP("b","B", 3.0), ROOK("r","R", 5.0), QUEEN("q","Q", 9.0), KING("k","K", 0.0), NO_PIECE(".",".", 0.0);
 
         private final String whitRepresentation;
         private final String blackRepresentation;
+        private final double defaultPoint;
 
-        Type(String whitRepresentation, String blackRepresentation) {
+        Type(String whitRepresentation, String blackRepresentation, double defaultPoint) {
             this.whitRepresentation = whitRepresentation;
             this.blackRepresentation = blackRepresentation;
+            this.defaultPoint = defaultPoint;
         }
 
         public String getWhiteRepresentation() {
@@ -25,6 +27,10 @@ public class Piece {
 
         public String getBlackRepresentation() {
             return blackRepresentation;
+        }
+
+        public double getDefaultPoint() {
+            return defaultPoint;
         }
     }
 

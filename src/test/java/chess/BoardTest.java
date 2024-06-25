@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Piece.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class BoardTest {
     void findPiece() {
         board.initialize();
 
-        assertEquals(8, board.findPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        assertEquals(8, board.findPiece(Color.BLACK, Piece.Type.PAWN));
     }
 
     @Test
@@ -91,5 +92,28 @@ class BoardTest {
 
         assertEquals(piece, board.findPiece(position));
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("체스 프로그램 점수 계산하기")
+    void calcScore() {
+        board.initializeEmpty();
+
+        board.move("b6", Piece.createBlack(Piece.Type.PAWN));
+        board.move("e6", Piece.createBlack(Piece.Type.QUEEN));
+        board.move("b8", Piece.createBlack(Piece.Type.KING));
+        board.move("c8", Piece.createBlack(Piece.Type.ROOK));
+
+        board.move("f2", Piece.createWhite(Piece.Type.PAWN));
+        board.move("g2", Piece.createWhite(Piece.Type.PAWN));
+        board.move("e1", Piece.createWhite(Piece.Type.ROOK));
+        board.move("f1", Piece.createWhite(Piece.Type.KING));
+
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+
+
     }
 }

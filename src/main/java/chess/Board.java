@@ -145,10 +145,56 @@ public class Board {
             }
             boardMap.add(p);
         }
+
+        initializeCmdToPos();
     }
 
     public void move(String position, Piece piece) {
         Position pos = cmdToPos.get(position);
         boardMap.get(pos.getRow()).set(pos.getColumn(), piece);
+    }
+
+    public double calculatePoint(Color color) {
+        double score = 0.0;
+
+        // KING
+        score += Type.KING.getDefaultPoint() * findPiece(color, Type.KING);
+
+        // QUEEN
+        score += Type.QUEEN.getDefaultPoint() * findPiece(color, Type.QUEEN);
+
+        // BISHOP
+        score += Type.BISHOP.getDefaultPoint() * findPiece(color, Type.BISHOP);
+
+        // ROOK
+        score += Type.ROOK.getDefaultPoint() * findPiece(color, Type.ROOK);
+
+        // KNIGHT
+        score += Type.KNIGHT.getDefaultPoint() * findPiece(color, Type.KNIGHT);
+
+        int gubunja = color.equals(Color.WHITE) ? 1 : 0;
+
+        // PAWN
+        for (int i = 0; i < 8; i++) {
+            int cnt = 0;
+            for (int j = 0; j < 8; j++) {
+                if (gubunja == 1) {
+                    if (Objects.equals(boardMap.get(j).get(i).getType(), Type.PAWN.getWhiteRepresentation())) {
+                        cnt++;
+                    }
+                } else {
+                    if (Objects.equals(boardMap.get(j).get(i).getType(), Type.PAWN.getBlackRepresentation())) {
+                        cnt++;
+                    }
+                }
+            }
+            if (cnt >= 2) {
+                score += cnt * 0.5;
+            } else {
+                score += cnt;
+            }
+        }
+
+        return score;
     }
 }
