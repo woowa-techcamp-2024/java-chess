@@ -30,4 +30,12 @@ public class Piece implements ChessPiece {
     public String getType() {
         return type;
     }
+
+    public boolean isBlack(){
+        return "black".equals(this.color);
+    }
+
+    public boolean isWhite(){
+        return "white".equals(this.color);
+    }
 }
