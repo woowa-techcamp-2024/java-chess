@@ -55,17 +55,18 @@ public class Board {
     }
     
     public String print() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder board = new StringBuilder();
 
         for (int i = 0; i < size; i++) {
+            StringBuilder row = new StringBuilder();
             for (int j = 0; j < size; j++) {
-                int index = board[i][j];
-                sb.append(index != -1 ? findPawn(index).getRepresentation() : EMPTY_CHAR);
+                int index = Board.board[i][j];
+                row.append(index != -1 ? findPawn(index).getRepresentation() : EMPTY_CHAR);
             }
-            appendNewLine(sb);
+            board.append(appendNewLine(row.toString()));
         }
 
-        return sb.toString();
+        return board.toString();
     }
 
 
