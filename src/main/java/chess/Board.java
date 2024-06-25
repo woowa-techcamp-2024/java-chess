@@ -7,14 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static chess.utils.StringUtils.BLANK;
+import static chess.utils.StringUtils.appendNewLine;
+
 public class Board {
 
     private static final int pawnNum = 8;
     private static final int rowNum = 9;
     private static final int whitePawnRow = 2;
     private static final int blackPawnRow = 7;
-    private static final char BLANK = '.';
-    private static final String DELIMITER = "\n";
 
     private final Map<Position, Pawn> board = new HashMap<>();
 
@@ -63,7 +64,7 @@ public class Board {
                 chessBoard.append(representation);
             }
 
-            chessBoard.append(DELIMITER);
+            appendNewLine(chessBoard);
         }
 
         return chessBoard.toString();
