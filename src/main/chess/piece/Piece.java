@@ -1,5 +1,7 @@
 package chess.piece;
 
+import chess.ChessStrings;
+
 public abstract class Piece {
 
     private final Color color;
@@ -15,4 +17,14 @@ public abstract class Piece {
     public Color getColor() {
         return color;
     }
+
+    @Override
+    public final String toString() {
+        return getColor() == Color.WHITE ? whiteRepresentation() : blackRepresentation();
+    }
+
+    protected abstract String whiteRepresentation();
+
+    protected abstract String blackRepresentation();
+
 }
