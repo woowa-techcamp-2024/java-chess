@@ -7,12 +7,12 @@ import chess.piece.Pawn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BoardTest {
+public class ChessBoardTest {
 
     @Test
     @DisplayName("보드를 생성하고 기물이 추가되어야 한다.")
     public void create() {
-        Board board = new Board();
+        ChessBoard board = new ChessBoard();
 
         Pawn white = new Pawn(Color.WHITE);
         board.set(1, 2, white);
@@ -30,7 +30,7 @@ public class BoardTest {
     @Test
     @DisplayName("보드의 toString 결과에 유니코드 체스말 형식으로 표시되어야 한다.")
     public void string() {
-        Board board = new Board();
+        ChessBoard board = new ChessBoard();
         board.set(1, 0, new Pawn(Color.WHITE));
         board.set(6, 1, new Pawn(Color.BLACK));
         assertThat(board).hasToString("""
