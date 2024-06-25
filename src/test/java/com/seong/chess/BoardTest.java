@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -109,5 +110,45 @@ public class BoardTest {
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("체스 보드의 기물을 점수가 높은 순으로 정렬할 수 있다.")
+    public void piecesOrderByScoreDesc() {
+        board.initialize();
+
+        List<Piece> whitePiecesOrderByDesc = board.getPiecesOrderByHighestScore(Color.WHITE);
+        assertThat(whitePiecesOrderByDesc)
+                .containsExactly(
+                        Piece.createWhiteQueen(),
+                        Piece.createWhiteRook(), Piece.createWhiteRook(),
+                        Piece.createWhiteBishop(), Piece.createWhiteBishop(),
+                        Piece.createWhiteKnight(), Piece.createWhiteKnight(),
+                        Piece.createWhitePawn(), Piece.createWhitePawn(),
+                        Piece.createWhitePawn(), Piece.createWhitePawn(),
+                        Piece.createWhitePawn(), Piece.createWhitePawn(),
+                        Piece.createWhitePawn(), Piece.createWhitePawn(),
+                        Piece.createWhiteKing()
+                );
+    }
+
+    @Test
+    @DisplayName("체스 보드의 기물을 점수가 낮은 순으로 정렬할 수 있다.")
+    public void piecesOrderByScoreAsc() {
+        board.initialize();
+
+        List<Piece> blackPiecesOrderByAsc = board.getPiecesOrderByLowest(Color.BLACK);
+        assertThat(blackPiecesOrderByAsc)
+                .containsExactly(
+                        Piece.createBlackKing(),
+                        Piece.createBlackPawn(), Piece.createBlackPawn(),
+                        Piece.createBlackPawn(), Piece.createBlackPawn(),
+                        Piece.createBlackPawn(), Piece.createBlackPawn(),
+                        Piece.createBlackPawn(), Piece.createBlackPawn(),
+                        Piece.createBlackKnight(), Piece.createBlackKnight(),
+                        Piece.createBlackBishop(), Piece.createBlackBishop(),
+                        Piece.createBlackRook(), Piece.createBlackRook(),
+                        Piece.createBlackQueen()
+                );
     }
 }

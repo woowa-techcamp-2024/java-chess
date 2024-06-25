@@ -6,6 +6,7 @@ import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Board {
@@ -165,5 +166,30 @@ public class Board {
             pawnCount *= 0.5;
         }
         return pawnCount;
+    }
+
+    public List<Piece> getPiecesOrderByHighestScore(Color color) {
+        return getPiecesOrderBy(color, (piece1, piece2) -> {
+            if (piece1.getDefaultPoint() == piece2.getDefaultPoint()) {
+                return 0;
+            }
+            return piece2.getDefaultPoint() > piece1.getDefaultPoint() ? 1 : -1;
+        });
+    }
+
+    public List<Piece> getPiecesOrderByLowest(Color color) {
+        return getPiecesOrderBy(color, (piece1, piece2) -> {
+            if (piece1.getDefaultPoint() == piece2.getDefaultPoint()) {
+                return 0;
+            }
+            return piece1.getDefaultPoint() > piece2.getDefaultPoint() ? 1 : -1;
+        });
+    }
+
+    private List<Piece> getPiecesOrderBy(Color color, Comparator<Piece> comparator) {
+        return ranks.stream()
+                .flatMap(rank -> rank.getSameColorPieces(color).stream())
+                .sorted(comparator)
+                .toList();
     }
 }
