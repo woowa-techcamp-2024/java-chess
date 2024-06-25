@@ -1,11 +1,10 @@
 package chess.pieces;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Rank {
-    private List<Piece> rank = new ArrayList<>();
+    private final List<Piece> rank;
 
     public Rank(final List<Piece> rank) { this.rank = rank; }
 
@@ -18,7 +17,7 @@ public class Rank {
                 piece -> Objects.equals(color, piece.getColor()) && Objects.equals(type, piece.getType())).count();
     }
 
-    public Piece getPiece(int index) {
+    public Piece get(int index) {
         return rank.get(index);
     }
 
@@ -30,5 +29,9 @@ public class Rank {
             else stringBuilder.append(piece.getType().getRepresentation());
         });
         return stringBuilder.toString();
+    }
+
+    public void move(final int x, final Piece piece) {
+        rank.set(x, piece);
     }
 }
