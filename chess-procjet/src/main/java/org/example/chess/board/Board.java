@@ -105,6 +105,19 @@ public class Board {
     }
 
     public int countPiecesByColorAndType(Color color, Type type) {
-        return 0;
+        int count = 0;
+        for (Rank rank : board) {
+            if (color == Color.BLACK) {
+                count += rank.countBlackPiecesWithType(type);
+                continue;
+            }
+
+            if (color == Color.WHITE) {
+                count += rank.countWhitePiecesWithType(type);
+                continue;
+            }
+        }
+
+        return count;
     }
 }
