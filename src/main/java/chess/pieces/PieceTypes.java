@@ -13,7 +13,7 @@ public enum PieceTypes {
     BLACK_QUEEN(Color.BLACK,Type.QUEEN),
     WHITE_KING(Color.WHITE,Type.KING),
     BLACK_KING(Color.BLACK,Type.KING),
-    ;
+    NO_PIECE(Color.NOCOLOR,Type.NO_PIECE);
     public enum Color{
         WHITE,BLACK,NOCOLOR;
     }
