@@ -7,82 +7,75 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static chess.utils.StringUtils.appendNewLine;
+import static chess.utils.StringUtils.NEWLINE;
 
 public class Board {
 
-    private final List<List<Piece>> pieces;
+    private final List<Rank> ranks;
     private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
-    private static final int BOARD_HEIGHT = 8;
-    private static final int WHITE_PAWN_ROW = 1;
-    private static final int BLACK_PAWN_ROW = 6;
+    private static final int RANK_HEIGHT = 8;
     private static final int INITIAL_PIECE_COUNT = 32;
-    private static final int BLACK_FIRST_ROW = 0;
-    private static final int WHITE_FIRST_ROW = 7;
-
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
-    private static final String EMPTY_ROW = "........";
 
 
     public void initialize() {
         pieceCount = INITIAL_PIECE_COUNT;
-        initializeWhiteFirstRow();
         initializeBlackFirstRow();
+        initializeBlackPawns();
         initializeEmtpyRows();
         initializeWhitePawns();
-        initializeBlackPawns();
+        initializeWhiteFirstRow();
+        validateRankHeight();
+    }
+
+    private void validateRankHeight() {
+        if(ranks.size() != RANK_HEIGHT) {
+            throw new IllegalArgumentException("한 보드는 8개의 랭크를 가집니다.");
+        }
     }
 
     private void initializeEmtpyRows() {
         IntStream.range(BLANK_ROW_START, BLANK_ROW_END).forEach(i ->
-                pieces.get(i).addAll(IntStream.range(0, BOARD_WIDTH)
+                ranks.add(Rank.initializeRank(IntStream.range(0, BOARD_WIDTH)
                         .mapToObj(c -> Piece.createBlank())
-                        .collect(Collectors.toCollection(ArrayList::new))));
+                        .collect(Collectors.toCollection(ArrayList::new)))));
     }
 
     private void initializeBlackFirstRow() {
-        List<Piece> blackFirstRow = pieces.get(BLACK_FIRST_ROW);
-        blackFirstRow.add(Piece.createBlackRook());
-        blackFirstRow.add(Piece.createBlackKnight());
-        blackFirstRow.add(Piece.createBlackBishop());
-        blackFirstRow.add(Piece.createBlackQueen());
-        blackFirstRow.add(Piece.createBlackKing());
-        blackFirstRow.add(Piece.createBlackBishop());
-        blackFirstRow.add(Piece.createBlackKnight());
-        blackFirstRow.add(Piece.createBlackRook());
+        List<Piece> firstRow = List.of(
+                Piece.createBlackRook(),
+                Piece.createBlackKnight(),
+                Piece.createBlackBishop(),
+                Piece.createBlackQueen(),
+                Piece.createBlackKing(),
+                Piece.createBlackBishop(),
+                Piece.createBlackKnight(),
+                Piece.createBlackRook());
+
+        ranks.add(Rank.initializeRank(firstRow));
     }
 
     private void initializeWhiteFirstRow() {
-        List<Piece> whiteFirstRow = pieces.get(WHITE_FIRST_ROW);
-        whiteFirstRow.add(Piece.createWhiteRook());
-        whiteFirstRow.add(Piece.createWhiteKnight());
-        whiteFirstRow.add(Piece.createWhiteBishop());
-        whiteFirstRow.add(Piece.createWhiteQueen());
-        whiteFirstRow.add(Piece.createWhiteKing());
-        whiteFirstRow.add(Piece.createWhiteBishop());
-        whiteFirstRow.add(Piece.createWhiteKnight());
-        whiteFirstRow.add(Piece.createWhiteRook());
+        List<Piece> lastRow = List.of(
+                Piece.createWhiteRook(),
+                Piece.createWhiteKnight(),
+                Piece.createWhiteBishop(),
+                Piece.createWhiteQueen(),
+                Piece.createWhiteKing(),
+                Piece.createWhiteBishop(),
+                Piece.createWhiteKnight(),
+                Piece.createWhiteRook());
+
+        ranks.add(Rank.initializeRank(lastRow));
     }
 
-    // TODO 현재 빈 줄을 EMPTY_ROW로 출력하지만, 이건 나중에 변경 필요
-    public String print() {
-        StringBuilder sb = new StringBuilder();
-
-        for (List<Piece> piece : pieces) {
-            if(piece.isEmpty()) {
-                sb.append(EMPTY_ROW);
-                appendNewLine(sb);
-                continue;
-            }
-            piece.stream()
-                    .map(Piece::getRepresentation)
-                    .forEach(sb::append);
-            appendNewLine(sb);
-        }
-        return sb.toString();
+    private String print() {
+        return ranks.stream()
+                .map(Rank::printRank)
+                .collect(Collectors.joining(NEWLINE));
     }
 
     public int pieceCount() {
@@ -94,22 +87,20 @@ public class Board {
     }
 
     protected Board() {
-        pieces = new ArrayList<>();
-        IntStream.range(0, BOARD_HEIGHT)
-                .forEach(i -> pieces.add(new ArrayList<>()));
+        ranks = new ArrayList<>();
     }
 
     private void initializeWhitePawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createWhitePawn())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pieces.get(WHITE_PAWN_ROW).addAll(initializedPieces);
+        this.ranks.add(Rank.initializeRank(initializedPieces));
     }
 
     private void initializeBlackPawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createBlackPawn())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pieces.get(BLACK_PAWN_ROW).addAll(initializedPieces);
+        this.ranks.add(Rank.initializeRank(initializedPieces));
     }
 }

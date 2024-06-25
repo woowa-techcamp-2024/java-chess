@@ -30,13 +30,13 @@ class BoardTest {
         String blankRank = "........";
         StringBuilder sb = new StringBuilder();
             sb.append("RNBQKBNR").append(NEWLINE);
-            sb.append("pppppppp").append(NEWLINE);
-            sb.append(blankRank).append(NEWLINE);
-            sb.append(blankRank).append(NEWLINE);
-            sb.append(blankRank).append(NEWLINE);
-            sb.append(blankRank).append(NEWLINE);
             sb.append("PPPPPPPP").append(NEWLINE);
-            sb.append("rnbqkbnr").append(NEWLINE);
+            sb.append(blankRank).append(NEWLINE);
+            sb.append(blankRank).append(NEWLINE);
+            sb.append(blankRank).append(NEWLINE);
+            sb.append(blankRank).append(NEWLINE);
+            sb.append("pppppppp").append(NEWLINE);
+            sb.append("rnbqkbnr");
         return sb.toString();
     }
 }
