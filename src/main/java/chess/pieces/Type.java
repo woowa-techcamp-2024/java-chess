@@ -9,6 +9,10 @@ public enum Type {
         this.representation = representation;
     }
 
+    public char getRepresentation() {
+        return this.representation;
+    }
+
     public char getWhiteRepresentation() {
         return this.representation;
     }
