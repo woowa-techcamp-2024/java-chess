@@ -1,4 +1,4 @@
-package wootecamp.chess;
+package wootecamp.chess.pieces;
 
 public class Pawn {
     public static final String WHITE_COLOR = "white";

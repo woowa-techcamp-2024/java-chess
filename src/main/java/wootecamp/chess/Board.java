@@ -1,5 +1,7 @@
 package wootecamp.chess;
 
+import wootecamp.chess.pieces.Pawn;
+
 import java.util.ArrayList;
 import java.util.List;
 
