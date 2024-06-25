@@ -23,7 +23,7 @@ public class BoardTest {
     }
 
     @Test
-    public void initialize() {
+    public void 보드_초기화() {
         Board board = new Board();
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());

@@ -40,16 +40,16 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder builder = new StringBuilder();
-        for (Pawn pawn : whitePawns) {
-            builder.append(pawn.getRepresentation());
-        }
-        return builder.toString();
+        return getPawnsResult(whitePawns);
     }
 
     public String getBlackPawnsResult() {
+        return getPawnsResult(blackPawns);
+    }
+
+    private String getPawnsResult(List<Pawn> pawns) {
         StringBuilder builder = new StringBuilder();
-        for (Pawn pawn : blackPawns) {
+        for (Pawn pawn : pawns) {
             builder.append(pawn.getRepresentation());
         }
         return builder.toString();
