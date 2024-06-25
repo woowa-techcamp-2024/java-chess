@@ -4,18 +4,15 @@ import com.seong.chess.pieces.Piece;
 
 public class Column {
 
-    private final Point point;
+    private final Position position;
     private Piece piece;
 
-    public Column(Point point) {
-        this.point = point;
+    public Column(Position position) {
+        this.position = position;
     }
 
-    public boolean isSameRow(int row) {
-        return point.r() == row;
-    }
-
-    public void initialize(Piece piece) {
+    public Column(Position position, Piece piece) {
+        this.position = position;
         this.piece = piece;
     }
 
@@ -24,5 +21,9 @@ public class Column {
             return '.';
         }
         return piece.getRepresentation();
+    }
+
+    public boolean hasPiece() {
+        return piece != null;
     }
 }

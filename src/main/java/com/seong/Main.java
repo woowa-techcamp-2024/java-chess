@@ -21,7 +21,7 @@ public class Main {
             } else {
                 continue;
             }
-            System.out.println(board.print());
+            System.out.println(board.showBoard());
         }
     }
 }
