@@ -39,52 +39,13 @@ public class Piece {
     public static Piece createBlank() {
         return Piece.of(Color.NOCOLOR.name(), Type.NO_PIECE.getBlackRepresentation());
     }
-    public static Piece createWhitePawn() {
-        return Piece.of(Color.WHITE.name(), Type.PAWN.getWhiteRepresentation());
+
+    public static Piece createWhite(Type type) {
+        return Piece.of(Color.WHITE.name(), type.getWhiteRepresentation());
     }
 
-    public static Piece createBlackPawn() {
-        return Piece.of(Color.BLACK.name(), Type.PAWN.getBlackRepresentation());
-    }
-
-    public static Piece createWhiteKnight() {
-        return Piece.of(Color.WHITE.name(), Type.KNIGHT.getWhiteRepresentation());
-    }
-
-    public static Piece createBlackKnight() {
-        return Piece.of(Color.BLACK.name(), Type.KNIGHT.getBlackRepresentation());
-    }
-
-    public static Piece createWhiteQueen() {
-        return Piece.of(Color.WHITE.name(), Type.QUEEN.getWhiteRepresentation());
-    }
-
-    public static Piece createBlackQueen() {
-        return Piece.of(Color.BLACK.name(), Type.QUEEN.getBlackRepresentation());
-    }
-
-    public static Piece createWhiteKing() {
-        return Piece.of(Color.WHITE.name(), Type.KING.getWhiteRepresentation());
-    }
-
-    public static Piece createBlackKing() {
-        return Piece.of(Color.BLACK.name(), Type.KING.getBlackRepresentation());
-    }
-
-    public static Piece createWhiteRook() {
-        return Piece.of(Color.WHITE.name(), Type.ROOK.getWhiteRepresentation());
-    }
-
-    public static Piece createBlackRook() {
-        return Piece.of(Color.BLACK.name(), Type.ROOK.getBlackRepresentation());
-    }
-
-    public static Piece createWhiteBishop() {
-        return Piece.of(Color.WHITE.name(), Type.BISHOP.getWhiteRepresentation());
-    }
-
-    public static Piece createBlackBishop() {
-        return Piece.of(Color.BLACK.name(), Type.BISHOP.getBlackRepresentation());
+    public static Piece createBlack(Type type) {
+        return Piece.of(Color.BLACK.name(), type.getBlackRepresentation());
     }
 
     public static  Piece of(final String color, final String representation) {

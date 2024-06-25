@@ -12,12 +12,12 @@ class PieceTest {
     @Test
     @DisplayName("해당하는 색 폰이 생성되어야 한다")
     void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+        verifyPiece(Piece.createWhite(Type.PAWN), Piece.createBlack(Type.PAWN), Type.PAWN);
+        verifyPiece(Piece.createWhite(Type.KNIGHT), Piece.createBlack(Type.KNIGHT), Type.KNIGHT);
+        verifyPiece(Piece.createWhite(Type.ROOK), Piece.createBlack(Type.ROOK), Type.ROOK);
+        verifyPiece(Piece.createWhite(Type.BISHOP), Piece.createBlack(Type.BISHOP), Type.BISHOP);
+        verifyPiece(Piece.createWhite(Type.QUEEN), Piece.createBlack(Type.QUEEN), Type.QUEEN);
+        verifyPiece(Piece.createWhite(Type.KING), Piece.createBlack(Type.KING), Type.KING);
 
         Piece blank = Piece.createBlank();
         assertThat(blank.isWhite()).isFalse();
@@ -29,14 +29,14 @@ class PieceTest {
     @Test
     @DisplayName("검정색 피스인가?")
     void isBlack() {
-        Piece piece = Piece.createBlackPawn();
+        Piece piece = Piece.createBlack(Type.PAWN);
         assertThat(piece.isBlack()).isTrue();
     }
 
     @Test
     @DisplayName("흰 피스인가?")
     void isWhite() {
-        Piece piece = Piece.createWhitePawn();
+        Piece piece = Piece.createWhite(Type.PAWN);
         assertThat(piece.isWhite()).isTrue();
     }
 
