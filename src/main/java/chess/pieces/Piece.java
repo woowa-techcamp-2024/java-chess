@@ -94,4 +94,13 @@ public class Piece {
     public boolean isWhite() {
         return this.color.equals(WHITE_COLOR);
     }
+
+    public enum Color {
+        WHITE, BLACK, NOCOLOR;
+    }
+
+    public enum Type {
+        PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, NO_PIECE;
+    }
+
 }
