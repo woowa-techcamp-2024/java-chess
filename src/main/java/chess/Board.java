@@ -75,26 +75,6 @@ public class Board {
         return sb.toString();
     }
 
-    public String getWhitePawnsResult() {
-        return getRowPawnsResult(WHITE_PAWN_ROW);
-    }
-
-    public String getBlackPawnsResult() {
-        return getRowPawnsResult(BLACK_PAWN_ROW);
-    }
-
-    public int size() {
-        return pieces.get(0).size();
-    }
-
-    public Piece findPawn(int index) {
-        return pieces.get(0).get(index);
-    }
-
-    public void add(Piece piece) {
-        pieces.get(0).add(piece);
-    }
-
     public int pieceCount() {
         return pieceCount;
     }
@@ -109,14 +89,6 @@ public class Board {
                 .forEach(i -> pieces.add(new ArrayList<>()));
     }
 
-    private String getRowPawnsResult(int row) {
-        validateIndex(row);
-        return pieces.get(row).stream()
-                .map(Piece::getRepresentation)
-                .map(String::valueOf)
-                .collect(Collectors.joining());
-    }
-
     private void initializeWhitePawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createWhitePawn())
@@ -129,11 +101,5 @@ public class Board {
                 .mapToObj(i -> Piece.createBlackPawn())
                 .collect(Collectors.toCollection(ArrayList::new));
         this.pieces.get(BLACK_PAWN_ROW).addAll(initializedPieces);
-    }
-
-    private void validateIndex(int index) {
-        if (index < 0 || index / BOARD_WIDTH >= BOARD_HEIGHT) {
-            throw new IllegalArgumentException("Index out of range");
-        }
     }
 }
