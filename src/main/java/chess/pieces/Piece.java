@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.pieces.enums.Color;
 import chess.pieces.enums.Symbol;
 import chess.pieces.values.Location;
 
@@ -12,16 +13,16 @@ public abstract class Piece {
         this.location = location;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public Symbol getSymbol() {
-        return symbol;
-    }
-
     @Override
     public String toString() {
         return symbol.getValue();
+    }
+
+    public static Piece createWhitePawn() {
+        return new Pawn(Color.WHITE);
+    }
+
+    public static Piece createBlackPawn() {
+        return new Pawn(Color.BLACK);
     }
 }

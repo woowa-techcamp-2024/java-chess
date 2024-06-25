@@ -7,7 +7,7 @@ public class Pawn extends Piece {
 
     private final Color color;
 
-    public Pawn(Color color) {
+    Pawn(Color color) {
         this.color = color;
         this.symbol = color.equals(Color.BLACK) ? Symbol.BLACK_PAWN : Symbol.WHITE_PAWN;
     }

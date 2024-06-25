@@ -1,10 +1,10 @@
 package chess;
 
 import chess.pieces.Blank;
-import chess.pieces.Pawn;
 import chess.pieces.Piece;
 import chess.pieces.enums.Color;
 import chess.pieces.values.Location;
+import utils.StringUtils;
 
 import java.util.Arrays;
 
@@ -54,21 +54,23 @@ public class Board {
         for (Piece piece : board[row - 1]) {
             sb.append(piece);
         }
-        return sb.toString();
+        return StringUtils.appendNewLine(sb.toString());
     }
 
     public String print() {
         var sb = new StringBuilder();
         for (int i = board.length; i > 0; i--) {
             sb.append(printRow(i));
-            sb.append("\n");
         }
         return sb.toString();
     }
 
     private void fillPawn(int row, Color color) {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            var pawn = new Pawn(color);
+            var pawn = switch (color) {
+                case WHITE -> Piece.createWhitePawn();
+                case BLACK -> Piece.createBlackPawn();
+            };
             board[row - 1][i] = pawn;
             pawn.moveLocation(Location.of(row, (char) ('a' + i)));
         }
