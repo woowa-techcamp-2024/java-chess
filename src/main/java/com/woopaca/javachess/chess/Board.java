@@ -38,24 +38,28 @@ public class Board {
 
     public void initialize() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-            pawns[WHITE_PAWNS_ROW].add(whitePawn);
-
-            Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
-            pawns[BLACK_PAWNS_ROW].add(blackPawn);
+            addPawn(Pawn.WHITE_COLOR, WHITE_PAWNS_ROW);
+            addPawn(Pawn.BLACK_COLOR, BLACK_PAWNS_ROW);
         }
+    }
+
+    private void addPawn(String color, int row) {
+        Pawn pawn = new Pawn(color);
+        pawns[row].add(pawn);
     }
 
     public String getWhitePawnsResult() {
         List<Pawn> whitePawns = pawns[WHITE_PAWNS_ROW];
-        return whitePawns.stream()
-                .map(pawn -> String.valueOf(pawn.getRepresentation()))
-                .collect(Collectors.joining());
+        return generatePawnsResult(whitePawns);
     }
 
     public String getBlackPawnsResult() {
         List<Pawn> blackPawns = pawns[BLACK_PAWNS_ROW];
-        return blackPawns.stream()
+        return generatePawnsResult(blackPawns);
+    }
+
+    private String generatePawnsResult(List<Pawn> pawns) {
+        return pawns.stream()
                 .map(pawn -> String.valueOf(pawn.getRepresentation()))
                 .collect(Collectors.joining());
     }
