@@ -1,7 +1,8 @@
-package woowa.camp;
+package woowa.camp.chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import woowa.camp.pieces.Pawn;
 
 public class Board {
 

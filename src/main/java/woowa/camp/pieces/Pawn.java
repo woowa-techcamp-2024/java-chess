@@ -1,4 +1,4 @@
-package woowa.camp;
+package woowa.camp.pieces;
 
 public class Pawn {
 

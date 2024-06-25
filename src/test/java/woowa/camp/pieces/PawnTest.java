@@ -1,4 +1,4 @@
-package woowa.camp;
+package woowa.camp.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
