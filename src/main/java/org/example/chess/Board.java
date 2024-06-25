@@ -1,5 +1,7 @@
 package org.example.chess;
 
+import static org.example.utils.StringUtils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.example.pieces.Pawn;
@@ -48,18 +50,19 @@ public class Board {
 
     public String print() {
         StringBuilder sb = new StringBuilder();
-        String defaultLine = ".".repeat(BOARD_SIZE) + "\n";
+        String defaultLine = ".".repeat(BOARD_SIZE);
+        String defaultLineWithNewLine = appendNewLine(defaultLine);
 
-        sb.append(defaultLine);
-        sb.append(getWhitePawnsResult()).append("\n");
+        sb.append(defaultLineWithNewLine);
+        sb.append(appendNewLine(getWhitePawnsResult()));
 
-        sb.append(defaultLine);
-        sb.append(defaultLine);
-        sb.append(defaultLine);
-        sb.append(defaultLine);
+        sb.append(defaultLineWithNewLine);
+        sb.append(defaultLineWithNewLine);
+        sb.append(defaultLineWithNewLine);
+        sb.append(defaultLineWithNewLine);
 
-        sb.append(getBlackPawnsResult()).append("\n");
-        sb.append(defaultLine);
+        sb.append(appendNewLine(getBlackPawnsResult()));
+        sb.append(defaultLineWithNewLine);
 
         return sb.toString();
     }
