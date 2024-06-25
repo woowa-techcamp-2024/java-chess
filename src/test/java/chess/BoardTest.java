@@ -16,6 +16,7 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
+        board.initialize();
         white = new Pawn(Pawn.WHITE_COLOR);
         black = new Pawn(Pawn.BLACK_COLOR);
     }
@@ -35,8 +36,32 @@ class BoardTest {
     @Test
     @DisplayName("보드를 초기화할 수 있다")
     void initialize() throws Exception {
-        board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
+
+    @Test
+    @DisplayName("보드를 출력할 수 있다")
+    void print() throws Exception {
+        // given
+        String givenBoard = givenBoardPrint();
+
+        // when
+        String boardPrint = board.print();
+
+        // then
+        assertEquals(givenBoard, boardPrint);
+    }
+    private String givenBoardPrint() {
+        StringBuilder sb = new StringBuilder();
+            sb.append("........").append("\n");
+            sb.append("pppppppp").append("\n");
+            sb.append("........").append("\n");
+            sb.append("........").append("\n");
+            sb.append("........").append("\n");
+            sb.append("........").append("\n");
+            sb.append("PPPPPPPP").append("\n");
+            sb.append("........").append("\n");
+        return sb.toString();
     }
 }
