@@ -76,7 +76,7 @@ public class Piece {
         BISHOP("B"),
         QUEEN("Q"),
         KING("K"),
-        NO_TYPE("X");
+        NO_TYPE(".");
 
         private final String representation;
 

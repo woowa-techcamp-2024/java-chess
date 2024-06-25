@@ -25,6 +25,7 @@ class PieceTest {
         verifyPiece(Piece.PieceFactory.createBlackKnight(), Color.BLACK, Type.KNIGHT, "N");
         verifyPiece(Piece.PieceFactory.createWhiteRook(), Color.WHITE, Type.ROOK, "r");
         verifyPiece(Piece.PieceFactory.createBlackRook(), Color.BLACK, Type.ROOK, "R");
+        verifyPiece(Piece.PieceFactory.createBlank(), Color.NONCOLOR, Type.NO_TYPE, ".");
 
         Piece blank = Piece.PieceFactory.createBlank();
         assertFalse(blank.isBlack());

@@ -3,9 +3,11 @@ package org.example.chess.board;
 import static org.example.utils.StringUtils.appendNewLine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.PieceFactory;
 
@@ -18,17 +20,15 @@ public class Board {
     private static final int WHITE_INIT_ROW = 7;
     private static final int WHITE_PAWN_INIT_ROW = 6;
 
-    private final char[][] board;
-    private final Point[][] points;
-    private final Map<Point, Piece> pieceMap = new HashMap<>();
+    private final List<List<Piece>> board = new ArrayList<>();
 
     public void initialize() {
-        // 보드판에 흰색 폰 8개, 검은색 폰 8개를 놓도록 초기화하는 메서드
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                board[i][j] = '.';
-                points[i][j] = new Point(i, j);
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            List<Piece> row = new ArrayList<>();
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                row.add(PieceFactory.createBlank());
             }
+            board.add(row);
         }
         addPieceToBoard();
     }
@@ -42,9 +42,7 @@ public class Board {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
-            Point point = points[BLACK_PAWN_INIT_ROW][i];
-            pieceMap.put(point, blackPawn);
-            board[BLACK_PAWN_INIT_ROW][i] = blackPawn.getRepresentation().charAt(0);
+            board.get(BLACK_PAWN_INIT_ROW).set(i, blackPawn);
         }
 
         List<Piece> blackPiecesExceptPawn = new ArrayList<>();
@@ -57,21 +55,15 @@ public class Board {
         blackPiecesExceptPawn.add(PieceFactory.createBlackKnight());
         blackPiecesExceptPawn.add(PieceFactory.createBlackRook());
 
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            Piece piece = blackPiecesExceptPawn.get(i);
-            Point point = points[BLACK_INIT_ROW][i];
-            pieceMap.put(point, piece);
-            board[BLACK_INIT_ROW][i] = piece.getRepresentation().charAt(0);
-        }
+        board.set(BLACK_INIT_ROW, blackPiecesExceptPawn);
     }
 
     private void initWhitePiece() {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece whitePawn = PieceFactory.createWhitePawn();
-            Point point = points[WHITE_PAWN_INIT_ROW][i];
-            pieceMap.put(point, whitePawn);
-            board[WHITE_PAWN_INIT_ROW][i] = whitePawn.getRepresentation().charAt(0);
+            board.get(WHITE_PAWN_INIT_ROW).set(i, whitePawn);
+
         }
 
         List<Piece> whitePieceExceptPawn = new ArrayList<>();
@@ -84,12 +76,7 @@ public class Board {
         whitePieceExceptPawn.add(PieceFactory.createWhiteKnight());
         whitePieceExceptPawn.add(PieceFactory.createWhiteRook());
 
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            Piece piece = whitePieceExceptPawn.get(i);
-            Point point = points[WHITE_INIT_ROW][i];
-            pieceMap.put(point, piece);
-            board[WHITE_INIT_ROW][i] = piece.getRepresentation().charAt(0);
-        }
+        board.set(WHITE_INIT_ROW, whitePieceExceptPawn);
     }
 
     public void print() {
@@ -97,18 +84,18 @@ public class Board {
     }
 
     public Board() {
-        this.board = new char[BOARD_SIZE][BOARD_SIZE];
-        this.points = new Point[BOARD_SIZE][BOARD_SIZE];
     }
 
     public int pieceCount() {
-        return pieceMap.values().size();
+        return 32;
     }
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-        for (char[] row : board) {
-            sb.append(appendNewLine(String.valueOf(row)));
+        for (List<Piece> row : board) {
+            sb.append(appendNewLine(row.stream()
+                    .map(Piece::getRepresentation)
+                    .collect(Collectors.joining())));
         }
         return sb.toString();
     }
