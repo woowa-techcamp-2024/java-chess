@@ -4,7 +4,8 @@ import com.wootecam.chess.pieces.Pawn;
 
 public class ChessBoard {
     private static final int MAX_ROW = 8;
-    private static final int MAX_COL = 8;
+    public static final int MAX_COL = 8;
+    private static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
 
     private final Pawn[][] cells;
     private int totalPieces;
@@ -29,5 +30,9 @@ public class ChessBoard {
 
         cells[row][col] = pawn;
         ++totalPieces;
+    }
+
+    public int size() {
+        return TOTAL_CELLS;
     }
 }

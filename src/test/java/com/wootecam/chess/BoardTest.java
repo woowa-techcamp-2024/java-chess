@@ -34,7 +34,6 @@ class BoardTest {
         return board;
     }
 
-
     @Nested
     class 체스판에_말을_추가할_수_있다 {
 
@@ -95,6 +94,19 @@ class BoardTest {
 
             assertThatThrownBy(() -> board.findPawn(index))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    class 체스판을_초기화한다 {
+
+        @Test
+        void 체스판을_초기화하면_흰색_폰과_검은색_폰이_각각_열의_길이만큼_존재해야_한다() {
+            var board = createBoard();
+
+            board.initialize();
+
+            assertThat(board.size()).isEqualTo(ChessBoard.MAX_COL * 2);
         }
     }
 }

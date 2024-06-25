@@ -1,5 +1,8 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.ChessBoard.MAX_COL;
+
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Pawn;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +16,27 @@ public class Board {
         this.pawns = new ArrayList<>();
     }
 
+    public void initialize() {
+        int whitePawnIndex = MAX_COL;
+        for (int i = 0; i < MAX_COL; ++i) {
+            Pawn pawn = new Pawn(Color.WHITE);
+            add(pawn, whitePawnIndex + i);
+        }
+
+        int blackPawnIndex = chessBoard.size() - MAX_COL;
+        for (int i = 0; i < MAX_COL; ++i) {
+            Pawn pawn = new Pawn(Color.BLACK);
+            add(pawn, blackPawnIndex + i);
+        }
+    }
+
     public void add(Pawn pawn) {
         chessBoard.add(pawn);
+        pawns.add(pawn);
+    }
+
+    public void add(Pawn pawn, int index) {
+        chessBoard.add(pawn, index);
         pawns.add(pawn);
     }
 
