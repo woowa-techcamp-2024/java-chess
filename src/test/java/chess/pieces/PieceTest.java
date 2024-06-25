@@ -18,11 +18,29 @@ class PieceTest {
     @Test
     @DisplayName("생성자를 이용하면 폰이 생성되어야 한다")
     void create() {
-        verifyPawn(Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION);
-        verifyPawn(Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION);
+        verifyPiece(Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION);
+        verifyPiece(Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION);
     }
 
-    private void verifyPawn(final String color, final char representation) {
+    @DisplayName("")
+    @Test
+    void create_piece() {
+        // given
+
+
+        // when
+
+        // then
+        verifyPiece(Piece.createWhitePawn(), Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION);
+        verifyPiece(Piece.createBlackPawn(), Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION);
+    }
+
+    private void verifyPiece(final Piece piece, final String color, final char representation) {
+        assertEquals(color, piece.getColor());
+        assertEquals(representation, piece.getRepresentation());
+    }
+
+    private void verifyPiece(final String color, final char representation) {
         Piece piece = new Piece(color, representation);
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
