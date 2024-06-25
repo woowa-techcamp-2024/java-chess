@@ -15,16 +15,16 @@ class LocationTest {
     @MethodSource
     @ParameterizedTest
     @DisplayName("위치를 생성한다.")
-    void create(char x, int y) {
+    void create(int x, char y) {
         var actualResult = Location.of(x, y);
         assertThat(actualResult.getX()).isEqualTo(x);
-        assertThat(actualResult.getY()).isEqualTo(y);
+        assertThat(actualResult.getY()).isEqualTo((int) y - 'a');
     }
 
     @MethodSource
     @ParameterizedTest
     @DisplayName("잘못된 좌표가 입력되면 위치 생성에 실패한다.")
-    void createFail(char x, int y) {
+    void createFail(int x, char y) {
         assertThatThrownBy(() -> Location.of(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid Location Input");
@@ -32,18 +32,18 @@ class LocationTest {
 
     private static Stream<Arguments> create() {
         return Stream.of(
-                Arguments.of('a', 1),
-                Arguments.of('b', 3),
-                Arguments.of('h', 8)
+                Arguments.of(1, 'a'),
+                Arguments.of(3, 'b'),
+                Arguments.of(8, 'h')
         );
     }
 
     private static Stream<Arguments> createFail() {
         return Stream.of(
-                Arguments.of('z', 1),
-                Arguments.of('a', 0),
-                Arguments.of('h', -1),
-                Arguments.of('H', 11)
+                Arguments.of(1, 'z'),
+                Arguments.of(0, 'a'),
+                Arguments.of(-1, 'h'),
+                Arguments.of(11, 'H')
         );
     }
 }

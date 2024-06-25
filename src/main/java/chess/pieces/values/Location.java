@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Location {
 
-    private final char x;
+    private final int x;
     private final int y;
 
-    private Location(char x, int y) {
+    private Location(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public static Location of(char x, int y) {
+    public static Location of(int x, char y) {
         verifyCurrentLocation(x, y);
-        return new Location(x, y);
+        return new Location(x, convertIdxToInt(y));
     }
 
-    public char getX() {
+    public int getX() {
         return x;
     }
 
@@ -37,8 +37,12 @@ public class Location {
         return Objects.hash(x, y);
     }
 
-    private static void verifyCurrentLocation(char x, int y) {
-        if (x < 'a' || x > 'h' || y < 1 || y > 8) {
+    private static int convertIdxToInt(char y) {
+        return y - 'a';
+    }
+
+    private static void verifyCurrentLocation(int x, char y) {
+        if (x < 1 || x > 8 || y < 'a' || y > 'h') {
             throw new IllegalArgumentException("Invalid Location Input");
         }
     }

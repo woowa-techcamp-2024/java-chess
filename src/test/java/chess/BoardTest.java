@@ -28,13 +28,13 @@ class BoardTest {
     void create(Pawn pawn, Location location) {
         board.addPiece(pawn, location);
         assertThat(board.size()).isOne();
-        assertThat(board.getPiece(location)).hasValue(pawn);
+        assertThat(board.getPiece(location)).isEqualTo(pawn);
     }
 
     private static Stream<Arguments> create() {
         return Stream.of(
-                Arguments.of(new Pawn(Color.WHITE), Location.of('a', 2)),
-                Arguments.of(new Pawn(Color.BLACK), Location.of('b', 4))
+                Arguments.of(new Pawn(Color.WHITE), Location.of(2, 'a')),
+                Arguments.of(new Pawn(Color.BLACK), Location.of(4, 'b'))
         );
     }
 }
