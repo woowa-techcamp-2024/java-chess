@@ -1,5 +1,6 @@
 package chess;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import chess.piece.Color;
 import chess.piece.Pawn;
@@ -9,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BoardTest {
 
     @Test
+    @DisplayName("보드를 생성하고 기물이 추가되어야 한다.")
     public void create() {
         Board board = new Board();
 
