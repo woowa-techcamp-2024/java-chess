@@ -91,4 +91,10 @@ public class Board {
                 .map(rank -> rank.pieceCount(type, color))
                 .reduce(0, Integer::sum);
     }
+
+    public Piece findPiece(String position) {
+        int col = position.charAt(0) - 'a';
+        int row = 8 - Character.getNumericValue(position.charAt(1));
+        return ranks.get(row).indexOf(col);
+    }
 }

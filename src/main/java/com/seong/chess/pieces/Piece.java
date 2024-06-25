@@ -1,5 +1,7 @@
 package com.seong.chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
 
     public enum Color {
@@ -127,5 +129,30 @@ public class Piece {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                ", color=" + color +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import static com.seong.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,5 +60,16 @@ public class BoardTest {
 
     private void verifyBlackPieceCount(Type type, int count) {
         assertThat(board.pieceCount(type, Color.BLACK)).isEqualTo(count);
+    }
+
+    @Test
+    @DisplayName("체스 보드의 주어진 위치에 존재하는 체스말을 찾을 수 있다.")
+    public void findPiece() throws Exception {
+        board.initialize();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
     }
 }
