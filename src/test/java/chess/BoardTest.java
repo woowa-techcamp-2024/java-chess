@@ -39,7 +39,7 @@ class BoardTest {
         // then
         assertThat(piece).isNotNull()
                 .extracting("color", "type")
-                .containsExactly(Color.WHITE, Type.ROOK);
+                .contains(Color.WHITE, Type.ROOK);
     }
 
     @DisplayName("알파벳 좌표의 범위를 벗어난 경우 예외가 발생한다")
@@ -53,6 +53,31 @@ class BoardTest {
         assertThatThrownBy(() -> board.findPiece(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("범위를 넘어선 좌표입니다.");
+    }
+
+    @DisplayName("올바르지 않은 형식의 좌표를 입력한 경우 예외가 발생한다")
+    @Test
+    void findPieceWithInvalidCoordinateFormat() {
+        // given
+        Board board = new Board();
+        String coordinate = "i11";
+
+        // when & then
+        assertThatThrownBy(() -> board.findPiece(coordinate))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("좌표는 2글자여야 합니다.");
+    }
+    @DisplayName("빈 좌표를 입력한 경우 예외가 발생한다")
+    @Test
+    void findPieceWithEmptyCoordinate() {
+        // given
+        Board board = new Board();
+        String coordinate = "";
+
+        // when & then
+        assertThatThrownBy(() -> board.findPiece(coordinate))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("좌표를 입력해주세요.");
     }
 
     @DisplayName("숫자 좌표의 범위를 벗어난 경우 예외가 발생한다")
