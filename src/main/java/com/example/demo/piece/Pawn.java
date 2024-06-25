@@ -17,10 +17,20 @@ public class Pawn implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 0.5f;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "p";
             case BLACK -> "P";
         };
+    }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
     }
 }

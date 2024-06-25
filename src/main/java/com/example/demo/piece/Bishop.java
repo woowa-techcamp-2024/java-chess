@@ -18,10 +18,20 @@ public class Bishop implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 3;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "b";
             case BLACK -> "B";
         };
+    }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
     }
 }

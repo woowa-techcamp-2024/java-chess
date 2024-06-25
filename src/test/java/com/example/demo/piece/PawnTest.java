@@ -41,4 +41,11 @@ class PawnTest {
         Pawn pawn = new Pawn(Color.WHITE);
         assertThat(pawn.toString()).isEqualTo("p");
     }
+
+    @Test
+    @DisplayName("폰의 점수는 0.5점이다.")
+    public void score(){
+        Pawn pawn = new Pawn();
+        assertThat(pawn.getPoint()).isEqualTo(0.5f);
+    }
 }

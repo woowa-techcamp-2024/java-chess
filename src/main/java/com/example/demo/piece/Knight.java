@@ -18,10 +18,20 @@ public class Knight implements Piece {
     }
 
     @Override
+    public float getPoint() {
+        return 2.5f;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "n";
             case BLACK -> "N";
         };
+    }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Float.compare(this.getPoint(), piece.getPoint());
     }
 }

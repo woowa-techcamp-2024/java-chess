@@ -41,4 +41,11 @@ class KingTest {
         Piece king = new King(Color.WHITE);
         assertThat(king.toString()).isEqualTo("k");
     }
+
+    @Test
+    @DisplayName("킹의 점수는 0점이다.")
+    public void score(){
+        Piece king = new King();
+        assertThat(king.getPoint()).isEqualTo(0);
+    }
 }
