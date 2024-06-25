@@ -3,6 +3,7 @@ package chess;
 import chess.pieces.Blank;
 import chess.pieces.Piece;
 import chess.pieces.enums.Color;
+import chess.pieces.enums.Type;
 import chess.pieces.values.Location;
 import utils.StringUtils;
 
@@ -33,6 +34,17 @@ public class Board {
         fillPieces(8, Color.BLACK);
     }
 
+    public void addPiece(Location location, Piece piece) {
+        board.put(location, piece);
+    }
+
+    public int countPiecesByTypeAndColor(Type type, Color color) {
+        return (int) board.values().stream()
+                .filter(type::isInstance)
+                .filter(piece -> piece.getColor().equals(color))
+                .count();
+    }
+
     public Piece getPiece(String locationStr) {
         var location = Location.from(locationStr);
         return board.get(location);
@@ -56,10 +68,6 @@ public class Board {
             sb.append(printRow(ROWS[i]));
         }
         return sb.toString();
-    }
-
-    private void addPiece(Location location, Piece piece) {
-        board.put(location, piece);
     }
 
     private void fillPawns(int row, Color color) {
