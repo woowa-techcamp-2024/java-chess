@@ -11,7 +11,7 @@ public enum Colors {
         return this == BLACK;
     }
 
-    public boolean isNoColor() {
-        return this == NOCOLOR;
+    public boolean hasColor() {
+        return this != NOCOLOR;
     }
 }

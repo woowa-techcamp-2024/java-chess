@@ -15,14 +15,6 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("체스판을 초기화하여 기물들을 배치한다")
-    public void initialize() throws Exception {
-        board.initialize();
-        assertEquals("♙♙♙♙♙♙♙♙", board.getWhitePawnsResult());
-        assertEquals("♟♟♟♟♟♟♟♟", board.getBlackPawnsResult());
-    }
-
-    @Test
     @DisplayName("체스판을 출력한다")
     void print() {
         board.initialize();

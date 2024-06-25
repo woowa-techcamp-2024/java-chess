@@ -15,7 +15,7 @@ public enum Representations {
     BLACK_KNIGHT("♞", Type.KNIGHT, Colors.BLACK),
     WHITE_ROOK("♖", Type.ROOK, Colors.WHITE),
     BLACK_ROOK("♜", Type.ROOK, Colors.BLACK),
-    BLANK("", Type.NO_PIECE, Colors.NOCOLOR);
+    BLANK(".", Type.NO_PIECE, Colors.NOCOLOR);
 
     private String symbol;
     private Type type;
