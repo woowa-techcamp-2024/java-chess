@@ -1,44 +1,39 @@
 package chess;
 
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    List<Pawn> pawns;
-    Character[][] boardMap;
+    private List<Piece> pieces;
+    private Character[][] boardMap;
+    private int pieceCount = 0;
 
     public Board() {
-        this.pawns = new ArrayList<>();
+        this.pieces = new ArrayList<>();
     }
 
 
     public void initialize() {
         boardMap = new Character[][]{
-                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
                 {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
 
         };
+
+        pieceCount = 32;
     }
 
-    public void add(Pawn pawn) {
-        pawns.add(pawn);
-    }
-
-    public int size() {
-        return pawns.size();
-    }
-
-    public Pawn findPawn(int pos) {
-        return pawns.get(pos);
+    public void add(Piece piece) {
+        pieces.add(piece);
     }
 
     private String getLineAt(int pos) {
@@ -57,7 +52,7 @@ public class Board {
         return getLineAt(1);
     }
 
-    public String print() {
+    public String showBoard() {
         StringBuilder sb = new StringBuilder();
         for (Character[] row : boardMap) {
             for (Character c : row) {
@@ -67,5 +62,9 @@ public class Board {
         }
 
         return StringUtils.replaceNewLine(sb.toString());
+    }
+
+    public int getPieceCount() {
+        return pieceCount;
     }
 }

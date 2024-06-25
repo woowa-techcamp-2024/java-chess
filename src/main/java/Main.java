@@ -13,7 +13,7 @@ public class Main {
                 String input = scanner.nextLine();
                 if (Objects.equals("start", input)) {
                     board.initialize();
-                    System.out.println(board.print());
+                    System.out.println(board.showBoard());
                 }
                 else if (Objects.equals("end", input)) {
                     return ;

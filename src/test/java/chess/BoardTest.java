@@ -3,10 +3,11 @@ package chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.StringUtils.appendNewLine;
 
 class BoardTest {
     Board board;
@@ -36,24 +37,17 @@ class BoardTest {
     }
 
     @Test
-    void print() {
-        board.initialize();
-
-
-        assertEquals(initializedBoard, board.print());
-        System.out.println(board.print());
-    }
-    @Test
     void create() {
-        Pawn white = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
-
-        Pawn black = new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        board.initialize();
+        assertEquals(32, board.getPieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+                appendNewLine("RNBQKBNR") +
+                        appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr"),
+                board.showBoard());
     }
 
     @Test
@@ -61,7 +55,7 @@ class BoardTest {
     void add_not_Pawn() {
         assertThatThrownBy(() -> {
             Object o = new Object();
-            board.add((Pawn) o);
+            board.add((Piece) o);
         }).isInstanceOf(RuntimeException.class);
     }
 }
