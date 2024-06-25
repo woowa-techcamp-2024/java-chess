@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Pawn;
 import java.util.List;
 import java.util.stream.Stream;
@@ -32,7 +33,6 @@ class BoardTest {
         pawns.forEach(board::add);
         return board;
     }
-
 
     @Nested
     class 체스판에_말을_추가할_수_있다 {
@@ -94,6 +94,60 @@ class BoardTest {
 
             assertThatThrownBy(() -> board.findPawn(index))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    class 체스판을_초기화한다 {
+
+        @Test
+        void 체스판을_초기화하면_흰색_폰과_검은색_폰이_각각_열의_길이만큼_존재해야_한다() {
+            var board = createBoard();
+
+            board.initialize();
+
+            assertThat(board.size()).isEqualTo(ChessBoard.MAX_COL * 2);
+        }
+    }
+
+    @Nested
+    class 체스판에_존재하는_폰의_상태를_조회한다 {
+
+        @Test
+        void 체스판_초기화_시_검은색_폰은_열의_개수만큼_존재한다() {
+            var board = createBoard();
+            board.initialize();
+
+            assertThat(board.getWhitePawnsResult()).isEqualTo("pppppppp");
+        }
+
+        @Test
+        void 체스판_초기화_시_하얀색_폰은_열의_개수만큼_존재한다() {
+            var board = createBoard();
+            board.initialize();
+
+            assertThat(board.getBlackPawnsResult()).isEqualTo("PPPPPPPP");
+        }
+    }
+
+    @Nested
+    class 체스판의_상태를_조회한다 {
+
+        @Test
+        void 체스판_초기화_시_검은색과_하얀색_폰은_각각_열의_개수만큼_존재한다() {
+            var board = createBoard();
+            board.initialize();
+
+            assertThat(board.print()).isEqualTo("""
+                    ........
+                    PPPPPPPP
+                    ........
+                    ........
+                    ........
+                    ........
+                    pppppppp
+                    ........
+                    """);
         }
     }
 }
