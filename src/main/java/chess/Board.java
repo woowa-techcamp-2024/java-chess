@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Board {
-    private List<List<Pawn>> board = new ArrayList<>();
+    private final List<List<Pawn>> board = new ArrayList<>();
     private final List<Pawn> pawns = new ArrayList<>();
 
     final int BOARD_SIZE = 8;

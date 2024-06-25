@@ -35,7 +35,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("체스판을 초기화할 수 있다")
-    public void initialize() throws Exception {
+    public void initialize() {
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
