@@ -3,7 +3,7 @@ package chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 
 import static chess.utils.StringUtils.NEWLINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,15 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BoardTest {
 
     public Board board;
-    public Pawn white;
-    public Pawn black;
+    public Piece white;
+    public Piece black;
 
     @BeforeEach
     void setUp() {
         board = new Board();
         board.initialize();
-        white = new Pawn(Pawn.WHITE_COLOR);
-        black = new Pawn(Pawn.BLACK_COLOR);
+        white = new Piece(Piece.WHITE_COLOR);
+        black = new Piece(Piece.BLACK_COLOR);
     }
 
     @Test

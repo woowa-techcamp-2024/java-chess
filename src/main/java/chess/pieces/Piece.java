@@ -1,6 +1,6 @@
 package chess.pieces;
 
-public class Pawn {
+public class Piece {
     String color;
     char representation;
 
@@ -17,16 +17,16 @@ public class Pawn {
         return representation;
     }
 
-    public Pawn(String color) {
+    public Piece(String color) {
         this.color = color;
     }
 
-    public Pawn(String color, char representation) {
+    public Piece(String color, char representation) {
         this.color = color;
         this.representation = representation;
     }
 
-    public Pawn() {
+    public Piece() {
         this.color = WHITE_COLOR;
         this.representation = WHITE_REPRESENTATION;
     }

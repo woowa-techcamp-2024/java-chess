@@ -1,6 +1,6 @@
 package chess;
 
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import static chess.utils.StringUtils.appendNewLine;
 
 public class Board {
 
-    private final List<List<Pawn>> pawns;
+    private final List<List<Piece>> pawns;
 
     private static final int BOARD_WIDTH = 8;
     private static final int BOARD_HEIGHT = 8;
@@ -22,21 +22,21 @@ public class Board {
 
 
     public void initialize() {
-        initializePawns(WHITE_PAWN_ROW, Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
-        initializePawns(BLACK_PAWN_ROW, Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
+        initializePawns(WHITE_PAWN_ROW, Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION);
+        initializePawns(BLACK_PAWN_ROW, Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION);
     }
 
     public String print() {
         StringBuilder sb = new StringBuilder();
 
-        for (List<Pawn> pawn : pawns) {
-            if(pawn.isEmpty()) {
+        for (List<Piece> piece : pawns) {
+            if(piece.isEmpty()) {
                 sb.append(EMPTY_ROW);
                 appendNewLine(sb);
                 continue;
             }
-            pawn.stream()
-                    .map(Pawn::getRepresentation)
+            piece.stream()
+                    .map(Piece::getRepresentation)
                     .forEach(sb::append);
             appendNewLine(sb);
         }
@@ -55,12 +55,12 @@ public class Board {
         return pawns.get(0).size();
     }
 
-    public Pawn findPawn(int index) {
+    public Piece findPawn(int index) {
         return pawns.get(0).get(index);
     }
 
-    public void add(Pawn pawn) {
-        pawns.get(0).add(pawn);
+    public void add(Piece piece) {
+        pawns.get(0).add(piece);
     }
     public Board() {
         pawns = new ArrayList<>();
@@ -71,16 +71,16 @@ public class Board {
     private String getRowPawnsResult(int row) {
         validateIndex(row);
         return pawns.get(row).stream()
-                .map(Pawn::getRepresentation)
+                .map(Piece::getRepresentation)
                 .map(String::valueOf)
                 .collect(Collectors.joining());
     }
 
     private void initializePawns(int row, String color, char representation) {
-        ArrayList<Pawn> initializedPawns = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> new Pawn(color, representation))
+        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
+                .mapToObj(i -> new Piece(color, representation))
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pawns.get(row).addAll(initializedPawns);
+        this.pawns.get(row).addAll(initializedPieces);
     }
 
     private void validateIndex(int index) {
