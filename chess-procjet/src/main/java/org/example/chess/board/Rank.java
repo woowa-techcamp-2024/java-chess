@@ -1,5 +1,7 @@
 package org.example.chess.board;
 
+import static org.example.chess.pieces.Piece.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.example.chess.pieces.Piece;
@@ -20,11 +22,15 @@ public class Rank {
         return pieces;
     }
 
-    public int countWhitePieces() {
-        return (int) pieces.stream().filter(Piece::isWhite).count();
+    public int countWhitePiecesWithType(Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isWhite() && piece.getType() == type)
+                .count();
     }
 
-    public int countBlackPieces() {
-        return (int) pieces.stream().filter(Piece::isBlack).count();
+    public int countBlackPieces(Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isBlack() && piece.getType() == type)
+                .count();
     }
 }
