@@ -3,6 +3,7 @@ package com.seong.chess;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Colors;
+import com.seong.chess.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,11 +73,12 @@ public class Board {
 
     public String print() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BOARD_LENGTH * BOARD_LENGTH; i++) {
-            if (i != 0 && i % BOARD_LENGTH == 0) {
-                sb.append("\n");
+        for (int i = 0; i < BOARD_LENGTH; i++) {
+            StringBuilder inner = new StringBuilder();
+            for (int j = 0; j < BOARD_LENGTH; j++) {
+                inner.append(columns.get(i * BOARD_LENGTH + j).getRepresentation());
             }
-            sb.append(columns.get(i).getRepresentation());
+            sb.append(StringUtils.appendNewLine(inner.toString()));
         }
         return sb.toString();
     }
