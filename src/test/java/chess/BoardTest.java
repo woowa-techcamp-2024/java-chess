@@ -7,7 +7,7 @@ import chess.pieces.Pawn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BoardTest {
+class BoardTest {
 
     public Board board;
     public Pawn white;
@@ -22,7 +22,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("보드에 폰을 추가할 수 있다")
-    public void create() throws Exception {
+    void create() throws Exception {
         board.add(white);
         assertEquals(1, board.size());
         assertEquals(white, board.findPawn(0));
@@ -30,5 +30,13 @@ public class BoardTest {
         board.add(black);
         assertEquals(2, board.size());
         assertEquals(black, board.findPawn(1));
+    }
+
+    @Test
+    @DisplayName("보드를 초기화할 수 있다")
+    void initialize() throws Exception {
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 }
