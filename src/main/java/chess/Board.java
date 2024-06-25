@@ -76,7 +76,7 @@ public class Board {
     }
 
     public String showBoard() {
-        StringBuilder printResult = new StringBuilder(new String());
+        StringBuilder printResult = new StringBuilder();
         for (int i = 0; i < BOARD_SIZE; i++) {
             StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < BOARD_SIZE; j++) {

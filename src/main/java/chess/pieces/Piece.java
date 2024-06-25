@@ -25,7 +25,7 @@ public class Piece {
     private Piece(final String color, final char representation) {
         this.color = color;
         this.representation = representation;
-    };
+    }
 
     public static Piece createWhitePawn() {
         return new Piece(WHITE_COLOR, WHITE_PAWN_REPRESENTATION);
