@@ -1,6 +1,7 @@
 package chess;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pieces.Piece;
 import pieces.PieceColor;
@@ -13,10 +14,10 @@ public class BoardTest {
 
     private final int NUM_COL = 8;
     private final String BLANK = ".";
-    private static Board board;
+    private Board board;
 
-    @BeforeAll
-    public static void beforeAll()
+    @BeforeEach
+    public void beforeAll()
     {
         board = new Board();
         board.initialize();
@@ -32,6 +33,7 @@ public class BoardTest {
                 .append(BLANK.repeat(NUM_COL)).append("\n")
                 .append(BLANK.repeat(NUM_COL)).append("\n")
                 .append(generateWhiteInitLine());
+
         assertEquals(sb.toString().strip(), board.show());
         assertEquals(NUM_COL*4, board.getNumOfPieces());
     }
@@ -122,6 +124,14 @@ public class BoardTest {
         assertEquals(new Piece(PieceColor.WHITE, PieceType.BISHOP), board.findPiece("f1"));
         assertEquals(new Piece(PieceColor.WHITE, PieceType.KNIGHT), board.findPiece("g1"));
         assertEquals(new Piece(PieceColor.WHITE, PieceType.ROOK), board.findPiece("h1"));
+    }
 
+    @Test
+    public void move()
+    {
+        board = new Board();
+        Piece whiteBishop = new Piece(PieceColor.WHITE, PieceType.BISHOP);
+        board.move("b5", whiteBishop);
+        assertEquals(whiteBishop, board.findPiece("b5"));
     }
 }

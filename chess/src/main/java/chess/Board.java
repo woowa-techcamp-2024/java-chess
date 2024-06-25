@@ -95,18 +95,15 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(String position)
+    public Piece findPiece(String givenPosition)
     {
-        char colChar = position.charAt(0);
-        char rowChar = position.charAt(1);
-        int colIdx = colChar - 'a';
-        int rowIdx = 8-Character.getNumericValue(rowChar);
-        return ranks.get(rowIdx).getPiece(colIdx);
+        Position position = new Position(givenPosition);
+        return ranks.get(position.getRowIdx()).getPiece(position.getColIdx());
     }
 
-    public void move(String position, Piece piece)
+    public void move(String givenPosition, Piece piece)
     {
-
-
+        Position position = new Position(givenPosition);
+        ranks.get(position.getRowIdx()).setPiece(position.getColIdx(), piece);
     }
 }

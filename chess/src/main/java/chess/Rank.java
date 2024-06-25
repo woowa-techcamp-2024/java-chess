@@ -57,4 +57,7 @@ public class Rank {
     public Piece getPiece(int idx){
         return pieces.get(idx);
     }
+    public void setPiece(int idx, Piece piece){
+        pieces.set(idx, piece);
+    }
 }
