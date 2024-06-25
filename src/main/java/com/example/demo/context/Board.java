@@ -17,6 +17,7 @@ public class Board {
         initKing();
         initQueen();
         initRook();
+        initKnight();
     }
 
     //--------------init board start----------------
@@ -42,6 +43,13 @@ public class Board {
         setPiece(Rank.ONE, File.F, new Rook(Color.WHITE));
         setPiece(Rank.EIGHT, File.C, new Rook(Color.BLACK));
         setPiece(Rank.EIGHT, File.F, new Rook(Color.BLACK));
+    }
+
+    private void initKnight(){
+        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE));
+        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE));
+        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK));
+        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK));
     }
     //--------------init board end  ----------------
 

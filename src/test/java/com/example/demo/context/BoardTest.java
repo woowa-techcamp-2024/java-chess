@@ -85,6 +85,27 @@ class BoardTest {
         );
     }
 
+    @DisplayName("보드를 생성하면 나이트의 초기 상태가 설정되어 있다.")
+    @ParameterizedTest
+    @MethodSource("knightLocations")
+    public void create_knight(Rank rank, File file, Color color){
+        Board board = new Board();
+
+        Piece piece = board.getPiece(rank, file);
+        assertThat(piece).isInstanceOf(Knight.class);
+        assertThat(piece.getColor()).isEqualTo(color);
+    }
+
+    private static Stream<Arguments> knightLocations(){
+        return Stream.of(
+                Arguments.of(Rank.ONE, File.B, Color.WHITE),
+                Arguments.of(Rank.ONE, File.G, Color.WHITE),
+                Arguments.of(Rank.EIGHT, File.B, Color.BLACK),
+                Arguments.of(Rank.EIGHT, File.G, Color.BLACK)
+        );
+    }
+
+
     @Test
     @DisplayName("보드를 출력한다.")
     public void printBoard(){
