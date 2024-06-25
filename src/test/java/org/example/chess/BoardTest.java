@@ -1,5 +1,6 @@
 package org.example.chess;
 
+import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.example.pieces.Piece;
@@ -24,19 +25,16 @@ public class BoardTest {
     }
 
     @Test
-    public void 보드_출력검사() throws Exception {
-        String emptyLine = ".".repeat(boardSize) + "\n";
-
-        String expected =
-            emptyLine +
-                Piece.WHITE_PAWN_REPRESENTATION.repeat(boardSize) + "\n" +
-                emptyLine +
-                emptyLine +
-                emptyLine +
-                emptyLine +
-                Piece.BLACK_PAWN_REPRESENTATION.repeat(boardSize) + "\n" +
-                emptyLine;
-
-        assertEquals(expected, board.print());
+    public void create() throws Exception {
+        board.initialize();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+            appendNewLine("♜♞♝♛♚♝♞♜") +
+                appendNewLine("♟♟♟♟♟♟♟♟") +
+                blankRank + blankRank + blankRank + blankRank +
+                appendNewLine("♙♙♙♙♙♙♙♙") +
+                appendNewLine("♖♘♗♕♔♗♘♖"),
+            board.showBoard());
     }
 }
