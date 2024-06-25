@@ -122,6 +122,11 @@ public class Board {
         return score;
     }
 
+    /**
+     * 기물 조회시 높은 점수를 가진 기물순으로 순차적으로 정렬된 컬랙션을 반환한다.
+     * @param color 조회할 기물의 색상
+     * @return 정렬된 기물 컬랙션
+     */
     public Collection<Piece> getPieces(Color color) {
         return Arrays.stream(this.pieceLocation).flatMap(Arrays::stream)
                 .filter(piece -> piece != null && piece.getColor() == color)
