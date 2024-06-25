@@ -139,4 +139,31 @@ public class Board {
         Position position = Position.convert(rawPosition);
         return ranks.get(position.row).get(position.col);
     }
+
+    public double calculatePoint(Color color) {
+        Double result = ranks.stream()
+                .flatMap(rank -> rank.getSameColorPieces(color).stream())
+                .filter(piece -> !piece.isEqual(Type.PAWN, color))
+                .reduce(0D, (point, piece) -> point + piece.getDefaultPoint(), Double::sum);
+
+        for (int i = 0; i < BOARD_LENGTH; i++) {
+            double pawnCount = getColumnPawnCount(color, i);
+            result += pawnCount * Type.PAWN.getDefaultPoint();
+        }
+        return result;
+    }
+
+    private double getColumnPawnCount(Color color, int row) {
+        double pawnCount = 0;
+        for (int col = 0; col < BOARD_LENGTH; col++) {
+            Piece piece = ranks.get(col).get(row);
+            if (piece.isEqual(Type.PAWN, color)) {
+                pawnCount++;
+            }
+        }
+        if (pawnCount > 1) {
+            pawnCount *= 0.5;
+        }
+        return pawnCount;
+    }
 }

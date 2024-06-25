@@ -7,21 +7,24 @@ public class Piece {
     public enum Color {
         WHITE, BLACK, NOCOLOR;
 
+
     }
 
     public enum Type {
-        PAWN('p'),
-        KNIGHT('n'),
-        BISHOP('b'),
-        ROOK('r'),
-        QUEEN('q'),
-        KING('k'),
-        NO_PIECE('.');
+        PAWN('p', 1.0),
+        KNIGHT('n', 2.5),
+        BISHOP('b', 3.0),
+        ROOK('r', 5.0),
+        QUEEN('q', 9.0),
+        KING('k', 0.0),
+        NO_PIECE('.', 0.0);
 
         private final char representation;
+        private final double defaultPoint;
 
-        Type(char representation) {
+        Type(char representation, double defaultPoint) {
             this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
 
         public char getWhiteRepresentation() {
@@ -32,6 +35,9 @@ public class Piece {
             return Character.toUpperCase(representation);
         }
 
+        public double getDefaultPoint() {
+            return defaultPoint;
+        }
     }
 
     private final Type type;
@@ -121,6 +127,14 @@ public class Piece {
 
     public boolean isEqual(Type type, Color color) {
         return this.type == type && this.color == color;
+    }
+
+    public boolean isEqual(Color color) {
+        return this.color == color;
+    }
+
+    public double getDefaultPoint() {
+        return type.defaultPoint;
     }
 
     public String getColor() {

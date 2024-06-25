@@ -44,4 +44,10 @@ public class Rank {
     public void set(int col, Piece piece) {
         pieces.set(col, piece);
     }
+
+    public List<Piece> getSameColorPieces(Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.isEqual(color))
+                .toList();
+    }
 }
