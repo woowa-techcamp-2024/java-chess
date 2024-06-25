@@ -21,9 +21,9 @@ public class ChessBoard {
 
     public void add(Pawn pawn, int index) {
         int row = index / MAX_COL;
-        int col = index % MAX_ROW;
-        if (row < 0 || col < 0 || row >= MAX_ROW || col >= MAX_COL) {
-            throw new IllegalArgumentException("The index is unvalid: " + index);
+        int col = index % MAX_COL;
+        if (row < 0 || col < 0 || row >= MAX_ROW) {
+            throw new IllegalArgumentException("The index is invalid: " + index);
         }
         if (cells[row][col] != null) {
             throw new IllegalArgumentException("The cell is already occupied");
@@ -38,19 +38,24 @@ public class ChessBoard {
     }
 
     public String print() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder curState = new StringBuilder();
 
-        for (Pawn[] row : cells) {
-            for (Pawn pawn : row) {
-                if (pawn == null) {
-                    sb.append(PieceRepresentation.NONE.value);
-                } else {
-                    sb.append(pawn.getRepresentation().value);
-                }
+        for (Pawn[] rows : cells) {
+            for (Pawn cell : rows) {
+                updateCurState(cell, curState);
             }
-            sb.append("\n");
+            curState.append(System.lineSeparator());
         }
 
-        return sb.toString();
+        return curState.toString();
+    }
+
+    private void updateCurState(Pawn pawn, StringBuilder curState) {
+        if (pawn == null) {
+            curState.append(PieceRepresentation.NONE.value);
+            return;
+        }
+
+        curState.append(pawn.getRepresentation().value);
     }
 }

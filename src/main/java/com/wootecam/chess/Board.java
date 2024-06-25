@@ -18,16 +18,14 @@ public class Board {
     }
 
     public void initialize() {
-        int blackPawnIndex = MAX_COL;
-        for (int i = 0; i < MAX_COL; ++i) {
-            Pawn pawn = new Pawn(Color.BLACK);
-            add(pawn, blackPawnIndex + i);
-        }
+        initializePawn(Color.BLACK, MAX_COL);
+        initializePawn(Color.WHITE, chessBoard.size() - 2 * MAX_COL);
+    }
 
-        int whitePawnIndex = chessBoard.size() - 2 * MAX_COL;
+    private void initializePawn(Color color, int startIndex) {
         for (int i = 0; i < MAX_COL; ++i) {
-            Pawn pawn = new Pawn(Color.WHITE);
-            add(pawn, whitePawnIndex + i);
+            Pawn pawn = new Pawn(color);
+            add(pawn, startIndex + i);
         }
     }
 
@@ -53,15 +51,16 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        return pawns.stream()
-                .filter(p -> p.getColor() == Color.WHITE)
-                .map(p -> p.getRepresentation().value)
-                .collect(Collectors.joining());
+        return getPawnResult(Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
+        return getPawnResult(Color.BLACK);
+    }
+
+    private String getPawnResult(Color color) {
         return pawns.stream()
-                .filter(p -> p.getColor() == Color.BLACK)
+                .filter(p -> p.getColor() == color)
                 .map(p -> p.getRepresentation().value)
                 .collect(Collectors.joining());
     }
