@@ -1,7 +1,8 @@
 package com.seong.chess;
 
+import static com.seong.chess.utils.StringUtils.appendNewLine;
+
 import com.seong.chess.pieces.Piece;
-import com.seong.chess.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,39 +23,39 @@ public class Board {
     }
 
     private void initializeBlackPieces() {
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 0), Piece.createBlackRook()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 1), Piece.createBlackKnight()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 2), Piece.createBlackBishop()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 3), Piece.createBlackQueen()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 4), Piece.createBlackKing()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 5), Piece.createBlackBishop()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 6), Piece.createBlackKnight()));
-        columns.add(new Column(new Point(BLACK_PIECE_LINE, 7), Piece.createBlackRook()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 0), Piece.createBlackRook()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 1), Piece.createBlackKnight()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 2), Piece.createBlackBishop()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 3), Piece.createBlackQueen()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 4), Piece.createBlackKing()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 5), Piece.createBlackBishop()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 6), Piece.createBlackKnight()));
+        columns.add(new Column(new Position(BLACK_PIECE_LINE, 7), Piece.createBlackRook()));
         for (int i = 0; i < BOARD_LENGTH; i++) {
-            columns.add(new Column(new Point(BLACK_PAWN_LINE, i), Piece.createBlackPawn()));
+            columns.add(new Column(new Position(BLACK_PAWN_LINE, i), Piece.createBlackPawn()));
         }
     }
 
     private void initializeBlank() {
         for (int i = 2; i < 6; i++) {
             for (int j = 0; j < BOARD_LENGTH; j++) {
-                columns.add(new Column(new Point(i, j)));
+                columns.add(new Column(new Position(i, j)));
             }
         }
     }
 
     private void initializeWhitePieces() {
         for (int i = 0; i < BOARD_LENGTH; i++) {
-            columns.add(new Column(new Point(WHITE_PAWN_LINE, i), Piece.createWhitePawn()));
+            columns.add(new Column(new Position(WHITE_PAWN_LINE, i), Piece.createWhitePawn()));
         }
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 0), Piece.createWhiteRook()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 1), Piece.createWhiteKnight()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 2), Piece.createWhiteBishop()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 3), Piece.createWhiteQueen()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 4), Piece.createWhiteKing()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 5), Piece.createWhiteBishop()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 6), Piece.createWhiteKnight()));
-        columns.add(new Column(new Point(WHITE_PIECE_LINE, 7), Piece.createWhiteRook()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 0), Piece.createWhiteRook()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 1), Piece.createWhiteKnight()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 2), Piece.createWhiteBishop()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 3), Piece.createWhiteQueen()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 4), Piece.createWhiteKing()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 5), Piece.createWhiteBishop()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 6), Piece.createWhiteKnight()));
+        columns.add(new Column(new Position(WHITE_PIECE_LINE, 7), Piece.createWhiteRook()));
     }
 
     public String showBoard() {
@@ -64,7 +65,7 @@ public class Board {
             for (int j = 0; j < BOARD_LENGTH; j++) {
                 inner.append(columns.get(i * BOARD_LENGTH + j).getRepresentation());
             }
-            sb.append(StringUtils.appendNewLine(inner.toString()));
+            sb.append(appendNewLine(inner.toString()));
         }
         return sb.toString();
     }
