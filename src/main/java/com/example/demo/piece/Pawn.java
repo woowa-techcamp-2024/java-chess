@@ -14,4 +14,12 @@ public class Pawn {
     public Color getColor() {
         return color;
     }
+
+    @Override
+    public String toString(){
+        return switch (color) {
+            case WHITE -> "p";
+            case BLACK -> "P";
+        };
+    }
 }

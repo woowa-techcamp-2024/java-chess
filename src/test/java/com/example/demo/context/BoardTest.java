@@ -25,4 +25,10 @@ class BoardTest {
         }
     }
 
+    @Test
+    @DisplayName("보드를 출력한다.")
+    public void printBoard(){
+        Board board = new Board();
+        System.out.println(board);
+    }
 }

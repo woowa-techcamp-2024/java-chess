@@ -27,4 +27,18 @@ class PawnTest {
         Pawn pawn = new Pawn();
         assertThat(pawn.getColor()).isEqualTo(Color.WHITE);
     }
+
+    @Test
+    @DisplayName("검은 색 폰이라면 대문자 p를 출력한다.")
+    public void print_black_pawn(){
+        Pawn pawn = new Pawn(Color.BLACK);
+        assertThat(pawn.toString()).isEqualTo("P");
+    }
+
+    @Test
+    @DisplayName("흰 색 폰이라면 소문자 p를 출력한다.")
+    public void print_white_pawn(){
+        Pawn pawn = new Pawn(Color.WHITE);
+        assertThat(pawn.toString()).isEqualTo("p");
+    }
 }

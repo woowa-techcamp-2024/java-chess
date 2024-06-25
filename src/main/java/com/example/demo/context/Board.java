@@ -17,15 +17,33 @@ public class Board {
         // init pawn
         for (File file : File.values()) {
             setPiece(Rank.TWO, file, new Pawn(Color.BLACK));
-            setPiece(Rank.SEVEN, File.G, new Pawn(Color.WHITE));
+            setPiece(Rank.SEVEN, file, new Pawn(Color.WHITE));
         }
     }
 
-    public void setPiece(Rank row, File column, Pawn pawn){
+    public void setPiece(Rank row, File column, Pawn pawn) {
         pieceLocation[row.index()][column.index()] = pawn;
     }
 
-    public Pawn getPiece(Rank row, File column){
+    public Pawn getPiece(Rank row, File column) {
         return pieceLocation[row.index()][column.index()];
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Pawn[] pieces : pieceLocation) {
+            for (Pawn piece : pieces) {
+                if (piece != null) {
+                    sb.append(piece);
+                } else {
+                    sb.append(".");
+                }
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
 }
