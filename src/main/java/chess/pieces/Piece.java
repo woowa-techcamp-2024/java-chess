@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
     private final String color;
     private final char representation;
@@ -80,4 +82,8 @@ public class Piece {
     public char getRepresentation() {
         return this.representation;
     }
+
+    public boolean isWhite() { return Objects.equals(this.color, WHITE_COLOR); }
+
+    public boolean isBlack() { return Objects.equals(this.color, BLACK_COLOR); }
 }
