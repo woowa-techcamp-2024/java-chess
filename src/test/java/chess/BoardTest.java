@@ -1,52 +1,56 @@
 package chess;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.StringUtils.appendNewLine;
 
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
+    private Board board;
 
-    private static Pawn whitePawn;
-
-    private static Pawn blackPawn;
-
-    @BeforeAll
-    static void beforeAll() {
-        whitePawn = new Pawn(Pawn.WHITE_COLOR);
-        blackPawn = new Pawn(Pawn.BLACK_COLOR);
+    @BeforeEach
+    void setUp() {
+        board = new Board();
     }
 
     @DisplayName("체스판에 흰색/검은색 폰을 추가한다.")
     @Test
-    void create() {
-        Board board = new Board();
-
+    void addPawns() {
+        Piece whitePawn = Piece.createWhitePawn();
+        Piece blackPawn = Piece.createBlackPawn();
         AtomicInteger index = new AtomicInteger();
-        List<Pawn> pawns = List.of(whitePawn, blackPawn);
+        List<Piece> pieces = List.of(whitePawn, blackPawn);
 
-        pawns.forEach(pawn -> {
-            board.add(pawn);
-            assertBoard(board, index.getAndIncrement(), pawn);
+        pieces.forEach(piece -> {
+            board.add(piece);
+            assertBoard(board, index.getAndIncrement(), piece);
         });
 
     }
 
-    void assertBoard(Board board, int index, Pawn pawn) {
+    void assertBoard(Board board, int index, Piece piece) {
         assertEquals(index + 1, board.size());
-        assertEquals(pawn, board.findPawn(index));
+        assertEquals(piece, board.findPiece(index));
     }
 
-    @DisplayName("체스판을 초기화한다.")
+    @DisplayName("체스판 초기화한다.")
     @Test
     void initialize() {
-        Board board = new Board();
         board.initialize();
-        assertEquals("pppppppp", board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+                appendNewLine("RNBQKBNR") +
+                        appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr"),
+                board.showBoard()
+        );
     }
 }
