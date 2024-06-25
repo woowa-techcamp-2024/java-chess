@@ -92,8 +92,8 @@ public abstract class Piece {
         return new King(Color.BLACK);
     }
 
-    public static Piece createBlank() {
-        return new Blank();
+    public static Piece getBlank() {
+        return Blank.INSTANCE;
     }
 
     private void verifyBlank() {

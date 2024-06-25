@@ -17,8 +17,8 @@ class PieceTest {
 
     @Test
     @DisplayName("Blank를 생성한다.")
-    void createBlank() {
-        var actualResult = Piece.createBlank();
+    void getBlank() {
+        var actualResult = Piece.getBlank();
 
         assertThat(actualResult).isInstanceOf(Blank.class);
         assertThat(actualResult.getColor()).isNull();
