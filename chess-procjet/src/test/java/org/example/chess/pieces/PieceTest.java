@@ -13,20 +13,20 @@ class PieceTest {
     @Test
     @DisplayName("팩토리 메서드를 통해 모든 기물 생성")
     void create_piece() {
-        verifyPiece(PieceFactory.createWhitePawn(), Color.WHITE, Type.PAWN, "p");
-        verifyPiece(PieceFactory.createBlackPawn(), Color.BLACK, Type.PAWN, "P");
-        verifyPiece(PieceFactory.createWhiteKing(), Color.WHITE, Type.KING, "k");
-        verifyPiece(PieceFactory.createBlackKing(), Color.BLACK, Type.KING, "K");
-        verifyPiece(PieceFactory.createWhiteQueen(), Color.WHITE, Type.QUEEN, "q");
-        verifyPiece(PieceFactory.createBlackQueen(), Color.BLACK, Type.QUEEN, "Q");
-        verifyPiece(PieceFactory.createWhiteBishop(), Color.WHITE, Type.BISHOP, "b");
-        verifyPiece(PieceFactory.createBlackBishop(), Color.BLACK, Type.BISHOP, "B");
-        verifyPiece(PieceFactory.createWhiteKnight(), Color.WHITE, Type.KNIGHT, "n");
-        verifyPiece(PieceFactory.createBlackKnight(), Color.BLACK, Type.KNIGHT, "N");
-        verifyPiece(PieceFactory.createWhiteRook(), Color.WHITE, Type.ROOK, "r");
-        verifyPiece(PieceFactory.createBlackRook(), Color.BLACK, Type.ROOK, "R");
+        verifyPiece(Piece.PieceFactory.createWhitePawn(), Color.WHITE, Type.PAWN, "p");
+        verifyPiece(Piece.PieceFactory.createBlackPawn(), Color.BLACK, Type.PAWN, "P");
+        verifyPiece(Piece.PieceFactory.createWhiteKing(), Color.WHITE, Type.KING, "k");
+        verifyPiece(Piece.PieceFactory.createBlackKing(), Color.BLACK, Type.KING, "K");
+        verifyPiece(Piece.PieceFactory.createWhiteQueen(), Color.WHITE, Type.QUEEN, "q");
+        verifyPiece(Piece.PieceFactory.createBlackQueen(), Color.BLACK, Type.QUEEN, "Q");
+        verifyPiece(Piece.PieceFactory.createWhiteBishop(), Color.WHITE, Type.BISHOP, "b");
+        verifyPiece(Piece.PieceFactory.createBlackBishop(), Color.BLACK, Type.BISHOP, "B");
+        verifyPiece(Piece.PieceFactory.createWhiteKnight(), Color.WHITE, Type.KNIGHT, "n");
+        verifyPiece(Piece.PieceFactory.createBlackKnight(), Color.BLACK, Type.KNIGHT, "N");
+        verifyPiece(Piece.PieceFactory.createWhiteRook(), Color.WHITE, Type.ROOK, "r");
+        verifyPiece(Piece.PieceFactory.createBlackRook(), Color.BLACK, Type.ROOK, "R");
 
-        Piece blank = PieceFactory.createBlank();
+        Piece blank = Piece.PieceFactory.createBlank();
         assertFalse(blank.isBlack());
         assertFalse(blank.isWhite());
         assertEquals(Type.NO_TYPE, blank.getType());
@@ -41,8 +41,8 @@ class PieceTest {
     @Test
     @DisplayName("말의 색깔을 구분할 수 있다")
     void shouldReturnCorrectColor() {
-        Piece whitePawn = PieceFactory.createWhitePawn();
-        Piece blackPawn = PieceFactory.createBlackPawn();
+        Piece whitePawn = Piece.PieceFactory.createWhitePawn();
+        Piece blackPawn = Piece.PieceFactory.createBlackPawn();
 
         assertEquals(true, whitePawn.isWhite());
         assertEquals(false, whitePawn.isBlack());

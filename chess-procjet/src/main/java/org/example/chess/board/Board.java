@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.example.chess.pieces.Piece;
-import org.example.chess.pieces.PieceFactory;
+import org.example.chess.pieces.Piece.PieceFactory;
 
 public class Board {
 
