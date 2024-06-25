@@ -98,6 +98,10 @@ public class Piece {
         return this.type.equals(Type.NO_PIECE);
     }
 
+    public boolean isSameColorAndType(Color color, Type type) {
+        return this.color.equals(color) && this.type.equals(type);
+    }
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }

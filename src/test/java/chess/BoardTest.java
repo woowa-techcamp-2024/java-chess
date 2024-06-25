@@ -29,7 +29,20 @@ class BoardTest {
         int count = board.getPieceCount(Color.WHITE, Type.PAWN);
 
         // then
-        assertEquals(count, 8);
+        assertEquals(8, count);
+    }
+
+    @DisplayName("해당하는 색상과 종류의 Piece 개수를 반환한다")
+    @Test
+    void getPieceCount2() {
+        // given
+        Board board = new Board();
+
+        // when
+        int count = board.getPieceCount(Color.WHITE, Type.ROOK);
+
+        // then
+        assertEquals(2, count);
     }
 
 

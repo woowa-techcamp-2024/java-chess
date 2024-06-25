@@ -27,6 +27,12 @@ public class Rank {
         return pieceCount;
     }
 
+    public int getPieceCount(Piece.Color color, Piece.Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isSameColorAndType(color, type))
+                .count();
+    }
+
     private void decreaseRankCount() {
         pieceCount--;
     }

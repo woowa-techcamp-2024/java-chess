@@ -78,6 +78,10 @@ public class Board {
                 .collect(Collectors.joining(NEWLINE));
     }
 
+    public int getPieceCount(Piece.Color color, Piece.Type type) {
+        return ranks.stream().mapToInt(rank -> rank.getPieceCount(color, type)).sum();
+    }
+
     public int getTotalPieceCount() {
         return pieceCount;
     }
@@ -104,4 +108,6 @@ public class Board {
                 .collect(Collectors.toCollection(ArrayList::new));
         this.ranks.add(Rank.initializeRank(initializedPieces));
     }
+
+
 }
