@@ -10,11 +10,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
     Board board;
+    String initializedBoard;
+
     @BeforeEach()
     public void setUp() {
         board = new Board();
+        initializedBoard = "........\n" +
+                "PPPPPPPP\n" +
+                "........\n" +
+                "........\n" +
+                "........\n" +
+                "........\n" +
+                "pppppppp\n" +
+                "........\n";
     }
 
+    @Test
+    public void initialize() {
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
+
+    @Test
+    public void print() {
+        board.initialize();
+
+
+        assertEquals(initializedBoard, board.print());
+        System.out.println(board.print());
+    }
     @Test
     public void create() {
         Pawn white = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
