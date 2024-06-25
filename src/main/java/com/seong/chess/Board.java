@@ -13,66 +13,74 @@ public class Board {
     private static final int WHITE_PIECE_LINE = 7;
     private static final int BOARD_LENGTH = 8;
 
-    private final List<Column> columns = new ArrayList<>();
+    private final List<Rank> ranks = new ArrayList<>();
 
     public void initialize() {
-        columns.clear();
+        ranks.clear();
         initializeBlackPieces();
         initializeBlank();
         initializeWhitePieces();
     }
 
     private void initializeBlackPieces() {
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 0), Piece.createBlackRook()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 1), Piece.createBlackKnight()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 2), Piece.createBlackBishop()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 3), Piece.createBlackQueen()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 4), Piece.createBlackKing()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 5), Piece.createBlackBishop()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 6), Piece.createBlackKnight()));
-        columns.add(new Column(new Position(BLACK_PIECE_LINE, 7), Piece.createBlackRook()));
+        Rank blackPieceLine = new Rank(BLACK_PIECE_LINE);
+        Rank blackPawnLine = new Rank(BLACK_PAWN_LINE);
+        ranks.add(blackPieceLine);
+        ranks.add(blackPawnLine);
+
+        blackPieceLine.add(Piece.createBlackRook());
+        blackPieceLine.add(Piece.createBlackKnight());
+        blackPieceLine.add(Piece.createBlackBishop());
+        blackPieceLine.add(Piece.createBlackQueen());
+        blackPieceLine.add(Piece.createBlackKing());
+        blackPieceLine.add(Piece.createBlackBishop());
+        blackPieceLine.add(Piece.createBlackKnight());
+        blackPieceLine.add(Piece.createBlackRook());
         for (int i = 0; i < BOARD_LENGTH; i++) {
-            columns.add(new Column(new Position(BLACK_PAWN_LINE, i), Piece.createBlackPawn()));
+            blackPawnLine.add(Piece.createBlackPawn());
         }
     }
 
     private void initializeBlank() {
         for (int i = 2; i < 6; i++) {
+            Rank blankRank = new Rank(i);
+            ranks.add(blankRank);
             for (int j = 0; j < BOARD_LENGTH; j++) {
-                columns.add(new Column(new Position(i, j)));
+                blankRank.add(Piece.createBlank());
             }
         }
     }
 
     private void initializeWhitePieces() {
+        Rank whitePawnLine = new Rank(WHITE_PAWN_LINE);
+        Rank whitePieceLine = new Rank(WHITE_PIECE_LINE);
+        ranks.add(whitePawnLine);
+        ranks.add(whitePieceLine);
+
         for (int i = 0; i < BOARD_LENGTH; i++) {
-            columns.add(new Column(new Position(WHITE_PAWN_LINE, i), Piece.createWhitePawn()));
+            whitePawnLine.add(Piece.createWhitePawn());
         }
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 0), Piece.createWhiteRook()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 1), Piece.createWhiteKnight()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 2), Piece.createWhiteBishop()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 3), Piece.createWhiteQueen()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 4), Piece.createWhiteKing()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 5), Piece.createWhiteBishop()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 6), Piece.createWhiteKnight()));
-        columns.add(new Column(new Position(WHITE_PIECE_LINE, 7), Piece.createWhiteRook()));
+        whitePieceLine.add(Piece.createWhiteRook());
+        whitePieceLine.add(Piece.createWhiteKnight());
+        whitePieceLine.add(Piece.createWhiteBishop());
+        whitePieceLine.add(Piece.createWhiteQueen());
+        whitePieceLine.add(Piece.createWhiteKing());
+        whitePieceLine.add(Piece.createWhiteBishop());
+        whitePieceLine.add(Piece.createWhiteKnight());
+        whitePieceLine.add(Piece.createWhiteRook());
     }
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < BOARD_LENGTH; i++) {
-            StringBuilder inner = new StringBuilder();
-            for (int j = 0; j < BOARD_LENGTH; j++) {
-                inner.append(columns.get(i * BOARD_LENGTH + j).getRepresentation());
-            }
-            sb.append(appendNewLine(inner.toString()));
+            sb.append(appendNewLine(ranks.get(i).getRepresentation()));
         }
         return sb.toString();
     }
 
     public int pieceCount() {
-        return (int) columns.stream()
-                .filter(Column::hasPiece)
-                .count();
+        return ranks.stream()
+                .map(Rank::pieceCount)
+                .reduce(0, Integer::sum);
     }
 }

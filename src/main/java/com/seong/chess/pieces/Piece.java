@@ -4,7 +4,6 @@ public class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
-
     }
 
     public enum Type {
@@ -29,11 +28,10 @@ public class Piece {
         public char getBlackRepresentation() {
             return Character.toUpperCase(representation);
         }
-
     }
 
-
     private final Type type;
+
     private final Color color;
 
     public Piece(Type type, Color color) {
@@ -111,6 +109,10 @@ public class Piece {
 
     public boolean isWhite() {
         return color.equals(Color.WHITE);
+    }
+
+    public boolean isNotBlank() {
+        return !type.equals(Type.NO_PIECE);
     }
 
     public String getColor() {
