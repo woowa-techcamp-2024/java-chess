@@ -23,17 +23,11 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        return pawns.get(WHITE_PAWN_ROW).stream()
-                .map(Pawn::getRepresentation)
-                .map(String::valueOf)
-                .collect(Collectors.joining());
+        return getRowPawnsResult(WHITE_PAWN_ROW);
     }
 
     public String getBlackPawnsResult() {
-        return pawns.get(BLACK_PAWN_ROW).stream()
-                .map(Pawn::getRepresentation)
-                .map(String::valueOf)
-                .collect(Collectors.joining());
+        return getRowPawnsResult(BLACK_PAWN_ROW);
     }
 
     public int size() {
@@ -51,6 +45,14 @@ public class Board {
         pawns = new ArrayList<>();
         IntStream.range(0, BOARD_HEIGHT)
                 .forEach(i -> pawns.add(new ArrayList<>()));
+    }
+
+    private String getRowPawnsResult(int row) {
+        validateIndex(row);
+        return pawns.get(row).stream()
+                .map(Pawn::getRepresentation)
+                .map(String::valueOf)
+                .collect(Collectors.joining());
     }
 
     private void initializeWhitePawns() {
