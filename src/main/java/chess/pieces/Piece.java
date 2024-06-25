@@ -105,7 +105,8 @@ public class Piece {
         BISHOP('b'),
         ROOK('r'),
         QUEEN('q'),
-        KING('k');
+        KING('k'),
+        NO_PIECE('.');
 
         private final char representation;
 
