@@ -12,7 +12,7 @@ public class Main {
 
         while (!(input = sc.nextLine()).equals("q")) {
             if(input.equals("p")) {
-                System.out.println(board.print());
+                System.out.println(board.showBoard());
             }
         }
         System.out.println("종료");
