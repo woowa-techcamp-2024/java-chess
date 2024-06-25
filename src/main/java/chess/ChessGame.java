@@ -11,7 +11,7 @@ public class ChessGame {
     public void start() {
         board.initialize();
 
-        System.out.println(board.print());
+        board.print();
     }
 
     public void play() {
