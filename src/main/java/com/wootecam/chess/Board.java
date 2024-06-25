@@ -73,21 +73,6 @@ public class Board {
         return whitePawnPieces.get(pieceIndex);
     }
 
-    public void print() {
-        StringBuilder boardResults = new StringBuilder();
-
-        boardResults.append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(getBlackPawnsResults()))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(getWhitePawnsResults()))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS));
-
-        System.out.println(boardResults);
-    }
-
     public String showBoard() {
         StringBuilder boardResults = new StringBuilder();
 
@@ -101,6 +86,10 @@ public class Board {
                 .append(appendNewLine(createPiecesResults(whiteOtherPieces)));
 
         return boardResults.toString();
+    }
+
+    public void print() {
+        System.out.println(showBoard());
     }
 
     public int pieceCount() {
