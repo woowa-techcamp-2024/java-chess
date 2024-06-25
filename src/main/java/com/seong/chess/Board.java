@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+    private static final int BLACK_PAWN_LINE = 1;
+    private static final int WHITE_PAWN_LINE = 6;
+
     private final List<Piece> pieces = new ArrayList<>();
     private final List<Column> columns = new ArrayList<>();
 
@@ -27,8 +30,8 @@ public class Board {
 
     public void initialize() {
         initializeBlank();
-        initializeWhitePawn();
-        initializeBlackPawn();
+        initializePawn(BLACK_PAWN_LINE, Colors.BLACK_COLOR);
+        initializePawn(WHITE_PAWN_LINE, Colors.WHITE_COLOR);
     }
 
     private void initializeBlank() {
@@ -39,38 +42,28 @@ public class Board {
         }
     }
 
-    private void initializeWhitePawn() {
+    private void initializePawn(int row, String color) {
         columns.stream()
-                .filter(Column::isBlackPawnLine)
+                .filter(column -> column.isSameRow(row))
                 .forEach(column -> {
-                    Pawn blackPawn = new Pawn(Colors.BLACK_COLOR);
-                    pieces.add(blackPawn);
-                    column.initialize(blackPawn);
-                });
-    }
-
-    private void initializeBlackPawn() {
-        columns.stream()
-                .filter(Column::isWhitePawnLine)
-                .forEach(column -> {
-                    Pawn whitePawn = new Pawn(Colors.WHITE_COLOR);
-                    pieces.add(whitePawn);
-                    column.initialize(whitePawn);
+                    Pawn pawn = new Pawn(color);
+                    pieces.add(pawn);
+                    column.initialize(pawn);
                 });
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder sb = new StringBuilder();
-        columns.stream()
-                .filter(Column::isWhitePawnLine)
-                .forEach(column -> sb.append(column.getPawnRepresentation()));
-        return sb.toString();
+        return getPawnResult(WHITE_PAWN_LINE);
     }
 
     public String getBlackPawnsResult() {
+        return getPawnResult(BLACK_PAWN_LINE);
+    }
+
+    private String getPawnResult(int row) {
         StringBuilder sb = new StringBuilder();
         columns.stream()
-                .filter(Column::isBlackPawnLine)
+                .filter(column -> column.isSameRow(row))
                 .forEach(column -> sb.append(column.getPawnRepresentation()));
         return sb.toString();
     }

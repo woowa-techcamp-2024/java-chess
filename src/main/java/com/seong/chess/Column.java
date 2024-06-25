@@ -12,17 +12,8 @@ public class Column {
         this.point = point;
     }
 
-    public Column(Point point, Piece piece) {
-        this(point);
-        this.piece = piece;
-    }
-
-    public boolean isBlackPawnLine() {
-        return point.r() == 1;
-    }
-
-    public boolean isWhitePawnLine() {
-        return point.r() == 6;
+    public boolean isSameRow(int row) {
+        return point.r() == row;
     }
 
     public void initialize(Piece piece) {
