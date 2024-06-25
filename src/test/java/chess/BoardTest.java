@@ -42,12 +42,21 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("보드 초기화시 색별로 폰이 8개씩 생성된다.")
-    public void initialize() throws Exception {
+    @DisplayName("보드 초기화시 기물이 각 개수에 알맞게 생성된다.")
+    public void initializePawn() throws Exception {
+        expectedPiece(Type.PAWN, 8);
+        expectedPiece(Type.QUEEN, 1);
+        expectedPiece(Type.ROOK, 2);
+        expectedPiece(Type.KING, 1);
+        expectedPiece(Type.BISHOP, 2);
+        expectedPiece(Type.KNIGHT, 2);
+    }
+
+    private void expectedPiece(Type type, int expected) {
         board.initialize();
 
-        assertEquals("♙♙♙♙♙♙♙♙", board.getPieceResult(PieceColor.WHITE, Type.PAWN));
-        assertEquals("♟♟♟♟♟♟♟♟", board.getPieceResult(PieceColor.BLACK, Type.PAWN));
+        assertEquals(expected, board.getPieceResult(PieceColor.WHITE, type));
+        assertEquals(expected, board.getPieceResult(PieceColor.BLACK, type));
     }
 
     @Test
