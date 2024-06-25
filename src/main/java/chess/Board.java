@@ -4,6 +4,7 @@ import chess.pieces.ChessPiece;
 import chess.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static chess.pieces.PieceTypes.*;
@@ -107,5 +108,12 @@ public class Board {
             sb.append('\n');
         }
         return sb.toString();
+    }
+
+    public int findPieceWithColorAndType(Color color,Type type){
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(p->p!=null&&color.equals(p.getColor())&&type.equals(p.getType()))
+                .toList().size();
     }
 }
