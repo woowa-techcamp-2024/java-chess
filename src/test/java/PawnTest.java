@@ -7,7 +7,7 @@ public class PawnTest {
     @Test
     @DisplayName("흰색 폰이 생성되어야 한다")
     public void 흰색_폰_생성() {
-        final String color = "white";
+        final Pawn.Color color = Pawn.Color.WHITE;
         Pawn pawn = new Pawn(color);
         assertThat(pawn.verifyPawn(color)).isTrue();
     }
@@ -15,7 +15,7 @@ public class PawnTest {
     @Test
     @DisplayName("검은색 폰이 생성되어야 한다.")
     public void 검은색_폰_생성() {
-        final String color = "black";
+        final Pawn.Color color = Pawn.Color.BLACK;
         Pawn pawn = new Pawn(color);
         assertThat(pawn.verifyPawn(color)).isTrue();
     }
@@ -23,6 +23,6 @@ public class PawnTest {
     @Test
     public void 기본_폰_생성() throws Exception {
         Pawn pawn = new Pawn();
-        assertEquals("white", pawn.getColor());
+        assertEquals(Pawn.Color.WHITE, pawn.getColor());
     }
 }
