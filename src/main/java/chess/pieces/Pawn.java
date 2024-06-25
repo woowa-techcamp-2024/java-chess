@@ -10,7 +10,4 @@ public class Pawn extends Piece {
         this.symbol = color.equals(Color.BLACK) ? Symbol.BLACK_PAWN : Symbol.WHITE_PAWN;
     }
 
-    public boolean verifyPawn(final Color color) {
-        return this.color.equals(color);
-    }
 }
