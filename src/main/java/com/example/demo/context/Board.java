@@ -3,8 +3,6 @@ package com.example.demo.context;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Pawn;
 
-import java.util.Arrays;
-
 public class Board {
 
     Pawn[][] pieceLocation = new Pawn[8][8];
