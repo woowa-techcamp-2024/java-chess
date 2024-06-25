@@ -70,15 +70,18 @@ public class Board {
     }
 
     public String print() {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder printResult = new StringBuilder(new String());
         for (int i = 0; i < BOARD_SIZE; i++) {
+            StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < BOARD_SIZE; j++) {
-                Pawn pawn = board.get(i).get(j);
-                if (Objects.equals(pawn, null)) stringBuilder.append('.');
-                else stringBuilder.append(pawn.getRepresentation());
+                Piece piece = board.get(i).get(j);
+                if (Objects.equals(piece, null)) stringBuilder.append('.');
+                else stringBuilder.append(piece.getRepresentation());
             }
-            stringBuilder.append(NEWLINE);
+
+            String line = StringUtils.appendNewLine(stringBuilder.toString());
+            printResult.append(line);
         }
-        return stringBuilder.toString();
+        return printResult.toString();
     }
 }
