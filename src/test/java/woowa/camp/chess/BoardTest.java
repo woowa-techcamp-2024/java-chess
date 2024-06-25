@@ -44,7 +44,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("[Exception] 체스판의 Pawn을 찾을 때 올바르지 않은 범위이면, 예외가 발생한다.")
-    void temp() {
+    void findOutOfRange() {
         board.add(white);
         board.add(black);
 
@@ -57,6 +57,31 @@ public class BoardTest {
     private void verifyOutOfRangeFindPawn(Board board, int lowerBound, int upperBound) {
         assertThatThrownBy(() -> board.findPawn(lowerBound)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> board.findPawn(upperBound)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board이 관리하고 있는 Pawn의 결과를 확인")
+    void getPawnsResult() {
+        board.initialize();
+        String expectedWhitePawnsResult = "pppppppp";
+        String expectedBlackPawnsResult = "PPPPPPPP";
+
+        assertThat(board.getWhitePawnsResult()).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getBlackPawnsResult()).isEqualTo(expectedBlackPawnsResult);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board가 가지고 있는 검은색 Pawn과 흰색 Pawn은 각각 8개이다.")
+    void initialPawnSize() {
+        board.initialize();
+        int expectedPawnsCount = Board.MAX_PAWN;
+
+        verifyInitialPawnsCount(board, expectedPawnsCount);
+    }
+
+    private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
+        assertThat(board.getWhitePawnsResult().length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getBlackPawnsResult().length()).isEqualTo(expectedPawnsCount);
     }
 
 }
