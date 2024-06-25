@@ -9,21 +9,21 @@ public class PieceTest {
     @Test
     @DisplayName("모든 흰색, 검은색 기물이 생성되어야 한다")
     public void create() {
-        verifyPiece(Piece.createWhitePawn(), Color.WHITE, Type.WHITE_PAWN.getSymbol());
-        verifyPiece(Piece.createBlackPawn(), Color.BLACK, Type.BLACK_PAWN.getSymbol());
-        verifyPiece(Piece.createWhiteRook(), Color.WHITE, Type.WHITE_ROOK.getSymbol());
-        verifyPiece(Piece.createBlackRook(), Color.BLACK, Type.BLACK_ROOK.getSymbol());
-        verifyPiece(Piece.createWhiteKnight(), Color.WHITE, Type.WHITE_KNIGHT.getSymbol());
-        verifyPiece(Piece.createBlackKnight(), Color.BLACK, Type.BLACK_KNIGHT.getSymbol());
-        verifyPiece(Piece.createWhiteBishop(), Color.WHITE, Type.WHITE_BISHOP.getSymbol());
-        verifyPiece(Piece.createBlackBishop(), Color.BLACK, Type.BLACK_BISHOP.getSymbol());
-        verifyPiece(Piece.createWhiteQueen(), Color.WHITE, Type.WHITE_QUEEN.getSymbol());
-        verifyPiece(Piece.createBlackQueen(), Color.BLACK, Type.BLACK_QUEEN.getSymbol());
-        verifyPiece(Piece.createWhiteKing(), Color.WHITE, Type.WHITE_KING.getSymbol());
-        verifyPiece(Piece.createBlackKing(), Color.BLACK, Type.BLACK_KING.getSymbol());
+        verifyPiece(Piece.createWhitePawn(), Piece.Color.WHITE, Piece.Type.PAWN.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackPawn(), Piece.Color.BLACK, Piece.Type.PAWN.getBlackRepresentation());
+        verifyPiece(Piece.createWhiteRook(), Piece.Color.WHITE, Piece.Type.ROOK.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackRook(), Piece.Color.BLACK, Piece.Type.ROOK.getBlackRepresentation());
+        verifyPiece(Piece.createWhiteKnight(), Piece.Color.WHITE, Piece.Type.KNIGHT.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackKnight(), Piece.Color.BLACK, Piece.Type.KNIGHT.getBlackRepresentation());
+        verifyPiece(Piece.createWhiteBishop(), Piece.Color.WHITE, Piece.Type.BISHOP.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackBishop(), Piece.Color.BLACK, Piece.Type.BISHOP.getBlackRepresentation());
+        verifyPiece(Piece.createWhiteQueen(), Piece.Color.WHITE, Piece.Type.QUEEN.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackQueen(), Piece.Color.BLACK, Piece.Type.QUEEN.getBlackRepresentation());
+        verifyPiece(Piece.createWhiteKing(), Piece.Color.WHITE, Piece.Type.KING.getWhiteRepresentation());
+        verifyPiece(Piece.createBlackKing(), Piece.Color.BLACK, Piece.Type.KING.getBlackRepresentation());
     }
 
-    void verifyPiece(final Piece piece, final Color color, final char representation) {
+    void verifyPiece(final Piece piece, final Piece.Color color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }

@@ -28,9 +28,9 @@ public class Board {
 
         for (int i = 0; i < 4; i++) {
             pieces.add(Arrays.asList(
-                    Piece.createEmpty(), Piece.createEmpty(), Piece.createEmpty(),
-                    Piece.createEmpty(), Piece.createEmpty(), Piece.createEmpty(),
-                    Piece.createEmpty(), Piece.createEmpty()
+                    Piece.createBlank(), Piece.createBlank(), Piece.createBlank(),
+                    Piece.createBlank(), Piece.createBlank(), Piece.createBlank(),
+                    Piece.createBlank(), Piece.createBlank()
             ));
         }
 
@@ -60,7 +60,7 @@ public class Board {
     public int pieceCount() {
         return (int) pieces.stream()
                 .flatMap(List::stream)
-                .filter(Piece::isNotEmpty)
+                .filter(Piece::isNotBlank)
                 .count();
     }
 

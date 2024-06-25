@@ -1,7 +1,5 @@
 package com.woowatechcamp.chess;
 
-import com.woowatechcamp.chess.pieces.Color;
-
 import java.util.Arrays;
 
 public enum GameState {
