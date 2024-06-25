@@ -1,5 +1,7 @@
-import piece.Pawn;
-import piece.Piece;
+package chess;
+
+import chess.piece.Pawn;
+import chess.piece.Piece;
 
 import java.util.Arrays;
 import java.util.List;
