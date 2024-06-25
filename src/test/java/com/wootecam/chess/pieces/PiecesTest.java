@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class PiecesTest {
 
     @ParameterizedTest
-    @CsvSource("""
+    @CsvSource(textBlock = """
             white, p
             black, P
             """
@@ -67,5 +67,31 @@ public class PiecesTest {
     private void verifyPiece(Piece piece, String color, String representation) {
         assertThat(piece.getColor()).isEqualTo(color);
         assertThat(piece.getRepresentation()).isEqualTo(representation);
+    }
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            white, p, true
+            black, P, false
+            """)
+    void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
+        // given
+        Piece pawn = new Piece(color, representation);
+
+        // when
+        assertThat(pawn.isWhite()).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            white, p, false
+            black, P, true
+            """)
+    void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
+        // given
+        Piece pawn = new Piece(color, representation);
+
+        // when
+        assertThat(pawn.isBlack()).isEqualTo(expected);
     }
 }
