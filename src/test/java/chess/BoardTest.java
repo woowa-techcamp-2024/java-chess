@@ -1,5 +1,7 @@
 package chess;
 
+import chess.pieces.Color;
+import chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,13 @@ public class BoardTest {
     public void showBoard() {
         board.initialize();
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환한다")
+    public void countPieces() {
+        board.initialize();
+        assertEquals(8, board.countPieces(Color.BLACK, Type.PAWN));
 
         board.updateBoard(List.of(
                 ".KR.....",
@@ -49,5 +58,6 @@ public class BoardTest {
                 "....rk.."
         ));
         System.out.println(board.showBoard());
+        assertEquals(3, board.countPieces(Color.BLACK, Type.PAWN));
     }
 }
