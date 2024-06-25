@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.woopaca.javachess.chess.utils.StringUtils.appendNewLine;
+
 public class Board {
 
     public static final int BOARD_SIZE = 8;
@@ -71,8 +73,7 @@ public class Board {
         StringBuilder boardResult = new StringBuilder();
         for (List<Pawn> row : pawns) {
             String result = generatePawnsResult(row);
-            boardResult.append(result)
-                    .append(System.lineSeparator());
+            appendNewLine(boardResult, result);
         }
         return boardResult.toString();
     }
