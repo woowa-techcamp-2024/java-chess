@@ -7,6 +7,7 @@ public abstract class Piece {
 
     protected Color color;
     protected Symbol symbol;
+    protected double score;
 
     Piece(Color color) {
         this.color = color;
@@ -27,6 +28,10 @@ public abstract class Piece {
 
     public Symbol getSymbol() {
         return symbol;
+    }
+
+    public double getScore() {
+        return score;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.Blank;
+import chess.pieces.Pawn;
 import chess.pieces.Piece;
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Type;
@@ -43,6 +44,16 @@ public class Board {
                 .filter(type::isInstance)
                 .filter(piece -> piece.getColor().equals(color))
                 .count();
+    }
+
+    public double calculateScoreByColor(Color color) {
+        var score = 0.0;
+        score += board.values().stream()
+                .filter(piece -> !(piece instanceof Blank) && !(piece instanceof Pawn))
+                .filter(piece -> piece.getColor().equals(color))
+                .mapToDouble(Piece::getScore).sum();
+        score += calculatePawnScore(color);
+        return score;
     }
 
     public Piece getPiece(String locationStr) {
@@ -93,6 +104,21 @@ public class Board {
         addPiece(Location.of(row, 'f'), Piece.createBishop(color));
         addPiece(Location.of(row, 'g'), Piece.createKnight(color));
         addPiece(Location.of(row, 'h'), Piece.createRook(color));
+    }
+
+    private double calculatePawnScore(Color color) {
+        var result = 0.0;
+        for (char col : COLS) {
+            var temp = 0.0;
+            for (int row : ROWS) {
+                var piece = board.get(Location.of(row, col));
+                if (piece instanceof Pawn && piece.getColor().equals(color)) {
+                    temp += piece.getScore();
+                }
+            }
+            result += temp == 1 ? 1.0 : temp / 2;
+        }
+        return result;
     }
 
 }

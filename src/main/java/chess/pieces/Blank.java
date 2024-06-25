@@ -9,5 +9,6 @@ public class Blank extends Piece {
     private Blank() {
         super(null);
         this.symbol = Symbol.BLANK;
+        this.score = 0;
     }
 }

@@ -1,9 +1,11 @@
 package chess;
 
+import chess.pieces.Piece;
 import chess.pieces.Rook;
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Symbol;
 import chess.pieces.enums.Type;
+import chess.pieces.values.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,6 +65,19 @@ class BoardTest {
         var actualResult = board.countPiecesByTypeAndColor(expectedType, expectedColor);
 
         assertThat(actualResult).isEqualTo(expectedResult);
+    }
+
+    @Test
+    @DisplayName("체스 판에서 말의 점수를 계산한다.")
+    void calculateScoreByColor() {
+        board.addPiece(Location.from("a1"), Piece.createRook(Color.WHITE));
+        board.addPiece(Location.from("b1"), Piece.createKnight(Color.WHITE));
+        board.addPiece(Location.from("c3"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c4"), Piece.createPawn(Color.WHITE));
+        board.addPiece(Location.from("c5"), Piece.createPawn(Color.WHITE));
+        var actualWhiteScore = board.calculateScoreByColor(Color.WHITE);
+
+        assertThat(actualWhiteScore).isEqualTo(9);
     }
 
     private static Stream<Arguments> findPieceWithTypeAndColor() {
