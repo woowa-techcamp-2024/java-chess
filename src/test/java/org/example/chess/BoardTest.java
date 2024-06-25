@@ -27,6 +27,18 @@ public class BoardTest {
 
     @Test
     public void 보드_출력검사() throws Exception {
-        //assertEquals("pppppppp", board.getWhitePawnsResult());
+        String emptyLine = ".".repeat(boardSize) + "\n";
+
+        String expected =
+            emptyLine +
+                Pawn.WHITE_REPRESENTATION.repeat(boardSize) + "\n" +
+                emptyLine +
+                emptyLine +
+                emptyLine +
+                emptyLine +
+                Pawn.BLACK_REPRESENTATION.repeat(boardSize) + "\n" +
+                emptyLine;
+
+        assertEquals(expected, board.print());
     }
 }

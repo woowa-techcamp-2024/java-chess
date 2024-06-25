@@ -14,7 +14,7 @@ public class Board {
         addPawn();
     }
 
-    private void addPawn(){
+    private void addPawn() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             addBlackPawn();
             addWhitePawn();
@@ -47,7 +47,21 @@ public class Board {
 
 
     public String print() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        String defaultLine = ".".repeat(BOARD_SIZE) + "\n";
+
+        sb.append(defaultLine);
+        sb.append(getWhitePawnsResult()).append("\n");
+
+        sb.append(defaultLine);
+        sb.append(defaultLine);
+        sb.append(defaultLine);
+        sb.append(defaultLine);
+
+        sb.append(getBlackPawnsResult()).append("\n");
+        sb.append(defaultLine);
+
+        return sb.toString();
     }
 
     public int size() {
