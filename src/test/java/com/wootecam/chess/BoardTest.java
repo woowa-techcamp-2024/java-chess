@@ -132,6 +132,7 @@ class BoardTest {
 
     @Nested
     class 체스판의_상태를_조회한다 {
+
         @Test
         void 체스판_초기화_시_검은색과_하얀색_폰은_각각_열의_개수만큼_존재한다() {
             var board = createBoard();
