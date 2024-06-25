@@ -15,4 +15,6 @@ public class ChessStrings {
     public static final String BLACK_KNIGHT = "♞";
     public static final String BLACK_PAWN = "♟";
 
+    private ChessStrings() {}
+
 }
