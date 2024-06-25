@@ -66,4 +66,12 @@ public class BoardTest {
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
+
+    @Test
+    @DisplayName("체스판의 현재 상태를 콘솔 화면에 출력한다")
+    void print() {
+        board.initialize();
+        String result = board.print();
+        System.out.println(result);
+    }
 }
