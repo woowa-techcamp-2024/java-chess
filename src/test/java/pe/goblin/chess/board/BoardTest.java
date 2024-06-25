@@ -1,5 +1,6 @@
 package pe.goblin.chess.board;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pe.goblin.chess.pawn.Pawn;
 
@@ -7,16 +8,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTest {
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = new Board();
+    }
+
     @Test
     void create_empty() {
-        Board board = new Board();
         assertEquals(0, board.size());
     }
 
     @Test
     void create() throws ExceedPawnException {
-        Board board = new Board();
-
         Pawn white = new Pawn(Pawn.WHITE_COLOR);
         board.add(white);
         assertEquals(1, board.size());
@@ -30,7 +35,6 @@ public class BoardTest {
 
     @Test
     void create_exceed_then_throw() throws ExceedPawnException {
-        Board board = new Board();
         Pawn white1 = new Pawn(Pawn.WHITE_COLOR);
         board.add(white1);
         Pawn white2 = new Pawn(Pawn.WHITE_COLOR);
