@@ -53,27 +53,26 @@ public class Board {
     }
 
     private void initBlackPawnsResult() {
-        for (int i = 0; i < 8; i++) {
-            Piece blackPiece = new Piece(Color.BLACK, Piece.BLACK_REPRESENTATION);
-            blackPawnsResult.add(blackPiece);
-            board[BLACK_INIT_ROW][i] = blackPiece.getRepresentation();
-        }
+//        for (int i = 0; i < 8; i++) {
+//            Piece blackPiece = new Piece(Color.BLACK, Piece.BLACK_REPRESENTATION);
+//            blackPawnsResult.add(blackPiece);
+//            board[BLACK_INIT_ROW][i] = blackPiece.getRepresentation();
+//        }
     }
 
     private void initWhitePawnsResult() {
-        for (int i = 0; i < 8; i++) {
-            Piece whitePiece = new Piece(Color.WHITE, Piece.WHITE_REPRESENTATION);
-            whitePawnsResult.add(whitePiece);
-            board[WHITE_INIT_ROW][i] = whitePiece.getRepresentation();
-        }
+//        for (int i = 0; i < 8; i++) {
+//            Piece whitePiece = new Piece(Color.WHITE, Piece.WHITE_REPRESENTATION);
+//            whitePawnsResult.add(whitePiece);
+//            board[WHITE_INIT_ROW][i] = whitePiece.getRepresentation();
+//        }
     }
 
     public void print() {
         // 현재 보드판의 상태를 출력해주는 메서드.
         StringBuilder sb = new StringBuilder();
         for (char[] row : board) {
-            sb.append(row);
-            appendNewLine(sb);
+            sb.append(appendNewLine(String.valueOf(row)));
         }
         System.out.println(sb.toString());
     }
@@ -96,5 +95,13 @@ public class Board {
 
     public Board() {
         this.board = new char[BOARD_SIZE][BOARD_SIZE];
+    }
+
+    public int pieceCount() {
+        return 0;
+    }
+
+    public String showBoard() {
+        return null;
     }
 }

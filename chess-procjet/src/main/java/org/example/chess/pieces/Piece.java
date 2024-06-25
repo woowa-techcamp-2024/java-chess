@@ -27,4 +27,16 @@ public class Piece {
     public static Piece createPiece(Color color, PieceName name) {
         return new Piece(color, name);
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public PieceName getName() {
+        return name;
+    }
+
+    public String getRepresentation() {
+        return representation;
+    }
 }

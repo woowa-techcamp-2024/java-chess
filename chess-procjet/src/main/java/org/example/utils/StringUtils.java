@@ -4,8 +4,8 @@ public class StringUtils {
 
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    public static void appendNewLine(StringBuilder sb) {
-        sb.append(NEWLINE);
+    public static String appendNewLine(String line) {
+        return line + NEWLINE;
     }
 
     private StringUtils() {
