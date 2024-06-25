@@ -1,6 +1,6 @@
 package com.woopaca.javachess.chess;
 
-import com.woopaca.javachess.chess.pieces.Pawn;
+import com.woopaca.javachess.chess.pieces.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,16 +14,16 @@ public class BoardTest {
     void create() {
         Board board = new Board();
 
-        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
+        Piece whitePiece = Piece.createWhitePawn();
+        Piece blackPiece = Piece.createBlackPawn();
 
-        board.add(whitePawn);
+        board.add(whitePiece);
         assertThat(board.size()).isEqualTo(1);
-        assertThat(board.findPawn(0)).isEqualTo(whitePawn);
+        assertThat(board.findPawn(0)).isEqualTo(whitePiece);
 
-        board.add(blackPawn);
+        board.add(blackPiece);
         assertThat(board.size()).isEqualTo(2);
-        assertThat(board.findPawn(1)).isEqualTo(blackPawn);
+        assertThat(board.findPawn(1)).isEqualTo(blackPiece);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")

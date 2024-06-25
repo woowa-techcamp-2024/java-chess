@@ -1,6 +1,6 @@
 package com.woopaca.javachess.chess;
 
-import com.woopaca.javachess.chess.pieces.Pawn;
+import com.woopaca.javachess.chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Board {
     public static final int WHITE_PAWNS_ROW = 6;
     public static final int BLACK_PAWNS_ROW = 1;
 
-    private final List<Pawn>[] pawns = new ArrayList[BOARD_SIZE];
+    private final List<Piece>[] pawns = new ArrayList[BOARD_SIZE];
 
     {
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -25,62 +25,62 @@ public class Board {
         }
     }
 
-    public void add(Pawn pawn) {
+    public void add(Piece piece) {
         // FIXME 요구사항에 맞게 수정하기
-        pawns[0].add(pawn);
+        pawns[0].add(piece);
     }
 
     public int size() {
         // FIXME 요구사항에 맞게 수정하기
         int size = 0;
-        for (List<Pawn> pawn : pawns) {
-            size += pawn.size();
+        for (List<Piece> piece : pawns) {
+            size += piece.size();
         }
         return size;
     }
 
-    public Pawn findPawn(int index) {
+    public Piece findPawn(int index) {
         // FIXME 요구사항에 맞게 수정하기
         return null;
     }
 
     public void initialize() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            addPawn(Pawn.WHITE_COLOR, WHITE_PAWNS_ROW);
-            addPawn(Pawn.BLACK_COLOR, BLACK_PAWNS_ROW);
+            addPawn(Piece.WHITE_COLOR, WHITE_PAWNS_ROW);
+            addPawn(Piece.BLACK_COLOR, BLACK_PAWNS_ROW);
         }
     }
 
     private void addPawn(String color, int row) {
-        Pawn pawn = new Pawn(color);
+        /*Piece piece = new Piece(color);
         if (pawns[row].size() >= BOARD_SIZE) {
             pawns[row].remove(0);
         }
-        pawns[row].add(pawn);
+        pawns[row].add(piece);*/
     }
 
     public String getWhitePawnsResult() {
-        List<Pawn> whitePawns = pawns[WHITE_PAWNS_ROW];
-        return generatePawnsResult(whitePawns);
+        List<Piece> whitePieces = pawns[WHITE_PAWNS_ROW];
+        return generatePawnsResult(whitePieces);
     }
 
     public String getBlackPawnsResult() {
-        List<Pawn> blackPawns = pawns[BLACK_PAWNS_ROW];
-        return generatePawnsResult(blackPawns);
+        List<Piece> blackPieces = pawns[BLACK_PAWNS_ROW];
+        return generatePawnsResult(blackPieces);
     }
 
     public String print() {
         StringBuilder boardResult = new StringBuilder();
-        for (List<Pawn> row : pawns) {
+        for (List<Piece> row : pawns) {
             String result = generatePawnsResult(row);
             boardResult.append(appendNewLine(result));
         }
         return boardResult.toString();
     }
 
-    private String generatePawnsResult(List<Pawn> pawns) {
-        return pawns.stream()
-                .map(pawn -> pawn == null ? "." : String.valueOf(pawn.getRepresentation()))
+    private String generatePawnsResult(List<Piece> pieces) {
+        return pieces.stream()
+                .map(piece -> piece == null ? "." : String.valueOf(piece.getRepresentation()))
                 .collect(Collectors.joining());
     }
 
