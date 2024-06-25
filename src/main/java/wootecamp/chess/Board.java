@@ -1,6 +1,7 @@
 package wootecamp.chess;
 
 import wootecamp.chess.pieces.Pawn;
+import wootecamp.chess.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +67,7 @@ public class Board {
         for (int rank = BOARD_SIZE; rank > 0; rank--) {
             builder.append(getRankState(rank));
             if(rank > finalRank) {
-                builder.append("\n");
+                builder.append(StringUtils.NEWLINE);
             }
         }
         return builder.toString();
