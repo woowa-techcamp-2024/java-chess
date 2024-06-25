@@ -1,4 +1,4 @@
-package pe.goblin.pawn;
+package pe.goblin.chess.pawn;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

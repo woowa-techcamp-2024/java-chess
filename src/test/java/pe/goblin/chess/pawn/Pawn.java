@@ -1,4 +1,4 @@
-package pe.goblin.pawn;
+package pe.goblin.chess.pawn;
 
 public class Pawn {
     public static final String WHITE_COLOR = "white";

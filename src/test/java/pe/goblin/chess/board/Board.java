@@ -1,6 +1,6 @@
-package pe.goblin.board;
+package pe.goblin.chess.board;
 
-import pe.goblin.pawn.Pawn;
+import pe.goblin.chess.pawn.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;

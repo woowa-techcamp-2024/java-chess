@@ -1,4 +1,4 @@
-package pe.goblin.board;
+package pe.goblin.chess.board;
 
 public class ExceedPawnException extends Exception{
 }

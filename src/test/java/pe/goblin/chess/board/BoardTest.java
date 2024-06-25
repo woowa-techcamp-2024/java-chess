@@ -1,7 +1,7 @@
-package pe.goblin.board;
+package pe.goblin.chess.board;
 
 import org.junit.jupiter.api.Test;
-import pe.goblin.pawn.Pawn;
+import pe.goblin.chess.pawn.Pawn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

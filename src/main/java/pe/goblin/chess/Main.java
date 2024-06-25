@@ -1,4 +1,4 @@
-package pe.goblin;
+package pe.goblin.chess;
 
 public class Main {
     public static void main(String[] args) {
