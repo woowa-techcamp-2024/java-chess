@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Board {
 
@@ -24,37 +25,41 @@ public class Board {
         return pieces.size();
     }
 
-    public void initialize() {
+    public void initializeEmpty() {
         pieces.clear();
         boardMap.clear();
+    }
+
+    public void initialize() {
+        initializeEmpty();
 
         // Add pawns
         for (int i = 0; i < 8; i++) {
-            addPiece(Pawn.createWhitePawn(), ChessPoint.of((char) ('a' + i), 2));
-            addPiece(Pawn.createBlackPawn(), ChessPoint.of((char) ('a' + i), 7));
+            addPiece(Pawn.createWhite(), ChessPoint.of((char) ('a' + i), 2));
+            addPiece(Pawn.createBlack(), ChessPoint.of((char) ('a' + i), 7));
         }
 
         // Add other pieces
-        addPiece(Rook.createWhiteRook(), ChessPoint.of("a1"));
-        addPiece(Rook.createWhiteRook(), ChessPoint.of("h1"));
-        addPiece(Rook.createBlackRook(), ChessPoint.of("a8"));
-        addPiece(Rook.createBlackRook(), ChessPoint.of("h8"));
+        addPiece(Rook.createWhite(), ChessPoint.of("a1"));
+        addPiece(Rook.createWhite(), ChessPoint.of("h1"));
+        addPiece(Rook.createBlack(), ChessPoint.of("a8"));
+        addPiece(Rook.createBlack(), ChessPoint.of("h8"));
 
         addPiece(Knight.createWhiteKnight(), ChessPoint.of("b1"));
         addPiece(Knight.createWhiteKnight(), ChessPoint.of("g1"));
         addPiece(Knight.createBlackKnight(), ChessPoint.of("b8"));
         addPiece(Knight.createBlackKnight(), ChessPoint.of("g8"));
 
-        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("c1"));
-        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("f1"));
-        addPiece(Bishop.createBlackBishop(), ChessPoint.of("c8"));
-        addPiece(Bishop.createBlackBishop(), ChessPoint.of("f8"));
+        addPiece(Bishop.createWhite(), ChessPoint.of("c1"));
+        addPiece(Bishop.createWhite(), ChessPoint.of("f1"));
+        addPiece(Bishop.createBlack(), ChessPoint.of("c8"));
+        addPiece(Bishop.createBlack(), ChessPoint.of("f8"));
 
-        addPiece(Queen.createWhiteQueen(), ChessPoint.of("d1"));
-        addPiece(Queen.createBlackQueen(), ChessPoint.of("d8"));
+        addPiece(Queen.createWhite(), ChessPoint.of("d1"));
+        addPiece(Queen.createBlack(), ChessPoint.of("d8"));
 
-        addPiece(King.createWhiteKing(), ChessPoint.of("e1"));
-        addPiece(King.createBlackKing(), ChessPoint.of("e8"));
+        addPiece(King.createWhite(), ChessPoint.of("e1"));
+        addPiece(King.createBlack(), ChessPoint.of("e8"));
     }
 
     private void addPiece(Piece piece, ChessPoint point) {
@@ -79,14 +84,14 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        return getPawnsResult(Pawn.WHITE_COLOR);
+        return getPawnsResult(Piece.Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
-        return getPawnsResult(Pawn.BLACK_COLOR);
+        return getPawnsResult(Pawn.Color.BLACK);
     }
 
-    private String getPawnsResult(final String color) {
+    private String getPawnsResult(final Piece.Color color) {
         StringBuilder sb = new StringBuilder();
         List<Pawn> pawns = findAllPieces(Pawn.class);
         for (Pawn pawn : pawns) {
@@ -97,20 +102,28 @@ public class Board {
         return sb.toString();
     }
 
+    public long count(Piece.Color color, Class<? extends Piece> type) {
+        return filterPiecesByType(type)
+                .filter(piece -> piece.getColor().equals(color))
+                .count();
+    }
+
     private <T extends Piece> List<T> findAllPieces(Class<T> type) {
-        return pieces.stream()
-                .filter(type::isInstance)
-                .map(type::cast)
+        return filterPiecesByType(type)
                 .collect(Collectors.toList());
     }
 
     private <T extends Piece> T findPiece(int index, Class<T> type) {
-        return pieces.stream()
-                .filter(type::isInstance)
+        return filterPiecesByType(type)
                 .skip(index)
-                .map(type::cast)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 index에 맞는 Piece가 없습니다."));
+    }
+
+    private <T extends Piece> Stream<T> filterPiecesByType(Class<T> type) {
+        return pieces.stream()
+                .filter(type::isInstance)
+                .map(type::cast);
     }
 
     public int pieceCount() {
@@ -130,5 +143,36 @@ public class Board {
         }
         sb.append(getFile());
         return sb.toString();
+    }
+
+    public Piece findPiece(String point) {
+        return boardMap.get(ChessPoint.of(point));
+    }
+
+    public void putPiece(String pointString, Piece piece) {
+        ChessPoint point = ChessPoint.of(pointString);
+        if (boardMap.containsKey(point)) {
+            throw new IllegalArgumentException("해당 위치에는 이미 말이 있습니다.");
+        }
+        addPiece(piece, point);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.getColor().equals(color))
+                .mapToDouble(Piece::getDefaultPoint)
+                .sum();
+    }
+
+    public List<Piece> sortByPointAsc() {
+        return pieces.stream()
+                .sorted((p1, p2) -> Double.compare(p1.getDefaultPoint(), p2.getDefaultPoint()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Piece> sortByPointDesc() {
+        return pieces.stream()
+                .sorted((p1, p2) -> Double.compare(p2.getDefaultPoint(), p1.getDefaultPoint()))
+                .collect(Collectors.toList());
     }
 }
