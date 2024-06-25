@@ -1,7 +1,8 @@
 package org.example.chess.pieces;
 
 public class Pawn {
-    private Color color;
+    private final Color color;
+    private Position position;
 
     public Pawn() {
         this.color = Color.WHITE;
@@ -15,17 +16,31 @@ public class Pawn {
         return this.color;
     }
 
+    public String getRepresentation() {
+        return this.color.representation;
+    }
+
     public enum Color {
-        WHITE("white"), BLACK("BLACK");
+        WHITE("p"), BLACK("P");
 
-        private final String color;
+        public final String representation;
 
-        Color(String color) {
-            this.color = color;
+        Color(String representation) {
+            this.representation = representation;
         }
 
-        public String getColor(){
-            return this.color;
+        public String getRepresentation(){
+            return this.representation;
+        }
+    }
+
+    public class Position {
+        private int row;
+        private int col;
+
+        public Position(int row, int col) {
+            this.row = row;
+            this.col = col;
         }
     }
 }
