@@ -52,7 +52,7 @@ public class Board {
 
                 chessBoard.append(representation);
             }
-            chessBoard.append(appendNewLine(Rank.of(row).toString()));
+            chessBoard.append(appendNewLine(String.valueOf(Rank.of(row).getIndex())));
         }
 
         chessBoard.append(appendNewLine("abcdefgh"));
