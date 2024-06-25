@@ -66,14 +66,17 @@ public class BoardTest {
         board.print();
 
         assertEquals(32, board.pieceCount());
-        String blankRank = appendNewLine("........");
 
         assertEquals(
-                appendNewLine("♖♘♗♕♔♗♘♖") +
-                        appendNewLine("♙♙♙♙♙♙♙♙") +
-                        blankRank + blankRank + blankRank + blankRank +
-                        appendNewLine("♟♟♟♟♟♟♟♟") +
-                        appendNewLine("♜♞♝♛♚♝♞♜"),
+                appendNewLine("♜♞♝♛♚♝♞♜8") +
+                        appendNewLine("♟♟♟♟♟♟♟♟7") +
+                        appendNewLine("........6") +
+                        appendNewLine("........5") +
+                        appendNewLine("........4") +
+                        appendNewLine("........3") +
+                        appendNewLine("♙♙♙♙♙♙♙♙2") +
+                        appendNewLine("♖♘♗♕♔♗♘♖1") +
+                        appendNewLine("abcdefgh"),
                 board.showBoard());
     }
 }

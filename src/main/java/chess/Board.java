@@ -4,13 +4,13 @@ import chess.piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static chess.BoardFactory.*;
-import static chess.utils.StringUtils.BLANK;
 import static chess.utils.StringUtils.appendNewLine;
 
 public class Board {
+
+    private static final int BOARD_SIZE = 8;
 
     private final Map<Position, Piece> board = new HashMap<>();
 
@@ -45,15 +45,17 @@ public class Board {
     public String showBoard() {
         StringBuilder chessBoard = new StringBuilder();
 
-        for (int row = 1; row <= 8; row++) {
-            for (int col = 1; col <= 8; col++) {
+        for (int row = BOARD_SIZE; row >= 1; row--) {
+            for (int col = 1; col <= BOARD_SIZE; col++) {
                 Position position = Position.of(File.of(col), Rank.of(row));
                 char representation = getPieceInPosition(position);
 
                 chessBoard.append(representation);
             }
-            chessBoard.append(appendNewLine(""));
+            chessBoard.append(appendNewLine(Rank.of(row).toString()));
         }
+
+        chessBoard.append(appendNewLine("abcdefgh"));
 
         return chessBoard.toString();
     }
@@ -63,10 +65,8 @@ public class Board {
     }
 
     private char getPieceInPosition(final Position position) {
-        Optional<Piece> piece = Optional.ofNullable(board.get(position));
+        Piece piece = board.getOrDefault(position, Blank.create());
 
-        return piece.map(value ->
-                        PieceRepresentation.getPieceRepresentation(value.getColor(), value.getType()))
-                .orElse(BLANK);
+        return piece.getType().getRepresentation(piece.getColor());
     }
 }
