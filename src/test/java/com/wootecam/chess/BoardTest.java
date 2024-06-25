@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.Piece;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,23 +32,23 @@ public class BoardTest {
 
             @ParameterizedTest
             @MethodSource("generatePawns")
-            void 순서가_보장된다(List<Pawn> pawns, int pawnIndex, int size) {
+            void 순서가_보장된다(List<Piece> pieces, int pawnIndex, int size) {
                 // when
-                pawns.forEach(board::add);
-                Pawn findPawn = board.findPawn(pawnIndex);
+                pieces.forEach(board::add);
+                Piece findPiece = board.findPiece(pawnIndex);
 
                 // then
                 assertAll(
                         () -> assertThat(board.size()).isEqualTo(size),
-                        () -> assertThat(findPawn).isEqualTo(pawns.get(pawnIndex))
+                        () -> assertThat(findPiece).isEqualTo(pieces.get(pawnIndex))
                 );
             }
 
             private static Stream<Arguments> generatePawns() {
                 return Stream.of(
-                        Arguments.of(List.of(new Pawn(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION)), 0, 1),
-                        Arguments.of(List.of(new Pawn(Pawn.COLOR_BLACK, Pawn.BLACK_REPRESENTATION),
-                                new Pawn(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION)), 0, 2)
+                        Arguments.of(List.of(new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 1),
+                        Arguments.of(List.of(new Piece(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
+                                new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION)), 0, 2)
                 );
             }
         }
@@ -64,11 +64,11 @@ public class BoardTest {
             @ValueSource(ints = {-1, 2})
             void 예외가_발생한다(int invalidIndex) {
                 // given
-                Pawn pawn = new Pawn();
-                board.add(pawn);
+                Piece piece = new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION);
+                board.add(piece);
 
                 // expect
-                assertThatThrownBy(() -> board.findPawn(invalidIndex))
+                assertThatThrownBy(() -> board.findPiece(invalidIndex))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = " + board.size());
             }

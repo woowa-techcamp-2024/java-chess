@@ -2,7 +2,7 @@ package com.wootecam.chess;
 
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
-import com.wootecam.chess.pieces.Pawn;
+import com.wootecam.chess.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -10,36 +10,36 @@ import java.util.stream.IntStream;
 public class Board {
 
     private static final String EMPTY_PIECES_RESULTS = "........";
-    private static final int PAWN_COUNT = 8;
+    private static final int PIECE_COUNT = 8;
 
-    private final List<Pawn> blackPawns = new ArrayList<>();
-    private final List<Pawn> whitePawns = new ArrayList<>();
+    private final List<Piece> blackPieces = new ArrayList<>();
+    private final List<Piece> whitePieces = new ArrayList<>();
 
     public Board() {
     }
 
     public void initialize() {
-        blackPawns.addAll(createPawns(Pawn.COLOR_BLACK, Pawn.BLACK_REPRESENTATION));
-        whitePawns.addAll(createPawns(Pawn.COLOR_WHITE, Pawn.WHITE_REPRESENTATION));
+        blackPieces.addAll(createPawns(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION));
+        whitePieces.addAll(createPawns(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION));
     }
 
-    private List<Pawn> createPawns(String color, String representation) {
-        return IntStream.range(0, PAWN_COUNT)
-                .mapToObj(i -> new Pawn(color, representation))
+    private List<Piece> createPawns(String color, String representation) {
+        return IntStream.range(0, PIECE_COUNT)
+                .mapToObj(i -> new Piece(color, representation))
                 .toList();
     }
 
-    public void add(final Pawn pawn) {
-        whitePawns.add(pawn);
+    public void add(final Piece piece) {
+        whitePieces.add(piece);
     }
 
-    public Pawn findPawn(final int pawnIndex) {
-        if (pawnIndex < 0 || whitePawns.size() <= pawnIndex) {
-            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePawns.size());
+    public Piece findPiece(final int pieceIndex) {
+        if (pieceIndex < 0 || whitePieces.size() <= pieceIndex) {
+            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePieces.size());
             throw new IllegalArgumentException(message);
         }
 
-        return whitePawns.get(pawnIndex);
+        return whitePieces.get(pieceIndex);
     }
 
     public void print() {
@@ -58,24 +58,24 @@ public class Board {
     }
 
     public int size() {
-        return whitePawns.size();
+        return whitePieces.size();
     }
 
     public String getWhitePawnsResults() {
-        StringBuilder results = createPawnsResults(whitePawns);
+        StringBuilder results = createPawnsResults(whitePieces);
 
         return results.toString();
     }
 
     public String getBlackPawnsResults() {
-        StringBuilder results = createPawnsResults(blackPawns);
+        StringBuilder results = createPawnsResults(blackPieces);
 
         return results.toString();
     }
 
-    private StringBuilder createPawnsResults(List<Pawn> pawns) {
+    private StringBuilder createPawnsResults(List<Piece> pieces) {
         StringBuilder results = new StringBuilder();
-        pawns.forEach(pawn -> results.append(pawn.getRepresentation()));
+        pieces.forEach(piece -> results.append(piece.getRepresentation()));
 
         return results;
     }
