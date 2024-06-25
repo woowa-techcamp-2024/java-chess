@@ -8,23 +8,25 @@ import org.junit.jupiter.api.Test;
 class PieceTest {
 
     @Test
-    @DisplayName("폰 생성시 색을 지정해서 생성한다.")
-    public void create() {
-        verifyPawn(Color.WHITE, Piece.WHITE_REPRESENTATION);
-        verifyPawn(Color.BLACK, Piece.BLACK_REPRESENTATION);
+    @DisplayName("팩토리 메서드를 통해 모든 기물 생성")
+    void create_piece() {
+        verifyPiece(PieceFactory.createWhitePawn(), Color.WHITE, "p");
+        verifyPiece(PieceFactory.createBlackPawn(), Color.BLACK, "P");
+        verifyPiece(PieceFactory.createWhiteKing(), Color.WHITE, "k");
+        verifyPiece(PieceFactory.createBlackKing(), Color.BLACK, "K");
+        verifyPiece(PieceFactory.createWhiteQueen(), Color.WHITE, "q");
+        verifyPiece(PieceFactory.createBlackQueen(), Color.BLACK, "Q");
+        verifyPiece(PieceFactory.createWhiteBishop(), Color.WHITE, "b");
+        verifyPiece(PieceFactory.createBlackBishop(), Color.BLACK, "B");
+        verifyPiece(PieceFactory.createWhiteKnight(), Color.WHITE, "k");
+        verifyPiece(PieceFactory.createBlackKnight(), Color.BLACK, "K");
+        verifyPiece(PieceFactory.createWhiteRook(), Color.WHITE, "r");
+        verifyPiece(PieceFactory.createBlackRook(), Color.BLACK, "R");
     }
 
-    private void verifyPawn(final Color color, final char representation) {
-        Piece piece = new Piece(color, representation);
+    private void verifyPiece(final Piece piece, final Color color, final String representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
-    }
-
-    @Test
-    public void create_기본생성자() throws Exception {
-        Piece piece = new Piece();
-        assertEquals(Color.WHITE, piece.getColor());
-        assertEquals(Piece.WHITE_REPRESENTATION, piece.getRepresentation());
     }
 
 }
