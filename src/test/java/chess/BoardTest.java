@@ -65,4 +65,12 @@ class BoardTest {
             board.add((Piece) o);
         }).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환")
+    void findPiece() {
+        board.initialize();
+
+        assertEquals(8, board.findPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+    }
 }

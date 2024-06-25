@@ -1,11 +1,14 @@
 package chess;
 
 import chess.pieces.Piece;
+import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Board {
     private List<Piece> pieces;
@@ -22,36 +25,36 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
                 List<Piece> p = new ArrayList<>();
-                p.add(Piece.createWhite(Piece.Type.ROOK));
-                p.add(Piece.createWhite(Piece.Type.KNIGHT));
-                p.add(Piece.createWhite(Piece.Type.BISHOP));
-                p.add(Piece.createWhite(Piece.Type.QUEEN));
-                p.add(Piece.createWhite(Piece.Type.KING));
-                p.add(Piece.createWhite(Piece.Type.BISHOP));
-                p.add(Piece.createWhite(Piece.Type.KNIGHT));
-                p.add(Piece.createWhite(Piece.Type.ROOK));
+                p.add(Piece.createWhite(Type.ROOK));
+                p.add(Piece.createWhite(Type.KNIGHT));
+                p.add(Piece.createWhite(Type.BISHOP));
+                p.add(Piece.createWhite(Type.QUEEN));
+                p.add(Piece.createWhite(Type.KING));
+                p.add(Piece.createWhite(Type.BISHOP));
+                p.add(Piece.createWhite(Type.KNIGHT));
+                p.add(Piece.createWhite(Type.ROOK));
                 boardMap.add(p);
             } else if (i == 7) {
                 List<Piece> p = new ArrayList<>();
-                p.add(Piece.createBlack(Piece.Type.ROOK));
-                p.add(Piece.createBlack(Piece.Type.KNIGHT));
-                p.add(Piece.createBlack(Piece.Type.BISHOP));
-                p.add(Piece.createBlack(Piece.Type.QUEEN));
-                p.add(Piece.createBlack(Piece.Type.KING));
-                p.add(Piece.createBlack(Piece.Type.BISHOP));
-                p.add(Piece.createBlack(Piece.Type.KNIGHT));
-                p.add(Piece.createBlack(Piece.Type.ROOK));
+                p.add(Piece.createBlack(Type.ROOK));
+                p.add(Piece.createBlack(Type.KNIGHT));
+                p.add(Piece.createBlack(Type.BISHOP));
+                p.add(Piece.createBlack(Type.QUEEN));
+                p.add(Piece.createBlack(Type.KING));
+                p.add(Piece.createBlack(Type.BISHOP));
+                p.add(Piece.createBlack(Type.KNIGHT));
+                p.add(Piece.createBlack(Type.ROOK));
                 boardMap.add(p);
             } else if(i == 1) {
                 List<Piece> p = new ArrayList<>();
                 for (int j = 0; j < 8; j++) {
-                    p.add(Piece.createWhite(Piece.Type.PAWN));
+                    p.add(Piece.createWhite(Type.PAWN));
                 }
                 boardMap.add(p);
             } else if(i == 6){
                 List<Piece> p = new ArrayList<>();
                 for (int j = 0; j < 8; j++) {
-                    p.add(Piece.createBlack(Piece.Type.PAWN));
+                    p.add(Piece.createBlack(Type.PAWN));
                 }
                 boardMap.add(p);
             } else {
@@ -100,5 +103,19 @@ public class Board {
 
     public int getPieceCount() {
         return pieceCount;
+    }
+
+    public int findPiece(Color color, Type type) {
+        int count = 0;
+        String t = color.equals(Color.WHITE) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        for (List<Piece> row : boardMap) {
+            for (Piece c : row) {
+                if (Objects.equals(c.getType(), t)) {
+                    count += 1;
+                }
+            }
+        }
+
+        return count;
     }
 }
