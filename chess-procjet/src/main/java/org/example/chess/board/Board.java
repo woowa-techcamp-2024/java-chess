@@ -1,9 +1,12 @@
 package org.example.chess.board;
 
+import static org.example.utils.StringUtils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.example.chess.pieces.Color;
 import org.example.chess.pieces.Pawn;
+import org.example.utils.StringUtils;
 
 public class Board {
 
@@ -71,7 +74,7 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (char[] row : board) {
             sb.append(row);
-            sb.append("\n");
+            appendNewLine(sb);
         }
         System.out.println(sb.toString());
     }
