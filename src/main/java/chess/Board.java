@@ -135,6 +135,25 @@ public class Board {
         }
     }
 
+    private void removePiece(ChessPiece piece){
+        for(int h=0;h<HEIGHT;h++){
+            for(int w=0;w<WIDTH;w++){
+                if(board[h][w].equals(piece)){
+                    board[h][w] = Piece.createPiece(NO_PIECE);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void move(String position,ChessPiece piece){
+        removePiece(piece);
+        int row = getRow(position);
+        int col = getCol(position);
+
+        board[row][col] = piece;
+    }
+
     public String print(){
         StringBuilder sb = new StringBuilder();
         for(int h=HEIGHT-1;h>=0;h--){
