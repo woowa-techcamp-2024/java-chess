@@ -95,6 +95,16 @@ public class Board {
         return count;
     }
 
+    public Piece findPiece(final String position) {
+        char x = position.charAt(0);
+        int xPos = x - 'a';
+
+        char y = position.charAt(1);
+        int yPos = 8 - Character.getNumericValue(y);
+
+        return board.get(yPos).getPiece(xPos);
+    }
+
     // test를 위한 메서드
     public void updateBoard(final List<String> exampleBoard) {
         for (int i = 0; i < Board.BOARD_SIZE; i++) {

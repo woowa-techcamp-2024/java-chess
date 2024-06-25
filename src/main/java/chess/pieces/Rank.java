@@ -18,6 +18,10 @@ public class Rank {
                 piece -> Objects.equals(color, piece.getColor()) && Objects.equals(type, piece.getType())).count();
     }
 
+    public Piece getPiece(int index) {
+        return rank.get(index);
+    }
+
     public String showRank() {
         StringBuilder stringBuilder = new StringBuilder();
         rank.forEach(piece -> {
