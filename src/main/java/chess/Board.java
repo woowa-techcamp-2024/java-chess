@@ -28,81 +28,39 @@ public class Board {
         pieces.clear();
         boardMap.clear();
 
-        // add pawns
+        // Add pawns
         for (int i = 0; i < 8; i++) {
-            Pawn whitePawn = Pawn.createWhitePawn();
-            Pawn blackPawn = Pawn.createBlackPawn();
-            pieces.add(whitePawn);
-            pieces.add(blackPawn);
-            boardMap.put(ChessPoint.of((char) ('a' + i), 2), whitePawn);
-            boardMap.put(ChessPoint.of((char) ('a' + i), 7), blackPawn);
+            addPiece(Pawn.createWhitePawn(), ChessPoint.of((char) ('a' + i), 2));
+            addPiece(Pawn.createBlackPawn(), ChessPoint.of((char) ('a' + i), 7));
         }
 
-        // add other pieces
-        // Rook
-        Rook whiteRook1 = Rook.createWhiteRook();
-        Rook whiteRook2 = Rook.createWhiteRook();
-        pieces.add(whiteRook1);
-        pieces.add(whiteRook2);
-        boardMap.put(ChessPoint.of('a', 1), whiteRook1);
-        boardMap.put(ChessPoint.of('h', 1), whiteRook2);
+        // Add other pieces
+        addPiece(Rook.createWhiteRook(), ChessPoint.of("a1"));
+        addPiece(Rook.createWhiteRook(), ChessPoint.of("h1"));
+        addPiece(Rook.createBlackRook(), ChessPoint.of("a8"));
+        addPiece(Rook.createBlackRook(), ChessPoint.of("h8"));
 
-        Rook blackRook1 = Rook.createBlackRook();
-        Rook blackRook2 = Rook.createBlackRook();
-        pieces.add(blackRook1);
-        pieces.add(blackRook2);
-        boardMap.put(ChessPoint.of('a', 8), blackRook1);
-        boardMap.put(ChessPoint.of('h', 8), blackRook2);
+        addPiece(Knight.createWhiteKnight(), ChessPoint.of("b1"));
+        addPiece(Knight.createWhiteKnight(), ChessPoint.of("g1"));
+        addPiece(Knight.createBlackKnight(), ChessPoint.of("b8"));
+        addPiece(Knight.createBlackKnight(), ChessPoint.of("g8"));
 
-        // Knight
-        Knight whiteKnight1 = Knight.createWhiteKnight();
-        Knight whiteKnight2 = Knight.createWhiteKnight();
-        pieces.add(whiteKnight1);
-        pieces.add(whiteKnight2);
-        boardMap.put(ChessPoint.of('b', 1), whiteKnight1);
-        boardMap.put(ChessPoint.of('g', 1), whiteKnight2);
+        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("c1"));
+        addPiece(Bishop.createWhiteBishop(), ChessPoint.of("f1"));
+        addPiece(Bishop.createBlackBishop(), ChessPoint.of("c8"));
+        addPiece(Bishop.createBlackBishop(), ChessPoint.of("f8"));
 
-        Knight blackKnight1 = Knight.createBlackKnight();
-        Knight blackKnight2 = Knight.createBlackKnight();
-        pieces.add(blackKnight1);
-        pieces.add(blackKnight2);
-        boardMap.put(ChessPoint.of('b', 8), blackKnight1);
-        boardMap.put(ChessPoint.of('g', 8), blackKnight2);
+        addPiece(Queen.createWhiteQueen(), ChessPoint.of("d1"));
+        addPiece(Queen.createBlackQueen(), ChessPoint.of("d8"));
 
-        // Bishop
-        Bishop whiteBishop1 = Bishop.createWhiteBishop();
-        Bishop whiteBishop2 = Bishop.createWhiteBishop();
-        pieces.add(whiteBishop1);
-        pieces.add(whiteBishop2);
-        boardMap.put(ChessPoint.of('c', 1), whiteBishop1);
-        boardMap.put(ChessPoint.of('f', 1), whiteBishop2);
-
-        Bishop blackBishop1 = Bishop.createBlackBishop();
-        Bishop blackBishop2 = Bishop.createBlackBishop();
-        pieces.add(blackBishop1);
-        pieces.add(blackBishop2);
-        boardMap.put(ChessPoint.of('c', 8), blackBishop1);
-        boardMap.put(ChessPoint.of('f', 8), blackBishop2);
-
-        // Queen
-        Queen whiteQueen = Queen.createWhiteQueen();
-        pieces.add(whiteQueen);
-        boardMap.put(ChessPoint.of('d', 1), whiteQueen);
-
-        Queen blackQueen = Queen.createBlackQueen();
-        pieces.add(blackQueen);
-        boardMap.put(ChessPoint.of('d', 8), blackQueen);
-
-        // King
-        King whiteKing = King.createWhiteKing();
-        pieces.add(whiteKing);
-        boardMap.put(ChessPoint.of('e', 1), whiteKing);
-
-        King blackKing = King.createBlackKing();
-        pieces.add(blackKing);
-        boardMap.put(ChessPoint.of('e', 8), blackKing);
+        addPiece(King.createWhiteKing(), ChessPoint.of("e1"));
+        addPiece(King.createBlackKing(), ChessPoint.of("e8"));
     }
 
+    private void addPiece(Piece piece, ChessPoint point) {
+        pieces.add(piece);
+        boardMap.put(point, piece);
+    }
 
     public void print() {
         System.out.println(showBoard());
