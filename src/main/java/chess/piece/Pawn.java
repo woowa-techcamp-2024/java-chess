@@ -1,15 +1,9 @@
 package chess.piece;
 
-public class Pawn {
+public class Pawn extends Piece {
 
-    private final PieceColor color;
-
-    public Pawn(final PieceColor color) {
-        this.color = color;
-    }
-
-    public PieceColor getColor() {
-        return color;
+    public Pawn(final PieceColor pieceColor) {
+        super(pieceColor);
     }
 
     public Type getType() {
