@@ -1,8 +1,6 @@
 package com.seong.chess;
 
-import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
-import com.seong.chess.pieces.Piece.Colors;
 import com.seong.chess.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +21,9 @@ public class Board {
         return pieces.size();
     }
 
-    public Piece findPawn(int index) {
-        return pieces.stream()
-                .filter(piece -> piece instanceof Pawn)
-                .toList()
-                .get(index);
-    }
-
     public void initialize() {
         columns.clear();
         initializeBlank();
-        initializePawn(BLACK_PAWN_LINE, Colors.BLACK_COLOR);
-        initializePawn(WHITE_PAWN_LINE, Colors.WHITE_COLOR);
     }
 
     private void initializeBlank() {
@@ -43,16 +32,6 @@ public class Board {
                 columns.add(new Column(new Point(i, j)));
             }
         }
-    }
-
-    private void initializePawn(int row, String color) {
-        columns.stream()
-                .filter(column -> column.isSameRow(row))
-                .forEach(column -> {
-                    Pawn pawn = new Pawn(color);
-                    pieces.add(pawn);
-                    column.initialize(pawn);
-                });
     }
 
     public String getWhitePawnsResult() {
