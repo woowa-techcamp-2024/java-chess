@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+    private static final char EMPTY_REPRESENTATION = '.';
+    private static final char NEW_LINE = '\n';
     private final List<Pawn> whitePawns;
     private final List<Pawn> blackPawns;
 
@@ -46,5 +48,24 @@ public class Board {
         StringBuilder result = new StringBuilder();
         pieces.forEach(pawn -> result.append(pawn.toString()));
         return result.toString();
+    }
+
+    public void print() {
+        StringBuilder result = new StringBuilder();
+        addEmptyRowRepresentation(result);
+        result.append(getBlackPawnsResult()).append(NEW_LINE);
+        for (int i = 0; i < 4; i++) {
+            addEmptyRowRepresentation(result);
+        }
+        result.append(getWhitePawnsResult()).append(NEW_LINE);
+        addEmptyRowRepresentation(result);
+        System.out.println(result);
+    }
+
+    private void addEmptyRowRepresentation(StringBuilder result) {
+        for (int i = 0; i < 8; i++) {
+            result.append(EMPTY_REPRESENTATION);
+        }
+        result.append(NEW_LINE);
     }
 }
