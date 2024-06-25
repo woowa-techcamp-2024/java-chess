@@ -36,7 +36,6 @@ public class Board {
 
     private void setPiece(int x,int y,ChessPiece piece){
         if(x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) throw new IllegalArgumentException("범위 안의 좌표를 입력해주세요");
-        pieces.add(piece);
         board[x][y] = piece;
     }
 
