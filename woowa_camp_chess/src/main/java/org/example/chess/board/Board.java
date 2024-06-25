@@ -11,6 +11,7 @@ public class Board {
 
     static final int size = 8;
     static final int EMPTY_INDEX = -1;
+    static char EMPTY_CHAR = '.';
     static int[][] board = new int[size][size];
     static List<Pawn> pawnList = new ArrayList<>();
     static List<Pawn> whitePawnList = new ArrayList<>();
@@ -46,17 +47,17 @@ public class Board {
             blackPawnList.add(blackPawn);
             pawnList.add(blackPawn);
             // Todo : ''
-            board[1][i] = pawnList.size() - 1;
+            board[6][i] = pawnList.size() - 1;
         }
     }
     
     public String print() {
         StringBuilder sb = new StringBuilder();
 
-        for (int[] row : board) {
-            for (int now : row) {
-                Pawn pawn = pawnList.get(now);
-                sb.append(pawn.getRepresentation()).append(" ");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int index = board[i][j];
+                sb.append(index != -1 ? findPawn(index).getRepresentation() : EMPTY_CHAR);
             }
             sb.append("\n");
         }
