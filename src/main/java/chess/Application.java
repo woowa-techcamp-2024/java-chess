@@ -58,7 +58,7 @@ public class Application {
     private static void startGame() {
         Board board = new Board();
         board.initialize();
-        System.out.println(board.print());
+        board.print();
     }
 
 }
