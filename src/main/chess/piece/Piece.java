@@ -14,16 +14,16 @@ public abstract class Piece {
         this.color = color;
     }
 
-    protected Color getColor() {
-        return color;
-    }
-
     public boolean isBlack() {
-        return color == Color.BLACK;
+        return isColor(Color.BLACK);
     }
 
     public boolean isWhite() {
-        return color == Color.WHITE;
+        return isColor(Color.WHITE);
+    }
+
+    public boolean isColor(Color color) {
+        return this.color == color;
     }
 
     @Override

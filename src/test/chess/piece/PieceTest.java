@@ -48,12 +48,12 @@ public class PieceTest {
     }
 
     private void verifyColor(final Piece piece, final Piece.Color color) {
-        assertThat(piece.getColor()).isEqualTo(color);
+        assertThat(piece.isColor(color)).isTrue();
     }
 
     private void verifyPiece(final Piece piece, final Class<? extends Piece> type, final Piece.Color color, final String representation) {
         assertThat(piece).isInstanceOf(type);
-        assertThat(piece.getColor()).isEqualTo(color);
+        assertThat(piece.isColor(color)).isTrue();
         assertThat(piece).hasToString(representation);
     }
 
