@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 import org.example.pieces.Piece.Color;
+import org.example.pieces.Piece.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +24,7 @@ public class PieceTest {
     @DisplayName("기물의 색상을 확인")
     @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
     @MethodSource("argumentsStream")
-    public void checkIsBlack(Piece piece, Color color, char notUsed) {
+    public void checkIsBlack(Piece piece, Color color, Type notUsed) {
         verifyColor(piece, color);
     }
 
@@ -39,7 +40,7 @@ public class PieceTest {
         }
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final char representation) {
+    private void verifyPiece(final Piece piece, final Color color, final Type representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
@@ -50,62 +51,62 @@ public class PieceTest {
             Arguments.arguments(
                 Piece.createWhitePawn(),
                 Color.WHITE,
-                Piece.WHITE_PAWN_REPRESENTATION
+                Type.PAWN.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackPawn(),
                 Color.BLACK,
-                Piece.BLACK_PAWN_REPRESENTATION
+                Type.PAWN.getBlackRepresentation()
             ),
             Arguments.arguments(
                 Piece.createWhiteKnight(),
                 Color.WHITE,
-                Piece.WHITE_KNIGHT_REPRESENTATION
+                Type.KNIGHT.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackKnight(),
                 Color.BLACK,
-                Piece.BLACK_KNIGHT_REPRESENTATION
+                Type.KNIGHT.getBlackRepresentation()
             ),
             Arguments.arguments(
                 Piece.createWhiteRook(),
                 Color.WHITE,
-                Piece.WHITE_ROOK_REPRESENTATION
+                Type.ROOK.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackRook(),
                 Color.BLACK,
-                Piece.BLACK_ROOK_REPRESENTATION
+                Type.ROOK.getBlackRepresentation()
             ),
             Arguments.arguments(
                 Piece.createWhiteBishop(),
                 Color.WHITE,
-                Piece.WHITE_BISHOP_REPRESENTATION
+                Type.BISHOP.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackBishop(),
                 Color.BLACK,
-                Piece.BLACK_BISHOP_REPRESENTATION
+                Type.BISHOP.getBlackRepresentation()
             ),
             Arguments.arguments(
                 Piece.createWhiteQueen(),
                 Color.WHITE,
-                Piece.WHITE_QUEEN_REPRESENTATION
+                Type.QUEEN.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackQueen(),
                 Color.BLACK,
-                Piece.BLACK_QUEEN_REPRESENTATION
+                Type.QUEEN.getBlackRepresentation()
             ),
             Arguments.arguments(
                 Piece.createWhiteKing(),
                 Color.WHITE,
-                Piece.WHITE_KING_REPRESENTATION
+                Type.KING.getWhiteRepresentation()
             ),
             Arguments.arguments(
                 Piece.createBlackKing(),
                 Color.BLACK,
-                Piece.BLACK_KING_REPRESENTATION
+                Type.KING.getBlackRepresentation()
             )
         );
     }
