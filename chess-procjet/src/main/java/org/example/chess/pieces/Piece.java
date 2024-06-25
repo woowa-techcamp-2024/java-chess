@@ -39,4 +39,12 @@ public class Piece {
     public String getRepresentation() {
         return representation;
     }
+
+    public boolean isWhite() {
+        return false;
+    }
+
+    public boolean isBlack() {
+        return false;
+    }
 }
