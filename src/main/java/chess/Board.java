@@ -36,37 +36,34 @@ public class Board {
         }
     }
 
+    private void initializePawn(final String color, final char representation, final int column) {
+        List<Pawn> pawnList = new ArrayList<>();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Pawn pawn = new Pawn(color, representation);
+            add(pawn);
+            pawnList.add(pawn);
+        }
+        board.add(column, pawnList);
+    }
+
     public void initialize() {
         initializeNull();
+        initializePawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION, INIT_WHITE_COLUMN);
+        initializePawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION, INIT_BLACK_COLUMN);
+    }
 
-        List<Pawn> whitePawns = new ArrayList<>();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            Pawn pawn = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
-            add(pawn);
-            whitePawns.add(pawn);
-        }
-        board.add(INIT_WHITE_COLUMN, whitePawns);
-
-        List<Pawn> blackPawns = new ArrayList<>();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            Pawn pawn = new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
-            add(pawn);
-            blackPawns.add(pawn);
-        }
-        board.add(INIT_BLACK_COLUMN, blackPawns);
+    private String getPawnsResult(final String color) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Stream<Pawn> pawnStream = pawns.stream().filter(pawn -> pawn.getColor().equals(color));
+        pawnStream.forEach(pawn -> stringBuilder.append(pawn.getRepresentation()));
+        return stringBuilder.toString();
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Stream<Pawn> whitePawns = pawns.stream().filter(pawn -> pawn.getColor().equals(Pawn.WHITE_COLOR));
-        whitePawns.forEach(pawn -> stringBuilder.append(pawn.getRepresentation()));
-        return stringBuilder.toString();
+        return getPawnsResult(Pawn.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Stream<Pawn> blackPawns = pawns.stream().filter(pawn -> pawn.getColor().equals(Pawn.BLACK_COLOR));
-        blackPawns.forEach(pawn -> stringBuilder.append(pawn.getRepresentation()));
-        return stringBuilder.toString();
+        return getPawnsResult(Pawn.BLACK_COLOR);
     }
 }
