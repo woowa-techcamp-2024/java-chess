@@ -1,6 +1,13 @@
 package org.example.chess.pieces;
 
+import org.example.chess.pieces.Piece.Color;
+import org.example.chess.pieces.Piece.Type;
+
 public class PieceFactory {
+
+    public static Piece createBlank() {
+        return Piece.createPiece(Color.NONCOLOR, Type.NO_TYPE);
+    }
 
     public static Piece createWhitePawn() {
         return Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN);

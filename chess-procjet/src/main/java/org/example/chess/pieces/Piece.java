@@ -21,7 +21,7 @@ public class Piece {
             return this.type.getRepresentation().toLowerCase();
         }
 
-        throw new IllegalArgumentException("잘못된 색상이 지정돼 있습니다.");
+        return this.type.getRepresentation();
     }
 
     public static Piece createPiece(Color color, Type name) {
@@ -32,7 +32,7 @@ public class Piece {
         return color;
     }
 
-    public Type getName() {
+    public Type getType() {
         return type;
     }
 
@@ -67,7 +67,8 @@ public class Piece {
         ROOK("R"),
         BISHOP("B"),
         QUEEN("Q"),
-        KING("K");
+        KING("K"),
+        NO_TYPE("X");
 
         private final String representation;
 
