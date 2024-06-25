@@ -70,7 +70,7 @@ public class Piece {
     }
 
     public char getRepresentation() {
-        return type.equals(Type.PAWN) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        return color.equals(Color.WHITE) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
     }
     
     private Piece(Color color, Type type) {
