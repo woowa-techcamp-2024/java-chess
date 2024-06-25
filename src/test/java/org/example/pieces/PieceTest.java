@@ -14,17 +14,38 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class PieceTest {
 
-    @DisplayName("색깔에 맞는 폰이 생성되어야 한다")
-    @ParameterizedTest(name = "폰의 색깔은 {0}이고 표현은 {1}이어야 한다")
+
+    @DisplayName("색깔에 맞는 기물이 생성되어야 한다")
+    @ParameterizedTest(name = "기물의 색깔은 {1}이고 표현은 {2}이어야 한다.")
     @MethodSource("argumentsStream")
     public void create(Piece piece, String color, String representation) {
         verifyPiece(piece, color, representation);
+    }
+
+    @DisplayName("기물의 색상을 확인")
+    @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
+    @MethodSource("argumentsStream")
+    public void checkIsBlack(Piece piece, String color, String notUsed) {
+        verifyColor(piece, color);
+    }
+
+    //verifyMethod
+
+    private void verifyColor(Piece piece, String color) {
+        if (color.equals(Piece.WHITE_COLOR)) {
+            assertThat(piece.isWhite()).isTrue();
+            assertThat(piece.isBlack()).isFalse();
+        } else {
+            assertThat(piece.isWhite()).isFalse();
+            assertThat(piece.isBlack()).isTrue();
+        }
     }
 
     private void verifyPiece(final Piece piece, final String color, final String representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
+
 
     private static Stream<Arguments> argumentsStream() {
 
@@ -47,5 +68,4 @@ public class PieceTest {
         return pieceData.entrySet().stream()
             .map(entry -> Arguments.arguments(entry.getKey().get(), entry.getValue()[0], entry.getValue()[1]));
     }
-
 }
