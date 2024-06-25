@@ -9,17 +9,10 @@ import java.util.List;
 
 public class BoardTest {
     @Test
-    public void create() {
+    public void initialize() throws Exception {
         Board board = new Board();
-        List<Color> colors = List.of(Color.WHITE, Color.BLACK);
-        int size = 0;
-        for (int i = 0; i < colors.size(); i++) {
-            Color color = colors.get(i);
-            Pawn pawn = new Pawn(color);
-            board.add(pawn);
-            ++size;
-            assertEquals(size, board.size());
-            assertEquals(pawn, board.findPawn(i));
-        }
+        board.initialize();
+        assertEquals("♙♙♙♙♙♙♙♙", board.getWhitePawnsResult());
+        assertEquals("♟♟♟♟♟♟♟♟", board.getBlackPawnsResult());
     }
 }
