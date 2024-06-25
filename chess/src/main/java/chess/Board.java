@@ -88,4 +88,10 @@ public class Board {
         }
         return sb.toString().strip();
     }
+
+    public long countColorPiece(PieceColor color, PieceType type){
+        return ranks.stream()
+                .mapToLong(rank -> rank.countColorPiece(color, type))
+                .sum();
+    }
 }

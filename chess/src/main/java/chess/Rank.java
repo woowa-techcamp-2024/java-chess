@@ -3,7 +3,6 @@ package chess;
 import pieces.Piece;
 import pieces.PieceColor;
 import pieces.PieceType;
-import pieces.PieceUnicode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +47,10 @@ public class Rank {
             }
         }
         return num;
+    }
+
+    public long countColorPiece(PieceColor color, PieceType type)
+    {
+        return pieces.stream().filter(p -> p.color().equals(color) && p.type().equals(type)).count();
     }
 }
