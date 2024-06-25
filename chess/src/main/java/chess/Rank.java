@@ -6,6 +6,7 @@ import pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Rank {
     private final int NUM_COL = 8;
@@ -75,5 +76,12 @@ public class Rank {
             }
         }
         return point;
+    }
+
+    public List<Piece> getSpecificColorPieces(PieceColor color)
+    {
+        return pieces.stream()
+                .filter(p -> p.color().equals(color))
+                .toList();
     }
 }

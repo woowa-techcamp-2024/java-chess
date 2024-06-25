@@ -1,12 +1,13 @@
 package chess;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pieces.Piece;
 import pieces.PieceColor;
 import pieces.PieceType;
 import pieces.PieceUnicode;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -159,5 +160,15 @@ public class BoardTest {
 
     private void addPiece(String position, Piece piece){
         board.move(position, piece);
+    }
+
+    @Test
+    public void getSpecificColorPieces()
+    {
+        List<Piece> piecesAsc = board.getSpecificColorPiecesAsc(PieceColor.BLACK);
+        System.out.println(piecesAsc);
+
+        List<Piece> piecesDesc = board.getSpecificColorPiecesDesc(PieceColor.BLACK);
+        System.out.println(piecesDesc);
     }
 }

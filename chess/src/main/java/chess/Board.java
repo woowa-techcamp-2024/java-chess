@@ -6,6 +6,8 @@ import pieces.PieceFactory;
 import pieces.PieceType;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Board {
@@ -137,5 +139,21 @@ public class Board {
             }
         }
         return point;
+    }
+
+    public List<Piece> getSpecificColorPiecesAsc(PieceColor color){
+        List<Piece> pieces = new ArrayList<>();
+        for(Rank rank : ranks)
+        {
+            pieces.addAll(rank.getSpecificColorPieces(color));
+        }
+        pieces.sort(Comparator.comparingDouble(p -> p.type().getPoint()));
+        return pieces;
+    }
+
+    public List<Piece> getSpecificColorPiecesDesc(PieceColor color){
+        List<Piece> pieces = getSpecificColorPiecesAsc(color);
+        Collections.reverse(pieces);
+        return pieces;
     }
 }
