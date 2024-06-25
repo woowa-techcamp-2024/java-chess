@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Pawn;
 
 public class BoardTest {
@@ -17,8 +18,8 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = new Pawn(Pawn.WHITE_COLOR);
-        black = new Pawn(Pawn.BLACK_COLOR);
+        white = new Pawn(Color.PAWN_WHITE);
+        black = new Pawn(Color.PAWN_BLACK);
     }
 
     @Test

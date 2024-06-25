@@ -10,22 +10,26 @@ public class PawnTest {
     @Test
     @DisplayName("[Success] 색상에 맞는 폰이 생성되어야 한다")
     void create() {
-        Pawn pawnWhite = new Pawn(Pawn.WHITE_COLOR);
-        Pawn pawnBlack = new Pawn(Pawn.BLACK_COLOR);
+        Pawn pawnWhite = new Pawn(Color.PAWN_WHITE);
+        Pawn pawnBlack = new Pawn(Color.PAWN_BLACK);
 
-        verifyPawnColor(pawnWhite, Pawn.WHITE_COLOR);
-        verifyPawnColor(pawnBlack, Pawn.BLACK_COLOR);
+        verifyPawnColor(pawnWhite, Color.PAWN_WHITE.getName(), Color.PAWN_WHITE.getRepresentation());
+        verifyPawnColor(pawnBlack, Color.PAWN_BLACK.getName(), Color.PAWN_BLACK.getRepresentation());
+
+        assertThat(pawnWhite.getRepresentation()).isEqualTo(Color.PAWN_WHITE.getRepresentation());
+        assertThat(pawnBlack.getRepresentation()).isEqualTo(Color.PAWN_BLACK.getRepresentation());
     }
 
     @Test
     @DisplayName("[Success] 색이 없는 Pawn을 생성하는 경우 기본 색상이 흰색(white)이다")
     void default_create_is_white() {
         Pawn pawn = new Pawn();
-        verifyPawnColor(pawn, Pawn.WHITE_COLOR);
+        verifyPawnColor(pawn, Color.PAWN_WHITE.getName(), Color.PAWN_WHITE.getRepresentation());
     }
 
-    private void verifyPawnColor(final Pawn pawn, final String color) {
+    private void verifyPawnColor(final Pawn pawn, final String color, final char representation) {
         assertThat(pawn.getColor()).isEqualTo(color);
+        assertThat(pawn.getRepresentation()).isEqualTo(representation);
     }
 
 }
