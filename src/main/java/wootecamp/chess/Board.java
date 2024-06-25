@@ -3,20 +3,52 @@ package wootecamp.chess;
 import wootecamp.chess.pieces.Pawn;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Board {
-    private List<Pawn> pawns = new ArrayList<>();
+    private static final int BOARD_SIZE = 8;
+    private static final int WHITE_PAWN_INIT_RANK = 2;
+    private static final int BLACK_PAWN_INIT_RANK = 7;
 
-    public void add(Pawn pawn) {
-        pawns.add(pawn);
+    private static final String EMPTY_RANK_MESSAGE = "........";
+
+
+    private List<Pawn> whitePawns = new ArrayList<>();
+    private List<Pawn> blackPawns = new ArrayList<>();
+
+    public void initialize() {
+        initializeWhitePawns();
+        initializeBlackPawns();
     }
 
-    public int size() {
-        return pawns.size();
+    private void initializeWhitePawns() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
+        }
     }
 
-    public Pawn findPawn(int index) {
-        return pawns.get(index);
+    private void initializeBlackPawns() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+        }
+    }
+
+    public String getInitialStateWhitePawnResult() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            result.append(whitePawns.get(i).getRepresentation());
+        }
+        return result.toString();
+    }
+
+    public String getInitialStateBlackPawnResult() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            result.append(blackPawns.get(i).getRepresentation());
+        }
+        return result.toString();
     }
 }
