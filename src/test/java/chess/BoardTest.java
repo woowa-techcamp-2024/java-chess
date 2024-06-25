@@ -36,17 +36,24 @@ class BoardTest {
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
+
+    @Test
+    void getBoardPiece() {
+        board.initialize();
+    }
+
     @Test
     void create() {
         board.initialize();
         assertEquals(32, board.getPieceCount());
+        System.out.println(board.showBoard());
         String blankRank = appendNewLine("........");
         assertEquals(
-                appendNewLine("RNBQKBNR") +
-                        appendNewLine("PPPPPPPP") +
-                        blankRank + blankRank + blankRank + blankRank +
+                appendNewLine("rnbqkbnr") +
                         appendNewLine("pppppppp") +
-                        appendNewLine("rnbqkbnr"),
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("PPPPPPPP")+
+                        appendNewLine("RNBQKBNR"),
                 board.showBoard());
     }
 

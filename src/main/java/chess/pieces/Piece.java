@@ -9,7 +9,7 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN("p", "P"), KNIGHT("n","N"), BISHOP("b","B"), ROOK("r","R"), QUEEN("q","Q"), KING("k","K"), NO_PIECE("X","X");
+        PAWN("p", "P"), KNIGHT("n","N"), BISHOP("b","B"), ROOK("r","R"), QUEEN("q","Q"), KING("k","K"), NO_PIECE(".",".");
 
         private final String whitRepresentation;
         private final String blackRepresentation;
