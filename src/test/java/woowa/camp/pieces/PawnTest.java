@@ -27,7 +27,7 @@ public class PawnTest {
         verifyPawnColor(pawn, Color.PAWN_WHITE.getName(), Color.PAWN_WHITE.getRepresentation());
     }
 
-    private void verifyPawnColor(final Pawn pawn, final String color, final char representation) {
+    private void verifyPawnColor(final Pawn pawn, final String color, final String representation) {
         assertThat(pawn.getColor()).isEqualTo(color);
         assertThat(pawn.getRepresentation()).isEqualTo(representation);
     }

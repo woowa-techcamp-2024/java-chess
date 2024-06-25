@@ -16,7 +16,7 @@ public class Pawn {
         return color.getName();
     }
 
-    public char getRepresentation() {
+    public String getRepresentation() {
         return color.getRepresentation();
     }
 
