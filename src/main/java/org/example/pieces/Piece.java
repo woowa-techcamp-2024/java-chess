@@ -95,7 +95,7 @@ public class Piece {
     }
 
     public char getRepresentation() {
-        return color.equals(WHITE) ?
+        return isWhite() ?
             representation.getWhiteRepresentation() : representation.getBlackRepresentation();
     }
 
