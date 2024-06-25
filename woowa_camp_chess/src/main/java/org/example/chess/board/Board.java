@@ -1,12 +1,12 @@
 package org.example.chess.board;
 
-import org.example.chess.pieces.Pawn;
-import org.example.utils.StringUtils;
+import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.chess.pieces.Pawn.createBlackPawn;
+import static org.example.chess.pieces.Piece.createBlackPawn;
 import static org.example.utils.StringUtils.*;
 
 public class Board {
@@ -16,20 +16,20 @@ public class Board {
     static final int EMPTY_INDEX = -1;
     static char EMPTY_CHAR = '.';
     static int[][] board = new int[size][size];
-    static List<Pawn> pawnList = new ArrayList<>();
-    static List<Pawn> whitePawnList = new ArrayList<>();
-    static List<Pawn> blackPawnList = new ArrayList<>();
+    static List<Piece> pieceList = new ArrayList<>();
+    static List<Piece> whitePieceList = new ArrayList<>();
+    static List<Piece> blackPieceList = new ArrayList<>();
 
-    public void add(Pawn pawn) {
-        pawnList.add(pawn);
+    public void add(Piece piece) {
+        pieceList.add(piece);
     }
 
     public int size() {
-        return pawnList.size();
+        return pieceList.size();
     }
 
-    public Pawn findPawn(int i) {
-        return pawnList.get(i);
+    public Piece findPawn(int i) {
+        return pieceList.get(i);
     }
 
     public void initialize() {
@@ -40,17 +40,17 @@ public class Board {
         }
         
         for (int i = 0; i < size; i++) {
-            Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
-            whitePawnList.add(whitePawn);
-            pawnList.add(whitePawn);
+            Piece whitePiece = new Piece(Piece.WHITE_COLOR, PieceType.PAWN);
+            whitePieceList.add(whitePiece);
+            pieceList.add(whitePiece);
             // Todo : 임의로 pawnList 의 Index 를 가지게 하였다
-            board[1][i] = pawnList.size() - 1;
+            board[1][i] = pieceList.size() - 1;
 
-            Pawn blackPawn = createBlackPawn();
-            blackPawnList.add(blackPawn);
-            pawnList.add(blackPawn);
+            Piece blackPiece = createBlackPawn();
+            blackPieceList.add(blackPiece);
+            pieceList.add(blackPiece);
             // Todo : ''
-            board[6][i] = pawnList.size() - 1;
+            board[6][i] = pieceList.size() - 1;
         }
     }
     
@@ -70,16 +70,16 @@ public class Board {
 
 
     public String getWhitePawnsResult() {
-        return getPawnResult(Pawn.WHITE_REPRESENTATION, whitePawnList);
+        return getPawnResult(Piece.WHITE_REPRESENTATION, whitePieceList);
     }
 
     public String getBlackPawnsResult() {
-        return getPawnResult(Pawn.BLACK_REPRESENTATION, blackPawnList);
+        return getPawnResult(Piece.BLACK_REPRESENTATION, blackPieceList);
     }
 
-    private static String getPawnResult(char representation, List<Pawn> pawnList) {
+    private static String getPawnResult(char representation, List<Piece> pieceList) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(representation).repeat(pawnList.size()));
+        sb.append(String.valueOf(representation).repeat(pieceList.size()));
         return sb.toString();
     }
 }
