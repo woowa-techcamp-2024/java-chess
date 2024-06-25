@@ -16,9 +16,17 @@ public abstract class Piece {
         return color;
     }
 
+    public boolean isBlack() {
+        return color == Color.BLACK;
+    }
+
+    public boolean isWhite() {
+        return color == Color.WHITE;
+    }
+
     @Override
     public final String toString() {
-        return getColor() == Color.WHITE ? whiteRepresentation() : blackRepresentation();
+        return isWhite() ? whiteRepresentation() : blackRepresentation();
     }
 
     protected abstract String whiteRepresentation();

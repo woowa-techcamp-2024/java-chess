@@ -57,4 +57,15 @@ public class PieceTest {
         assertThat(piece).hasToString(representation);
     }
 
+    @Test
+    @DisplayName("isBlack, isWhite 반환값이 getColor의 상태와 일치해야 한다")
+    public void color() {
+        Pawn white = Piece.createWhitePawn();
+        assertThat(white.isWhite()).isTrue();
+        assertThat(white.isBlack()).isFalse();
+        Pawn black = Piece.createBlackPawn();
+        assertThat(black.isWhite()).isFalse();
+        assertThat(black.isBlack()).isTrue();
+    }
+
 }
