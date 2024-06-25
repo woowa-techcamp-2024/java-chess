@@ -1,7 +1,8 @@
 package chess;
 
 import chess.pieces.ChessPiece;
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
+import chess.pieces.PieceTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,9 @@ public class Board {
     private final int WIDTH = 8;
     private final int HEIGHT = 8;
     private List<ChessPiece> pieces;
-    private List<Pawn> whitePawns;
-    private List<Pawn> blackPawns;
-
     private ChessPiece[][] board;
     public Board(){
         pieces = new ArrayList<>();
-        whitePawns = new ArrayList<>();
-        blackPawns = new ArrayList<>();
         board = new ChessPiece[HEIGHT][WIDTH];
     }
 
@@ -29,37 +25,64 @@ public class Board {
         pieces.add(piece);
     }
 
-    public ChessPiece findPawn(int index){
+    public ChessPiece findPiece(int index){
         return pieces.get(index);
     }
 
+    private void setPiece(int x,int y,ChessPiece piece){
+        if(x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) throw new IllegalArgumentException("범위 안의 좌표를 입력해주세요");
+        pieces.add(piece);
+        board[x][y] = piece;
+    }
+
     public void initialize(){
+        //pawn 셋팅
         for(int w=0;w<WIDTH;w++){
-            Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-            Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
-            whitePawns.add(whitePawn);
-            blackPawns.add(blackPawn);
-            pieces.add(whitePawn);
-            pieces.add(blackPawn);
-            board[1][w] = blackPawn;
-            board[6][w] = whitePawn;
+            Piece whitePawn = Piece.createPiece(PieceTypes.WHITE_PAWN);
+            Piece blackPawn = Piece.createPiece(PieceTypes.BLACK_PAWN);
+            setPiece(HEIGHT-2,w,whitePawn);
+            setPiece(1,w,blackPawn);
         }
-    }
 
-    private String getResult(List<? extends ChessPiece> pieces){
-        return pieces.stream()
-                .map(ChessPiece::getRepresentation)
-                .map(String::valueOf)
-                .reduce((x,y)->x+y)
-                .get();
-    }
+        //rook 셋팅
+        Piece whiteRookLeft = Piece.createPiece(PieceTypes.WHITE_ROOK);
+        Piece whiteRookRight = Piece.createPiece(PieceTypes.WHITE_ROOK);
+        Piece blackRookLeft = Piece.createPiece(PieceTypes.BLACK_ROOK);
+        Piece blackRookRight = Piece.createPiece(PieceTypes.BLACK_ROOK);
+        setPiece(0,0,blackRookLeft);
+        setPiece(0,WIDTH-1,blackRookRight);
+        setPiece(HEIGHT-1,0,whiteRookLeft);
+        setPiece(HEIGHT-1,WIDTH-1,whiteRookRight);
 
-    public String getWhitePawnsResult(){
-        return getResult(whitePawns);
-    }
+        //night 셋팅
+        Piece whiteNightLeft = Piece.createPiece(PieceTypes.WHITE_KNIGHT);
+        Piece whiteNightRight = Piece.createPiece(PieceTypes.WHITE_KNIGHT);
+        Piece blackNightLeft = Piece.createPiece(PieceTypes.BLACK_KNIGHT);
+        Piece blackNightRight = Piece.createPiece(PieceTypes.BLACK_KNIGHT);
+        setPiece(0,1,blackNightLeft);
+        setPiece(0,WIDTH-2,blackNightRight);
+        setPiece(HEIGHT-1,1,whiteNightLeft);
+        setPiece(HEIGHT-1,WIDTH-2,whiteNightRight);
 
-    public String getBlackPawnsResult(){
-        return getResult(blackPawns);
+        //bishop 셋팅
+        Piece whiteBishopLeft = Piece.createPiece(PieceTypes.WHITE_BISHOP);
+        Piece whiteBishopRight = Piece.createPiece(PieceTypes.WHITE_BISHOP);
+        Piece blackBishopLeft = Piece.createPiece(PieceTypes.BLACK_BISHOP);
+        Piece blackBishopRight = Piece.createPiece(PieceTypes.BLACK_BISHOP);
+        setPiece(0,2,blackBishopLeft);
+        setPiece(0,WIDTH-3,blackBishopRight);
+        setPiece(HEIGHT-1,2,whiteBishopLeft);
+        setPiece(HEIGHT-1,WIDTH-3,whiteBishopRight);
+
+        //queen & king setting
+        Piece whiteQueen = Piece.createPiece(PieceTypes.WHITE_QUEEN);
+        Piece whiteKing = Piece.createPiece(PieceTypes.WHITE_KING);
+        Piece blackQueen = Piece.createPiece(PieceTypes.BLACK_QUEEN);
+        Piece blackKing = Piece.createPiece(PieceTypes.BLACK_KING);
+        setPiece(0,3,blackQueen);
+        setPiece(0,WIDTH-4,blackKing);
+        setPiece(HEIGHT-1,3,whiteQueen);
+        setPiece(HEIGHT-1,WIDTH-4,whiteKing);
     }
 
     public String print(){
