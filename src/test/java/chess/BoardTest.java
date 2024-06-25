@@ -27,24 +27,18 @@ public class BoardTest {
     }
 
     @Test
-    public void initialize(){
-        board.initialize();
-        assertEquals("pppppppp",board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP",board.getBlackPawnsResult());
-    }
-
-    @Test
     public void print(){
         board.initialize();
+        assertEquals(32,board.size());
         assertEquals("""
-                ........
+                RNBQKBNR
                 PPPPPPPP
                 ........
                 ........
                 ........
                 ........
                 pppppppp
-                ........
+                rnbqkbnr
                 """,board.print());
     }
 }
