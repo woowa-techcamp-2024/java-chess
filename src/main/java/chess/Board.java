@@ -11,7 +11,7 @@ import static chess.utils.StringUtils.appendNewLine;
 
 public class Board {
 
-    private final List<List<Piece>> pawns;
+    private final List<List<Piece>> pieces;
     private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
@@ -34,7 +34,7 @@ public class Board {
     }
 
     private void initializeBlackFirstRow() {
-        List<Piece> blackFirstRow = pawns.get(BLACK_FIRST_ROW);
+        List<Piece> blackFirstRow = pieces.get(BLACK_FIRST_ROW);
         blackFirstRow.add(Piece.createBlackRook());
         blackFirstRow.add(Piece.createBlackKnight());
         blackFirstRow.add(Piece.createBlackBishop());
@@ -46,7 +46,7 @@ public class Board {
     }
 
     private void initializeWhiteFirstRow() {
-        List<Piece> whiteFirstRow = pawns.get(WHITE_FIRST_ROW);
+        List<Piece> whiteFirstRow = pieces.get(WHITE_FIRST_ROW);
         whiteFirstRow.add(Piece.createWhiteRook());
         whiteFirstRow.add(Piece.createWhiteKnight());
         whiteFirstRow.add(Piece.createWhiteBishop());
@@ -61,7 +61,7 @@ public class Board {
     public String print() {
         StringBuilder sb = new StringBuilder();
 
-        for (List<Piece> piece : pawns) {
+        for (List<Piece> piece : pieces) {
             if(piece.isEmpty()) {
                 sb.append(EMPTY_ROW);
                 appendNewLine(sb);
@@ -84,25 +84,34 @@ public class Board {
     }
 
     public int size() {
-        return pawns.get(0).size();
+        return pieces.get(0).size();
     }
 
     public Piece findPawn(int index) {
-        return pawns.get(0).get(index);
+        return pieces.get(0).get(index);
     }
 
     public void add(Piece piece) {
-        pawns.get(0).add(piece);
+        pieces.get(0).add(piece);
     }
-    public Board() {
-        pawns = new ArrayList<>();
+
+    public int pieceCount() {
+        return pieceCount;
+    }
+
+    public String showBoard() {
+        return print();
+    }
+
+    protected Board() {
+        pieces = new ArrayList<>();
         IntStream.range(0, BOARD_HEIGHT)
-                .forEach(i -> pawns.add(new ArrayList<>()));
+                .forEach(i -> pieces.add(new ArrayList<>()));
     }
 
     private String getRowPawnsResult(int row) {
         validateIndex(row);
-        return pawns.get(row).stream()
+        return pieces.get(row).stream()
                 .map(Piece::getRepresentation)
                 .map(String::valueOf)
                 .collect(Collectors.joining());
@@ -112,27 +121,19 @@ public class Board {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createWhitePawn())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pawns.get(WHITE_PAWN_ROW).addAll(initializedPieces);
+        this.pieces.get(WHITE_PAWN_ROW).addAll(initializedPieces);
     }
 
     private void initializeBlackPawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createBlackPawn())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.pawns.get(BLACK_PAWN_ROW).addAll(initializedPieces);
+        this.pieces.get(BLACK_PAWN_ROW).addAll(initializedPieces);
     }
 
     private void validateIndex(int index) {
         if (index < 0 || index / BOARD_WIDTH >= BOARD_HEIGHT) {
             throw new IllegalArgumentException("Index out of range");
         }
-    }
-
-    public int pieceCount() {
-        return pieceCount;
-    }
-
-    public String showBoard() {
-        return print();
     }
 }
