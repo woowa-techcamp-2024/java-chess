@@ -22,6 +22,11 @@ public class Pawn implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.PAWN;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "p";

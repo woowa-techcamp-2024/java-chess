@@ -23,6 +23,11 @@ public class Rook implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.ROOK;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "r";

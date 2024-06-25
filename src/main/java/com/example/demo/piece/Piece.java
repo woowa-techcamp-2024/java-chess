@@ -5,4 +5,6 @@ public interface Piece extends Comparable<Piece> {
     Color getColor();
 
     float getPoint();
+
+    Type getType();
 }

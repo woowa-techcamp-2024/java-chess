@@ -23,6 +23,11 @@ public class King implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.KING;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "k";

@@ -23,6 +23,11 @@ public class Queen implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.QUEEN;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "q";

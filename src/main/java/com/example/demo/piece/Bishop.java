@@ -23,6 +23,11 @@ public class Bishop implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.BISHOP;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "b";

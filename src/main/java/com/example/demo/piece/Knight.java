@@ -23,6 +23,11 @@ public class Knight implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.KNIGHT;
+    }
+
+    @Override
     public String toString(){
         return switch (color) {
             case WHITE -> "n";
