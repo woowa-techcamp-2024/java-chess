@@ -1,9 +1,6 @@
 package chess;
 
-import chess.pieces.Color;
-import chess.pieces.Piece;
-import chess.pieces.Rank;
-import chess.pieces.Type;
+import chess.pieces.*;
 
 import static chess.utils.StringUtils.appendNewLine;
 
@@ -22,7 +19,7 @@ public class Board {
         return count;
     }
 
-    private void initializeNull() {
+    public void initializeEmpty() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieceList = new ArrayList<>();
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -73,7 +70,7 @@ public class Board {
     }
 
     public void initialize() {
-        initializeNull();
+        initializeEmpty();
         initializeWhitePiece();
         initializeBlackPiece();
     }
@@ -96,13 +93,13 @@ public class Board {
     }
 
     public Piece findPiece(final String position) {
-        char x = position.charAt(0);
-        int xPos = x - 'a';
+        Position piecePosition = new Position(position);
+        return board.get(piecePosition.getY()).get(piecePosition.getX());
+    }
 
-        char y = position.charAt(1);
-        int yPos = 8 - Character.getNumericValue(y);
-
-        return board.get(yPos).getPiece(xPos);
+    public void move(final String position, final Piece piece) {
+        Position piecePosition = new Position(position);
+        board.get(piecePosition.getY()).move(piecePosition.getX(), piece);
     }
 
     // test를 위한 메서드
