@@ -1,5 +1,6 @@
 package chess;
 
+import chess.piece.Color;
 import chess.piece.Pawn;
 import chess.piece.Piece;
 
@@ -22,12 +23,26 @@ public class ChessBoard {
         }
     }
 
+    public void initialize() {
+        clear();
+        for (int c = 0; c < LENGTH; c++) {
+            set(1, c, new Pawn(Color.WHITE));
+        }
+        for (int c = 0; c < LENGTH; c++) {
+            set(6, c, new Pawn(Color.BLACK));
+        }
+    }
+
     Piece get(int r, int c) {
         return cellAt(r, c).getPiece();
     }
 
     void set(int r, int c, Piece piece) {
         cellAt(r, c).setPiece(piece);
+    }
+
+    void clear() {
+        stream().forEach(cell -> cell.clear());
     }
 
     protected Cell cellAt(int r, int c) {
@@ -66,6 +81,10 @@ public class ChessBoard {
 
         private void setPiece(Piece piece) {
             this.piece = piece;
+        }
+
+        private void clear() {
+            piece = null;
         }
 
         @Override

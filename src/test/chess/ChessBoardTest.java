@@ -45,4 +45,21 @@ public class ChessBoardTest {
                 """);
     }
 
+    @Test
+    @DisplayName("보드의 초기화 후 상태가 체스 규칙과 일치해야 한다.")
+    public void initializeBoard() {
+        ChessBoard board = new ChessBoard();
+        board.initialize();
+        assertThat(board).hasToString("""
+                ........
+                ♟♟♟♟♟♟♟♟
+                ........
+                ........
+                ........
+                ........
+                ♙♙♙♙♙♙♙♙
+                ........
+                """);
+    }
+
 }
