@@ -73,7 +73,7 @@ public class Board {
         StringBuilder boardResult = new StringBuilder();
         for (List<Pawn> row : pawns) {
             String result = generatePawnsResult(row);
-            appendNewLine(boardResult, result);
+            boardResult.append(appendNewLine(result));
         }
         return boardResult.toString();
     }

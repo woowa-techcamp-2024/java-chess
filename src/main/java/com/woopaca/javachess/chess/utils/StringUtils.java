@@ -7,9 +7,8 @@ public class StringUtils {
     private StringUtils() {
     }
 
-    public static StringBuilder appendNewLine(StringBuilder stringBuilder, String subject) {
-        return stringBuilder.append(subject)
-                .append(NEWLINE);
+    public static String appendNewLine(String subject) {
+        return subject.concat(NEWLINE);
     }
 
 }
