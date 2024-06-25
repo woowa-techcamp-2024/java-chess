@@ -1,13 +1,14 @@
 package com.example.demo.piece;
 
-public class Pawn implements Piece {
+public class King implements Piece {
+
     private final Color color;
 
-    public Pawn() {
+    public King() {
         this(Color.WHITE);
     }
 
-    public Pawn(Color color) {
+    public King(Color color) {
         this.color = color;
     }
 
@@ -19,8 +20,8 @@ public class Pawn implements Piece {
     @Override
     public String toString(){
         return switch (color) {
-            case WHITE -> "p";
-            case BLACK -> "P";
+            case WHITE -> "k";
+            case BLACK -> "K";
         };
     }
 }

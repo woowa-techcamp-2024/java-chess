@@ -1,11 +1,10 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.Color;
-import com.example.demo.piece.Pawn;
+import com.example.demo.piece.*;
 
 public class Board {
 
-    Pawn[][] pieceLocation = new Pawn[8][8];
+    Piece[][] pieceLocation = new Piece[8][8];
 
     /**
      * <p>
@@ -14,26 +13,67 @@ public class Board {
      * <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Immortal_game_animation.gif" />
      */
     public Board() {
-        // init pawn
+        initPawn();
+        initKing();
+        initQueen();
+        initBishop();
+        initKnight();
+        initRook();
+    }
+
+    //--------------init board start----------------
+    private void initPawn(){
         for (File file : File.values()) {
-            setPiece(Rank.TWO, file, new Pawn(Color.BLACK));
-            setPiece(Rank.SEVEN, file, new Pawn(Color.WHITE));
+            setPiece(Rank.TWO, file, new Pawn(Color.WHITE));
+            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK));
         }
     }
 
-    public void setPiece(Rank row, File column, Pawn pawn) {
-        pieceLocation[row.index()][column.index()] = pawn;
+    private void initKing(){
+        setPiece(Rank.ONE, File.D, new King(Color.WHITE));
+        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
     }
 
-    public Pawn getPiece(Rank row, File column) {
+    private void initQueen(){
+        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
+        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
+    }
+
+    private void initBishop(){
+        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE));
+        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE));
+        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK));
+        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK));
+    }
+
+    private void initKnight(){
+        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE));
+        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE));
+        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK));
+        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK));
+    }
+
+    private void initRook() {
+        setPiece(Rank.ONE, File.A, new Rook(Color.WHITE));
+        setPiece(Rank.ONE, File.H, new Rook(Color.WHITE));
+        setPiece(Rank.EIGHT, File.A, new Rook(Color.BLACK));
+        setPiece(Rank.EIGHT, File.H, new Rook(Color.BLACK));
+    }
+    //--------------init board end  ----------------
+
+    public void setPiece(Rank row, File column, Piece piece) {
+        pieceLocation[row.index()][column.index()] = piece;
+    }
+
+    public Piece getPiece(Rank row, File column) {
         return pieceLocation[row.index()][column.index()];
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn[] pieces : pieceLocation) {
-            for (Pawn piece : pieces) {
+        for (Piece[] pieces : pieceLocation) {
+            for (Piece piece : pieces) {
                 if (piece != null) {
                     sb.append(piece);
                 } else {
