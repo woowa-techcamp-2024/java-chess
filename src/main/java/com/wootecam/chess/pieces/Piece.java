@@ -25,6 +25,54 @@ public class Piece {
         this.representation = representation;
     }
 
+    public static Piece createWhitePawn() {
+        return new Piece(COLOR_WHITE, WHITE_PAWN_REPRESENTATION);
+    }
+
+    public static Piece createBlackPawn() {
+        return new Piece(COLOR_BLACK, BLACK_PAWN_REPRESENTATION);
+    }
+
+    public static Piece createWhiteKnight() {
+        return new Piece(COLOR_WHITE, WHITE_KNIGHT_REPRESENTATION);
+    }
+
+    public static Piece createBlackKnight() {
+        return new Piece(COLOR_BLACK, BLACK_KNIGHT_REPRESENTATION);
+    }
+
+    public static Piece createWhiteRook() {
+        return new Piece(COLOR_WHITE, WHITE_ROOK_REPRESENTATION);
+    }
+
+    public static Piece createBlackRook() {
+        return new Piece(COLOR_BLACK, BLACK_ROOK_REPRESENTATION);
+    }
+
+    public static Piece createWhiteBishop() {
+        return new Piece(COLOR_WHITE, WHITE_BISHOP_REPRESENTATION);
+    }
+
+    public static Piece createBlackBishop() {
+        return new Piece(COLOR_BLACK, BLACK_BISHOP_REPRESENTATION);
+    }
+
+    public static Piece createWhiteQueen() {
+        return new Piece(COLOR_WHITE, WHITE_QUEEN_REPRESENTATION);
+    }
+
+    public static Piece createBlackQueen() {
+        return new Piece(COLOR_BLACK, BLACK_QUEEN_REPRESENTATION);
+    }
+
+    public static Piece createWhiteKing() {
+        return new Piece(COLOR_WHITE, WHITE_KING_REPRESENTATION);
+    }
+
+    public static Piece createBlackKing() {
+        return new Piece(COLOR_BLACK, BLACK_KING_REPRESENTATION);
+    }
+
     public String getColor() {
         return color;
     }

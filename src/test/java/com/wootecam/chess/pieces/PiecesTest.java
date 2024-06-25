@@ -27,14 +27,45 @@ public class PiecesTest {
     }
 
     @Test
-    void create_기본생성자() {
+    void 모든_기물을_생성할_수_있다() {
         // when
-        Piece piece = new Piece(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION);
+        Piece whitePawn = Piece.createWhitePawn();
+        Piece blackPawn = Piece.createBlackPawn();
+
+        Piece whiteKnight = Piece.createWhiteKnight();
+        Piece blackKnight = Piece.createBlackKnight();
+
+        Piece whiteRook = Piece.createWhiteRook();
+        Piece blackRook = Piece.createBlackRook();
+
+        Piece whiteBishop = Piece.createWhiteBishop();
+        Piece blackBishop = Piece.createBlackBishop();
+
+        Piece whiteQueen = Piece.createWhiteQueen();
+        Piece blackQueen = Piece.createBlackQueen();
+
+        Piece whiteKing = Piece.createWhiteKing();
+        Piece blackKing = Piece.createBlackKing();
 
         // then
         assertAll(
-                () -> assertThat(piece.getColor()).isEqualTo(Piece.COLOR_WHITE),
-                () -> assertThat(piece.getRepresentation()).isEqualTo(Piece.WHITE_PAWN_REPRESENTATION)
+                () -> verifyPiece(whitePawn, Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION),
+                () -> verifyPiece(blackPawn, Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
+                () -> verifyPiece(whiteKnight, Piece.COLOR_WHITE, Piece.WHITE_KNIGHT_REPRESENTATION),
+                () -> verifyPiece(blackKnight, Piece.COLOR_BLACK, Piece.BLACK_KNIGHT_REPRESENTATION),
+                () -> verifyPiece(whiteRook, Piece.COLOR_WHITE, Piece.WHITE_ROOK_REPRESENTATION),
+                () -> verifyPiece(blackRook, Piece.COLOR_BLACK, Piece.BLACK_ROOK_REPRESENTATION),
+                () -> verifyPiece(whiteBishop, Piece.COLOR_WHITE, Piece.WHITE_BISHOP_REPRESENTATION),
+                () -> verifyPiece(blackBishop, Piece.COLOR_BLACK, Piece.BLACK_BISHOP_REPRESENTATION),
+                () -> verifyPiece(whiteQueen, Piece.COLOR_WHITE, Piece.WHITE_QUEEN_REPRESENTATION),
+                () -> verifyPiece(blackQueen, Piece.COLOR_BLACK, Piece.BLACK_QUEEN_REPRESENTATION),
+                () -> verifyPiece(whiteKing, Piece.COLOR_WHITE, Piece.WHITE_KING_REPRESENTATION),
+                () -> verifyPiece(blackKing, Piece.COLOR_BLACK, Piece.BLACK_KING_REPRESENTATION)
         );
+    }
+
+    private void verifyPiece(Piece piece, String color, String representation) {
+        assertThat(piece.getColor()).isEqualTo(color);
+        assertThat(piece.getRepresentation()).isEqualTo(representation);
     }
 }
