@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.Color;
+import chess.pieces.Piece;
 import chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,5 +60,16 @@ public class BoardTest {
         ));
         System.out.println(board.showBoard());
         assertEquals(3, board.countPieces(Color.BLACK, Type.PAWN));
+    }
+
+    @Test
+    @DisplayName("주어진 위치의 기물을 조회할 수 있다")
+    public void findPiece() {
+        board.initialize();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
     }
 }
