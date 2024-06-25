@@ -1,61 +1,103 @@
 package chess.pieces;
 
-import java.util.Arrays;
+public class Piece {
+    public static final char WHITE_PAWN_REPRESENTATION = 'p';
+    public static final char BLACK_PAWN_REPRESENTATION = 'P';
+    public static final char WHITE_KNIGHT_REPRESENTATION = 'n';
+    public static final char BLACK_KNIGHT_REPRESENTATION = 'N';
+    public static final char WHITE_ROOK_REPRESENTATION = 'r';
+    public static final char BLACK_ROOK_REPRESENTATION = 'R';
+    public static final char WHITE_BISHOP_REPRESENTATION = 'b';
+    public static final char BLACK_BISHOP_REPRESENTATION = 'B';
+    public static final char WHITE_QUEEN_REPRESENTATION = 'q';
+    public static final char BLACK_QUEEN_REPRESENTATION = 'Q';
+    public static final char WHITE_KING_REPRESENTATION = 'k';
+    public static final char BLACK_KING_REPRESENTATION = 'K';
 
-public class Pawn {
-
-    public static final String WHITE_COLOR = "white";
-
-    public static final char WHITE_REPRESENTATION = 'p';
-
-    public static final String BLACK_COLOR = "black";
-
-    public static final char BLACK_REPRESENTATION = 'P';
-
-    private static final String DEFAULT_COLOR = WHITE_COLOR;
-
-    private static final char DEFAULT_REPRESENTATION = WHITE_REPRESENTATION;
 
     private final Color color;
 
+    private final Name name;
+
+    private final char representation;
+
     public enum Color {
-        BLACK(BLACK_COLOR, BLACK_REPRESENTATION),
-        WHITE(WHITE_COLOR, WHITE_REPRESENTATION);
-
-        private final String lowerName;
-        private final char representation;
-
-        Color(final String lowerName, final char representation) {
-            this.lowerName = lowerName;
-            this.representation = representation;
-        }
-
-        public static Color fromLowerName(String lowerName) {
-            return Arrays.stream(Color.values())
-                    .filter(color -> color.lowerName.equals(lowerName))
-                    .findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 컬러 입니다."));
-        }
-
+        BLACK, WHITE;
     }
 
-    public Pawn(Color color) {
+    public enum Name {
+        PAWN, KNIGHT, ROOK, BISHOP, QUEEN, KING;
+    }
+
+    private Piece(Color color, Name name, char representation) {
         this.color = color;
+        this.name = name;
+        this.representation = representation;
     }
 
-    public Pawn(String color) {
-        this.color = Color.fromLowerName(color);
+    public static Piece createWhitePawn() {
+        return new Piece(Color.WHITE, Name.PAWN, WHITE_PAWN_REPRESENTATION);
     }
 
-    public Pawn() {
-        this.color = Color.fromLowerName(DEFAULT_COLOR);
+    public static Piece createBlackPawn() {
+        return new Piece(Color.BLACK, Name.PAWN, BLACK_PAWN_REPRESENTATION);
     }
 
-    public String getColor() {
-        return color.lowerName;
+    public static Piece createWhiteKnight() {
+        return new Piece(Color.WHITE, Name.KNIGHT, WHITE_KNIGHT_REPRESENTATION);
+    }
+
+    public static Piece createBlackKnight() {
+        return new Piece(Color.BLACK, Name.KNIGHT, BLACK_KNIGHT_REPRESENTATION);
+    }
+
+    public static Piece createWhiteRook() {
+        return new Piece(Color.WHITE, Name.ROOK, WHITE_ROOK_REPRESENTATION);
+    }
+
+    public static Piece createBlackRook() {
+        return new Piece(Color.BLACK, Name.ROOK, BLACK_ROOK_REPRESENTATION);
+    }
+
+    public static Piece createWhiteBishop() {
+        return new Piece(Color.WHITE, Name.BISHOP, WHITE_BISHOP_REPRESENTATION);
+    }
+
+    public static Piece createBlackBishop() {
+        return new Piece(Color.BLACK, Name.BISHOP, BLACK_BISHOP_REPRESENTATION);
+    }
+
+    public static Piece createWhiteQueen() {
+        return new Piece(Color.WHITE, Name.QUEEN, WHITE_QUEEN_REPRESENTATION);
+    }
+
+    public static Piece createBlackQueen() {
+        return new Piece(Color.BLACK, Name.QUEEN, BLACK_QUEEN_REPRESENTATION);
+    }
+
+    public static Piece createWhiteKing() {
+        return new Piece(Color.WHITE, Name.KING, WHITE_KING_REPRESENTATION);
+    }
+
+    public static Piece createBlackKing() {
+        return new Piece(Color.BLACK, Name.KING, BLACK_KING_REPRESENTATION);
+    }
+
+
+    public Color getColor() {
+        return color;
     }
 
     public char getRepresentation() {
-        return color.representation;
+        return representation;
     }
+
+    public boolean isBlack() {
+        return this.color.equals(Color.BLACK);
+    }
+
+    public boolean isWhite() {
+        return this.color.equals(Color.WHITE);
+    }
+
 }
