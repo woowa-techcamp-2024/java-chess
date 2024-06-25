@@ -1,39 +1,54 @@
 package chess;
 
-import chess.pieces.Pawn;
-import chess.pieces.Pawn.Color;
+import static utils.StringUtils.appendNewLine;
+
+import chess.pieces.Piece;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.function.Supplier;
 
 public class Board {
+    public static final int N = 8;
 
-    private static final int N = 8;
+    public static final List<Integer> BLACK_PAWN_INDICES = List.of(8, 9, 10, 11, 12, 13, 14, 15);
 
-    private static final int BLACK_PAWN_START_INDEX = 8;
+    public static final List<Integer> WHITE_PAWN_INDICES = List.of(48, 49, 50, 51, 52, 53, 54, 55);
 
-    private static final int BLACK_PAWN_END_INDEX = 15;
+    public static final List<Integer> BLACK_KNIGHT_INDICES = List.of(1, 6);
 
-    private static final int WHITE_PAWN_START_INDEX = 48;
+    public static final List<Integer> WHITE_KNIGHT_INDICES = List.of(57, 62);
 
-    private static final int WHITE_PAWN_END_INDEX = 55;
+    public static final List<Integer> BLACK_ROOK_INDICES = List.of(0, 7);
 
-    private List<Pawn> board;
+    public static final List<Integer> WHITE_ROOK_INDICES = List.of(56, 63);
 
+    public static final List<Integer> BLACK_BISHOP_INDICES = List.of(2, 5);
+
+    public static final List<Integer> WHITE_BISHOP_INDICES = List.of(58, 61);
+
+    public static final int BLACK_QUEEN_INDEX = 3;
+
+    public static final int BLACK_KING_INDEX = 4;
+
+    public static final int WHITE_QUEEN_INDEX = 59;
+
+    public static final int WHITE_KING_INDEX = 60;
+
+
+    private List<Piece> board;
+
+    private int pieceCount;
 
     public Board() {
-        this.board = new ArrayList<>(Collections.nCopies(N * N, null));
+        this.board = new ArrayList<>();
     }
 
-    public void add(Pawn pawn) {
-        if (pawn == null) {
-            throw new IllegalArgumentException("pawn must not be null");
-        }
-        board.add(pawn);
+    public void add(Piece piece) {
+        board.add(piece);
     }
 
-    public Pawn findPawn(int index) {
+    public Piece findPiece(int index) {
         return board.get(index);
     }
 
@@ -41,30 +56,60 @@ public class Board {
         return board.size();
     }
 
+    public int pieceCount() {
+        return pieceCount;
+    }
+
     public void initialize() {
-        initializePawn(BLACK_PAWN_START_INDEX, BLACK_PAWN_END_INDEX, Color.BLACK);
-        initializePawn(WHITE_PAWN_START_INDEX, WHITE_PAWN_END_INDEX, Color.WHITE);
+        board = new ArrayList<>(Collections.nCopies(64, null));
+        initializePieces(BLACK_PAWN_INDICES, Piece::createBlackPawn);
+        initializePieces(WHITE_PAWN_INDICES, Piece::createWhitePawn);
+        initializePieces(BLACK_ROOK_INDICES, Piece::createBlackRook);
+        initializePieces(WHITE_ROOK_INDICES, Piece::createWhiteRook);
+        initializePieces(BLACK_BISHOP_INDICES, Piece::createBlackBishop);
+        initializePieces(WHITE_BISHOP_INDICES, Piece::createWhiteBishop);
+        initializePieces(BLACK_KNIGHT_INDICES, Piece::createBlackKnight);
+        initializePieces(WHITE_KNIGHT_INDICES, Piece::createWhiteKnight);
+        initializePiece(BLACK_QUEEN_INDEX, Piece::createBlackQueen);
+        initializePiece(WHITE_QUEEN_INDEX, Piece::createWhiteQueen);
+        initializePiece(BLACK_KING_INDEX, Piece::createBlackKing);
+        initializePiece(WHITE_KING_INDEX, Piece::createWhiteKing);
     }
 
-    public void initializePawn(int startIndexInclusive, int endIndexInclusive, Pawn.Color color) {
-        IntStream.range(startIndexInclusive, endIndexInclusive + 1)
-                .forEach(index -> board.add(index, new Pawn(color)));
+    private void initializePieces(List<Integer> indices, Supplier<Piece> supplier) {
+        indices.forEach(i -> {
+            board.set(i, supplier.get());
+            pieceCount += 1;
+        });
     }
 
-    public String print() {
+    private void initializePiece(int index, Supplier<Piece> supplier) {
+        board.set(index, supplier.get());
+        pieceCount += 1;
+    }
+
+    public void print() {
+        System.out.println(showBoard());
+    }
+
+    public String showBoard() {
         StringBuilder sb = new StringBuilder();
         for (int row = 0; row < N; row++) {
-            sb.append(print(row * N, row * N + N - 1));
-            sb.append(System.lineSeparator());
+            StringBuilder line = new StringBuilder();
+            for (int col = 0; col < N; col++) {
+                Piece piece = board.get(row * N + col);
+                line.append(getRepresentation(piece));
+            }
+            sb.append(appendNewLine(line));
         }
         return sb.toString();
     }
 
-    private char getRepresentation(Pawn pawn) {
-        return pawn != null ? pawn.getRepresentation() : '.';
+    private char getRepresentation(Piece piece) {
+        return piece != null ? piece.getRepresentation() : '.';
     }
 
-    public String print(int startIndexInclusive, int endIndexInclusive) {
+    public String show(int startIndexInclusive, int endIndexInclusive) {
         StringBuilder sb = new StringBuilder();
         for (int index = startIndexInclusive; index <= endIndexInclusive; index++) {
             sb.append(getRepresentation(board.get(index)));
@@ -73,10 +118,10 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        return print(WHITE_PAWN_START_INDEX, WHITE_PAWN_END_INDEX);
+        return show(WHITE_PAWN_INDICES.get(0), WHITE_PAWN_INDICES.get(WHITE_PAWN_INDICES.size() - 1));
     }
 
     public String getBlackPawnsResult() {
-        return print(BLACK_PAWN_START_INDEX, BLACK_PAWN_END_INDEX);
+        return show(BLACK_PAWN_INDICES.get(0), BLACK_PAWN_INDICES.get(BLACK_PAWN_INDICES.size() - 1));
     }
 }
