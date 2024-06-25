@@ -6,6 +6,7 @@ import pieces.Piece;
 import pieces.PieceColor;
 import pieces.PieceType;
 import pieces.PieceUnicode;
+import util.Order;
 
 import java.util.List;
 
@@ -73,19 +74,19 @@ public class BoardTest {
 
     @Test
     public void countColorPiece(){
-        assertEquals(NUM_COL, board.countColorPiece(PieceColor.BLACK, PieceType.PAWN));
-        assertEquals(2, board.countColorPiece(PieceColor.BLACK, PieceType.ROOK));
-        assertEquals(2, board.countColorPiece(PieceColor.BLACK, PieceType.KNIGHT));
-        assertEquals(2, board.countColorPiece(PieceColor.BLACK, PieceType.BISHOP));
-        assertEquals(1, board.countColorPiece(PieceColor.BLACK, PieceType.QUEEN));
-        assertEquals(1, board.countColorPiece(PieceColor.BLACK, PieceType.KING));
+        assertEquals(NUM_COL, board.countPiece(PieceColor.BLACK, PieceType.PAWN));
+        assertEquals(2, board.countPiece(PieceColor.BLACK, PieceType.ROOK));
+        assertEquals(2, board.countPiece(PieceColor.BLACK, PieceType.KNIGHT));
+        assertEquals(2, board.countPiece(PieceColor.BLACK, PieceType.BISHOP));
+        assertEquals(1, board.countPiece(PieceColor.BLACK, PieceType.QUEEN));
+        assertEquals(1, board.countPiece(PieceColor.BLACK, PieceType.KING));
 
-        assertEquals(NUM_COL, board.countColorPiece(PieceColor.WHITE, PieceType.PAWN));
-        assertEquals(2, board.countColorPiece(PieceColor.WHITE, PieceType.ROOK));
-        assertEquals(2, board.countColorPiece(PieceColor.WHITE, PieceType.KNIGHT));
-        assertEquals(2, board.countColorPiece(PieceColor.WHITE, PieceType.BISHOP));
-        assertEquals(1, board.countColorPiece(PieceColor.WHITE, PieceType.QUEEN));
-        assertEquals(1, board.countColorPiece(PieceColor.WHITE, PieceType.KING));
+        assertEquals(NUM_COL, board.countPiece(PieceColor.WHITE, PieceType.PAWN));
+        assertEquals(2, board.countPiece(PieceColor.WHITE, PieceType.ROOK));
+        assertEquals(2, board.countPiece(PieceColor.WHITE, PieceType.KNIGHT));
+        assertEquals(2, board.countPiece(PieceColor.WHITE, PieceType.BISHOP));
+        assertEquals(1, board.countPiece(PieceColor.WHITE, PieceType.QUEEN));
+        assertEquals(1, board.countPiece(PieceColor.WHITE, PieceType.KING));
     }
 
     @Test
@@ -165,10 +166,10 @@ public class BoardTest {
     @Test
     public void getSpecificColorPieces()
     {
-        List<Piece> piecesAsc = board.getSpecificColorPiecesAsc(PieceColor.BLACK);
+        List<Piece> piecesAsc = board.getPieces(PieceColor.BLACK, Order.ASC);
         System.out.println(piecesAsc);
 
-        List<Piece> piecesDesc = board.getSpecificColorPiecesDesc(PieceColor.BLACK);
+        List<Piece> piecesDesc = board.getPieces(PieceColor.BLACK, Order.DESC);
         System.out.println(piecesDesc);
     }
 }

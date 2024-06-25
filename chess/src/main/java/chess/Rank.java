@@ -6,7 +6,6 @@ import pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Rank {
     private final int NUM_COL = 8;
@@ -38,21 +37,18 @@ public class Rank {
         return sb.toString();
     }
 
-    public int getNumOfPieces()
+    public long getNumOfPieces()
     {
-        int num = 0;
-        for(Piece piece : pieces){
-            if(!piece.type().equals(PieceType.NO_PIECE))
-            {
-                num += 1;
-            }
-        }
-        return num;
+        return pieces.stream()
+                .filter(p -> !p.type().equals(PieceType.NO_PIECE))
+                .count();
     }
 
-    public long countColorPiece(PieceColor color, PieceType type)
+    public long countPiece(PieceColor color, PieceType type)
     {
-        return pieces.stream().filter(p -> p.color().equals(color) && p.type().equals(type)).count();
+        return pieces.stream()
+                .filter(p -> p.color().equals(color) && p.type().equals(type))
+                .count();
     }
 
     public Piece getPiece(int idx){
@@ -68,14 +64,10 @@ public class Rank {
     }
 
     public double calculatePoint(PieceColor color){
-        double point = 0.0;
-        for(Piece piece : pieces)
-        {
-            if(piece.color().equals(color) && !piece.type().equals(PieceType.PAWN)){
-                point += piece.type().getPoint();
-            }
-        }
-        return point;
+        return pieces.stream()
+                .filter(p -> p.color().equals(color) && !p.type().equals(PieceType.PAWN))
+                .mapToDouble(p -> p.type().getPoint())
+                .sum();
     }
 
     public List<Piece> getSpecificColorPieces(PieceColor color)
