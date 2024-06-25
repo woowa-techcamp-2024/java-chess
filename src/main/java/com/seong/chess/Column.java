@@ -1,6 +1,5 @@
 package com.seong.chess;
 
-import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 
 public class Column {
@@ -20,7 +19,10 @@ public class Column {
         this.piece = piece;
     }
 
-    public char getPawnRepresentation() {
-        return ((Pawn) piece).getRepresentation();
+    public char getRepresentation() {
+        if (piece == null) {
+            return '.';
+        }
+        return piece.getRepresentation();
     }
 }

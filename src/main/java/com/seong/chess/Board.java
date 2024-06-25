@@ -9,6 +9,7 @@ import java.util.List;
 public class Board {
     private static final int BLACK_PAWN_LINE = 1;
     private static final int WHITE_PAWN_LINE = 6;
+    private static final int BOARD_LENGTH = 8;
 
     private final List<Piece> pieces = new ArrayList<>();
     private final List<Column> columns = new ArrayList<>();
@@ -29,14 +30,15 @@ public class Board {
     }
 
     public void initialize() {
+        columns.clear();
         initializeBlank();
         initializePawn(BLACK_PAWN_LINE, Colors.BLACK_COLOR);
         initializePawn(WHITE_PAWN_LINE, Colors.WHITE_COLOR);
     }
 
     private void initializeBlank() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < BOARD_LENGTH; i++) {
+            for (int j = 0; j < BOARD_LENGTH; j++) {
                 columns.add(new Column(new Point(i, j)));
             }
         }
@@ -64,7 +66,18 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         columns.stream()
                 .filter(column -> column.isSameRow(row))
-                .forEach(column -> sb.append(column.getPawnRepresentation()));
+                .forEach(column -> sb.append(column.getRepresentation()));
+        return sb.toString();
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < BOARD_LENGTH * BOARD_LENGTH; i++) {
+            if (i != 0 && i % BOARD_LENGTH == 0) {
+                sb.append("\n");
+            }
+            sb.append(columns.get(i).getRepresentation());
+        }
         return sb.toString();
     }
 }

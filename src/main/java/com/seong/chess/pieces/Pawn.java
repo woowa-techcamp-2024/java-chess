@@ -31,6 +31,7 @@ public class Pawn extends Piece {
         this.representation = representation;
     }
 
+    @Override
     public char getRepresentation() {
         return representation;
     }
