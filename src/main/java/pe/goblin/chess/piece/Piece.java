@@ -1,4 +1,4 @@
-package pe.goblin.chess.pawn;
+package pe.goblin.chess.piece;
 
 public class Piece {
     public static final String WHITE_COLOR = "white";
@@ -6,16 +6,22 @@ public class Piece {
     public static final char WHITE_REPRESENTATION = 'p';
     public static final char BLACK_REPRESENTATION = 'P';
 
-    private String color;
-    private char representation;
+    private final String color;
+    private final String name;
+    private final char representation;
 
-    public Piece() {
-        this(WHITE_COLOR, Piece.WHITE_REPRESENTATION);
+    private Piece(String color, String name, char representation) {
+        this.color = color;
+        this.name = name;
+        this.representation = representation;
     }
 
-    public Piece(String color, char representation) {
-        this.color = color;
-        this.representation = representation;
+    public static Piece createWhitePawn() {
+        return new Piece(WHITE_COLOR, "pawn", WHITE_REPRESENTATION);
+    }
+
+    public static Piece createBlackPawn() {
+        return new Piece(BLACK_COLOR, "pawn", BLACK_REPRESENTATION);
     }
 
     public String getColor() {
