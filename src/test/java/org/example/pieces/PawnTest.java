@@ -1,4 +1,4 @@
-package org.example;
+package org.example.pieces;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.*;
@@ -9,6 +9,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.*;
 
 public class PawnTest {
+
+    @DisplayName("기본 생성자로 폰이 생성되어야 한다")
+    @Test
+    public void create() {
+        Pawn pawn = new Pawn();
+        assertThat(pawn.getColor()).isEqualTo(Pawn.WHITE_COLOR);
+    }
 
     @DisplayName("색깔에 맞는 폰이 생성되어야 한다")
     @ParameterizedTest(name = "폰의 색깔은 {1} 이어야 한다")
@@ -21,8 +28,8 @@ public class PawnTest {
 
     private static Stream<Arguments> argumentsStream() {
         return Stream.of(
-            Arguments.arguments("white", "white"),
-            Arguments.arguments("black", "black")
+            Arguments.arguments(Pawn.WHITE_COLOR, Pawn.WHITE_COLOR),
+            Arguments.arguments(Pawn.BLACK_COLOR, Pawn.BLACK_COLOR)
         );
     }
 
