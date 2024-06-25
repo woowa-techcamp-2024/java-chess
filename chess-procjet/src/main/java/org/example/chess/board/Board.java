@@ -120,4 +120,8 @@ public class Board {
 
         return count;
     }
+
+    public Piece findPiece(String position) {
+        return null;
+    }
 }

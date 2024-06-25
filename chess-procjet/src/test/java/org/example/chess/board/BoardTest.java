@@ -4,6 +4,7 @@ import static org.example.utils.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.example.chess.pieces.Piece.Color;
+import org.example.chess.pieces.Piece.PieceFactory;
 import org.example.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,5 +49,15 @@ class BoardTest {
         assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.ROOK));
         assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.KING));
         assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.QUEEN));
+    }
+
+    @Test
+    void findPiece() throws Exception {
+        board.initialize();
+
+        assertEquals(PieceFactory.createBlackRook(), board.findPiece("a8"));
+        assertEquals(PieceFactory.createBlackRook(), board.findPiece("h8"));
+        assertEquals(PieceFactory.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(PieceFactory.createWhiteRook(), board.findPiece("h1"));
     }
 }
