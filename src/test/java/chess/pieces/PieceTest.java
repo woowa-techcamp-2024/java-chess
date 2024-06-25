@@ -1,10 +1,13 @@
 package chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.pieces.Piece.Color;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,5 +41,16 @@ class PieceTest {
     private void verifyPiece(final Piece piece, final Color color, final char representation) {
         assertThat(piece.getColor()).isEqualTo(color);
         assertThat(piece.getRepresentation()).isEqualTo(representation);
+    }
+
+    @DisplayName("검은색 말과 흰색 말을 구분한다")
+    @Test
+    void checkColor() {
+        Piece blackPawn = Piece.createBlackPawn();
+        Piece whiteQueen = Piece.createWhiteQueen();
+        assertTrue(blackPawn.isBlack());
+        assertFalse(blackPawn.isWhite());
+        assertTrue(whiteQueen.isWhite());
+        assertFalse(whiteQueen.isBlack());
     }
 }
