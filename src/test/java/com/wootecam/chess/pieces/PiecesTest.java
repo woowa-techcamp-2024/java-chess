@@ -14,18 +14,18 @@ public class PiecesTest {
 
         // then
         assertAll(
-                () -> verifyPiece(Piece.createWhitePawn(), Color.WHITE, Type.PAWN),
-                () -> verifyPiece(Piece.createBlackPawn(), Color.BLACK, Type.PAWN),
-                () -> verifyPiece(Piece.createWhiteKnight(), Color.WHITE, Type.KNIGHT),
-                () -> verifyPiece(Piece.createBlackKnight(), Color.BLACK, Type.KNIGHT),
-                () -> verifyPiece(Piece.createWhiteRook(), Color.WHITE, Type.ROOK),
-                () -> verifyPiece(Piece.createBlackRook(), Color.BLACK, Type.ROOK),
-                () -> verifyPiece(Piece.createWhiteBishop(), Color.WHITE, Type.BISHOP),
-                () -> verifyPiece(Piece.createBlackBishop(), Color.BLACK, Type.BISHOP),
-                () -> verifyPiece(Piece.createWhiteQueen(), Color.WHITE, Type.QUEEN),
-                () -> verifyPiece(Piece.createBlackQueen(), Color.BLACK, Type.QUEEN),
-                () -> verifyPiece(Piece.createWhiteKing(), Color.WHITE, Type.KING),
-                () -> verifyPiece(Piece.createBlackKing(), Color.BLACK, Type.KING)
+                () -> verifyPiece(Piece.createWhite(Type.PAWN), Color.WHITE, Type.PAWN),
+                () -> verifyPiece(Piece.createBlack(Type.PAWN), Color.BLACK, Type.PAWN),
+                () -> verifyPiece(Piece.createWhite(Type.KNIGHT), Color.WHITE, Type.KNIGHT),
+                () -> verifyPiece(Piece.createBlack(Type.KNIGHT), Color.BLACK, Type.KNIGHT),
+                () -> verifyPiece(Piece.createWhite(Type.ROOK), Color.WHITE, Type.ROOK),
+                () -> verifyPiece(Piece.createBlack(Type.ROOK), Color.BLACK, Type.ROOK),
+                () -> verifyPiece(Piece.createWhite(Type.BISHOP), Color.WHITE, Type.BISHOP),
+                () -> verifyPiece(Piece.createBlack(Type.BISHOP), Color.BLACK, Type.BISHOP),
+                () -> verifyPiece(Piece.createWhite(Type.QUEEN), Color.WHITE, Type.QUEEN),
+                () -> verifyPiece(Piece.createBlack(Type.QUEEN), Color.BLACK, Type.QUEEN),
+                () -> verifyPiece(Piece.createWhite(Type.KING), Color.WHITE, Type.KING),
+                () -> verifyPiece(Piece.createBlack(Type.KING), Color.BLACK, Type.KING)
         );
     }
 

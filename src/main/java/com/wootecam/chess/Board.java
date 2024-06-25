@@ -38,27 +38,27 @@ public class Board {
 
     private List<Piece> createBlackOtherPieces() {
         return List.of(
-                Piece.createBlackRook(),
-                Piece.createBlackKnight(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen(),
-                Piece.createBlackKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlackKnight(),
-                Piece.createBlackRook()
+                Piece.createBlack(Type.ROOK),
+                Piece.createBlack(Type.KNIGHT),
+                Piece.createBlack(Type.BISHOP),
+                Piece.createBlack(Type.QUEEN),
+                Piece.createBlack(Type.KING),
+                Piece.createBlack(Type.BISHOP),
+                Piece.createBlack(Type.KNIGHT),
+                Piece.createBlack(Type.ROOK)
         );
     }
 
     private List<Piece> createWhiteOtherPieces() {
         return List.of(
-                Piece.createWhiteRook(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteRook()
+                Piece.createWhite(Type.ROOK),
+                Piece.createWhite(Type.KNIGHT),
+                Piece.createWhite(Type.BISHOP),
+                Piece.createWhite(Type.QUEEN),
+                Piece.createWhite(Type.KING),
+                Piece.createWhite(Type.BISHOP),
+                Piece.createWhite(Type.KNIGHT),
+                Piece.createWhite(Type.ROOK)
         );
     }
 
