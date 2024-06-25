@@ -1,6 +1,8 @@
 package chess;
 
 import org.junit.jupiter.api.Test;
+import pieces.Pawn;
+import pieces.PawnColor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

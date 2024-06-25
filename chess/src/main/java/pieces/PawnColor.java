@@ -1,4 +1,4 @@
-package chess;
+package pieces;
 
 public enum PawnColor {
     WHITE("white"),
