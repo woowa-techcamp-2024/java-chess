@@ -1,8 +1,10 @@
+package chess.pieces;
+
 public class Pawn {
 
     private final Color color;
 
-    enum Color { WHITE, BLACK }
+    public enum Color { WHITE, BLACK }
 
     public Pawn(Color color) { this.color = color; }
 
