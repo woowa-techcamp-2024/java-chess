@@ -12,20 +12,52 @@ import static chess.utils.StringUtils.appendNewLine;
 public class Board {
 
     private final List<List<Piece>> pawns;
+    private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
     private static final int BOARD_HEIGHT = 8;
     private static final int WHITE_PAWN_ROW = 1;
     private static final int BLACK_PAWN_ROW = 6;
+    private static final int INITIAL_PIECE_COUNT = 32;
+    private static final int BLACK_FIRST_ROW = 0;
+    private static final int WHITE_FIRST_ROW = 7;
 
     private static final String EMPTY_ROW = "........";
 
 
     public void initialize() {
+        pieceCount = INITIAL_PIECE_COUNT;
+        initializeWhiteFirstRow();
+        initializeBlackFirstRow();
         initializeWhitePawns();
         initializeBlackPawns();
     }
 
+    private void initializeBlackFirstRow() {
+        List<Piece> blackFirstRow = pawns.get(BLACK_FIRST_ROW);
+        blackFirstRow.add(Piece.createBlackRook());
+        blackFirstRow.add(Piece.createBlackKnight());
+        blackFirstRow.add(Piece.createBlackBishop());
+        blackFirstRow.add(Piece.createBlackQueen());
+        blackFirstRow.add(Piece.createBlackKing());
+        blackFirstRow.add(Piece.createBlackBishop());
+        blackFirstRow.add(Piece.createBlackKnight());
+        blackFirstRow.add(Piece.createBlackRook());
+    }
+
+    private void initializeWhiteFirstRow() {
+        List<Piece> whiteFirstRow = pawns.get(WHITE_FIRST_ROW);
+        whiteFirstRow.add(Piece.createWhiteRook());
+        whiteFirstRow.add(Piece.createWhiteKnight());
+        whiteFirstRow.add(Piece.createWhiteBishop());
+        whiteFirstRow.add(Piece.createWhiteQueen());
+        whiteFirstRow.add(Piece.createWhiteKing());
+        whiteFirstRow.add(Piece.createWhiteBishop());
+        whiteFirstRow.add(Piece.createWhiteKnight());
+        whiteFirstRow.add(Piece.createWhiteRook());
+    }
+
+    // TODO 현재 빈 줄을 EMPTY_ROW로 출력하지만, 이건 나중에 변경 필요
     public String print() {
         StringBuilder sb = new StringBuilder();
 
@@ -94,5 +126,13 @@ public class Board {
         if (index < 0 || index / BOARD_WIDTH >= BOARD_HEIGHT) {
             throw new IllegalArgumentException("Index out of range");
         }
+    }
+
+    public int pieceCount() {
+        return pieceCount;
+    }
+
+    public String showBoard() {
+        return print();
     }
 }
