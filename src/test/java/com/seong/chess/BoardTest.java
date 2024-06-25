@@ -1,13 +1,12 @@
 package com.seong.chess;
 
-import com.seong.chess.pieces.Pawn;
-import com.seong.chess.pieces.Piece;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.seong.chess.pieces.Pawn;
+import com.seong.chess.pieces.Piece;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class BoardTest {
 
@@ -29,5 +28,14 @@ public class BoardTest {
         Pawn pawn = new Pawn(color);
         board.add(pawn);
         return pawn;
+    }
+
+    @Test
+    @DisplayName("체스 보드를 초기화하면 폰이 배치된다.")
+    public void initialize() throws Exception {
+        Board board = new Board();
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 }

@@ -2,12 +2,13 @@ package com.seong.chess;
 
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
-
+import com.seong.chess.pieces.Piece.Colors;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
     private final List<Piece> pieces = new ArrayList<>();
+    private final List<Column> columns = new ArrayList<>();
 
     public void add(Piece piece) {
         pieces.add(piece);
@@ -22,5 +23,55 @@ public class Board {
                 .filter(piece -> piece instanceof Pawn)
                 .toList()
                 .get(index);
+    }
+
+    public void initialize() {
+        initializeBlank();
+        initializeWhitePawn();
+        initializeBlackPawn();
+    }
+
+    private void initializeBlank() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                columns.add(new Column(new Point(i, j)));
+            }
+        }
+    }
+
+    private void initializeWhitePawn() {
+        columns.stream()
+                .filter(Column::isBlackPawnLine)
+                .forEach(column -> {
+                    Pawn blackPawn = new Pawn(Colors.BLACK_COLOR);
+                    pieces.add(blackPawn);
+                    column.initialize(blackPawn);
+                });
+    }
+
+    private void initializeBlackPawn() {
+        columns.stream()
+                .filter(Column::isWhitePawnLine)
+                .forEach(column -> {
+                    Pawn whitePawn = new Pawn(Colors.WHITE_COLOR);
+                    pieces.add(whitePawn);
+                    column.initialize(whitePawn);
+                });
+    }
+
+    public String getWhitePawnsResult() {
+        StringBuilder sb = new StringBuilder();
+        columns.stream()
+                .filter(Column::isWhitePawnLine)
+                .forEach(column -> sb.append(column.getPawnRepresentation()));
+        return sb.toString();
+    }
+
+    public String getBlackPawnsResult() {
+        StringBuilder sb = new StringBuilder();
+        columns.stream()
+                .filter(Column::isBlackPawnLine)
+                .forEach(column -> sb.append(column.getPawnRepresentation()));
+        return sb.toString();
     }
 }
