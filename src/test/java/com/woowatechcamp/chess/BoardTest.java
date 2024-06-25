@@ -1,6 +1,7 @@
 package com.woowatechcamp.chess;
 
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -19,24 +20,10 @@ public class BoardTest {
         board.initialize();
         assertEquals(32, board.pieceCount());
 
-        String blankRank = "........";
-        StringBuilder result = new StringBuilder();
-        result.append("♜♞♝♛♚♝♞♜");
-        appendNewLine(result);
-        result.append("♟♟♟♟♟♟♟♟");
-        appendNewLine(result);
-        result.append(blankRank);
-        appendNewLine(result);
-        result.append(blankRank);
-        appendNewLine(result);
-        result.append(blankRank);
-        appendNewLine(result);
-        result.append(blankRank);
-        appendNewLine(result);
-        result.append("♙♙♙♙♙♙♙♙");
-        appendNewLine(result);
-        result.append("♖♘♗♕♔♗♘♖");
-        appendNewLine(result);
-        assertEquals(result.toString(), board.showBoard());
+        String blankRank = appendNewLine("........");
+        String expected = appendNewLine("♜♞♝♛♚♝♞♜") + appendNewLine("♟♟♟♟♟♟♟♟") +
+                blankRank + blankRank + blankRank + blankRank +
+                appendNewLine("♙♙♙♙♙♙♙♙") + appendNewLine("♖♘♗♕♔♗♘♖");
+        assertThat(expected).isEqualTo(board.showBoard());
     }
 }
