@@ -91,4 +91,12 @@ public class Piece {
     public char getRepresentation() {
         return representation;
     }
+
+    public boolean isBlack() {
+        return color.equals(BLACK_COLOR);
+    }
+
+    public boolean isWhite() {
+        return color.equals(WHITE_COLOR);
+    }
 }
