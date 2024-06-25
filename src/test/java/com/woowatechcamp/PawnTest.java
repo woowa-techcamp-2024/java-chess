@@ -1,7 +1,7 @@
-package com.woowatechcamp;import org.junit.jupiter.api.*;
+package com.woowatechcamp;
 
 import java.util.List;
-
+import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class PawnTest {
