@@ -1,7 +1,7 @@
 public class Pawn {
 
-    private static final String BLACK = "black";
-    private static final String WHITE = "white";
+    public static final String BLACK_COLOR = "black";
+    public static final String WHITE_COLOR = "white";
 
     private String color;
 
@@ -10,7 +10,7 @@ public class Pawn {
     }
 
     public Pawn() {
-        this.color = Pawn.WHITE;
+        this.color = Pawn.WHITE_COLOR;
     }
 
     public String getColor() {
