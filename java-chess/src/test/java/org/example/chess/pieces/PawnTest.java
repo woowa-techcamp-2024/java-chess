@@ -22,6 +22,7 @@ public class PawnTest {
     public void create_기본생성자() throws Exception {
         Pawn pawn = new Pawn();
         assertEquals(Pawn.Color.WHITE, pawn.getColor());
+        assertEquals(Pawn.Color.WHITE.representation, pawn.getRepresentation());
     }
 
     public void verifyPawn(Pawn.Color color) {
