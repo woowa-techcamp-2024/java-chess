@@ -141,4 +141,8 @@ public class Board {
         Rank row = board.get(r);
         row.changePiece(c, piece);
     }
+
+    public double calculatePoint(Color color) {
+        return 0;
+    }
 }
