@@ -1,14 +1,17 @@
 package org.example.chess.board;
 
 import org.example.chess.pieces.Pawn;
+import org.example.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.chess.pieces.Pawn.createBlackPawn;
+import static org.example.utils.StringUtils.*;
 
 public class Board {
 
+    static final String NEWLINE = System.lineSeparator();
     static final int size = 8;
     static final int EMPTY_INDEX = -1;
     static char EMPTY_CHAR = '.';
@@ -59,7 +62,7 @@ public class Board {
                 int index = board[i][j];
                 sb.append(index != -1 ? findPawn(index).getRepresentation() : EMPTY_CHAR);
             }
-            sb.append("\n");
+            appendNewLine(sb);
         }
 
         return sb.toString();
