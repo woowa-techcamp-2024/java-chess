@@ -4,6 +4,7 @@ import pe.goblin.chess.pawn.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 체스 판에 Pawn 이외의 객체가 추가되지 않도록 한다.
@@ -12,15 +13,27 @@ import java.util.List;
  * @see #add(Pawn)
  */
 public class Board {
-    private static final int MAX_PAWN_PIECE = 2;
+    public static final int MIN_ROWS = 0;
+    public static final int MAX_ROWS = 8;
+    private static final int MAX_PAWN_PIECE = MAX_ROWS - MIN_ROWS;
 
-    private final List<Pawn> pawns = new ArrayList<>();
+    private List<Pawn> pawns = new ArrayList<>();
 
     public void add(Pawn pawn) throws ExceedPawnException {
-        if (pawns.size() >= MAX_PAWN_PIECE) {
+        if (pawns.size() >= MAX_PAWN_PIECE * 2) {
+            throw new ExceedPawnException();
+        }
+        long count = countPawns(pawn.getColor());
+        if (count >= MAX_PAWN_PIECE) {
             throw new ExceedPawnException();
         }
         pawns.add(pawn);
+    }
+
+    private long countPawns(String color) {
+        return pawns.stream()
+                .filter(p -> Objects.equals(color, p.getColor()))
+                .count();
     }
 
     public int size() {
@@ -29,5 +42,32 @@ public class Board {
 
     public Pawn findPawn(int idx) {
         return pawns.get(idx);
+    }
+
+    public void initialize() {
+        ArrayList<Pawn> initializingPawns = new ArrayList<>();
+        for (int i = MIN_ROWS; i < MAX_ROWS; i++) {
+            initializingPawns.add(new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION));
+            initializingPawns.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
+        }
+        this.pawns = initializingPawns;
+    }
+
+    public String getWhitePawnsResult() {
+        StringBuilder sb = new StringBuilder();
+        long countWhitePawn = countPawns(Pawn.WHITE_COLOR);
+        for (int i = 0; i < countWhitePawn; i++) {
+            sb.append(Pawn.WHITE_REPRESENTATION);
+        }
+        return sb.toString();
+    }
+
+    public String getBlackPawnsResult() {
+        StringBuilder sb = new StringBuilder();
+        long countBlackPawn = countPawns(Pawn.BLACK_COLOR);
+        for (int i = 0; i < countBlackPawn; i++) {
+            sb.append(Pawn.BLACK_REPRESENTATION);
+        }
+        return sb.toString();
     }
 }
