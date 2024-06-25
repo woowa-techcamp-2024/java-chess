@@ -22,7 +22,6 @@ class BoardTest {
     @Test
     void creat() throws Exception {
         board.initialize();
-        board.print();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(

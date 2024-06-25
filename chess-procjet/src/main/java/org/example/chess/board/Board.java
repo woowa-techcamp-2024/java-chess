@@ -11,24 +11,16 @@ import org.example.chess.pieces.PieceFactory;
 
 public class Board {
 
-    private final int BOARD_SIZE = 8;
-    private final int MAX_PIECES = 32;
+    private static final int BOARD_SIZE = 8;
+    private static final int MAX_PIECES = 32;
+    private static final int BLACK_INIT_ROW = 0;
+    private static final int BLACK_PAWN_INIT_ROW = 1;
+    private static final int WHITE_INIT_ROW = 7;
+    private static final int WHITE_PAWN_INIT_ROW = 6;
 
-    private final List<Piece> pieces = new ArrayList<>();
     private final char[][] board;
     private final Point[][] points;
     private final Map<Point, Piece> pieceMap = new HashMap<>();
-
-    public void add(Piece piece) {
-        if (pieces.size() > MAX_PIECES) {
-            throw new IllegalArgumentException("한 보드판에는 최대 32개의 말이 존재할 수 있습니다.");
-        }
-        pieces.add(piece);
-    }
-
-    public int size() {
-        return pieces.size();
-    }
 
     public void initialize() {
         // 보드판에 흰색 폰 8개, 검은색 폰 8개를 놓도록 초기화하는 메서드
@@ -50,9 +42,9 @@ public class Board {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
-            Point point = points[1][i];
+            Point point = points[BLACK_PAWN_INIT_ROW][i];
             pieceMap.put(point, blackPawn);
-            board[1][i] = blackPawn.getRepresentation().charAt(0);
+            board[BLACK_PAWN_INIT_ROW][i] = blackPawn.getRepresentation().charAt(0);
         }
 
         List<Piece> blackPiecesExceptPawn = new ArrayList<>();
@@ -67,19 +59,19 @@ public class Board {
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece piece = blackPiecesExceptPawn.get(i);
-            Point point = points[0][i];
+            Point point = points[BLACK_INIT_ROW][i];
             pieceMap.put(point, piece);
-            board[0][i] = piece.getRepresentation().charAt(0);
+            board[BLACK_INIT_ROW][i] = piece.getRepresentation().charAt(0);
         }
     }
 
     private void initWhitePiece() {
         // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
-            Piece blackPawn = PieceFactory.createWhitePawn();
-            Point point = points[6][i];
-            pieceMap.put(point, blackPawn);
-            board[6][i] = blackPawn.getRepresentation().charAt(0);
+            Piece whitePawn = PieceFactory.createWhitePawn();
+            Point point = points[WHITE_PAWN_INIT_ROW][i];
+            pieceMap.put(point, whitePawn);
+            board[WHITE_PAWN_INIT_ROW][i] = whitePawn.getRepresentation().charAt(0);
         }
 
         List<Piece> whitePieceExceptPawn = new ArrayList<>();
@@ -94,9 +86,9 @@ public class Board {
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece piece = whitePieceExceptPawn.get(i);
-            Point point = points[7][i];
+            Point point = points[WHITE_INIT_ROW][i];
             pieceMap.put(point, piece);
-            board[7][i] = piece.getRepresentation().charAt(0);
+            board[WHITE_INIT_ROW][i] = piece.getRepresentation().charAt(0);
         }
     }
 
@@ -110,7 +102,7 @@ public class Board {
     }
 
     public int pieceCount() {
-        return (int) pieceMap.values().size();
+        return pieceMap.values().size();
     }
 
     public String showBoard() {
