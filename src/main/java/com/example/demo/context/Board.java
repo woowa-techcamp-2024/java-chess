@@ -90,4 +90,30 @@ public class Board {
         return sb.toString();
     }
 
+    /**
+     * 다음과 같은 규칙을 반영하여 플레이어의 점수를 계산하여 반환한다.
+     * <li>각 기물의 점수는 queen은 9점, rook은 5점, bishop은 3점, knight는 2.5점이다.</li>
+     * <li>pawn의 기본 점수는 1점이다. 하지만 같은 세로줄에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.</li>
+     * @param color 점수를 계산하는 플레이어의 색상
+     * @return 계산된 점수
+     */
+    public float getScore(Color color){
+        float score = 0;
+        for (File file : File.values()) {
+            int pawnCount = 0;
+            for (Rank rank : Rank.values()) {
+                Piece piece = getPiece(rank, file);
+                if(piece != null && piece.getColor() == color){
+                    if(piece instanceof Pawn){
+                        pawnCount++;
+                    }
+                    score += piece.getPoint();
+                }
+            }
+            if(pawnCount != 0){
+                score += 0.5f * pawnCount;
+            }
+        }
+        return score;
+    }
 }

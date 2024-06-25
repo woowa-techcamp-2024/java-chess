@@ -134,6 +134,34 @@ class BoardTest {
 
     @Test
     @DisplayName("퀸1 + 룩1 + 나이트1 + 비숍1 = 19.5점")
-    public void getScore(){
+    public void calculateScoreCase1(){
+        // given
+        Board board = new Board();
+        board.setPiece(Rank.ONE, File.A, new Queen(Color.WHITE));
+        board.setPiece(Rank.ONE, File.B, new Rook(Color.WHITE));
+        board.setPiece(Rank.ONE, File.C, new Knight(Color.WHITE));
+        board.setPiece(Rank.ONE, File.D, new Bishop(Color.WHITE));
+
+        // when
+        float score = board.getScore(Color.WHITE);
+
+        // then
+        assertThat(score).isEqualTo(19.5f);
+    }
+
+    @Test
+    @DisplayName("세로줄(File)에 같은 색의 폰이 있는 경우 1점이 아닌 0.5점을 준다.")
+    public void calculateScoreCase2(){
+        // given
+        Board board = new Board();
+        board.setPiece(Rank.TWO, File.A, new Pawn(Color.WHITE));
+        board.setPiece(Rank.SEVEN, File.A, new Pawn(Color.WHITE));
+        board.setPiece(Rank.FOUR, File.A, new Pawn(Color.WHITE));
+
+        // when
+        float score = board.getScore(Color.WHITE);
+
+        // then
+        assertThat(score).isEqualTo(3.0f);
     }
 }
