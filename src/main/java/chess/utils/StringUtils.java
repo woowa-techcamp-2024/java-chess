@@ -4,7 +4,7 @@ public class StringUtils {
     public static final char BLANK = '.';
     public static final String NEWLINE = System.lineSeparator();
 
-    public static void appendNewLine(StringBuilder sb) {
-        sb.append(NEWLINE);
+    public static String appendNewLine(String line) {
+        return line + NEWLINE;
     }
 }
