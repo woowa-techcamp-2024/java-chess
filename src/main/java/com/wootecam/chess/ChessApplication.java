@@ -11,9 +11,9 @@ public class ChessApplication {
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
         Board board = new Board();
+        board.initialize();
 
         while (isContinue(inputReader.nextLine())) {
-            board.initialize();
             board.print();
         }
     }
@@ -25,7 +25,7 @@ public class ChessApplication {
         if (END_COMMAND.equals(input)) {
             return false;
         }
-        String message = String.format("잘못된 입력입니다. ('start', 'end'만 가능) input = %s", input);
+        String message = String.format("잘못된 입력입니다. ('%s', '%s'만 가능) input = %s", START_COMMAND, END_COMMAND, input);
         throw new IllegalArgumentException(message);
     }
 }
