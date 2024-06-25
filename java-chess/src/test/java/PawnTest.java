@@ -1,22 +1,22 @@
 import org.example.character.Pawn;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class PawnTest {
-    private static final String white = "white";
-    private static final String black = "black";
+    private static final Pawn.Color white = Pawn.Color.WHITE;
+    private static final Pawn.Color black = Pawn.Color.BLACK;
 
     @ParameterizedTest
-    @ValueSource(strings = {white, black})
+    @EnumSource(Pawn.Color.class)
     @DisplayName("폰이 생성되는 색깔에 맞게 생성되어야 한다")
-    public void create(String colors) {
+    public void create(Pawn.Color colors) {
         verifyPawn(colors);
     }
 
-    public void verifyPawn(String color) {
+    public void verifyPawn(Pawn.Color color) {
         Pawn pawn = new Pawn(color);
         assertThat(pawn.getColor()).isEqualTo(color);
     }
