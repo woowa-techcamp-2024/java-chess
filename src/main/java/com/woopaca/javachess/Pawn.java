@@ -2,11 +2,7 @@ package com.woopaca.javachess;
 
 public class Pawn {
 
-    private final String color;
-
-    public Pawn() {
-        this("white");
-    }
+    private String color;
 
     public Pawn(String color) {
         this.color = color;
