@@ -3,6 +3,7 @@ package org.example.chess.board;
 import static org.example.utils.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.PieceFactory;
 import org.example.chess.pieces.Piece.Type;
@@ -60,5 +61,17 @@ class BoardTest {
         assertEquals(PieceFactory.createBlackRook(), board.findPiece("h8"));
         assertEquals(PieceFactory.createWhiteRook(), board.findPiece("a1"));
         assertEquals(PieceFactory.createWhiteRook(), board.findPiece("h1"));
+    }
+
+    @Test
+    void move() throws Exception {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = PieceFactory.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
     }
 }

@@ -127,4 +127,12 @@ public class Board {
 
         return board.get(row).getPieces().get(col);
     }
+
+    public void initializeEmpty() {
+
+    }
+
+    public void move(String position, Piece piece) {
+
+    }
 }
