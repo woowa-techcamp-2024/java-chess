@@ -1,3 +1,5 @@
+package org.example;
+
 import org.example.character.Pawn;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
