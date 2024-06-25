@@ -42,7 +42,7 @@ class PieceTest {
         boolean isBlack = blackPawn.isBlack();
 
         // then
-        assertEquals(true, isBlack);
+        assertTrue(isBlack);
     }
 
     @DisplayName("흰색 폰일 때 isBlack이면 true를 반환한다")
@@ -55,7 +55,7 @@ class PieceTest {
         boolean isBlack = blackPawn.isBlack();
 
         // then
-        assertEquals(false, isBlack);
+        assertFalse(isBlack);
     }
 
     @DisplayName("검정색 폰일 때 isWhite이면 false를 반환한다")
@@ -68,7 +68,7 @@ class PieceTest {
         boolean isWhite = blackPawn.isWhite();
 
         // then
-        assertEquals(false, isWhite);
+        assertFalse(isWhite);
     }
 
     @DisplayName("흰색 폰일 때 isWhite이면 true를 반환한다")
@@ -81,7 +81,7 @@ class PieceTest {
         boolean isWhite = blackPawn.isWhite();
 
         // then
-        assertEquals(true, isWhite);
+        assertTrue(isWhite);
     }
 
     private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
