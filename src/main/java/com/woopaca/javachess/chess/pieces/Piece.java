@@ -76,4 +76,12 @@ public class Piece {
         return type.getBlackRepresentation();
     }
 
+    public boolean isWhite() {
+        return color.equals(WHITE_COLOR);
+    }
+
+    public boolean isBlack() {
+        return color.equals(BLACK_COLOR);
+    }
+
 }
