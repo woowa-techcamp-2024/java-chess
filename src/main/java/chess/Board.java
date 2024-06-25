@@ -2,6 +2,7 @@ package chess;
 
 import chess.pieces.Colors;
 import chess.pieces.Piece;
+import chess.pieces.Representations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,30 +40,30 @@ public class Board {
     }
 
     public void initialize() {
-        whitePieces.add(Piece.createWhiteRook());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteQueen());
-        whitePieces.add(Piece.createWhiteKing());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteRook());
+        whitePieces.add(Piece.create(Representations.Type.ROOK, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.KNIGHT, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.BISHOP, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.QUEEN, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.KING, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.BISHOP, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.KNIGHT, Colors.WHITE));
+        whitePieces.add(Piece.create(Representations.Type.ROOK, Colors.WHITE));
 
         for (int i=0; i<8; i++) {
-            Piece white = Piece.createWhitePawn();
-            Piece black = Piece.createBlackPawn();
+            Piece white = Piece.create(Representations.Type.PAWN, Colors.WHITE);
+            Piece black = Piece.create(Representations.Type.PAWN, Colors.BLACK);
             whitePawns.add(white);
             blackPawns.add(black);
         }
 
-        blackPieces.add(Piece.createBlackRook());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackQueen());
-        blackPieces.add(Piece.createBlackKing());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackRook());
+        blackPieces.add(Piece.create(Representations.Type.ROOK, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.KNIGHT, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.BISHOP, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.QUEEN, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.KING, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.BISHOP, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.KNIGHT, Colors.BLACK));
+        blackPieces.add(Piece.create(Representations.Type.ROOK, Colors.BLACK));
     }
 
     public String print() {
@@ -88,11 +89,11 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         if (color == Colors.WHITE) {
             for (Piece p : whitePieces) {
-                sb.append(p.getRepresentation().getSymbol());
+                sb.append(p.getSymbol());
             }
         } else {
             for (Piece p : blackPieces) {
-                sb.append(p.getRepresentation().getSymbol());
+                sb.append(p.getSymbol());
             }
         }
         return sb.toString();
@@ -111,11 +112,11 @@ public class Board {
 
         if (color == Colors.WHITE) {
             for (Piece p : whitePawns) {
-                sb.append(p.getRepresentation().getSymbol());
+                sb.append(p.getSymbol());
             }
         } else {
             for (Piece p : blackPawns) {
-                sb.append(p.getRepresentation().getSymbol());
+                sb.append(p.getSymbol());
             }
         }
         return sb.toString();

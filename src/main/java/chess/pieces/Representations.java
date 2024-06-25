@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Arrays;
+
 public enum Representations {
     WHITE_PAWN("♙", Type.PAWN, Colors.WHITE),
     BLACK_PAWN("♟", Type.PAWN, Colors.BLACK),
@@ -23,6 +25,14 @@ public enum Representations {
         this.symbol = symbol;
         this.type = type;
         this.color = color;
+    }
+
+    static public Representations from(Type type, Colors color) {
+        return Arrays.stream(Representations.values())
+                .filter(rep -> rep.getColor() == color)
+                .filter(rep -> rep.getType() == type)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No representation for " + type + " " + color));
     }
 
     public String getSymbol() {

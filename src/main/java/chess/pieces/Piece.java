@@ -16,59 +16,15 @@ public class Piece {
         return representation.getColor();
     }
 
-    public Representations getRepresentation() {
-        return representation;
+    public String getSymbol() {
+        return representation.getSymbol();
     }
 
-    static public Piece createWhitePawn() {
-        return new Piece(Representations.WHITE_PAWN);
+    public Representations.Type getType() {
+        return representation.getType();
     }
 
-    static public Piece createBlackPawn() {
-        return new Piece(Representations.BLACK_PAWN);
-    }
-
-    static public Piece createWhiteKing() {
-        return new Piece(Representations.WHITE_KING);
-    }
-
-    static public Piece createBlackKing() {
-        return new Piece(Representations.BLACK_KING);
-    }
-
-    static public Piece createWhiteRook() {
-        return new Piece(Representations.WHITE_ROOK);
-    }
-
-    static public Piece createBlackRook() {
-        return new Piece(Representations.BLACK_ROOK);
-    }
-
-    static public Piece createWhiteKnight() {
-        return new Piece(Representations.WHITE_KNIGHT);
-    }
-
-    static public Piece createBlackKnight() {
-        return new Piece(Representations.BLACK_KNIGHT);
-    }
-
-    static public Piece createWhiteBishop() {
-        return new Piece(Representations.WHITE_BISHOP);
-    }
-
-    static public Piece createBlackBishop() {
-        return new Piece(Representations.BLACK_BISHOP);
-    }
-
-    static public Piece createWhiteQueen() {
-        return new Piece(Representations.WHITE_QUEEN);
-    }
-
-    static public Piece createBlackQueen() {
-        return new Piece(Representations.BLACK_QUEEN);
-    }
-
-    static public Piece createBlank() {
-        return new Piece(Representations.BLANK);
+    static public Piece create(Representations.Type type, Colors color) {
+        return new Piece(Representations.from(type, color));
     }
 }
