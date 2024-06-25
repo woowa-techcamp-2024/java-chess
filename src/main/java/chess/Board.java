@@ -2,7 +2,6 @@ package chess;
 
 import chess.piece.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,15 +35,11 @@ public class Board {
         return this.board.get(position);
     }
 
-    public String getPieceResult(final PieceColor color, final Type type) {
-        long count = board.values().stream()
+    public long getPieceResult(final PieceColor color, final Type type) {
+        return board.values().stream()
                 .filter(pawn -> pawn.getColor().equals(color))
                 .filter(pawn -> pawn.getType().equals(type))
                 .count();
-
-        char representation = PieceRepresentation.getPieceRepresentation(color, type);
-
-        return String.join("", Collections.nCopies((int) count, String.valueOf(representation)));
     }
 
     public String showBoard() {
