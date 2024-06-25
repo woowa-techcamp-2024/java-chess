@@ -88,4 +88,16 @@ public class BoardTest {
         assertEquals(pieceType.getColor(),piece.getColor());
         assertEquals(pieceType.getType(),piece.getType());
     }
+
+    @Test
+    public void temp() throws Exception{
+        //given
+
+        //when
+        board.initializeEmpty();
+
+        //then
+        assertEquals(0,board.pieceCount());
+
+    }
 }
