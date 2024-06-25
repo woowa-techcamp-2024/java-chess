@@ -10,6 +10,12 @@ public class Board {
 
     Piece[][] pieceLocation = new Piece[8][8];
 
+    public record Location(
+            Rank rank,
+            File file
+    ) {
+    }
+
     /**
      * <p>
      * 보드는 생성시에 정해진 규칙에 따라서 말을 배치한 초기상태를 가져야한다.
@@ -73,8 +79,16 @@ public class Board {
         pieceLocation[row.index()][column.index()] = piece;
     }
 
+    public void setPiece(Location location, Piece piece) {
+        setPiece(location.rank(), location.file(), piece);
+    }
+
     public Piece getPiece(Rank row, File column) {
         return pieceLocation[row.index()][column.index()];
+    }
+
+    public Piece getPiece(Location location) {
+        return getPiece(location.rank(), location.file());
     }
 
     @Override
