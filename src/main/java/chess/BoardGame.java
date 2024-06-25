@@ -9,6 +9,7 @@ public class BoardGame {
 
         if("start".equals(operation)){
             Board board = new Board();
+            board.initialize();
             System.out.println("체스 게임을 시작합니다.");
             while(!"end".equals(operation)){
                 System.out.println("=======체스판 현황=======");
