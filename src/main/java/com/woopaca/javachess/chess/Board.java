@@ -17,6 +17,9 @@ public class Board {
     {
         for (int i = 0; i < BOARD_SIZE; i++) {
             pawns[i] = new ArrayList<>(BOARD_SIZE);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                pawns[i].add(null);
+            }
         }
     }
 
@@ -48,6 +51,9 @@ public class Board {
 
     private void addPawn(String color, int row) {
         Pawn pawn = new Pawn(color);
+        if (pawns[row].size() >= BOARD_SIZE) {
+            pawns[row].remove(0);
+        }
         pawns[row].add(pawn);
     }
 
@@ -61,9 +67,19 @@ public class Board {
         return generatePawnsResult(blackPawns);
     }
 
+    public String print() {
+        StringBuilder boardResult = new StringBuilder();
+        for (List<Pawn> row : pawns) {
+            String result = generatePawnsResult(row);
+            boardResult.append(result)
+                    .append(System.lineSeparator());
+        }
+        return boardResult.toString();
+    }
+
     private String generatePawnsResult(List<Pawn> pawns) {
         return pawns.stream()
-                .map(pawn -> String.valueOf(pawn.getRepresentation()))
+                .map(pawn -> pawn == null ? "." : String.valueOf(pawn.getRepresentation()))
                 .collect(Collectors.joining());
     }
 

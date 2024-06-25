@@ -33,6 +33,8 @@ public class BoardTest {
         board.initialize();
         assertThat(board.getWhitePawnsResult()).isEqualTo("♙♙♙♙♙♙♙♙");
         assertThat(board.getBlackPawnsResult()).isEqualTo("♟♟♟♟♟♟♟♟");
+
+        System.out.println(board.print());
     }
 
 }
