@@ -30,14 +30,14 @@ class QueenTest {
 
     @Test
     @DisplayName("검은 색 퀀이라면 대문자 q를 출력한다.")
-    public void print_black_pawn(){
+    public void print_black(){
         Piece queen = new Queen(Color.BLACK);
         assertThat(queen.toString()).isEqualTo("Q");
     }
 
     @Test
     @DisplayName("흰 색 퀀이라면 소문자 q를 출력한다.")
-    public void print_white_pawn(){
+    public void print_white(){
         Piece queen = new Queen(Color.WHITE);
         assertThat(queen.toString()).isEqualTo("q");
     }

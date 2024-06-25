@@ -30,14 +30,14 @@ class RookTest {
 
     @Test
     @DisplayName("검은 색 룩이라면 대문자 R를 출력한다.")
-    public void print_black_pawn(){
+    public void print_black(){
         Piece rook = new Rook(Color.BLACK);
         assertThat(rook.toString()).isEqualTo("R");
     }
 
     @Test
     @DisplayName("흰 색 룩이라면 소문자 r를 출력한다.")
-    public void print_white_pawn(){
+    public void print_white(){
         Piece rook = new Rook(Color.WHITE);
         assertThat(rook.toString()).isEqualTo("r");
     }
