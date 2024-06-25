@@ -1,10 +1,10 @@
 package chess.pieces;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,34 +14,43 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PieceTest {
 
-    @DisplayName("팩토리 메소드를 테스트한다.")
+    @DisplayName("색과 기물에 따른 팩토리 메소드를 테스트한다.")
     @ParameterizedTest
     @MethodSource
-    void create_piece(final Piece piece, final Color color, final char representation) {
-        verifyPiece(piece, color, representation);
+    void create_piece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+        verifyPiece(whitePiece, blackPiece, type);
+    }
+
+    private void verifyPiece(Piece whitePiece, Piece blackPiece, Type type) {
+        assertTrue(whitePiece.isWhite());
+        assertFalse(whitePiece.isBlack());
+        assertEquals(whitePiece.getType(), type);
+
+        assertTrue(blackPiece.isBlack());
+        assertFalse(blackPiece.isWhite());
+        assertEquals(blackPiece.getType(), type);
     }
 
     private static Stream<Arguments> create_piece() {
         return Stream.of(
-                Arguments.of(Piece.createWhitePawn(), Color.WHITE, Piece.WHITE_PAWN_REPRESENTATION),
-                Arguments.of(Piece.createBlackPawn(), Color.BLACK, Piece.BLACK_PAWN_REPRESENTATION),
-                Arguments.of(Piece.createWhiteKnight(), Color.WHITE, Piece.WHITE_KNIGHT_REPRESENTATION),
-                Arguments.of(Piece.createBlackKnight(), Color.BLACK, Piece.BLACK_KNIGHT_REPRESENTATION),
-                Arguments.of(Piece.createWhiteRook(), Color.WHITE, Piece.WHITE_ROOK_REPRESENTATION),
-                Arguments.of(Piece.createBlackRook(), Color.BLACK, Piece.BLACK_ROOK_REPRESENTATION),
-                Arguments.of(Piece.createWhiteBishop(), Color.WHITE, Piece.WHITE_BISHOP_REPRESENTATION),
-                Arguments.of(Piece.createBlackBishop(), Color.BLACK, Piece.BLACK_BISHOP_REPRESENTATION),
-                Arguments.of(Piece.createWhiteQueen(), Color.WHITE, Piece.WHITE_QUEEN_REPRESENTATION),
-                Arguments.of(Piece.createBlackQueen(), Color.BLACK, Piece.BLACK_QUEEN_REPRESENTATION),
-                Arguments.of(Piece.createWhiteKing(), Color.WHITE, Piece.WHITE_KING_REPRESENTATION),
-                Arguments.of(Piece.createBlackKing(), Color.BLACK, Piece.BLACK_KING_REPRESENTATION)
+                Arguments.of(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN),
+                Arguments.of(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT),
+                Arguments.of(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK),
+                Arguments.of(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP),
+                Arguments.of(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN),
+                Arguments.of(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING)
         );
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final char representation) {
-        assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(representation);
+    @DisplayName("기물이 없는 공간을 나타내는 Blank 피스를 테스트한다.")
+    @Test
+    void create_blank() {
+        Piece blank = Piece.createBlank();
+        assertFalse(blank.isWhite());
+        assertFalse(blank.isBlack());
+        assertEquals(blank.getType(), Type.NO_PIECE);
     }
+
 
     @DisplayName("검은색 말과 흰색 말을 구분한다")
     @Test
