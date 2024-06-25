@@ -24,17 +24,25 @@ public class Application {
             while (continueRunning) {
                 System.out.print("start/end 입력: ");
                 String input = scanner.nextLine();
-                GameControlCommand command;
-                try {
-                    command = GameControlCommand.valueOfIgnoreCase(input);
-                } catch (IllegalArgumentException exception) {
-                    System.out.println(exception.getMessage());
+                GameControlCommand command = getGameControlCommand(input);
+                if (command == null) {
                     continue;
                 }
                 continueRunning = execute(command);
             }
         }
 
+    }
+
+    private static GameControlCommand getGameControlCommand(String input) {
+        GameControlCommand command;
+        try {
+            command = GameControlCommand.valueOfIgnoreCase(input);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
+        return command;
     }
 
     private static boolean execute(GameControlCommand command) {
