@@ -1,6 +1,5 @@
-package org.example;
+package org.example.chess.pieces;
 
-import org.example.character.Pawn;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

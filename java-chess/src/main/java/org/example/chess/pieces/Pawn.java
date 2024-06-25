@@ -1,4 +1,4 @@
-package org.example.character;
+package org.example.chess.pieces;
 
 public class Pawn {
     private Color color;
