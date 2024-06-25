@@ -11,9 +11,10 @@ public class Board {
     private final List<List<Pawn>> board = new ArrayList<>();
     private final List<Pawn> pawns = new ArrayList<>();
 
-    final int BOARD_SIZE = 8;
-    final int INIT_WHITE_COLUMN = 6;
-    final int INIT_BLACK_COLUMN = 1;
+    public static final int BOARD_SIZE = 8;
+    public static final int INIT_WHITE_COLUMN = 6;
+    public static final int INIT_BLACK_COLUMN = 1;
+    public static final String NEWLINE = System.lineSeparator();
 
     public void add(final Pawn pawn) {
         pawns.add(pawn);
@@ -76,7 +77,7 @@ public class Board {
                 if (Objects.equals(pawn, null)) stringBuilder.append('.');
                 else stringBuilder.append(pawn.getRepresentation());
             }
-            stringBuilder.append('\n');
+            stringBuilder.append(NEWLINE);
         }
         return stringBuilder.toString();
     }
