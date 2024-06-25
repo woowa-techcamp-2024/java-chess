@@ -12,6 +12,28 @@ public class Board {
 
     private record Position(int col, int row) {
 
+        private Position {
+            validateRow(row);
+            validateCol(col);
+        }
+
+        private static Position convert(String rawPosition) {
+            int col = rawPosition.charAt(0) - 'a';
+            int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
+            return new Position(col, row);
+        }
+
+        private void validateRow(int row) {
+            if (row < 0 || row >= 8) {
+                throw new IllegalArgumentException("체스 보드 행은 1이상, 8 이하입니다.");
+            }
+        }
+
+        private void validateCol(int col) {
+            if (col < 0 || col >= 8) {
+                throw new IllegalArgumentException("체스 보드 열은 a이상, h 이하입니다.");
+            }
+        }
     }
 
     private static final int BLACK_PIECE_LINE = 0;
@@ -27,6 +49,17 @@ public class Board {
         initializeBlackPieces();
         initializeBlank();
         initializeWhitePieces();
+    }
+
+    public void initializeEmpty() {
+        ranks.clear();
+        for (int i = 0; i < BOARD_LENGTH; i++) {
+            Rank rank = new Rank();
+            ranks.add(rank);
+            for (int j = 0; j < BOARD_LENGTH; j++) {
+                rank.add(Piece.createBlank());
+            }
+        }
     }
 
     private void initializeBlackPieces() {
@@ -96,17 +129,14 @@ public class Board {
                 .map(rank -> rank.pieceCount(type, color))
                 .reduce(0, Integer::sum);
     }
-    
+
+    public void move(String rawPosition, Piece piece) {
+        Position position = Position.convert(rawPosition);
+        ranks.get(position.row).set(position.col, piece);
+    }
+
     public Piece findPiece(String rawPosition) {
-        Position position = getPosition(rawPosition);
+        Position position = Position.convert(rawPosition);
         return ranks.get(position.row).get(position.col);
     }
-
-    private Position getPosition(String rawPosition) {
-        int col = rawPosition.charAt(0) - 'a';
-        int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
-        return new Position(col, row);
-    }
-
-
 }

@@ -40,4 +40,8 @@ public class Rank {
     public Piece get(int index) {
         return pieces.get(index);
     }
+
+    public void set(int col, Piece piece) {
+        pieces.set(col, piece);
+    }
 }
