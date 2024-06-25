@@ -109,4 +109,24 @@ class BoardTest {
             assertThat(board.size()).isEqualTo(ChessBoard.MAX_COL * 2);
         }
     }
+
+    @Nested
+    class 체스판에_존재하는_폰의_상태를_조회한다 {
+
+        @Test
+        void 체스판_초기화_시_검은색_폰은_열의_개수만큼_존재한다() {
+            var board = createBoard();
+            board.initialize();
+
+            assertThat(board.getWhitePawnsResult()).isEqualTo("pppppppp");
+        }
+
+        @Test
+        void 체스판_초기화_시_하얀색_폰은_열의_개수만큼_존재한다() {
+            var board = createBoard();
+            board.initialize();
+
+            assertThat(board.getBlackPawnsResult()).isEqualTo("PPPPPPPP");
+        }
+    }
 }

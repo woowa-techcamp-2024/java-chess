@@ -42,7 +42,7 @@ class PawnTest {
         }
 
         @Test
-        void 색깔이_주어지지_않았다면_하얀색_폰의_표현자가_반환되어야_한다() {
+        void 색깔이_주어지지_않았다면_하얀색_폰의_표현값이_반환되어야_한다() {
             var pawn = new Pawn();
 
             assertThat(pawn.getRepresentation()).isEqualTo(Color.WHITE.getRepresentation());

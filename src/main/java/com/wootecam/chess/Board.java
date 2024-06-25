@@ -6,6 +6,7 @@ import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Pawn;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     private final ChessBoard chessBoard;
@@ -49,5 +50,19 @@ public class Board {
             throw new IllegalArgumentException("The specified pawn is not found");
         }
         return pawns.get(index);
+    }
+
+    public String getWhitePawnsResult() {
+        return pawns.stream()
+                .filter(p -> p.getColor() == Color.WHITE)
+                .map(p -> p.getRepresentation().value)
+                .collect(Collectors.joining());
+    }
+
+    public String getBlackPawnsResult() {
+        return pawns.stream()
+                .filter(p -> p.getColor() == Color.BLACK)
+                .map(p -> p.getRepresentation().value)
+                .collect(Collectors.joining());
     }
 }
