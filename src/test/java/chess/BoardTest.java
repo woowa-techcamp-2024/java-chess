@@ -40,4 +40,11 @@ public class BoardTest {
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
+
+    @Test
+    @DisplayName("체스판을 출력할 수 있다")
+    public void print() {
+        board.initialize();
+        System.out.println(board.print());
+    }
 }
