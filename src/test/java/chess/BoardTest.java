@@ -1,6 +1,7 @@
 package chess;
 
 import chess.piece.Pawn;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BoardTest {
 
     @Test
+    @DisplayName("보드엔 폰이 추가되고 폰에 대한 정보를 얻을 수 있다.")
     public void create() throws Exception {
         Board board = new Board();
 
