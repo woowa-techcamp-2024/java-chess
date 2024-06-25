@@ -1,7 +1,9 @@
-package pieces;
+package chess.pieces;
 
 import org.junit.jupiter.api.*;
+
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PawnTest {
 
@@ -12,8 +14,14 @@ public class PawnTest {
         verifyPawn("white");
     }
 
+    @Test
+    public void create_기본생성자() {
+        chess.pieces.Pawn pawn = new chess.pieces.Pawn();
+        assertEquals("white", pawn.getColor());
+    }
+
     public void verifyPawn(final String color) {
-        Pawn pawn = new Pawn(color);
+        chess.pieces.Pawn pawn = new chess.pieces.Pawn(color);
         assertThat(pawn.getColor()).isEqualTo(color);
     }
 }
