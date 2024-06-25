@@ -19,24 +19,7 @@ public class Board {
 
     public void initialize() {
         isInit = true;
-        initializeWhitePawns();
-        initializeBlackPawns();
     }
-
-    private void initializeWhitePawns() {
-        whitePawns = new ArrayList<>();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            whitePawns.add(new Piece(Piece.WHITE_COLOR));
-        }
-    }
-
-    private void initializeBlackPawns() {
-        blackPawns = new ArrayList<>();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            blackPawns.add(new Piece(Piece.BLACK_COLOR));
-        }
-    }
-
     public String getInitialStateWhitePawnResult() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < BOARD_SIZE; i++) {
