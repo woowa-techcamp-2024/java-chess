@@ -19,4 +19,9 @@ public abstract class Piece {
     public Symbol getSymbol() {
         return symbol;
     }
+
+    @Override
+    public String toString() {
+        return symbol.getValue();
+    }
 }
