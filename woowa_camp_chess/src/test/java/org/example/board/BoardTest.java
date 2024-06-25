@@ -27,5 +27,4 @@ public class BoardTest {
         assertEquals(expected, board.size());
         assertEquals(white, board.findPawn(i));
     }
-
 }
