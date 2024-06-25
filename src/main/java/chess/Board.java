@@ -1,7 +1,9 @@
 package chess;
 
+import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Rank;
+import chess.pieces.Type;
 
 import static chess.utils.StringUtils.appendNewLine;
 
@@ -83,6 +85,14 @@ public class Board {
             printResult.append(line);
         }
         return printResult.toString();
+    }
+
+    public int countPieces(final Color color, final Type type) {
+        int count = 0;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            count += board.get(i).getCount(color, type);
+        }
+        return count;
     }
 
     // test를 위한 메서드

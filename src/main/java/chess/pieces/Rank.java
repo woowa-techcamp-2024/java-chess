@@ -13,6 +13,11 @@ public class Rank {
         return (int) rank.stream().filter(piece -> !Objects.equals(piece.getType(), Type.NO_PIECE)).count();
     }
 
+    public int getCount(final Color color, final Type type) {
+        return (int) rank.stream().filter(
+                piece -> Objects.equals(color, piece.getColor()) && Objects.equals(type, piece.getType())).count();
+    }
+
     public String showRank() {
         StringBuilder stringBuilder = new StringBuilder();
         rank.forEach(piece -> {
