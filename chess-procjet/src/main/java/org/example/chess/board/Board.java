@@ -63,7 +63,6 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece whitePawn = PieceFactory.createWhitePawn();
             board.get(WHITE_PAWN_INIT_ROW).set(i, whitePawn);
-
         }
 
         List<Piece> whitePieceExceptPawn = new ArrayList<>();
@@ -87,7 +86,10 @@ public class Board {
     }
 
     public int pieceCount() {
-        return 32;
+        return (int) board.stream()
+                .flatMap(List::stream)
+                .filter(p -> (p.isBlack() || p.isWhite()))
+                .count();
     }
 
     public String showBoard() {
