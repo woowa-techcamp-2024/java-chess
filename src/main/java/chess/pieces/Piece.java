@@ -3,12 +3,13 @@ package chess.pieces;
 import java.util.Objects;
 
 public class Piece {
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
 
     public enum Type {
-        PAWN("p","P"), KNIGHT("n","N"), BISHOP("b","B"), ROOK("r","R"), QUEEN("q","Q"), KING("k","K");
+        PAWN("p", "P"), KNIGHT("n","N"), BISHOP("b","B"), ROOK("r","R"), QUEEN("q","Q"), KING("k","K"), NO_PIECE("X","X");
 
         private final String whitRepresentation;
         private final String blackRepresentation;
@@ -35,6 +36,9 @@ public class Piece {
         this.representation = representation;
     }
 
+    public static Piece createBlank() {
+        return Piece.of(Color.NOCOLOR.name(), Type.NO_PIECE.getBlackRepresentation());
+    }
     public static Piece createWhitePawn() {
         return Piece.of(Color.WHITE.name(), Type.PAWN.getWhiteRepresentation());
     }
@@ -91,7 +95,7 @@ public class Piece {
         return color;
     }
 
-    public String getRepresentation() {
+    public String getType() {
         return representation;
     }
 
