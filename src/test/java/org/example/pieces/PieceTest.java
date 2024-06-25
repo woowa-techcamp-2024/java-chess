@@ -34,9 +34,12 @@ public class PieceTest {
         if (color == Color.WHITE) {
             assertThat(piece.isWhite()).isTrue();
             assertThat(piece.isBlack()).isFalse();
-        } else {
+        } else if (color == Color.BLACK){
             assertThat(piece.isWhite()).isFalse();
             assertThat(piece.isBlack()).isTrue();
+        } else {
+            assertThat(piece.isWhite()).isFalse();
+            assertThat(piece.isBlack()).isFalse();
         }
     }
 
@@ -107,6 +110,11 @@ public class PieceTest {
                 Piece.createBlackKing(),
                 Color.BLACK,
                 Type.KING.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createNoColorPiece(),
+                Color.NO_COLOR,
+                Type.NO_PIECE.getWhiteRepresentation()
             )
         );
     }
