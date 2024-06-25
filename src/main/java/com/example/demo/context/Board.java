@@ -115,7 +115,7 @@ public class Board {
                     score += piece.getPoint();
                 }
             }
-            if (pawnCount != 0) {
+            if (pawnCount > 1) {
                 score += 0.5f * pawnCount;
             }
         }
