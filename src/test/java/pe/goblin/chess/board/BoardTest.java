@@ -61,8 +61,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("Board는 초기화할 때 흰색 Pawn과 검은색 Pawn을 생성해 저장할 수 있다.")
-    public void initialize() {
-        Board board = new Board();
+    void initialize() {
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
