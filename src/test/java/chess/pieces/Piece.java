@@ -53,7 +53,6 @@ public class Piece {
             case ROOK -> new Piece(name, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
             case QUEEN -> new Piece(name, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
             case KING -> new Piece(name, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
-            default -> throw new IllegalArgumentException("Unknown chess piece");
         };
     }
 
