@@ -1,11 +1,13 @@
 package com.example.demo.context;
 
 import com.example.demo.piece.Color;
+import com.example.demo.piece.King;
 import com.example.demo.piece.Pawn;
+import com.example.demo.piece.Piece;
 
 public class Board {
 
-    Pawn[][] pieceLocation = new Pawn[8][8];
+    Piece[][] pieceLocation = new Piece[8][8];
 
     /**
      * <p>
@@ -14,26 +16,36 @@ public class Board {
      * <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Immortal_game_animation.gif" />
      */
     public Board() {
-        // init pawn
+        initPawn();
+    }
+
+    //--------------init board start----------------
+    private void initPawn(){
         for (File file : File.values()) {
-            setPiece(Rank.TWO, file, new Pawn(Color.BLACK));
-            setPiece(Rank.SEVEN, file, new Pawn(Color.WHITE));
+            setPiece(Rank.TWO, file, new Pawn(Color.WHITE));
+            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK));
         }
     }
 
-    public void setPiece(Rank row, File column, Pawn pawn) {
-        pieceLocation[row.index()][column.index()] = pawn;
+    private void initKing(){
+        setPiece(Rank.ONE, File.D, new King(Color.WHITE));
+        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
+    }
+    //--------------init board end  ----------------
+
+    public void setPiece(Rank row, File column, Piece piece) {
+        pieceLocation[row.index()][column.index()] = piece;
     }
 
-    public Pawn getPiece(Rank row, File column) {
+    public Piece getPiece(Rank row, File column) {
         return pieceLocation[row.index()][column.index()];
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Pawn[] pieces : pieceLocation) {
-            for (Pawn piece : pieces) {
+        for (Piece[] pieces : pieceLocation) {
+            for (Piece piece : pieces) {
                 if (piece != null) {
                     sb.append(piece);
                 } else {

@@ -2,6 +2,7 @@ package com.example.demo.context;
 
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Pawn;
+import com.example.demo.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +16,13 @@ class BoardTest {
         Board board = new Board();
 
         for(File file: File.values()){
-            Pawn black = board.getPiece(Rank.TWO, file);
+            Piece black = board.getPiece(Rank.TWO, file);
             assertThat(black).isInstanceOf(Pawn.class);
-            assertThat(black.getColor()).isEqualTo(Color.BLACK);
+            assertThat(black.getColor()).isEqualTo(Color.WHITE);
 
-            Pawn white = board.getPiece(Rank.SEVEN, file);
+            Piece white = board.getPiece(Rank.SEVEN, file);
             assertThat(white).isInstanceOf(Pawn.class);
-            assertThat(white.getColor()).isEqualTo(Color.WHITE);
+            assertThat(white.getColor()).isEqualTo(Color.BLACK);
         }
     }
 
