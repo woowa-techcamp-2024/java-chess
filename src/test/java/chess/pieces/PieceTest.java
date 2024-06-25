@@ -100,4 +100,13 @@ public class PieceTest {
         assertFalse(whiteKing.isBlack());
         assertTrue(whiteKing.isWhite());
     }
+
+    @Test
+    public void createBlank(){
+        Piece blank = Piece.createPiece(NO_PIECE);
+
+        assertEquals(Type.NO_PIECE,blank.getType());
+        assertFalse(blank.isBlack());
+        assertFalse(blank.isWhite());
+    }
 }
