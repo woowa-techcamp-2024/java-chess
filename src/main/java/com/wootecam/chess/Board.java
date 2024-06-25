@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 public class Board {
 
+    private static final String EMPTY_PIECES_RESULTS = "........";
+    private static final String NEXT_LINE = System.lineSeparator();
     private static final int PAWN_COUNT = 8;
 
     private final List<Pawn> blackPawns = new ArrayList<>();
@@ -37,6 +39,21 @@ public class Board {
         }
 
         return whitePawns.get(pawnIndex);
+    }
+
+    public void print() {
+        StringBuilder boardResults = new StringBuilder();
+
+        boardResults.append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
+                .append(getBlackPawnsResults()).append(NEXT_LINE)
+                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
+                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
+                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
+                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE)
+                .append(getWhitePawnsResults()).append(NEXT_LINE)
+                .append(EMPTY_PIECES_RESULTS).append(NEXT_LINE);
+
+        System.out.println(boardResults);
     }
 
     public int size() {
