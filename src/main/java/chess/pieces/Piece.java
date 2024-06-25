@@ -2,13 +2,14 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public class Piece {
-    private final Color color;
-    private final Type type;
+public record Piece (Color color, Type type) {
 
-    private Piece(final Color color, final Type type) {
-        this.color = color;
-        this.type = type;
+    public Color getColor() {
+        return this.color;
+    }
+
+    public Type getType() {
+        return this.type;
     }
 
     // test를 위한 메서드
@@ -82,14 +83,6 @@ public class Piece {
     }
 
     public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE); }
-
-    public Color getColor() {
-        return this.color;
-    }
-
-    public Type getType() {
-        return this.type;
-    }
 
     public boolean isWhite() { return Objects.equals(this.color, Color.WHITE); }
 
