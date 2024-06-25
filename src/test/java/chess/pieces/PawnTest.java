@@ -21,7 +21,7 @@ public class PawnTest {
     @Test
     @DisplayName("기본 생성자로 생성 시 white 폰이 생성되어야 한다")
     public void create_base_constructor() {
-        Pawn pawn = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
+        Pawn pawn = new Pawn();
         assertEquals(Pawn.WHITE_COLOR, pawn.getColor());
         assertEquals(Pawn.WHITE_REPRESENTATION, pawn.getRepresentation());
     }
