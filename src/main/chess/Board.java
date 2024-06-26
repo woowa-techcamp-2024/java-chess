@@ -1,9 +1,9 @@
 package chess;
 
-import chess.piece.Pawn;
-import chess.piece.Piece;
+import chess.piece.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,50 +24,90 @@ public class Board {
 
     public void initialize() {
         clear();
-        set(0, 0, Piece.createWhiteRook());
-        set(0, 1, Piece.createWhiteKnight());
-        set(0, 2, Piece.createWhiteBishop());
-        set(0, 3, Piece.createWhiteQueen());
-        set(0, 4, Piece.createWhiteKing());
-        set(0, 5, Piece.createWhiteBishop());
-        set(0, 6, Piece.createWhiteKnight());
-        set(0, 7, Piece.createWhiteRook());
-        for (int c = 0; c < LENGTH; c++) {
-            set(1, c, Piece.createWhitePawn());
+        set("a1", Piece.createWhite(Rook.class));
+        set("b1", Piece.createWhite(Knight.class));
+        set("c1", Piece.createWhite(Bishop.class));
+        set("d1", Piece.createWhite(Queen.class));
+        set("e1", Piece.createWhite(King.class));
+        set("f1", Piece.createWhite(Bishop.class));
+        set("g1", Piece.createWhite(Knight.class));
+        set("h1", Piece.createWhite(Rook.class));
+        for (char file = 'a'; file <= 'h'; file++) {
+            set(file, 2, Piece.createWhite(Pawn.class));
         }
-        for (int c = 0; c < LENGTH; c++) {
-            set(6, c, Piece.createBlackPawn());
+        for (char file = 'a'; file <= 'h'; file++) {
+            set(file, 7, Piece.createBlack(Pawn.class));
         }
-        set(7, 0, Piece.createBlackRook());
-        set(7, 1, Piece.createBlackKnight());
-        set(7, 2, Piece.createBlackBishop());
-        set(7, 3, Piece.createBlackQueen());
-        set(7, 4, Piece.createBlackKing());
-        set(7, 5, Piece.createBlackBishop());
-        set(7, 6, Piece.createBlackKnight());
-        set(7, 7, Piece.createBlackRook());
+        set("a8", Piece.createBlack(Rook.class));
+        set("b8", Piece.createBlack(Knight.class));
+        set("c8", Piece.createBlack(Bishop.class));
+        set("d8", Piece.createBlack(Queen.class));
+        set("e8", Piece.createBlack(King.class));
+        set("f8", Piece.createBlack(Bishop.class));
+        set("g8", Piece.createBlack(Knight.class));
+        set("h8", Piece.createBlack(Rook.class));
     }
 
-    Piece get(int r, int c) {
-        return cellAt(r, c).getPiece();
+    public Piece get(String fileRank) {
+        return cellAt(Position.of(fileRank)).getPiece();
     }
 
-    void set(int r, int c, Piece piece) {
-        cellAt(r, c).setPiece(piece);
+    public void set(String fileRank, Piece piece) {
+        cellAt(Position.of(fileRank)).setPiece(piece);
     }
 
-    void clear() {
+    protected void set(char rank, int file, Piece piece) {
+        cellAt(Position.of(rank, file)).setPiece(piece);
+    }
+
+    protected void set(int r, int c, Piece piece) {
+        cellAt(Position.of(r, c)).setPiece(piece);
+    }
+
+    protected void clear() {
         stream().forEach(cell -> cell.clear());
+    }
+
+    protected Cell cellAt(Position position) {
+        return cells[position.r][position.c];
     }
 
     protected Cell cellAt(int r, int c) {
         return cells[r][c];
     }
 
+    public int countPiece(Class<? extends Piece> type, Piece.Color color) {
+        return (int) pieceStream().filter(piece -> piece.isColor(color) && type.isInstance(piece))
+                .count();
+    }
+
+    public double value(Piece.Color color) {
+        double value = 0.0;
+        for (int c = 0; c < LENGTH; c++) {
+            int pawnCount = 0;
+            for (int r = 0; r < LENGTH; r++) {
+                Cell cell = cellAt(r, c);
+                if (cell.isEmpty()) continue;
+                Piece piece = cell.getPiece();
+                if (!piece.isColor(color)) continue;
+
+                if (piece instanceof Pawn) pawnCount++;
+                else value += piece.value();
+            }
+            double pawnValue = pawnCount > 1 ? Pawn.MULTIPLE_IN_FILE_VALUE : Pawn.VALUE;
+            value += pawnCount * pawnValue;
+        }
+        return value;
+    }
+
+    public List<Piece> getPiecesInDescendingOrder(Piece.Color color) {
+        return pieceStream().filter(piece -> piece.isColor(color))
+                .sorted(Comparator.comparingDouble(Piece::value).reversed())
+                .toList();
+    }
+
     public List<Pawn> findPawns() {
-        return stream().filter(cell -> !cell.isEmpty())
-                .map(cell -> cell.piece)
-                .filter(piece -> piece instanceof Pawn)
+        return pieceStream().filter(piece -> piece instanceof Pawn)
                 .map(Pawn.class::cast)
                 .toList();
     }
@@ -76,14 +116,18 @@ public class Board {
         return Arrays.stream(cells).flatMap(Arrays::stream);
     }
 
+    protected Stream<Piece> pieceStream() {
+        return stream().filter(cell -> !cell.isEmpty())
+                .map(cell -> cell.getPiece());
+    }
+
     public static class Cell {
 
-        final int r, c;
+        private final Position position;
         private Piece piece;
 
         public Cell(int r, int c) {
-            this.r = r;
-            this.c = c;
+            this.position = Position.of(r, c);
         }
 
         public boolean isEmpty() {
@@ -113,7 +157,7 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (int r = LENGTH - 1; r >= 0; r--) {
             for (int c = 0; c < LENGTH; c++) {
-                sb.append(cellAt(r, c));
+                sb.append(cellAt(Position.of(r, c)));
             }
             sb.append(StringUtils.NEWLINE);
         }

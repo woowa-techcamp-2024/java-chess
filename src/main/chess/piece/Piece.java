@@ -1,5 +1,7 @@
 package chess.piece;
 
+import java.lang.reflect.Constructor;
+
 public abstract class Piece {
 
     private final Color color;
@@ -12,17 +14,19 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public boolean isBlack() {
-        return color == Color.BLACK;
+        return isColor(Color.BLACK);
     }
 
     public boolean isWhite() {
-        return color == Color.WHITE;
+        return isColor(Color.WHITE);
     }
+
+    public boolean isColor(Color color) {
+        return this.color == color;
+    }
+
+    public abstract double value();
 
     @Override
     public final String toString() {
@@ -33,52 +37,26 @@ public abstract class Piece {
 
     protected abstract String blackRepresentation();
 
-    public static Pawn createWhitePawn() {
-        return new Pawn(Color.WHITE);
+    public static <T extends Piece> T createBlack(Class<T> type) {
+        return create(type, Color.BLACK);
     }
 
-    public static Pawn createBlackPawn() {
-        return new Pawn(Color.BLACK);
+    public static <T extends Piece> T createWhite(Class<T> type) {
+        return create(type, Color.WHITE);
     }
 
-    public static Knight createWhiteKnight() {
-        return new Knight(Color.WHITE);
+    public static <T extends Piece> T create(Class<T> type, Color color) {
+        try {
+            Constructor<T> constructor = type.getDeclaredConstructor(Color.class);
+            constructor.setAccessible(true);
+            return constructor.newInstance(color);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Knight createBlackKnight() {
-        return new Knight(Color.BLACK);
-    }
-
-    public static Bishop createWhiteBishop() {
-        return new Bishop(Color.WHITE);
-    }
-
-    public static Bishop createBlackBishop() {
-        return new Bishop(Color.BLACK);
-    }
-
-    public static Rook createWhiteRook() {
-        return new Rook(Color.WHITE);
-    }
-
-    public static Rook createBlackRook() {
-        return new Rook(Color.BLACK);
-    }
-
-    public static Queen createWhiteQueen() {
-        return new Queen(Color.WHITE);
-    }
-
-    public static Queen createBlackQueen() {
-        return new Queen(Color.BLACK);
-    }
-
-    public static King createWhiteKing() {
-        return new King(Color.WHITE);
-    }
-
-    public static King createBlackKing() {
-        return new King(Color.BLACK);
+    public enum Color {
+        BLACK, WHITE
     }
 
 }
