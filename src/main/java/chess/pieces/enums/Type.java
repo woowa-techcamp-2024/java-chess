@@ -1,6 +1,12 @@
 package chess.pieces.enums;
 
-import chess.pieces.*;
+import chess.pieces.Bishop;
+import chess.pieces.King;
+import chess.pieces.Knight;
+import chess.pieces.Pawn;
+import chess.pieces.Piece;
+import chess.pieces.Queen;
+import chess.pieces.Rook;
 
 public enum Type {
     PAWN(Pawn.class),
@@ -14,6 +20,10 @@ public enum Type {
 
     Type(Class<? extends Piece> clazz) {
         this.clazz = clazz;
+    }
+
+    public Class<? extends Piece> getClazz() {
+        return clazz;
     }
 
     public boolean isInstance(Piece piece) {

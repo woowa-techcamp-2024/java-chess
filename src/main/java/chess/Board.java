@@ -6,56 +6,39 @@ import chess.pieces.Piece;
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Type;
 import chess.pieces.values.Location;
-import utils.StringUtils;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import utils.StringUtils;
 
 public class Board {
 
     private static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
     private static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-    private final Map<Location, Piece> board;
+    private final Map<Location, Piece> table;
 
     public Board() {
-        board = new HashMap<>();
-        for (int row : ROWS) {
-            for (char col : COLS) {
-                board.put(Location.of(row, col), Piece.getBlank());
-            }
-        }
+        table = new HashMap<>();
+        addBlanksInRows(ROWS);
     }
 
     public void initialize() {
-        fillPieces(1, Color.WHITE);
-        fillPawns(2, Color.WHITE);
-        fillBlanks(3, 4, 5, 6);
-        fillPawns(7, Color.BLACK);
-        fillPieces(8, Color.BLACK);
+        addDefaultPieces(8, Color.BLACK);
+        addDefaultPawns(7, Color.BLACK);
+        addBlanksInRows(3, 4, 5, 6);
+        addDefaultPawns(2, Color.WHITE);
+        addDefaultPieces(1, Color.WHITE);
     }
 
     public void addPiece(Location location, Piece piece) {
-        board.put(location, piece);
+        table.put(location, piece);
     }
 
-    public int countPiecesByTypeAndColor(Type type, Color color) {
-        return (int) board.values().stream()
-                .filter(type::isInstance)
-                .filter(piece -> piece.getColor().equals(color))
-                .count();
-    }
-
-    public double calculateScoreByColor(Color color) {
-        var score = 0.0;
-        score += board.values().stream()
-                .filter(piece -> !(piece instanceof Blank) && !(piece instanceof Pawn))
-                .filter(piece -> piece.getColor().equals(color))
-                .mapToDouble(Piece::getScore).sum();
-        score += calculatePawnScore(color);
-        return score;
+    public Piece getPiece(String locationStr) {
+        var location = Location.from(locationStr);
+        return table.get(location);
     }
 
     public List<Piece> getPiecesByColor(Color color) {
@@ -63,69 +46,71 @@ public class Board {
     }
 
     public List<Piece> getPiecesByColor(Color color, boolean reverse) {
-        return board.values().stream()
-                .filter(piece -> !(piece instanceof Blank))
-                .filter(piece -> piece.getColor().equals(color))
-                .sorted(reverse ? Comparator.comparingDouble(Piece::getScore) : Comparator.comparingDouble(Piece::getScore).reversed())
-                .toList();
+        return table.values().stream()
+            .filter(piece -> piece.verifySameColor(color))
+            .sorted(reverse ? Comparator.comparingDouble(Piece::getScore)
+                : Comparator.comparingDouble(Piece::getScore).reversed())
+            .toList();
     }
 
-    public Piece getPiece(String locationStr) {
-        var location = Location.from(locationStr);
-        return board.get(location);
+    public long size() {
+        return table.values().stream().filter(piece -> !(piece instanceof Blank)).count();
     }
 
-    public int size() {
-        return (int) board.values().stream().filter(piece -> !(piece instanceof Blank)).count();
+    private void addDefaultPieces(int row, Color color) {
+        final Type[] types = new Type[]{Type.ROOK, Type.KNIGHT, Type.BISHOP, Type.QUEEN, Type.KING,
+            Type.BISHOP, Type.KNIGHT, Type.ROOK};
+        for (int i = 0; i < types.length; i++) {
+            addPiece(Location.of(row, COLS[i]), Piece.generatePiece(types[i], color));
+        }
     }
 
-    public String printRow(int row) {
-        var sb = new StringBuilder();
+    private void addDefaultPawns(int row, Color color) {
+        for (var col : COLS) {
+            addPiece(Location.of(row, col), Piece.generatePiece(Type.PAWN, color));
+        }
+    }
+
+    private void addBlank(Location location) {
+        table.put(location, Piece.getBlank());
+    }
+
+    private void addBlanksInRow(int row) {
         for (char col : COLS) {
-            sb.append(board.get(Location.of(row, col)));
-        }
-        return StringUtils.appendNewLine(sb.toString());
-    }
-
-    public String print() {
-        var sb = new StringBuilder();
-        for (int i = ROWS.length - 1; i >= 0; i--) {
-            sb.append(printRow(ROWS[i]));
-        }
-        return sb.toString();
-    }
-
-    private void fillPawns(int row, Color color) {
-        for (char col : COLS) {
-            board.put(Location.of(row, col), Piece.createPawn(color));
+            addBlank(Location.of(row, col));
         }
     }
 
-    private void fillBlanks(int... rows) {
-        for (int row : rows) {
-            for (char col : COLS) {
-                board.put(Location.of(row, col), Piece.getBlank());
-            }
+    private void addBlanksInRows(int... rows) {
+        for (var row : rows) {
+            addBlanksInRow(row);
         }
     }
 
-    private void fillPieces(int row, Color color) {
-        addPiece(Location.of(row, 'a'), Piece.createRook(color));
-        addPiece(Location.of(row, 'b'), Piece.createKnight(color));
-        addPiece(Location.of(row, 'c'), Piece.createBishop(color));
-        addPiece(Location.of(row, 'd'), Piece.createQueen(color));
-        addPiece(Location.of(row, 'e'), Piece.createKing(color));
-        addPiece(Location.of(row, 'f'), Piece.createBishop(color));
-        addPiece(Location.of(row, 'g'), Piece.createKnight(color));
-        addPiece(Location.of(row, 'h'), Piece.createRook(color));
+    public int countPiecesByTypeAndColor(Type type, Color color) {
+        return (int) table.values().stream()
+            .filter(type::isInstance)
+            .filter(piece -> piece.verifySameColor(color))
+            .count();
     }
 
+    public double calculateScoreByColor(Color color) {
+        var score = 0.0;
+        score += table.values().stream()
+            .filter(piece -> !(Type.PAWN.isInstance(piece)) && !(piece.isBlank()))
+            .filter(piece -> piece.verifySameColor(color))
+            .mapToDouble(Piece::getScore).sum();
+        score += calculatePawnScore(color);
+        return score;
+    }
+
+    // TODO: 보드에서 처리할 책임이 있을까요?
     private double calculatePawnScore(Color color) {
         var result = 0.0;
         for (char col : COLS) {
             var temp = 0.0;
             for (int row : ROWS) {
-                var piece = board.get(Location.of(row, col));
+                var piece = table.get(Location.of(row, col));
                 if (piece instanceof Pawn && piece.getColor().equals(color)) {
                     temp += piece.getScore();
                 }
@@ -133,6 +118,24 @@ public class Board {
             result += temp == 1 ? 1.0 : temp / 2;
         }
         return result;
+    }
+
+    // TODO: Board에서 처리해야할 책임이 존재하는가?
+    public String printRow(int row) {
+        var sb = new StringBuilder();
+        for (char col : COLS) {
+            sb.append(table.get(Location.of(row, col)));
+        }
+        return StringUtils.appendNewLine(sb.toString());
+    }
+
+    // TODO: Board에서 처리해야할 책임이 존재하는가?
+    public String print() {
+        var sb = new StringBuilder();
+        for (int i = ROWS.length - 1; i >= 0; i--) {
+            sb.append(printRow(ROWS[i]));
+        }
+        return sb.toString();
     }
 
 }

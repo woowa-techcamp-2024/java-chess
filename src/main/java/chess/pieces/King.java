@@ -6,8 +6,7 @@ import chess.pieces.enums.Symbol;
 public class King extends Piece {
 
     King(Color color) {
-        super(color);
-        this.symbol = color.equals(Color.BLACK) ? Symbol.BLACK_KING : Symbol.WHITE_KING;
-        this.score = 0;
+        super(color, color.equals(Color.BLACK) ? Symbol.BLACK_KING : Symbol.WHITE_KING, 0);
+
     }
 }

@@ -2,24 +2,26 @@ package chess.pieces;
 
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Symbol;
+import chess.pieces.enums.Type;
 
 public abstract class Piece {
 
-    protected Color color;
-    protected Symbol symbol;
-    protected double score;
+    protected final Color color;
+    protected final Symbol symbol;
+    protected final double score;
 
-    Piece(Color color) {
+    protected Piece(Color color, Symbol symbol, double score) {
         this.color = color;
+        this.symbol = symbol;
+        this.score = score;
     }
 
-    public boolean isBlack() {
-        verifyBlank();
-        return color.equals(Color.BLACK);
+    public boolean verifySameColor(Color color) {
+        return this.color.equals(color);
     }
 
-    public boolean isWhite() {
-        return !isBlack();
+    public boolean isBlank() {
+        return this instanceof Blank;
     }
 
     public Color getColor() {
@@ -34,42 +36,21 @@ public abstract class Piece {
         return score;
     }
 
-    @Override
-    public String toString() {
-        return symbol.getValue();
-    }
-
-    public static Piece createPawn(Color color) {
-        return new Pawn(color);
-    }
-
-    public static Piece createBishop(Color color) {
-        return new Bishop(color);
-    }
-
-    public static Piece createKnight(Color color) {
-        return new Knight(color);
-    }
-
-    public static Piece createRook(Color color) {
-        return new Rook(color);
-    }
-
-    public static Piece createQueen(Color color) {
-        return new Queen(color);
-    }
-
-    public static Piece createKing(Color color) {
-        return new King(color);
+    public static Piece generatePiece(Type type, Color color) {
+        Piece piece = null;
+        try {
+            piece = type.getClazz().getDeclaredConstructor(Color.class).newInstance(color);
+        } catch (Exception ignore) {
+        }
+        return piece;
     }
 
     public static Piece getBlank() {
         return Blank.INSTANCE;
     }
 
-    private void verifyBlank() {
-        if (this instanceof Blank) {
-            throw new RuntimeException("Blank Does not have Color");
-        }
+    @Override
+    public String toString() {
+        return symbol.getValue();
     }
 }

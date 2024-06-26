@@ -33,14 +33,18 @@ public class Location {
         return x;
     }
 
-    public int getY() {
+    public char getY() {
         return y;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Location location)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Location location)) {
+            return false;
+        }
         return x == location.x && y == location.y;
     }
 
