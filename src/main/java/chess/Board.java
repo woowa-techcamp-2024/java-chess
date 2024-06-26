@@ -104,6 +104,15 @@ public class Board {
         return print();
     }
 
+    public void move(String position, Piece piece) {
+        validateCoordinate(position);
+        int widthIndex = convertWidthIndex(position.charAt(WIDTH_INDEX));
+        int rankIndex = convertRankIndex(position.charAt(RANK_INDEX));
+
+        Rank targetRank = ranks.get(rankIndex);
+        targetRank.setPiece(widthIndex, piece);
+    }
+
     protected Board() {
         ranks = new ArrayList<>();
         initialize();

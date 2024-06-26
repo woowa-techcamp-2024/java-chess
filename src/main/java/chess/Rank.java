@@ -13,16 +13,6 @@ public class Rank {
 
     private static final int BOARD_WIDTH = 8;
 
-    private Rank(List<Piece> pieces) {
-        validatePieceCount(pieces);
-        for (Piece piece : pieces) {
-            if (!piece.isBlank()) {
-                pieceCount++;
-            }
-        }
-        this.pieces = new ArrayList<>(pieces);
-    }
-
     public int getTotalPieceCount() {
         return pieceCount;
     }
@@ -33,18 +23,8 @@ public class Rank {
                 .count();
     }
 
-    private void decreaseRankCount() {
-        pieceCount--;
-    }
-
     public static Rank initializeRank(List<Piece> pieces) {
         return new Rank(pieces);
-    }
-
-    private void validatePieceCount(List<Piece> pieces) {
-        if (pieces.size() != BOARD_WIDTH) {
-            throw new IllegalArgumentException("한 랭크는 8개의 말을 가집니다.");
-        }
     }
 
     public String printRank() {
@@ -57,4 +37,33 @@ public class Rank {
     public Piece getPieceByIndex(int index) {
         return pieces.get(index);
     }
+
+    protected void setPiece(int widthIndex, Piece piece) {
+        pieces.set(widthIndex, piece);
+        pieceCount = calculatePieceCount();
+    }
+
+    private Rank(List<Piece> pieces) {
+        validatePieceCount(pieces);
+        for (Piece piece : pieces) {
+            if (!piece.isBlank()) {
+                pieceCount++;
+            }
+        }
+        this.pieces = new ArrayList<>(pieces);
+    }
+
+    private int calculatePieceCount() {
+        return (int) pieces.stream()
+                .filter(piece -> !piece.isBlank())
+                .count();
+    }
+
+
+    private void validatePieceCount(List<Piece> pieces) {
+        if (pieces.size() != BOARD_WIDTH) {
+            throw new IllegalArgumentException("한 랭크는 8개의 말을 가집니다.");
+        }
+    }
+
 }
