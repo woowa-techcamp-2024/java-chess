@@ -3,17 +3,21 @@ package com.wootecam.chess.game;
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.Position;
+import com.wootecam.chess.board.ScoreCalculationRule;
 
 public class ChessGame {
-    private Board board;
     private final BoardInitializer boardInitializer;
+    private final ScoreCalculationRule scoreCalculationRule;
 
-    public ChessGame(BoardInitializer boardInitializer) {
+    private Board board;
+
+    public ChessGame(BoardInitializer boardInitializer, ScoreCalculationRule scoreCalculationRule) {
         this.boardInitializer = boardInitializer;
+        this.scoreCalculationRule = scoreCalculationRule;
     }
 
     public void start() {
-        board = new Board();
+        board = new Board(scoreCalculationRule);
         boardInitializer.initialize(board);
 
         printBoard();
@@ -22,18 +26,17 @@ public class ChessGame {
     public void move(String source, String target) {
         Position srcPos = new Position(source);
         Position trgPos = new Position(target);
-
         board.move(srcPos, trgPos);
 
         printBoard();
     }
 
-    private void printBoard() {
-        System.out.println(board.print());
-    }
-
     public void end() {
 
+    }
+
+    private void printBoard() {
+        System.out.println(board.print());
     }
 }
 
