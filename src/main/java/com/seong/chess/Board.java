@@ -75,9 +75,6 @@ public class Board {
                 pawnCount++;
             }
         }
-        if (pawnCount > 1) {
-            pawnCount *= 0.5;
-        }
         return pawnCount;
     }
 

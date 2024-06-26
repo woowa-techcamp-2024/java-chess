@@ -30,6 +30,9 @@ public class ChessGame {
 
         for (int i = 0; i < Board.BOARD_LENGTH; i++) {
             double pawnCount = board.getColumnPawnCount(color, i);
+            if (pawnCount > 1) {
+                pawnCount *= 0.5;
+            }
             result += pawnCount * Type.PAWN.getDefaultPoint();
         }
         return result;
