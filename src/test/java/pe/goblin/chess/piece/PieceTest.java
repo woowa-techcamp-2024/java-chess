@@ -1,9 +1,10 @@
 package pe.goblin.chess.piece;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PieceTest {
     @Test
@@ -81,5 +82,24 @@ class PieceTest {
     void verifyPiece(final Piece piece, final String color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
+    }
+
+    @Nested
+    @DisplayName("체스 말의 색깔을 확인할 수 있다.")
+    class CheckColor{
+        @Test
+        @DisplayName("흰색 폰의 색깔을 확인할 수 있다.")
+        void checkWhitePawnColor() {
+            Piece whitePawn = Piece.createWhitePawn();
+            assertTrue(whitePawn.isWhite());
+            assertFalse(whitePawn.isBlack());
+        }
+        @Test
+        @DisplayName("검은색 폰의 색깔을 확인할 수 있다.")
+        void checkBlackPawnColor() {
+            Piece blackPawn = Piece.createBlackPawn();
+            assertTrue(blackPawn.isBlack());
+            assertFalse(blackPawn.isWhite());
+        }
     }
 }
