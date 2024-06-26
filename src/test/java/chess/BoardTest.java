@@ -27,6 +27,31 @@ class BoardTest {
         System.out.println(board.showBoard());
     }
 
+    @DisplayName("기존 보드를 빈 보드로 바꿀 수 있다.")
+    @Test
+    void initializeEmpty() {
+        // given
+        Board board = new Board();
+
+        // when
+        board.initializeEmpty();
+
+        // then
+        String blankRank = "........";
+        StringBuilder sb = new StringBuilder();
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank).append(NEWLINE);
+        sb.append(blankRank);
+
+        assertThat(board.showBoard()).isEqualTo(sb.toString());
+
+    }
+
     @DisplayName("찾고자 하는 좌표를 반대로 보낸 경우 예외가 발생한다.")
     @Test
     void findPieceWithInvalidCoordinate() {
