@@ -9,8 +9,8 @@ public enum Type {
     KING('k', 0.0),
     NO_PIECE('.', 0.0);
 
-    private char representation;
-    private double defaultPoint;
+    private final char representation;
+    private final double defaultPoint;
 
     Type(char representation, double defaultPoint) {
         this.representation = representation;
