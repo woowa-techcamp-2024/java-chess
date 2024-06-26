@@ -77,6 +77,16 @@ public class Rank {
         return pieceCount;
     }
 
+    public int pieceCount(Piece.Color color, Piece.Type type) {
+        int pieceCount = 0;
+        for (Piece piece : pieces) {
+            if(piece.isSamePiece(color, type)) {
+                pieceCount++;
+            }
+        }
+        return pieceCount;
+    }
+
     public String showRank() {
         StringBuilder builder = new StringBuilder();
         for (Piece piece : pieces) {

@@ -95,6 +95,10 @@ public class Piece {
         return new Piece(Color.BLACK, type);
     }
 
+    public boolean isSamePiece(Color color, Type type) {
+        return this.color == color && this.type == type;
+    }
+
     public boolean isEmptyPiece() {
         return this.equals(EMPTY_PIECE);
     }

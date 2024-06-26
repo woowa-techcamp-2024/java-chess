@@ -1,5 +1,7 @@
 package wootecamp.chess;
 
+import wootecamp.chess.pieces.Piece;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,15 @@ public class Board {
         int pieceCount = 0;
         for (Rank rank : board) {
             pieceCount += rank.pieceCount();
+        }
+
+        return pieceCount;
+    }
+
+    public int pieceCount(Piece.Color color, Piece.Type type) {
+        int pieceCount = 0;
+        for (Rank rank : board) {
+            pieceCount += rank.pieceCount(color, type);
         }
 
         return pieceCount;
