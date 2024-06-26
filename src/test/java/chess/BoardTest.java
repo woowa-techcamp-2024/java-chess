@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,16 @@ public class BoardTest {
     @BeforeEach
     public void setup() {
         board = new Board();
+    }
+
+    @Test
+    public void 기물_찾기() {
+        board.initialize();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
     }
 
     @Test
