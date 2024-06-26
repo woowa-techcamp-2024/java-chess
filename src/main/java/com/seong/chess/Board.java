@@ -2,6 +2,7 @@ package com.seong.chess;
 
 import static com.seong.chess.utils.StringUtils.appendNewLine;
 
+import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
@@ -11,14 +12,14 @@ import java.util.List;
 
 public class Board {
 
-    private record Position(int col, int row) {
+    public record Position(int col, int row) {
 
-        private Position {
+        public Position {
             validateRow(row);
             validateCol(col);
         }
 
-        private static Position convert(String rawPosition) {
+        public static Position convert(String rawPosition) {
             int col = rawPosition.charAt(0) - 'a';
             int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
             return new Position(col, row);
@@ -86,6 +87,12 @@ public class Board {
     public void move(String rawPosition, Piece piece) {
         Position position = Position.convert(rawPosition);
         ranks.get(position.row).move(position.col, piece);
+    }
+
+    public void move(String sourcePosition, String targetPosition) {
+        Piece piece = findPiece(sourcePosition);
+        move(sourcePosition, Blank.create());
+        move(targetPosition, piece);
     }
 
     public Piece findPiece(String rawPosition) {

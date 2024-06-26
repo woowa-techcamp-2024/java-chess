@@ -76,7 +76,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("체스 보드에 임의의 기물을 추가할 수 있다.")
-    public void move() throws Exception {
+    public void moveRandomPiece() throws Exception {
         board.initializeEmpty();
 
         String position = "b5";
@@ -150,5 +150,17 @@ public class BoardTest {
                         Piece.createBlackRook(), Piece.createBlackRook(),
                         Piece.createBlackQueen()
                 );
+    }
+
+    @Test
+    @DisplayName("체스 보드의 기물은 현재 위치에서 다른 위치로 이동할 수 있다.")
+    public void move() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(Board.Position.convert(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(Board.Position.convert(targetPosition)), board.findPiece(targetPosition));
     }
 }

@@ -1,5 +1,6 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Board.Position;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -50,8 +51,16 @@ public abstract class Piece {
         this.defaultPoint = defaultPoint;
     }
 
+    public static Piece createBlank(Position position) {
+        return Blank.create();
+    }
+
     public static Piece createBlank() {
         return Blank.create();
+    }
+
+    public static Piece createWhitePawn(Position position) {
+        return Pawn.createWhite();
     }
 
     public static Piece createWhitePawn() {
