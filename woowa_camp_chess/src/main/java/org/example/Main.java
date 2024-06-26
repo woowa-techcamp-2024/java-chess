@@ -18,9 +18,7 @@ public class Main {
             if(input.equals("start")){
                 // 전역 변수에 새로운 Board 객체를 할당함
                 board = new Board();
-                board.initialize();
-                System.out.println(board.showBoard());
-                board.showBoard();
+                board.initializeV2();
             }
 
             if(input.equals("end")) break;
