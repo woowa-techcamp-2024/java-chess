@@ -27,18 +27,18 @@ public class PieceTest {
     @Test
     @DisplayName("팩토리 메소드에 해당하는 기물이 생성되어야 한다")
     public void create_factory() {
-        verifyPiece(Piece.createWhite(Piece.Type.KING), King.class, Piece.Color.WHITE, "♔");
-        verifyPiece(Piece.createWhite(Piece.Type.QUEEN), Queen.class, Piece.Color.WHITE, "♕");
-        verifyPiece(Piece.createWhite(Piece.Type.ROOK), Rook.class, Piece.Color.WHITE, "♖");
-        verifyPiece(Piece.createWhite(Piece.Type.BISHOP), Bishop.class, Piece.Color.WHITE, "♗");
-        verifyPiece(Piece.createWhite(Piece.Type.KNIGHT), Knight.class, Piece.Color.WHITE, "♘");
-        verifyPiece(Piece.createWhite(Piece.Type.PAWN), Pawn.class, Piece.Color.WHITE, "♙");
-        verifyPiece(Piece.createBlack(Piece.Type.KING), King.class, Piece.Color.BLACK, "♚");
-        verifyPiece(Piece.createBlack(Piece.Type.QUEEN), Queen.class, Piece.Color.BLACK, "♛");
-        verifyPiece(Piece.createBlack(Piece.Type.ROOK), Rook.class, Piece.Color.BLACK, "♜");
-        verifyPiece(Piece.createBlack(Piece.Type.BISHOP), Bishop.class, Piece.Color.BLACK, "♝");
-        verifyPiece(Piece.createBlack(Piece.Type.KNIGHT), Knight.class, Piece.Color.BLACK, "♞");
-        verifyPiece(Piece.createBlack(Piece.Type.PAWN), Pawn.class, Piece.Color.BLACK, "♟");
+        verifyPiece(Piece.createWhite(King.class), King.class, Piece.Color.WHITE, "♔");
+        verifyPiece(Piece.createWhite(Queen.class), Queen.class, Piece.Color.WHITE, "♕");
+        verifyPiece(Piece.createWhite(Rook.class), Rook.class, Piece.Color.WHITE, "♖");
+        verifyPiece(Piece.createWhite(Bishop.class), Bishop.class, Piece.Color.WHITE, "♗");
+        verifyPiece(Piece.createWhite(Knight.class), Knight.class, Piece.Color.WHITE, "♘");
+        verifyPiece(Piece.createWhite(Pawn.class), Pawn.class, Piece.Color.WHITE, "♙");
+        verifyPiece(Piece.createBlack(King.class), King.class, Piece.Color.BLACK, "♚");
+        verifyPiece(Piece.createBlack(Queen.class), Queen.class, Piece.Color.BLACK, "♛");
+        verifyPiece(Piece.createBlack(Rook.class), Rook.class, Piece.Color.BLACK, "♜");
+        verifyPiece(Piece.createBlack(Bishop.class), Bishop.class, Piece.Color.BLACK, "♝");
+        verifyPiece(Piece.createBlack(Knight.class), Knight.class, Piece.Color.BLACK, "♞");
+        verifyPiece(Piece.createBlack(Pawn.class), Pawn.class, Piece.Color.BLACK, "♟");
     }
 
     @Test
@@ -60,10 +60,10 @@ public class PieceTest {
     @Test
     @DisplayName("isBlack, isWhite 반환값이 getColor의 상태와 일치해야 한다")
     public void color() {
-        Piece white = Piece.createWhite(Piece.Type.PAWN);
+        Piece white = Piece.createWhite(Pawn.class);
         assertThat(white.isWhite()).isTrue();
         assertThat(white.isBlack()).isFalse();
-        Piece black = Piece.createBlack(Piece.Type.PAWN);
+        Piece black = Piece.createBlack(Pawn.class);
         assertThat(black.isWhite()).isFalse();
         assertThat(black.isBlack()).isTrue();
     }

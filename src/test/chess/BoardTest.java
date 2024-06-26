@@ -1,6 +1,8 @@
 package chess;
 
+import chess.piece.Pawn;
 import chess.piece.Piece;
+import chess.piece.Rook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,13 +15,13 @@ public class BoardTest {
     public void create() {
         Board board = new Board();
 
-        Piece white = Piece.createWhite(Piece.Type.PAWN);
+        Piece white = Piece.createWhite(Pawn.class);
         board.set("b1", white);
         assertThat(board.get("b1")).isEqualTo(white);
         assertThat(board.findPawns()).hasSize(1);
         assertThat(board.findPawns().get(0)).isEqualTo(white);
 
-        Piece black = Piece.createBlack(Piece.Type.PAWN);
+        Piece black = Piece.createBlack(Pawn.class);
         board.set("a2", black);
         assertThat(board.get("a2")).isEqualTo(black);
         assertThat(board.findPawns()).hasSize(2);
@@ -30,8 +32,8 @@ public class BoardTest {
     @DisplayName("보드의 toString 결과에 유니코드 체스말 형식으로 표시되어야 한다.")
     public void string() {
         Board board = new Board();
-        board.set("a2", Piece.createWhite(Piece.Type.PAWN));
-        board.set("b7", Piece.createBlack(Piece.Type.PAWN));
+        board.set("a2", Piece.create(Pawn.class, Piece.Color.WHITE));
+        board.set("b7", Piece.create(Pawn.class, Piece.Color.BLACK));
         assertThat(board).hasToString("""
                 ........
                 .♟......
@@ -66,8 +68,8 @@ public class BoardTest {
     public void count() {
         Board board = new Board();
         board.initialize();
-        assertThat(board.countPiece(Piece.Color.BLACK, Piece.Type.PAWN)).isEqualTo(8);
-        assertThat(board.countPiece(Piece.Color.WHITE, Piece.Type.ROOK)).isEqualTo(2);
+        assertThat(board.countPiece(Pawn.class, Piece.Color.BLACK)).isEqualTo(8);
+        assertThat(board.countPiece(Rook.class, Piece.Color.WHITE)).isEqualTo(2);
     }
 
 }

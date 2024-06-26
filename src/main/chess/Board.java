@@ -1,7 +1,6 @@
 package chess;
 
-import chess.piece.Pawn;
-import chess.piece.Piece;
+import chess.piece.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,28 +23,28 @@ public class Board {
 
     public void initialize() {
         clear();
-        set("a1", Piece.createWhite(Piece.Type.ROOK));
-        set("b1", Piece.createWhite(Piece.Type.KNIGHT));
-        set("c1", Piece.createWhite(Piece.Type.BISHOP));
-        set("d1", Piece.createWhite(Piece.Type.QUEEN));
-        set("e1", Piece.createWhite(Piece.Type.KING));
-        set("f1", Piece.createWhite(Piece.Type.BISHOP));
-        set("g1", Piece.createWhite(Piece.Type.KNIGHT));
-        set("h1", Piece.createWhite(Piece.Type.ROOK));
+        set("a1", Piece.createWhite(Rook.class));
+        set("b1", Piece.createWhite(Knight.class));
+        set("c1", Piece.createWhite(Bishop.class));
+        set("d1", Piece.createWhite(Queen.class));
+        set("e1", Piece.createWhite(King.class));
+        set("f1", Piece.createWhite(Bishop.class));
+        set("g1", Piece.createWhite(Knight.class));
+        set("h1", Piece.createWhite(Rook.class));
         for (char c = 'a'; c <= 'h'; c++) {
-            set(c, 2, Piece.createWhite(Piece.Type.PAWN));
+            set(c + "2", Piece.createWhite(Pawn.class));
         }
         for (char c = 'a'; c <= 'h'; c++) {
-            set(c, 7, Piece.createBlack(Piece.Type.PAWN));
+            set(c + "7", Piece.createBlack(Pawn.class));
         }
-        set("a8", Piece.createBlack(Piece.Type.ROOK));
-        set("b8", Piece.createBlack(Piece.Type.KNIGHT));
-        set("c8", Piece.createBlack(Piece.Type.BISHOP));
-        set("d8", Piece.createBlack(Piece.Type.QUEEN));
-        set("e8", Piece.createBlack(Piece.Type.KING));
-        set("f8", Piece.createBlack(Piece.Type.BISHOP));
-        set("g8", Piece.createBlack(Piece.Type.KNIGHT));
-        set("h8", Piece.createBlack(Piece.Type.ROOK));
+        set("a8", Piece.createBlack(Rook.class));
+        set("b8", Piece.createBlack(Knight.class));
+        set("c8", Piece.createBlack(Bishop.class));
+        set("d8", Piece.createBlack(Queen.class));
+        set("e8", Piece.createBlack(King.class));
+        set("f8", Piece.createBlack(Bishop.class));
+        set("g8", Piece.createBlack(Knight.class));
+        set("h8", Piece.createBlack(Rook.class));
     }
 
     public Piece get(String fileRank) {
@@ -68,10 +67,10 @@ public class Board {
         return cells[position.r][position.c];
     }
 
-    public int countPiece(Piece.Color color, Piece.Type type) {
+    public int countPiece(Class<? extends Piece> type, Piece.Color color) {
         return (int) stream().filter(cell -> !cell.isEmpty())
                 .map(cell -> cell.getPiece())
-                .filter(piece -> piece.isColor(color) && piece.isType(type))
+                .filter(piece -> piece.isColor(color) && type.isInstance(piece))
                 .count();
     }
 

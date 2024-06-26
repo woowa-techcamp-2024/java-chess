@@ -26,10 +26,6 @@ public abstract class Piece {
         return this.color == color;
     }
 
-    public boolean isType(Type type) {
-        return type.type.isInstance(this);
-    }
-
     @Override
     public final String toString() {
         return isWhite() ? whiteRepresentation() : blackRepresentation();
@@ -39,15 +35,15 @@ public abstract class Piece {
 
     protected abstract String blackRepresentation();
 
-    public static Piece createBlack(Type type) {
-        return create(type.type, Color.BLACK);
+    public static <T extends Piece> T createBlack(Class<T> type) {
+        return create(type, Color.BLACK);
     }
 
-    public static Piece createWhite(Type type) {
-        return create(type.type, Color.WHITE);
+    public static <T extends Piece> T createWhite(Class<T> type) {
+        return create(type, Color.WHITE);
     }
 
-    private static <T extends Piece> T create(Class<T> type, Color color) {
+    public static <T extends Piece> T create(Class<T> type, Color color) {
         try {
             Constructor<T> constructor = type.getDeclaredConstructor(Color.class);
             constructor.setAccessible(true);
@@ -59,21 +55,6 @@ public abstract class Piece {
 
     public enum Color {
         BLACK, WHITE
-    }
-
-    public enum Type {
-        PAWN(Pawn.class),
-        KNIGHT(Knight.class),
-        BISHOP(Bishop.class),
-        ROOK(Rook.class),
-        QUEEN(Queen.class),
-        KING(King.class);
-
-        private final Class<? extends Piece> type;
-
-        Type(Class<? extends Piece> type) {
-            this.type = type;
-        }
     }
 
 }
