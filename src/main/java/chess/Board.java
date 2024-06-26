@@ -2,7 +2,7 @@ package chess;
 
 import chess.pieces.Color;
 import chess.pieces.Piece;
-import chess.pieces.Representations;
+import chess.pieces.Representation;
 import utils.ScoreCalculator;
 
 import java.util.ArrayList;
@@ -62,9 +62,9 @@ public class Board {
                 .sum();
     }
 
-    public long pieceCount(Representations representations) {
+    public long pieceCount(Representation representation) {
         return ranks.stream()
-                .mapToLong(rank -> rank.count(representations))
+                .mapToLong(rank -> rank.count(representation))
                 .sum();
     }
 

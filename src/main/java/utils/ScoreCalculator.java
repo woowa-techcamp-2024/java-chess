@@ -3,7 +3,7 @@ package utils;
 import chess.Rank;
 import chess.pieces.Color;
 import chess.pieces.Piece;
-import chess.pieces.Representations;
+import chess.pieces.Representation;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public final class ScoreCalculator {
                 if (piece.getColor() != color) {
                     continue;
                 }
-                if (piece.getType() == Representations.Type.PAWN) {
+                if (piece.getType() == Representation.Type.PAWN) {
                     filePawnCount[i] += 1;
                     continue;
                 }

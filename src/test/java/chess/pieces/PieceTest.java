@@ -2,7 +2,7 @@ package chess.pieces;
 
 import org.junit.jupiter.api.*;
 
-import static chess.pieces.Representations.*;
+import static chess.pieces.Representation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {

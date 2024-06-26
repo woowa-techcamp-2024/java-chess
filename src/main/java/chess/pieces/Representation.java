@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Arrays;
 
-public enum Representations {
+public enum Representation {
     WHITE_PAWN("♙", Type.PAWN, Color.WHITE),
     BLACK_PAWN("♟", Type.PAWN, Color.BLACK),
     WHITE_KING("♔", Type.KING, Color.WHITE),
@@ -21,14 +21,14 @@ public enum Representations {
     private Type type;
     private Color color;
 
-    private Representations(String symbol, Type type, Color color) {
+    private Representation(String symbol, Type type, Color color) {
         this.symbol = symbol;
         this.type = type;
         this.color = color;
     }
 
-    static public Representations from(Type type, Color color) {
-        return Arrays.stream(Representations.values())
+    static public Representation from(Type type, Color color) {
+        return Arrays.stream(Representation.values())
                 .filter(rep -> rep.getColor() == color)
                 .filter(rep -> rep.getType() == type)
                 .findFirst()

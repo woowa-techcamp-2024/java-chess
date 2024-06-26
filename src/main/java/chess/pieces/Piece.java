@@ -4,14 +4,14 @@ import java.util.Objects;
 
 // VO
 public class Piece {
-    private final Representations representation;
+    private final Representation representation;
 
-    private Piece(Representations representation) {
+    private Piece(Representation representation) {
         this.representation = representation;
     }
 
-    public static Piece create(Representations.Type type, Color color) {
-        return new Piece(Representations.from(type, color));
+    public static Piece create(Representation.Type type, Color color) {
+        return new Piece(Representation.from(type, color));
     }
 
     public String getName() {
@@ -26,12 +26,12 @@ public class Piece {
         return representation.getSymbol();
     }
 
-    public Representations.Type getType() {
+    public Representation.Type getType() {
         return representation.getType();
     }
 
-    public boolean isPieceOf(Representations representations) {
-        return this.representation == representations;
+    public boolean isPieceOf(Representation representation) {
+        return this.representation == representation;
     }
 
     @Override

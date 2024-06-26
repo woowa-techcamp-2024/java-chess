@@ -1,7 +1,7 @@
 package chess;
 
 import chess.pieces.Piece;
-import chess.pieces.Representations;
+import chess.pieces.Representation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,9 @@ public class Rank {
                 .count();
     }
 
-    public long count(Representations representations) {
+    public long count(Representation representation) {
         return pieces.stream()
-                .filter(p -> p.isPieceOf(representations))
+                .filter(p -> p.isPieceOf(representation))
                 .count();
     }
 
