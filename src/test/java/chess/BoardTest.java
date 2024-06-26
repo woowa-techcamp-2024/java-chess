@@ -27,7 +27,7 @@ class BoardTest {
 
         // then
         assertThat(pieces).extracting("point")
-                .containsExactly(9.0, 5.0, 5.0, 3.0, 3.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                .containsExactly(9.0, 5.0, 5.0, 3.0, 3.0, 2.5, 2.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0);
     }
 
     @Test
