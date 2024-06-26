@@ -91,6 +91,10 @@ public class Piece {
         return color.isBlack();
     }
 
+    public boolean isPiece() {
+        return type != PieceType.NO_PIECE;
+    }
+
     public PieceType getType() {
         return type;
     }

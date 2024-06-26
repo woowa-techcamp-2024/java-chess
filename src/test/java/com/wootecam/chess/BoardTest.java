@@ -2,10 +2,11 @@ package com.wootecam.chess;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.wootecam.chess.board.Board;
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -72,37 +72,6 @@ class BoardTest {
     }
 
     @Nested
-    class 체스판에_추가된_순서로_말을_조회할_수_있다 {
-
-        static Stream<Arguments> pawnListForFind() {
-            return Stream.of(
-                    Arguments.arguments(List.of(Piece.createWhitePawn())),
-                    Arguments.arguments(List.of(Piece.createWhitePawn(), Piece.createBlackPawn())),
-                    Arguments.arguments(
-                            List.of(Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createWhitePawn())));
-        }
-
-        @MethodSource("pawnListForFind")
-        @ParameterizedTest
-        void 말을_조회할_수_있다(List<Piece> pieceList) {
-            var board = createBoard(pieceList);
-
-            for (int i = 0; i < pieceList.size(); ++i) {
-                assertThat(board.findPawn(i)).isEqualTo(pieceList.get(i));
-            }
-        }
-
-        @ValueSource(ints = {-1, 1})
-        @ParameterizedTest(name = "{0}번째 말 조회")
-        void 유효하지_않은_순서로_말을_조회하면_예외가_발생한다(int index) {
-            var board = createBoard(List.of(Piece.createWhitePawn()));
-
-            assertThatThrownBy(() -> board.findPawn(index))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    @Nested
     class 체스판을_초기화한다 {
 
         @BeforeEach
@@ -135,22 +104,21 @@ class BoardTest {
     }
 
     @Nested
-    class 체스판에_존재하는_폰의_상태를_조회한다 {
-
+    class 기물_타입과_색으로_체스판에_존재하는_기물의_개수를_조회한다 {
         @BeforeEach
         void setUp() {
             board = createBoard();
-            board.initialize();
         }
 
         @Test
-        void 체스판_초기화_시_검은색_폰은_열의_개수만큼_존재한다() {
-            assertThat(board.getWhitePawnsResult()).isEqualTo("pppppppp");
-        }
+        void 기물_타입과_색으로_체스판에_존재하는_해당_기물_개수를_조회할_수_있다() {
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createWhitePawn());
 
-        @Test
-        void 체스판_초기화_시_하얀색_폰은_열의_개수만큼_존재한다() {
-            assertThat(board.getBlackPawnsResult()).isEqualTo("PPPPPPPP");
+            assertThat(board.findPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
         }
     }
 }
