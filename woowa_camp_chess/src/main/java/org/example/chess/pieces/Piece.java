@@ -14,12 +14,12 @@ public class Piece {
 
     public Piece(String color, PieceType pieceType) {
         this.color = color;
-        this.representation = color.equals(WHITE_COLOR) ? (char) (pieceType.getRepresentation() + CASE_DIFFERENCE)  : pieceType.getRepresentation();
+        this.representation = color.equals(WHITE_COLOR) ? (char) (pieceType.getBlackRepresentation() + CASE_DIFFERENCE)  : pieceType.getBlackRepresentation();
         this.pieceType = pieceType;
     }
 
     public Piece() {
-        this.representation = (char) (PieceType.PAWN.getRepresentation()+32);
+        this.representation = (char) (PieceType.PAWN.getBlackRepresentation()+32);
         System.out.println(representation);
         this.pieceType = PieceType.PAWN;
         this.color = WHITE_COLOR;

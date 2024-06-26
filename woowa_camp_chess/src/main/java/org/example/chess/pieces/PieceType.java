@@ -15,7 +15,11 @@ public enum PieceType {
     }
 
 
-    public char getRepresentation() {
+    public char getBlackRepresentation() {
         return representation;
+    }
+
+    public char getWhiteRepresentation() {
+        return Character.toLowerCase(representation);
     }
 }

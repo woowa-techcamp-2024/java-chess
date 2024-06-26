@@ -53,14 +53,14 @@ class PieceTest {
     @Test
     @DisplayName("타입에 따른 올바른 표현값을 나타내야 한다.")
     public void getRepresentationPerPiece() {
-        assertEquals('p',PieceType.PAWN.getRepresentation());
-        assertEquals('p',PieceType.PAWN.getRepresentation());
+        assertEquals('P',PieceType.PAWN.getBlackRepresentation());
+        assertEquals('p',PieceType.PAWN.getWhiteRepresentation());
 
     }
 
 
     private static void verifyPiece(final Piece piece, final String color, PieceType pieceType) {
         assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(color.equals(BLACK_COLOR) ? pieceType.getRepresentation() : (char) (pieceType.getRepresentation() + CASE_DIFFERENCE ));
+        assertThat(piece.getRepresentation()).isEqualTo(color.equals(BLACK_COLOR) ? pieceType.getBlackRepresentation() : (char) (pieceType.getBlackRepresentation() + CASE_DIFFERENCE ));
     }
 }
