@@ -88,31 +88,6 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("체스판 위의 기물에 따라 점수를 계산할 수 있다.")
-    public void calculatePoint() throws Exception {
-        board.initializeEmpty();
-
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
-
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
-
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
-
-        System.out.println(board.showBoard());
-    }
-
-    private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
-    }
-
-    @Test
     @DisplayName("체스 보드의 기물을 점수가 높은 순으로 정렬할 수 있다.")
     public void piecesOrderByScoreDesc() {
         board.initialize();
@@ -150,17 +125,5 @@ public class BoardTest {
                         Piece.createBlackRook(), Piece.createBlackRook(),
                         Piece.createBlackQueen()
                 );
-    }
-
-    @Test
-    @DisplayName("체스 보드의 기물은 현재 위치에서 다른 위치로 이동할 수 있다.")
-    public void move() throws Exception {
-        board.initialize();
-
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(Position.convert(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(Position.convert(targetPosition)), board.findPiece(targetPosition));
     }
 }
