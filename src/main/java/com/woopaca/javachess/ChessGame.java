@@ -1,4 +1,6 @@
-package com.woopaca.javachess.chess;
+package com.woopaca.javachess;
+
+import com.woopaca.javachess.chess.Board;
 
 import java.util.Scanner;
 

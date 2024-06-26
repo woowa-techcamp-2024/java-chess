@@ -1,4 +1,4 @@
-package com.woopaca.javachess.chess.utils;
+package com.woopaca.javachess.utils;
 
 public class StringUtils {
 

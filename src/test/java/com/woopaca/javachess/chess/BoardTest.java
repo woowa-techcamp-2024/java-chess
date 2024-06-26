@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.woopaca.javachess.chess.utils.StringUtils.appendNewLine;
+import static com.woopaca.javachess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("체스판 테스트")

@@ -1,13 +1,10 @@
 package com.woopaca.javachess.chess;
 
-import com.woopaca.javachess.chess.pieces.Piece;
-import com.woopaca.javachess.chess.pieces.Piece.Color;
-import com.woopaca.javachess.chess.pieces.Piece.Type;
+import com.woopaca.javachess.pieces.Piece;
+import com.woopaca.javachess.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.woopaca.javachess.chess.utils.StringUtils.appendNewLine;
 
 public class Board {
 
@@ -90,7 +87,7 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Rank rank = ranks.get(i);
             String rankResult = rank.generateResult();
-            boardResult.append(appendNewLine(rankResult));
+            boardResult.append(StringUtils.appendNewLine(rankResult));
         }
 
         return boardResult.toString();
@@ -106,7 +103,7 @@ public class Board {
         return print();
     }
 
-    public int getPiecesCount(Color color, Type type) {
+    public int getPiecesCount(Piece.Color color, Piece.Type type) {
         return ranks.stream()
                 .mapToInt(Rank::getPiecesCount)
                 .sum();
