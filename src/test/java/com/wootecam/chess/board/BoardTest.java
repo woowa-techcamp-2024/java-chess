@@ -1,5 +1,7 @@
 package com.wootecam.chess.board;
 
+import static com.wootecam.chess.Fixture.createBoard;
+import static com.wootecam.chess.Fixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -25,16 +27,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("체스판 테스트")
 class BoardTest {
-
     private Board board;
-
-    private static Board createBoard() {
-        return new Board();
-    }
-
-    private static Position createPosition(String position) {
-        return new Position(position);
-    }
 
     public static class PieceTypeConverter extends SimpleArgumentConverter {
         @Override
@@ -59,9 +52,13 @@ class BoardTest {
     @Nested
     class 체스판에_말을_배치할_수_있다 {
 
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
         @Test
         void 말을_배치할_수_있다() {
-            var board = createBoard();
             var pawn = Piece.createBlackPawn();
             Position pos = new Position("a8");
 
@@ -72,9 +69,13 @@ class BoardTest {
     @Nested
     class 체스판에_추가된_말의_개수를_조회할_수_있다 {
 
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
         @Test
         void 말의_개수를_조회할_수_있다() {
-            var board = createBoard();
             board.add(Piece.createBlackPawn(), createPosition("e8"));
             board.add(Piece.createBlackPawn(), createPosition("h7"));
             board.add(Piece.createBlackPawn(), createPosition("a6"));
@@ -106,45 +107,15 @@ class BoardTest {
     }
 
     @Nested
-    class 체스판을_초기화한다 {
-
-        @BeforeEach
-        void setUp() {
-            board = createBoard();
-        }
-
-        @Test
-        void 체스판을_초기화하면_총_32개_기물들이_존재해야_한다() {
-            board.initialize();
-
-            assertThat(board.size()).isEqualTo(32);
-        }
-
-        @Test
-        void 체스판을_초기화하면_모든_기물들이_제자리에_배치되어_있어야_한다() {
-            board.initialize();
-
-            assertThat(board.print()).isEqualTo("""
-                    RKBQKBKR
-                    PPPPPPPP
-                    ........
-                    ........
-                    ........
-                    ........
-                    pppppppp
-                    rkbqkbkr
-                    """);
-        }
-
-    }
-
-    @Nested
     class 주어진_위치의_기물을_조회한다 {
 
         @BeforeEach
         void setUp() {
             board = createBoard();
-            board.initialize();
+            board.add(Piece.createBlackRook(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("b7"));
+            board.add(Piece.createWhitePawn(), createPosition("f2"));
+            board.add(Piece.createWhiteKing(), createPosition("e1"));
         }
 
         @CsvSource({

@@ -1,10 +1,13 @@
 package com.wootecam.chess.game;
 
+import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.common.Reader;
 
 public class ChessGameManager {
     private static final String CMD_START = "start";
     private static final String CMD_END = "end";
+
+    private static final BoardInitializer boardInitializer = new BoardInitializer();
 
     public static void main(String[] args) {
         Reader reader = new Reader();
@@ -40,7 +43,7 @@ public class ChessGameManager {
     }
 
     private static ChessGame startGame() {
-        ChessGame chessGame = new ChessGame();
+        ChessGame chessGame = new ChessGame(boardInitializer);
         chessGame.start();
 
         return chessGame;

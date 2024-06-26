@@ -7,8 +7,4 @@ public enum Order {
     public boolean isAsc() {
         return this == ASC;
     }
-
-    public boolean isDesc() {
-        return this == DESC;
-    }
 }

@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 public class Board {
     public static final int MAX_COL = 8;
     static final int MAX_ROW = 8;
-    public static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
-    public static final int INITIAL_TOTAL_PIECES = 32;
 
     private final Rank[] ranks;
     private int totalPieces;
@@ -23,36 +21,6 @@ public class Board {
         for (int i = 0; i < MAX_ROW; i++) {
             this.ranks[i] = new Rank();
         }
-    }
-
-    public void initialize() {
-        addBlackPieces();
-        addWhitePieces();
-        totalPieces = INITIAL_TOTAL_PIECES;
-    }
-
-    private void addBlackPieces() {
-        final int blackPieceStartRank = 0;
-
-        ranks[blackPieceStartRank].fill(List.of(
-                Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(), Piece.createBlackQueen(),
-                Piece.createBlackKing(), Piece.createBlackBishop(), Piece.createBlackKnight(),
-                Piece.createBlackRook()));
-        ranks[blackPieceStartRank + 1].fill(List.of(
-                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
-                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn()));
-    }
-
-    private void addWhitePieces() {
-        final int whitePieceStartRank = MAX_ROW - 2;
-
-        ranks[whitePieceStartRank].fill(List.of(
-                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
-                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn()));
-        ranks[whitePieceStartRank + 1].fill(List.of(
-                Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(), Piece.createWhiteQueen(),
-                Piece.createWhiteKing(), Piece.createWhiteBishop(), Piece.createWhiteKnight(),
-                Piece.createWhiteRook()));
     }
 
     public void add(Piece piece, Position pos) {
@@ -129,6 +97,7 @@ public class Board {
                 .toList();
     }
 
+
     private static class Rank {
         private final Piece[] squares;
 
@@ -190,14 +159,14 @@ public class Board {
 
         public double calculateScoreExceptPawn(Color color) {
             return Arrays.stream(squares)
-                    .filter(p -> p.isPieceAndNotPawn() && p.isColor(color))
+                    .filter(p -> p.isColor(color) && !p.isPawn())
                     .mapToDouble(p -> p.getType().point)
                     .sum();
         }
 
         public List<Piece> getPieces(Color color) {
             return Arrays.stream(squares)
-                    .filter(p -> p.isPiece() && p.isColor(color))
+                    .filter(p -> p.isColor(color))
                     .toList();
         }
     }

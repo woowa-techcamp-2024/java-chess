@@ -101,10 +101,6 @@ public class Piece {
         return type != PieceType.NO_PIECE;
     }
 
-    public boolean isPieceAndNotPawn() {
-        return type != PieceType.NO_PIECE && type != PieceType.PAWN;
-    }
-
     public boolean isPawn() {
         return type == PieceType.PAWN;
     }

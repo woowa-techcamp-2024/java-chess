@@ -20,7 +20,6 @@ public class Position {
 
         char row = position.charAt(1);
         if (row < '1' || row > '8') {
-
             throw new IllegalArgumentException("Invalid position: " + position);
         }
 
