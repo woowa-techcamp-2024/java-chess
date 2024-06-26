@@ -8,9 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -21,58 +21,59 @@ class PieceTest {
     @Nested
     class 기물을_생성한다 {
 
-        static Stream<Arguments> pieceAndColor() {
-            return Stream.of(
-                    Arguments.arguments(PieceType.PAWN, Color.WHITE),
-                    Arguments.arguments(PieceType.KNIGHT, Color.WHITE),
-                    Arguments.arguments(PieceType.ROOK, Color.WHITE),
-                    Arguments.arguments(PieceType.BISHOP, Color.WHITE),
-                    Arguments.arguments(PieceType.QUEEN, Color.WHITE),
-                    Arguments.arguments(PieceType.KING, Color.WHITE),
-                    Arguments.arguments(PieceType.PAWN, Color.BLACK),
-                    Arguments.arguments(PieceType.KNIGHT, Color.BLACK),
-                    Arguments.arguments(PieceType.ROOK, Color.BLACK),
-                    Arguments.arguments(PieceType.BISHOP, Color.BLACK),
-                    Arguments.arguments(PieceType.QUEEN, Color.BLACK),
-                    Arguments.arguments(PieceType.KING, Color.BLACK)
+        @Test
+        void 기물은_색과_타입에_따라_생성할_수_있다() {
+            verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), PieceType.PAWN);
+            verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), PieceType.KNIGHT);
+            verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), PieceType.ROOK);
+            verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), PieceType.BISHOP);
+            verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), PieceType.QUEEN);
+            verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), PieceType.KING);
+        }
+
+        private void verifyPiece(Piece whitePiece, Piece blackPiece, PieceType type) {
+            assertAll(
+                    () -> assertThat(whitePiece.getType()).isEqualTo(type),
+                    () -> assertThat(whitePiece.getColor().isWhite()).isTrue(),
+                    () -> assertThat(blackPiece.getType()).isEqualTo(type),
+                    () -> assertThat(blackPiece.getColor().isBlack()).isTrue()
             );
         }
 
-        @MethodSource("pieceAndColor")
-        @ParameterizedTest(name = "{1} 색 {0}이 생성되어야 한다")
-        void 해당_색을_가진_기물이_생성되어야_한다(PieceType pieceType, Color color) {
-            var piece = new Piece(pieceType, color);
+        @Test
+        void 타입과_색이_없는_기물도_존재할_수_있다() {
+            Piece blank = Piece.createBlank();
+            assertAll(
+                    () -> assertThat(blank.getType()).isEqualTo(PieceType.NO_PIECE),
+                    () -> assertThat(blank.getColor()).isEqualTo(Color.NO_COLOR)
+            );
+        }
+    }
 
-            assertThat(piece.getColor()).isEqualTo(color);
+    @Nested
+    class 기물의_타입과_색에_따른_표현값을_조회한다 {
+
+        static Stream<Arguments> allPiecesAndColor() {
+            return Stream.of(
+                    Arguments.arguments(Piece.createWhitePawn(), PieceType.PAWN, Color.WHITE),
+                    Arguments.arguments(Piece.createWhiteKnight(), PieceType.KNIGHT, Color.WHITE),
+                    Arguments.arguments(Piece.createWhiteRook(), PieceType.ROOK, Color.WHITE),
+                    Arguments.arguments(Piece.createWhiteBishop(), PieceType.BISHOP, Color.WHITE),
+                    Arguments.arguments(Piece.createWhiteQueen(), PieceType.QUEEN, Color.WHITE),
+                    Arguments.arguments(Piece.createWhiteKing(), PieceType.KING, Color.WHITE),
+                    Arguments.arguments(Piece.createBlackPawn(), PieceType.PAWN, Color.BLACK),
+                    Arguments.arguments(Piece.createBlackKnight(), PieceType.KNIGHT, Color.BLACK),
+                    Arguments.arguments(Piece.createBlackRook(), PieceType.ROOK, Color.BLACK),
+                    Arguments.arguments(Piece.createBlackBishop(), PieceType.BISHOP, Color.BLACK),
+                    Arguments.arguments(Piece.createBlackQueen(), PieceType.QUEEN, Color.BLACK),
+                    Arguments.arguments(Piece.createBlackKing(), PieceType.KING, Color.BLACK)
+            );
         }
 
-        @MethodSource("pieceAndColor")
-        @ParameterizedTest(name = "{0} 색 기물은 {1}색에 따른 표현값을 반환할 수 있다")
-        void 특정_색_기물은_해당_색에_따른_표현값을_반환할_수_있다(PieceType pieceType, Color color) {
-            var piece = new Piece(pieceType, color);
-
-            assertThat(piece.getRepresentation()).isEqualTo(PieceRepresentation.findByTypeAndColor(pieceType, color));
-        }
-
-        @Nested
-        class 색깔이_주어지지_않았다면 {
-
-            @EnumSource(PieceType.class)
-            @ParameterizedTest
-            void 하얀색_기물이_생성되어야_한다(PieceType type) {
-                var piece = new Piece(type);
-
-                assertThat(piece.getColor()).isEqualTo(Color.WHITE);
-            }
-
-            @EnumSource(PieceType.class)
-            @ParameterizedTest
-            void 하얀색_기물의_표현값이_반환되어야_한다(PieceType type) {
-                var piece = new Piece(type);
-
-                assertThat(piece.getRepresentation()).isEqualTo(
-                        PieceRepresentation.findByTypeAndColor(type, Color.WHITE));
-            }
+        @MethodSource("allPiecesAndColor")
+        @ParameterizedTest(name = "{1} 타입 {2} 색 기물")
+        void 기물은_색과_타입에_따른_표현값을_반환할_수_있다(Piece piece, PieceType type, Color color) {
+            assertThat(piece.getRepresentation()).isEqualTo(PieceRepresentation.findByTypeAndColor(type, color));
         }
     }
 
@@ -81,18 +82,16 @@ class PieceTest {
 
         static Stream<Arguments> pieceAndColor() {
             return Stream.of(
-                    Arguments.arguments(PieceType.PAWN, Color.WHITE, true, false),
-                    Arguments.arguments(PieceType.KING, Color.WHITE, true, false),
-                    Arguments.arguments(PieceType.PAWN, Color.BLACK, false, true),
-                    Arguments.arguments(PieceType.QUEEN, Color.BLACK, false, true)
+                    Arguments.arguments(Piece.createWhitePawn(), true, false),
+                    Arguments.arguments(Piece.createWhiteKing(), true, false),
+                    Arguments.arguments(Piece.createBlackPawn(), false, true),
+                    Arguments.arguments(Piece.createBlackQueen(), false, true)
             );
         }
 
         @MethodSource("pieceAndColor")
-        @ParameterizedTest(name = "{1}색 {0}은 {1}색이다")
-        void 기물의_색을_확인할_수_있다(PieceType type, Color color, boolean isWhite, boolean isBlack) {
-            var piece = new Piece(type, color);
-
+        @ParameterizedTest(name = "{0}")
+        void 기물의_색을_확인할_수_있다(Piece piece, boolean isWhite, boolean isBlack) {
             assertAll(
                     () -> assertThat(piece.isWhite()).isEqualTo(isWhite),
                     () -> assertThat(piece.isBlack()).isEqualTo(isBlack));
