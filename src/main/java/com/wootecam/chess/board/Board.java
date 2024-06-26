@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Board {
     public static final int MAX_COL = 8;
-    static final int MAX_ROW = 8;
+    public static final int MAX_ROW = 8;
 
     private final Rank[] ranks;
     private int totalPieces;
@@ -77,14 +77,10 @@ public class Board {
     }
 
     private int countPawnsInColumn(Color color, int col) {
-        int count = 0;
-        for (int row = 0; row < MAX_ROW; ++row) {
-            Piece piece = ranks[row].get(col);
-            if (piece.isColor(color) && piece.isPawn()) {
-                ++count;
-            }
-        }
-        return count;
+        return (int) Arrays.stream(ranks)
+                .map(r -> r.get(col))
+                .filter(p -> p.isColor(color) && p.isPawn())
+                .count();
     }
 
     public List<Piece> getPiecesSortedByScore(Color color, Order order) {
