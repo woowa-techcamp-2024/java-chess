@@ -95,9 +95,38 @@ public class ChessGame {
     public void move(final String source, final String destination) {
         Position sourcePosition = new Position(source);
         Position destinationPosition = new Position(destination);
+
         Piece piece = board.findByPosition(sourcePosition);
+        if (destinationPosition.isOutOfIndex()) return;
+        if (isColorSame(piece.getColor(), destinationPosition)) return;
+        if (!isMoveAvailable(piece, destinationPosition)) return;
 
         board.saveByPosition(piece, destinationPosition);
         board.saveByPosition(Piece.createBlank(sourcePosition), sourcePosition);
+    }
+
+    private boolean isColorSame(final Color color, final Position position) {
+        Piece piece = board.findByPosition(position);
+        return Objects.equals(color, piece.getColor());
+    }
+
+    private boolean isMoveAvailable(final Piece piece, final Position position) {
+        if (Objects.equals(piece.getType(), Type.KING)) {
+            return isKingMoveAvailable(piece, position);
+        }
+        return false;
+    }
+
+    private boolean isKingMoveAvailable(final Piece piece, final Position position) {
+        Position sourcePosition = piece.getPosition();
+        final int[] y_grad = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
+        final int[] x_grad = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+
+        for (int i = 0; i < 8; i++) {
+            int y = sourcePosition.getY() + y_grad[i];
+            int x = sourcePosition.getX() + x_grad[i];
+            if (position.getX() == x && position.getY() == y) return true;
+        }
+        return false;
     }
 }
