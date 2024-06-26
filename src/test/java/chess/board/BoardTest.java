@@ -11,7 +11,6 @@ import static chess.pieces.Piece.Color;
 import static chess.pieces.Piece.Type;
 import static chess.utils.StringUtils.NEWLINE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,19 +22,19 @@ class BoardTest {
         // given
         Board board = new Board();
 
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
+        String sourceCoordinate = "b2";
+        String targetCoordinate = "b3";
 
         // when
-        board.move(sourcePosition, targetPosition);
+        board.move(sourceCoordinate, targetCoordinate);
 
         // then
-        Piece findPiece1 = board.findPiece(sourcePosition);
+        Piece findPiece1 = board.findPiece(new Coordinate(sourceCoordinate));
         assertThat(findPiece1)
                 .extracting("color", "type")
                 .contains(Color.NOCOLOR, Type.NO_PIECE);
 
-        Piece findPiece2 = board.findPiece(targetPosition);
+        Piece findPiece2 = board.findPiece(new Coordinate(targetCoordinate));
         assertThat(findPiece2)
                 .extracting("color", "type")
                 .contains(Color.WHITE, Type.PAWN);
@@ -126,14 +125,19 @@ class BoardTest {
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
     void move() {
+        // given
         Board board = new Board();
         board.initializeEmpty();
 
-        String position = "b5";
+        String coordinateStr = "b5";
+        Coordinate coordinate = new Coordinate(coordinateStr);
         Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
 
-        assertEquals(piece, board.findPiece(position));
+        // when
+        board.move(coordinate, piece);
+
+        // then
+        assertEquals(piece, board.findPiece(coordinate));
     }
 
     @DisplayName("기존 보드를 빈 보드로 바꿀 수 있다.")
@@ -161,19 +165,6 @@ class BoardTest {
 
     }
 
-    @DisplayName("찾고자 하는 좌표를 반대로 보낸 경우 예외가 발생한다.")
-    @Test
-    void findPieceWithInvalidCoordinate() {
-        // given
-        Board board = new Board();
-        String coordinate = "1e";
-
-        // when & then
-        assertThatThrownBy(() -> board.findPiece(coordinate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
-    }
-
     @DisplayName("해당하는 좌표의 Piece를 반환한다")
     @Test
     void findPiece() {
@@ -182,63 +173,12 @@ class BoardTest {
         String coordinate = "a1";
 
         // when
-        Piece piece = board.findPiece(coordinate);
+        Piece piece = board.findPiece(new Coordinate(coordinate));
 
         // then
         assertThat(piece).isNotNull()
                 .extracting("color", "type")
-                .contains(Color.WHITE, Type.ROOK);
-    }
-
-    @DisplayName("알파벳 좌표의 범위를 벗어난 경우 예외가 발생한다")
-    @Test
-    void findPieceWithInvalidAlphabetRange() {
-        // given
-        Board board = new Board();
-        String coordinate = "i1";
-
-        // when & then
-        assertThatThrownBy(() -> board.findPiece(coordinate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("범위를 넘어선 좌표입니다.");
-    }
-
-    @DisplayName("올바르지 않은 형식의 좌표를 입력한 경우 예외가 발생한다")
-    @Test
-    void findPieceWithInvalidCoordinateFormat() {
-        // given
-        Board board = new Board();
-        String coordinate = "i11";
-
-        // when & then
-        assertThatThrownBy(() -> board.findPiece(coordinate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("좌표는 2글자여야 합니다.");
-    }
-    @DisplayName("빈 좌표를 입력한 경우 예외가 발생한다")
-    @Test
-    void findPieceWithEmptyCoordinate() {
-        // given
-        Board board = new Board();
-        String coordinate = "";
-
-        // when & then
-        assertThatThrownBy(() -> board.findPiece(coordinate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("좌표를 입력해주세요.");
-    }
-
-    @DisplayName("숫자 좌표의 범위를 벗어난 경우 예외가 발생한다")
-    @Test
-    void findPieceWithInvalidNumericRange() {
-        // given
-        Board board = new Board();
-        String coordinate = "a9";
-
-        // when & then
-        assertThatThrownBy(() -> board.findPiece(coordinate))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("범위를 넘어선 좌표입니다.");
+                .contains(Piece.Color.WHITE, Piece.Type.ROOK);
     }
 
     @Test
@@ -276,8 +216,8 @@ class BoardTest {
         assertEquals(2, count);
     }
 
-    private void addPiece(String position, Piece piece, Board board) {
-        board.move(position, piece);
+    private void addPiece(String coordniate, Piece piece, Board board) {
+        board.move(new Coordinate(coordniate), piece);
     }
 
     private String givenBoardPrint() {
