@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
 
+import chess.pieces.Color;
+import chess.pieces.Piece;
 import chess.pieces.Representations;
 import org.junit.jupiter.api.*;
 
@@ -59,5 +61,16 @@ public class BoardTest {
         assertThat(board.pieceCount(Representations.WHITE_QUEEN)).isEqualTo(1);
         assertThat(board.pieceCount(Representations.WHITE_KING)).isEqualTo(1);
         assertThat(board.pieceCount(Representations.WHITE_PAWN)).isEqualTo(8);
+    }
+
+    @Test
+    @DisplayName("체스판에서 특정 위치에 어떤 기물이 있는지 확인한다")
+    public void findPiece() throws Exception {
+        board.initialize();
+
+        assertEquals(Piece.create(Representations.Type.ROOK, Color.BLACK), board.findPiece("a8"));
+        assertEquals(Piece.create(Representations.Type.ROOK, Color.BLACK), board.findPiece("h8"));
+        assertEquals(Piece.create(Representations.Type.ROOK, Color.WHITE), board.findPiece("a1"));
+        assertEquals(Piece.create(Representations.Type.ROOK, Color.WHITE), board.findPiece("h1"));
     }
 }

@@ -1,6 +1,6 @@
 package chess.pieces;
 
-public enum Colors {
+public enum Color {
     WHITE, BLACK, NOCOLOR;
 
     public boolean isWhite() {

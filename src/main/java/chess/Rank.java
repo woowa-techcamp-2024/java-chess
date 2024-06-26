@@ -6,11 +6,16 @@ import chess.pieces.Representations;
 import java.util.ArrayList;
 import java.util.List;
 
+// 체스판에서 하나의 가로줄을 나타냅니다
 public class Rank {
     private final List<Piece> pieces = new ArrayList<>();
 
     public void add(Piece piece) {
         pieces.add(piece);
+    }
+
+    public Piece get(int index) {
+        return pieces.get(index);
     }
 
     public long count() {

@@ -10,7 +10,7 @@ public class Piece {
         this.representation = representation;
     }
 
-    public static Piece create(Representations.Type type, Colors color) {
+    public static Piece create(Representations.Type type, Color color) {
         return new Piece(Representations.from(type, color));
     }
 
@@ -18,7 +18,7 @@ public class Piece {
         return representation.name();
     }
 
-    public Colors getColor() {
+    public Color getColor() {
         return representation.getColor();
     }
 
@@ -39,11 +39,18 @@ public class Piece {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
+
         return representation == piece.representation;
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(representation);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece " + hashCode() + " " +
+                "representation=" + representation;
     }
 }

@@ -1,6 +1,6 @@
 package chess;
 
-import chess.pieces.Colors;
+import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representations;
 
@@ -13,14 +13,14 @@ public class Board {
     List<Rank> ranks = new ArrayList<>();
 
     public void initialize() {
-        ranks.add(getGoodPiecesRank(Colors.BLACK));
-        ranks.add(getPawnsRank(Colors.BLACK));
+        ranks.add(getGoodPiecesRank(Color.BLACK));
+        ranks.add(getPawnsRank(Color.BLACK));
         ranks.add(getEmptyRank());
         ranks.add(getEmptyRank());
         ranks.add(getEmptyRank());
         ranks.add(getEmptyRank());
-        ranks.add(getPawnsRank(Colors.WHITE));
-        ranks.add(getGoodPiecesRank(Colors.WHITE));
+        ranks.add(getPawnsRank(Color.WHITE));
+        ranks.add(getGoodPiecesRank(Color.WHITE));
     }
 
     public String print() {
@@ -45,7 +45,18 @@ public class Board {
                 .sum();
     }
 
-    private static Rank getPawnsRank(Colors color) {
+    public Piece findPiece(String rankFile) {
+        Position position = Position.from(rankFile);
+
+        Rank rank = ranks.get(position.getRank());
+        return rank.get(position.getFile());
+    }
+
+    public List<Rank> getRanks() {
+        return ranks;
+    }
+
+    private static Rank getPawnsRank(Color color) {
         Rank rank = new Rank();
         for (int i=0; i<8; i++) {
             Piece pawn = Piece.create(Representations.Type.PAWN, color);
@@ -57,13 +68,13 @@ public class Board {
     private static Rank getEmptyRank() {
         Rank rank = new Rank();
         for (int i=0; i<8; i++) {
-            Piece pawn = Piece.create(Representations.Type.NO_PIECE, Colors.NOCOLOR);
+            Piece pawn = Piece.create(Representations.Type.NO_PIECE, Color.NOCOLOR);
             rank.add(pawn);
         }
         return rank;
     }
 
-    private static Rank getGoodPiecesRank(Colors color) {
+    private static Rank getGoodPiecesRank(Color color) {
         Rank rank = new Rank();
         rank.add(Piece.create(Representations.Type.ROOK, color));
         rank.add(Piece.create(Representations.Type.KNIGHT, color));
