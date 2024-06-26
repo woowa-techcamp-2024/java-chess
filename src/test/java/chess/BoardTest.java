@@ -1,7 +1,7 @@
 package chess;
 
 import chess.pieces.ChessPiece;
-import chess.pieces.Piece;
+import chess.pieces.PieceFactory;
 import chess.pieces.PieceTypes;
 import chess.pieces.PieceTypes.Color;
 import chess.pieces.PieceTypes.Type;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static chess.pieces.PieceTypes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +21,12 @@ public class BoardTest {
     }
     @Test
     public void create() throws Exception {
-        Piece white = Piece.createPiece(PieceTypes.WHITE_PAWN);
+        ChessPiece white = PieceFactory.createPiece(PieceTypes.WHITE_PAWN);
         board.add(white);
         assertEquals(1, board.size());
         assertEquals(white, board.findPiece(0));
 
-        Piece black = Piece.createPiece(PieceTypes.BLACK_PAWN);
+        ChessPiece black = PieceFactory.createPiece(PieceTypes.BLACK_PAWN);
         board.add(black);
         assertEquals(2, board.size());
         assertEquals(black, board.findPiece(1));
@@ -86,9 +85,9 @@ public class BoardTest {
         verifyPieceColorAndType(h1,WHITE_ROOK);
     }
 
-    private void verifyPieceColorAndType(ChessPiece piece, PieceTypes pieceType){
-        assertEquals(pieceType.getColor(),piece.getColor());
-        assertEquals(pieceType.getType(),piece.getType());
+    private void verifyPieceColorAndType(ChessPiece chessPiece, PieceTypes pieceType){
+        assertEquals(pieceType.getColor(), chessPiece.getColor());
+        assertEquals(pieceType.getType(), chessPiece.getType());
     }
 
     @Test
@@ -106,15 +105,15 @@ public class BoardTest {
     public void calculcatePoint() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createPiece(BLACK_PAWN));
-        addPiece("e6", Piece.createPiece(BLACK_QUEEN));
-        addPiece("b8", Piece.createPiece(BLACK_KING));
-        addPiece("c8", Piece.createPiece(BLACK_ROOK));
+        addPiece("b6", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("e6", PieceFactory.createPiece(BLACK_QUEEN));
+        addPiece("b8", PieceFactory.createPiece(BLACK_KING));
+        addPiece("c8", PieceFactory.createPiece(BLACK_ROOK));
 
-        addPiece("f2", Piece.createPiece(WHITE_PAWN));
-        addPiece("g2", Piece.createPiece(WHITE_PAWN));
-        addPiece("e1", Piece.createPiece(WHITE_ROOK));
-        addPiece("f1", Piece.createPiece(WHITE_KING));
+        addPiece("f2", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("g2", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("e1", chess.pieces.PieceFactory.createPiece(WHITE_ROOK));
+        addPiece("f1", PieceFactory.createPiece(WHITE_KING));
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
@@ -124,22 +123,22 @@ public class BoardTest {
     public void calculatePointTest2_verticalPawns(){
         board.initializeEmpty();
 
-        addPiece("e1",Piece.createPiece(WHITE_ROOK));
-        addPiece("f1",Piece.createPiece(WHITE_KING));
-        addPiece("f2",Piece.createPiece(WHITE_PAWN));
-        addPiece("g2",Piece.createPiece(WHITE_PAWN));
-        addPiece("f3",Piece.createPiece(WHITE_PAWN));
-        addPiece("h3",Piece.createPiece(WHITE_PAWN));
-        addPiece("f4",Piece.createPiece(WHITE_KNIGHT));
-        addPiece("g4",Piece.createPiece(WHITE_QUEEN));
+        addPiece("e1", PieceFactory.createPiece(WHITE_ROOK));
+        addPiece("f1", PieceFactory.createPiece(WHITE_KING));
+        addPiece("f2", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("g2", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("f3", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("h3", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("f4", PieceFactory.createPiece(WHITE_KNIGHT));
+        addPiece("g4", PieceFactory.createPiece(WHITE_QUEEN));
 
-        addPiece("b6",Piece.createPiece(BLACK_PAWN));
-        addPiece("e6",Piece.createPiece(BLACK_QUEEN));
-        addPiece("a7",Piece.createPiece(BLACK_PAWN));
-        addPiece("c7",Piece.createPiece(BLACK_PAWN));
-        addPiece("d7",Piece.createPiece(BLACK_BISHOP));
-        addPiece("b8",Piece.createPiece(BLACK_KING));
-        addPiece("c8",Piece.createPiece(BLACK_ROOK));
+        addPiece("b6", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("e6", PieceFactory.createPiece(BLACK_QUEEN));
+        addPiece("a7", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("c7", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("d7", PieceFactory.createPiece(BLACK_BISHOP));
+        addPiece("b8", PieceFactory.createPiece(BLACK_KING));
+        addPiece("c8", PieceFactory.createPiece(BLACK_ROOK));
 
         assertEquals(20.0,board.calculatePoint(Color.BLACK),0.01);
         assertEquals(19.5,board.calculatePoint(Color.WHITE),0.01);
@@ -148,11 +147,11 @@ public class BoardTest {
     @Test
     public void sortEachColorOrderByPointDesc(){
         board.initializeEmpty();
-        addPiece("h3",Piece.createPiece(WHITE_PAWN));
-        addPiece("f4",Piece.createPiece(WHITE_KNIGHT));
+        addPiece("h3", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("f4", PieceFactory.createPiece(WHITE_KNIGHT));
 
-        addPiece("b6",Piece.createPiece(BLACK_PAWN));
-        addPiece("e6",Piece.createPiece(BLACK_QUEEN));
+        addPiece("b6", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("e6", PieceFactory.createPiece(BLACK_QUEEN));
 
         List<ChessPiece> blackOrderByPointDesc = board.getPieceOrderByPoint(Color.BLACK,false);
         assertEquals(2,blackOrderByPointDesc.size());
@@ -174,11 +173,11 @@ public class BoardTest {
     @Test
     public void sortEachColorOrderByPointAsc(){
         board.initializeEmpty();
-        addPiece("h3",Piece.createPiece(WHITE_PAWN));
-        addPiece("f4",Piece.createPiece(WHITE_KNIGHT));
+        addPiece("h3", PieceFactory.createPiece(WHITE_PAWN));
+        addPiece("f4", PieceFactory.createPiece(WHITE_KNIGHT));
 
-        addPiece("b6",Piece.createPiece(BLACK_PAWN));
-        addPiece("e6",Piece.createPiece(BLACK_QUEEN));
+        addPiece("b6", PieceFactory.createPiece(BLACK_PAWN));
+        addPiece("e6", PieceFactory.createPiece(BLACK_QUEEN));
 
         List<ChessPiece> blackOrderByPointAsc = board.getPieceOrderByPoint(Color.BLACK,true);
         assertEquals(2,blackOrderByPointAsc.size());
@@ -197,8 +196,8 @@ public class BoardTest {
         assertEquals(Color.WHITE,whiteOrderByPointAsc.get(1).getColor());
     }
 
-    private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+    private void addPiece(String position, ChessPiece chessPiece) {
+        board.move(position, chessPiece);
     }
 
     @Test
@@ -213,8 +212,8 @@ public class BoardTest {
     }
 
     void verifyPieceWithPosition(String position,PieceTypes type){
-        ChessPiece piece = board.findPiece(position);
-        assertEquals(type.getType(),piece.getType());
-        assertEquals(type.getColor(),piece.getColor());
+        ChessPiece chessPiece = board.findPiece(position);
+        assertEquals(type.getType(), chessPiece.getType());
+        assertEquals(type.getColor(), chessPiece.getColor());
     }
 }

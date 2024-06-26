@@ -1,19 +1,21 @@
 package chess.pieces;
 
+import java.util.List;
+
 public enum PieceTypes {
-    WHITE_PAWN(Color.WHITE,Type.PAWN),
-    BLACK_PAWN(Color.BLACK,Type.PAWN),
-    WHITE_KNIGHT(Color.WHITE,Type.KNIGHT),
-    BLACK_KNIGHT(Color.BLACK,Type.KNIGHT),
-    WHITE_ROOK(Color.WHITE,Type.ROOK),
-    BLACK_ROOK(Color.BLACK,Type.ROOK),
-    WHITE_BISHOP(Color.WHITE,Type.BISHOP),
-    BLACK_BISHOP(Color.BLACK,Type.BISHOP),
-    WHITE_QUEEN(Color.WHITE,Type.QUEEN),
-    BLACK_QUEEN(Color.BLACK,Type.QUEEN),
-    WHITE_KING(Color.WHITE,Type.KING),
-    BLACK_KING(Color.BLACK,Type.KING),
-    NO_PIECE(Color.NOCOLOR,Type.NO_PIECE);
+    WHITE_PAWN(Color.WHITE,Type.PAWN,Direction.whitePawnDirection(),false),
+    BLACK_PAWN(Color.BLACK,Type.PAWN,Direction.blackPawnDirection(),false),
+    WHITE_KNIGHT(Color.WHITE,Type.KNIGHT,Direction.knightDirection(),false),
+    BLACK_KNIGHT(Color.BLACK,Type.KNIGHT,Direction.knightDirection(),false),
+    WHITE_ROOK(Color.WHITE,Type.ROOK,Direction.linearDirection(),true),
+    BLACK_ROOK(Color.BLACK,Type.ROOK,Direction.linearDirection(),true),
+    WHITE_BISHOP(Color.WHITE,Type.BISHOP,Direction.diagonalDirection(),true),
+    BLACK_BISHOP(Color.BLACK,Type.BISHOP,Direction.diagonalDirection(),true),
+    WHITE_QUEEN(Color.WHITE,Type.QUEEN,Direction.linearDirection(),true),
+    BLACK_QUEEN(Color.BLACK,Type.QUEEN,Direction.linearDirection(),true),
+    WHITE_KING(Color.WHITE,Type.KING,Direction.everyDirection(),false),
+    BLACK_KING(Color.BLACK,Type.KING,Direction.everyDirection(),false),
+    NO_PIECE(Color.NOCOLOR,Type.NO_PIECE,Direction.noDirection(),false);
     public enum Color{
         WHITE,BLACK,NOCOLOR;
     }
@@ -45,13 +47,15 @@ public enum PieceTypes {
     private final Type type;
     private final char representation;
     private final double point;
+    private final Course course;
 
-    PieceTypes(Color color, Type type) {
+    PieceTypes(Color color, Type type,List<Direction> direction,boolean recursive) {
         this.color = color;
         this.type = type;
         char representation = type.getRepresentation();
         this.representation = color.equals(Color.WHITE) ? representation : Character.toUpperCase(representation);
         this.point = type.getPoint();
+        this.course = new Course(direction,recursive);
     }
 
     public Color getColor() {
@@ -68,5 +72,9 @@ public enum PieceTypes {
 
     public double getPoint(){
         return point;
+    }
+
+    public Course getCourse() {
+        return course;
     }
 }
