@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
 
     private final Type type;
@@ -55,6 +57,18 @@ public class Piece {
             case KING -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
             case NO_PIECE -> new Piece(type, null, null);
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece piece)) return false;
+        return representation == piece.representation;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(representation);
     }
 
     public static Piece createBlank() {
