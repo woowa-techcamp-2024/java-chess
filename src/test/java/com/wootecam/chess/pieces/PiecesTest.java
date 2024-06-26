@@ -52,7 +52,7 @@ public class PiecesTest {
         Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
         Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
 
-        // when
+        // then
         assertAll(
                 () -> assertThat(whitePawn.isWhite()).isTrue(),
                 () -> assertThat(blackPawn.isWhite()).isFalse()

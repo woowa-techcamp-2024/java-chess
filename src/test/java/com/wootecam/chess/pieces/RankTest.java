@@ -50,7 +50,7 @@ class RankTest {
         }
 
         @Test
-        void 아무기물도_표시하지_않는다() {
+        void 아무_기물도_표시하지_않는다() {
             // then
             assertThat(blanks.createResults()).isEqualTo("........");
         }

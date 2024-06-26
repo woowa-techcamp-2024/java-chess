@@ -2,13 +2,17 @@ package com.wootecam.chess;
 
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class BoardTest {
 
@@ -53,7 +57,7 @@ public class BoardTest {
     class pieceCount_메소드는 {
 
         @Nested
-        class 보드를_생성하고_호춣하면 {
+        class 보드를_생성하고_호출하면 {
 
             @Test
             void 현재_보드에_존재하는_기물의_갯수를_반환한다() {
@@ -80,6 +84,34 @@ public class BoardTest {
                     () -> assertThat(blackPawnCount).isEqualTo(8),
                     () -> assertThat(whiteBishopCount).isEqualTo(2)
             );
+        }
+    }
+
+    @Nested
+    class findPiece_메소드는 {
+
+        @Test
+        void 주어진_위치의_기물을_조회한다() {
+            // expect
+            assertAll(
+                    () -> assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhite(Type.ROOK)),
+                    () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhite(Type.ROOK))
+            );
+        }
+
+        @Nested
+        class 만약_8x8_크기의_체스판을_벗어나는_좌표를_입력하면 {
+
+            @ParameterizedTest
+            @ValueSource(strings = {"a9", "a0", "i5"})
+            void 예외가_발생한다(String invalidCoordinate) {
+                // expect
+                assertThatThrownBy(() -> board.findPiece(invalidCoordinate))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("8 x 8 크기의 체스판의 범위를 벗어나는 좌표입니다. coordinate = " + invalidCoordinate);
+            }
         }
     }
 }

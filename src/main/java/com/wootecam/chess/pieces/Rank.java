@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class Rank {
 
-    private static final int PIECE_COUNT = 8;
+    public static final int PIECE_COUNT = 8;
     private static final List<Type> CHESS_PIECE_ORDERS = List.of(
             Type.ROOK, Type.KNIGHT, Type.BISHOP, Type.QUEEN,
             Type.KING, Type.BISHOP, Type.KNIGHT, Type.ROOK
@@ -58,5 +58,9 @@ public class Rank {
         return (int) pieces.stream()
                 .filter(piece -> piece.isSameColorAndType(color, type))
                 .count();
+    }
+
+    public Piece findPieceByColumn(int columnIndex) {
+        return pieces.get(columnIndex);
     }
 }
