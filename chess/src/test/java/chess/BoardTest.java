@@ -15,25 +15,24 @@ public class BoardTest {
     private Board board;
 
     @BeforeEach
-    public void beforeEach()
-    {
+    public void beforeEach() throws Exception {
         board = new Board();
     }
 
     @Test
-    public void countColorPiece(){
+    public void countColorPiece() throws Exception {
         // given
-        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
+        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
         // when & then
         assertEquals(1, board.countPiece(PieceColor.BLACK, PieceType.PAWN));
     }
 
     @Test
-    public void findPiece(){
+    public void findPiece() throws Exception {
         // given
-        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
+        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
         // when & then
-        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece(new Position("a1")));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")), board.findPiece(new Position("a1")));
     }
 
     @Test
@@ -47,8 +46,7 @@ public class BoardTest {
     }
 
     @Test
-    public void getSpecificColorPieces()
-    {
+    public void getSpecificColorPieces() throws Exception {
         anySet();
         List<Piece> piecesAsc = board.getPieces(PieceColor.BLACK, Order.ASC);
         System.out.println(piecesAsc);
@@ -57,16 +55,15 @@ public class BoardTest {
         System.out.println(piecesDesc);
     }
 
-    private void anySet()
-    {
-        board.setPiece(new Position("b6"), new Piece(PieceColor.BLACK, PieceType.PAWN));
-        board.setPiece(new Position("e6"), new Piece(PieceColor.BLACK, PieceType.QUEEN));
-        board.setPiece(new Position("b8"), new Piece(PieceColor.BLACK, PieceType.KING));
-        board.setPiece(new Position("c8"), new Piece(PieceColor.BLACK, PieceType.ROOK));
+    private void anySet() throws Exception {
+        board.setPiece(new Position("b6"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("b6")));
+        board.setPiece(new Position("e6"), new Piece(PieceColor.BLACK, PieceType.QUEEN, new Position("e6")));
+        board.setPiece(new Position("b8"), new Piece(PieceColor.BLACK, PieceType.KING, new Position("b8")));
+        board.setPiece(new Position("c8"), new Piece(PieceColor.BLACK, PieceType.ROOK, new Position("c8")));
 
-        board.setPiece(new Position("f2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
-        board.setPiece(new Position("g2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
-        board.setPiece(new Position("e1"), new Piece(PieceColor.WHITE, PieceType.ROOK));
-        board.setPiece(new Position("f1"), new Piece(PieceColor.WHITE, PieceType.KING));
+        board.setPiece(new Position("f2"), new Piece(PieceColor.WHITE, PieceType.PAWN, new Position("f2")));
+        board.setPiece(new Position("g2"), new Piece(PieceColor.WHITE, PieceType.PAWN, new Position("g2")));
+        board.setPiece(new Position("e1"), new Piece(PieceColor.WHITE, PieceType.ROOK, new Position("e1")));
+        board.setPiece(new Position("f1"), new Piece(PieceColor.WHITE, PieceType.KING, new Position("f1")));
     }
 }

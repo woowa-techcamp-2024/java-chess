@@ -13,6 +13,9 @@ public class ChessGameTest {
     private ChessGame chessGame = new ChessGame();
     private PieceFactory pieceFactory = new PieceFactory();
 
+    public ChessGameTest() throws Exception {
+    }
+
     @Test
     public void initialize() throws Exception {
         chessGame.initialize();
@@ -21,12 +24,12 @@ public class ChessGameTest {
 
     @Test
     public void move() throws Exception {
-        chessGame.setPiece("b2", pieceFactory.createBlackPawn());
+        chessGame.setPiece("b2", pieceFactory.createBlackPawn(new Position("b2")));
         // when
         chessGame.move("b2", "b3");
         // then
-        assertEquals(pieceFactory.createBlank(), chessGame.findPiece("b2"));
-        assertEquals(pieceFactory.createBlackPawn(), chessGame.findPiece("b3"));
+        assertEquals(pieceFactory.createBlank(new Position("b2")), chessGame.findPiece("b2"));
+        assertEquals(pieceFactory.createBlackPawn(new Position("b3")), chessGame.findPiece("b3"));
     }
 
 

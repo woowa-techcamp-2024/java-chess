@@ -2,7 +2,6 @@ package chess;
 
 import pieces.Piece;
 import pieces.PieceColor;
-import pieces.PieceFactory;
 import pieces.PieceType;
 import util.Order;
 
@@ -17,8 +16,8 @@ public class Board {
 
     public Board() {
         ranks = new ArrayList<>();
-        for (int i = 0; i < BoardArea.ROW.getNum(); i++) {
-            ranks.add(new Rank());
+        for (int y = BoardArea.Y.getMax(); y > 0; y--) {
+            ranks.add(new Rank(y));
         }
     }
     // get
@@ -29,7 +28,7 @@ public class Board {
     }
 
     public Piece findPiece(Position position) {
-        return ranks.get(position.getRowIdx()).getPiece(position.getColIdx());
+        return ranks.get(position.getY()).getPiece(position.getX());
     }
 
     public long countPiece(PieceColor color, PieceType type) {
@@ -41,7 +40,7 @@ public class Board {
     public List<Piece> getPieces(PieceColor color, Order order) {
         List<Piece> pieces = new ArrayList<>(ranks.stream()
                 .flatMap(rank -> rank.getSpecificColorPieces(color).stream())
-                .sorted(Comparator.comparingDouble(p -> p.type().getPoint()))
+                .sorted(Comparator.comparingDouble(p -> p.getType().getPoint()))
                 .toList());
         if (order.equals(Order.DESC)) {
             Collections.reverse(pieces);
@@ -52,7 +51,7 @@ public class Board {
 
     // set
     public void setPiece(Position position, Piece piece) {
-        ranks.get(position.getRowIdx()).setPiece(position.getColIdx(), piece);
+        ranks.get(position.getY()).setPiece(position.getX(), piece);
     }
 
     // util
@@ -66,9 +65,9 @@ public class Board {
     }
 
     private double calculatePawnPoint(PieceColor color) {
-        return IntStream.range(0, BoardArea.COL.getNum())
+        return IntStream.range(0, BoardArea.X.getMax())
                 .mapToDouble(colIdx -> {
-                    int numPawn = (int) IntStream.range(0, BoardArea.ROW.getNum())
+                    int numPawn = (int) IntStream.range(0, BoardArea.Y.getMax())
                             .filter(rowIdx -> ranks.get(rowIdx).isPawn(color, colIdx))
                             .count();
 

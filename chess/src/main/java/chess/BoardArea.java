@@ -1,16 +1,16 @@
 package chess;
 
 public enum BoardArea {
-    COL(8),
-    ROW(8)
+    X(8),
+    Y(8)
     ;
     private final int num;
 
-    BoardArea(int num) {
+    private BoardArea(int num) {
         this.num = num;
     }
 
-    public int getNum() {
+    public int getMax(){
         return num;
     }
 }

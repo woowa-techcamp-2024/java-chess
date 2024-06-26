@@ -10,27 +10,31 @@ import java.util.List;
 public class Rank {
     private final List<Piece> pieces;
 
-    public Rank() {
+    public Rank(int y) {
         this.pieces = new ArrayList<>();
-        initBlank();
+        initBlank(y);
     }
 
-    private void initBlank() {
-        for (int i = 0; i < BoardArea.COL.getNum(); i++) {
-            pieces.add(new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE));
+    private void initBlank(int y) {
+        char start = 'a';
+        // a8, b8, ...
+        for (int i = 0; i < BoardArea.X.getMax(); i++) {
+            char x = (char) (start + i);
+            Position position = new Position(x + Integer.toString(y));
+            pieces.add(new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE, position));
         }
     }
 
     // get
     public long getNumOfPieces() {
         return pieces.stream()
-                .filter(p -> !p.type().equals(PieceType.NO_PIECE))
+                .filter(p -> !p.getType().equals(PieceType.NO_PIECE))
                 .count();
     }
 
     public long countPiece(PieceColor color, PieceType type) {
         return pieces.stream()
-                .filter(p -> p.color().equals(color) && p.type().equals(type))
+                .filter(p -> p.getColor().equals(color) && p.getType().equals(type))
                 .count();
     }
 
@@ -40,12 +44,12 @@ public class Rank {
 
     public boolean isPawn(PieceColor color, int colIdx) {
         Piece piece = pieces.get(colIdx);
-        return piece.type().equals(PieceType.PAWN) && piece.color().equals(color);
+        return piece.getType().equals(PieceType.PAWN) && piece.getColor().equals(color);
     }
 
     public List<Piece> getSpecificColorPieces(PieceColor color) {
         return pieces.stream()
-                .filter(p -> p.color().equals(color))
+                .filter(p -> p.getColor().equals(color))
                 .toList();
     }
 
@@ -57,8 +61,8 @@ public class Rank {
     // util
     public double calculatePoint(PieceColor color) {
         return pieces.stream()
-                .filter(p -> p.color().equals(color) && !p.type().equals(PieceType.PAWN))
-                .mapToDouble(p -> p.type().getPoint())
+                .filter(p -> p.getColor().equals(color) && !p.getType().equals(PieceType.PAWN))
+                .mapToDouble(p -> p.getType().getPoint())
                 .sum();
     }
 

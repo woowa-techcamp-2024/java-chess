@@ -1,21 +1,52 @@
 package chess;
 
-public class Position {
-    int rowIdx;
-    int colIdx;
+import exception.OutOfBoard;
 
-    public Position(String position)
-    {
+import java.util.Objects;
+
+public class Position {
+    int x;
+    int y;
+
+    public Position(String position){
         char colChar = position.charAt(0);
         char rowChar = position.charAt(1);
-        this.colIdx = colChar - 'a';
-        this.rowIdx = 8-Character.getNumericValue(rowChar);
-    }
-    public int getRowIdx() {
-        return rowIdx;
+        int x = colChar - 'a';
+        int y = 8-Character.getNumericValue(rowChar);
+        validPosition(y, x);
+        this.x = x;
+        this.y = y;
     }
 
-    public int getColIdx() {
-        return colIdx;
+    public Position(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    private void validPosition(int y, int x){
+        if(!(0 <= y && y < BoardArea.Y.getMax() && 0 <= x && x < BoardArea.X.getMax())){
+            throw new OutOfBoard("체스판 범위를 벗어나는 입력입니다");
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

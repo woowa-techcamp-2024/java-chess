@@ -1,51 +1,53 @@
 package pieces;
 
+import chess.Position;
+
 public class PieceFactory {
-    public Piece createPiece(PieceColor color, PieceType type) {
-        return new Piece(color, type);
+    public Piece createPiece(PieceColor color, PieceType type, Position position) {
+        return new Piece(color, type, position);
     }
 
-    public Piece createBlackPawn(){
-        return createPiece(PieceColor.BLACK, PieceType.PAWN);
+    public Piece createBlackPawn(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.PAWN, position);
     }
 
-    public Piece createBlackRook(){
-        return createPiece(PieceColor.BLACK, PieceType.ROOK);
+    public Piece createBlackRook(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.ROOK, position);
     }
 
-    public Piece createBlackKnight(){
-        return createPiece(PieceColor.BLACK, PieceType.KNIGHT);
+    public Piece createBlackKnight(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.KNIGHT, position);
     }
-    public Piece createBlackBishop(){
-        return createPiece(PieceColor.BLACK, PieceType.BISHOP);
+    public Piece createBlackBishop(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.BISHOP, position);
     }
-    public Piece createBlackQueen(){
-        return createPiece(PieceColor.BLACK, PieceType.QUEEN);
+    public Piece createBlackQueen(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.QUEEN, position);
     }
-    public Piece createBlackKing(){
-        return createPiece(PieceColor.BLACK, PieceType.KING);
-    }
-
-    public Piece createWhitePawn(){
-        return createPiece(PieceColor.WHITE, PieceType.PAWN);
-    }
-    public Piece createWhiteRook(){
-        return createPiece(PieceColor.WHITE, PieceType.ROOK);
-    }
-    public Piece createWhiteKnight(){
-        return createPiece(PieceColor.WHITE, PieceType.KNIGHT);
-    }
-    public Piece createWhiteBishop(){
-        return createPiece(PieceColor.WHITE, PieceType.BISHOP);
-    }
-    public Piece createWhiteQueen(){
-        return createPiece(PieceColor.WHITE, PieceType.QUEEN);
-    }
-    public Piece createWhiteKing(){
-        return createPiece(PieceColor.WHITE, PieceType.KING);
+    public Piece createBlackKing(Position position){
+        return createPiece(PieceColor.BLACK, PieceType.KING, position);
     }
 
-    public Piece createBlank(){
-        return new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE);
+    public Piece createWhitePawn(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.PAWN, position);
+    }
+    public Piece createWhiteRook(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.ROOK, position);
+    }
+    public Piece createWhiteKnight(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.KNIGHT, position);
+    }
+    public Piece createWhiteBishop(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.BISHOP, position);
+    }
+    public Piece createWhiteQueen(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.QUEEN, position);
+    }
+    public Piece createWhiteKing(Position position){
+        return createPiece(PieceColor.WHITE, PieceType.KING, position);
+    }
+
+    public Piece createBlank(Position position){
+        return new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE, position);
     }
 }
