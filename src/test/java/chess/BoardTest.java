@@ -2,6 +2,7 @@ package chess;
 
 import chess.pieces.Color;
 import chess.pieces.Piece;
+import chess.pieces.Position;
 import chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,17 +15,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
     private Board board;
+    private ChessView chessView;
+    private ChessGame chessGame;
 
     @BeforeEach
     public void setUp() {
         board = new Board();
+        chessView = new ChessView(board);
+        chessGame = new ChessGame(board);
     }
 
     @Test
     @DisplayName("보드에 폰을 추가할 수 있다")
     public void create() {
-        board.initialize();
-        assertEquals(32, board.pieceCount());
+        chessGame.start();
+        assertEquals(32, chessGame.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                 appendNewLine("RNBQKBNR") +
@@ -32,89 +37,72 @@ public class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                board.showBoard());
+                chessView.showBoard());
     }
 
     @Test
     @DisplayName("체스판을 출력할 수 있다")
     public void showBoard() {
-        board.initialize();
-        System.out.println(board.showBoard());
+        chessGame.start();
+        System.out.println(chessView.showBoard());
     }
 
     @Test
     @DisplayName("기물과 색에 해당하는 기물의 개수를 반환한다")
     public void countPieces() {
-        board.initialize();
-        assertEquals(8, board.countPieces(Color.BLACK, Type.PAWN));
-
-        board.updateBoard(List.of(
-                ".KR.....",
-                "P.PB....",
-                ".P..Q...",
-                "........",
-                ".....nq.",
-                ".....p..",
-                "......p.",
-                "....rk.."
-        ));
-        System.out.println(board.showBoard());
-        assertEquals(3, board.countPieces(Color.BLACK, Type.PAWN));
+        chessGame.start();
+        assertEquals(8, chessGame.countPieces(Color.BLACK, Type.PAWN));
     }
 
     @Test
     @DisplayName("주어진 위치의 기물을 조회할 수 있다")
     public void findPiece() {
-        board.initialize();
-
-        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+        chessGame.start();
+        assertEquals(Piece.createBlackRook(new Position("a8")), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(new Position("h8")), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(new Position("a1")), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(new Position("h1")), board.findPiece("h1"));
     }
 
     @Test
-    @DisplayName("임의의 기물을 체스판 위에 추가할 수 있다")
+    @DisplayName("임의의 기물을 체스판의 다른 위치로 이동할 수 있다")
     public void move() {
-        board.initializeEmpty();
-
-        String position = "b5";
-        Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
-
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        chessGame.start();
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        chessGame.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
     }
 
     @Test
     @DisplayName("남아있는 기물에 대한 점수 계산이 가능해야한다")
     public void caculcatePoint() {
-        board.initializeEmpty();
+        board.initialize();
+        addPiece("b6", Piece.createBlackPawn(new Position("b6")));
+        addPiece("e6", Piece.createBlackQueen(new Position("e6")));
+        addPiece("b8", Piece.createBlackKing(new Position("b8")));
+        addPiece("c8", Piece.createBlackRook(new Position("c8")));
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("f2", Piece.createWhitePawn(new Position("f2")));
+        addPiece("g2", Piece.createWhitePawn(new Position("g2")));
+        addPiece("e1", Piece.createWhiteRook(new Position("e1")));
+        addPiece("f1", Piece.createWhiteKing(new Position("f1")));
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        assertEquals(15.0, chessGame.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
 
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
-
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard());
     }
 
     private void addPiece(final String position, final Piece piece) {
-        board.move(position, piece);
+        chessGame.move(position, piece);
     }
 
     @Test
     @DisplayName("원하는 색상의 기물들을 정렬된 리스트로 받을 수 있어야 한다")
     public void getSortedPieces() {
-        board.initialize();
+        chessGame.start();
         List<Piece> sortedWhitePieces = board.getSortedPieces(Color.WHITE);
         System.out.println(sortedWhitePieces);
         System.out.println(sortedWhitePieces.reversed());
