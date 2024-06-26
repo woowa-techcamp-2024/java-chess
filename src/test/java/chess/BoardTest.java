@@ -102,7 +102,7 @@ public class BoardTest {
     }
 
     @Test
-    public void caculcatePoint() throws Exception {
+    public void calculcatePoint() throws Exception {
         board.initializeEmpty();
 
         addPiece("b6", Piece.createPiece(BLACK_PAWN));
@@ -117,8 +117,31 @@ public class BoardTest {
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
+    }
 
-        System.out.println(board.print());
+    @Test
+    public void calculatePointTest2_verticalPawns(){
+        board.initializeEmpty();
+
+        addPiece("e1",Piece.createPiece(WHITE_ROOK));
+        addPiece("f1",Piece.createPiece(WHITE_KING));
+        addPiece("f2",Piece.createPiece(WHITE_PAWN));
+        addPiece("g2",Piece.createPiece(WHITE_PAWN));
+        addPiece("f3",Piece.createPiece(WHITE_PAWN));
+        addPiece("h3",Piece.createPiece(WHITE_PAWN));
+        addPiece("f4",Piece.createPiece(WHITE_KNIGHT));
+        addPiece("g4",Piece.createPiece(WHITE_QUEEN));
+
+        addPiece("b6",Piece.createPiece(BLACK_PAWN));
+        addPiece("e6",Piece.createPiece(BLACK_QUEEN));
+        addPiece("a7",Piece.createPiece(BLACK_PAWN));
+        addPiece("c7",Piece.createPiece(BLACK_PAWN));
+        addPiece("d7",Piece.createPiece(BLACK_BISHOP));
+        addPiece("b8",Piece.createPiece(BLACK_KING));
+        addPiece("c8",Piece.createPiece(BLACK_ROOK));
+
+        assertEquals(20.0,board.calculatePoint(Color.BLACK),0.01);
+        assertEquals(19.5,board.calculatePoint(Color.WHITE),0.01);
     }
 
     private void addPiece(String position, Piece piece) {
