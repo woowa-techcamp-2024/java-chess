@@ -160,7 +160,7 @@ public class BoardTest {
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(Board.Position.convert(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(Board.Position.convert(targetPosition)), board.findPiece(targetPosition));
+        assertEquals(Piece.createBlank(Position.convert(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(Position.convert(targetPosition)), board.findPiece(targetPosition));
     }
 }

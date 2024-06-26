@@ -12,32 +12,6 @@ import java.util.List;
 
 public class Board {
 
-    public record Position(int col, int row) {
-
-        public Position {
-            validateRow(row);
-            validateCol(col);
-        }
-
-        public static Position convert(String rawPosition) {
-            int col = rawPosition.charAt(0) - 'a';
-            int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
-            return new Position(col, row);
-        }
-
-        private void validateRow(int row) {
-            if (row < 0 || row >= 8) {
-                throw new IllegalArgumentException("체스 보드 행은 1이상, 8 이하입니다.");
-            }
-        }
-
-        private void validateCol(int col) {
-            if (col < 0 || col >= 8) {
-                throw new IllegalArgumentException("체스 보드 열은 a이상, h 이하입니다.");
-            }
-        }
-    }
-
     private static final int EMPTY_ROW_BEGIN = 2;
     private static final int EMPTY_ROW_END = 6;
     static final int BOARD_LENGTH = 8;
@@ -86,7 +60,7 @@ public class Board {
 
     public void move(String rawPosition, Piece piece) {
         Position position = Position.convert(rawPosition);
-        ranks.get(position.row).move(position.col, piece);
+        ranks.get(position.row()).move(position.col(), piece);
     }
 
     public void move(String sourcePosition, String targetPosition) {
@@ -97,7 +71,7 @@ public class Board {
 
     public Piece findPiece(String rawPosition) {
         Position position = Position.convert(rawPosition);
-        return ranks.get(position.row).get(position.col);
+        return ranks.get(position.row()).get(position.col());
     }
 
     public double calculatePoint(Color color) {

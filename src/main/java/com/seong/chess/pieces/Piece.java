@@ -1,6 +1,6 @@
 package com.seong.chess.pieces;
 
-import com.seong.chess.Board.Position;
+import com.seong.chess.Position;
 import java.util.Objects;
 
 public abstract class Piece {
