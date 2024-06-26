@@ -5,7 +5,6 @@ import static org.example.utils.StringUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.pieces.Piece;
-import org.example.utils.StringUtils;
 
 public class Board {
 
@@ -30,8 +29,8 @@ public class Board {
             return ret;
         }
 
-        public void modifyPiece(Piece piece, int index) {
-            pieces.set(index, piece);
+        public void modifyPiece(Piece piece, int rowNumber) {
+            pieces.set(rowNumber - 1, piece);
         }
 
         public Piece getPiece(int index) {
@@ -40,9 +39,6 @@ public class Board {
         }
     }
 
-
-    private final List<Piece> whitePieces = new ArrayList<>();
-    private final List<Piece> blackPieces = new ArrayList<>();
     private final List<OneColumn> oneColumns;
 
     private final int BOARD_SIZE = 8;
@@ -62,58 +58,56 @@ public class Board {
     }
 
     private void initialize() {
-        //initPawn();
+        initColoredPiece();
     }
 
-    private void initPawn() {
+    private void initColoredPiece() {
         placeBlackPiece();
         placeWhitePiece();
     }
 
     private void placeWhitePiece() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            whitePieces.add(Piece.createWhitePawn());
+        final int whitePieceRow = 1;
+        final int whitePawnRow = 2;
+
+        for (OneColumn oneColumn : oneColumns) {
+            oneColumn.modifyPiece(Piece.createWhitePawn(), whitePawnRow);
         }
 
-        whitePieces.add(Piece.createWhiteRook());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteQueen());
-        whitePieces.add(Piece.createWhiteKing());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteRook());
+        oneColumns.get(0).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
+        oneColumns.get(1).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
+        oneColumns.get(2).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
+        oneColumns.get(3).modifyPiece(Piece.createWhiteQueen(), whitePieceRow);
+        oneColumns.get(4).modifyPiece(Piece.createWhiteKing(), whitePieceRow);
+        oneColumns.get(5).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
+        oneColumns.get(6).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
+        oneColumns.get(7).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
     }
 
     private void placeBlackPiece() {
-        blackPieces.add(Piece.createBlackRook());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackQueen());
-        blackPieces.add(Piece.createBlackKing());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackRook());
+        final int blackPieceRow = 8; // Assuming the black pieces are placed at row 7
+        final int blackPawnRow = 7;
 
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            blackPieces.add(Piece.createBlackPawn());
-        }
+        // Place black pawns
+        oneColumns.forEach(oneColumn -> oneColumn.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
+
+        // Place other black pieces
+        oneColumns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
+        oneColumns.get(1).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
+        oneColumns.get(2).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
+        oneColumns.get(3).modifyPiece(Piece.createBlackQueen(), blackPieceRow);
+        oneColumns.get(4).modifyPiece(Piece.createBlackKing(), blackPieceRow);
+        oneColumns.get(5).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
+        oneColumns.get(6).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
+        oneColumns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder sb = new StringBuilder();
-        for (Piece piece : whitePieces) {
-            sb.append(piece.getRepresentation());
-        }
-        return sb.toString();
+        return "";
     }
 
     public String getBlackPawnsResult() {
-        StringBuilder sb = new StringBuilder();
-        for (Piece piece : blackPieces) {
-            sb.append(piece.getRepresentation());
-        }
-        return sb.toString();
+        return "";
     }
 
 
@@ -135,12 +129,11 @@ public class Board {
         return sb.toString();
     }
 
-    public Piece findPawn(int id) {
-        // index를 넘어가는 경우 에러를 발생시키는 코드 추가하기
-        return whitePieces.get(id);
-    }
-
     public int pieceCount() {
-        return whitePieces.size() + blackPieces.size();
+        return oneColumns.stream()
+            .mapToInt(oneColumn -> (int) oneColumn.pieces.stream()
+                .filter(piece -> piece.isBlack() || piece.isWhite())
+                .count())
+            .sum();
     }
 }
