@@ -2,7 +2,7 @@ package com.seong.chess.pieces;
 
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
@@ -38,77 +38,72 @@ public class Piece {
         }
     }
 
-    private final Type type;
+    private final Type type;  // 추후 제거
+    protected final Color color;
+    protected final char representation;
+    protected final double defaultPoint;
 
-    private final Color color;
-
-    public Piece(Type type, Color color) {
+    public Piece(Type type, Color color, char representation, double defaultPoint) {
         this.type = type;
         this.color = color;
+        this.representation = representation;
+        this.defaultPoint = defaultPoint;
     }
 
     public static Piece createBlank() {
-        return new Piece(Type.NO_PIECE, Color.NOCOLOR);
+        return Blank.create();
     }
 
     public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
+        return Pawn.createWhite();
     }
 
     public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
+        return Pawn.createBlack();
     }
 
     public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
+        return King.createWhite();
     }
 
     public static Piece createBlackKing() {
-        return createBlack(Type.KING);
+        return King.createBlack();
     }
 
     public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
+        return Queen.createWhite();
     }
 
     public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
+        return Queen.createBlack();
     }
 
     public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
+        return Rook.createWhite();
     }
 
     public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
+        return Rook.createBlack();
     }
 
     public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
+        return Bishop.createWhite();
     }
 
     public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
+        return Bishop.createBlack();
     }
 
     public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
+        return Knight.createWhite();
     }
 
     public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(type, Color.WHITE);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(type, Color.BLACK);
+        return Knight.createBlack();
     }
 
     public char getRepresentation() {
-        return isWhite() ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        return isWhite() ? representation : Character.toUpperCase(representation);
     }
 
     public boolean isBlack() {
@@ -119,9 +114,7 @@ public class Piece {
         return color.equals(Color.WHITE);
     }
 
-    public boolean isNotBlank() {
-        return !type.equals(Type.NO_PIECE);
-    }
+    public abstract boolean isNotBlank();
 
     public boolean isEqual(Type type, Color color) {
         return this.type == type && this.color == color;
@@ -132,7 +125,7 @@ public class Piece {
     }
 
     public double getDefaultPoint() {
-        return type.defaultPoint;
+        return defaultPoint;
     }
 
     public String getColor() {
@@ -152,19 +145,21 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return type == piece.type && color == piece.color;
+        return representation == piece.representation && Double.compare(defaultPoint, piece.defaultPoint) == 0
+                && color == piece.color;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, color);
+        return Objects.hash(color, representation, defaultPoint);
     }
 
     @Override
     public String toString() {
         return "Piece{" +
-                "type=" + type +
-                ", color=" + color +
+                "color=" + color +
+                ", representation=" + representation +
+                ", defaultPoint=" + defaultPoint +
                 '}';
     }
 }

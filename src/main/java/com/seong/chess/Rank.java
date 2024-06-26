@@ -1,8 +1,15 @@
 package com.seong.chess;
 
+import com.seong.chess.pieces.Bishop;
+import com.seong.chess.pieces.Blank;
+import com.seong.chess.pieces.King;
+import com.seong.chess.pieces.Knight;
+import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
+import com.seong.chess.pieces.Queen;
+import com.seong.chess.pieces.Rook;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +28,7 @@ public class Rank {
 
     private void initializeBlank() {
         for (int i = 0; i < Board.BOARD_LENGTH; i++) {
-            pieces.add(Piece.createBlank());
+            pieces.add(Blank.create());
         }
     }
 
@@ -33,7 +40,7 @@ public class Rank {
 
     private void initializeWhitePawn() {
         for (int i = 0; i < Board.BOARD_LENGTH; i++) {
-            pieces.add(Piece.createWhitePawn());
+            pieces.add(Pawn.createWhite());
         }
     }
 
@@ -45,7 +52,7 @@ public class Rank {
 
     private void initializeBlackPawn() {
         for (int i = 0; i < Board.BOARD_LENGTH; i++) {
-            pieces.add(Piece.createBlackPawn());
+            pieces.add(Pawn.createBlack());
         }
     }
 
@@ -56,14 +63,14 @@ public class Rank {
     }
 
     private void initializeWhitePieces() {
-        pieces.add(Piece.createWhiteRook());
-        pieces.add(Piece.createWhiteKnight());
-        pieces.add(Piece.createWhiteBishop());
-        pieces.add(Piece.createWhiteQueen());
-        pieces.add(Piece.createWhiteKing());
-        pieces.add(Piece.createWhiteBishop());
-        pieces.add(Piece.createWhiteKnight());
-        pieces.add(Piece.createWhiteRook());
+        pieces.add(Rook.createWhite());
+        pieces.add(Knight.createWhite());
+        pieces.add(Bishop.createWhite());
+        pieces.add(Queen.createWhite());
+        pieces.add(King.createWhite());
+        pieces.add(Bishop.createWhite());
+        pieces.add(Knight.createWhite());
+        pieces.add(Rook.createWhite());
     }
 
     public static Rank createBlackPiecesRank() {
@@ -73,14 +80,14 @@ public class Rank {
     }
 
     private void initializeBlackPieces() {
-        pieces.add(Piece.createBlackRook());
-        pieces.add(Piece.createBlackKnight());
-        pieces.add(Piece.createBlackBishop());
-        pieces.add(Piece.createBlackQueen());
-        pieces.add(Piece.createBlackKing());
-        pieces.add(Piece.createBlackBishop());
-        pieces.add(Piece.createBlackKnight());
-        pieces.add(Piece.createBlackRook());
+        pieces.add(Rook.createBlack());
+        pieces.add(Knight.createBlack());
+        pieces.add(Bishop.createBlack());
+        pieces.add(Queen.createBlack());
+        pieces.add(King.createBlack());
+        pieces.add(Bishop.createBlack());
+        pieces.add(Knight.createBlack());
+        pieces.add(Rook.createBlack());
     }
 
     public void add(Piece piece) {
