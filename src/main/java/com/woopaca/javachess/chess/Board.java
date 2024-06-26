@@ -15,8 +15,8 @@ public class Board {
     public static final int PAWNS_COUNT = 8;
     public static final int BLACK_PAWNS_RANK = 1;
     public static final int WHITE_PAWNS_RANK = 6;
-    public static final int BLACK_MAJORS_RANK = 0;
-    public static final int WHITE_MAJORS_RANK = 7;
+    public static final int BLACK_MAIN_RANK = 0;
+    public static final int WHITE_MAIN_RANK = 7;
 
     private final List<Rank> ranks = new ArrayList<>();
 
@@ -37,51 +37,49 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Rank rank = ranks.get(i);
             for (int j = 0; j < BOARD_SIZE; j++) {
-                rank.addPiece(Piece.createBlank());
+                rank.addPiece(Piece.createBlank(new Position(j, i)));
             }
         }
     }
 
     private void addBlankRanks() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            ranks.get(2).addPiece(Piece.createBlank());
-            ranks.get(3).addPiece(Piece.createBlank());
-            ranks.get(4).addPiece(Piece.createBlank());
-            ranks.get(5).addPiece(Piece.createBlank());
+            ranks.get(2).addPiece(Piece.createBlank(new Position(2, i)));
+            ranks.get(3).addPiece(Piece.createBlank(new Position(3, i)));
+            ranks.get(4).addPiece(Piece.createBlank(new Position(4, i)));
+            ranks.get(5).addPiece(Piece.createBlank(new Position(5, i)));
         }
     }
 
     private void addPawns() {
-        Rank blackPawnsRank = ranks.get(BLACK_PAWNS_RANK);
-        Rank whitePawnsRank = ranks.get(WHITE_PAWNS_RANK);
         for (int i = 0; i < PAWNS_COUNT; i++) {
-            blackPawnsRank.addPiece(Piece.createBlackPawn());
-            whitePawnsRank.addPiece(Piece.createWhitePawn());
+            ranks.get(BLACK_PAWNS_RANK).addPiece(Piece.createBlackPawn(new Position(BLACK_PAWNS_RANK, i)));
+            ranks.get(WHITE_PAWNS_RANK).addPiece(Piece.createWhitePawn(new Position(WHITE_PAWNS_RANK, i)));
         }
     }
 
     private void addBlackMajorPieces() {
-        Rank blackMajorRank = ranks.get(BLACK_MAJORS_RANK);
-        blackMajorRank.addPiece(Piece.createBlackRook());
-        blackMajorRank.addPiece(Piece.createBlackKnight());
-        blackMajorRank.addPiece(Piece.createBlackBishop());
-        blackMajorRank.addPiece(Piece.createBlackQueen());
-        blackMajorRank.addPiece(Piece.createBlackKing());
-        blackMajorRank.addPiece(Piece.createBlackBishop());
-        blackMajorRank.addPiece(Piece.createBlackKnight());
-        blackMajorRank.addPiece(Piece.createBlackRook());
+        Rank blackMajorRank = ranks.get(BLACK_MAIN_RANK);
+        blackMajorRank.addPiece(Piece.createBlackRook(new Position(BLACK_MAIN_RANK, 0)));
+        blackMajorRank.addPiece(Piece.createBlackKnight(new Position(BLACK_MAIN_RANK, 1)));
+        blackMajorRank.addPiece(Piece.createBlackBishop(new Position(BLACK_MAIN_RANK, 2)));
+        blackMajorRank.addPiece(Piece.createBlackQueen(new Position(BLACK_MAIN_RANK, 3)));
+        blackMajorRank.addPiece(Piece.createBlackKing(new Position(BLACK_MAIN_RANK, 4)));
+        blackMajorRank.addPiece(Piece.createBlackBishop(new Position(BLACK_MAIN_RANK, 5)));
+        blackMajorRank.addPiece(Piece.createBlackKnight(new Position(BLACK_MAIN_RANK, 6)));
+        blackMajorRank.addPiece(Piece.createBlackRook(new Position(BLACK_MAIN_RANK, 7)));
     }
 
     private void addWhiteMajorPieces() {
-        Rank whiteMajorRank = ranks.get(WHITE_MAJORS_RANK);
-        whiteMajorRank.addPiece(Piece.createWhiteRook());
-        whiteMajorRank.addPiece(Piece.createWhiteKnight());
-        whiteMajorRank.addPiece(Piece.createWhiteBishop());
-        whiteMajorRank.addPiece(Piece.createWhiteQueen());
-        whiteMajorRank.addPiece(Piece.createWhiteKing());
-        whiteMajorRank.addPiece(Piece.createWhiteBishop());
-        whiteMajorRank.addPiece(Piece.createWhiteKnight());
-        whiteMajorRank.addPiece(Piece.createWhiteRook());
+        Rank whiteMajorRank = ranks.get(WHITE_MAIN_RANK);
+        whiteMajorRank.addPiece(Piece.createWhiteRook(new Position(WHITE_MAIN_RANK, 0)));
+        whiteMajorRank.addPiece(Piece.createWhiteKnight(new Position(WHITE_MAIN_RANK, 1)));
+        whiteMajorRank.addPiece(Piece.createWhiteBishop(new Position(WHITE_MAIN_RANK, 2)));
+        whiteMajorRank.addPiece(Piece.createWhiteQueen(new Position(WHITE_MAIN_RANK, 3)));
+        whiteMajorRank.addPiece(Piece.createWhiteKing(new Position(WHITE_MAIN_RANK, 4)));
+        whiteMajorRank.addPiece(Piece.createWhiteBishop(new Position(WHITE_MAIN_RANK, 5)));
+        whiteMajorRank.addPiece(Piece.createWhiteKnight(new Position(WHITE_MAIN_RANK, 6)));
+        whiteMajorRank.addPiece(Piece.createWhiteRook(new Position(WHITE_MAIN_RANK, 7)));
     }
 
     public String getWhitePawnsResult() {
@@ -123,14 +121,27 @@ public class Board {
 
     public Piece findPiece(String fileRank) {
         Position position = new Position(fileRank);
+        return findPiece(position);
+    }
+
+    private Piece findPiece(Position position) {
         return ranks.get(position.getRankIndex())
                 .findPieceByFile(position.getFileIndex());
     }
 
-    public void move(String fileRank, Piece piece) {
-        Position position = new Position(fileRank);
-        Rank rank = ranks.get(position.getRankIndex());
-        rank.moveTo(position.getFileIndex(), piece);
+    public void move(String sourceFileRank, String targetFileRank) {
+        Position sourcePosition = new Position(sourceFileRank);
+        Position targetPosition = new Position(targetFileRank);
+
+        Piece sourcePiece = findPiece(sourcePosition);
+        Piece targetPiece = findPiece(targetPosition);
+        placePiece(sourcePosition, targetPiece);
+        placePiece(targetPosition, sourcePiece);
+    }
+
+    public void placePiece(Position position, Piece piece) {
+        ranks.get(position.getRankIndex())
+                .moveTo(position.getFileIndex(), piece);
     }
 
     public double calculatePoint(Color color) {
