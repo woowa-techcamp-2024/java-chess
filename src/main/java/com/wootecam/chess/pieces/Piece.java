@@ -91,8 +91,20 @@ public class Piece {
         return color.isBlack();
     }
 
+    public boolean isColor(Color color) {
+        return this.color == color;
+    }
+
     public boolean isPiece() {
         return type != PieceType.NO_PIECE;
+    }
+
+    public boolean isPieceAndNotPawn() {
+        return type != PieceType.NO_PIECE && type != PieceType.PAWN;
+    }
+
+    public boolean isPawn() {
+        return type == PieceType.PAWN;
     }
 
     public PieceType getType() {

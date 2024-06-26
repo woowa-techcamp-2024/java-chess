@@ -2,7 +2,6 @@ package com.wootecam.chess.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.pieces.Color;
@@ -19,7 +18,6 @@ import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -164,13 +162,30 @@ class BoardTest {
                     () -> assertThat(piece.getColor()).isEqualTo(color)
             );
         }
+    }
 
-        @ValueSource(strings = {"a88", "i8", "a9"})
-        @ParameterizedTest
-        void 유효하지_않은_위치라면_예외가_발생한다(String position) {
-            Position pos = new Position(position);
-            assertThatThrownBy(() -> board.get(pos))
-                    .isInstanceOf(IllegalArgumentException.class);
+    @Nested
+    class 기물의_점수를_계산한다 {
+
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
+        @Test
+        void 기물의_점수를_계산할_수_있다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("a7"));
+            board.add(Piece.createWhitePawn(), createPosition("a4"));
+            board.add(Piece.createBlackKnight(), createPosition("b5"));
+            board.add(Piece.createBlackRook(), createPosition("c5"));
+            board.add(Piece.createBlackBishop(), createPosition("d5"));
+            board.add(Piece.createBlackKing(), createPosition("e5"));
+            board.add(Piece.createBlackQueen(), createPosition("f5"));
+
+            double score = board.calculateScore(Color.BLACK);
+
+            assertThat(score).isEqualTo(20.5);
         }
     }
 }

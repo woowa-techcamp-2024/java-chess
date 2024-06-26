@@ -62,6 +62,14 @@ public class Board {
         }
     }
 
+    public Piece get(Position pos) {
+        return ranks[pos.x].get(pos.y);
+    }
+
+    public int size() {
+        return totalPieces;
+    }
+
     public String print() {
         return Arrays.stream(ranks)
                 .map(Rank::print)
@@ -74,12 +82,40 @@ public class Board {
                 .sum();
     }
 
-    public Piece get(Position pos) {
-        return ranks[pos.x].get(pos.y);
+    public double calculateScore(Color color) {
+        double score = Arrays.stream(ranks)
+                .mapToDouble(r -> r.calculateScoreExceptPawn(color))
+                .sum();
+        score += calculatePawnScore(color);
+
+        return score;
     }
 
-    public int size() {
-        return totalPieces;
+    private double calculatePawnScore(Color color) {
+        double score = 0;
+
+        for (int col = 0; col < MAX_COL; ++col) {
+            int count = countPawnsInColumn(color, col);
+
+            if (count == 1) {
+                score += PieceType.PAWN.point;
+            } else if (count >= 2) {
+                score += PieceType.PAWN.point * count / 2;
+            }
+        }
+
+        return score;
+    }
+
+    private int countPawnsInColumn(Color color, int col) {
+        int count = 0;
+        for (int row = 0; row < MAX_ROW; ++row) {
+            Piece piece = ranks[row].get(col);
+            if (piece.isColor(color) && piece.isPawn()) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     private static class Rank {
@@ -122,10 +158,11 @@ public class Board {
             }
         }
 
-        public int countPiece(PieceType type, Color color) {
-            return (int) Arrays.stream(squares)
-                    .filter(piece -> piece.hasTypeAndColor(type, color))
-                    .count();
+        public String print() {
+            return Arrays.stream(squares)
+                    .map(Piece::getRepresentation)
+                    .map(r -> r.value)
+                    .collect(Collectors.joining());
         }
 
         public Piece get(int index) {
@@ -134,11 +171,17 @@ public class Board {
             return squares[index];
         }
 
-        public String print() {
+        public int countPiece(PieceType type, Color color) {
+            return (int) Arrays.stream(squares)
+                    .filter(piece -> piece.hasTypeAndColor(type, color))
+                    .count();
+        }
+
+        public double calculateScoreExceptPawn(Color color) {
             return Arrays.stream(squares)
-                    .map(Piece::getRepresentation)
-                    .map(r -> r.value)
-                    .collect(Collectors.joining());
+                    .filter(p -> p.isPieceAndNotPawn() && p.isColor(color))
+                    .mapToDouble(p -> p.getType().point)
+                    .sum();
         }
     }
 }
