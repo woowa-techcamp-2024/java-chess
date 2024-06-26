@@ -13,6 +13,10 @@ public class Rank {
 
     private static final int BOARD_WIDTH = 8;
 
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+
     public int getTotalPieceCount() {
         return pieceCount;
     }
