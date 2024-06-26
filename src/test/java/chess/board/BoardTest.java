@@ -23,7 +23,7 @@ class BoardTest {
         Board board = new Board();
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint()));
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_DESCENDING);
 
         // then
         assertThat(pieces).extracting("point", "type")
@@ -43,6 +43,36 @@ class BoardTest {
                         tuple(1.0, Type.PAWN),
                         tuple(1.0, Type.PAWN),
                         tuple(0.0, Type.KING));
+    }
+
+    @DisplayName("기물의 점수를 오름차순으로 정렬하여 반환할 수 있다.")
+    @Test
+    void sortPiecesByPointAscending() {
+        // given
+        Board board = new Board();
+
+        // when
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_ASCENDING);
+
+        // then
+        assertThat(pieces).extracting("point", "type")
+                .containsExactly(tuple(0.0, Type.KING),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(2.5, Type.KNIGHT),
+                        tuple(2.5, Type.KNIGHT),
+                        tuple(3.0, Type.BISHOP),
+                        tuple(3.0, Type.BISHOP),
+                        tuple(5.0, Type.ROOK),
+                        tuple(5.0, Type.ROOK),
+                        tuple(9.0, Type.QUEEN));
+
     }
 
     @Test
