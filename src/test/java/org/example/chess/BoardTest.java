@@ -26,20 +26,14 @@ public class BoardTest {
 
     @Test
     public void create() throws Exception {
-        assertEquals(0, board.pieceCount());
+        assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
-        /*
         assertEquals(
             appendNewLine("♜♞♝♛♚♝♞♜") +
                 appendNewLine("♟♟♟♟♟♟♟♟") +
                 blankRank + blankRank + blankRank + blankRank +
                 appendNewLine("♙♙♙♙♙♙♙♙") +
                 appendNewLine("♖♘♗♕♔♗♘♖"),
-            board.showBoard());
-        * */
-        assertEquals(
-            blankRank + blankRank + blankRank + blankRank +
-                blankRank + blankRank + blankRank + blankRank,
             board.showBoard());
 
     }
