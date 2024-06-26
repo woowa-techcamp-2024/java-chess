@@ -9,7 +9,7 @@ import java.util.List;
 import static org.example.chess.pieces.Piece.createBlank;
 
 public class Board {
-
+    static final int SIZE = 8;
     List<List<Piece>> board2 = new ArrayList<>();
     List<Piece> pieceList = new ArrayList<>();
     List<Piece> whitePieceList = new ArrayList<>();
@@ -125,5 +125,40 @@ public class Board {
         if (locatedPiece.getPieceType() != PieceType.NO_PIECE) return;
 
         board2.get(pos.getRow()).set(pos.getColumn(), piece);
+    }
+
+    public void initializeEmpty() {
+        board2 = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            List<Piece> row = new ArrayList<>();
+            for (int j = 0; j < 8; j++) {
+                row.add(createBlank()); // 빈 칸은 Blank 입력
+            }
+            board2.add(row);
+        }
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        double sum = 0;
+
+        for (int i = 0; i < SIZE; i++) {
+            List<Piece> row = board2.get(i);
+            for (int j = 0; j < SIZE; j++) {
+                Piece piece = row.get(j);
+                if(!piece.getColor().equals(color)) continue;
+                double defaultPoint = piece.getPieceType().getDefaultPoint();
+
+                if (piece.getPieceType().equals(PieceType.PAWN)) {
+                    for (int k = 0; k < SIZE; k++) {
+                        Piece pieceTmp = board2.get(j).get(k);
+                        if(pieceTmp.getPieceType().equals(PieceType.PAWN)&&pieceTmp.getColor().equals(color)) defaultPoint-=0.5;
+                    }
+                }
+
+                sum += defaultPoint;
+            }
+        }
+
+        return sum;
     }
 }

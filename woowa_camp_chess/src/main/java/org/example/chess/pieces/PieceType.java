@@ -2,7 +2,7 @@ package org.example.chess.pieces;
 
 //todo : inner class 에 넣을 것인지 ?
 public enum PieceType {
-    KING('K', 1.0),
+    KING('K', 0.0),
     QUEEN('Q', 9.0),
     ROOK( 'R', 5.0),
     BISHOP( 'B', 3.0),

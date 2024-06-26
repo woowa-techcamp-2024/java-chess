@@ -76,8 +76,8 @@ public class BoardTest {
         addPiece("e1", Piece.createWhiteRook());
         addPiece("f1", Piece.createWhiteKing());
 
-        assertEquals(15.0, board.caculcatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(7.0, board.caculcatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
     }
