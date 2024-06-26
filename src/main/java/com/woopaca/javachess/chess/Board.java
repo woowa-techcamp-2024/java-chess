@@ -6,6 +6,7 @@ import com.woopaca.javachess.pieces.Piece.Type;
 import com.woopaca.javachess.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Board {
@@ -153,6 +154,20 @@ public class Board {
             pawnsPoint += pawnsCount * (pawnsCount > 1 ? 0.5 : Type.PAWN.getPoint());
         }
         return pawnsPoint;
+    }
+
+    public List<Piece> sortPiecesByPoint() {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .sorted(Comparator.comparing(Piece::getPoint))
+                .toList();
+    }
+
+    public List<Piece> sortPiecesByPointDescending() {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .sorted(Comparator.comparing(Piece::getPoint).reversed())
+                .toList();
     }
 
 }

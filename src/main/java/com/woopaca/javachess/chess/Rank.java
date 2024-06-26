@@ -23,9 +23,7 @@ public class Rank {
     }
 
     public int getPiecesCount() {
-        return (int) pieces.stream()
-                .filter(piece -> piece.getType() != Type.NO_PIECE)
-                .count();
+        return getPieces().size();
     }
 
     public int getPiecesCount(Color color, Type type) {
@@ -48,5 +46,11 @@ public class Rank {
                 .mapToDouble(Piece::getPoint)
                 .sum();
     }
-    
+
+    public List<Piece> getPieces() {
+        return pieces.stream()
+                .filter(piece -> piece.getType() != Type.NO_PIECE)
+                .toList();
+    }
+
 }
