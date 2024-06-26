@@ -4,6 +4,14 @@ import static org.example.pieces.Piece.Color.*;
 
 public class Piece {
 
+    public boolean isSameColor(Color color) {
+        return this.color == color;
+    }
+
+    public boolean isSameType(Type type) {
+        return this.representation == type;
+    }
+
     public enum Color {
         WHITE, BLACK, NO_COLOR;
 

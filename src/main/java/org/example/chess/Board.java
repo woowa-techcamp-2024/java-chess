@@ -5,6 +5,8 @@ import static org.example.utils.StringUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.pieces.Piece;
+import org.example.pieces.Piece.Color;
+import org.example.pieces.Piece.Type;
 
 public class Board {
 
@@ -129,10 +131,18 @@ public class Board {
         return sb.toString();
     }
 
-    public int pieceCount() {
+    public int nonEmptyPiece() {
         return oneColumns.stream()
             .mapToInt(oneColumn -> (int) oneColumn.pieces.stream()
                 .filter(piece -> piece.isBlack() || piece.isWhite())
+                .count())
+            .sum();
+    }
+
+    public int countByQuery(Color color, Type type) {
+        return oneColumns.stream()
+            .mapToInt(oneColumn -> (int) oneColumn.pieces.stream()
+                .filter(piece -> piece.isSameColor(color) && piece.isSameType(type))
                 .count())
             .sum();
     }
