@@ -31,10 +31,6 @@ public class Board {
         pieceCount = 0;
     }
 
-    private void clear() {
-        ranks.clear();
-    }
-
     private void initialize() {
         pieceCount = INITIAL_PIECE_COUNT;
         initializeBlackFirstRow();
@@ -113,6 +109,12 @@ public class Board {
         targetRank.setPiece(widthIndex, piece);
     }
 
+    public double caculcatePoint(Piece.Color color) {
+        return ranks.stream()
+                .mapToDouble(rank -> rank.calculateRankPoint(color))
+                .sum();
+    }
+
     protected Board() {
         ranks = new ArrayList<>();
         initialize();
@@ -174,5 +176,6 @@ public class Board {
         }
         return convertedWidth;
     }
+
 
 }
