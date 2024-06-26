@@ -1,6 +1,7 @@
 package chess;
 
 
+import pieces.Piece;
 import pieces.PieceFactory;
 
 public class ChessGame {
@@ -20,21 +21,21 @@ public class ChessGame {
     }
 
     private void initBlackPieces() {
-        board.addPiece(new Position("a8"), pieceFactory.createBlackRook());
-        board.addPiece(new Position("b8"), pieceFactory.createBlackKnight());
-        board.addPiece(new Position("c8"), pieceFactory.createBlackBishop());
-        board.addPiece(new Position("d8"), pieceFactory.createBlackQueen());
-        board.addPiece(new Position("e8"), pieceFactory.createBlackKing());
-        board.addPiece(new Position("f8"), pieceFactory.createBlackBishop());
-        board.addPiece(new Position("g8"), pieceFactory.createBlackKnight());
-        board.addPiece(new Position("h8"), pieceFactory.createBlackRook());
+        board.setPiece(makePosition("a8"), pieceFactory.createBlackRook());
+        board.setPiece(makePosition("b8"), pieceFactory.createBlackKnight());
+        board.setPiece(makePosition("c8"), pieceFactory.createBlackBishop());
+        board.setPiece(makePosition("d8"), pieceFactory.createBlackQueen());
+        board.setPiece(makePosition("e8"), pieceFactory.createBlackKing());
+        board.setPiece(makePosition("f8"), pieceFactory.createBlackBishop());
+        board.setPiece(makePosition("g8"), pieceFactory.createBlackKnight());
+        board.setPiece(makePosition("h8"), pieceFactory.createBlackRook());
     }
 
     private void initBlackPawns() {
         char start = 'a';
         for(int i=0; i < BoardArea.COL.getNum(); i++){
             char col = (char) (start + i);
-            board.addPiece(new Position(col + Integer.toString(7)), pieceFactory.createBlackPawn());
+            board.setPiece(makePosition(col + Integer.toString(7)), pieceFactory.createBlackPawn());
         }
     }
 
@@ -42,27 +43,44 @@ public class ChessGame {
         char start = 'a';
         for(int i=0; i < BoardArea.COL.getNum(); i++){
             char col = (char) (start + i);
-            board.addPiece(new Position(col + Integer.toString(2)), pieceFactory.createWhitePawn());
+            board.setPiece(makePosition(col + Integer.toString(2)), pieceFactory.createWhitePawn());
         }
     }
 
     private void initWhitePieces(){
-        board.addPiece(new Position("a1"), pieceFactory.createWhiteRook());
-        board.addPiece(new Position("b1"), pieceFactory.createWhiteKnight());
-        board.addPiece(new Position("c1"), pieceFactory.createWhiteBishop());
-        board.addPiece(new Position("d1"), pieceFactory.createWhiteQueen());
-        board.addPiece(new Position("e1"), pieceFactory.createWhiteKing());
-        board.addPiece(new Position("f1"), pieceFactory.createWhiteBishop());
-        board.addPiece(new Position("g1"), pieceFactory.createWhiteKnight());
-        board.addPiece(new Position("h1"), pieceFactory.createWhiteRook());
+        board.setPiece(makePosition("a1"), pieceFactory.createWhiteRook());
+        board.setPiece(makePosition("b1"), pieceFactory.createWhiteKnight());
+        board.setPiece(makePosition("c1"), pieceFactory.createWhiteBishop());
+        board.setPiece(makePosition("d1"), pieceFactory.createWhiteQueen());
+        board.setPiece(makePosition("e1"), pieceFactory.createWhiteKing());
+        board.setPiece(makePosition("f1"), pieceFactory.createWhiteBishop());
+        board.setPiece(makePosition("g1"), pieceFactory.createWhiteKnight());
+        board.setPiece(makePosition("h1"), pieceFactory.createWhiteRook());
     }
 
-    // get
+    public void setPiece(String positionStr, Piece piece){
+        board.setPiece(makePosition(positionStr), piece);
+    }
+
+    public Piece findPiece(String positionStr){
+        return board.findPiece(makePosition(positionStr));
+    }
+
+    public void move(String sourcePositionStr, String targetPositionStr){
+        Position sourcePosition = makePosition(sourcePositionStr);
+        Position targetPosition = makePosition(targetPositionStr);
+        Piece piece = board.findPiece(sourcePosition);
+        board.setPiece(sourcePosition, pieceFactory.createBlank());
+        board.setPiece(targetPosition, piece);
+    }
+
+    private Position makePosition(String position){
+        return new Position(position);
+    }
 
 
     // print
     public String showBoard(){
         return board.show();
     }
-
 }

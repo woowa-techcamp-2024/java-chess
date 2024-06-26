@@ -23,7 +23,7 @@ public class BoardTest {
     @Test
     public void countColorPiece(){
         // given
-        board.addPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
+        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
         // when & then
         assertEquals(1, board.countPiece(PieceColor.BLACK, PieceType.PAWN));
     }
@@ -31,9 +31,9 @@ public class BoardTest {
     @Test
     public void findPiece(){
         // given
-        board.addPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
+        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN));
         // when & then
-        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece("a1"));
+        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN), board.findPiece(new Position("a1")));
     }
 
     @Test
@@ -59,15 +59,14 @@ public class BoardTest {
 
     private void anySet()
     {
-        board.addPiece(new Position("b6"), new Piece(PieceColor.BLACK, PieceType.PAWN));
-        board.addPiece(new Position("e6"), new Piece(PieceColor.BLACK, PieceType.QUEEN));
-        board.addPiece(new Position("b8"), new Piece(PieceColor.BLACK, PieceType.KING));
-        board.addPiece(new Position("c8"), new Piece(PieceColor.BLACK, PieceType.ROOK));
+        board.setPiece(new Position("b6"), new Piece(PieceColor.BLACK, PieceType.PAWN));
+        board.setPiece(new Position("e6"), new Piece(PieceColor.BLACK, PieceType.QUEEN));
+        board.setPiece(new Position("b8"), new Piece(PieceColor.BLACK, PieceType.KING));
+        board.setPiece(new Position("c8"), new Piece(PieceColor.BLACK, PieceType.ROOK));
 
-        board.addPiece(new Position("f2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
-        board.addPiece(new Position("g2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
-        board.addPiece(new Position("e1"), new Piece(PieceColor.WHITE, PieceType.ROOK));
-        board.addPiece(new Position("f1"), new Piece(PieceColor.WHITE, PieceType.KING));
-
+        board.setPiece(new Position("f2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
+        board.setPiece(new Position("g2"), new Piece(PieceColor.WHITE, PieceType.PAWN));
+        board.setPiece(new Position("e1"), new Piece(PieceColor.WHITE, PieceType.ROOK));
+        board.setPiece(new Position("f1"), new Piece(PieceColor.WHITE, PieceType.KING));
     }
 }

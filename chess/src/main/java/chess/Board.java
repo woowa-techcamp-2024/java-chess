@@ -28,8 +28,7 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(String givenPosition) {
-        Position position = new Position(givenPosition);
+    public Piece findPiece(Position position) {
         return ranks.get(position.getRowIdx()).getPiece(position.getColIdx());
     }
 
@@ -52,12 +51,8 @@ public class Board {
 
 
     // set
-    public void addPiece(Position position, Piece piece) {
+    public void setPiece(Position position, Piece piece) {
         ranks.get(position.getRowIdx()).setPiece(position.getColIdx(), piece);
-    }
-
-    public void movePiece(Position sourcePosition, Position targetPosition){
-
     }
 
     // util

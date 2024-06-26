@@ -1,6 +1,7 @@
 package chess;
 
 import org.junit.jupiter.api.Test;
+import pieces.PieceFactory;
 import pieces.PieceUnicode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,15 +11,26 @@ public class ChessGameTest {
     private final String BLANK = ".";
 
     private ChessGame chessGame = new ChessGame();
+    private PieceFactory pieceFactory = new PieceFactory();
 
     @Test
-    public void initialize() throws Exception{
+    public void initialize() throws Exception {
         chessGame.initialize();
         assertEquals(initString(), chessGame.showBoard());
     }
 
+    @Test
+    public void move() throws Exception {
+        chessGame.setPiece("b2", pieceFactory.createBlackPawn());
+        // when
+        chessGame.move("b2", "b3");
+        // then
+        assertEquals(pieceFactory.createBlank(), chessGame.findPiece("b2"));
+        assertEquals(pieceFactory.createBlackPawn(), chessGame.findPiece("b3"));
+    }
 
-    private String initString(){
+
+    private String initString() {
         StringBuilder sb = new StringBuilder();
         sb
                 .append(generateBlackInitLine()).append("\n")
@@ -62,5 +74,6 @@ public class ChessGameTest {
                 .append(PieceUnicode.WHITE_ROOK.getUnicode());
         return sb.toString();
     }
+
 
 }
