@@ -122,20 +122,22 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN('♙', '♟'),
-        KNIGHT('♘', '♞'),
-        BISHOP('♗', '♝'),
-        ROOK('♖', '♜'),
-        QUEEN('♕', '♛'),
-        KING('♔', '♚'),
-        BLANK('.', '.');
+        PAWN ('♙', '♟', 1.0),
+        KNIGHT('♘', '♞', 2.5),
+        BISHOP('♗', '♝', 3.0),
+        ROOK('♖', '♜', 5.0),
+        QUEEN('♕', '♛', 9.0),
+        KING('♔', '♚', 0.0),
+        BLANK('.', '.', 0.0);
 
         private final char whiteRepresentation;
         private final char blackRepresentation;
+        private final double point;
 
-        Type(char whiteRepresentation, char blackRepresentation) {
+        Type(char whiteRepresentation, char blackRepresentation, double point) {
             this.whiteRepresentation = whiteRepresentation;
             this.blackRepresentation = blackRepresentation;
+            this.point = point;
         }
 
         public char getWhiteRepresentation() {
@@ -144,6 +146,10 @@ public class Piece {
 
         public char getBlackRepresentation() {
             return blackRepresentation;
+        }
+
+        public double getPoint() {
+            return point;
         }
     }
 }

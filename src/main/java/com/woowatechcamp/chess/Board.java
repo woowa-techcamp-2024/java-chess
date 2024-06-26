@@ -4,6 +4,7 @@ import com.woowatechcamp.chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Board {
     private final List<Rank> ranks;
@@ -99,5 +100,24 @@ public class Board {
         int yPos = getYPosition(position);
         return ranks.get(yPos)
                 .getPiece(xPos);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        return ranks.stream()
+                .mapToDouble(rank -> rank.calculateScore(color))
+                .sum() - calculatePawnPenalty(color);
+    }
+
+    private double calculatePawnPenalty(Piece.Color color) {
+        return IntStream.range(0, 8)
+                .map(xPos -> pawnCount(color, xPos))
+                .filter(count -> count > 1)
+                .sum();
+    }
+
+    private int pawnCount(Piece.Color color, int xPos) {
+        return (int) ranks.stream()
+                .filter(rank -> rank.isSameColorPawn(color, xPos))
+                .count();
     }
 }

@@ -10,7 +10,7 @@ public class Rank {
     private static final int ROW_LENGTH = 8;
     private final List<Piece> pieces;
 
-    Rank(Piece... pieces) {
+    public Rank(Piece... pieces) {
         validatePieces(pieces);
         this.pieces = Arrays.asList(pieces);
     }
@@ -44,6 +44,17 @@ public class Rank {
 
     public Piece getPiece(int xPos) {
         return pieces.get(xPos);
+    }
+
+    public boolean isSameColorPawn(Piece.Color color, int xPos) {
+        return pieces.get(xPos).isSameTypeAndColor(Piece.Type.PAWN, color);
+    }
+
+    public double calculateScore(Piece.Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.getColor() == color)
+                .mapToDouble(piece -> piece.getType().getPoint())
+                .sum();
     }
 
     @Override
