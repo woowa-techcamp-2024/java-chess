@@ -1,4 +1,4 @@
-package chess;
+package chess.board;
 
 import chess.pieces.Piece;
 
@@ -123,7 +123,7 @@ public class Board {
                 .toList();
     }
 
-    protected Board() {
+    public Board() {
         ranks = new ArrayList<>();
         initialize();
     }

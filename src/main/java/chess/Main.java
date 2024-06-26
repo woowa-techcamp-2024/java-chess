@@ -1,5 +1,7 @@
 package chess;
 
+import chess.board.Board;
+
 import java.util.Scanner;
 
 public class Main {
