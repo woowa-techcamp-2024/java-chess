@@ -7,5 +7,5 @@ public enum PieceType {
     BISHOP,
     QUEEN,
     KING,
-    ;
+    NO_PIECE;
 }

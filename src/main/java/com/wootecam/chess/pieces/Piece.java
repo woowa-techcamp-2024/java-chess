@@ -1,70 +1,86 @@
 package com.wootecam.chess.pieces;
 
 public class Piece {
-    private static final Color DEFAULT_COLOR = Color.WHITE;
-
     private final PieceType type;
     private final Color color;
     private final PieceRepresentation representation;
 
-    public Piece(PieceType pieceType) {
-        this.type = pieceType;
-        this.color = DEFAULT_COLOR;
-        this.representation = PieceRepresentation.findByTypeAndColor(pieceType, DEFAULT_COLOR);
-    }
-
-    public Piece(PieceType pieceType, Color color) {
+    protected Piece(PieceType pieceType, Color color) {
         this.type = pieceType;
         this.color = color;
         this.representation = PieceRepresentation.findByTypeAndColor(pieceType, color);
     }
 
     public static Piece createWhitePawn() {
-        return new Pawn(PieceType.PAWN, Color.WHITE);
+        return createWhite(PieceType.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Knight(PieceType.KNIGHT, Color.WHITE);
+        return createWhite(PieceType.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Rook(PieceType.ROOK, Color.WHITE);
+        return createWhite(PieceType.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Bishop(PieceType.BISHOP, Color.WHITE);
+        return createWhite(PieceType.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Queen(PieceType.QUEEN, Color.WHITE);
+        return createWhite(PieceType.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new King(PieceType.KING, Color.WHITE);
+        return createWhite(PieceType.KING);
     }
 
     public static Piece createBlackPawn() {
-        return new Pawn(PieceType.PAWN, Color.BLACK);
+        return createBlack(PieceType.PAWN);
     }
 
     public static Piece createBlackKnight() {
-        return new Knight(PieceType.KNIGHT, Color.BLACK);
+        return createBlack(PieceType.KNIGHT);
     }
 
     public static Piece createBlackRook() {
-        return new Rook(PieceType.ROOK, Color.BLACK);
+        return createBlack(PieceType.ROOK);
     }
 
     public static Piece createBlackBishop() {
-        return new Bishop(PieceType.BISHOP, Color.BLACK);
+        return createBlack(PieceType.BISHOP);
     }
 
     public static Piece createBlackQueen() {
-        return new Queen(PieceType.QUEEN, Color.BLACK);
+        return createBlack(PieceType.QUEEN);
     }
 
     public static Piece createBlackKing() {
-        return new King(PieceType.KING, Color.BLACK);
+        return createBlack(PieceType.KING);
+    }
+
+    public static Piece createBlank() {
+        return new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+    }
+
+    private static Piece createWhite(PieceType type) {
+        return createPiece(type, Color.WHITE);
+    }
+
+    private static Piece createBlack(PieceType type) {
+        return createPiece(type, Color.BLACK);
+    }
+
+    private static Piece createPiece(PieceType type, Color color) {
+        return switch (type) {
+            case PAWN -> new Pawn(type, color);
+            case KNIGHT -> new Knight(type, color);
+            case ROOK -> new Rook(type, color);
+            case BISHOP -> new Bishop(type, color);
+            case QUEEN -> new Queen(type, color);
+            case KING -> new King(type, color);
+            default -> new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+        };
     }
 
     public boolean isWhite() {
@@ -89,6 +105,6 @@ public class Piece {
 
     @Override
     public String toString() {
-        return representation.value;
+        return color.name() + " " + type.name();
     }
 }

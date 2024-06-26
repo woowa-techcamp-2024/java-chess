@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +42,7 @@ class BoardTest {
         @Test
         void 말을_추가할_수_있다() {
             var board = createBoard();
-            var pawn = new Piece(PieceType.PAWN);
+            var pawn = Piece.createBlackPawn();
 
             assertThatNoException().isThrownBy(() -> board.add(pawn));
         }
