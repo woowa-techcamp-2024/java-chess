@@ -80,8 +80,7 @@ public class Rank {
     public String showRank() {
         StringBuilder builder = new StringBuilder();
         for (Piece piece : pieces) {
-            char representation = piece.getType().getRepresentation();
-            builder.append(representation);
+            builder.append(piece.getRepresentation());
         }
         return builder.toString();
     }
