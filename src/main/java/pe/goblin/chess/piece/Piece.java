@@ -95,4 +95,26 @@ public class Piece {
     public boolean isWhite() {
         return Objects.equals(WHITE_COLOR, this.color);
     }
+
+    public enum Color {
+        WHITE, BLACK, NOCOLOR;
+    }
+
+    public enum Type {
+        PAWN('p'), ROOK('r'), KNIGHT('n'), BISHOP('b'), QUEEN('q'), KING('k'), NO_PIECE('x');
+
+        private final char representation;
+
+        Type(char representation) {
+            this.representation = representation;
+        }
+
+        public char getWhiteRepresentation() {
+            return Character.toLowerCase(this.representation);
+        }
+
+        public char getBlackRepresentation() {
+            return Character.toUpperCase(this.representation);
+        }
+    }
 }
