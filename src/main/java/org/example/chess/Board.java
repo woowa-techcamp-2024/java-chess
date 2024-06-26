@@ -3,6 +3,7 @@ package org.example.chess;
 import static org.example.utils.StringUtils.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
@@ -168,5 +169,13 @@ public class Board {
                 return pawnPoints + otherPoints;
             })
             .sum();
+    }
+
+    public List<Piece> sortByPoint(Color color) {
+        return oneColumns.stream()
+            .flatMap(oneColumn -> oneColumn.pieces.stream())
+            .filter(piece -> piece.isSameColor(color))
+            .sorted((p1, p2) -> Double.compare(p2.getPoint(), p1.getPoint()))
+            .toList();
     }
 }
