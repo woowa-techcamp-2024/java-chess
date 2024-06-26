@@ -1,8 +1,10 @@
 package org.example.chess;
 
 import static org.example.utils.StringUtils.appendNewLine;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import java.util.stream.Stream;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
@@ -126,13 +128,40 @@ public class BoardTest {
         addPiece("e1", Piece.createWhiteRook());
         addPiece("f1", Piece.createWhiteKing());
 
-
         // 점수 계산 확인
         assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
         assertEquals(6.5, board.caculcatePoint(Color.WHITE), 0.01);
 
         // 체스판 출력
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("점수 높은 순서대로 정렬")
+    public void sort() throws Exception {
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("f3", Piece.createWhitePawn());
+        addPiece("f4", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f1", Piece.createWhiteQueen());
+
+        // 기대 점수
+        Float[] expectedWhitePoints = {9.0f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f};
+        Float[] expectedBlackPoints = {9.0f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f};
+
+        // 검은색 점수가 높은 순서대로 정렬. 확인하는 법은 Piece의 점수를 pick해준다.
+        assertArrayEquals(expectedBlackPoints,
+            board.sortByPoint(Color.BLACK).stream().map(Piece::getPoint).toArray());
+
+        //흰색
+        assertArrayEquals(expectedWhitePoints,
+            board.sortByPoint(Color.BLACK).stream().map(Piece::getPoint).toArray());
     }
 
     private void addPiece(String position, Piece piece) {
