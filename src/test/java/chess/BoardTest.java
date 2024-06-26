@@ -35,9 +35,6 @@ class BoardTest {
         System.out.println(board.showBoard());
     }
 
-    private void addPiece(String position, Piece piece, Board board) {
-        board.move(position, piece);
-    }
 
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
@@ -193,6 +190,9 @@ class BoardTest {
         assertEquals(2, count);
     }
 
+    private void addPiece(String position, Piece piece, Board board) {
+        board.move(position, piece);
+    }
 
     private String givenBoardPrint() {
         String blankRank = "........";
