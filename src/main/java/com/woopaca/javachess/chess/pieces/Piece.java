@@ -70,11 +70,11 @@ public class Piece {
     }
 
     public boolean isWhite() {
-        return color.equals(Color.WHITE);
+        return color == Color.WHITE;
     }
 
     public boolean isBlack() {
-        return color.equals(Color.BLACK);
+        return color == Color.BLACK;
     }
 
     public enum Color {
