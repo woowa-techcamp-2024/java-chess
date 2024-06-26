@@ -4,10 +4,9 @@ import static org.example.utils.StringUtils.appendNewLine;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import org.example.chess.board.sort.PieceComparator;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.PieceFactory;
@@ -16,11 +15,11 @@ import org.example.chess.pieces.Piece.Type;
 public class Board {
 
     protected static final int BOARD_SIZE = 8;
-    private static final int MAX_PIECES = 32;
     private static final int BLACK_INIT_ROW = 0;
     private static final int BLACK_PAWN_INIT_ROW = 1;
     private static final int WHITE_INIT_ROW = 7;
     private static final int WHITE_PAWN_INIT_ROW = 6;
+    private static final double PAWN_SCORE_DECREMENT = 0.5;
 
     private final List<Rank> board = new ArrayList<>();
 
@@ -35,7 +34,6 @@ public class Board {
     }
 
     private void initBlackPiece() {
-        // 폰 8개, 루크2개, 나이트 2개, 비숍2개, 킹1개, 퀸 1개
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
             board.get(BLACK_PAWN_INIT_ROW).changePiece(i, blackPawn);
@@ -134,6 +132,7 @@ public class Board {
     }
 
     public void move(String position, Piece piece) {
+        //TODO: 해당 말이 해당 위치로 이동이 가능한 말인지 확인하는 로직 필요.
         Position pos = new Position(position);
         int r = pos.getR();
         int c = pos.getC();
@@ -143,10 +142,90 @@ public class Board {
     }
 
     public double calculatePoint(Color color) {
+        double points = 0.0;
         for (Rank rank : board) {
-
+            points += rank.calculateRankPoint(color);
         }
 
-        return 0;
+        int totalInColumnPawnCount = countPawnsInColumnsByColor(color);
+        return points - PAWN_SCORE_DECREMENT * totalInColumnPawnCount;
+    }
+
+    private int countPawnsInColumnsByColor(Color color) {
+        int totalInColumnPawnCount = 0;
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            int columnCount = 0;
+            for (int r = 0; r < BOARD_SIZE; r++) {
+                Piece piece = board.get(r).getPieces().get(c);
+                if (piece.isPawn() && piece.getColor() == color) {
+                    columnCount++;
+                }
+            }
+            if (columnCount > 1) {
+                totalInColumnPawnCount += columnCount;
+            }
+        }
+        return totalInColumnPawnCount;
+    }
+
+    public List<Piece> findAllPiecesSortByPoint(Color color, PieceComparator comparator) {
+        List<Piece> pieces = new ArrayList<>();
+
+        for (Rank rank : board) {
+            pieces.addAll(rank.findPieces(color));
+        }
+
+        pieces.sort(comparator.getComparator());
+
+        return pieces;
+    }
+
+    public static class Rank {
+
+        private final List<Piece> pieces = new ArrayList<>();
+
+        public void addPiece(Piece piece) {
+            pieces.add(piece);
+        }
+
+        public void changePiece(int col, Piece piece) {
+            pieces.set(col, piece);
+        }
+
+        public List<Piece> getPieces() {
+            return pieces;
+        }
+
+        public int countWhitePiecesWithType(Type type) {
+            return (int) pieces.stream()
+                    .filter(piece -> piece.isWhite() && piece.getType() == type)
+                    .count();
+        }
+
+        public int countBlackPiecesWithType(Type type) {
+            return (int) pieces.stream()
+                    .filter(piece -> piece.isBlack() && piece.getType() == type)
+                    .count();
+        }
+
+        public double calculateRankPoint(Color color) {
+            double points = 0.0;
+            for (Piece piece : pieces) {
+                if (piece.getColor() == color) {
+                    points += piece.getType().getDefaultPoint();
+                }
+            }
+            return points;
+        }
+
+        public List<Piece> findPieces(Color color) {
+            List<Piece> piecesInRank = new ArrayList<>();
+            for (Piece piece : pieces) {
+                if (piece.getColor() == color) {
+                    piecesInRank.add(piece);
+                }
+            }
+            return piecesInRank;
+        }
     }
 }

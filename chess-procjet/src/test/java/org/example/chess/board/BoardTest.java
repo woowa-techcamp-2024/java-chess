@@ -3,6 +3,10 @@ package org.example.chess.board;
 import static org.example.utils.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+import org.example.chess.board.sort.AscendingPieceComparator;
+import org.example.chess.board.sort.PieceComparator;
+import org.example.chess.board.sort.PieceComparatorFactory;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.PieceFactory;
@@ -85,15 +89,51 @@ class BoardTest {
         addPiece("c8", PieceFactory.createBlackRook());
 
         addPiece("f2", PieceFactory.createWhitePawn());
+        addPiece("f3", PieceFactory.createWhitePawn());
         addPiece("g2", PieceFactory.createWhitePawn());
         addPiece("e1", PieceFactory.createWhiteRook());
         addPiece("f1", PieceFactory.createWhiteKing());
 
+        board.print();
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
     }
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    void sortPiecesByScoreDescendingOrder() {
+        board.initializeEmpty();
+
+        addPiece("b6", PieceFactory.createBlackPawn());
+        addPiece("e6", PieceFactory.createBlackQueen());
+        addPiece("b8", PieceFactory.createBlackKing());
+        addPiece("c8", PieceFactory.createBlackRook());
+
+        List<Piece> allPiecesSortByPoint = board.findAllPiecesSortByPoint(Color.BLACK, PieceComparatorFactory.DESCENDING);
+
+        assertEquals(Type.QUEEN, allPiecesSortByPoint.get(0).getType());
+        assertEquals(Type.ROOK, allPiecesSortByPoint.get(1).getType());
+        assertEquals(Type.PAWN, allPiecesSortByPoint.get(2).getType());
+        assertEquals(Type.KING, allPiecesSortByPoint.get(3).getType());
+    }
+
+    @Test
+    void sortPiecesByScoreAscendigOrder() {
+        board.initializeEmpty();
+
+        addPiece("b6", PieceFactory.createBlackPawn());
+        addPiece("e6", PieceFactory.createBlackQueen());
+        addPiece("b8", PieceFactory.createBlackKing());
+        addPiece("c8", PieceFactory.createBlackRook());
+
+        List<Piece> allPiecesSortByPoint = board.findAllPiecesSortByPoint(Color.BLACK, PieceComparatorFactory.ASCENDING);
+
+        assertEquals(Type.KING, allPiecesSortByPoint.get(0).getType());
+        assertEquals(Type.PAWN, allPiecesSortByPoint.get(1).getType());
+        assertEquals(Type.ROOK, allPiecesSortByPoint.get(2).getType());
+        assertEquals(Type.QUEEN, allPiecesSortByPoint.get(3).getType());
     }
 }

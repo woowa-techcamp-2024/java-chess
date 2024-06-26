@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 
 class RankTest {
 
-    private Rank rank;
+    private Board.Rank rank;
 
     @BeforeEach
     public void setUp() {
-        rank = new Rank();
+        rank = new Board.Rank();
         rank.addPiece(PieceFactory.createBlackBishop());
         rank.addPiece(PieceFactory.createBlackBishop());
         rank.addPiece(PieceFactory.createBlackPawn());

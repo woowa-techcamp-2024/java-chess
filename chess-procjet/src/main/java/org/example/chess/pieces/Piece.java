@@ -58,6 +58,8 @@ public class Piece {
         return this.color == Color.BLACK;
     }
 
+    public boolean isPawn() {return this.type == Type.PAWN;}
+
     public enum Color {
 
         WHITE("흰색"),
@@ -73,8 +75,8 @@ public class Piece {
 
     public enum Type {
         PAWN("P", 1.0),
-        KNIGHT("N", 5.0),
-        ROOK("R", 2.5),
+        KNIGHT("N", 2.5),
+        ROOK("R", 5.0),
         BISHOP("B", 3.0),
         QUEEN("Q", 9.0),
         KING("K", 0.0),
