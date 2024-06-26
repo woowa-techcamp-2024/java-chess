@@ -1,5 +1,9 @@
 package com.wootecam.chess.pieces;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 public enum Type {
     PAWN("p", 1.0),
     ROOK("r", 5.0),
@@ -8,6 +12,10 @@ public enum Type {
     QUEEN("q", 9.0),
     KING("k", 0.0),
     NO_PIECE(".", 0.0);
+
+    private static final List<Type> DESC_POINT_ORDERED_TYPES = Arrays.stream(values())
+            .sorted(Comparator.comparingDouble(Type::getPoint).reversed())
+            .toList();
 
     private final String representation;
     private final double point;
@@ -22,6 +30,10 @@ public enum Type {
             return PAWN.point;
         }
         return pawnCount * PAWN.point / 2.0;
+    }
+
+    public static List<Type> getDescPointOrderedTypes() {
+        return DESC_POINT_ORDERED_TYPES;
     }
 
     public String findRepresentation(Color color) {
