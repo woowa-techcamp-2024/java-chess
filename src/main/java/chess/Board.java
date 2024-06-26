@@ -49,6 +49,10 @@ public class Board {
         return row-'1';
     }
 
+    private boolean isIn(int x,int y){
+        return 0<=x&&x<HEIGHT&&0<=y&&y<WIDTH;
+    }
+
     public ChessPiece findPiece(String position){
         int row = getRow(position);
         int col = getCol(position);
@@ -64,7 +68,7 @@ public class Board {
     }
 
     private void setPiece(int x,int y,ChessPiece piece){
-        if(x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) throw new IllegalArgumentException("범위 안의 좌표를 입력해주세요");
+        if(!isIn(x,y)) throw new IllegalArgumentException("범위 안의 좌표를 입력해주세요");
         board[x][y] = piece;
     }
 
@@ -170,5 +174,29 @@ public class Board {
                 .flatMap(Arrays::stream)
                 .filter(p->p!=null&&color.equals(p.getColor())&&type.equals(p.getType()))
                 .toList().size();
+    }
+
+    public double calculatePoint(Color color){
+        double sum = 0.0;
+        for(int h=0;h<HEIGHT;h++){
+            for(int w=0;w<WIDTH;w++){
+                Color c = board[h][w].getColor();
+                Type t = board[h][w].getType();
+
+                if(color.equals(c)){
+                    if(Type.PAWN.equals(t) && hasPawnVertically(h,w)){
+                        sum+=0.5;
+                    }
+                    else{
+                        sum+=t.getPoint();
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+
+    private boolean hasPawnVertically(int x,int y){
+        return (isIn(x+1,y) && Type.PAWN.equals(board[x+1][y].getType()) || isIn(x-1,y) && Type.PAWN.equals(board[x-1][y].getType()));
     }
 }
