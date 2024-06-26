@@ -150,10 +150,23 @@ public class Board {
 
     public double caculcatePoint(Color color) {
         return oneColumns.stream()
-            .mapToDouble(oneColumn -> oneColumn.pieces.stream()
-                .filter(piece -> piece.isSameColor(color))
-                .mapToDouble(Piece::getPoint)
-                .sum())
+            .mapToDouble(oneColumn -> {
+                double pawnCount = oneColumn.pieces.stream()
+                    .filter(piece -> piece.isSameColor(color) && piece.isPawn())
+                    .count();
+
+                double pawnPoints = oneColumn.pieces.stream()
+                    .filter(piece -> piece.isSameColor(color) && piece.isPawn())
+                    .mapToDouble(piece -> pawnCount > 1 ? 0.5 : piece.getPoint())
+                    .sum();
+
+                double otherPoints = oneColumn.pieces.stream()
+                    .filter(piece -> piece.isSameColor(color) && !piece.isPawn())
+                    .mapToDouble(Piece::getPoint)
+                    .sum();
+
+                return pawnPoints + otherPoints;
+            })
             .sum();
     }
 }

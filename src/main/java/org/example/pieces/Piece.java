@@ -18,6 +18,10 @@ public class Piece {
         return representation.point;
     }
 
+    public boolean isPawn() {
+        return representation == Type.PAWN;
+    }
+
     public enum Color {
         WHITE, BLACK, NO_COLOR;
 
