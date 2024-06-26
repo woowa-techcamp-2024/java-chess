@@ -17,6 +17,10 @@ public class Piece {
         return this.color == Color.BLACK;
     }
 
+    public boolean isBlank() { return this.type == Type.NO_PIECE; }
+
+    public boolean isExist() { return this.type != Type.NO_PIECE; }
+
     public Color getColor() {
         return color;
     }

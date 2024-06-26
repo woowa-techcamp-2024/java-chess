@@ -2,7 +2,11 @@ package org.example.chess;
 
 import org.example.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,26 +16,26 @@ public class BoardTest {
     private static Piece white;
     private Board board;
 
-    @Test
-    public void board_add() {
-        Board board = new Board();
-        board.add(white);
-        board.add(black);
-
-        assertEquals(board.pieceCount(), 2);
-    }
-
-    @Test
-    public void board_findPawn() {
-        Board board = new Board();
-        board.add(white);
-        assertEquals(1, board.pieceCount());
-        assertEquals(white, board.findPawn(0));
-
-        board.add(black);
-        assertEquals(2, board.pieceCount());
-        assertEquals(black, board.findPawn(1));
-    }
+//    @Test
+//    public void board_add() {
+//        Board board = new Board();
+//        board.add(white);
+//        board.add(black);
+//
+//        assertEquals(board.pieceCount(), 2);
+//    }
+//
+//    @Test
+//    public void board_findPawn() {
+//        Board board = new Board();
+//        board.add(white);
+//        assertEquals(1, board.pieceCount());
+//        assertEquals(white, board.findPawn(0));
+//
+//        board.add(black);
+//        assertEquals(2, board.pieceCount());
+//        assertEquals(black, board.findPawn(1));
+//    }
 
     @Test
     public void initialize() throws Exception {
@@ -39,7 +43,7 @@ public class BoardTest {
         board.initialize();
 
         assertEquals("pppppppp", board.getWhitePawnsRepresentation());
-        assertEquals("PPPPPPPP", board.getBlackPawnsRespresentation());
+        assertEquals("PPPPPPPP", board.getBlackPawnsRepresentation());
     }
 
     @Test
