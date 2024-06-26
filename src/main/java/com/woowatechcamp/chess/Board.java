@@ -85,7 +85,15 @@ public class Board {
         addPiece(piece);
     }
 
-    public Object findPiece(Position position) {
+    public void move(Position source, Position target) {
+        Piece sourcePiece = findPiece(source);
+        ranks.get(target.getYPos())
+                .setPiece(new Piece(sourcePiece.getColor(), sourcePiece.getType(), target));
+        ranks.get(source.getYPos())
+                .setPiece(Piece.createBlank(source));
+    }
+
+    public Piece findPiece(Position position) {
         return ranks.get(position.getYPos())
                 .getPiece(position.getXPos());
     }

@@ -18,7 +18,7 @@ public class BoardTest {
     }
 
     @Test
-    public void initialize() throws Exception {
+    public void initialize() {
         board.initialize();
         assertEquals(32, board.pieceCount());
 
@@ -81,5 +81,18 @@ public class BoardTest {
 
     private void addPiece(Piece piece) {
         board.move(piece);
+    }
+
+    @Test
+    public void 기물을_이동시킬_수_있다() {
+        board.initialize();
+
+        Position sourcePosition = new Position("b2");
+        Position targetPosition = new Position("b3");
+        board.move(sourcePosition, targetPosition);
+        assertThat(Piece.createBlank(sourcePosition)).isEqualTo(board.findPiece(sourcePosition));
+        assertThat(Piece.createWhitePawn(targetPosition)).isEqualTo(board.findPiece(targetPosition));
+
+        board.print();
     }
 }
