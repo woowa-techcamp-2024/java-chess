@@ -187,7 +187,7 @@ public class Board {
         return sb.toString();
     }
 
-    private void appendRowRepresentation(int row, StringBuilder sb) {
+    private void appendRowRepresentation(final int row, final StringBuilder sb) {
         for (int col = 0; col < MAX_COL; col++) {
             getPawnByPosition(row, col)
                     .map(Piece::getRepresentation)
