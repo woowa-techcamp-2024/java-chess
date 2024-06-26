@@ -23,6 +23,23 @@ public class Board {
         ranks.add(getGoodPiecesRank(Color.WHITE));
     }
 
+    public void initializeEmpty() {
+        for (int i = 0; i < 8; i++) {
+            ranks.add(getEmptyRank());
+        }
+    }
+
+    public void move(String position, Piece piece) {
+        Position pos = Position.from(position);
+        move(pos, piece);
+    }
+
+    public void move(Position position, Piece piece) {
+        // TODO 움직임 구현 (현재는 add에 가까움)
+        ranks.get(position.getRank())
+                .set(position.getFile(), piece);
+    }
+
     public String print() {
         StringBuilder sb = new StringBuilder();
 
@@ -50,10 +67,6 @@ public class Board {
 
         Rank rank = ranks.get(position.getRank());
         return rank.get(position.getFile());
-    }
-
-    public List<Rank> getRanks() {
-        return ranks;
     }
 
     private static Rank getPawnsRank(Color color) {

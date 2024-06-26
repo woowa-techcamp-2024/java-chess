@@ -73,4 +73,17 @@ public class BoardTest {
         assertEquals(Piece.create(Representations.Type.ROOK, Color.WHITE), board.findPiece("a1"));
         assertEquals(Piece.create(Representations.Type.ROOK, Color.WHITE), board.findPiece("h1"));
     }
+
+    @Test
+    @DisplayName("임의의 기물을 체스판에 추가한다")
+    public void move() throws Exception {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.create(Representations.Type.ROOK, Color.BLACK);
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.print());
+    }
 }

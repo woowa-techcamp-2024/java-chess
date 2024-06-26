@@ -18,6 +18,10 @@ public class Rank {
         return pieces.get(index);
     }
 
+    public void set(int file, Piece piece) {
+        pieces.set(file, piece);
+    }
+
     public long count() {
         return pieces.stream()
                 .filter(p -> p.getColor().hasColor())
