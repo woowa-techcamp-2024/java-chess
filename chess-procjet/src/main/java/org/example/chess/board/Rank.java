@@ -33,4 +33,14 @@ public class Rank {
                 .filter(piece -> piece.isBlack() && piece.getType() == type)
                 .count();
     }
+
+    public double calculateRankPoint(Color color) {
+        double points = 0.0;
+        for (Piece piece : pieces) {
+            if (piece.getColor() == color) {
+                points += piece.getType().getDefaultPoint();
+            }
+        }
+        return points;
+    }
 }

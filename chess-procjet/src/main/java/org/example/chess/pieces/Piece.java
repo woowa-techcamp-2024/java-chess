@@ -87,6 +87,10 @@ public class Piece {
             return this.representation;
         }
 
+        public double getDefaultPoint() {
+            return this.defaultPoint;
+        }
+
         Type(String representation, double defaultPoint) {
             this.representation = representation;
             this.defaultPoint = defaultPoint;

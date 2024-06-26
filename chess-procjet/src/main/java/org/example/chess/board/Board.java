@@ -143,6 +143,10 @@ public class Board {
     }
 
     public double calculatePoint(Color color) {
+        for (Rank rank : board) {
+
+        }
+
         return 0;
     }
 }
