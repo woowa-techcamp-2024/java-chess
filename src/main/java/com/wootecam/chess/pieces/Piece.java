@@ -41,4 +41,8 @@ public class Piece {
     public boolean isBlack() {
         return color == Color.BLACK;
     }
+
+    public boolean isBlank() {
+        return type == Type.NO_PIECE && color == Color.NO_COLOR;
+    }
 }

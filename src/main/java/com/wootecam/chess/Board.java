@@ -1,5 +1,6 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.utils.StringUtils.NEW_LINE;
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
 import com.wootecam.chess.pieces.Color;
@@ -12,22 +13,25 @@ import java.util.stream.IntStream;
 
 public class Board {
 
-    private static final String EMPTY_PIECES_RESULTS = "........";
     private static final int PIECE_COUNT = 8;
+    private static final List<Type> CHESS_PIECE_ORDER_TYPES = List.of(
+            Type.ROOK, Type.KNIGHT, Type.BISHOP, Type.QUEEN,
+            Type.KING, Type.BISHOP, Type.KNIGHT, Type.ROOK
+    );
 
-    private final List<Piece> blackPawnPieces = new ArrayList<>();
-    private final List<Piece> blackOtherPieces = new ArrayList<>();
-    private final List<Piece> whitePawnPieces = new ArrayList<>();
-    private final List<Piece> whiteOtherPieces = new ArrayList<>();
+    private final List<List<Piece>> ranks;
 
     public Board() {
-    }
+        ranks = new ArrayList<>(PIECE_COUNT);
 
-    public void initialize() {
-        blackPawnPieces.addAll(createPawns(Color.BLACK));
-        whitePawnPieces.addAll(createPawns(Color.WHITE));
-        blackOtherPieces.addAll((createBlackOtherPieces()));
-        whiteOtherPieces.addAll((createWhiteOtherPieces()));
+        ranks.add(createBlackOtherPieces());
+        ranks.add(createPawns(Color.BLACK));
+        ranks.add(createBlanks());
+        ranks.add(createBlanks());
+        ranks.add(createBlanks());
+        ranks.add(createBlanks());
+        ranks.add(createPawns(Color.WHITE));
+        ranks.add(createWhiteOtherPieces());
     }
 
     private List<Piece> createPawns(Color color) {
@@ -37,85 +41,43 @@ public class Board {
     }
 
     private List<Piece> createBlackOtherPieces() {
-        return List.of(
-                Piece.createBlack(Type.ROOK),
-                Piece.createBlack(Type.KNIGHT),
-                Piece.createBlack(Type.BISHOP),
-                Piece.createBlack(Type.QUEEN),
-                Piece.createBlack(Type.KING),
-                Piece.createBlack(Type.BISHOP),
-                Piece.createBlack(Type.KNIGHT),
-                Piece.createBlack(Type.ROOK)
-        );
+        return CHESS_PIECE_ORDER_TYPES.stream()
+                .map(Piece::createBlack)
+                .toList();
     }
 
     private List<Piece> createWhiteOtherPieces() {
-        return List.of(
-                Piece.createWhite(Type.ROOK),
-                Piece.createWhite(Type.KNIGHT),
-                Piece.createWhite(Type.BISHOP),
-                Piece.createWhite(Type.QUEEN),
-                Piece.createWhite(Type.KING),
-                Piece.createWhite(Type.BISHOP),
-                Piece.createWhite(Type.KNIGHT),
-                Piece.createWhite(Type.ROOK)
-        );
+        return CHESS_PIECE_ORDER_TYPES.stream()
+                .map(Piece::createWhite)
+                .toList();
     }
 
-    public void add(final Piece piece) {
-        whitePawnPieces.add(piece);
-    }
-
-    public Piece findPiece(final int pieceIndex) {
-        if (pieceIndex < 0 || whitePawnPieces.size() <= pieceIndex) {
-            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePawnPieces.size());
-            throw new IllegalArgumentException(message);
-        }
-
-        return whitePawnPieces.get(pieceIndex);
+    private List<Piece> createBlanks() {
+        return IntStream.range(0, PIECE_COUNT)
+                .mapToObj(i -> Piece.createBlank())
+                .toList();
     }
 
     public String showBoard() {
-        StringBuilder boardResults = new StringBuilder();
-
-        boardResults.append(appendNewLine(createPiecesResults(blackOtherPieces)))
-                .append(appendNewLine(createPiecesResults(blackPawnPieces)))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(createPiecesResults(whitePawnPieces)))
-                .append(appendNewLine(createPiecesResults(whiteOtherPieces)));
-
-        return boardResults.toString();
-    }
-
-    public void print() {
-        System.out.println(showBoard());
+        return appendNewLine(ranks.stream()
+                .map(this::createPiecesResults)
+                .collect(Collectors.joining(NEW_LINE)));
     }
 
     public int pieceCount() {
-        return blackPawnPieces.size()
-                + blackOtherPieces.size()
-                + whitePawnPieces.size()
-                + whiteOtherPieces.size();
-    }
-
-    public int size() {
-        return whitePawnPieces.size();
-    }
-
-    public String getWhitePawnsResults() {
-        return createPiecesResults(whitePawnPieces);
-    }
-
-    public String getBlackPawnsResults() {
-        return createPiecesResults(blackPawnPieces);
+        return (int) ranks.stream()
+                .flatMap(List::stream)
+                .filter(piece -> !piece.isBlank())
+                .count();
     }
 
     private String createPiecesResults(List<Piece> pieces) {
         return pieces.stream()
                 .map(Piece::getRepresentation)
                 .collect(Collectors.joining());
+    }
+
+    public void print() {
+        System.out.println(showBoard());
     }
 }

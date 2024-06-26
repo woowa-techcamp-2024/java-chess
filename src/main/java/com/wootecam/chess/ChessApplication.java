@@ -11,7 +11,6 @@ public class ChessApplication {
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
         Board board = new Board();
-        board.initialize();
 
         while (isContinue(inputReader.nextLine())) {
             board.print();
