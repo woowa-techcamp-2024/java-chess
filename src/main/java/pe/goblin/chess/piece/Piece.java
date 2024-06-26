@@ -1,5 +1,7 @@
 package pe.goblin.chess.piece;
 
+import java.util.Objects;
+
 public class Piece {
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
@@ -84,5 +86,13 @@ public class Piece {
 
     public char getRepresentation() {
         return this.representation;
+    }
+
+    public boolean isBlack() {
+        return Objects.equals(BLACK_COLOR, this.color);
+    }
+
+    public boolean isWhite() {
+        return Objects.equals(WHITE_COLOR, this.color);
     }
 }
