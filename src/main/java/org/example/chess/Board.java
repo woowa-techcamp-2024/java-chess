@@ -11,11 +11,8 @@ import org.example.pieces.Piece.Type;
 public class Board {
 
 
-    public void move(String position, Piece piece) {
-        // col과 row를 묶는 클래스를 생성한다.
-        char col = position.charAt(0);
-        int row = Character.getNumericValue(position.charAt(1));
-        oneColumns.get(col - startChar).modifyPiece(piece, row);
+    public void move(Position position, Piece piece) {
+        oneColumns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
     }
 
     private class OneColumn {
@@ -99,7 +96,8 @@ public class Board {
         final int blackPawnRow = 7;
 
         // Place black pawns
-        oneColumns.forEach(oneColumn -> oneColumn.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
+        oneColumns.forEach(
+            oneColumn -> oneColumn.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
 
         // Place other black pieces
         oneColumns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
@@ -146,9 +144,8 @@ public class Board {
             .sum();
     }
 
-    public Piece findPiece(String location) {
-        char col = location.charAt(0);
-        int row = Character.getNumericValue(location.charAt(1));
-        return oneColumns.get(col - startChar).getPiece(row);
+    public Piece findPiece(Position position) {
+
+        return oneColumns.get(position.getColIdx()).getPiece(position.getRow());
     }
 }
