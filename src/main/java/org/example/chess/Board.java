@@ -3,7 +3,6 @@ package org.example.chess;
 import static org.example.utils.StringUtils.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
@@ -11,14 +10,14 @@ import org.example.pieces.Piece.Type;
 
 public class Board {
 
-    private class OneColumn {
+    private class Column {
 
         // 자신의 col과 row길이를 생성시 받는다.
         private final char colIndex;
         private final int rowLen;
         private final List<Piece> pieces;
 
-        public OneColumn(char colIndex, int rowLen) {
+        public Column(char colIndex, int rowLen) {
             this.colIndex = colIndex;
             this.rowLen = rowLen;
             this.pieces = createSizeList(rowLen);
@@ -42,24 +41,24 @@ public class Board {
         }
     }
 
-    private final List<OneColumn> oneColumns;
+    private final List<Column> columns;
 
     private final int BOARD_SIZE = 8;
     //전연변수 처리?
     private final char startChar = 'a';
 
     public Board() {
-        oneColumns = createSizeList(BOARD_SIZE);
+        columns = createSizeList(BOARD_SIZE);
     }
 
     public void move(Position position, Piece piece) {
-        oneColumns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
+        columns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
     }
 
-    private List<OneColumn> createSizeList(int boardSize) {
-        List<OneColumn> ret = new ArrayList<>();
+    private List<Column> createSizeList(int boardSize) {
+        List<Column> ret = new ArrayList<>();
         for (char i = startChar; i < startChar + boardSize; i++) {
-            ret.add(new OneColumn(i, boardSize));
+            ret.add(new Column(i, boardSize));
         }
         return ret;
     }
@@ -77,18 +76,18 @@ public class Board {
         final int whitePieceRow = 1;
         final int whitePawnRow = 2;
 
-        for (OneColumn oneColumn : oneColumns) {
-            oneColumn.modifyPiece(Piece.createWhitePawn(), whitePawnRow);
+        for (Column column : columns) {
+            column.modifyPiece(Piece.createWhitePawn(), whitePawnRow);
         }
 
-        oneColumns.get(0).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
-        oneColumns.get(1).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        oneColumns.get(2).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        oneColumns.get(3).modifyPiece(Piece.createWhiteQueen(), whitePieceRow);
-        oneColumns.get(4).modifyPiece(Piece.createWhiteKing(), whitePieceRow);
-        oneColumns.get(5).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        oneColumns.get(6).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        oneColumns.get(7).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(0).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(1).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
+        columns.get(2).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
+        columns.get(3).modifyPiece(Piece.createWhiteQueen(), whitePieceRow);
+        columns.get(4).modifyPiece(Piece.createWhiteKing(), whitePieceRow);
+        columns.get(5).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
+        columns.get(6).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
+        columns.get(7).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
     }
 
     private void placeBlackPiece() {
@@ -96,18 +95,18 @@ public class Board {
         final int blackPawnRow = 7;
 
         // Place black pawns
-        oneColumns.forEach(
-            oneColumn -> oneColumn.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
+        columns.forEach(
+            column -> column.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
 
         // Place other black pieces
-        oneColumns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
-        oneColumns.get(1).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        oneColumns.get(2).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        oneColumns.get(3).modifyPiece(Piece.createBlackQueen(), blackPieceRow);
-        oneColumns.get(4).modifyPiece(Piece.createBlackKing(), blackPieceRow);
-        oneColumns.get(5).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        oneColumns.get(6).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        oneColumns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(1).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
+        columns.get(2).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
+        columns.get(3).modifyPiece(Piece.createBlackQueen(), blackPieceRow);
+        columns.get(4).modifyPiece(Piece.createBlackKing(), blackPieceRow);
+        columns.get(5).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
+        columns.get(6).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
+        columns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
     }
 
     public String showBoard() {
@@ -122,58 +121,64 @@ public class Board {
 
     private String getRow(int row) {
         StringBuilder sb = new StringBuilder();
-        for (OneColumn oneColumn : oneColumns) {
-            sb.append(oneColumn.getPiece(row).getRepresentation());
+        for (Column column : columns) {
+            sb.append(column.getPiece(row).getRepresentation());
         }
         return sb.toString();
     }
 
     public int nonEmptyPiece() {
-        return oneColumns.stream()
-            .mapToInt(oneColumn -> (int) oneColumn.pieces.stream()
+        return columns.stream()
+            .mapToInt(column -> (int) column.pieces.stream()
                 .filter(piece -> piece.isBlack() || piece.isWhite())
                 .count())
             .sum();
     }
 
     public int countByQuery(Color color, Type type) {
-        return oneColumns.stream()
-            .mapToInt(oneColumn -> (int) oneColumn.pieces.stream()
+        return columns.stream()
+            .mapToInt(column -> (int) column.pieces.stream()
                 .filter(piece -> piece.isSameColor(color) && piece.isSameType(type))
                 .count())
             .sum();
     }
 
     public Piece findPiece(Position position) {
-
-        return oneColumns.get(position.getColIdx()).getPiece(position.getRow());
+        return columns.get(position.getColIdx()).getPiece(position.getRow());
     }
 
     public double caculcatePoint(Color color) {
-        return oneColumns.stream()
-            .mapToDouble(oneColumn -> {
-                double pawnCount = oneColumn.pieces.stream()
-                    .filter(piece -> piece.isSameColor(color) && piece.isPawn())
-                    .count();
+        return columns.stream()
+            .mapToDouble(column -> calculateColumnPoints(column, color))
+            .sum();
+    }
 
-                double pawnPoints = oneColumn.pieces.stream()
-                    .filter(piece -> piece.isSameColor(color) && piece.isPawn())
-                    .mapToDouble(piece -> pawnCount > 1 ? 0.5 : piece.getPoint())
-                    .sum();
 
-                double otherPoints = oneColumn.pieces.stream()
-                    .filter(piece -> piece.isSameColor(color) && !piece.isPawn())
-                    .mapToDouble(Piece::getPoint)
-                    .sum();
+    private double calculateColumnPoints(Column column, Color color) {
+        double pawnPoints = calculatePawnPoints(column, color);
+        double otherPoints = calculateOtherPoints(column, color);
+        return pawnPoints + otherPoints;
+    }
 
-                return pawnPoints + otherPoints;
-            })
+
+    private double calculatePawnPoints(Column column, Color color) {
+        long pawnCount = column.pieces.stream()
+            .filter(piece -> piece.isSameColor(color) && piece.isPawn())
+            .count();
+
+        return pawnCount <= 1 ? pawnCount : pawnCount * 0.5;
+    }
+
+    private double calculateOtherPoints(Column column, Color color) {
+        return column.pieces.stream()
+            .filter(piece -> piece.isSameColor(color) && !piece.isPawn())
+            .mapToDouble(Piece::getPoint)
             .sum();
     }
 
     public List<Piece> sortByPoint(Color color) {
-        return oneColumns.stream()
-            .flatMap(oneColumn -> oneColumn.pieces.stream())
+        return columns.stream()
+            .flatMap(column -> column.pieces.stream())
             .filter(piece -> piece.isSameColor(color))
             .sorted((p1, p2) -> Double.compare(p2.getPoint(), p1.getPoint()))
             .toList();
