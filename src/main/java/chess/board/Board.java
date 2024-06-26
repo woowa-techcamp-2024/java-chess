@@ -22,6 +22,8 @@ public class Board {
     private static final int BLANK_ROW_END = 6;
     private static final int WIDTH_INDEX = 0;
     private static final int RANK_INDEX = 1;
+    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
+    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
 
     /*
     * 테스트에서만 사용하는 초기화 메서드
