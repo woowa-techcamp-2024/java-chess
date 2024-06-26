@@ -8,6 +8,8 @@ import java.util.*;
 public class Board {
     public static final int MIN_ROWS = 0;
     public static final int MAX_ROWS = 8;
+    public static final int MIN_COLS = 0;
+    public static final int MAX_COLS = 8;
 
     private List<List<Piece>> pieces = Collections.emptyList();
 
@@ -23,27 +25,25 @@ public class Board {
         // 초기 보드 생성
         List<List<Piece>> initialPieces = new ArrayList<>();
         // 각 행을 생성하고 mutable 리스트로 초기화
-        for (int row = MIN_ROWS; row <= MAX_ROWS; row++) {
+        for (int row = MIN_ROWS; row < MAX_ROWS; row++) {
             List<Piece> rowPieces = new ArrayList<>();
             initialPieces.add(rowPieces);
             // 각 열에 null로 초기화된 Piece 추가
-            for (int col = MIN_ROWS; col < MAX_ROWS; col++) {
-                rowPieces.add(null);
+            for (int col = MIN_COLS; col < MAX_COLS; col++) {
+                rowPieces.add(Piece.createBlank());
             }
         }
         // 백색 말 배치
         Piece[] fullMajorWhitePieces = {Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(), Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(), Piece.createWhiteKnight(), Piece.createWhiteRook()};
-        Piece[] fullMinorWhitePieces = {Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn()};
         for (int col = MIN_ROWS; col < MAX_ROWS; col++) {
             initialPieces.get(0).set(col, fullMajorWhitePieces[col]);
-            initialPieces.get(1).set(col, fullMinorWhitePieces[col]);
+            initialPieces.get(1).set(col, Piece.createWhitePawn());
         }
         // 흑색 말 배치
         Piece[] fullMajorBlackPieces = {Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(), Piece.createBlackQueen(), Piece.createBlackKing(), Piece.createBlackBishop(), Piece.createBlackKnight(), Piece.createBlackRook()};
-        Piece[] fullMinorBlackPieces = {Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn()};
         for (int col = MIN_ROWS; col < MAX_ROWS; col++) {
             initialPieces.get(7).set(col, fullMajorBlackPieces[col]);
-            initialPieces.get(6).set(col, fullMinorBlackPieces[col]);
+            initialPieces.get(6).set(col, Piece.createBlackPawn());
         }
         // pieces 필드에 초기 보드 설정
         this.pieces = initialPieces;
@@ -52,7 +52,7 @@ public class Board {
     public int pieceCount() {
         return (int) pieces.parallelStream()
                 .flatMap(List::stream)
-                .filter(Objects::nonNull)
+                .filter(piece -> !Objects.equals(Piece.Type.NO_PIECE, piece.getType()))
                 .count();
     }
 
