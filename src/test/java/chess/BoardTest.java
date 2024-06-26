@@ -4,10 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
 
+import chess.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;
 import org.junit.jupiter.api.*;
+
+import java.util.List;
 
 public class BoardTest {
     private Board board;
@@ -152,5 +155,31 @@ public class BoardTest {
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("기물의 점수순으로 정렬한다")
+    public void sort() throws Exception {
+        board.initialize();
+
+        List<Piece> whites = board.sortByScore(Color.WHITE, OrderBy.DESC);
+        List<Piece> blacks = board.sortByScore(Color.BLACK, OrderBy.ASC);
+
+        Piece whitePiece1 = whites.get(0);
+        Piece whitePiece2 = whites.get(1);
+
+        assertEquals(Representation.Type.QUEEN, whitePiece1.getType());
+        assertEquals(Color.WHITE, whitePiece1.getColor());
+        assertEquals(Representation.Type.ROOK, whitePiece2.getType());
+        assertEquals(Color.WHITE, whitePiece2.getColor());
+
+
+        Piece blackPiece1 = blacks.get(0);
+        Piece blackPiece2 = blacks.get(1);
+
+        assertEquals(Representation.Type.KING, blackPiece1.getType());
+        assertEquals(Color.BLACK, blackPiece1.getColor());
+        assertEquals(Representation.Type.PAWN, blackPiece2.getType());
+        assertEquals(Color.BLACK, blackPiece2.getColor());
     }
 }

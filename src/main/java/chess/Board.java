@@ -1,9 +1,10 @@
 package chess;
 
+import chess.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;
-import utils.ScoreCalculator;
+import chess.calculator.ScoreUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,11 @@ public class Board {
     }
 
     public double getScore(Color color) {
-        return ScoreCalculator.calc(ranks, color);
+        return ScoreUtils.calc(ranks, color);
+    }
+
+    public List<Piece> sortByScore(Color color, OrderBy orderBy) {
+        return ScoreUtils.sort(ranks, color, orderBy);
     }
 
     public void move(String position, Piece piece) {
