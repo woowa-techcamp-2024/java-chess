@@ -11,11 +11,11 @@ import static org.example.utils.StringUtils.*;
 
 public class Board {
 
-    static final String NEWLINE = System.lineSeparator();
     static final int SIZE = 8;
     static final int EMPTY_INDEX = -1;
     static char EMPTY_CHAR = '.';
     int[][] board = new int[SIZE][SIZE];
+    List<List<Piece>> board2 = new ArrayList<>();
     List<Piece> pieceList = new ArrayList<>();
     List<Piece> whitePieceList = new ArrayList<>();
     List<Piece> blackPieceList = new ArrayList<>();
@@ -39,6 +39,46 @@ public class Board {
     public Piece findPawn(int i) {
         return pieceList.get(i);
     }
+
+    public void initializeV2() {
+        for (int i = 0; i < 8; i++) {
+            List<Piece> row = new ArrayList<>();
+            for (int j = 0; j < 8; j++) {
+                row.add(null); // 빈 칸은 null로 초기화
+            }
+            board2.add(row);
+        }
+
+        // 체스말 인스턴스 추가
+        board2.get(0).set(0, Piece.createWhiteRook());
+        board2.get(0).set(1, Piece.createWhiteKnight());
+        board2.get(0).set(2, Piece.createWhiteBishop());
+        board2.get(0).set(3, Piece.createWhiteQueen());
+        board2.get(0).set(4, Piece.createWhiteKing());
+        board2.get(0).set(5, Piece.createWhiteBishop());
+        board2.get(0).set(6, Piece.createWhiteKnight());
+        board2.get(0).set(7, Piece.createWhiteRook());
+        for (int i = 0; i < 8; i++) {
+            board2.get(1).set(i, Piece.createWhitePawn());
+        }
+
+        board2.get(7).set(0, Piece.createBlackRook());
+        board2.get(7).set(1, Piece.createBlackKnight());
+        board2.get(7).set(2, Piece.createBlackBishop());
+        board2.get(7).set(3, Piece.createBlackQueen());
+        board2.get(7).set(4, Piece.createBlackKing());
+        board2.get(7).set(5, Piece.createBlackBishop());
+        board2.get(7).set(6, Piece.createBlackKnight());
+        board2.get(7).set(7, Piece.createBlackRook());
+        for (int i = 0; i < 8; i++) {
+            board2.get(6).set(i, Piece.createBlackPawn());
+        }
+
+        printBoard(board2);
+
+    }
+
+
 
     public void initialize() {
         for (int i = 0; i < SIZE; i++) {
@@ -132,6 +172,19 @@ public class Board {
         }
 
         return print.toString();
+    }
+
+    public static void printBoard(List<List<Piece>> board) {
+        for (List<Piece> row : board) {
+            for (Piece piece : row) {
+                if (piece == null) {
+                    System.out.print(EMPTY_CHAR);
+                } else {
+                    System.out.print(piece.getRepresentation());
+                }
+            }
+            System.out.println();
+        }
     }
 
 
