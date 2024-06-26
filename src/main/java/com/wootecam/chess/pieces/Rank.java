@@ -72,4 +72,11 @@ public class Rank {
 
         return new Rank(Collections.unmodifiableList(newPieces));
     }
+
+    public double calculateRankPiecesPoint(final Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.isApplicablePiece(color))
+                .mapToDouble(piece -> piece.getType().getPoint())
+                .sum();
+    }
 }

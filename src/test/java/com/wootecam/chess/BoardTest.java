@@ -190,4 +190,51 @@ public class BoardTest {
             assertThat(board.findPiece(coordinates)).isEqualTo(piece);
         }
     }
+
+    @Nested
+    class calculatePoint_메소드는 {
+
+        @BeforeEach
+        void setUp() {
+            List<Rank> ranks = new ArrayList<>();
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+            board = new Board(ranks, extractor);
+        }
+
+        @Test
+        void 검정_혹은_흰색_기물의_점수를_계산한다() {
+            // given
+            addPiece("b6", Piece.createBlack(Type.PAWN));
+            addPiece("e6", Piece.createBlack(Type.QUEEN));
+            addPiece("b8", Piece.createBlack(Type.KING));
+            addPiece("c8", Piece.createBlack(Type.ROOK));
+            addPiece("f2", Piece.createWhite(Type.PAWN));
+            addPiece("g2", Piece.createWhite(Type.PAWN));
+            addPiece("e1", Piece.createWhite(Type.ROOK));
+            addPiece("f1", Piece.createWhite(Type.KING));
+
+            // when
+            double blackPoint = board.calculatePoint(Color.BLACK);
+            double whitePoint = board.calculatePoint(Color.WHITE);
+
+            // then
+            assertAll(
+                    () -> assertThat(blackPoint).isEqualTo(15.0),
+                    () -> assertThat(whitePoint).isEqualTo(7.0)
+            );
+        }
+
+        private void addPiece(String position, Piece piece) {
+            board.move(position, piece);
+        }
+    }
 }

@@ -1,18 +1,27 @@
 package com.wootecam.chess.pieces;
 
 public enum Type {
-    PAWN("p"),
-    ROOK("r"),
-    KNIGHT("n"),
-    BISHOP("b"),
-    QUEEN("q"),
-    KING("k"),
-    NO_PIECE(".");
+    PAWN("p", 1.0),
+    ROOK("r", 5.0),
+    KNIGHT("n", 2.5),
+    BISHOP("b", 3.0),
+    QUEEN("q", 9.0),
+    KING("k", 0.0),
+    NO_PIECE(".", 0.0);
 
     private final String representation;
+    private final double point;
 
-    Type(String representation) {
+    Type(String representation, double point) {
         this.representation = representation;
+        this.point = point;
+    }
+
+    public static double getPawnPoint(int pawnCount) {
+        if (pawnCount == 1) {
+            return PAWN.point;
+        }
+        return pawnCount * PAWN.point / 2.0;
     }
 
     public String findRepresentation(Color color) {
@@ -20,5 +29,13 @@ public enum Type {
             return representation.toUpperCase();
         }
         return representation;
+    }
+
+    public boolean isPiece() {
+        return this != PAWN && this != NO_PIECE;
+    }
+
+    public double getPoint() {
+        return point;
     }
 }

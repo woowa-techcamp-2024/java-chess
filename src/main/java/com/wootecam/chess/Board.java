@@ -9,8 +9,14 @@ import com.wootecam.chess.pieces.Rank;
 import com.wootecam.chess.pieces.Type;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Board {
+
+    public static final char START_COLUMN_SYMBOL = 'a';
+    public static final char END_COLUMN_SYMBOL = 'h';
+    public static final char START_ROW_SYMBOL = '1';
+    public static final char END_ROW_SYMBOL = '8';
 
     private final List<Rank> ranks;
     private final CoordinatesExtractor extractor;
@@ -63,5 +69,33 @@ public class Board {
         int columnIndex = extractor.extractColumnIndex(coordinate);
         Rank rank = ranks.get(rowIndex);
         ranks.set(rowIndex, rank.placePiece(columnIndex, piece));
+    }
+
+    public double calculatePoint(Color color) {
+        return calculatePiecesPoint(color) + calculatePawnsPoint(color);
+    }
+
+    private double calculatePiecesPoint(Color color) {
+        return ranks.stream()
+                .mapToDouble(rank -> rank.calculateRankPiecesPoint(color))
+                .sum();
+    }
+
+    private double calculatePawnsPoint(final Color color) {
+        return IntStream.rangeClosed(START_COLUMN_SYMBOL, END_COLUMN_SYMBOL)
+                .mapToDouble(columnSymbol -> calculateColumnPawnPoint(color, (char) columnSymbol))
+                .sum();
+    }
+
+    private double calculateColumnPawnPoint(final Color color, final char columnSymbol) {
+        int pawnCount = (int) IntStream.rangeClosed(START_ROW_SYMBOL, END_ROW_SYMBOL)
+                .filter(rowSymbol -> isSamePawn(color, extractor.createCoordinate(columnSymbol, (char) rowSymbol)))
+                .count();
+
+        return Type.getPawnPoint(pawnCount);
+    }
+
+    private boolean isSamePawn(final Color color, final String coordinates) {
+        return findPiece(coordinates).isSameColorAndType(color, Type.PAWN);
     }
 }

@@ -48,8 +48,12 @@ public class Piece {
         return type == Type.NO_PIECE && color == Color.NO_COLOR;
     }
 
-    public boolean isSameColorAndType(Color color, Type type) {
+    public boolean isSameColorAndType(final Color color, final Type type) {
         return color == this.color && type == this.type;
+    }
+
+    public boolean isApplicablePiece(final Color color) {
+        return this.color == color && type.isPiece();
     }
 
     @Override

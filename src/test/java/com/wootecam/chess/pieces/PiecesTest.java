@@ -71,4 +71,28 @@ public class PiecesTest {
                 () -> assertThat(blackPawn.isBlack()).isTrue()
         );
     }
+
+    @Test
+    void 동일한_색상과_타입이면_참을_반환한다() {
+        // given
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+
+        // when
+        boolean isSameColorAndType = whitePawn.isSameColorAndType(Color.WHITE, Type.PAWN);
+
+        // then
+        assertThat(isSameColorAndType).isTrue();
+    }
+
+    @Test
+    void 동일한_색상을_가진_폰을_제외한_기물이라면_참을_반환한다() {
+        // given
+        Piece piece = Piece.createBlack(Type.ROOK);
+
+        // when
+        boolean isApplicablePiece = piece.isApplicablePiece(Color.BLACK);
+
+        // then
+        assertThat(isApplicablePiece).isTrue();
+    }
 }

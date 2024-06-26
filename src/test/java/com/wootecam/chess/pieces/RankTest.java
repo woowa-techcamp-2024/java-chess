@@ -94,4 +94,16 @@ class RankTest {
                 .extracting(newRank -> newRank.findPieceByColumn(0))
                 .isEqualTo(Piece.createBlack(Type.KING));
     }
+
+    @Test
+    void 특정_Rank에_포함되는_모든_폰을_제외한_기물의_점수를_구한다() {
+        // given
+        Rank rank = Rank.createWhiteOtherPieces();
+
+        // when
+        double point = rank.calculateRankPiecesPoint(Color.WHITE);
+
+        // then
+        assertThat(point).isEqualTo(30);
+    }
 }

@@ -1,14 +1,16 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.Board.END_COLUMN_SYMBOL;
+import static com.wootecam.chess.Board.END_ROW_SYMBOL;
+import static com.wootecam.chess.Board.START_COLUMN_SYMBOL;
+import static com.wootecam.chess.Board.START_ROW_SYMBOL;
+
 import com.wootecam.chess.pieces.Rank;
 
 public class CoordinatesExtractor {
 
     private static final int ROW_COORDINATE_INDEX = 1;
-    private static final char START_COLUMN_SYMBOL = 'a';
-    private static final char END_COLUMN_SYMBOL = 'h';
-    private static final char START_ROW_SYMBOL = '1';
-    private static final char END_ROW_SYMBOL = '8';
+    private static final int COLUMN_COORDINATES_INDEX = 0;
 
     public int extractRowIndex(String coordinate) {
         int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
@@ -17,7 +19,7 @@ public class CoordinatesExtractor {
     }
 
     public int extractColumnIndex(String coordinate) {
-        return coordinate.charAt(0) - START_COLUMN_SYMBOL;
+        return coordinate.charAt(COLUMN_COORDINATES_INDEX) - START_COLUMN_SYMBOL;
     }
 
     public void validateCoordinates(String coordinate) {
@@ -39,5 +41,9 @@ public class CoordinatesExtractor {
                 || columnSymbol > END_COLUMN_SYMBOL
                 || rowSymbol < START_ROW_SYMBOL
                 || rowSymbol > END_ROW_SYMBOL;
+    }
+
+    public String createCoordinate(char columnSymbol, char rowSymbol) {
+        return String.valueOf(columnSymbol) + rowSymbol;
     }
 }
