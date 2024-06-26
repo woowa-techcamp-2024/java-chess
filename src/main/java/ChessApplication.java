@@ -1,8 +1,8 @@
+import application.ChessView;
 import chess.Board;
-import chess.ChessView;
 import java.util.Scanner;
 
-public class Main {
+public class ChessApplication {
 
     public static void main(String[] args) {
         Board board = new Board();

@@ -1,5 +1,6 @@
-package chess;
+package application;
 
+import chess.Board;
 import chess.pieces.Piece;
 import java.util.List;
 import utils.StringUtils;

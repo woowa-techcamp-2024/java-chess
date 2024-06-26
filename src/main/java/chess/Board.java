@@ -4,6 +4,7 @@ import chess.pieces.Piece;
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Type;
 import chess.pieces.values.Location;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,8 @@ import java.util.Map.Entry;
 
 public class Board {
 
-    protected static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
-    protected static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+    public static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
+    public static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
     private final Map<Location, Piece> table;
 
@@ -73,9 +74,11 @@ public class Board {
      * @return 해당 행에 존재하는 말들
      */
     public List<Piece> getPiecesWithRow(int row) {
-        return table.entrySet().stream()
-            .filter(entry -> entry.getKey().getX() == row)
-            .map(Map.Entry::getValue).toList();
+        List<Piece> result = new ArrayList<>();
+        for (char col : COLS) {
+            result.add(getPiece(Location.of(row, col)));
+        }
+        return result;
     }
 
     /**
