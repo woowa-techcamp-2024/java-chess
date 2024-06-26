@@ -16,4 +16,17 @@ public enum File {
     public int index(){
         return this.index;
     }
+
+    /**
+     * 현재 File에서 step만큼 이동한 File을 반환합니다.
+     * @param step 이동할 거리
+     * @return 이동한 위치의 File 입니다. 만약 이동한 위치가 존재하지 않는다면 null을 반환합니다.
+     */
+    public File move(int step){
+        try {
+            return values()[index + step];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
 }

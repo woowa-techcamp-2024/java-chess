@@ -50,8 +50,8 @@ class GameTest {
         }
 
         @ParameterizedTest
-        @DisplayName("폰 이동 실패 테스트")
-        @MethodSource("movePawnFailCase")
+        @DisplayName("폰 이동 실패 테스트 : 이동 경로에 같은 편의 말이 존재할 때")
+        @MethodSource("movePawnSuccessCase")
         public void movePawnFail(Location from, Location to) {
             // given
             Board board = createBoard();
@@ -70,12 +70,24 @@ class GameTest {
                     .hasMessage("이동할 수 없습니다.");
         }
 
-        public static Stream<Arguments> movePawnFailCase() {
+        @ParameterizedTest
+        @DisplayName("폰 이동 실패 테스트 : 초과한 이동을 할때")
+        @MethodSource("movePawnFailCaseWhenExceed")
+        public void movePawnFailWhenExceed(Location from, Location to) {
+            // given
+            Board board = createBoard();
+            Game game = new Game(board);
+
+            // then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> movePawnFailCaseWhenExceed() {
             return Stream.of(
                     Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.FIVE, File.A)),
-                    Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.TWO, File.B)),
-                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.FIVE, File.A)),
-                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SEVEN, File.B))
+                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.FOUR, File.B))
             );
         }
     }
