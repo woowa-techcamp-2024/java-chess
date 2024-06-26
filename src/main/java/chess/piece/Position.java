@@ -3,13 +3,13 @@ package chess.piece;
 import chess.File;
 import chess.Rank;
 
-public record Position(File file, Rank rank) {
+public record Position(Rank rank, File file) {
 
     public static Position of(final int row, final int col) {
-        return new Position(File.of(col), Rank.of(row));
+        return new Position(Rank.of(row), File.of(col));
     }
 
     public static Position of(final File file, final Rank rank) {
-        return new Position(file, rank);
+        return new Position(rank, file);
     }
 }

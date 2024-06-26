@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static chess.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -98,5 +100,62 @@ public class BoardTest {
     private void verifyKingPiece(final String point, final PieceColor pieceColor) {
         assertEquals(King.create(pieceColor).getType(), board.findPiece(point).getType());
         assertEquals(King.create(pieceColor).getColor(), board.findPiece(point).getColor());
+    }
+
+    @Test
+    @DisplayName("빈 체스판에서 임의의 기물을 추가한다.")
+    public void move() throws Exception {
+        String position = "b5";
+        Piece piece = Rook.create(PieceColor.BLACK);
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("색별로 기물의 점수를 계산한다.")
+    public void caculcatePoint() throws Exception {
+        addPiece("b6", Pawn.create(PieceColor.BLACK));
+        addPiece("e6", Queen.create(PieceColor.BLACK));
+        addPiece("b8", King.create(PieceColor.BLACK));
+        addPiece("c8", Rook.create(PieceColor.BLACK));
+
+        addPiece("f2", Pawn.create(PieceColor.WHITE));
+        addPiece("g2", Pawn.create(PieceColor.WHITE));
+        addPiece("e1", Rook.create(PieceColor.WHITE));
+        addPiece("f1", King.create(PieceColor.WHITE));
+
+        assertEquals(15.0, board.calculatePoint(PieceColor.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(PieceColor.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+    }
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("색별로 높은 점수의 기물을 반환한다.")
+    public void orderPieceWithScore() {
+        addPiece("b6", Pawn.create(PieceColor.BLACK));
+        addPiece("e6", Queen.create(PieceColor.BLACK));
+        addPiece("b8", King.create(PieceColor.BLACK));
+        addPiece("c8", Rook.create(PieceColor.BLACK));
+
+        addPiece("f2", Pawn.create(PieceColor.WHITE));
+        addPiece("g2", Pawn.create(PieceColor.WHITE));
+        addPiece("e1", Rook.create(PieceColor.WHITE));
+        addPiece("f1", King.create(PieceColor.WHITE));
+
+        List<Piece> blackPieces = board.orderPieceWithScore(PieceColor.BLACK);
+        List<Piece> whitePieces = board.orderPieceWithScore(PieceColor.WHITE);
+
+        assertEquals(Type.QUEEN, blackPieces.get(0).getType());
+        assertEquals(Type.ROOK, blackPieces.get(1).getType());
+
+        assertEquals(Type.ROOK, whitePieces.get(0).getType());
+        assertEquals(Type.KING, whitePieces.get(3).getType());
     }
 }
