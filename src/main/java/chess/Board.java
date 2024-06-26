@@ -71,6 +71,11 @@ public class Board {
         if(!isIn(x,y)) throw new IllegalArgumentException("범위 안의 좌표를 입력해주세요");
         board[x][y] = piece;
     }
+    private void setPiece(String position,ChessPiece piece){
+        int row = getRow(position);
+        int col = getCol(position);
+        setPiece(row,col,piece);
+    }
 
     public void initialize(){
         //pawn 셋팅
@@ -206,5 +211,14 @@ public class Board {
 
     private boolean hasPawnVertically(int x,int y){
         return (isIn(x+1,y) && Type.PAWN.equals(board[x+1][y].getType()) || isIn(x-1,y) && Type.PAWN.equals(board[x-1][y].getType()));
+    }
+
+    public void move(String sourcePosition,String targetPosition){
+        ChessPiece source = findPiece(sourcePosition);
+        ChessPiece target = findPiece(targetPosition);
+
+        removePiece(target);
+        move(targetPosition,source);
+        setPiece(sourcePosition,Piece.createPiece(NO_PIECE));
     }
 }
