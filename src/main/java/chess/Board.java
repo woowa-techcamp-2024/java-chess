@@ -3,6 +3,7 @@ package chess;
 import chess.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -115,6 +116,13 @@ public class Board {
                 .sum();
     }
 
+    public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
+        return ranks.stream().map(rank -> rank.getAllPieces(color))
+                .flatMap(List::stream)
+                .sorted(comparator)
+                .toList();
+    }
+
     protected Board() {
         ranks = new ArrayList<>();
         initialize();
@@ -176,6 +184,4 @@ public class Board {
         }
         return convertedWidth;
     }
-
-
 }
