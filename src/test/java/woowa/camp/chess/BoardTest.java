@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
+import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
 
 public class BoardTest {
@@ -78,8 +78,8 @@ public class BoardTest {
         String expectedWhitePawnsResult = "pppppppp";
         String expectedBlackPawnsResult = "PPPPPPPP";
 
-        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
-        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.WHITE)).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.BLACK)).isEqualTo(expectedBlackPawnsResult);
     }
 
     @Test
@@ -91,8 +91,8 @@ public class BoardTest {
     }
 
     private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
-        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
-        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.WHITE).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.BLACK).length()).isEqualTo(expectedPawnsCount);
     }
 
     @Test
@@ -139,19 +139,19 @@ public class BoardTest {
 
     static Stream<Arguments> providePiecesAndCounts() {
         return Stream.of(
-                Arguments.of(Type.KING, Color.KING_BLACK, KING_COUNT),
-                Arguments.of(Type.QUEEN, Color.QUEEN_BLACK, QUEEN_COUNT),
-                Arguments.of(Type.ROOK, Color.ROOK_BLACK, ROOK_COUNT),
-                Arguments.of(Type.KNIGHT, Color.KNIGHT_BLACK, KNIGHT_COUNT),
-                Arguments.of(Type.BISHOP, Color.BISHOP_BLACK, BISHOP_COUNT),
-                Arguments.of(Type.PAWN, Color.PAWN_BLACK, PAWN_COUNT),
+                Arguments.of(Type.KING, Color.BLACK, KING_COUNT),
+                Arguments.of(Type.QUEEN, Color.BLACK, QUEEN_COUNT),
+                Arguments.of(Type.ROOK, Color.BLACK, ROOK_COUNT),
+                Arguments.of(Type.KNIGHT, Color.BLACK, KNIGHT_COUNT),
+                Arguments.of(Type.BISHOP, Color.BLACK, BISHOP_COUNT),
+                Arguments.of(Type.PAWN, Color.BLACK, PAWN_COUNT),
 
-                Arguments.of(Type.KING, Color.KING_WHITE, KING_COUNT),
-                Arguments.of(Type.QUEEN, Color.QUEEN_WHITE, QUEEN_COUNT),
-                Arguments.of(Type.ROOK, Color.ROOK_WHITE, ROOK_COUNT),
-                Arguments.of(Type.KNIGHT, Color.KNIGHT_WHITE, KNIGHT_COUNT),
-                Arguments.of(Type.BISHOP, Color.BISHOP_WHITE, BISHOP_COUNT),
-                Arguments.of(Type.PAWN, Color.PAWN_WHITE, PAWN_COUNT)
+                Arguments.of(Type.KING, Color.WHITE, KING_COUNT),
+                Arguments.of(Type.QUEEN, Color.WHITE, QUEEN_COUNT),
+                Arguments.of(Type.ROOK, Color.WHITE, ROOK_COUNT),
+                Arguments.of(Type.KNIGHT, Color.WHITE, KNIGHT_COUNT),
+                Arguments.of(Type.BISHOP, Color.WHITE, BISHOP_COUNT),
+                Arguments.of(Type.PAWN, Color.WHITE, PAWN_COUNT)
         );
     }
 

@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
+import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
 import woowa.camp.utils.StringUtils;
 
@@ -55,7 +55,7 @@ public class Board {
         initBlackBishop();
         initBlackQueen();
         initBlackKing();
-        initPawns(1, Color.PAWN_BLACK);
+        initPawns(1, Color.BLACK);
     }
 
     private void initBlackRook() {
@@ -103,7 +103,7 @@ public class Board {
         initWhiteBishop();
         initWhiteQueen();
         initWhiteKing();
-        initPawns(6, Color.PAWN_WHITE);
+        initPawns(6, Color.WHITE);
     }
 
     private void initWhiteRook() {

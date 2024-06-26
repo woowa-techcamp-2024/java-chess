@@ -22,59 +22,59 @@ public class Piece {
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(PAWN, Color.PAWN_WHITE);
+        return new Piece(PAWN, Color.WHITE);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(PAWN, Color.PAWN_BLACK);
+        return new Piece(PAWN, Color.BLACK);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(KNIGHT, Color.KNIGHT_WHITE);
+        return new Piece(KNIGHT, Color.WHITE);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(KNIGHT, Color.KNIGHT_BLACK);
+        return new Piece(KNIGHT, Color.BLACK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(BISHOP, Color.BISHOP_WHITE);
+        return new Piece(BISHOP, Color.WHITE);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(BISHOP, Color.BISHOP_BLACK);
+        return new Piece(BISHOP, Color.BLACK);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(ROOK, Color.ROOK_WHITE);
+        return new Piece(ROOK, Color.WHITE);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(ROOK, Color.ROOK_BLACK);
+        return new Piece(ROOK, Color.BLACK);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(QUEEN, Color.QUEEN_WHITE);
+        return new Piece(QUEEN, Color.WHITE);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(QUEEN, Color.QUEEN_BLACK);
+        return new Piece(QUEEN, Color.BLACK);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(KING, Color.KING_WHITE);
+        return new Piece(KING, Color.WHITE);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(KING, Color.KING_BLACK);
+        return new Piece(KING, Color.BLACK);
     }
 
     public String getColor() {
         return color.getName();
     }
 
-    public String getRepresentation() {
-        return color.getRepresentation();
+    public Representation getRepresentation() {
+        return Representation.findMatchedRepresentation(type, color);
     }
 
     public Type getType() {
@@ -111,6 +111,23 @@ public class Piece {
         Type(String name) {
             this.name = name;
         }
+    }
+
+    public enum Color {
+        BLACK("black"),
+        WHITE("white"),
+        NONE("none");
+
+        private final String name;
+
+        Color(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
     }
 
 
