@@ -54,6 +54,6 @@ class PieceTest {
 
     private static void verifyPiece(final Piece piece, final String color, PieceType pieceType) {
         assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(color.equals(BLACK_COLOR) ? pieceType.getAbbreviation() : (char) (pieceType.getAbbreviation() + CASE_DIFFERENCE ));
+        assertThat(piece.getRepresentation()).isEqualTo(color.equals(BLACK_COLOR) ? pieceType.getRepresentation() : (char) (pieceType.getRepresentation() + CASE_DIFFERENCE ));
     }
 }

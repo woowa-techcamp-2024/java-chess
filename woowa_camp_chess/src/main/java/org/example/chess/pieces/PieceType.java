@@ -1,26 +1,21 @@
 package org.example.chess.pieces;
 
 public enum PieceType {
-    KING("King", 'K'),
-    QUEEN("Queen", 'Q'),
-    ROOK("Rook", 'R'),
-    BISHOP("Bishop", 'B'),
-    KNIGHT("Knight", 'N'),
-    PAWN("Pawn", 'P');
+    KING('K'),
+    QUEEN('Q'),
+    ROOK( 'R'),
+    BISHOP( 'B'),
+    KNIGHT( 'N'),
+    PAWN( 'P');
 
-    private final String fullName;
-    private final char abbreviation;
+    private final char representation;
 
-    PieceType(String fullName, char abbreviation) {
-        this.fullName = fullName;
-        this.abbreviation = abbreviation;
+    PieceType(char representation) {
+        this.representation = representation;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
 
-    public char getAbbreviation() {
-        return abbreviation;
+    public char getRepresentation() {
+        return representation;
     }
 }
