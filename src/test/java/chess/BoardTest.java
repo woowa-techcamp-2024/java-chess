@@ -23,7 +23,7 @@ class BoardTest {
         Board board = new Board();
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint();
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint()));
 
         // then
         assertThat(pieces).extracting("point")
