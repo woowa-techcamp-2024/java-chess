@@ -1,11 +1,6 @@
 package woowa.camp.pieces;
 
-import static woowa.camp.pieces.Piece.Type.BISHOP;
-import static woowa.camp.pieces.Piece.Type.KING;
-import static woowa.camp.pieces.Piece.Type.KNIGHT;
-import static woowa.camp.pieces.Piece.Type.PAWN;
-import static woowa.camp.pieces.Piece.Type.QUEEN;
-import static woowa.camp.pieces.Piece.Type.ROOK;
+import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
 public class Piece {
 
@@ -21,52 +16,16 @@ public class Piece {
         return new Piece(type, color);
     }
 
-    public static Piece createWhitePawn() {
-        return new Piece(PAWN, Color.WHITE);
+    public static Piece createWhitePieceOf(final Type type) {
+        return new Piece(type, Color.WHITE);
     }
 
-    public static Piece createBlackPawn() {
-        return new Piece(PAWN, Color.BLACK);
+    public static Piece createBlackPieceOf(final Type type) {
+        return new Piece(type, Color.BLACK);
     }
 
-    public static Piece createWhiteKnight() {
-        return new Piece(KNIGHT, Color.WHITE);
-    }
-
-    public static Piece createBlackKnight() {
-        return new Piece(KNIGHT, Color.BLACK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return new Piece(BISHOP, Color.WHITE);
-    }
-
-    public static Piece createBlackBishop() {
-        return new Piece(BISHOP, Color.BLACK);
-    }
-
-    public static Piece createWhiteRook() {
-        return new Piece(ROOK, Color.WHITE);
-    }
-
-    public static Piece createBlackRook() {
-        return new Piece(ROOK, Color.BLACK);
-    }
-
-    public static Piece createWhiteQueen() {
-        return new Piece(QUEEN, Color.WHITE);
-    }
-
-    public static Piece createBlackQueen() {
-        return new Piece(QUEEN, Color.BLACK);
-    }
-
-    public static Piece createWhiteKing() {
-        return new Piece(KING, Color.WHITE);
-    }
-
-    public static Piece createBlackKing() {
-        return new Piece(KING, Color.BLACK);
+    public static Piece createBlank() {
+        return new Piece(NO_PIECE, Color.NONE);
     }
 
     public String getColor() {

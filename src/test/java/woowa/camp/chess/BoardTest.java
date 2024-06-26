@@ -30,8 +30,8 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = Piece.createWhitePawn();
-        black = Piece.createBlackPawn();
+        white = Piece.createWhitePieceOf(Type.PAWN);
+        black = Piece.createBlackPieceOf(Type.PAWN);
     }
 
     @Test

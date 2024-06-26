@@ -1,5 +1,12 @@
 package woowa.camp.chess;
 
+import static woowa.camp.pieces.Piece.Type.BISHOP;
+import static woowa.camp.pieces.Piece.Type.KING;
+import static woowa.camp.pieces.Piece.Type.KNIGHT;
+import static woowa.camp.pieces.Piece.Type.PAWN;
+import static woowa.camp.pieces.Piece.Type.QUEEN;
+import static woowa.camp.pieces.Piece.Type.ROOK;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,8 +66,8 @@ public class Board {
     }
 
     private void initBlackRook() {
-        final Piece leftBlackRook = Piece.createBlackRook();
-        final Piece rightBlackRook = Piece.createBlackRook();
+        final Piece leftBlackRook = Piece.createBlackPieceOf(ROOK);
+        final Piece rightBlackRook = Piece.createBlackPieceOf(ROOK);
         board.get(0).set(0, leftBlackRook);
         board.get(0).set(7, rightBlackRook);
         pieces.add(leftBlackRook);
@@ -68,8 +75,8 @@ public class Board {
     }
 
     private void initBlackKnight() {
-        final Piece leftBlackKnight = Piece.createBlackKnight();
-        final Piece rightBlackKnight = Piece.createBlackKnight();
+        final Piece leftBlackKnight = Piece.createBlackPieceOf(KNIGHT);
+        final Piece rightBlackKnight = Piece.createBlackPieceOf(KNIGHT);
         board.get(0).set(1, leftBlackKnight);
         board.get(0).set(6, rightBlackKnight);
         pieces.add(leftBlackKnight);
@@ -77,8 +84,8 @@ public class Board {
     }
 
     private void initBlackBishop() {
-        final Piece leftBlackBishop = Piece.createBlackBishop();
-        final Piece rightBlackBishop = Piece.createBlackBishop();
+        final Piece leftBlackBishop = Piece.createBlackPieceOf(BISHOP);
+        final Piece rightBlackBishop = Piece.createBlackPieceOf(BISHOP);
         board.get(0).set(2, leftBlackBishop);
         board.get(0).set(5, rightBlackBishop);
         pieces.add(leftBlackBishop);
@@ -86,13 +93,13 @@ public class Board {
     }
 
     private void initBlackQueen() {
-        final Piece blackQueen = Piece.createBlackQueen();
+        final Piece blackQueen = Piece.createBlackPieceOf(QUEEN);
         board.get(0).set(3, blackQueen);
         pieces.add(blackQueen);
     }
 
     private void initBlackKing() {
-        final Piece blackKing = Piece.createBlackKing();
+        final Piece blackKing = Piece.createBlackPieceOf(KING);
         board.get(0).set(4, blackKing);
         pieces.add(blackKing);
     }
@@ -107,8 +114,8 @@ public class Board {
     }
 
     private void initWhiteRook() {
-        final Piece leftWhiteRook = Piece.createWhiteRook();
-        final Piece rightWhiteRook = Piece.createWhiteRook();
+        final Piece leftWhiteRook = Piece.createWhitePieceOf(ROOK);
+        final Piece rightWhiteRook = Piece.createWhitePieceOf(ROOK);
         board.get(7).set(0, leftWhiteRook);
         board.get(7).set(7, rightWhiteRook);
         pieces.add(leftWhiteRook);
@@ -116,8 +123,8 @@ public class Board {
     }
 
     private void initWhiteKnight() {
-        final Piece leftWhiteKnight = Piece.createWhiteKnight();
-        final Piece rightWhiteKnight = Piece.createWhiteKnight();
+        final Piece leftWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
+        final Piece rightWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
         board.get(7).set(1, leftWhiteKnight);
         board.get(7).set(6, rightWhiteKnight);
         pieces.add(leftWhiteKnight);
@@ -125,8 +132,8 @@ public class Board {
     }
 
     private void initWhiteBishop() {
-        final Piece leftWhiteBishop = Piece.createWhiteBishop();
-        final Piece rightWhiteBishop = Piece.createWhiteBishop();
+        final Piece leftWhiteBishop = Piece.createWhitePieceOf(BISHOP);
+        final Piece rightWhiteBishop = Piece.createWhitePieceOf(BISHOP);
         board.get(7).set(2, leftWhiteBishop);
         board.get(7).set(5, rightWhiteBishop);
         pieces.add(leftWhiteBishop);
@@ -134,20 +141,20 @@ public class Board {
     }
 
     private void initWhiteQueen() {
-        final Piece whiteQueen = Piece.createWhiteQueen();
+        final Piece whiteQueen = Piece.createWhitePieceOf(QUEEN);
         board.get(7).set(3, whiteQueen);
         pieces.add(whiteQueen);
     }
 
     private void initWhiteKing() {
-        final Piece whiteKing = Piece.createWhiteKing();
+        final Piece whiteKing = Piece.createWhitePieceOf(KING);
         board.get(7).set(4, whiteKing);
         pieces.add(whiteKing);
     }
 
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL).forEach(col -> {
-            final Piece piece = Piece.createPiece(Type.PAWN, color);
+            final Piece piece = Piece.createPiece(PAWN, color);
             addPawn(initRow, col, piece);
         });
     }
