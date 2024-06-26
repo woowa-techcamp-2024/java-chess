@@ -1,6 +1,7 @@
 package chess;
 
 import chess.board.Board;
+import chess.view.ChessView;
 
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class Main {
 
         while (!(input = sc.nextLine()).equals(QUIT)) {
             if(isPrintCommand(input)) {
-                System.out.println(board.showBoard());
+                System.out.println(ChessView.printBoard(board));
             }
             if(isMoveCommand(input)) {
                 String[] split = input.split(" ");

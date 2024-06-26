@@ -4,7 +4,6 @@ import chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Rank {
 
@@ -29,13 +28,6 @@ public class Rank {
 
     public static Rank initializeRank(List<Piece> pieces) {
         return new Rank(pieces);
-    }
-
-    public String printRank() {
-        return pieces.stream()
-                .map(Piece::getRepresentation)
-                .map(String::valueOf)
-                .collect(Collectors.joining());
     }
 
     public Piece getPieceByIndex(int index) {

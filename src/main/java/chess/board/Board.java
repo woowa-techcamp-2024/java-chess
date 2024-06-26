@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static chess.utils.StringUtils.NEWLINE;
-
 public class Board {
 
     private final List<Rank> ranks;
@@ -89,11 +87,6 @@ public class Board {
         ranks.add(Rank.initializeRank(lastRow));
     }
 
-    private String print() {
-        return ranks.stream()
-                .map(Rank::printRank)
-                .collect(Collectors.joining(NEWLINE));
-    }
 
     public int getPieceCount(Piece.Color color, Piece.Type type) {
         return ranks.stream().mapToInt(rank -> rank.getPieceCount(color, type)).sum();
@@ -101,10 +94,6 @@ public class Board {
 
     public int getTotalPieceCount() {
         return pieceCount;
-    }
-
-    public String showBoard() {
-        return print();
     }
 
     public void move(String position, Piece piece) {
