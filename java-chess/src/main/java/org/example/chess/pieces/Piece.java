@@ -2,11 +2,11 @@ package org.example.chess.pieces;
 
 public class Piece {
     private final Color color;
-    private final Name name;
+    private final Type type;
 
-    private Piece(Color color, Name name) {
+    private Piece(Color color, Type type) {
         this.color = color;
-        this.name = name;
+        this.type = type;
     }
 
     public boolean isWhite() {
@@ -21,81 +21,85 @@ public class Piece {
         return color;
     }
 
-    public Name getName() {
-        return name;
+    public Type getName() {
+        return type;
     }
 
-    public String getRepresentation() {
+    public char getRepresentation() {
         if (isWhite()) {
-            return this.name.symbol.toLowerCase();
+            return Character.toLowerCase(this.type.representation);
         }
 
-        return this.name.symbol.toUpperCase();
+        return Character.toUpperCase(this.type.representation);
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(Color.WHITE, Name.PAWN);
+        return new Piece(Color.WHITE, Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(Color.BLACK, Name.PAWN);
+        return new Piece(Color.BLACK, Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(Color.WHITE, Name.KNIGHT);
+        return new Piece(Color.WHITE, Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(Color.BLACK, Name.KNIGHT);
+        return new Piece(Color.BLACK, Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(Color.WHITE, Name.ROOK);
+        return new Piece(Color.WHITE, Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(Color.BLACK, Name.ROOK);
+        return new Piece(Color.BLACK, Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(Color.WHITE, Name.BISHOP);
+        return new Piece(Color.WHITE, Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(Color.BLACK, Name.BISHOP);
+        return new Piece(Color.BLACK, Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(Color.WHITE, Name.QUEEN);
+        return new Piece(Color.WHITE, Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(Color.BLACK, Name.QUEEN);
+        return new Piece(Color.BLACK, Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(Color.WHITE, Name.KING);
+        return new Piece(Color.WHITE, Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(Color.BLACK, Name.KING);
+        return new Piece(Color.BLACK, Type.KING);
+    }
+
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
     public enum Color {
-        WHITE, BLACK
+        WHITE, BLACK, NOCOLOR
     }
 
-    public enum Name {
-        PAWN("P"), KNIGHT("N"), ROOK("R"), BISHOP("B"), QUEEN("Q"), KING("K");
+    public enum Type {
+        PAWN('P'), KNIGHT('N'), ROOK('R'), BISHOP('B'), QUEEN('Q'), KING('K'), NO_PIECE('.');
 
-        private final String symbol;
+        private final char representation;
 
-        Name(String symbol) {
-            this.symbol = symbol;
+        Type(char representation) {
+            this.representation = representation;
         }
 
-        public String getSymbol() {
-            return this.symbol;
+        public char getSymbol() {
+            return this.representation;
         }
     }
 }

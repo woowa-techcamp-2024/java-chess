@@ -33,13 +33,13 @@ public class Board {
 
     public String getWhitePawnsRepresentation() {
         return pieces.stream().filter(pieceOnBoard -> pieceOnBoard.piece.isWhite())
-                .filter(pieceOnBoard -> pieceOnBoard.piece.getName() == Piece.Name.PAWN)
+                .filter(pieceOnBoard -> pieceOnBoard.piece.getName() == Piece.Type.PAWN)
                 .map(pieceOnBoard ->pieceOnBoard.piece.getRepresentation()).collect(Collectors.joining());
     }
 
     public String getBlackPawnsRespresentation() {
         return pieces.stream().filter(pieceOnBoard -> pieceOnBoard.piece.isBlack())
-                .filter(pieceOnBoard -> pieceOnBoard.piece.getName() == Piece.Name.PAWN)
+                .filter(pieceOnBoard -> pieceOnBoard.piece.getName() == Piece.Type.PAWN)
                 .map(pieceOnBoard -> pieceOnBoard.piece.getRepresentation()).collect(Collectors.joining());
     }
 
