@@ -110,4 +110,13 @@ public class BoardTest {
     private void addPiece(final String position, final Piece piece) {
         board.move(position, piece);
     }
+
+    @Test
+    @DisplayName("원하는 색상의 기물들을 정렬된 리스트로 받을 수 있어야 한다")
+    public void getSortedPieces() {
+        board.initialize();
+        List<Piece> sortedWhitePieces = board.getSortedPieces(Color.WHITE);
+        System.out.println(sortedWhitePieces);
+        System.out.println(sortedWhitePieces.reversed());
+    }
 }
