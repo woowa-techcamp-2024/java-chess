@@ -26,6 +26,8 @@ public abstract class Piece {
         return this.color == color;
     }
 
+    public abstract double value();
+
     @Override
     public final String toString() {
         return isWhite() ? whiteRepresentation() : blackRepresentation();

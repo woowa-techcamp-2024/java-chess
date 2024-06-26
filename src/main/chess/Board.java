@@ -59,6 +59,10 @@ public class Board {
         cellAt(Position.of(rank, file)).setPiece(piece);
     }
 
+    protected void set(int r, int c, Piece piece) {
+        cellAt(Position.of(r, c)).setPiece(piece);
+    }
+
     protected void clear() {
         stream().forEach(cell -> cell.clear());
     }
@@ -67,11 +71,34 @@ public class Board {
         return cells[position.r][position.c];
     }
 
+    protected Cell cellAt(int r, int c) {
+        return cells[r][c];
+    }
+
     public int countPiece(Class<? extends Piece> type, Piece.Color color) {
         return (int) stream().filter(cell -> !cell.isEmpty())
                 .map(cell -> cell.getPiece())
                 .filter(piece -> piece.isColor(color) && type.isInstance(piece))
                 .count();
+    }
+
+    public double value(Piece.Color color) {
+        double value = 0.0;
+        for (int c = 0; c < LENGTH; c++) {
+            int pawnCount = 0;
+            for (int r = 0; r < LENGTH; r++) {
+                Cell cell = cellAt(r, c);
+                if (cell.isEmpty()) continue;
+                Piece piece = cell.getPiece();
+                if (!piece.isColor(color)) continue;
+
+                if (piece instanceof Pawn) pawnCount++;
+                else value += piece.value();
+            }
+            double pawnValue = pawnCount > 1 ? Pawn.MULTIPLE_IN_FILE_VALUE : Pawn.VALUE;
+            value += pawnCount * pawnValue;
+        }
+        return value;
     }
 
     public List<Pawn> findPawns() {

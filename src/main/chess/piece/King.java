@@ -13,6 +13,11 @@ public class King extends Piece {
     }
 
     @Override
+    public double value() {
+        return 0.0;
+    }
+
+    @Override
     protected String whiteRepresentation() {
         return ChessStrings.WHITE_KING;
     }
