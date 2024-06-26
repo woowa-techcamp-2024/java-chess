@@ -13,6 +13,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
+    @Test
+    @DisplayName("포인트를 계산할 수 있다")
+    void caculcatePoint() {
+        Board board = new Board();
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn(), board);
+        addPiece("e6", Piece.createBlackQueen(), board);
+        addPiece("b8", Piece.createBlackKing(), board);
+        addPiece("c8", Piece.createBlackRook(), board);
+
+        addPiece("f2", Piece.createWhitePawn(), board);
+        addPiece("g2", Piece.createWhitePawn(), board);
+        addPiece("e1", Piece.createWhiteRook(), board);
+        addPiece("f1", Piece.createWhiteKing(), board);
+
+        assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+    }
+
+    private void addPiece(String position, Piece piece, Board board) {
+        board.move(position, piece);
+    }
+
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
     void move() {
