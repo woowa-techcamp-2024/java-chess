@@ -14,24 +14,24 @@ public class BoardTest {
         Board board = new Board();
 
         Piece white = Piece.createWhite(Piece.Type.PAWN);
-        board.set(1, 2, white);
-        assertThat(board.get(1, 2)).isEqualTo(white);
+        board.set("b1", white);
+        assertThat(board.get("b1")).isEqualTo(white);
         assertThat(board.findPawns()).hasSize(1);
         assertThat(board.findPawns().get(0)).isEqualTo(white);
 
         Piece black = Piece.createBlack(Piece.Type.PAWN);
-        board.set(0, 3, black);
-        assertThat(board.get(0, 3)).isEqualTo(black);
+        board.set("a2", black);
+        assertThat(board.get("a2")).isEqualTo(black);
         assertThat(board.findPawns()).hasSize(2);
-        assertThat(board.findPawns().get(0)).isEqualTo(black);
+        assertThat(board.findPawns().get(1)).isEqualTo(black);
     }
 
     @Test
     @DisplayName("보드의 toString 결과에 유니코드 체스말 형식으로 표시되어야 한다.")
     public void string() {
         Board board = new Board();
-        board.set(1, 0, Piece.createWhite(Piece.Type.PAWN));
-        board.set(6, 1, Piece.createBlack(Piece.Type.PAWN));
+        board.set("a2", Piece.createWhite(Piece.Type.PAWN));
+        board.set("b7", Piece.createBlack(Piece.Type.PAWN));
         assertThat(board).hasToString("""
                 ........
                 .♟......

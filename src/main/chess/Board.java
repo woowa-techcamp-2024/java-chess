@@ -24,44 +24,48 @@ public class Board {
 
     public void initialize() {
         clear();
-        set(0, 0, Piece.createWhite(Piece.Type.ROOK));
-        set(0, 1, Piece.createWhite(Piece.Type.KNIGHT));
-        set(0, 2, Piece.createWhite(Piece.Type.BISHOP));
-        set(0, 3, Piece.createWhite(Piece.Type.QUEEN));
-        set(0, 4, Piece.createWhite(Piece.Type.KING));
-        set(0, 5, Piece.createWhite(Piece.Type.BISHOP));
-        set(0, 6, Piece.createWhite(Piece.Type.KNIGHT));
-        set(0, 7, Piece.createWhite(Piece.Type.ROOK));
-        for (int c = 0; c < LENGTH; c++) {
-            set(1, c, Piece.createWhite(Piece.Type.PAWN));
+        set("a1", Piece.createWhite(Piece.Type.ROOK));
+        set("b1", Piece.createWhite(Piece.Type.KNIGHT));
+        set("c1", Piece.createWhite(Piece.Type.BISHOP));
+        set("d1", Piece.createWhite(Piece.Type.QUEEN));
+        set("e1", Piece.createWhite(Piece.Type.KING));
+        set("f1", Piece.createWhite(Piece.Type.BISHOP));
+        set("g1", Piece.createWhite(Piece.Type.KNIGHT));
+        set("h1", Piece.createWhite(Piece.Type.ROOK));
+        for (char c = 'a'; c <= 'h'; c++) {
+            set(c, 2, Piece.createWhite(Piece.Type.PAWN));
         }
-        for (int c = 0; c < LENGTH; c++) {
-            set(6, c, Piece.createBlack(Piece.Type.PAWN));
+        for (char c = 'a'; c <= 'h'; c++) {
+            set(c, 7, Piece.createBlack(Piece.Type.PAWN));
         }
-        set(7, 0, Piece.createBlack(Piece.Type.ROOK));
-        set(7, 1, Piece.createBlack(Piece.Type.KNIGHT));
-        set(7, 2, Piece.createBlack(Piece.Type.BISHOP));
-        set(7, 3, Piece.createBlack(Piece.Type.QUEEN));
-        set(7, 4, Piece.createBlack(Piece.Type.KING));
-        set(7, 5, Piece.createBlack(Piece.Type.BISHOP));
-        set(7, 6, Piece.createBlack(Piece.Type.KNIGHT));
-        set(7, 7, Piece.createBlack(Piece.Type.ROOK));
+        set("a8", Piece.createBlack(Piece.Type.ROOK));
+        set("b8", Piece.createBlack(Piece.Type.KNIGHT));
+        set("c8", Piece.createBlack(Piece.Type.BISHOP));
+        set("d8", Piece.createBlack(Piece.Type.QUEEN));
+        set("e8", Piece.createBlack(Piece.Type.KING));
+        set("f8", Piece.createBlack(Piece.Type.BISHOP));
+        set("g8", Piece.createBlack(Piece.Type.KNIGHT));
+        set("h8", Piece.createBlack(Piece.Type.ROOK));
     }
 
-    Piece get(int r, int c) {
-        return cellAt(r, c).getPiece();
+    public Piece get(String fileRank) {
+        return cellAt(Position.of(fileRank)).getPiece();
     }
 
-    void set(int r, int c, Piece piece) {
-        cellAt(r, c).setPiece(piece);
+    public void set(String fileRank, Piece piece) {
+        cellAt(Position.of(fileRank)).setPiece(piece);
     }
 
-    void clear() {
+    protected void set(char rank, int file, Piece piece) {
+        cellAt(Position.of(rank, file)).setPiece(piece);
+    }
+
+    protected void clear() {
         stream().forEach(cell -> cell.clear());
     }
 
-    protected Cell cellAt(int r, int c) {
-        return cells[r][c];
+    protected Cell cellAt(Position position) {
+        return cells[position.r][position.c];
     }
 
     public int countPiece(Piece.Color color, Piece.Type type) {
@@ -85,12 +89,11 @@ public class Board {
 
     public static class Cell {
 
-        final int r, c;
+        private final Position position;
         private Piece piece;
 
         public Cell(int r, int c) {
-            this.r = r;
-            this.c = c;
+            this.position = Position.of(r, c);
         }
 
         public boolean isEmpty() {
@@ -120,7 +123,7 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (int r = LENGTH - 1; r >= 0; r--) {
             for (int c = 0; c < LENGTH; c++) {
-                sb.append(cellAt(r, c));
+                sb.append(cellAt(Position.of(r, c)));
             }
             sb.append(StringUtils.NEWLINE);
         }
