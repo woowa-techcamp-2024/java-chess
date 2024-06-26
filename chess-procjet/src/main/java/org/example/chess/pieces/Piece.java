@@ -72,22 +72,24 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN("P"),
-        KNIGHT("N"),
-        ROOK("R"),
-        BISHOP("B"),
-        QUEEN("Q"),
-        KING("K"),
-        NO_TYPE(".");
+        PAWN("P", 1.0),
+        KNIGHT("N", 5.0),
+        ROOK("R", 2.5),
+        BISHOP("B", 3.0),
+        QUEEN("Q", 9.0),
+        KING("K", 0.0),
+        NO_TYPE(".", 0.0);
 
         private final String representation;
+        private final double defaultPoint;
 
         public String getRepresentation() {
             return this.representation;
         }
 
-        Type(String representation) {
+        Type(String representation, double defaultPoint) {
             this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
     }
 
