@@ -10,11 +10,11 @@ public class Board {
 
     private final List<Rank> map = new ArrayList<>();
 
+
     public static class Rank {
         private final List<Piece> pieces = new ArrayList<>();
 
-        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE }
-
+        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE;}
         public List<Piece> getPieces() {
             return pieces;
         }
@@ -52,13 +52,24 @@ public class Board {
             }
             else if (type == Type.NO_PIECE) {
                 for (int i = 0; i < 8; i++) {
-                    pieces.add(Piece.createWhitePawn());
+                    pieces.add(Piece.createBlank());
                 }
             }
         }
-    }
 
+    }
     public Board() {}
+
+    public void initializeEmpty() {
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+    }
 
     public void initialize() {
         map.add(new Rank(Rank.Type.BLACK_ROOK_TO_KING));
@@ -70,11 +81,14 @@ public class Board {
         map.add(new Rank(Rank.Type.WHITE_ROOK_TO_KING));
     }
 
+    public void move(String position, Piece piece) {
+        Position pos = new Position(position);
+        map.get(pos.getRow()).getPieces().set(pos.getCol(), piece);
+    }
+
     public Piece findPiece(String position){
-        if (position.length() != 2) throw new IllegalArgumentException("position length must be 2");
-        int col = position.charAt(0) - 'a';
-        int row = 8 - Integer.parseInt(position.substring(1));
-        return map.get(row).getPieces().get(col);
+        Position pos = new Position(position);
+        return map.get(pos.getRow()).getPieces().get(pos.getCol());
     }
 
     public int pieceCount(Piece.Color color, Piece.Type type) {
@@ -101,7 +115,7 @@ public class Board {
         StringBuilder builder = new StringBuilder();
         for (Rank rank : map) {
             for (Piece piece : rank.getPieces()) {
-                if (piece.getType() != Piece.Type.NO_PIECE) builder.append('.');
+                if (piece.getType() == Piece.Type.NO_PIECE) builder.append('.');
                 else builder.append(piece.getRepresentation().getSymbol());
             }
             builder.append(StringUtils.appendNewLine(""));
