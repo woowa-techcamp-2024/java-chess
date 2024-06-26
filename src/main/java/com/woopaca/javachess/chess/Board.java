@@ -132,7 +132,6 @@ public class Board {
     public void move(String sourceFileRank, String targetFileRank) {
         Position sourcePosition = new Position(sourceFileRank);
         Position targetPosition = new Position(targetFileRank);
-
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
         placePiece(sourcePosition, targetPiece);
