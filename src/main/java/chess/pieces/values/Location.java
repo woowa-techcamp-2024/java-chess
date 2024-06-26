@@ -15,6 +15,13 @@ public class Location {
         this.y = y;
     }
 
+    /**
+     * 위치를 입력받아 Location 객체를 생성합니다.
+     *
+     * @param location 위치
+     * @return Location 객체
+     * @throws IllegalArgumentException 위치가 잘못된 경우
+     */
     public static Location from(String location) {
         if (!PATTERN.matcher(location).matches()) {
             throw new IllegalArgumentException("Invalid Location Input");
@@ -24,6 +31,14 @@ public class Location {
         return new Location(x, y);
     }
 
+    /**
+     * x, y 좌표를 입력받아 Location 객체를 생성합니다.
+     *
+     * @param x x 좌표
+     * @param y y 좌표
+     * @return Location 객체
+     * @throws IllegalArgumentException 위치가 잘못된 경우
+     */
     public static Location of(int x, char y) {
         verifyCurrentLocation(x, y);
         return new Location(x, y);
@@ -51,6 +66,11 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return y + "" + x;
     }
 
     private static void verifyCurrentLocation(int x, char y) {

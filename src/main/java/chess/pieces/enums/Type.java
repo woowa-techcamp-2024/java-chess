@@ -22,6 +22,10 @@ public enum Type {
         this.clazz = clazz;
     }
 
+    public static Type[] defaultOrder() {
+        return new Type[]{ROOK, KNIGHT, BISHOP, QUEEN, KING, BISHOP, KNIGHT, ROOK};
+    }
+
     public Class<? extends Piece> getClazz() {
         return clazz;
     }

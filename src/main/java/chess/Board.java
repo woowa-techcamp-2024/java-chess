@@ -1,7 +1,5 @@
 package chess;
 
-import chess.pieces.Blank;
-import chess.pieces.Pawn;
 import chess.pieces.Piece;
 import chess.pieces.enums.Color;
 import chess.pieces.enums.Type;
@@ -10,83 +8,135 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import utils.StringUtils;
+import java.util.Map.Entry;
 
 public class Board {
 
-    private static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
-    private static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+    protected static final int[] ROWS = {1, 2, 3, 4, 5, 6, 7, 8};
+    protected static final char[] COLS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
     private final Map<Location, Piece> table;
 
     public Board() {
         table = new HashMap<>();
-        addBlanksInRows(ROWS);
     }
 
+    /**
+     * 보드를 초기 설정 상태로 만듭니다. 게임 시작 위치에 말들을 배치합니다.
+     */
     public void initialize() {
-        addDefaultPieces(8, Color.BLACK);
-        addDefaultPawns(7, Color.BLACK);
-        addBlanksInRows(3, 4, 5, 6);
-        addDefaultPawns(2, Color.WHITE);
-        addDefaultPieces(1, Color.WHITE);
+        table.clear();
+        setupPieces(1, Color.WHITE, Type.defaultOrder());
+        setupPieces(2, Color.WHITE);
+        setupPieces(7, Color.BLACK);
+        setupPieces(8, Color.BLACK, Type.defaultOrder());
     }
 
+
+    /**
+     * 보드에 말을 추가합니다. 이미 해당 위치에 말이 있는 경우, 덮어씁니다.
+     *
+     * @param location 위치
+     * @param piece    말
+     */
     public void addPiece(Location location, Piece piece) {
         table.put(location, piece);
     }
 
-    public Piece getPiece(String locationStr) {
-        var location = Location.from(locationStr);
-        return table.get(location);
+    /**
+     * 보드에서 말을 제거합니다.
+     *
+     * @param location 위치
+     */
+    public void removePiece(Location location) {
+        var result = table.remove(location);
+        if (result == null) {
+            throw new IllegalArgumentException("location: " + location + " does not have a piece.");
+        }
     }
 
-    public List<Piece> getPiecesByColor(Color color) {
-        return getPiecesByColor(color, false);
+    /**
+     * 위치에 존재하는 보드의 말을 갖고 옵니다. 말이 존재하지 않을 시 Blank를 반환합니다.
+     *
+     * @param location 위치
+     * @return 말
+     */
+    public Piece getPiece(Location location) {
+        return table.getOrDefault(location, Piece.getBlank());
     }
 
-    public List<Piece> getPiecesByColor(Color color, boolean reverse) {
+
+    /**
+     * 해당 행에 존재하는 말들을 갖고 옵니다.
+     *
+     * @param row 행
+     * @return 해당 행에 존재하는 말들
+     */
+    public List<Piece> getPiecesWithRow(int row) {
+        return table.entrySet().stream()
+            .filter(entry -> entry.getKey().getX() == row)
+            .map(Map.Entry::getValue).toList();
+    }
+
+    /**
+     * 보드에서 색이 일치하는 말들을 점수에 기반해 정렬해 갖고옵니다.
+     *
+     * @param color 색
+     * @return 정렬된 말들
+     */
+    public List<Piece> getSortedPiecesByColor(Color color) {
+        return getSortedPiecesByColor(color, false);
+    }
+
+    /**
+     * 보드에서 색이 일치하는 말들을 점수에 기반해 정렬해 갖고옵니다.
+     *
+     * @param color   색
+     * @param reverse 역순 여부
+     * @return 정렬된 말들
+     */
+    public List<Piece> getSortedPiecesByColor(Color color, boolean reverse) {
+        var comparator = reverse ? Comparator.comparingDouble(Piece::getScore)
+            : Comparator.comparingDouble(Piece::getScore).reversed();
         return table.values().stream()
             .filter(piece -> piece.verifySameColor(color))
-            .sorted(reverse ? Comparator.comparingDouble(Piece::getScore)
-                : Comparator.comparingDouble(Piece::getScore).reversed())
+            .sorted(comparator)
             .toList();
     }
 
-    public long size() {
-        return table.values().stream().filter(piece -> !(piece instanceof Blank)).count();
+    /**
+     * 보드에서 색이 일치하는 말들의 위치와 말을 갖고 옵니다.
+     *
+     * @param color 색
+     * @return Entry < Location, Piece > 위치와 말
+     */
+    public List<Entry<Location, Piece>> getLocationsAndPiecesByColor(Color color) {
+        return table.entrySet().stream().filter(entry -> entry.getValue().verifySameColor(color))
+            .toList();
     }
 
-    private void addDefaultPieces(int row, Color color) {
-        final Type[] types = new Type[]{Type.ROOK, Type.KNIGHT, Type.BISHOP, Type.QUEEN, Type.KING,
-            Type.BISHOP, Type.KNIGHT, Type.ROOK};
-        for (int i = 0; i < types.length; i++) {
-            addPiece(Location.of(row, COLS[i]), Piece.generatePiece(types[i], color));
-        }
+    /**
+     * 보드에서 색과 타입이 일치하는 말들의 위치와 말을 갖고 옵니다.
+     *
+     * @param color 색
+     * @param type  타입
+     * @return Entry < Location, Piece > 위치와 말
+     */
+    public List<Entry<Location, Piece>> getLocationsAndPiecesByColorAndType(Color color,
+        Type type) {
+        return table.entrySet().stream()
+            .filter(entry -> entry.getValue().verifySameColor(color))
+            .filter(entry -> type.isInstance(entry.getValue()))
+            .toList();
     }
 
-    private void addDefaultPawns(int row, Color color) {
-        for (var col : COLS) {
-            addPiece(Location.of(row, col), Piece.generatePiece(Type.PAWN, color));
-        }
-    }
-
-    private void addBlank(Location location) {
-        table.put(location, Piece.getBlank());
-    }
-
-    private void addBlanksInRow(int row) {
-        for (char col : COLS) {
-            addBlank(Location.of(row, col));
-        }
-    }
-
-    private void addBlanksInRows(int... rows) {
-        for (var row : rows) {
-            addBlanksInRow(row);
-        }
-    }
-
+    /**
+     * 보드에서 색과 타입이 일치하는 말들의 개수를 갖고 옵니다.
+     *
+     * @param color 색
+     * @param type  타입
+     * @return 말의 개수
+     */
     public int countPiecesByTypeAndColor(Type type, Color color) {
         return (int) table.values().stream()
             .filter(type::isInstance)
@@ -94,48 +144,27 @@ public class Board {
             .count();
     }
 
-    public double calculateScoreByColor(Color color) {
-        var score = 0.0;
-        score += table.values().stream()
-            .filter(piece -> !(Type.PAWN.isInstance(piece)) && !(piece.isBlank()))
-            .filter(piece -> piece.verifySameColor(color))
-            .mapToDouble(Piece::getScore).sum();
-        score += calculatePawnScore(color);
-        return score;
+    /**
+     * 보드에 존재하는 모든 말의 갯수를 리턴합니다.
+     *
+     * @return 말의 갯수
+     */
+    public long size() {
+        return table.values().size();
     }
 
-    // TODO: 보드에서 처리할 책임이 있을까요?
-    private double calculatePawnScore(Color color) {
-        var result = 0.0;
+    private void setupPieces(int row, Color color) {
         for (char col : COLS) {
-            var temp = 0.0;
-            for (int row : ROWS) {
-                var piece = table.get(Location.of(row, col));
-                if (piece instanceof Pawn && piece.getColor().equals(color)) {
-                    temp += piece.getScore();
-                }
-            }
-            result += temp == 1 ? 1.0 : temp / 2;
+            var location = Location.of(row, col);
+            addPiece(location, Piece.generatePiece(Type.PAWN, color));
         }
-        return result;
     }
 
-    // TODO: Board에서 처리해야할 책임이 존재하는가?
-    public String printRow(int row) {
-        var sb = new StringBuilder();
-        for (char col : COLS) {
-            sb.append(table.get(Location.of(row, col)));
+    private void setupPieces(int row, Color color, Type[] types) {
+        for (int i = 0; i < COLS.length; i++) {
+            var location = Location.of(row, COLS[i]);
+            addPiece(location, Piece.generatePiece(types[i], color));
         }
-        return StringUtils.appendNewLine(sb.toString());
-    }
-
-    // TODO: Board에서 처리해야할 책임이 존재하는가?
-    public String print() {
-        var sb = new StringBuilder();
-        for (int i = ROWS.length - 1; i >= 0; i--) {
-            sb.append(printRow(ROWS[i]));
-        }
-        return sb.toString();
     }
 
 }

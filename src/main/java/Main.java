@@ -1,11 +1,12 @@
 import chess.Board;
-
+import chess.ChessView;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Board board = new Board();
+        ChessView chessView = new ChessView(board);
         try (var scanner = new Scanner(System.in)) {
             String command;
             do {
@@ -13,7 +14,7 @@ public class Main {
                 switch (command) {
                     case "start" -> {
                         board.initialize();
-                        System.out.println(board.print());
+                        System.out.println(chessView.printBoard());
                     }
                     case "end" -> {
                     }
