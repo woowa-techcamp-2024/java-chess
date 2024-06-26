@@ -37,16 +37,16 @@ public class BoardTest {
     @DisplayName("[Success] Pawn을 체스판에 추가할 수 있다.")
     void board_add_pawn() {
         board.add(white);
-        verifyBoardPieceCount(board, 1);
+        verifyBoardGetPieceCount(board, 1);
         verifyFindPawn(board, 0, white);
 
         board.add(black);
-        verifyBoardPieceCount(board, 2);
+        verifyBoardGetPieceCount(board, 2);
         verifyFindPawn(board, 1, black);
     }
 
-    private void verifyBoardPieceCount(Board board, int expectedBoardSize) {
-        assertThat(board.pieceCount()).isEqualTo(expectedBoardSize);
+    private void verifyBoardGetPieceCount(Board board, int expectedBoardSize) {
+        assertThat(board.getPieceCount()).isEqualTo(expectedBoardSize);
     }
 
     private void verifyFindPawn(Board board, int findPawnIndex, Piece expectedPiece) {
@@ -60,7 +60,7 @@ public class BoardTest {
         board.add(black);
 
         int lowerBound = -1;
-        int upperBound = board.pieceCount();
+        int upperBound = board.getPieceCount();
 
         verifyOutOfRangeFindPawn(board, lowerBound, upperBound);
     }
@@ -83,7 +83,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("[Success] 초기화한 Board가 가지고 있는 검은색 Pawn과 흰색 Pawn은 각각 8개이다.")
-    void initialPawnPieceCount() {
+    void initialPawnGetPieceCount() {
         board.initialize();
         int expectedPawnsCount = Board.MAX_PAWN;
         verifyInitialPawnsCount(board, expectedPawnsCount);
@@ -96,7 +96,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("[Success] 초기화한 Board의 크기는 8 x 8 이다.")
-    void initialBoardPieceCount() {
+    void initialBoardGetPieceCount() {
         board.initialize();
 
         int resultBoardRowSize = board.getBoardRowSize();
@@ -129,7 +129,7 @@ public class BoardTest {
     @ParameterizedTest
     @MethodSource("providePiecesAndCounts")
     @DisplayName("[Success] 초기화한 Board의 기물 개수 확인")
-    void initialPieceCount(String pieceName, Color color, int expectedCount) {
+    void initialGetPieceCount(String pieceName, Color color, int expectedCount) {
         board.initialize();
         Piece piece = Piece.createPiece(pieceName, color);
         int actualCount = board.getPieceCount(piece.getName(), color);
