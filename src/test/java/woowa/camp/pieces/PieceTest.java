@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import woowa.camp.pieces.Piece.Type;
 
 public class PieceTest {
 
@@ -49,23 +50,23 @@ public class PieceTest {
         Piece whiteKnight = Piece.createWhiteKnight();
         Piece whitePawn = Piece.createWhitePawn();
 
-        verifyPiece(blackKing, Piece.KING, Color.KING_BLACK);
-        verifyPiece(blackQueen, Piece.QUEEN, Color.QUEEN_BLACK);
-        verifyPiece(blackRook, Piece.ROOK, Color.ROOK_BLACK);
-        verifyPiece(blackBishop, Piece.BISHOP, Color.BISHOP_BLACK);
-        verifyPiece(blackKnight, Piece.KNIGHT, Color.KNIGHT_BLACK);
-        verifyPiece(blackPawn, Piece.PAWN, Color.PAWN_BLACK);
+        verifyPiece(blackKing, Type.KING, Color.KING_BLACK);
+        verifyPiece(blackQueen, Type.QUEEN, Color.QUEEN_BLACK);
+        verifyPiece(blackRook, Type.ROOK, Color.ROOK_BLACK);
+        verifyPiece(blackBishop, Type.BISHOP, Color.BISHOP_BLACK);
+        verifyPiece(blackKnight, Type.KNIGHT, Color.KNIGHT_BLACK);
+        verifyPiece(blackPawn, Type.PAWN, Color.PAWN_BLACK);
 
-        verifyPiece(whiteKing, Piece.KING, Color.KING_WHITE);
-        verifyPiece(whiteQueen, Piece.QUEEN, Color.QUEEN_WHITE);
-        verifyPiece(whiteRook, Piece.ROOK, Color.ROOK_WHITE);
-        verifyPiece(whiteBishop, Piece.BISHOP, Color.BISHOP_WHITE);
-        verifyPiece(whiteKnight, Piece.KNIGHT, Color.KNIGHT_WHITE);
-        verifyPiece(whitePawn, Piece.PAWN, Color.PAWN_WHITE);
+        verifyPiece(whiteKing, Type.KING, Color.KING_WHITE);
+        verifyPiece(whiteQueen, Type.QUEEN, Color.QUEEN_WHITE);
+        verifyPiece(whiteRook, Type.ROOK, Color.ROOK_WHITE);
+        verifyPiece(whiteBishop, Type.BISHOP, Color.BISHOP_WHITE);
+        verifyPiece(whiteKnight, Type.KNIGHT, Color.KNIGHT_WHITE);
+        verifyPiece(whitePawn, Type.PAWN, Color.PAWN_WHITE);
     }
 
-    private void verifyPiece(Piece piece, String name, Color color) {
-        assertThat(piece.getName()).isEqualTo(name);
+    private void verifyPiece(Piece piece, Type type, Color color) {
+        assertThat(piece.getType()).isEqualTo(type);
         assertThat(piece.getColor()).isEqualTo(color.getName());
         assertThat(piece.getRepresentation()).isEqualTo(color.getRepresentation());
     }

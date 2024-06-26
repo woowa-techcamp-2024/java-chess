@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
+import woowa.camp.pieces.Piece.Type;
 
 public class BoardTest {
 
@@ -77,8 +78,8 @@ public class BoardTest {
         String expectedWhitePawnsResult = "pppppppp";
         String expectedBlackPawnsResult = "PPPPPPPP";
 
-        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
-        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
     }
 
     @Test
@@ -90,8 +91,8 @@ public class BoardTest {
     }
 
     private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
-        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
-        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPiecesResult(Type.PAWN, Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
     }
 
     @Test
@@ -129,28 +130,28 @@ public class BoardTest {
     @ParameterizedTest
     @MethodSource("providePiecesAndCounts")
     @DisplayName("[Success] 초기화한 Board의 기물 개수 확인")
-    void initialGetPieceCount(String pieceName, Color color, int expectedCount) {
+    void initialGetPieceCount(Type type, Color color, int expectedCount) {
         board.initialize();
-        Piece piece = Piece.createPiece(pieceName, color);
-        int actualCount = board.getPieceCount(piece.getName(), color);
+        Piece piece = Piece.createPiece(type, color);
+        int actualCount = board.getPieceCount(piece.getType(), color);
         assertThat(actualCount).isEqualTo(expectedCount);
     }
 
     static Stream<Arguments> providePiecesAndCounts() {
         return Stream.of(
-                Arguments.of(Piece.KING, Color.KING_BLACK, KING_COUNT),
-                Arguments.of(Piece.QUEEN, Color.QUEEN_BLACK, QUEEN_COUNT),
-                Arguments.of(Piece.ROOK, Color.ROOK_BLACK, ROOK_COUNT),
-                Arguments.of(Piece.KNIGHT, Color.KNIGHT_BLACK, KNIGHT_COUNT),
-                Arguments.of(Piece.BISHOP, Color.BISHOP_BLACK, BISHOP_COUNT),
-                Arguments.of(Piece.PAWN, Color.PAWN_BLACK, PAWN_COUNT),
+                Arguments.of(Type.KING, Color.KING_BLACK, KING_COUNT),
+                Arguments.of(Type.QUEEN, Color.QUEEN_BLACK, QUEEN_COUNT),
+                Arguments.of(Type.ROOK, Color.ROOK_BLACK, ROOK_COUNT),
+                Arguments.of(Type.KNIGHT, Color.KNIGHT_BLACK, KNIGHT_COUNT),
+                Arguments.of(Type.BISHOP, Color.BISHOP_BLACK, BISHOP_COUNT),
+                Arguments.of(Type.PAWN, Color.PAWN_BLACK, PAWN_COUNT),
 
-                Arguments.of(Piece.KING, Color.KING_WHITE, KING_COUNT),
-                Arguments.of(Piece.QUEEN, Color.QUEEN_WHITE, QUEEN_COUNT),
-                Arguments.of(Piece.ROOK, Color.ROOK_WHITE, ROOK_COUNT),
-                Arguments.of(Piece.KNIGHT, Color.KNIGHT_WHITE, KNIGHT_COUNT),
-                Arguments.of(Piece.BISHOP, Color.BISHOP_WHITE, BISHOP_COUNT),
-                Arguments.of(Piece.PAWN, Color.PAWN_WHITE, PAWN_COUNT)
+                Arguments.of(Type.KING, Color.KING_WHITE, KING_COUNT),
+                Arguments.of(Type.QUEEN, Color.QUEEN_WHITE, QUEEN_COUNT),
+                Arguments.of(Type.ROOK, Color.ROOK_WHITE, ROOK_COUNT),
+                Arguments.of(Type.KNIGHT, Color.KNIGHT_WHITE, KNIGHT_COUNT),
+                Arguments.of(Type.BISHOP, Color.BISHOP_WHITE, BISHOP_COUNT),
+                Arguments.of(Type.PAWN, Color.PAWN_WHITE, PAWN_COUNT)
         );
     }
 

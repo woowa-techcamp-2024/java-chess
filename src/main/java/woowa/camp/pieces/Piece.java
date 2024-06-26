@@ -1,24 +1,24 @@
 package woowa.camp.pieces;
 
+import static woowa.camp.pieces.Piece.Type.BISHOP;
+import static woowa.camp.pieces.Piece.Type.KING;
+import static woowa.camp.pieces.Piece.Type.KNIGHT;
+import static woowa.camp.pieces.Piece.Type.PAWN;
+import static woowa.camp.pieces.Piece.Type.QUEEN;
+import static woowa.camp.pieces.Piece.Type.ROOK;
+
 public class Piece {
 
-    public static final String PAWN = "pawn";
-    public static final String KNIGHT = "knight";
-    public static final String BISHOP = "bishop";
-    public static final String ROOK = "rook";
-    public static final String QUEEN = "queen";
-    public static final String KING = "king";
-
-    private final String name;
+    private final Type type;
     private final Color color;
 
-    private Piece(String name, Color color) {
-        this.name = name;
+    private Piece(final Type type, final Color color) {
+        this.type = type;
         this.color = color;
     }
 
-    public static Piece createPiece(final String name, final Color color) {
-        return new Piece(name, color);
+    public static Piece createPiece(final Type type, final Color color) {
+        return new Piece(type, color);
     }
 
     public static Piece createWhitePawn() {
@@ -77,12 +77,12 @@ public class Piece {
         return color.getRepresentation();
     }
 
-    public String getName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 
-    public boolean isPieceOf(final String name) {
-        return this.name.equals(name);
+    public boolean isPieceOf(final Type type) {
+        return this.type == type;
     }
 
     public boolean isSameColor(final Color color) {
@@ -95,6 +95,22 @@ public class Piece {
 
     public boolean isWhite() {
         return "white".equals(color.getName());
+    }
+
+    public enum Type {
+        PAWN("pawn"),
+        ROOK("rook"),
+        KNIGHT("knight"),
+        BISHOP("bishop"),
+        QUEEN("queen"),
+        KING("king"),
+        NO_PIECE("noPiece");
+
+        private final String name;
+
+        Type(String name) {
+            this.name = name;
+        }
     }
 
 

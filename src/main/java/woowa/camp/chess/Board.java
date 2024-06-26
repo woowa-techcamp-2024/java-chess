@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
+import woowa.camp.pieces.Piece.Type;
 import woowa.camp.utils.StringUtils;
 
 public class Board {
@@ -146,7 +147,7 @@ public class Board {
 
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL).forEach(col -> {
-            final Piece piece = Piece.createPiece(Piece.PAWN, color);
+            final Piece piece = Piece.createPiece(Type.PAWN, color);
             addPawn(initRow, col, piece);
         });
     }
@@ -183,9 +184,9 @@ public class Board {
         return pieces.get(pawnIndex);
     }
 
-    public String getPiecesResult(final String pieceName, final Color color) {
+    public String getPiecesResult(final Type type, final Color color) {
         final StringBuilder sb = new StringBuilder();
-        final List<Piece> filteredPieces = getPiecesFilterBy(pieceName, color);
+        final List<Piece> filteredPieces = getPiecesFilterBy(type, color);
         filteredPieces.forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
         return sb.toString();
     }
@@ -202,13 +203,13 @@ public class Board {
         return board.size();
     }
 
-    public int getPieceCount(final String pieceName, final Color color) {
-        return getPiecesFilterBy(pieceName, color).size();
+    public int getPieceCount(final Type type, final Color color) {
+        return getPiecesFilterBy(type, color).size();
     }
 
-    private List<Piece> getPiecesFilterBy(final String pieceName, final Color color) {
+    private List<Piece> getPiecesFilterBy(final Type type, final Color color) {
         return pieces.stream()
-                .filter(piece -> piece.isPieceOf(pieceName))
+                .filter(piece -> piece.isPieceOf(type))
                 .filter(piece -> piece.isSameColor(color))
                 .toList();
     }
