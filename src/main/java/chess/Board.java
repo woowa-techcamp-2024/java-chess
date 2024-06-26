@@ -1,131 +1,82 @@
 package chess;
 
-import chess.pieces.Colors;
+import chess.calculator.OrderBy;
+import chess.pieces.Color;
 import chess.pieces.Piece;
+import chess.pieces.Representation;
+import chess.calculator.ScoreUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.RankMaker.*;
 import static utils.StringUtils.*;
 
 public class Board {
-    List<Piece> whitePieces = new ArrayList<>();
-    List<Piece> whitePawns = new ArrayList<>();
-    List<Piece> blackPieces = new ArrayList<>();
-    List<Piece> blackPawns = new ArrayList<>();
-
-    public void add(Piece piece) {
-        if (piece.getColor() == Colors.WHITE) {
-            whitePieces.add(piece);
-        } else {
-            blackPieces.add(piece);
-        }
-    }
-
-    public int pawnCount() {
-        return whitePieces.size() + blackPieces.size();
-    }
-
-    public int pieceCount() {
-        return pawnCount() + whitePieces.size() + blackPieces.size();
-    }
-
-    public Piece findWhitePawn(int index) {
-        return whitePieces.get(index);
-    }
-
-    public Piece findBlackPawn(int index) {
-        return blackPieces.get(index);
-    }
+    List<Rank> ranks = new ArrayList<>();
 
     public void initialize() {
-        whitePieces.add(Piece.createWhiteRook());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteQueen());
-        whitePieces.add(Piece.createWhiteKing());
-        whitePieces.add(Piece.createWhiteBishop());
-        whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteRook());
+        ranks.add(getGoodPiecesRank(Color.BLACK));
+        ranks.add(getPawnsRank(Color.BLACK));
+        ranks.add(getEmptyRank());
+        ranks.add(getEmptyRank());
+        ranks.add(getEmptyRank());
+        ranks.add(getEmptyRank());
+        ranks.add(getPawnsRank(Color.WHITE));
+        ranks.add(getGoodPiecesRank(Color.WHITE));
+    }
 
-        for (int i=0; i<8; i++) {
-            Piece white = Piece.createWhitePawn();
-            Piece black = Piece.createBlackPawn();
-            whitePawns.add(white);
-            blackPawns.add(black);
+    public void initializeEmpty() {
+        for (int i = 0; i < 8; i++) {
+            ranks.add(getEmptyRank());
         }
+    }
 
-        blackPieces.add(Piece.createBlackRook());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackQueen());
-        blackPieces.add(Piece.createBlackKing());
-        blackPieces.add(Piece.createBlackBishop());
-        blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackRook());
+    public double getScore(Color color) {
+        return ScoreUtils.calc(ranks, color);
+    }
+
+    public List<Piece> sortByScore(Color color, OrderBy orderBy) {
+        return ScoreUtils.sort(ranks, color, orderBy);
+    }
+
+    public void move(String position, Piece piece) {
+        Position pos = Position.from(position);
+        move(pos, piece);
+    }
+
+    public void move(Position position, Piece piece) {
+        // TODO 움직임 구현 (현재는 add에 가까움)
+        ranks.get(position.getRank())
+                .set(position.getFile(), piece);
     }
 
     public String print() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(appendNewLine(getBlackPiecesResult()));
-        sb.append(appendNewLine(getBlackPawnsResult()));
-        sb.append(getBlank());
-        sb.append(getBlank());
-        sb.append(getBlank());
-        sb.append(getBlank());
-        sb.append(appendNewLine(getWhitePawnsResult()));
-        sb.append(appendNewLine(getWhitePiecesResult()));
-
-        return sb.toString();
-    }
-
-    private String getBlank() {
-        return appendNewLine( "........");
-    }
-
-    private String getPiecesResult(Colors color) {
-        StringBuilder sb = new StringBuilder();
-        if (color == Colors.WHITE) {
-            for (Piece p : whitePieces) {
-                sb.append(p.getRepresentation().getSymbol());
-            }
-        } else {
-            for (Piece p : blackPieces) {
-                sb.append(p.getRepresentation().getSymbol());
-            }
+        for (Rank rank : ranks) {
+            sb.append(appendNewLine(rank.toString()));
         }
+
         return sb.toString();
     }
 
-    public String getWhitePiecesResult() {
-        return getPiecesResult(Colors.WHITE);
+    public long pieceCount() {
+        return ranks.stream()
+                .mapToLong(Rank::count)
+                .sum();
     }
 
-    public String getBlackPiecesResult() {
-        return getPiecesResult(Colors.BLACK);
+    public long pieceCount(Representation representation) {
+        return ranks.stream()
+                .mapToLong(rank -> rank.count(representation))
+                .sum();
     }
 
-    private String getPawnsResult(Colors color) {
-        StringBuilder sb = new StringBuilder();
+    public Piece findPiece(String rankFile) {
+        Position position = Position.from(rankFile);
 
-        if (color == Colors.WHITE) {
-            for (Piece p : whitePawns) {
-                sb.append(p.getRepresentation().getSymbol());
-            }
-        } else {
-            for (Piece p : blackPawns) {
-                sb.append(p.getRepresentation().getSymbol());
-            }
-        }
-        return sb.toString();
-    }
-
-    public String getWhitePawnsResult() {
-        return getPawnsResult(Colors.WHITE);
-    }
-
-    public String getBlackPawnsResult() {
-        return getPawnsResult(Colors.BLACK);
+        Rank rank = ranks.get(position.getRank());
+        return rank.get(position.getFile());
     }
 }

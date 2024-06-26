@@ -1,70 +1,56 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 // VO
 public class Piece {
-    private final Representations representation;
+    private final Representation representation;
 
-    private Piece(Representations representation) {
+    private Piece(Representation representation) {
         this.representation = representation;
+    }
+
+    public static Piece create(Representation.Type type, Color color) {
+        return new Piece(Representation.from(type, color));
     }
 
     public String getName() {
         return representation.name();
     }
 
-    public Colors getColor() {
+    public Color getColor() {
         return representation.getColor();
     }
 
-    public Representations getRepresentation() {
-        return representation;
+    public String getSymbol() {
+        return representation.getSymbol();
     }
 
-    static public Piece createWhitePawn() {
-        return new Piece(Representations.WHITE_PAWN);
+    public Representation.Type getType() {
+        return representation.getType();
     }
 
-    static public Piece createBlackPawn() {
-        return new Piece(Representations.BLACK_PAWN);
+    public boolean isPieceOf(Representation representation) {
+        return this.representation == representation;
     }
 
-    static public Piece createWhiteKing() {
-        return new Piece(Representations.WHITE_KING);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+
+        return representation == piece.representation;
     }
 
-    static public Piece createBlackKing() {
-        return new Piece(Representations.BLACK_KING);
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(representation);
     }
 
-    static public Piece createWhiteRook() {
-        return new Piece(Representations.WHITE_ROOK);
-    }
-
-    static public Piece createBlackRook() {
-        return new Piece(Representations.BLACK_ROOK);
-    }
-
-    static public Piece createWhiteKnight() {
-        return new Piece(Representations.WHITE_KNIGHT);
-    }
-
-    static public Piece createBlackKnight() {
-        return new Piece(Representations.BLACK_KNIGHT);
-    }
-
-    static public Piece createWhiteBishop() {
-        return new Piece(Representations.WHITE_BISHOP);
-    }
-
-    static public Piece createBlackBishop() {
-        return new Piece(Representations.BLACK_BISHOP);
-    }
-
-    static public Piece createWhiteQueen() {
-        return new Piece(Representations.WHITE_QUEEN);
-    }
-
-    static public Piece createBlackQueen() {
-        return new Piece(Representations.BLACK_QUEEN);
+    @Override
+    public String toString() {
+        return "Piece " + hashCode() + " " +
+                "representation=" + representation;
     }
 }
