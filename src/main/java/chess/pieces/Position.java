@@ -4,11 +4,8 @@ public class Position {
     private final int x, y;
 
     public Position(final String position) {
-        char xPos = position.charAt(0);
-        this.x = xPos - 'a';
-
-        char yPos = position.charAt(1);
-        this.y = 8 - Character.getNumericValue(yPos);
+        this.x = position.charAt(0) - 'a';
+        this.y = 8 - Character.getNumericValue(position.charAt(1));
     }
 
     public int getX() { return this.x; }
