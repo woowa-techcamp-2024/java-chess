@@ -16,6 +16,10 @@ public class Board {
 
     private List<List<Piece>> pieces = Collections.emptyList();
 
+    public void initializeEmpty() {
+        this.pieces = createEmptyBoard();
+    }
+
     /**
      * 초기화시 piece의 위치
      * RNBQKBNR
@@ -25,17 +29,7 @@ public class Board {
      * rnbqkbnr
      */
     public void initialize() {
-        // 초기 보드 생성
-        List<List<Piece>> initialPieces = new ArrayList<>();
-        // 각 행을 생성하고 mutable 리스트로 초기화
-        for (int row = MIN_ROWS; row <= MAX_ROWS; row++) {
-            List<Piece> rowPieces = new ArrayList<>();
-            initialPieces.add(rowPieces);
-            // 각 열에 null로 초기화된 Piece 추가
-            for (int col = MIN_COLS; col <= MAX_COLS; col++) {
-                rowPieces.add(Piece.createBlank());
-            }
-        }
+        List<List<Piece>> initialPieces = createEmptyBoard();
         // 백색 말 배치
         Piece[] fullMajorWhitePieces = {Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(), Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(), Piece.createWhiteKnight(), Piece.createWhiteRook()};
         for (int col = MIN_ROWS; col <= MAX_ROWS; col++) {
@@ -52,6 +46,21 @@ public class Board {
         this.pieces = initialPieces;
     }
 
+    private List<List<Piece>> createEmptyBoard() {
+        // 초기 보드 생성
+        List<List<Piece>> initialPieces = new ArrayList<>();
+        // 각 행을 생성하고 mutable 리스트로 초기화
+        for (int row = MIN_ROWS; row <= MAX_ROWS; row++) {
+            List<Piece> rowPieces = new ArrayList<>();
+            initialPieces.add(rowPieces);
+            // 각 열에 null로 초기화된 Piece 추가
+            for (int col = MIN_COLS; col <= MAX_COLS; col++) {
+                rowPieces.add(Piece.createBlank());
+            }
+        }
+        return initialPieces;
+    }
+
     public int countAllPieces() {
         return countPiece(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE);
     }
@@ -60,13 +69,6 @@ public class Board {
         return (int) pieces.parallelStream()
                 .flatMap(List::stream)
                 .filter(piece -> piece.getColor() == color && piece.getType() == type)
-                .count();
-    }
-
-    private long countPawns(Piece.Color color) {
-        return pieces.parallelStream()
-                .flatMap(List::stream)
-                .filter(piece -> Objects.equals(piece.getColor(), color) && Objects.equals(piece.getType(), Piece.Type.PAWN))
                 .count();
     }
 
@@ -86,14 +88,19 @@ public class Board {
         return sb.toString();
     }
 
-    public Piece findPiece(String pos) {
-        Position position = new Position(pos);
+    public Piece findPiece(String posStr) {
+        Position position = new Position(posStr);
         return pieces.get(position.row()).get(position.col());
     }
 
+    public void move(String posStr, Piece piece) {
+        Position position = new Position(posStr);
+        pieces.get(position.row()).set(position.col(), piece);
+    }
+
     private record Position(int row, int col) {
-        Position(String pos) {
-            this(pos.charAt(1) - '1', MAX_COLS - (pos.charAt(0) - 'a'));
+        Position(String posStr) {
+            this(posStr.charAt(1) - '1', posStr.charAt(0) - 'a');
         }
     }
 }
