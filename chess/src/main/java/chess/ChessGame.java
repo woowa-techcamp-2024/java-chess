@@ -1,7 +1,9 @@
 package chess;
 
+import exception.InvalidMoveException;
 import pieces.Piece;
 import pieces.PieceFactory;
+import pieces.PieceType;
 
 public class ChessGame {
     private final Board board;
@@ -70,15 +72,34 @@ public class ChessGame {
         Position targetPosition = makePosition(targetPositionStr);
         Piece piece = board.findPiece(sourcePosition);
         Piece targetPiece = board.findPiece(targetPosition);
-        // ToDo: piece가 target에 갈 수 있나 확인
-        /*
-         * if(piece.ableMove(targetPosition)){
-         *
-         * }
-         * */
-        board.setPiece(sourcePosition, pieceFactory.createBlank(sourcePosition));
-        piece.move(targetPosition);
-        board.setPiece(targetPosition, piece);
+
+        if(piece.canMove(targetPiece)){
+            if(!piece.getType().equals(PieceType.KNIGHT) && !isPathClear(sourcePosition, targetPosition)){
+                throw new InvalidMoveException("경로상에 장애물이 있습니다." + " piece: " +piece + " source: "+sourcePosition + " target: "+targetPosition);
+            }
+            board.setPiece(sourcePosition, pieceFactory.createBlank(sourcePosition));
+            piece.move(targetPosition);
+            board.setPiece(targetPosition, piece);
+        }
+        else{
+            throw new InvalidMoveException("움직일 수 없는 위치입니다. piece: " +piece + " source: "+sourcePosition + " target: "+targetPosition);
+        }
+    }
+
+    // 퀸, 비숍, 룩
+    private boolean isPathClear(Position sourcePosition, Position targetPosition){
+        int ux = Integer.signum(targetPosition.getX() - sourcePosition.getX());
+        int uy = Integer.signum(targetPosition.getY() - sourcePosition.getY());
+        int x = sourcePosition.getX() + ux;
+        int y = sourcePosition.getY() + uy;
+        while(x != targetPosition.getX() || y != targetPosition.getY()){
+            if(!board.findPiece(new Position(x, y)).getType().equals(PieceType.NO_PIECE)){
+                return false;
+            }
+            x += ux;
+            y += uy;
+        }
+        return true;
     }
 
     private Position makePosition(String position) {

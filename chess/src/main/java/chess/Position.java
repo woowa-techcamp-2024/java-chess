@@ -1,6 +1,6 @@
 package chess;
 
-import exception.OutOfBoard;
+import exception.OutOfBoardException;
 
 import java.util.Objects;
 
@@ -33,8 +33,12 @@ public class Position {
 
     private void validPosition(int y, int x){
         if(!(0 <= y && y < BoardArea.Y.getMax() && 0 <= x && x < BoardArea.X.getMax())){
-            throw new OutOfBoard("체스판 범위를 벗어나는 입력입니다");
+            throw new OutOfBoardException("체스판 범위를 벗어나는 입력입니다");
         }
+    }
+
+    public Position calcVector(Position targetPostion){
+        return new Position(targetPostion.getX() - x, targetPostion.getY() - y);
     }
 
     @Override
@@ -48,5 +52,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

@@ -44,6 +44,16 @@ public abstract class Piece{
         this.position = position;
     }
 
+    public abstract boolean canMove(Piece targetPiece);
+
+    public boolean isOurTeam(Piece other){
+        return color.equals(other.getColor());
+    }
+
+    public boolean isEnemy(Piece other){
+        return (isBlack() && other.isWhite()) || (isWhite() && other.isBlack());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
