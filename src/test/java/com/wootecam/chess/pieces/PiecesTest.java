@@ -4,94 +4,95 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class PiecesTest {
-
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p
-            black, P
-            """
-    )
-    void 지정한_색상과_기물을_지정한_폰을_생성할_수_있다(String color, String representation) {
-        // when
-        Piece piece = new Piece(color, representation);
-
-        // then
-        assertAll(
-                () -> assertThat(piece.getColor()).isEqualTo(color),
-                () -> assertThat(piece.getRepresentation()).isEqualTo(representation)
-        );
-    }
 
     @Test
     void 모든_기물을_생성할_수_있다() {
         // when
-        Piece whitePawn = Piece.createWhitePawn();
-        Piece blackPawn = Piece.createBlackPawn();
-
-        Piece whiteKnight = Piece.createWhiteKnight();
-        Piece blackKnight = Piece.createBlackKnight();
-
-        Piece whiteRook = Piece.createWhiteRook();
-        Piece blackRook = Piece.createBlackRook();
-
-        Piece whiteBishop = Piece.createWhiteBishop();
-        Piece blackBishop = Piece.createBlackBishop();
-
-        Piece whiteQueen = Piece.createWhiteQueen();
-        Piece blackQueen = Piece.createBlackQueen();
-
-        Piece whiteKing = Piece.createWhiteKing();
-        Piece blackKing = Piece.createBlackKing();
+        Piece blank = Piece.createBlank();
 
         // then
         assertAll(
-                () -> verifyPiece(whitePawn, Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION),
-                () -> verifyPiece(blackPawn, Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION),
-                () -> verifyPiece(whiteKnight, Piece.COLOR_WHITE, Piece.WHITE_KNIGHT_REPRESENTATION),
-                () -> verifyPiece(blackKnight, Piece.COLOR_BLACK, Piece.BLACK_KNIGHT_REPRESENTATION),
-                () -> verifyPiece(whiteRook, Piece.COLOR_WHITE, Piece.WHITE_ROOK_REPRESENTATION),
-                () -> verifyPiece(blackRook, Piece.COLOR_BLACK, Piece.BLACK_ROOK_REPRESENTATION),
-                () -> verifyPiece(whiteBishop, Piece.COLOR_WHITE, Piece.WHITE_BISHOP_REPRESENTATION),
-                () -> verifyPiece(blackBishop, Piece.COLOR_BLACK, Piece.BLACK_BISHOP_REPRESENTATION),
-                () -> verifyPiece(whiteQueen, Piece.COLOR_WHITE, Piece.WHITE_QUEEN_REPRESENTATION),
-                () -> verifyPiece(blackQueen, Piece.COLOR_BLACK, Piece.BLACK_QUEEN_REPRESENTATION),
-                () -> verifyPiece(whiteKing, Piece.COLOR_WHITE, Piece.WHITE_KING_REPRESENTATION),
-                () -> verifyPiece(blackKing, Piece.COLOR_BLACK, Piece.BLACK_KING_REPRESENTATION)
+                () -> verifyPiece(Piece.createWhite(Type.PAWN), Color.WHITE, Type.PAWN),
+                () -> verifyPiece(Piece.createBlack(Type.PAWN), Color.BLACK, Type.PAWN),
+                () -> verifyPiece(Piece.createWhite(Type.KNIGHT), Color.WHITE, Type.KNIGHT),
+                () -> verifyPiece(Piece.createBlack(Type.KNIGHT), Color.BLACK, Type.KNIGHT),
+                () -> verifyPiece(Piece.createWhite(Type.ROOK), Color.WHITE, Type.ROOK),
+                () -> verifyPiece(Piece.createBlack(Type.ROOK), Color.BLACK, Type.ROOK),
+                () -> verifyPiece(Piece.createWhite(Type.BISHOP), Color.WHITE, Type.BISHOP),
+                () -> verifyPiece(Piece.createBlack(Type.BISHOP), Color.BLACK, Type.BISHOP),
+                () -> verifyPiece(Piece.createWhite(Type.QUEEN), Color.WHITE, Type.QUEEN),
+                () -> verifyPiece(Piece.createBlack(Type.QUEEN), Color.BLACK, Type.QUEEN),
+                () -> verifyPiece(Piece.createWhite(Type.KING), Color.WHITE, Type.KING),
+                () -> verifyPiece(Piece.createBlack(Type.KING), Color.BLACK, Type.KING)
         );
     }
 
-    private void verifyPiece(Piece piece, String color, String representation) {
+    private void verifyPiece(Piece piece, Color color, Type representation) {
         assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(piece.getRepresentation()).isEqualTo(representation);
+        assertThat(piece.getRepresentation()).isEqualTo(representation.findRepresentation(color));
     }
 
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p, true
-            black, P, false
-            """)
-    void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
-        // given
-        Piece pawn = new Piece(color, representation);
-
+    @Test
+    void 기물이_존재하지_않는_Piece도_생성할_수_잇다() {
         // when
-        assertThat(pawn.isWhite()).isEqualTo(expected);
+        Piece blankPiece = Piece.createBlank();
+
+        assertAll(
+                () -> assertThat(blankPiece.isWhite()).isFalse(),
+                () -> assertThat(blankPiece.isBlack()).isFalse(),
+                () -> assertThat(blankPiece.getType()).isEqualTo(Type.NO_PIECE)
+        );
     }
 
-    @ParameterizedTest
-    @CsvSource(textBlock = """
-            white, p, false
-            black, P, true
-            """)
-    void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다(String color, String representation, boolean expected) {
+    @Test
+    void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다() {
         // given
-        Piece pawn = new Piece(color, representation);
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
+
+        // then
+        assertAll(
+                () -> assertThat(whitePawn.isWhite()).isTrue(),
+                () -> assertThat(blackPawn.isWhite()).isFalse()
+        );
+    }
+
+    @Test
+    void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다() {
+        // given
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
 
         // when
-        assertThat(pawn.isBlack()).isEqualTo(expected);
+        assertAll(
+                () -> assertThat(whitePawn.isBlack()).isFalse(),
+                () -> assertThat(blackPawn.isBlack()).isTrue()
+        );
+    }
+
+    @Test
+    void 동일한_색상과_타입이면_참을_반환한다() {
+        // given
+        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+
+        // when
+        boolean isSameColorAndType = whitePawn.isSameColorAndType(Color.WHITE, Type.PAWN);
+
+        // then
+        assertThat(isSameColorAndType).isTrue();
+    }
+
+    @Test
+    void 동일한_색상을_가진_폰을_제외한_기물이라면_참을_반환한다() {
+        // given
+        Piece piece = Piece.createBlack(Type.ROOK);
+
+        // when
+        boolean isApplicablePiece = piece.isApplicablePiece(Color.BLACK);
+
+        // then
+        assertThat(isApplicablePiece).isTrue();
     }
 }

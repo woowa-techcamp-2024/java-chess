@@ -1,0 +1,82 @@
+package com.wootecam.chess.pieces;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class Rank {
+
+    public static final int PIECE_COUNT = 8;
+    private static final List<Type> CHESS_PIECE_ORDERS = List.of(
+            Type.ROOK, Type.KNIGHT, Type.BISHOP, Type.QUEEN,
+            Type.KING, Type.BISHOP, Type.KNIGHT, Type.ROOK
+    );
+
+    private final List<Piece> pieces;
+
+    public Rank(List<Piece> pieces) {
+        this.pieces = pieces;
+    }
+
+    public static Rank createPawns(Color color) {
+        return new Rank(IntStream.range(0, PIECE_COUNT)
+                .mapToObj(i -> new Piece(color, Type.PAWN))
+                .toList());
+    }
+
+    public static Rank createBlackOtherPieces() {
+        return new Rank(CHESS_PIECE_ORDERS.stream()
+                .map(Piece::createBlack)
+                .toList());
+    }
+
+    public static Rank createWhiteOtherPieces() {
+        return new Rank(CHESS_PIECE_ORDERS.stream()
+                .map(Piece::createWhite)
+                .toList());
+    }
+
+    public static Rank createBlanks() {
+        return new Rank(IntStream.range(0, PIECE_COUNT)
+                .mapToObj(i -> Piece.createBlank())
+                .toList());
+    }
+
+    public String createResults() {
+        return pieces.stream()
+                .map(Piece::getRepresentation)
+                .collect(Collectors.joining());
+    }
+
+    public int countPieces() {
+        return (int) pieces.stream()
+                .filter(piece -> !piece.isBlank())
+                .count();
+    }
+
+    public int countSpecificPieces(Color color, Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isSameColorAndType(color, type))
+                .count();
+    }
+
+    public Piece findPieceByColumn(int columnIndex) {
+        return pieces.get(columnIndex);
+    }
+
+    public Rank placePiece(int columnIndex, Piece piece) {
+        List<Piece> newPieces = new ArrayList<>(pieces);
+        newPieces.set(columnIndex, piece);
+
+        return new Rank(Collections.unmodifiableList(newPieces));
+    }
+
+    public double calculateRankPiecesPoint(final Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.isApplicablePiece(color))
+                .mapToDouble(piece -> piece.getType().getPoint())
+                .sum();
+    }
+}

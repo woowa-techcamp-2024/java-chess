@@ -1,119 +1,101 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.utils.StringUtils.NEW_LINE;
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
+import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
-import java.util.ArrayList;
+import com.wootecam.chess.pieces.Rank;
+import com.wootecam.chess.pieces.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Board {
 
-    private static final String EMPTY_PIECES_RESULTS = "........";
-    private static final int PIECE_COUNT = 8;
+    public static final char START_COLUMN_SYMBOL = 'a';
+    public static final char END_COLUMN_SYMBOL = 'h';
+    public static final char START_ROW_SYMBOL = '1';
+    public static final char END_ROW_SYMBOL = '8';
 
-    private final List<Piece> blackPawnPieces = new ArrayList<>();
-    private final List<Piece> blackOtherPieces = new ArrayList<>();
-    private final List<Piece> whitePawnPieces = new ArrayList<>();
-    private final List<Piece> whiteOtherPieces = new ArrayList<>();
+    private final List<Rank> ranks;
+    private final CoordinatesExtractor extractor;
 
-    public Board() {
-    }
-
-    public void initialize() {
-        blackPawnPieces.addAll(createPawns(Piece.COLOR_BLACK, Piece.BLACK_PAWN_REPRESENTATION));
-        whitePawnPieces.addAll(createPawns(Piece.COLOR_WHITE, Piece.WHITE_PAWN_REPRESENTATION));
-        blackOtherPieces.addAll((createBlackOtherPieces()));
-        whiteOtherPieces.addAll((createWhiteOtherPieces()));
-    }
-
-    private List<Piece> createPawns(String color, String representation) {
-        return IntStream.range(0, PIECE_COUNT)
-                .mapToObj(i -> new Piece(color, representation))
-                .toList();
-    }
-
-    private List<Piece> createBlackOtherPieces() {
-        return List.of(
-                Piece.createBlackRook(),
-                Piece.createBlackKnight(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen(),
-                Piece.createBlackKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlackKnight(),
-                Piece.createBlackRook()
-        );
-    }
-
-    private List<Piece> createWhiteOtherPieces() {
-        return List.of(
-                Piece.createWhiteRook(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteRook()
-        );
-    }
-
-    public void add(final Piece piece) {
-        whitePawnPieces.add(piece);
-    }
-
-    public Piece findPiece(final int pieceIndex) {
-        if (pieceIndex < 0 || whitePawnPieces.size() <= pieceIndex) {
-            String message = String.format("폰 인덱스는 0미만이거나 폰의 개수보다 크거나 같을 수 없습니다. size = %d", whitePawnPieces.size());
-            throw new IllegalArgumentException(message);
-        }
-
-        return whitePawnPieces.get(pieceIndex);
+    public Board(final List<Rank> ranks, final CoordinatesExtractor extractor) {
+        this.ranks = ranks;
+        this.extractor = extractor;
     }
 
     public String showBoard() {
-        StringBuilder boardResults = new StringBuilder();
+        return appendNewLine(ranks.stream()
+                .map(this::createRankResults)
+                .collect(Collectors.joining(NEW_LINE)));
+    }
 
-        boardResults.append(appendNewLine(createPiecesResults(blackOtherPieces)))
-                .append(appendNewLine(createPiecesResults(blackPawnPieces)))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(EMPTY_PIECES_RESULTS))
-                .append(appendNewLine(createPiecesResults(whitePawnPieces)))
-                .append(appendNewLine(createPiecesResults(whiteOtherPieces)));
+    public int countBoardPieces() {
+        return ranks.stream()
+                .mapToInt(Rank::countPieces)
+                .sum();
+    }
 
-        return boardResults.toString();
+    public int countSpecificBoardPieces(final Color color, final Type type) {
+        return ranks.stream()
+                .mapToInt(rank -> rank.countSpecificPieces(color, type))
+                .sum();
+    }
+
+    private String createRankResults(Rank rank) {
+        return rank.createResults();
     }
 
     public void print() {
         System.out.println(showBoard());
     }
 
-    public int pieceCount() {
-        return blackPawnPieces.size()
-                + blackOtherPieces.size()
-                + whitePawnPieces.size()
-                + whiteOtherPieces.size();
+    public Piece findPiece(String coordinate) {
+        extractor.validateCoordinates(coordinate);
+
+        int rowIndex = extractor.extractRowIndex(coordinate);
+        int columnIndex = extractor.extractColumnIndex(coordinate);
+        Rank rowRank = ranks.get(rowIndex);
+
+        return rowRank.findPieceByColumn(columnIndex);
     }
 
-    public int size() {
-        return whitePawnPieces.size();
+    public void move(String coordinate, Piece piece) {
+        extractor.validateCoordinates(coordinate);
+
+        int rowIndex = extractor.extractRowIndex(coordinate);
+        int columnIndex = extractor.extractColumnIndex(coordinate);
+        Rank rank = ranks.get(rowIndex);
+        ranks.set(rowIndex, rank.placePiece(columnIndex, piece));
     }
 
-    public String getWhitePawnsResults() {
-        return createPiecesResults(whitePawnPieces);
+    public double calculatePoint(Color color) {
+        return calculatePiecesPoint(color) + calculatePawnsPoint(color);
     }
 
-    public String getBlackPawnsResults() {
-        return createPiecesResults(blackPawnPieces);
+    private double calculatePiecesPoint(Color color) {
+        return ranks.stream()
+                .mapToDouble(rank -> rank.calculateRankPiecesPoint(color))
+                .sum();
     }
 
-    private String createPiecesResults(List<Piece> pieces) {
-        return pieces.stream()
-                .map(Piece::getRepresentation)
-                .collect(Collectors.joining());
+    private double calculatePawnsPoint(final Color color) {
+        return IntStream.rangeClosed(START_COLUMN_SYMBOL, END_COLUMN_SYMBOL)
+                .mapToDouble(columnSymbol -> calculateColumnPawnPoint(color, (char) columnSymbol))
+                .sum();
+    }
+
+    private double calculateColumnPawnPoint(final Color color, final char columnSymbol) {
+        int pawnCount = (int) IntStream.rangeClosed(START_ROW_SYMBOL, END_ROW_SYMBOL)
+                .filter(rowSymbol -> isSamePawn(color, extractor.createCoordinate(columnSymbol, (char) rowSymbol)))
+                .count();
+
+        return Type.getPawnPoint(pawnCount);
+    }
+
+    private boolean isSamePawn(final Color color, final String coordinates) {
+        return findPiece(coordinates).isSameColorAndType(color, Type.PAWN);
     }
 }
