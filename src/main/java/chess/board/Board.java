@@ -10,27 +10,17 @@ import chess.pieces.Representation.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.RankMaker.*;
 import static utils.StringUtils.*;
 
 public class Board {
-    List<Rank> ranks = new ArrayList<>();
+    private List<Rank> ranks = new ArrayList<>();
 
     public void initialize() {
-        ranks.add(getGoodPiecesRank(Color.BLACK));
-        ranks.add(getPawnsRank(Color.BLACK));
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getPawnsRank(Color.WHITE));
-        ranks.add(getGoodPiecesRank(Color.WHITE));
+        ranks = BoardMaker.standard();
     }
 
     public void initializeEmpty() {
-        for (int i = 0; i < 8; i++) {
-            ranks.add(getEmptyRank());
-        }
+        ranks = BoardMaker.empty();
     }
 
     public double getScore(Color color) {
