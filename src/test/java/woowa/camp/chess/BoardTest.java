@@ -38,19 +38,19 @@ public class BoardTest {
     void board_add_pawn() {
         board.add(white);
         verifyBoardGetPieceCount(board, 1);
-        verifyFindPawn(board, 0, white);
+        verifyGetPawn(board, 0, white);
 
         board.add(black);
         verifyBoardGetPieceCount(board, 2);
-        verifyFindPawn(board, 1, black);
+        verifyGetPawn(board, 1, black);
     }
 
     private void verifyBoardGetPieceCount(Board board, int expectedBoardSize) {
         assertThat(board.getPieceCount()).isEqualTo(expectedBoardSize);
     }
 
-    private void verifyFindPawn(Board board, int findPawnIndex, Piece expectedPiece) {
-        assertThat(board.findPawn(findPawnIndex)).isEqualTo(expectedPiece);
+    private void verifyGetPawn(Board board, int findPawnIndex, Piece expectedPiece) {
+        assertThat(board.getPawn(findPawnIndex)).isEqualTo(expectedPiece);
     }
 
     @Test
@@ -62,12 +62,12 @@ public class BoardTest {
         int lowerBound = -1;
         int upperBound = board.getPieceCount();
 
-        verifyOutOfRangeFindPawn(board, lowerBound, upperBound);
+        verifyOutOfRangeGetPawn(board, lowerBound, upperBound);
     }
 
-    private void verifyOutOfRangeFindPawn(Board board, int lowerBound, int upperBound) {
-        assertThatThrownBy(() -> board.findPawn(lowerBound)).isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> board.findPawn(upperBound)).isInstanceOf(IllegalArgumentException.class);
+    private void verifyOutOfRangeGetPawn(Board board, int lowerBound, int upperBound) {
+        assertThatThrownBy(() -> board.getPawn(lowerBound)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> board.getPawn(upperBound)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

@@ -16,20 +16,11 @@ public class Board {
     public static final int MAX_COL = 8;
 
     private final List<List<Piece>> board = new ArrayList<>(new ArrayList<>());
-
     private final List<Piece> pieces = new ArrayList<>();
 
+    /* ----- biz logic -----*/
     public void add(final Piece piece) {
         pieces.add(piece);
-    }
-
-    public int getPieceCount() {
-        return pieces.size();
-    }
-
-    public Piece findPawn(final int pawnIndex) {
-        validateFindPawn(pawnIndex);
-        return pieces.get(pawnIndex);
     }
 
     private void validateFindPawn(final int pawnIndex) {
@@ -165,20 +156,6 @@ public class Board {
         pieces.add(piece);
     }
 
-    public String getPiecesResult(final String pieceName, final Color color) {
-        final StringBuilder sb = new StringBuilder();
-        final List<Piece> filteredPieces = getPiecesFilterBy(pieceName, color);
-        filteredPieces.forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
-        return sb.toString();
-    }
-
-    private List<Piece> getPiecesFilterBy(final String pieceName, final Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.isPieceOf(pieceName))
-                .filter(piece -> piece.isSameColor(color))
-                .toList();
-    }
-
     public String showBoard() {
         final StringBuilder sb = new StringBuilder();
         for (int row = 0; row < MAX_ROW; row++) {
@@ -196,6 +173,23 @@ public class Board {
         }
     }
 
+    /* ----- getter ----- */
+    public int getPieceCount() {
+        return pieces.size();
+    }
+
+    public Piece getPawn(final int pawnIndex) {
+        validateFindPawn(pawnIndex);
+        return pieces.get(pawnIndex);
+    }
+
+    public String getPiecesResult(final String pieceName, final Color color) {
+        final StringBuilder sb = new StringBuilder();
+        final List<Piece> filteredPieces = getPiecesFilterBy(pieceName, color);
+        filteredPieces.forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
+        return sb.toString();
+    }
+
     private Optional<Piece> getPawnByPosition(final int row, final int col) {
         return Optional.ofNullable(board.get(row).get(col));
     }
@@ -210,6 +204,13 @@ public class Board {
 
     public int getPieceCount(final String pieceName, final Color color) {
         return getPiecesFilterBy(pieceName, color).size();
+    }
+
+    private List<Piece> getPiecesFilterBy(final String pieceName, final Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.isPieceOf(pieceName))
+                .filter(piece -> piece.isSameColor(color))
+                .toList();
     }
 
 }
