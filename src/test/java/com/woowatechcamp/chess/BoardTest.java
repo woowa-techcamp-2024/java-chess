@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.PieceFactory;
 import com.woowatechcamp.chess.pieces.Position;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class BoardTest {
         board.initializeEmpty();
 
         Position position = new Position("b5");
-        Piece piece = Piece.createBlackRook(position);
+        Piece piece = PieceFactory.createBlackRook(position);
         board.move(piece);
 
          assertThat(piece).isEqualTo(board.findPiece(position));
@@ -65,15 +66,15 @@ public class BoardTest {
     public void 기물의_점수를_계산한다() {
         board.initializeEmpty();
 
-        addPiece(Piece.createBlackPawn(new Position("b6")));
-        addPiece(Piece.createBlackQueen(new Position("e6")));
-        addPiece(Piece.createBlackKing(new Position("b8")));
-        addPiece(Piece.createBlackRook(new Position("c8")));
+        addPiece(PieceFactory.createBlackPawn(new Position("b6")));
+        addPiece(PieceFactory.createBlackQueen(new Position("e6")));
+        addPiece(PieceFactory.createBlackKing(new Position("b8")));
+        addPiece(PieceFactory.createBlackRook(new Position("c8")));
 
-        addPiece(Piece.createWhitePawn(new Position("f2")));
-        addPiece(Piece.createWhitePawn(new Position("g2")));
-        addPiece(Piece.createWhiteRook(new Position("e1")));
-        addPiece(Piece.createWhiteKing(new Position("f1")));
+        addPiece(PieceFactory.createWhitePawn(new Position("f2")));
+        addPiece(PieceFactory.createWhitePawn(new Position("g2")));
+        addPiece(PieceFactory.createWhiteRook(new Position("e1")));
+        addPiece(PieceFactory.createWhiteKing(new Position("f1")));
 
         assertThat(15.0).isEqualTo(board.calculatePoint(Piece.Color.BLACK));
         assertThat(7.0).isEqualTo(board.calculatePoint(Piece.Color.WHITE));
@@ -90,8 +91,8 @@ public class BoardTest {
         Position sourcePosition = new Position("b2");
         Position targetPosition = new Position("b3");
         board.move(sourcePosition, targetPosition);
-        assertThat(Piece.createBlank(sourcePosition)).isEqualTo(board.findPiece(sourcePosition));
-        assertThat(Piece.createWhitePawn(targetPosition)).isEqualTo(board.findPiece(targetPosition));
+        assertThat(PieceFactory.createBlank(sourcePosition)).isEqualTo(board.findPiece(sourcePosition));
+        assertThat(PieceFactory.createWhitePawn(targetPosition)).isEqualTo(board.findPiece(targetPosition));
 
         board.print();
     }

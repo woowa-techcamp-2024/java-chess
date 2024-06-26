@@ -1,6 +1,7 @@
 package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.PieceFactory;
 import com.woowatechcamp.chess.pieces.Position;
 
 import java.util.ArrayList;
@@ -20,14 +21,14 @@ public class Board {
 
     public void initialize() {
         ranks.add(new Rank(
-                Piece.createBlackRook(new Position("a8")), Piece.createBlackKnight(new Position("b8")), Piece.createBlackBishop(new Position("c8")),
-                Piece.createBlackQueen(new Position("d8")), Piece.createBlackKing(new Position("e8")), Piece.createBlackBishop(new Position("f8")),
-                Piece.createBlackKnight(new Position("g8")), Piece.createBlackRook(new Position("h8"))
+                PieceFactory.createBlackRook(new Position("a8")), PieceFactory.createBlackKnight(new Position("b8")), PieceFactory.createBlackBishop(new Position("c8")),
+                PieceFactory.createBlackQueen(new Position("d8")), PieceFactory.createBlackKing(new Position("e8")), PieceFactory.createBlackBishop(new Position("f8")),
+                PieceFactory.createBlackKnight(new Position("g8")), PieceFactory.createBlackRook(new Position("h8"))
         ));
         ranks.add(new Rank(
-                Piece.createBlackPawn(new Position("a7")), Piece.createBlackPawn(new Position("b7")), Piece.createBlackPawn(new Position("c7")),
-                Piece.createBlackPawn(new Position("d7")), Piece.createBlackPawn(new Position("e7")), Piece.createBlackPawn(new Position("f7")),
-                Piece.createBlackPawn(new Position("g7")), Piece.createBlackPawn(new Position("h7"))
+                PieceFactory.createBlackPawn(new Position("a7")), PieceFactory.createBlackPawn(new Position("b7")), PieceFactory.createBlackPawn(new Position("c7")),
+                PieceFactory.createBlackPawn(new Position("d7")), PieceFactory.createBlackPawn(new Position("e7")), PieceFactory.createBlackPawn(new Position("f7")),
+                PieceFactory.createBlackPawn(new Position("g7")), PieceFactory.createBlackPawn(new Position("h7"))
         ));
 
         for (int yPos = 6; yPos >= 3; yPos--) {
@@ -35,14 +36,14 @@ public class Board {
         }
 
         ranks.add(new Rank(
-                Piece.createWhitePawn(new Position("a2")), Piece.createWhitePawn(new Position("b2")), Piece.createWhitePawn(new Position("c2")),
-                Piece.createWhitePawn(new Position("d2")), Piece.createWhitePawn(new Position("e2")), Piece.createWhitePawn(new Position("f2")),
-                Piece.createWhitePawn(new Position("g2")), Piece.createWhitePawn(new Position("h2"))
+                PieceFactory.createWhitePawn(new Position("a2")), PieceFactory.createWhitePawn(new Position("b2")), PieceFactory.createWhitePawn(new Position("c2")),
+                PieceFactory.createWhitePawn(new Position("d2")), PieceFactory.createWhitePawn(new Position("e2")), PieceFactory.createWhitePawn(new Position("f2")),
+                PieceFactory.createWhitePawn(new Position("g2")), PieceFactory.createWhitePawn(new Position("h2"))
         ));
         ranks.add(new Rank(
-                Piece.createWhiteRook(new Position("a1")), Piece.createWhiteKnight(new Position("b1")), Piece.createWhiteBishop(new Position("c1")),
-                Piece.createWhiteQueen(new Position("d1")), Piece.createWhiteKing(new Position("e1")), Piece.createWhiteBishop(new Position("f1")),
-                Piece.createWhiteKnight(new Position("g1")), Piece.createWhiteRook(new Position("h1"))
+                PieceFactory.createWhiteRook(new Position("a1")), PieceFactory.createWhiteKnight(new Position("b1")), PieceFactory.createWhiteBishop(new Position("c1")),
+                PieceFactory.createWhiteQueen(new Position("d1")), PieceFactory.createWhiteKing(new Position("e1")), PieceFactory.createWhiteBishop(new Position("f1")),
+                PieceFactory.createWhiteKnight(new Position("g1")), PieceFactory.createWhiteRook(new Position("h1"))
         ));
 
         ranks.stream()
@@ -87,10 +88,11 @@ public class Board {
 
     public void move(Position source, Position target) {
         Piece sourcePiece = findPiece(source);
+        sourcePiece.changePosition(target);
         ranks.get(target.getYPos())
-                .setPiece(new Piece(sourcePiece.getColor(), sourcePiece.getType(), target));
+                .setPiece(sourcePiece);
         ranks.get(source.getYPos())
-                .setPiece(Piece.createBlank(source));
+                .setPiece(PieceFactory.createBlank(source));
     }
 
     public Piece findPiece(Position position) {
