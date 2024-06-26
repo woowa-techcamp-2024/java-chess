@@ -32,11 +32,11 @@ public class Board {
         set("f1", Piece.createWhite(Bishop.class));
         set("g1", Piece.createWhite(Knight.class));
         set("h1", Piece.createWhite(Rook.class));
-        for (char c = 'a'; c <= 'h'; c++) {
-            set(c + "2", Piece.createWhite(Pawn.class));
+        for (char file = 'a'; file <= 'h'; file++) {
+            set(file, 2, Piece.createWhite(Pawn.class));
         }
-        for (char c = 'a'; c <= 'h'; c++) {
-            set(c + "7", Piece.createBlack(Pawn.class));
+        for (char file = 'a'; file <= 'h'; file++) {
+            set(file, 7, Piece.createBlack(Pawn.class));
         }
         set("a8", Piece.createBlack(Rook.class));
         set("b8", Piece.createBlack(Knight.class));
