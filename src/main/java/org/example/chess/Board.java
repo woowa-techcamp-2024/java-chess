@@ -11,6 +11,13 @@ import org.example.pieces.Piece.Type;
 public class Board {
 
 
+    public void move(String position, Piece piece) {
+        // col과 row를 묶는 클래스를 생성한다.
+        char col = position.charAt(0);
+        int row = Character.getNumericValue(position.charAt(1));
+        oneColumns.get(col - startChar).modifyPiece(piece, row);
+    }
+
     private class OneColumn {
 
         // 자신의 col과 row길이를 생성시 받는다.
