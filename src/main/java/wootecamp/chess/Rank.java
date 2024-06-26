@@ -94,4 +94,8 @@ public class Rank {
         }
         return builder.toString();
     }
+
+    public Piece findPiece(int fileIndex) {
+        return pieces.get(fileIndex);
+    }
 }

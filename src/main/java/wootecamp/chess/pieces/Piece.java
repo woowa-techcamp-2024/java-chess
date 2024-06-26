@@ -1,5 +1,7 @@
 package wootecamp.chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
     public enum Color {
         WHITE, BLACK, EMPTY
@@ -117,5 +119,18 @@ public class Piece {
             return Character.toUpperCase(representation);
         }
         return representation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
     }
 }

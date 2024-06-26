@@ -53,4 +53,14 @@ public class BoardTest {
         assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN)).isEqualTo(1);
         assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.KING)).isEqualTo(1);
     }
+
+    @Test
+    public void findPiece() throws Exception {
+        board.initialize();
+
+        assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook());
+        assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook());
+        assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook());
+        assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook());
+    }
 }
