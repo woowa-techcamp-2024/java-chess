@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 public class ChessGame {
     public static void main(String[] args) throws IOException {
+        ChessView chessView = new ChessView();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("체스게임시작~");
+        chessView.startMessage();
 
-        String input;
         Board board = new Board();
         while (true) {
-            System.out.println("start/move/end를 입력하세요");
+            chessView.pressKeyMessage();
             Command command = Command.from(scanner.next());
 
             if (command == Command.START) {
@@ -28,7 +28,7 @@ public class ChessGame {
             }
 
             // Board 상황 출력
-            System.out.println(board.print());
+            chessView.print(board.print());
         }
     }
 }
