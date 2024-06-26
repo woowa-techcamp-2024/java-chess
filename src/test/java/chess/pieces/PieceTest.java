@@ -10,7 +10,7 @@ public class PieceTest {
         verifyPiece(piece, type.getColor(), type.getRepresentation(), type.getType());
     }
 
-    private void verifyPiece(final Piece piece, final String color, final char representation, final String type) {
+    private void verifyPiece(final Piece piece, final Color color, final char representation, final Type type) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
         assertEquals(type, piece.getType());
@@ -99,5 +99,14 @@ public class PieceTest {
         Piece whiteKing = Piece.createPiece(WHITE_KING);
         assertFalse(whiteKing.isBlack());
         assertTrue(whiteKing.isWhite());
+    }
+
+    @Test
+    public void createBlank(){
+        Piece blank = Piece.createPiece(NO_PIECE);
+
+        assertEquals(Type.NO_PIECE,blank.getType());
+        assertFalse(blank.isBlack());
+        assertFalse(blank.isWhite());
     }
 }
