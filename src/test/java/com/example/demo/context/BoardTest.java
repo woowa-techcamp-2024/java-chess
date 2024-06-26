@@ -138,10 +138,10 @@ class BoardTest {
     public void calculateScoreCase1() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.ONE, File.A, new Queen(Color.WHITE));
-        board.setPiece(Rank.ONE, File.B, new Rook(Color.WHITE));
-        board.setPiece(Rank.ONE, File.C, new Knight(Color.WHITE));
-        board.setPiece(Rank.ONE, File.D, new Bishop(Color.WHITE));
+        board.setPiece(Rank.ONE, File.A, new Queen(Color.WHITE, null, null));
+        board.setPiece(Rank.ONE, File.B, new Rook(Color.WHITE, null, null));
+        board.setPiece(Rank.ONE, File.C, new Knight(Color.WHITE,null, null));
+        board.setPiece(Rank.ONE, File.D, new Bishop(Color.WHITE, null, null));
 
         // when
         float score = board.getScore(Color.WHITE);
@@ -155,9 +155,9 @@ class BoardTest {
     public void calculateScoreCase2() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.TWO, File.A, new Pawn(Color.WHITE));
-        board.setPiece(Rank.SEVEN, File.A, new Pawn(Color.WHITE));
-        board.setPiece(Rank.FOUR, File.A, new Pawn(Color.WHITE));
+        board.setPiece(Rank.TWO, File.A, new Pawn(Color.WHITE, null, null));
+        board.setPiece(Rank.SEVEN, File.A, new Pawn(Color.WHITE, null, null));
+        board.setPiece(Rank.FOUR, File.A, new Pawn(Color.WHITE, null, null));
 
         // when
         float score = board.getScore(Color.WHITE);
@@ -172,12 +172,12 @@ class BoardTest {
         // given
         Board board = new Board();
 
-        var queen = new Queen(Color.WHITE);
-        var rook = new Rook(Color.WHITE);
-        var bishop = new Bishop(Color.WHITE);
-        var knight = new Knight(Color.WHITE);
-        var pawn1 = new Pawn(Color.WHITE);
-        var pawn2 = new Pawn(Color.WHITE);
+        var queen = new Queen(Color.WHITE, null, null);
+        var rook = new Rook(Color.WHITE, null, null);
+        var bishop = new Bishop(Color.WHITE, null, null);
+        var knight = new Knight(Color.WHITE, null, null);
+        var pawn1 = new Pawn(Color.WHITE, null, null);
+        var pawn2 = new Pawn(Color.WHITE, null, null);
 
         board.setPiece(Rank.ONE, File.A, queen);
         board.setPiece(Rank.ONE, File.B, rook);

@@ -13,7 +13,7 @@ class BishopTest {
     @ParameterizedTest
     @MethodSource("colors")
     public void create(final Color color){
-        Piece bishop = new Bishop(color);
+        Piece bishop = new Bishop(color, null, null);
         assertThat(bishop.getColor()).isEqualTo(color);
     }
 
@@ -24,28 +24,28 @@ class BishopTest {
     @Test
     @DisplayName("색을 지정하지 않고 비숍을 생성하면 흰색이다.")
     public void create_기본생성자() {
-        Piece bishop = new Bishop();
+        Piece bishop = new Bishop(null, null);
         assertThat(bishop.getColor()).isEqualTo(Color.WHITE);
     }
 
     @Test
     @DisplayName("검은 색 비숍이라면 대문자 B를 출력한다.")
     public void print_black(){
-        Piece bishop = new Bishop(Color.BLACK);
+        Piece bishop = new Bishop(Color.BLACK, null, null);
         assertThat(bishop.toString()).isEqualTo("B");
     }
 
     @Test
     @DisplayName("흰 색 비숍이라면 소문자 b를 출력한다.")
     public void print_white(){
-        Piece bishop = new Bishop(Color.WHITE);
+        Piece bishop = new Bishop(Color.WHITE, null, null);
         assertThat(bishop.toString()).isEqualTo("b");
     }
 
     @Test
     @DisplayName("비숍의 점수는 3점이다.")
     public void score(){
-        Piece bishop = new Bishop();
+        Piece bishop = new Bishop(null, null);
         assertThat(bishop.getPoint()).isEqualTo(3);
     }
 }

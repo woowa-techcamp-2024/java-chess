@@ -26,10 +26,10 @@ public class Game {
     //--------------init game start----------------
     private void initPawnRules() {
         List<Rule> pawnRules = new ArrayList<>();
-        pawnRules.add(new NormalRule(1, 0, Color.WHITE, Type.PAWN));
-        pawnRules.add(new NormalRule(2, 0, Color.WHITE, Type.PAWN));
-        pawnRules.add(new NormalRule(-1, 0, Color.BLACK, Type.PAWN));
-        pawnRules.add(new NormalRule(-2, 0, Color.BLACK, Type.PAWN));
+        pawnRules.add(new NormalRule(1, 0, Color.WHITE, Type.PAWN, false));
+        pawnRules.add(new NormalRule(2, 0, Color.WHITE, Type.PAWN, true));
+        pawnRules.add(new NormalRule(-1, 0, Color.BLACK, Type.PAWN, false));
+        pawnRules.add(new NormalRule(-2, 0, Color.BLACK, Type.PAWN, true));
         rules.put(Type.PAWN, pawnRules);
     }
     //--------------init game end  ----------------

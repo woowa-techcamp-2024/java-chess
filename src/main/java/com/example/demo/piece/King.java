@@ -1,20 +1,16 @@
 package com.example.demo.piece;
 
-public class King implements Piece {
+import com.example.demo.context.File;
+import com.example.demo.context.Rank;
 
-    private final Color color;
+public class King extends Piece {
 
-    public King() {
-        this(Color.WHITE);
+    public King(Rank rank, File file) {
+        super(rank, file);
     }
 
-    public King(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+    public King(Color color, Rank rank, File file) {
+        super(color, rank, file);
     }
 
     @Override
@@ -29,7 +25,7 @@ public class King implements Piece {
 
     @Override
     public String toString(){
-        return switch (color) {
+        return switch (getColor()) {
             case WHITE -> "k";
             case BLACK -> "K";
         };

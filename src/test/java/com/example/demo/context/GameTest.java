@@ -55,13 +55,13 @@ class GameTest {
         public void movePawnFail(Location from, Location to) {
             // given
             Board board = createBoard();
-            board.setPiece(Rank.THREE, File.A, new Pawn());
+            board.setPiece(Rank.THREE, File.A, new Pawn(null, null));
             Game game = new Game(board);
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
             for(File file: File.values()){
-                board.setPiece(Rank.THREE, file, new Pawn());
-                board.setPiece(Rank.SIX, file, new Pawn(Color.BLACK));
+                board.setPiece(Rank.THREE, file, new Pawn(null, null));
+                board.setPiece(Rank.SIX, file, new Pawn(Color.BLACK, null, null));
             }
 
             // then
@@ -94,10 +94,11 @@ class GameTest {
         @ParameterizedTest
         @DisplayName("폰 이동 실패 테스트 : 처음 이동하는 폰이 아니라면 2칸 전진을 할 수 없다.")
         @MethodSource("movePawnFailCaseWhenNotFirstMove")
-        public void movePawnFailWhenNotFirstMove(Location from, Location to){
+        public void movePawnFailWhenNotFirstMove(Location first, Location from, Location to){
             // given
             Board board = createBoard();
             Game game = new Game(board);
+            game.move(first, from);
 
             // then
             assertThatThrownBy(() -> game.move(from, to))
@@ -107,8 +108,8 @@ class GameTest {
 
         public static Stream<Arguments> movePawnFailCaseWhenNotFirstMove(){
             return Stream.of(
-                    Arguments.of(new Location(Rank.THREE, File.A), new Location(Rank.FIVE, File.A)),
-                    Arguments.of(new Location(Rank.SIX, File.A), new Location(Rank.FOUR, File.A))
+                    Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.THREE, File.A), new Location(Rank.FIVE, File.A)),
+                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SIX, File.A), new Location(Rank.FOUR, File.A))
             );
         }
     }

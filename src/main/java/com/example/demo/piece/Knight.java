@@ -1,20 +1,16 @@
 package com.example.demo.piece;
 
-public class Knight implements Piece {
+import com.example.demo.context.File;
+import com.example.demo.context.Rank;
 
-    private final Color color;
+public class Knight extends Piece {
 
-    public Knight() {
-        this(Color.WHITE);
+    public Knight(Rank rank, File file) {
+        super(rank, file);
     }
 
-    public Knight(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return this.color;
+    public Knight(Color color, Rank rank, File file) {
+        super(color, rank, file);
     }
 
     @Override
@@ -29,7 +25,7 @@ public class Knight implements Piece {
 
     @Override
     public String toString(){
-        return switch (color) {
+        return switch (getColor()) {
             case WHITE -> "n";
             case BLACK -> "N";
         };

@@ -1,19 +1,16 @@
 package com.example.demo.piece;
 
-public class Pawn implements Piece {
-    private final Color color;
+import com.example.demo.context.File;
+import com.example.demo.context.Rank;
 
-    public Pawn() {
-        this(Color.WHITE);
+public class Pawn extends Piece {
+
+    public Pawn(Rank rank, File file) {
+        super(rank, file);
     }
 
-    public Pawn(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+    public Pawn(Color color, Rank rank, File file) {
+        super(color, rank, file);
     }
 
     @Override
@@ -27,8 +24,8 @@ public class Pawn implements Piece {
     }
 
     @Override
-    public String toString(){
-        return switch (color) {
+    public String toString() {
+        return switch (getColor()) {
             case WHITE -> "p";
             case BLACK -> "P";
         };

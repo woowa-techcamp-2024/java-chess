@@ -20,12 +20,17 @@ public class NormalRule implements Rule {
     private final int minFileStep;
     private final Color targetColor;
     private final Type targetType;
+    private final boolean isApplyFirstMove;
 
-    public NormalRule(int rankStep, int fileStep, Color targetColor, Type targetType) {
+    public NormalRule(int rankStep, int fileStep,
+                      Color targetColor,
+                      Type targetType,
+                      boolean isApplyFirstMove) {
         this.rankStep = rankStep;
         this.fileStep = fileStep;
         this.targetColor = targetColor;
         this.targetType = targetType;
+        this.isApplyFirstMove = isApplyFirstMove;
 
         if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
         else this.minRankStep = 0;
@@ -38,6 +43,8 @@ public class NormalRule implements Rule {
 
         Piece piece = board.getPiece(from);
 
+        if(isApplyFirstMove && !piece.isLocatedAtInitLocation(from.rank(), from.file()))
+            return false;
         if (piece.getType() != targetType || piece.getColor() != targetColor)
             return false;
 
@@ -49,7 +56,7 @@ public class NormalRule implements Rule {
 
         while (nextRank != null && nextFile != null) {
 
-            if(Math.abs(moveRank) > Math.abs(rankStep) || Math.abs(moveFile) > Math.abs(fileStep))
+            if (Math.abs(moveRank) > Math.abs(rankStep) || Math.abs(moveFile) > Math.abs(fileStep))
                 return false;
 
             if (board.getPiece(nextRank, nextFile) != null) {

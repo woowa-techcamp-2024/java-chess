@@ -38,40 +38,40 @@ public class Board {
     //--------------init board start----------------
     private void initPawn() {
         for (File file : File.values()) {
-            setPiece(Rank.TWO, file, new Pawn(Color.WHITE));
-            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK));
+            setPiece(Rank.TWO, file, new Pawn(Color.WHITE, Rank.TWO, file));
+            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK, Rank.SEVEN, file));
         }
     }
 
     private void initKing() {
-        setPiece(Rank.ONE, File.D, new King(Color.WHITE));
-        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
+        setPiece(Rank.ONE, File.D, new King(Color.WHITE, Rank.ONE, File.D));
+        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK, Rank.EIGHT, File.D));
     }
 
     private void initQueen() {
-        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
-        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
+        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE, Rank.ONE, File.E));
+        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK, Rank.EIGHT, File.E));
     }
 
     private void initBishop() {
-        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE));
-        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE));
-        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK));
-        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK));
+        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE, Rank.ONE, File.C));
+        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE, Rank.ONE, File.F));
+        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK, Rank.EIGHT, File.C));
+        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK, Rank.EIGHT, File.F));
     }
 
     private void initKnight() {
-        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE));
-        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE));
-        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK));
-        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK));
+        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE, Rank.ONE, File.B));
+        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE, Rank.ONE, File.G));
+        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK, Rank.EIGHT, File.B));
+        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK, Rank.EIGHT, File.G));
     }
 
     private void initRook() {
-        setPiece(Rank.ONE, File.A, new Rook(Color.WHITE));
-        setPiece(Rank.ONE, File.H, new Rook(Color.WHITE));
-        setPiece(Rank.EIGHT, File.A, new Rook(Color.BLACK));
-        setPiece(Rank.EIGHT, File.H, new Rook(Color.BLACK));
+        setPiece(Rank.ONE, File.A, new Rook(Color.WHITE, Rank.ONE, File.A));
+        setPiece(Rank.ONE, File.H, new Rook(Color.WHITE, Rank.ONE, File.H));
+        setPiece(Rank.EIGHT, File.A, new Rook(Color.BLACK, Rank.EIGHT, File.A));
+        setPiece(Rank.EIGHT, File.H, new Rook(Color.BLACK, Rank.EIGHT, File.H));
     }
     //--------------init board end  ----------------
 
