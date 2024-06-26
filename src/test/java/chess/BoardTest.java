@@ -200,4 +200,21 @@ public class BoardTest {
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
     }
+
+    @Test
+    public void move() throws Exception{
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition,targetPosition);
+        verifyPieceWithPosition(sourcePosition,NO_PIECE);
+        verifyPieceWithPosition(targetPosition,WHITE_PAWN);
+    }
+
+    void verifyPieceWithPosition(String position,PieceTypes type){
+        ChessPiece piece = board.findPiece(position);
+        assertEquals(type.getType(),piece.getType());
+        assertEquals(type.getColor(),piece.getColor());
+    }
 }
