@@ -1,4 +1,4 @@
-package com.wootecam.chess;
+package com.wootecam.chess.common;
 
 import java.util.Scanner;
 

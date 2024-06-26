@@ -1,6 +1,6 @@
 package com.wootecam.chess.game;
 
-import com.wootecam.chess.Reader;
+import com.wootecam.chess.common.Reader;
 
 public class ChessGameManager {
     private static final String CMD_START = "start";

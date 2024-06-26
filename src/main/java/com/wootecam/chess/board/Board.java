@@ -1,5 +1,6 @@
 package com.wootecam.chess.board;
 
+import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
@@ -118,6 +119,16 @@ public class Board {
         return count;
     }
 
+    public List<Piece> getPiecesSortedByScore(Color color, Order order) {
+        return Arrays.stream(ranks)
+                .flatMap(r -> r.getPieces(color).stream())
+                .sorted((p1, p2) -> {
+                    int compare = Double.compare(p1.getType().point, p2.getType().point);
+                    return order.isAsc() ? compare : -compare;
+                })
+                .toList();
+    }
+
     private static class Rank {
         private final Piece[] squares;
 
@@ -182,6 +193,12 @@ public class Board {
                     .filter(p -> p.isPieceAndNotPawn() && p.isColor(color))
                     .mapToDouble(p -> p.getType().point)
                     .sum();
+        }
+
+        public List<Piece> getPieces(Color color) {
+            return Arrays.stream(squares)
+                    .filter(p -> p.isPiece() && p.isColor(color))
+                    .toList();
         }
     }
 }

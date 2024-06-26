@@ -4,9 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -186,6 +188,59 @@ class BoardTest {
             double score = board.calculateScore(Color.BLACK);
 
             assertThat(score).isEqualTo(20.5);
+        }
+    }
+
+    @Nested
+    class 체스판에_존재하는_주어진_색상의_기물들을_점수순으로_정렬한다 {
+
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
+        @Test
+        void 주어진_색상의_기물들을_점수_오름차순으로_정렬한다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("a7"));
+            board.add(Piece.createWhitePawn(), createPosition("a4"));
+            board.add(Piece.createBlackKnight(), createPosition("b5"));
+            board.add(Piece.createBlackRook(), createPosition("c5"));
+            board.add(Piece.createBlackBishop(), createPosition("d5"));
+            board.add(Piece.createBlackKing(), createPosition("e5"));
+            board.add(Piece.createBlackQueen(), createPosition("f5"));
+
+            List<Piece> result = board.getPiecesSortedByScore(Color.BLACK, Order.DESC);
+
+            assertThat(result).containsExactly(
+                    Piece.createBlackQueen(),
+                    Piece.createBlackRook(),
+                    Piece.createBlackBishop(),
+                    Piece.createBlackKnight(),
+                    Piece.createBlackPawn(),
+                    Piece.createBlackPawn(),
+                    Piece.createBlackKing());
+        }
+
+        @Test
+        void 주어진_색상의_기물들을_점수_내림차순으로_정렬한다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createWhitePawn(), createPosition("a7"));
+            board.add(Piece.createWhitePawn(), createPosition("a4"));
+            board.add(Piece.createWhiteKnight(), createPosition("b5"));
+            board.add(Piece.createBlackRook(), createPosition("c5"));
+            board.add(Piece.createWhiteBishop(), createPosition("d5"));
+            board.add(Piece.createWhiteKing(), createPosition("e5"));
+            board.add(Piece.createBlackQueen(), createPosition("f5"));
+
+            List<Piece> result = board.getPiecesSortedByScore(Color.WHITE, Order.ASC);
+
+            assertThat(result).containsExactly(
+                    Piece.createWhiteKing(),
+                    Piece.createWhitePawn(),
+                    Piece.createWhitePawn(),
+                    Piece.createWhiteKnight(),
+                    Piece.createWhiteBishop());
         }
     }
 }
