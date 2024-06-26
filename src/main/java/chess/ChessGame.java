@@ -14,11 +14,18 @@ public class ChessGame {
         board.print();
     }
 
-    public void play() {
+    public void play(final String source, final String target) {
+        board.move(source, target);
 
+        board.print();
     }
 
     public void end() {
 
+    }
+
+    //TODO: implement isCheckmate
+    public boolean isCheckmate() {
+        return false;
     }
 }
