@@ -1,6 +1,5 @@
 package com.woopaca.javachess.chess;
 
-import com.woopaca.javachess.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,21 +15,6 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-    }
-
-    @DisplayName("체스판에 폰을 추가할 수 있다.")
-    @Test
-    void create() {
-        Piece whitePiece = Piece.createWhitePawn();
-        Piece blackPiece = Piece.createBlackPawn();
-
-        board.add(whitePiece);
-        assertThat(board.size()).isEqualTo(1);
-        assertThat(board.findPiece(0)).isEqualTo(whitePiece);
-
-        board.add(blackPiece);
-        assertThat(board.size()).isEqualTo(2);
-        assertThat(board.findPiece(1)).isEqualTo(blackPiece);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")

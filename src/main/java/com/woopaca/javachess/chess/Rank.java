@@ -26,4 +26,9 @@ public class Rank {
                 .count();
     }
 
+    public int getPiecesCount(Piece.Color color, Piece.Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.getColor() == color && piece.getType() == type)
+                .count();
+    }
 }

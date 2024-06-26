@@ -1,6 +1,8 @@
 package com.woopaca.javachess.chess;
 
 import com.woopaca.javachess.chess.pieces.Piece;
+import com.woopaca.javachess.chess.pieces.Piece.Color;
+import com.woopaca.javachess.chess.pieces.Piece.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,24 +19,11 @@ public class Board {
     public static final int WHITE_MAJORS_RANK = 7;
 
     private final List<Rank> ranks = new ArrayList<>();
-    private final List<Piece> pieces = new ArrayList<>();
 
     public Board() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             ranks.add(new Rank());
         }
-    }
-
-    public void add(Piece piece) {
-        pieces.add(piece);
-    }
-
-    public int size() {
-        return pieces.size();
-    }
-
-    public Piece findPiece(int index) {
-        return pieces.get(index);
     }
 
     public void initialize() {
@@ -115,6 +104,12 @@ public class Board {
 
     public String showBoard() {
         return print();
+    }
+
+    public int getPiecesCount(Color color, Type type) {
+        return ranks.stream()
+                .mapToInt(Rank::getPiecesCount)
+                .sum();
     }
 
 }
