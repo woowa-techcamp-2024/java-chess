@@ -57,7 +57,7 @@ public class BoardTest {
                 // given
 
                 // when
-                int count = board.pieceCount();
+                int count = board.countBoardPieces();
 
                 // then
                 assertThat(count).isEqualTo(32);
