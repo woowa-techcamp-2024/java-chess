@@ -10,7 +10,7 @@ public class Position {
             throw new IllegalArgumentException("position length must be 2");
         }
         char col = position.charAt(0);
-        int row = Character.getNumericValue(position.charAt(1));
+        int row = position.charAt(1);
 
         // 첫번째 글자가 a~h가 아니면 에러 터짐
         if(col < 'a' || col > 'h') {
@@ -18,12 +18,12 @@ public class Position {
         }
 
         // 두번째 글자가 1~8이 아니면 에러 터짐
-        if(row < 1 || row > 8) {
+        if(row < '1' || row > '8') {
             throw new IllegalArgumentException("second character must be 1~8");
         }
 
         this.col = col;
-        this.row = row;
+        this.row = Character.getNumericValue(row);
     }
 
     public char getCol() {
