@@ -23,7 +23,7 @@ public class Board {
         pieces.add(piece);
     }
 
-    public int size() {
+    public int pieceCount() {
         return pieces.size();
     }
 
@@ -33,10 +33,10 @@ public class Board {
     }
 
     private void validateFindPawn(final int pawnIndex) {
-        final int pawnSize = size();
-        if (isOutOfRange(pawnSize, pawnIndex)) {
+        final int pieceCount = pieceCount();
+        if (isOutOfRange(pieceCount, pawnIndex)) {
             throw new IllegalArgumentException(String.format("범위를 벗어난 PawnIndex = %d, 현재 Pawn Size = %d",
-                    pawnIndex, pawnSize));
+                    pawnIndex, pieceCount));
         }
     }
 
