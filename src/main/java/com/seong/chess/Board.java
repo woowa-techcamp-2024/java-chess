@@ -37,78 +37,30 @@ public class Board {
         }
     }
 
-    private static final int BLACK_PIECE_LINE = 0;
-    private static final int BLACK_PAWN_LINE = 1;
-    private static final int WHITE_PAWN_LINE = 6;
-    private static final int WHITE_PIECE_LINE = 7;
-    private static final int BOARD_LENGTH = 8;
+    private static final int EMPTY_ROW_BEGIN = 2;
+    private static final int EMPTY_ROW_END = 6;
+    static final int BOARD_LENGTH = 8;
 
     private final List<Rank> ranks = new ArrayList<>();
 
-    public void initialize() {
-        ranks.clear();
-        initializeBlackPieces();
-        initializeBlank();
-        initializeWhitePieces();
-    }
-
     public void initializeEmpty() {
         ranks.clear();
-        for (int i = 0; i < BOARD_LENGTH; i++) {
-            Rank rank = new Rank();
-            ranks.add(rank);
-            for (int j = 0; j < BOARD_LENGTH; j++) {
-                rank.add(Piece.createBlank());
-            }
-        }
+        initializeBlank(0, BOARD_LENGTH);
     }
 
-    private void initializeBlackPieces() {
-        Rank blackPieceLine = new Rank();
-        Rank blackPawnLine = new Rank();
-        ranks.add(blackPieceLine);
-        ranks.add(blackPawnLine);
-
-        blackPieceLine.add(Piece.createBlackRook());
-        blackPieceLine.add(Piece.createBlackKnight());
-        blackPieceLine.add(Piece.createBlackBishop());
-        blackPieceLine.add(Piece.createBlackQueen());
-        blackPieceLine.add(Piece.createBlackKing());
-        blackPieceLine.add(Piece.createBlackBishop());
-        blackPieceLine.add(Piece.createBlackKnight());
-        blackPieceLine.add(Piece.createBlackRook());
-        for (int i = 0; i < BOARD_LENGTH; i++) {
-            blackPawnLine.add(Piece.createBlackPawn());
-        }
+    public void initialize() {
+        ranks.clear();
+        ranks.add(Rank.createBlackPiecesRank());
+        ranks.add(Rank.createBlackPawnRank());
+        initializeBlank(EMPTY_ROW_BEGIN, EMPTY_ROW_END);
+        ranks.add(Rank.createWhitePawnRank());
+        ranks.add(Rank.createWhitePiecesRank());
     }
 
-    private void initializeBlank() {
-        for (int i = 2; i < 6; i++) {
-            Rank blankRank = new Rank();
-            ranks.add(blankRank);
-            for (int j = 0; j < BOARD_LENGTH; j++) {
-                blankRank.add(Piece.createBlank());
-            }
+    private void initializeBlank(int beginRow, int endRow) {
+        for (int i = beginRow; i < endRow; i++) {
+            ranks.add(Rank.createBlackRank());
         }
-    }
-
-    private void initializeWhitePieces() {
-        Rank whitePawnLine = new Rank();
-        Rank whitePieceLine = new Rank();
-        ranks.add(whitePawnLine);
-        ranks.add(whitePieceLine);
-
-        for (int i = 0; i < BOARD_LENGTH; i++) {
-            whitePawnLine.add(Piece.createWhitePawn());
-        }
-        whitePieceLine.add(Piece.createWhiteRook());
-        whitePieceLine.add(Piece.createWhiteKnight());
-        whitePieceLine.add(Piece.createWhiteBishop());
-        whitePieceLine.add(Piece.createWhiteQueen());
-        whitePieceLine.add(Piece.createWhiteKing());
-        whitePieceLine.add(Piece.createWhiteBishop());
-        whitePieceLine.add(Piece.createWhiteKnight());
-        whitePieceLine.add(Piece.createWhiteRook());
     }
 
     public String showBoard() {
@@ -133,7 +85,7 @@ public class Board {
 
     public void move(String rawPosition, Piece piece) {
         Position position = Position.convert(rawPosition);
-        ranks.get(position.row).set(position.col, piece);
+        ranks.get(position.row).move(position.col, piece);
     }
 
     public Piece findPiece(String rawPosition) {
@@ -186,10 +138,10 @@ public class Board {
         });
     }
 
-    private List<Piece> getPiecesOrderBy(Color color, Comparator<Piece> comparator) {
+    private List<Piece> getPiecesOrderBy(Color color, Comparator<Piece> order) {
         return ranks.stream()
                 .flatMap(rank -> rank.getSameColorPieces(color).stream())
-                .sorted(comparator)
+                .sorted(order)
                 .toList();
     }
 }
