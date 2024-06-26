@@ -28,6 +28,19 @@ public class BoardTest {
     }
 
     @Test
+    public void move() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
+
+    @Test
     public void 보드_생성() {
         board.initialize();
         assertEquals(32, board.pieceCount());
