@@ -4,6 +4,36 @@ import java.util.Objects;
 
 public class Piece {
 
+    public enum Color {
+        WHITE, BLACK, NOCOLOR;
+    }
+
+    public enum Type {
+
+        PAWN('p'),
+        ROOK('r'),
+        KNIGHT('n'),
+        BISHOP('b'),
+        QUEEN('q'),
+        KING('k'),
+        NO_PIECE('e');
+
+        private char representation;
+
+        Type(char representation) {
+            this.representation = representation;
+        }
+
+        char getWhiteRepresentation() {
+            return representation;
+        }
+
+        char getBlackRepresentation() {
+            return Character.toUpperCase(representation);
+        }
+
+    }
+
     public static final String BLACK_COLOR = "black";
     public static final String WHITE_COLOR = "white";
 
