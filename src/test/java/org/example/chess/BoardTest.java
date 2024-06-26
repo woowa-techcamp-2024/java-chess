@@ -149,11 +149,11 @@ public class BoardTest {
         addPiece("f4", Piece.createWhitePawn());
         addPiece("e1", Piece.createWhiteRook());
         addPiece("f1", Piece.createWhiteKing());
-        addPiece("f1", Piece.createWhiteQueen());
+        addPiece("f5", Piece.createWhiteQueen());
 
         // 기대 점수
-        Float[] expectedWhitePoints = {9.0f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f};
-        Float[] expectedBlackPoints = {9.0f, 5.0f, 1.0f, 1.0f, 1.0f, 0.0f};
+        Double[] expectedBlackPoints = {9.0, 5.0, 1.0, 0.0};
+        Double[] expectedWhitePoints = {9.0, 5.0, 1.0, 1.0, 1.0, 0.0};
 
         // 검은색 점수가 높은 순서대로 정렬. 확인하는 법은 Piece의 점수를 pick해준다.
         assertArrayEquals(expectedBlackPoints,
@@ -161,7 +161,7 @@ public class BoardTest {
 
         //흰색
         assertArrayEquals(expectedWhitePoints,
-            board.sortByPoint(Color.BLACK).stream().map(Piece::getPoint).toArray());
+            board.sortByPoint(Color.WHITE).stream().map(Piece::getPoint).toArray());
     }
 
     private void addPiece(String position, Piece piece) {
