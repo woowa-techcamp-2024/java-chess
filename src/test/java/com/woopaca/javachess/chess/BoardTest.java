@@ -90,4 +90,27 @@ public class BoardTest {
         System.out.println(board.showBoard());
     }
 
+    @DisplayName("체스판에 존재하는 특정 색상 기물들의 점수를 계산할 수 있다.")
+    @Test
+    void calculatePoint() {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("g2", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertThat(board.calculatePoint(Color.BLACK)).isEqualTo(15.0);
+        assertThat(board.calculatePoint(Color.WHITE)).isEqualTo(7.0);
+    }
+
+    private void addPiece(String fileRank, Piece piece) {
+        board.move(fileRank, piece);
+    }
+
 }

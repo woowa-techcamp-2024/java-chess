@@ -1,6 +1,8 @@
 package com.woopaca.javachess.chess;
 
 import com.woopaca.javachess.pieces.Piece;
+import com.woopaca.javachess.pieces.Piece.Color;
+import com.woopaca.javachess.pieces.Piece.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,11 @@ public class Rank {
 
     public int getPiecesCount() {
         return (int) pieces.stream()
-                .filter(piece -> piece.getType() != Piece.Type.NO_PIECE)
+                .filter(piece -> piece.getType() != Type.NO_PIECE)
                 .count();
     }
 
-    public int getPiecesCount(Piece.Color color, Piece.Type type) {
+    public int getPiecesCount(Color color, Type type) {
         return (int) pieces.stream()
                 .filter(piece -> piece.getColor() == color && piece.getType() == type)
                 .count();
@@ -40,4 +42,11 @@ public class Rank {
         pieces.set(file, piece);
     }
 
+    public double calculatePointWithoutPawns(Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.getType() != Type.PAWN && piece.getColor() == color)
+                .mapToDouble(Piece::getPoint)
+                .sum();
+    }
+    
 }
