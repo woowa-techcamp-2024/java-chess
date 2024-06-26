@@ -5,19 +5,67 @@ import static org.example.utils.StringUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.pieces.Piece;
+import org.example.utils.StringUtils;
 
 public class Board {
 
-    private final List<Piece> whitePieces = new ArrayList<>();
-    private final List<Piece> blackPieces = new ArrayList<>();
+    private class OneColumn {
 
-    private final int BOARD_SIZE = 8;
+        // 자신의 col과 row길이를 생성시 받는다.
+        private final char colIndex;
+        private final int rowLen;
+        private final List<Piece> pieces;
 
-    public void initialize() {
-        addPawn();
+        public OneColumn(char colIndex, int rowLen) {
+            this.colIndex = colIndex;
+            this.rowLen = rowLen;
+            this.pieces = createSizeList(rowLen);
+        }
+
+        private List<Piece> createSizeList(int boardSize) {
+            List<Piece> ret = new ArrayList<>();
+            for (int i = 0; i < boardSize; i++) {
+                ret.add(Piece.createNoColorPiece());
+            }
+            return ret;
+        }
+
+        public void modifyPiece(Piece piece, int index) {
+            pieces.set(index, piece);
+        }
+
+        public Piece getPiece(int index) {
+            // 1 을 빼줘야한다.
+            return pieces.get(index - 1);
+        }
     }
 
-    private void addPawn() {
+
+    private final List<Piece> whitePieces = new ArrayList<>();
+    private final List<Piece> blackPieces = new ArrayList<>();
+    private final List<OneColumn> oneColumns;
+
+    private final int BOARD_SIZE = 8;
+    private final char startChar = 'a';
+
+    public Board() {
+        oneColumns = createSizeList(BOARD_SIZE);
+        initialize();
+    }
+
+    private List<OneColumn> createSizeList(int boardSize) {
+        List<OneColumn> ret = new ArrayList<>();
+        for (char i = startChar; i < startChar + boardSize; i++) {
+            ret.add(new OneColumn(i, boardSize));
+        }
+        return ret;
+    }
+
+    private void initialize() {
+        //initPawn();
+    }
+
+    private void initPawn() {
         placeBlackPiece();
         placeWhitePiece();
     }
@@ -71,20 +119,19 @@ public class Board {
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-        String defaultLine = ".".repeat(BOARD_SIZE);
-        String defaultLineWithNewLine = appendNewLine(defaultLine);
 
-        sb.append(appendNewLine(getBlackPawnsResult().substring(0, BOARD_SIZE)));
-        sb.append(appendNewLine(getBlackPawnsResult().substring(BOARD_SIZE, BOARD_SIZE*2)));
+        // row를 구하면 각 col마다 해당 row의 piece를 가져와서 출력한다.
+        for (int i = BOARD_SIZE; i > 0; i--) {
+            sb.append(appendNewLine(getRow(i)));
+        }
+        return sb.toString();
+    }
 
-        sb.append(defaultLineWithNewLine);
-        sb.append(defaultLineWithNewLine);
-        sb.append(defaultLineWithNewLine);
-        sb.append(defaultLineWithNewLine);
-
-        sb.append(appendNewLine(getWhitePawnsResult().substring(0, BOARD_SIZE)));
-        sb.append(appendNewLine(getWhitePawnsResult().substring(BOARD_SIZE, BOARD_SIZE*2)));
-
+    private String getRow(int row) {
+        StringBuilder sb = new StringBuilder();
+        for (OneColumn oneColumn : oneColumns) {
+            sb.append(oneColumn.getPiece(row).getRepresentation());
+        }
         return sb.toString();
     }
 
