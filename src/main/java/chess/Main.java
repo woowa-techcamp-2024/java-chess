@@ -20,10 +20,10 @@ public class Main {
         String input;
 
         while (!(input = sc.nextLine()).equals(QUIT)) {
-            if(input.equals(PRINT)) {
+            if(isPrintCommand(input)) {
                 System.out.println(board.showBoard());
             }
-            if(input.startsWith(MOVE)) {
+            if(isMoveCommand(input)) {
                 String[] split = input.split(" ");
                 // TODO : 입력 시 validation도 필요하지 않을까?
                 board.move(split[MOVE_FROM_INDEX], split[MOVE_TO_INDEX]);
@@ -31,5 +31,13 @@ public class Main {
         }
         System.out.println("종료");
 
+    }
+
+    private static boolean isPrintCommand(String input) {
+        return input.equals(PRINT);
+    }
+
+    private static boolean isMoveCommand(String input) {
+        return input.startsWith(MOVE);
     }
 }
