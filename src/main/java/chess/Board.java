@@ -196,6 +196,14 @@ public class Board {
         return sum;
     }
 
+    public List<ChessPiece> getPieceOrderByPoint(Color color,boolean isAsc){
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(c->color.equals(c.getColor()))
+                .sorted((o1,o2)-> isAsc ? Double.compare(o1.getType().getPoint(),o2.getType().getPoint()) : Double.compare(o2.getType().getPoint(),o1.getType().getPoint()))
+                .toList();
+    }
+
     private boolean hasPawnVertically(int x,int y){
         return (isIn(x+1,y) && Type.PAWN.equals(board[x+1][y].getType()) || isIn(x-1,y) && Type.PAWN.equals(board[x-1][y].getType()));
     }
