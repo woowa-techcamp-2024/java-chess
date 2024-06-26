@@ -1,4 +1,4 @@
-import chess.Board;
+import chess.board.Board;
 
 import java.io.IOException;
 import java.util.Scanner;

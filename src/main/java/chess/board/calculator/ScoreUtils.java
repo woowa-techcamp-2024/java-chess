@@ -1,6 +1,6 @@
-package chess.calculator;
+package chess.board.calculator;
 
-import chess.Rank;
+import chess.board.Rank;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;

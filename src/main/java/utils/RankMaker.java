@@ -1,6 +1,6 @@
 package utils;
 
-import chess.Rank;
+import chess.board.Rank;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;

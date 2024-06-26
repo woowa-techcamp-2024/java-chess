@@ -1,10 +1,10 @@
-package chess;
+package chess.board;
 
-import chess.calculator.OrderBy;
+import chess.board.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;
-import chess.calculator.ScoreUtils;
+import chess.board.calculator.ScoreUtils;
 
 import chess.pieces.Representation.Type;
 import java.util.ArrayList;
@@ -66,7 +66,6 @@ public class Board {
 
     public String print() {
         StringBuilder sb = new StringBuilder();
-
         for (Rank rank : ranks) {
             sb.append(appendNewLine(rank.toString()));
         }

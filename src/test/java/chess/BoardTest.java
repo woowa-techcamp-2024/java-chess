@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
 
-import chess.calculator.OrderBy;
+import chess.board.Board;
+import chess.board.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;
