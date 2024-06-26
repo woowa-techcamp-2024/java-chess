@@ -22,12 +22,24 @@ public class Board {
     private static final int WIDTH_INDEX = 0;
     private static final int RANK_INDEX = 1;
 
+    /*
+    * 테스트에서만 사용하는 초기화 메서드
+    * */
+    protected void initializeEmpty() {
+        ranks.clear();
+        initializeEmtpyRows(0, RANK_HEIGHT);
+        pieceCount = 0;
+    }
+
+    private void clear() {
+        ranks.clear();
+    }
 
     private void initialize() {
         pieceCount = INITIAL_PIECE_COUNT;
         initializeBlackFirstRow();
         initializeBlackPawns();
-        initializeEmtpyRows();
+        initializeEmtpyRows(BLANK_ROW_START, BLANK_ROW_END);
         initializeWhitePawns();
         initializeWhiteFirstRow();
         validateRankHeight();
@@ -39,8 +51,8 @@ public class Board {
         }
     }
 
-    private void initializeEmtpyRows() {
-        IntStream.range(BLANK_ROW_START, BLANK_ROW_END).forEach(i ->
+    private void initializeEmtpyRows(int start, int end) {
+        IntStream.range(start, end).forEach(i ->
                 ranks.add(Rank.initializeRank(IntStream.range(0, BOARD_WIDTH)
                         .mapToObj(c -> Piece.createBlank())
                         .collect(Collectors.toCollection(ArrayList::new)))));
