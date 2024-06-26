@@ -31,4 +31,8 @@ public class Rank {
                 .filter(piece -> piece.getColor() == color && piece.getType() == type)
                 .count();
     }
+
+    public Piece get(int file) {
+        return pieces.get(file);
+    }
 }

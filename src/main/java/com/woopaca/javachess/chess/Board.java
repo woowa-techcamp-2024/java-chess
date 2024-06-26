@@ -109,4 +109,11 @@ public class Board {
                 .sum();
     }
 
+    public Piece findPiece(String position) {
+        int file = position.charAt(0) - 'a';
+        int rank = position.charAt(1) - '0';
+        return ranks.get(8 - rank)
+                .get(file);
+    }
+
 }

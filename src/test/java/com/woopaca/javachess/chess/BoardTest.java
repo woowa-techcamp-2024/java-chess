@@ -1,5 +1,6 @@
 package com.woopaca.javachess.chess;
 
+import com.woopaca.javachess.pieces.Piece;
 import com.woopaca.javachess.pieces.Piece.Color;
 import com.woopaca.javachess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,4 +59,14 @@ public class BoardTest {
         assertThat(board.getPiecesCount(Color.BLACK, Type.KING)).isEqualTo(1);
     }
 
+    @DisplayName("특정 위치의 기물을 찾을 수 있다.")
+    @Test
+    void findPiece() {
+        board.initialize();
+
+        assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook());
+        assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook());
+        assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook());
+        assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook());
+    }
 }

@@ -93,6 +93,17 @@ public class Piece {
         return color == Color.BLACK;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Piece piece = (Piece) o;
+        return color == piece.color && type == piece.type;
+    }
+
     public enum Color {
 
         WHITE, BLACK, NOCOLOR
