@@ -40,6 +40,14 @@ public class Position {
         return yPos;
     }
 
+    public int deltaX(Position other) {
+        return Math.abs(this.xPos - other.getXPos());
+    }
+
+    public int deltaY(Position other) {
+        return Math.abs(this.yPos - other.getYPos());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

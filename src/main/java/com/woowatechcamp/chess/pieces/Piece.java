@@ -21,9 +21,12 @@ public abstract class Piece {
         return type;
     }
 
-    public void changePosition(Position position) {
+    public void move(Position position) {
+        validateMove(position);
         this.position = position;
     }
+
+    abstract protected void validateMove(Position position);
 
     public Position getPosition() {
         return position;

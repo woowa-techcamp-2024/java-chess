@@ -88,7 +88,7 @@ public class Board {
 
     public void move(Position source, Position target) {
         Piece sourcePiece = findPiece(source);
-        sourcePiece.changePosition(target);
+        sourcePiece.move(target);
         ranks.get(target.getYPos())
                 .setPiece(sourcePiece);
         ranks.get(source.getYPos())
