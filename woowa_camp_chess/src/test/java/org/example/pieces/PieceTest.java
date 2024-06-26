@@ -50,6 +50,13 @@ class PieceTest {
         Assertions.assertFalse(piece.isBlack());
     }
 
+    @Test
+    @DisplayName("타입에 따른 올바른 표현값을 나타내야 한다.")
+    public void getRepresentationPerPiece() {
+        assertEquals('p',PieceType.PAWN.getRepresentation());
+        assertEquals('p',PieceType.PAWN.getRepresentation());
+
+    }
 
 
     private static void verifyPiece(final Piece piece, final String color, PieceType pieceType) {
