@@ -38,6 +38,13 @@ public class Rank {
         return pieces.get(index);
     }
 
+    public double calculateRankPoint(Piece.Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.getColor().equals(color))
+                .mapToDouble(Piece::getPoint)
+                .sum();
+    }
+
     protected void setPiece(int widthIndex, Piece piece) {
         pieces.set(widthIndex, piece);
         pieceCount = calculatePieceCount();
