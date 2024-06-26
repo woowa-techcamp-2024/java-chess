@@ -1,11 +1,17 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 // VO
 public class Piece {
     private final Representations representation;
 
     private Piece(Representations representation) {
         this.representation = representation;
+    }
+
+    public static Piece create(Representations.Type type, Colors color) {
+        return new Piece(Representations.from(type, color));
     }
 
     public String getName() {
@@ -24,7 +30,20 @@ public class Piece {
         return representation.getType();
     }
 
-    static public Piece create(Representations.Type type, Colors color) {
-        return new Piece(Representations.from(type, color));
+    public boolean isPieceOf(Representations representations) {
+        return this.representation == representations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return representation == piece.representation;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(representation);
     }
 }

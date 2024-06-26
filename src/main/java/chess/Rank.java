@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.Piece;
+import chess.pieces.Representations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,12 @@ public class Rank {
     public long count() {
         return pieces.stream()
                 .filter(p -> p.getColor().hasColor())
+                .count();
+    }
+
+    public long count(Representations representations) {
+        return pieces.stream()
+                .filter(p -> p.isPieceOf(representations))
                 .count();
     }
 

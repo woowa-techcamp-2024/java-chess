@@ -12,12 +12,6 @@ import static utils.StringUtils.*;
 public class Board {
     List<Rank> ranks = new ArrayList<>();
 
-    public long pieceCount() {
-        return ranks.stream()
-                .mapToLong(Rank::count)
-                .sum();
-    }
-
     public void initialize() {
         ranks.add(getGoodPiecesRank(Colors.BLACK));
         ranks.add(getPawnsRank(Colors.BLACK));
@@ -27,6 +21,28 @@ public class Board {
         ranks.add(getEmptyRank());
         ranks.add(getPawnsRank(Colors.WHITE));
         ranks.add(getGoodPiecesRank(Colors.WHITE));
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Rank rank : ranks) {
+            sb.append(appendNewLine(rank.toString()));
+        }
+
+        return sb.toString();
+    }
+
+    public long pieceCount() {
+        return ranks.stream()
+                .mapToLong(Rank::count)
+                .sum();
+    }
+
+    public long pieceCount(Representations representations) {
+        return ranks.stream()
+                .mapToLong(rank -> rank.count(representations))
+                .sum();
     }
 
     private static Rank getPawnsRank(Colors color) {
@@ -58,15 +74,5 @@ public class Board {
         rank.add(Piece.create(Representations.Type.KNIGHT, color));
         rank.add(Piece.create(Representations.Type.ROOK, color));
         return rank;
-    }
-
-    public String print() {
-        StringBuilder sb = new StringBuilder();
-
-        for (Rank rank : ranks) {
-            sb.append(appendNewLine(rank.toString()));
-        }
-
-        return sb.toString();
     }
 }
