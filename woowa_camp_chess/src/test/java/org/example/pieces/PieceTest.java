@@ -16,7 +16,7 @@ class PieceTest {
     public void create_기본생성자() {
         Piece piece = new Piece();
         assertEquals(WHITE, piece.getColor());
-        assertEquals(WHITE_REPRESENTATION, piece.getRepresentation());
+        assertEquals('p', piece.getRepresentation());
     }
 
     @Test

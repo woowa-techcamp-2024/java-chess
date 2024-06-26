@@ -149,6 +149,7 @@ public class Board {
                 if(!piece.getColor().equals(color)) continue;
                 double defaultPoint = piece.getPieceType().getDefaultPoint();
 
+                //todo : 현재는 같은 열에 Pawn이 있는지 for 문을 돌며 확인 -> Piece별 점수 계산을 담당하는 부분을 구현해야 할지 ?
                 if (piece.getPieceType().equals(PieceType.PAWN)) {
                     for (int k = 0; k < SIZE; k++) {
                         Piece pieceTmp = board2.get(j).get(k);
