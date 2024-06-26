@@ -45,4 +45,8 @@ public class Piece {
     public boolean isBlank() {
         return type == Type.NO_PIECE && color == Color.NO_COLOR;
     }
+
+    public boolean isSameColorAndType(Color color, Type type) {
+        return color == this.color && type == this.type;
+    }
 }

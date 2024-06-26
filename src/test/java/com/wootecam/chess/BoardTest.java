@@ -2,7 +2,10 @@ package com.wootecam.chess;
 
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -54,14 +57,29 @@ public class BoardTest {
 
             @Test
             void 현재_보드에_존재하는_기물의_갯수를_반환한다() {
-                // given
-
                 // when
                 int count = board.countBoardPieces();
 
                 // then
                 assertThat(count).isEqualTo(32);
             }
+        }
+    }
+
+    @Nested
+    class countSpecificBoardPieces_메소드는 {
+
+        @Test
+        void 특정_색상과_타입을_가진_모든_Piece의_개수를_카운팅한다() {
+            // when
+            int blackPawnCount = board.countSpecificBoardPieces(Color.BLACK, Type.PAWN);
+            int whiteBishopCount = board.countSpecificBoardPieces(Color.WHITE, Type.BISHOP);
+
+            // then
+            assertAll(
+                    () -> assertThat(blackPawnCount).isEqualTo(8),
+                    () -> assertThat(whiteBishopCount).isEqualTo(2)
+            );
         }
     }
 }

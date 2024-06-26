@@ -5,6 +5,7 @@ import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Rank;
+import com.wootecam.chess.pieces.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +35,13 @@ public class Board {
 
     public int countBoardPieces() {
         return ranks.stream()
-                .mapToInt(Rank::countPiece)
+                .mapToInt(Rank::countPieces)
+                .sum();
+    }
+
+    public int countSpecificBoardPieces(final Color color, final Type type) {
+        return ranks.stream()
+                .mapToInt(rank -> rank.countSpecificPieces(color, type))
                 .sum();
     }
 

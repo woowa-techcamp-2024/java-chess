@@ -48,9 +48,15 @@ public class Rank {
                 .collect(Collectors.joining());
     }
 
-    public int countPiece() {
+    public int countPieces() {
         return (int) pieces.stream()
                 .filter(piece -> !piece.isBlank())
+                .count();
+    }
+
+    public int countSpecificPieces(Color color, Type type) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.isSameColorAndType(color, type))
                 .count();
     }
 }

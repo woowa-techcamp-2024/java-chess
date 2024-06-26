@@ -16,7 +16,7 @@ class RankTest {
 
         // then
         assertAll(
-                () -> assertThat(pawns.countPiece()).isEqualTo(8),
+                () -> assertThat(pawns.countPieces()).isEqualTo(8),
                 () -> assertThat(pawns.createResults()).isEqualTo("pppppppp")
         );
     }
@@ -28,7 +28,7 @@ class RankTest {
 
         // then
         assertAll(
-                () -> assertThat(whiteOtherPieces.countPiece()).isEqualTo(8),
+                () -> assertThat(whiteOtherPieces.countPieces()).isEqualTo(8),
                 () -> assertThat(whiteOtherPieces.createResults()).isEqualTo("rnbqkbnr")
         );
     }
@@ -46,7 +46,7 @@ class RankTest {
         @Test
         void piece개수를_셀때_제외된다() {
             // then
-            assertThat(blanks.countPiece()).isEqualTo(0);
+            assertThat(blanks.countPieces()).isEqualTo(0);
         }
 
         @Test
@@ -54,5 +54,18 @@ class RankTest {
             // then
             assertThat(blanks.createResults()).isEqualTo("........");
         }
+
+    }
+
+    @Test
+    void 특정_type과_color를_가진_piece_개수를_찾을_수_있다() {
+        // given
+        Rank blackOtherPieces = Rank.createBlackOtherPieces();
+
+        // when
+        int count = blackOtherPieces.countSpecificPieces(Color.BLACK, Type.BISHOP);
+
+        // then
+        assertThat(count).isEqualTo(2);
     }
 }
