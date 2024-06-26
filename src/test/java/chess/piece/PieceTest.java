@@ -3,55 +3,31 @@ package chess.piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
 
     @Test
-    @DisplayName("폰이 생성되어야 한다")
-    public void createPawn() {
-        verifyPiece(Pawn.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.PAWN_WHITE);
-        verifyPiece(Pawn.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.PAWN_BLACK);
+    @DisplayName("각 기물들이 정상적으로 생성된다.")
+    public void create_piece() {
+        verifyPiece(Pawn.create(PieceColor.WHITE), Pawn.create(PieceColor.BLACK), Type.PAWN);
+        verifyPiece(Knight.create(PieceColor.WHITE), Knight.create(PieceColor.BLACK), Type.KNIGHT);
+        verifyPiece(Rook.create(PieceColor.WHITE), Rook.create(PieceColor.BLACK), Type.ROOK);
+        verifyPiece(Bishop.create(PieceColor.WHITE), Bishop.create(PieceColor.BLACK), Type.BISHOP);
+        verifyPiece(Queen.create(PieceColor.WHITE), Queen.create(PieceColor.BLACK), Type.QUEEN);
+        verifyPiece(King.create(PieceColor.WHITE), King.create(PieceColor.BLACK), Type.KING);
+
+        Piece blank = Blank.create();
+        assertNotSame(blank.getColor(), PieceColor.WHITE);
+        assertNotSame(blank.getColor(), PieceColor.BLACK);
+        assertEquals(Type.NO_PIECE, blank.getType());
     }
 
-    @Test
-    @DisplayName("퀸이 생성되어야 한다")
-    public void createQueen() {
-        verifyPiece(Queen.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.QUEEN_WHITE);
-        verifyPiece(Queen.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.QUEEN_BLACK);
-    }
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+        assertSame(whitePiece.getColor(), PieceColor.WHITE);
+        assertEquals(type, whitePiece.getType());
 
-    @Test
-    @DisplayName("룩이 생성되어야 한다")
-    public void createRook() {
-        verifyPiece(Rook.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.ROOK_WHITE);
-        verifyPiece(Rook.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.ROOK_BLACK);
-    }
-
-    @Test
-    @DisplayName("킹이 생성되어야 한다")
-    public void createKing() {
-        verifyPiece(King.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.KING_WHITE);
-        verifyPiece(King.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.KING_BLACK);
-    }
-
-    @Test
-    @DisplayName("나이트이 생성되어야 한다")
-    public void createKnight() {
-        verifyPiece(Knight.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.KNIGHT_WHITE);
-        verifyPiece(Knight.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.KNIGHT_BLACK);
-    }
-
-    @Test
-    @DisplayName("비숍이 생성되어야 한다")
-    public void createBishop() {
-        verifyPiece(Bishop.create(PieceColor.WHITE), PieceColor.WHITE, PieceRepresentation.BISHOP_WHITE);
-        verifyPiece(Bishop.create(PieceColor.BLACK), PieceColor.BLACK, PieceRepresentation.BISHOP_BLACK);
-    }
-
-    private void verifyPiece(final Piece piece, final PieceColor color, final PieceRepresentation representation) {
-        assertThat(piece.getColor()).isEqualTo(color);
-        assertThat(PieceRepresentation.getPieceRepresentation(piece.getColor(), piece.getType()))
-                .isEqualTo(representation.getPieceRepresentation());
+        assertSame(blackPiece.getColor(), PieceColor.BLACK);
+        assertEquals(type, blackPiece.getType());
     }
 }
