@@ -2,7 +2,12 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public class Piece {
+public class Piece implements Comparable<Piece> {
+
+    @Override
+    public int compareTo(Piece o) {
+        return (int) (this.getType().point - o.getType().point);
+    }
 
     private final Type type;
 
@@ -18,7 +23,13 @@ public class Piece {
         return color == Color.BLACK;
     }
 
-    public enum Type { PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, NO_PIECE }
+    public enum Type { PAWN(1.0), KNIGHT(2.5), BISHOP(3.0), ROOK(5.0), QUEEN(9.0), KING(0.0), NO_PIECE(0.0);
+        private final double point;
+        Type(double point) { this.point = point; }
+        public double getPoint() { return point; }
+    }
+
+
 
     public enum Color { WHITE, BLACK }
 
