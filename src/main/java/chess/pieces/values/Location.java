@@ -8,11 +8,11 @@ public class Location {
     private static final Pattern PATTERN = Pattern.compile("[a-h][1-8]");
 
     private final int x;
-    private final char y;
+    private final int y;
 
     private Location(int x, char y) {
         this.x = x;
-        this.y = y;
+        this.y = charToInt(y);
     }
 
     /**
@@ -48,8 +48,12 @@ public class Location {
         return x;
     }
 
-    public char getY() {
+    public int getY() {
         return y;
+    }
+
+    public char getCurrentY() {
+        return intToChar(y);
     }
 
     @Override
@@ -70,7 +74,15 @@ public class Location {
 
     @Override
     public String toString() {
-        return y + "" + x;
+        return intToChar(y) + "" + x;
+    }
+
+    private int charToInt(char y) {
+        return y - 'a' + 1;
+    }
+
+    private char intToChar(int y) {
+        return (char) (y + 'a' - 1);
     }
 
     private static void verifyCurrentLocation(int x, char y) {
