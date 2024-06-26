@@ -1,5 +1,7 @@
 package com.woopaca.javachess.chess;
 
+import com.woopaca.javachess.pieces.Piece.Color;
+import com.woopaca.javachess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +43,19 @@ public class BoardTest {
                         appendNewLine("♙♙♙♙♙♙♙♙") +
                         appendNewLine("♖♘♗♕♔♗♘♖")
         );
+    }
+
+    @DisplayName("체스판의 기물 개수를 조회할 수 있다.")
+    @Test
+    void piecesCount() {
+        board.initialize();
+
+        assertThat(board.getPiecesCount(Color.WHITE, Type.PAWN)).isEqualTo(8);
+        assertThat(board.getPiecesCount(Color.WHITE, Type.ROOK)).isEqualTo(2);
+        assertThat(board.getPiecesCount(Color.WHITE, Type.KING)).isEqualTo(1);
+        assertThat(board.getPiecesCount(Color.BLACK, Type.PAWN)).isEqualTo(8);
+        assertThat(board.getPiecesCount(Color.BLACK, Type.ROOK)).isEqualTo(2);
+        assertThat(board.getPiecesCount(Color.BLACK, Type.KING)).isEqualTo(1);
     }
 
 }

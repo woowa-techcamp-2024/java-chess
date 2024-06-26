@@ -105,7 +105,7 @@ public class Board {
 
     public int getPiecesCount(Piece.Color color, Piece.Type type) {
         return ranks.stream()
-                .mapToInt(Rank::getPiecesCount)
+                .mapToInt(rank -> rank.getPiecesCount(color, type))
                 .sum();
     }
 
