@@ -5,6 +5,7 @@ import chess.pieces.*;
 import static chess.utils.StringUtils.appendNewLine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -128,6 +129,19 @@ public class Board {
         }
         point += calculatePawns(pawns);
         return point;
+    }
+
+    public List<Piece> getSortedPieces(final Color color) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Rank rank = board.get(i);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                Piece piece = rank.get(j);
+                if (Objects.equals(piece.getColor(), color)) pieces.add(piece);
+            }
+        }
+        Collections.sort(pieces);
+        return pieces;
     }
 
     // test를 위한 메서드
