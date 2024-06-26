@@ -28,90 +28,78 @@ class PieceTest {
         assertThatThrownBy(actualResult::isWhite).isInstanceOf(RuntimeException.class).hasMessage("Blank Does not have Color");
     }
 
-    @Test
+    @MethodSource("colorValue")
+    @ParameterizedTest
     @DisplayName("폰을 생성한다.")
-    void createPawn() {
-        var blackPawn = Piece.createBlackPawn();
-        var whitePawn = Piece.createWhitePawn();
+    void createPawn(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_PAWN : Symbol.WHITE_PAWN;
+        var actualResult = Piece.createPawn(color);
 
-        assertThat(blackPawn).isInstanceOf(Pawn.class)
+        assertThat(actualResult).isInstanceOf(Pawn.class)
                 .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_PAWN);
-        assertThat(whitePawn).isInstanceOf(Pawn.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_PAWN);
+                .containsExactly(color, symbol);
     }
 
-
-    @Test
-    @DisplayName("룩을 생성한다.")
-    void createRook() {
-        var blackRook = Piece.createBlackRook();
-        var whiteRook = Piece.createWhiteRook();
-
-        assertThat(blackRook).isInstanceOf(Rook.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_ROOK);
-        assertThat(whiteRook).isInstanceOf(Rook.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_ROOK);
-    }
-
-    @Test
+    @MethodSource("colorValue")
+    @ParameterizedTest
     @DisplayName("비숍을 생성한다.")
-    void createBishop() {
-        var blackBishop = Piece.createBlackBishop();
-        var whiteBishop = Piece.createWhiteBishop();
+    void createBishop(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_BISHOP : Symbol.WHITE_BISHOP;
+        var actualResult = Piece.createBishop(color);
 
-        assertThat(blackBishop).isInstanceOf(Bishop.class)
+        assertThat(actualResult).isInstanceOf(Bishop.class)
                 .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_BISHOP);
-        assertThat(whiteBishop).isInstanceOf(Bishop.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_BISHOP);
+                .containsExactly(color, symbol);
     }
 
-    @Test
+    @MethodSource("colorValue")
+    @ParameterizedTest
     @DisplayName("나이트를 생성한다.")
-    void createKnight() {
-        var blackKnight = Piece.createBlackKnight();
-        var whiteKnight = Piece.createWhiteKnight();
+    void createKnight(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_KNIGHT : Symbol.WHITE_KNIGHT;
+        var actualResult = Piece.createKnight(color);
 
-        assertThat(blackKnight).isInstanceOf(Knight.class)
+        assertThat(actualResult).isInstanceOf(Knight.class)
                 .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_KNIGHT);
-        assertThat(whiteKnight).isInstanceOf(Knight.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_KNIGHT);
+                .containsExactly(color, symbol);
     }
 
-    @Test
+    @MethodSource("colorValue")
+    @ParameterizedTest
+    @DisplayName("룩을 생성한다.")
+    void createRook(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_ROOK : Symbol.WHITE_ROOK;
+        var actualResult = Piece.createRook(color);
+
+        assertThat(actualResult).isInstanceOf(Rook.class)
+                .extracting("color", "symbol")
+                .containsExactly(color, symbol);
+    }
+
+    @MethodSource("colorValue")
+    @ParameterizedTest
     @DisplayName("퀸을 생성한다.")
-    void createQueen() {
-        var blackQueen = Piece.createBlackQueen();
-        var whiteQueen = Piece.createWhiteQueen();
+    void createQueen(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_QUEEN : Symbol.WHITE_QUEEN;
+        var actualResult = Piece.createQueen(color);
 
-        assertThat(blackQueen).isInstanceOf(Queen.class)
+        assertThat(actualResult).isInstanceOf(Queen.class)
                 .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_QUEEN);
-        assertThat(whiteQueen).isInstanceOf(Queen.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_QUEEN);
+                .containsExactly(color, symbol);
     }
 
-    @Test
+    @MethodSource("colorValue")
+    @ParameterizedTest
     @DisplayName("킹을 생성한다.")
-    void createKing() {
-        var blackKing = Piece.createBlackKing();
-        var whiteKing = Piece.createWhiteKing();
+    void createKing(Color color) {
+        var symbol = color.equals(Color.BLACK) ? Symbol.BLACK_KING : Symbol.WHITE_KING;
+        var actualResult = Piece.createKing(color);
 
-        assertThat(blackKing).isInstanceOf(King.class)
+        assertThat(actualResult).isInstanceOf(King.class)
                 .extracting("color", "symbol")
-                .containsExactly(Color.BLACK, Symbol.BLACK_KING);
-        assertThat(whiteKing).isInstanceOf(King.class)
-                .extracting("color", "symbol")
-                .containsExactly(Color.WHITE, Symbol.WHITE_KING);
+                .containsExactly(color, symbol);
     }
+
 
     @MethodSource("validateColor")
     @ParameterizedTest
@@ -129,18 +117,19 @@ class PieceTest {
 
     private static Stream<Arguments> validateColor() {
         return Stream.of(
-                Arguments.of(Piece.createBlackPawn(), true),
-                Arguments.of(Piece.createWhitePawn(), false),
-                Arguments.of(Piece.createBlackRook(), true),
-                Arguments.of(Piece.createWhiteRook(), false),
-                Arguments.of(Piece.createBlackBishop(), true),
-                Arguments.of(Piece.createWhiteBishop(), false),
-                Arguments.of(Piece.createBlackKnight(), true),
-                Arguments.of(Piece.createWhiteKnight(), false),
-                Arguments.of(Piece.createBlackQueen(), true),
-                Arguments.of(Piece.createWhiteQueen(), false),
-                Arguments.of(Piece.createBlackKing(), true),
-                Arguments.of(Piece.createWhiteKing(), false)
+                Arguments.of(Piece.createBishop(Color.BLACK), true),
+                Arguments.of(Piece.createPawn(Color.WHITE), false),
+                Arguments.of(Piece.createKnight(Color.BLACK), true),
+                Arguments.of(Piece.createRook(Color.WHITE), false),
+                Arguments.of(Piece.createQueen(Color.BLACK), true),
+                Arguments.of(Piece.createKing(Color.WHITE), false)
+        );
+    }
+
+    private static Stream<Arguments> colorValue() {
+        return Stream.of(
+                Arguments.of(Color.BLACK),
+                Arguments.of(Color.WHITE)
         );
     }
 

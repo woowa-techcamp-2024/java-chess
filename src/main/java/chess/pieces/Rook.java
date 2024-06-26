@@ -8,5 +8,6 @@ public class Rook extends Piece {
     Rook(Color color) {
         super(color);
         this.symbol = color.equals(Color.BLACK) ? Symbol.BLACK_ROOK : Symbol.WHITE_ROOK;
+        this.score = 5;
     }
 }
