@@ -104,6 +104,21 @@ public class BoardTest {
         }
     }
 
+    @Test
+    @DisplayName("체스판의 기물이 이동되어야 한다")
+    public void move() {
+        Board board = new Board();
+        board.initialize();
+        Position from = Position.of("a2");
+        Position to = Position.of("a3");
+        Piece pieceBeforeMove = board.get(from);
+
+        board.move(from, to);
+
+        assertThat(board.get(from)).isNull();
+        assertThat(board.get(to)).isEqualTo(pieceBeforeMove);
+    }
+
     private Board createBoard(String state) {
         assertThat(state).hasLineCount(Board.LENGTH);
         assertThat(state.lines()).allSatisfy(line -> assertThat(line).hasSize(Board.LENGTH));

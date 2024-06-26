@@ -60,6 +60,16 @@ public class Board {
         stream().forEach(cell -> cell.clear());
     }
 
+    public void move(Position from, Position to) {
+        Cell fromCell = cellAt(from);
+        if (fromCell.isEmpty()) {
+            throw new IllegalArgumentException("Cell is empty");
+        }
+        Cell toCell = cellAt(to);
+        toCell.setPiece(fromCell.getPiece());
+        fromCell.clear();
+    }
+
     public Cell cellAt(Position position) {
         return cellAt(position.rankIndex, position.fileIndex);
     }
