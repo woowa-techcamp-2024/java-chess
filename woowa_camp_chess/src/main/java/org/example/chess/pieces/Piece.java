@@ -5,7 +5,7 @@ import static org.example.chess.pieces.Piece.Color.*;
 public class Piece {
 
     public enum Color{
-        WHITE, BLACK
+        WHITE, BLACK, NOCOLOR
     }
 
     private final Color color;
@@ -36,6 +36,10 @@ public class Piece {
 
     public char getRepresentation() {
         return representation;
+    }
+
+    public static Piece createBlank() {
+        return new Piece(NOCOLOR, PieceType.NO_PIECE);
     }
 
     public static Piece createPiece(Color color, PieceType pieceType) {

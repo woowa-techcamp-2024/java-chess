@@ -2,8 +2,6 @@ package org.example.board;
 
 
 import org.example.chess.board.Board;
-import org.example.chess.pieces.Piece;
-import org.example.chess.pieces.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,22 +18,22 @@ public class BoardTest {
 
     @Test
     public void create() {
-        board.initialize();
+        board.initializeV2();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                 appendNewLine("RNBQKBNR") +
-                appendNewLine("PPPPPPPP") +
+                        appendNewLine("PPPPPPPP") +
                         blankRank + blankRank + blankRank + blankRank +
-                appendNewLine("pppppppp") +
-                appendNewLine("rnbqkbnr"),
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr"),
                 board.showBoard()
         );
     }
 
     @Test
     public void initialize() {
-        board.initialize();
+        board.initializeV2();
         assertEquals("PPPPPPPPNNBBRRQK", board.getBlackPawnsResult());
         assertEquals("ppppppppnnbbrrqk", board.getWhitePawnsResult());
         System.out.println(board.showBoard());

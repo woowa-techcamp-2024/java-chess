@@ -7,7 +7,8 @@ public enum PieceType {
     ROOK( 'R'),
     BISHOP( 'B'),
     KNIGHT( 'N'),
-    PAWN( 'P');
+    PAWN( 'P'),
+    NO_PIECE('.');
 
     private final char representation;
 
@@ -15,6 +16,9 @@ public enum PieceType {
         this.representation = representation;
     }
 
+    public char getRepresentation() {
+        return representation;
+    }
 
     public char getBlackRepresentation() {
         return representation;
