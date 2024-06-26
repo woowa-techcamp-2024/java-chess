@@ -16,14 +16,16 @@ public class BoardTest {
         Board board = new Board();
 
         Piece white = Piece.createWhite(Pawn.class);
-        board.set("b1", white);
-        assertThat(board.get("b1")).isEqualTo(white);
+        Position whitePosition = Position.of("b1");
+        board.set(whitePosition, white);
+        assertThat(board.get(whitePosition)).isEqualTo(white);
         assertThat(board.findPawns()).hasSize(1);
         assertThat(board.findPawns().get(0)).isEqualTo(white);
 
         Piece black = Piece.createBlack(Pawn.class);
-        board.set("a2", black);
-        assertThat(board.get("a2")).isEqualTo(black);
+        Position blackPosition = Position.of("a3");
+        board.set(blackPosition, black);
+        assertThat(board.get(blackPosition)).isEqualTo(black);
         assertThat(board.findPawns()).hasSize(2);
         assertThat(board.findPawns().get(1)).isEqualTo(black);
     }
@@ -32,8 +34,8 @@ public class BoardTest {
     @DisplayName("보드의 toString 결과에 유니코드 체스말 형식으로 표시되어야 한다.")
     public void string() {
         Board board = new Board();
-        board.set("a2", Piece.create(Pawn.class, Piece.Color.WHITE));
-        board.set("b7", Piece.create(Pawn.class, Piece.Color.BLACK));
+        board.set(Position.of("a2"), Piece.create(Pawn.class, Piece.Color.WHITE));
+        board.set(Position.of("b7"), Piece.create(Pawn.class, Piece.Color.BLACK));
         assertThat(board).hasToString("""
                 ........
                 .♟......
@@ -112,7 +114,7 @@ public class BoardTest {
             for (int c = 0; c < Board.LENGTH; c++) {
                 char repr = lines[r].charAt(c);
                 Piece piece = getPieceFromRepr(repr);
-                board.set(r, c, piece);
+                board.set(Position.of(r, c), piece);
             }
         }
         return board;

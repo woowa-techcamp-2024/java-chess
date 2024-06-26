@@ -4,19 +4,19 @@ import java.util.Objects;
 
 public class Position {
 
-    public final int r, c;
+    public final int rankIndex, fileIndex;
 
-    protected Position(int r, int c) {
-        this.r = r;
-        this.c = c;
+    protected Position(int rankIndex, int fileIndex) {
+        this.rankIndex = rankIndex;
+        this.fileIndex = fileIndex;
     }
 
     public int rank() {
-        return 1 + r;
+        return 1 + rankIndex;
     }
 
     public char file() {
-        return (char) ('a' + c);
+        return (char) ('a' + fileIndex);
     }
 
     @Override
@@ -24,8 +24,8 @@ public class Position {
         return file() + "" + rank();
     }
 
-    public static Position of(int r, int c) {
-        return new Position(r, c);
+    public static Position of(int rankIndex, int fileIndex) {
+        return new Position(rankIndex, fileIndex);
     }
 
     public static Position of(char file, int rank) {
@@ -50,11 +50,11 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return r == position.r && c == position.c;
+        return rankIndex == position.rankIndex && fileIndex == position.fileIndex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(r, c);
+        return Objects.hash(rankIndex, fileIndex);
     }
 }
