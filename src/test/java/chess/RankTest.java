@@ -13,6 +13,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RankTest {
 
+    @DisplayName("현재 랭크의 모든 기물들을 반환할 수 있다.")
+    @Test
+    void getAllPieces() {
+        // given
+        List<Piece> initialPieces = List.of(
+                Piece.createBlank(),
+                Piece.createWhiteKing(),
+                Piece.createBlackBishop(),
+                Piece.createBlank(),
+                Piece.createWhiteQueen(),
+                Piece.createBlackRook(),
+                Piece.createBlank(),
+                Piece.createBlackPawn()
+        );
+        Rank rank = Rank.initializeRank(initialPieces);
+
+        // when
+        List<Piece> pieces = rank.getAllPieces();
+
+        // then
+        assertThat(pieces)
+                .containsExactlyElementsOf(initialPieces);
+    }
+
     @DisplayName("해당 랭크의 색깔별 포인트를 계산할 수 있다.")
     @Test
     void calculateRankPoint() {
