@@ -18,7 +18,11 @@ public class Coordinate {
         return widthIndex;
     }
 
-    public Coordinate(String coordinate) {
+    public static Coordinate of(String coordinate) {
+        return new Coordinate(coordinate);
+    }
+
+    private Coordinate(String coordinate) {
         validateCoordinate(coordinate);
         this.rankIndex = convertRankIndex(coordinate.charAt(RANK_INDEX));
         this.widthIndex = convertWidthIndex(coordinate.charAt(WIDTH_INDEX));

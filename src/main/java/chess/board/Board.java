@@ -132,7 +132,7 @@ public class Board {
     }
 
     private Coordinate convertCoordinate(String coordinateStr) {
-        return new Coordinate(coordinateStr);
+        return Coordinate.of(coordinateStr);
     }
 
     private void initializeWhitePawns() {
