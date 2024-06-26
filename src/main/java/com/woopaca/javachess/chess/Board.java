@@ -1,8 +1,8 @@
 package com.woopaca.javachess.chess;
 
+import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Piece;
-import com.woopaca.javachess.pieces.Piece.Color;
-import com.woopaca.javachess.pieces.Piece.Type;
+import com.woopaca.javachess.pieces.Type;
 import com.woopaca.javachess.utils.StringUtils;
 
 import java.util.ArrayList;
