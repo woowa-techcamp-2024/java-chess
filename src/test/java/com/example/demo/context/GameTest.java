@@ -90,5 +90,26 @@ class GameTest {
                     Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.FOUR, File.B))
             );
         }
+
+        @ParameterizedTest
+        @DisplayName("폰 이동 실패 테스트 : 처음 이동하는 폰이 아니라면 2칸 전진을 할 수 없다.")
+        @MethodSource("movePawnFailCaseWhenNotFirstMove")
+        public void movePawnFailWhenNotFirstMove(Location from, Location to){
+            // given
+            Board board = createBoard();
+            Game game = new Game(board);
+
+            // then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> movePawnFailCaseWhenNotFirstMove(){
+            return Stream.of(
+                    Arguments.of(new Location(Rank.THREE, File.A), new Location(Rank.FIVE, File.A)),
+                    Arguments.of(new Location(Rank.SIX, File.A), new Location(Rank.FOUR, File.A))
+            );
+        }
     }
 }
