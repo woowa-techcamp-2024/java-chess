@@ -1,5 +1,8 @@
 package woowa.camp.pieces;
 
+import static woowa.camp.pieces.Piece.Color.BLACK;
+import static woowa.camp.pieces.Piece.Color.NONE;
+import static woowa.camp.pieces.Piece.Color.WHITE;
 import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
 public class Piece {
@@ -17,15 +20,15 @@ public class Piece {
     }
 
     public static Piece createWhitePieceOf(final Type type) {
-        return new Piece(type, Color.WHITE);
+        return new Piece(type, WHITE);
     }
 
     public static Piece createBlackPieceOf(final Type type) {
-        return new Piece(type, Color.BLACK);
+        return new Piece(type, BLACK);
     }
 
     public static Piece createBlank() {
-        return new Piece(NO_PIECE, Color.NONE);
+        return new Piece(NO_PIECE, NONE);
     }
 
     public String getColor() {
@@ -45,15 +48,15 @@ public class Piece {
     }
 
     public boolean isSameColor(final Color color) {
-        return this.color.equals(color);
+        return this.color == color;
     }
 
     public boolean isBlack() {
-        return "black".equals(color.getName());
+        return color == BLACK;
     }
 
     public boolean isWhite() {
-        return "white".equals(color.getName());
+        return color == WHITE;
     }
 
     public enum Type {

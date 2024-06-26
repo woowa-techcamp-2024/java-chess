@@ -73,7 +73,7 @@ public class PieceTest {
 
     private void verifyPiece(Piece piece, Type type, Color color, Representation representation) {
         assertThat(piece.getType()).isEqualTo(type);
-        assertThat(piece.getColor()).isEqualTo(color.getName());
+        assertThat(piece.isSameColor(color)).isTrue();
         assertThat(piece.getRepresentation()).isEqualTo(representation);
     }
 
