@@ -1,15 +1,14 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.Bishop;
-import com.example.demo.piece.Color;
-import com.example.demo.piece.Pawn;
-import com.example.demo.piece.Piece;
+import com.example.demo.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static com.example.demo.context.Board.Location;
@@ -60,7 +59,7 @@ class GameTest {
             Game game = new Game(board);
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
-            for(File file: File.values()){
+            for (File file : File.values()) {
                 board.addPiece(new Pawn(Color.WHITE, Rank.THREE, file));
                 board.addPiece(new Pawn(Color.BLACK, Rank.SIX, file));
             }
@@ -95,7 +94,7 @@ class GameTest {
         @ParameterizedTest
         @DisplayName("폰 이동 실패 테스트 : 처음 이동하는 폰이 아니라면 2칸 전진을 할 수 없다.")
         @MethodSource("movePawnFailCaseWhenNotFirstMove")
-        public void movePawnFailWhenNotFirstMove(Location first, Location from, Location to){
+        public void movePawnFailWhenNotFirstMove(Location first, Location from, Location to) {
             // given
             Board board = createBoard();
             Game game = new Game(board);
@@ -107,7 +106,7 @@ class GameTest {
                     .hasMessage("이동할 수 없습니다.");
         }
 
-        public static Stream<Arguments> movePawnFailCaseWhenNotFirstMove(){
+        public static Stream<Arguments> movePawnFailCaseWhenNotFirstMove() {
             return Stream.of(
                     Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.THREE, File.A), new Location(Rank.FIVE, File.A)),
                     Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SIX, File.A), new Location(Rank.FOUR, File.A))
@@ -170,6 +169,73 @@ class GameTest {
                     Arguments.of(new Location(Rank.EIGHT, File.C), new Location(Rank.FIVE, File.E)),
                     Arguments.of(new Location(Rank.EIGHT, File.F), new Location(Rank.FIVE, File.B))
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("룩 규칙 테스트")
+    public class RookRule {
+
+        @ParameterizedTest
+        @DisplayName("룩 이동 성공 테스트")
+        @MethodSource("successCase")
+        public void moveRook(Location from, Location to) {
+            // given
+            Piece rook = new Rook(from.rank(), from.file());
+            Board board = new Board();
+            board.addPiece(rook);
+            Game game = new Game(board);
+
+            // when
+            game.move(from, to);
+
+            // then
+            assertThat(board.getPiece(from)).isNull();
+            assertThat(board.getPiece(to)).isEqualTo(rook);
+        }
+
+        public static Stream<Arguments> successCase() {
+            List<Arguments> cases = new ArrayList<>();
+            for (File file : File.values()) {
+                Rank sameRank = Rank.ONE;
+                if (file != File.A)
+                    cases.add(Arguments.of(new Location(sameRank, File.A), new Location(sameRank, file)));
+            }
+            for (Rank rank : Rank.values()) {
+                File sameFile = File.A;
+                if (rank != Rank.ONE)
+                    cases.add(Arguments.of(new Location(Rank.ONE, sameFile), new Location(rank, sameFile)));
+            }
+            return cases.stream();
+        }
+
+        @ParameterizedTest
+        @DisplayName("룩 이동 실패 테스트")
+        @MethodSource("failCase")
+        public void moveRookFailTest(Location from, Location to) {
+            // given
+            Piece rook = new Rook(from.rank(), from.file());
+            Board board = new Board();
+            board.addPiece(rook);
+            Game game = new Game(board);
+
+            // when & then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> failCase() {
+            List<Arguments> cases = new ArrayList<>();
+            for (File file : File.values()) {
+                if (file != File.A)
+                    cases.add(Arguments.of(new Location(Rank.ONE, File.A), new Location(Rank.TWO, file)));
+            }
+            for (Rank rank : Rank.values()) {
+                if (rank != Rank.ONE)
+                    cases.add(Arguments.of(new Location(Rank.ONE, File.A), new Location(rank, File.B)));
+            }
+            return cases.stream();
         }
     }
 }

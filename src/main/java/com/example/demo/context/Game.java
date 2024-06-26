@@ -22,6 +22,7 @@ public class Game {
         this.board = board;
         initPawnRules();
         initBishopRules();
+        initRookRules();
     }
 
     //--------------init game start----------------
@@ -46,6 +47,20 @@ public class Game {
         bishopRules.add(new NormalRule(7, -7, Color.BLACK, Type.BISHOP, false));
         bishopRules.add(new NormalRule(-7, -7, Color.BLACK, Type.BISHOP, false));
         rules.put(Type.BISHOP, bishopRules);
+    }
+
+    private void initRookRules() {
+        List<Rule> rookRules = new ArrayList<>();
+        rookRules.add(new NormalRule(7, 0, Color.WHITE, Type.ROOK, false));
+        rookRules.add(new NormalRule(-7, 0, Color.WHITE, Type.ROOK, false));
+        rookRules.add(new NormalRule(0, 7, Color.WHITE, Type.ROOK, false));
+        rookRules.add(new NormalRule(0, -7, Color.WHITE, Type.ROOK, false));
+
+        rookRules.add(new NormalRule(7, 0, Color.BLACK, Type.ROOK, false));
+        rookRules.add(new NormalRule(-7, 0, Color.BLACK, Type.ROOK, false));
+        rookRules.add(new NormalRule(0, 7, Color.BLACK, Type.ROOK, false));
+        rookRules.add(new NormalRule(0, -7, Color.BLACK, Type.ROOK, false));
+        rules.put(Type.ROOK, rookRules);
     }
     //--------------init game end  ----------------
 
@@ -94,7 +109,7 @@ public class Game {
 
         Piece piece = board.getPiece(from);
 
-        if(piece == null){
+        if (piece == null) {
             return false;
         }
 
