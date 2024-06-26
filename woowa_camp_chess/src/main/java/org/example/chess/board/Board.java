@@ -209,4 +209,13 @@ public class Board {
         }
         return sb.toString();
     }
+
+    public Piece findPiece(String position) {
+        //todo : position 유효값 검사
+
+        int col = position.charAt(0) - 'a';
+        int row = position.charAt(1) - '1';
+
+        return board2.get(row).get(col);
+    }
 }

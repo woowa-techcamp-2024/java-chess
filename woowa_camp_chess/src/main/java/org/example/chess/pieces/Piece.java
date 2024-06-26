@@ -1,6 +1,10 @@
 package org.example.chess.pieces;
 
+import java.util.Objects;
+
 import static org.example.chess.pieces.Piece.Color.*;
+
+
 
 public class Piece {
 
@@ -16,6 +20,19 @@ public class Piece {
     public static final String BLACK_COLOR = "black";
     public static final char WHITE_REPRESENTATION = 'p';
     public static final char BLACK_REPRESENTATION = 'P';
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return representation == piece.representation && color == piece.color && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, representation, pieceType);
+    }
 
     private Piece(Color color, PieceType pieceType) {
         this.color = color;
