@@ -54,6 +54,6 @@ public enum Representations {
         BISHOP,
         KNIGHT,
         ROOK,
-        NO_PIECE
+        NO_PIECE;
     }
 }

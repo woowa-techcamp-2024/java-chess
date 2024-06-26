@@ -86,4 +86,71 @@ public class BoardTest {
         assertEquals(piece, board.findPiece(position));
         System.out.println(board.print());
     }
+
+    @Test
+    @DisplayName("일부 점수를 계산한다")
+    public void getScore() throws Exception {
+        board.initializeEmpty();
+        board.move("b5", Piece.create(Representations.Type.ROOK, Color.BLACK));
+        board.move("a4", Piece.create(Representations.Type.KNIGHT, Color.WHITE));
+
+        double b = board.getScore(Color.BLACK);
+        double w = board.getScore(Color.WHITE);
+
+        assertThat(b).isEqualTo(5.0);
+        assertThat(w).isEqualTo(2.5);
+    }
+
+    @Test
+    @DisplayName("초기 체스판에서 점수를 계산한다")
+    public void getScoreAll() throws Exception {
+        board.initialize();
+
+        double b = board.getScore(Color.BLACK);
+        double w = board.getScore(Color.WHITE);
+
+        assertThat(b).isEqualTo(38.0);
+        assertThat(w).isEqualTo(38.0);
+    }
+
+    @Test
+    @DisplayName("같은 열에 폰이 2개일 때 점수를 계산한다")
+    public void getScoreCase() throws Exception {
+        board.initializeEmpty();
+
+        board.move("a1", Piece.create(Representations.Type.PAWN, Color.BLACK));
+        board.move("a2", Piece.create(Representations.Type.PAWN, Color.BLACK));
+        board.move("a3", Piece.create(Representations.Type.PAWN, Color.BLACK));
+
+        double b = board.getScore(Color.BLACK);
+        double w = board.getScore(Color.WHITE);
+
+        assertThat(b).isEqualTo(1.5);
+        assertThat(w).isEqualTo(0.0);
+    }
+
+    @Test
+    @DisplayName("특정상황에서 체스판에 점수를 계산한다")
+    public void caculcatePoint() throws Exception {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.create(Representations.Type.PAWN, Color.BLACK));
+        addPiece("e6", Piece.create(Representations.Type.QUEEN, Color.BLACK));
+        addPiece("b8", Piece.create(Representations.Type.KING, Color.BLACK));
+        addPiece("c8", Piece.create(Representations.Type.ROOK, Color.BLACK));
+
+        addPiece("f2", Piece.create(Representations.Type.PAWN, Color.WHITE));
+        addPiece("g2", Piece.create(Representations.Type.PAWN, Color.WHITE));
+        addPiece("e1", Piece.create(Representations.Type.ROOK, Color.WHITE));
+        addPiece("f1", Piece.create(Representations.Type.KING, Color.WHITE));
+
+        assertEquals(15.0, board.getScore(Color.BLACK), 0.01);
+        assertEquals(7.0, board.getScore(Color.WHITE), 0.01);
+
+        System.out.println(board.print());
+    }
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
+    }
 }

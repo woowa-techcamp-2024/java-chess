@@ -3,10 +3,12 @@ package chess;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representations;
+import utils.ScoreCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.RankMaker.*;
 import static utils.StringUtils.*;
 
 public class Board {
@@ -27,6 +29,10 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             ranks.add(getEmptyRank());
         }
+    }
+
+    public double getScore(Color color) {
+        return ScoreCalculator.calc(ranks, color);
     }
 
     public void move(String position, Piece piece) {
@@ -67,36 +73,5 @@ public class Board {
 
         Rank rank = ranks.get(position.getRank());
         return rank.get(position.getFile());
-    }
-
-    private static Rank getPawnsRank(Color color) {
-        Rank rank = new Rank();
-        for (int i=0; i<8; i++) {
-            Piece pawn = Piece.create(Representations.Type.PAWN, color);
-            rank.add(pawn);
-        }
-        return rank;
-    }
-
-    private static Rank getEmptyRank() {
-        Rank rank = new Rank();
-        for (int i=0; i<8; i++) {
-            Piece pawn = Piece.create(Representations.Type.NO_PIECE, Color.NOCOLOR);
-            rank.add(pawn);
-        }
-        return rank;
-    }
-
-    private static Rank getGoodPiecesRank(Color color) {
-        Rank rank = new Rank();
-        rank.add(Piece.create(Representations.Type.ROOK, color));
-        rank.add(Piece.create(Representations.Type.KNIGHT, color));
-        rank.add(Piece.create(Representations.Type.BISHOP, color));
-        rank.add(Piece.create(Representations.Type.QUEEN, color));
-        rank.add(Piece.create(Representations.Type.KING, color));
-        rank.add(Piece.create(Representations.Type.BISHOP, color));
-        rank.add(Piece.create(Representations.Type.KNIGHT, color));
-        rank.add(Piece.create(Representations.Type.ROOK, color));
-        return rank;
     }
 }
