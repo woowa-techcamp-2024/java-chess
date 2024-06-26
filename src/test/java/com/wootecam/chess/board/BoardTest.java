@@ -1,9 +1,10 @@
-package com.wootecam.chess;
+package com.wootecam.chess.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.wootecam.chess.board.Board;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
@@ -16,8 +17,13 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ArgumentConversionException;
+import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -71,6 +77,45 @@ class BoardTest {
         }
     }
 
+    public static class PieceTypeConverter extends SimpleArgumentConverter {
+        @Override
+        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
+            if (source instanceof String && PieceType.class.isAssignableFrom(targetType)) {
+                return PieceType.valueOf((String) source);
+            }
+            throw new ArgumentConversionException("Conversion failed.");
+        }
+    }
+
+    public static class ColorConverter extends SimpleArgumentConverter {
+        @Override
+        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
+            if (source instanceof String && Color.class.isAssignableFrom(targetType)) {
+                return Color.valueOf((String) source);
+            }
+            throw new ArgumentConversionException("Conversion failed.");
+        }
+    }
+
+    @Nested
+    class 기물_타입과_색으로_체스판에_존재하는_기물의_개수를_조회한다 {
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
+        @Test
+        void 기물_타입과_색으로_체스판에_존재하는_해당_기물_개수를_조회할_수_있다() {
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createBlackPawn());
+            board.add(Piece.createWhitePawn());
+
+            assertThat(board.countPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
+        }
+    }
+
     @Nested
     class 체스판을_초기화한다 {
 
@@ -98,26 +143,44 @@ class BoardTest {
                     ........
                     ........
                     pppppppp
-                    rkbqkbkr""");
+                    rkbqkbkr
+                    """);
         }
     }
 
     @Nested
-    class 기물_타입과_색으로_체스판에_존재하는_기물의_개수를_조회한다 {
+    class 주어진_위치의_기물을_조회한다 {
+
         @BeforeEach
         void setUp() {
             board = createBoard();
+            board.initialize();
         }
 
-        @Test
-        void 기물_타입과_색으로_체스판에_존재하는_해당_기물_개수를_조회할_수_있다() {
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createWhitePawn());
+        @CsvSource({
+                "a8, ROOK, BLACK",
+                "b7, PAWN, BLACK",
+                "f2, PAWN, WHITE",
+                "e1, KING, WHITE",
+        })
+        @ParameterizedTest
+        void 주어진_위치의_기물을_조회할_수_있다(String position,
+                                  @ConvertWith(PieceTypeConverter.class) PieceType type,
+                                  @ConvertWith(ColorConverter.class) Color color) {
+            Piece piece = board.get(position);
 
-            assertThat(board.countPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
+            assertAll(
+                    () -> assertThat(piece.getType()).isEqualTo(type),
+                    () -> assertThat(piece.getColor()).isEqualTo(color)
+            );
         }
+
+        @ValueSource(strings = {"a88", "i8", "a9"})
+        @ParameterizedTest
+        void 유효하지_않은_위치라면_예외가_발생한다(String position) {
+            assertThatThrownBy(() -> board.get(position))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
     }
 }

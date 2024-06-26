@@ -91,6 +91,31 @@ public class Board {
                 .sum();
     }
 
+    public Piece get(String position) {
+        checkValidPositionForm(position);
+
+        int row = MAX_ROW - (position.charAt(1) - '0');
+        int col = position.charAt(0) - 'a';
+        return ranks[row].get(col);
+    }
+
+    private void checkValidPositionForm(String position) {
+        if (position.length() != 2) {
+            throw new IllegalArgumentException("Invalid position: " + position);
+        }
+
+        char row = position.charAt(1);
+        if (row < '1' || row > '8') {
+
+            throw new IllegalArgumentException("Invalid position: " + position);
+        }
+
+        char col = position.charAt(0);
+        if (col < 'a' || col > 'h') {
+            throw new IllegalArgumentException("Invalid position: " + position);
+        }
+    }
+
     public int size() {
         return totalPieces;
     }
@@ -135,17 +160,23 @@ public class Board {
             }
         }
 
+        public int countPiece(PieceType type, Color color) {
+            return (int) Arrays.stream(squares)
+                    .filter(piece -> piece.hasTypeAndColor(type, color))
+                    .count();
+        }
+
+        public Piece get(int index) {
+            checkValidIndex(index);
+
+            return squares[index];
+        }
+
         public String print() {
             return Arrays.stream(squares)
                     .map(Piece::getRepresentation)
                     .map(r -> r.value)
                     .collect(Collectors.joining());
-        }
-
-        public int countPiece(PieceType type, Color color) {
-            return (int) Arrays.stream(squares)
-                    .filter(piece -> piece.hasTypeAndColor(type, color))
-                    .count();
         }
     }
 }
