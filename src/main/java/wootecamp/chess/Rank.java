@@ -15,7 +15,7 @@ public class Rank {
     public static Rank createEmptyRank() {
         Rank rank = new Rank();
         for (int i = 0; i < RANK_SIZE; i++) {
-            rank.addPiece(Piece.EMPTY_PIECE);
+            rank.addPiece(Piece.getEmptyPiece());
         }
         return rank;
     }
