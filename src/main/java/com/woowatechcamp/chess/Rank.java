@@ -2,6 +2,7 @@ package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Piece;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
@@ -50,11 +51,15 @@ public class Rank {
         return pieces.get(xPos).isSameTypeAndColor(Piece.Type.PAWN, color);
     }
 
-    public double calculateScore(Piece.Color color) {
+    public double calculatePoint(Piece.Color color) {
         return pieces.stream()
                 .filter(piece -> piece.getColor() == color)
                 .mapToDouble(piece -> piece.getType().getPoint())
                 .sum();
+    }
+
+    public List<Piece> getPieces() {
+        return new ArrayList<>(pieces);
     }
 
     @Override

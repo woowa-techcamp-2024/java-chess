@@ -8,9 +8,13 @@ import java.util.stream.IntStream;
 
 public class Board {
     private final List<Rank> ranks;
+    private final List<Piece> whitePieces;
+    private final List<Piece> blackPieces;
 
     public Board() {
         ranks = new ArrayList<>();
+        whitePieces = new ArrayList<>();
+        blackPieces = new ArrayList<>();
     }
 
     public void initialize() {
@@ -39,6 +43,11 @@ public class Board {
                 Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(),
                 Piece.createWhiteKnight(), Piece.createWhiteRook()
         ));
+
+        ranks.stream()
+                .map(Rank::getPieces)
+                .flatMap(List::stream)
+                .forEach(this::addPiece);
     }
 
     public void initializeEmpty() {
@@ -75,6 +84,7 @@ public class Board {
         int yPos = getYPosition(position);
         ranks.get(yPos)
                 .setPiece(xPos, piece);
+        addPiece(piece);
     }
 
     private void validatePosition(String position) {
@@ -104,7 +114,7 @@ public class Board {
 
     public double calculatePoint(Piece.Color color) {
         return ranks.stream()
-                .mapToDouble(rank -> rank.calculateScore(color))
+                .mapToDouble(rank -> rank.calculatePoint(color))
                 .sum() - calculatePawnPenalty(color);
     }
 
@@ -119,5 +129,23 @@ public class Board {
         return (int) ranks.stream()
                 .filter(rank -> rank.isSameColorPawn(color, xPos))
                 .count();
+    }
+
+    private void addPiece(Piece piece) {
+        if (piece.isWhite()) {
+            addWhitePiece(piece);
+        } else if (piece.isBlack()) {
+            addWBlackPiece(piece);
+        }
+    }
+
+    private void addWhitePiece(Piece piece) {
+        whitePieces.add(piece);
+        whitePieces.sort((o1, o2) -> Double.compare(o1.getType().getPoint(), o2.getType().getPoint()));
+    }
+
+    private void addWBlackPiece(Piece piece) {
+        blackPieces.add(piece);
+        blackPieces.sort((o1, o2) -> Double.compare(o1.getType().getPoint(), o2.getType().getPoint()));
     }
 }
