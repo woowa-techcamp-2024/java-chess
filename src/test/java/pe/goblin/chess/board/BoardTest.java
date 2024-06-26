@@ -17,9 +17,9 @@ public class BoardTest {
 
     @Test
     @DisplayName("Board는 초기화할 때 흰색 Pawn과 검은색 Pawn을 생성해 저장할 수 있다.")
-    public void create() throws Exception {
+    void create() throws Exception {
         board.initialize();
-        assertEquals(32, board.pieceCount());
+        assertEquals(32, board.countAllPieces());
         String blankRank = appendNewLine("........");
         assertEquals(
                 appendNewLine("RNBQKBNR") +

@@ -3,7 +3,10 @@ package pe.goblin.chess.board;
 import pe.goblin.chess.piece.Piece;
 import pe.goblin.chess.utils.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class Board {
     public static final int MIN_ROWS = 0;
@@ -49,10 +52,14 @@ public class Board {
         this.pieces = initialPieces;
     }
 
-    public int pieceCount() {
+    public int countAllPieces() {
+        return countPiece(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE);
+    }
+
+    public int countPiece(Piece.Color color, Piece.Type type) {
         return (int) pieces.parallelStream()
                 .flatMap(List::stream)
-                .filter(piece -> !Objects.equals(Piece.Type.NO_PIECE, piece.getType()))
+                .filter(piece -> piece.getColor() == color && piece.getType() == type)
                 .count();
     }
 

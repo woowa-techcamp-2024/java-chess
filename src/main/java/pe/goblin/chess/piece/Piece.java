@@ -1,5 +1,7 @@
 package pe.goblin.chess.piece;
 
+import java.util.Objects;
+
 public class Piece {
     private final Color color;
     private final Type type;
@@ -89,6 +91,19 @@ public class Piece {
         return this.color == Color.WHITE;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return color == piece.color && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
     public enum Color {
         WHITE, BLACK, NOCOLOR
     }
@@ -104,6 +119,15 @@ public class Piece {
 
         public char getRepresentation() {
             return representation;
+        }
+
+        public static Type valueOf(char ch) {
+            for (Type type : Type.values()) {
+                if (type.getRepresentation() == ch) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("Invalid piece type: " + ch);
         }
     }
 }
