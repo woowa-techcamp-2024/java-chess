@@ -6,8 +6,6 @@ public class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
-
-
     }
 
     public enum Type {
