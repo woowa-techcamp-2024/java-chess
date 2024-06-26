@@ -62,23 +62,8 @@ public class Board {
     }
 
     public Piece findPiece(final String position) {
-        char rankPosition = position.charAt(1);
-        char filePosition = position.charAt(0);
-
-        int rankIndex = parseRankToIndex(rankPosition);
-        int fileIndex = parseFileToIndex(filePosition);
-
-        final Rank rank = board.get(rankIndex);
-        return rank.findPiece(fileIndex);
-    }
-
-    private int parseRankToIndex(final char rankIndex) {
-        final char standardChar = '1';
-        return rankIndex - standardChar;
-    }
-
-    private int parseFileToIndex(final char filePosition) {
-        final char standardChar = 'a';
-        return filePosition - standardChar;
+        final BoardPosition boardPosition = new BoardPosition(position);
+        final Rank rank = board.get(boardPosition.getRankPosition());
+        return rank.findPiece(boardPosition.getFilePosition());
     }
 }

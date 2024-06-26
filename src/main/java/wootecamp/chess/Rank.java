@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Rank {
     public static final int RANK_SIZE = 8;
-    private List<Piece> pieces = new ArrayList<>();
+    private final List<Piece> pieces = new ArrayList<>();
 
     private Rank() {
     }
