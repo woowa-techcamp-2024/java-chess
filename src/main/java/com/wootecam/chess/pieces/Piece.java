@@ -3,6 +3,7 @@ package com.wootecam.chess.pieces;
 import java.util.Objects;
 
 public class Piece {
+    public static final Piece BLANK = new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
     private final PieceType type;
     private final Color color;
     private final PieceRepresentation representation;

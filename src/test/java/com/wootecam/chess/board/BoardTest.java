@@ -4,6 +4,7 @@ import static com.wootecam.chess.Fixture.createBoard;
 import static com.wootecam.chess.Fixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.common.Order;
@@ -235,6 +236,37 @@ class BoardTest {
                     Piece.createWhitePawn(),
                     Piece.createWhiteKnight(),
                     Piece.createWhiteBishop());
+        }
+    }
+
+    @Nested
+    class 특정_위치의_기물을_주어진_위치로_움직인다 {
+
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
+        @Test
+        void 특정_위치의_기물을_주어진_위치로_움직일_수_있다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+
+            board.move(createPosition("a8"), createPosition("b8"));
+
+            assertAll(
+                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(Piece.BLANK),
+                    () -> assertThat(board.get(createPosition("b8"))).isEqualTo(Piece.createBlackPawn())
+            );
+        }
+
+        @Test
+        void 특정_위치에_기물이_없다면_예외가_발생한다() {
+            board.add(Piece.createBlackPawn(), createPosition("c8"));
+
+            Position source = createPosition("a8");
+            Position target = createPosition("b8");
+            assertThatThrownBy(() -> board.move(source, target))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }

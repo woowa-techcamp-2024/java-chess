@@ -31,6 +31,20 @@ public class Board {
         }
     }
 
+    public void move(Position source, Position target) {
+        Piece piece = get(source);
+        validPiece(source, piece);
+
+        ranks[target.x].place(piece, target.y);
+        ranks[source.x].clearSquare(source.y);
+    }
+
+    private void validPiece(Position source, Piece piece) {
+        if (!piece.isPiece()) {
+            throw new IllegalArgumentException("No piece found at the source position: " + source);
+        }
+    }
+
     public Piece get(Position pos) {
         return ranks[pos.x].get(pos.y);
     }
@@ -98,7 +112,7 @@ public class Board {
 
         public Rank() {
             this.squares = new Piece[MAX_COL];
-            Arrays.fill(squares, Piece.createBlank());
+            Arrays.fill(squares, Piece.BLANK);
         }
 
         public void place(Piece piece, int index) {
@@ -106,6 +120,12 @@ public class Board {
             checkEmptySquare(index);
 
             squares[index] = piece;
+        }
+
+        public void clearSquare(int index) {
+            checkValidIndex(index);
+
+            squares[index] = Piece.BLANK;
         }
 
         private void checkValidIndex(int index) {

@@ -28,4 +28,12 @@ public class Position {
             throw new IllegalArgumentException("Invalid position: " + position);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
