@@ -3,9 +3,6 @@ package com.woopaca.javachess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.woopaca.javachess.pieces.Piece.Type;
-import static com.woopaca.javachess.pieces.Piece.Color;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("기물 테스트")

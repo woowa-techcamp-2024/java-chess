@@ -1,8 +1,8 @@
 package com.woopaca.javachess.chess;
 
+import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Piece;
-import com.woopaca.javachess.pieces.Piece.Color;
-import com.woopaca.javachess.pieces.Piece.Type;
+import com.woopaca.javachess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
