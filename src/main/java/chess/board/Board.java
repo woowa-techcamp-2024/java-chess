@@ -18,8 +18,6 @@ public class Board {
     private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
-    private static final int WIDTH_INDEX = 0;
-    private static final int RANK_INDEX = 1;
     public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
     public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
 
@@ -96,15 +94,6 @@ public class Board {
         return pieceCount;
     }
 
-    public void move(String position, Piece piece) {
-        validateCoordinate(position);
-        int widthIndex = convertWidthIndex(position.charAt(WIDTH_INDEX));
-        int rankIndex = convertRankIndex(position.charAt(RANK_INDEX));
-
-        Rank targetRank = ranks.get(rankIndex);
-        targetRank.setPiece(widthIndex, piece);
-    }
-
     public double caculcatePoint(Piece.Color color) {
         return ranks.stream()
                 .mapToDouble(rank -> rank.calculateRankPoint(color))
@@ -118,16 +107,32 @@ public class Board {
                 .toList();
     }
 
-    public void move(String sourcePosition, String targetPosition) {
-        Piece sourcePiece = findPiece(sourcePosition);
-        Piece targetPiece = findPiece(targetPosition);
-        move(targetPosition, sourcePiece);
-        move(sourcePosition, targetPiece);
+    public void move(String sourceCoordinateStr, String targetCoordinateStr) {
+        Coordinate sourceCoordinate = convertCoordinate(sourceCoordinateStr);
+        Coordinate targetCoordinate = convertCoordinate(targetCoordinateStr);
+
+        Piece sourcePiece = findPiece(sourceCoordinate);
+        Piece targetPiece = findPiece(targetCoordinate);
+        move(targetCoordinate, sourcePiece);
+        move(sourceCoordinate, targetPiece);
     }
 
     public Board() {
         ranks = new ArrayList<>();
         initialize();
+    }
+
+    protected Piece findPiece(Coordinate coordinate) {
+        return ranks.get(coordinate.getRankIndex()).getPieceByIndex(coordinate.getWidthIndex());
+    }
+
+    protected void move(Coordinate coordinate, Piece piece) {
+        Rank targetRank = ranks.get(coordinate.getRankIndex());
+        targetRank.setPiece(coordinate.getWidthIndex(), piece);
+    }
+
+    private Coordinate convertCoordinate(String coordinateStr) {
+        return new Coordinate(coordinateStr);
     }
 
     private void initializeWhitePawns() {
@@ -142,48 +147,5 @@ public class Board {
                 .mapToObj(i -> Piece.createBlackPawn())
                 .collect(Collectors.toCollection(ArrayList::new));
         this.ranks.add(Rank.initializeRank(initializedPieces));
-    }
-
-
-    public Piece findPiece(String coordinate) {
-        validateCoordinate(coordinate);
-        int index = convertWidthIndex(coordinate.charAt(WIDTH_INDEX));
-        int rank = convertRankIndex(coordinate.charAt(RANK_INDEX));
-
-        return ranks.get(rank).getPieceByIndex(index);
-    }
-
-    private void validateCoordinate(String coordinate) {
-        if(coordinate == null || coordinate.isBlank()) {
-            throw new IllegalArgumentException("좌표를 입력해주세요.");
-        }
-        if(coordinate.length() != 2) {
-            throw new IllegalArgumentException("좌표는 2글자여야 합니다.");
-        }
-    }
-
-    private int convertRankIndex(char rank) {
-        if(rank >= 'a') {
-            throw new IllegalArgumentException("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
-        }
-        int convertedRank = rank - '1';
-
-        if(convertedRank < 0 || convertedRank >= RANK_HEIGHT) {
-            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
-        }
-        return RANK_HEIGHT - convertedRank - 1;
-    }
-
-    private int convertWidthIndex(char width) {
-        if(width < 'a') {
-            throw new IllegalArgumentException("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
-        }
-
-        int convertedWidth = width - 'a';
-
-        if(convertedWidth < 0 || convertedWidth >= BOARD_WIDTH) {
-            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
-        }
-        return convertedWidth;
     }
 }
