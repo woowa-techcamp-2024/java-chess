@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import static chess.Board.BOARD_SIZE;
+
 public class Position {
     private final int x, y;
 
@@ -15,4 +17,7 @@ public class Position {
 
     public int getX() { return this.x; }
     public int getY() { return this.y; }
+    public boolean isOutOfIndex() {
+        return !((0 <= x && x < BOARD_SIZE) && (0 <= y && y < BOARD_SIZE));
+    }
 }
