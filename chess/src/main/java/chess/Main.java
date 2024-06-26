@@ -2,7 +2,7 @@ package chess;
 
 import java.util.Scanner;
 
-public class ChessGame {
+public class Main {
 
     private static final String START = "start";
     private static final String END = "end";
@@ -14,9 +14,9 @@ public class ChessGame {
             String str = scanner.next();
             if(str.equals(START))
             {
-                Board board = new Board();
-                board.initialize();
-                System.out.println(board.show());
+                ChessGame chessGame = new ChessGame();
+                chessGame.initialize();
+                System.out.println(chessGame.showBoard());
             }
             else if(str.equals(END))
             {
