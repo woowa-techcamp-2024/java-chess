@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public record Piece (Color color, Type type) implements Comparable {
+public record Piece (Color color, Type type) implements Comparable<Piece> {
 
     public Color getColor() {
         return this.color;
@@ -68,23 +68,22 @@ public record Piece (Color color, Type type) implements Comparable {
     public boolean isBlack() { return Objects.equals(this.color, Color.BLACK); }
 
     @Override
-    public int compareTo(Object o) {
-        Piece piece = (Piece) o;
+    public int compareTo(Piece piece) {
         return Double.compare(piece.getType().getDefaultPoint(), this.getType().getDefaultPoint());
     }
 
     // test를 위한 메서드
     private static Type getTypeOfRepresentation(final char representation) {
         char lowerRepresentation = Character.toLowerCase(representation);
-        switch (lowerRepresentation) {
-            case 'p': return Type.PAWN;
-            case 'r': return Type.ROOK;
-            case 'n': return Type.KNIGHT;
-            case 'b': return Type.BISHOP;
-            case 'q': return Type.QUEEN;
-            case 'k': return Type.KING;
-        }
-        return Type.NO_PIECE;
+        return switch (lowerRepresentation) {
+            case 'p' -> Type.PAWN;
+            case 'r' -> Type.ROOK;
+            case 'n' -> Type.KNIGHT;
+            case 'b' -> Type.BISHOP;
+            case 'q' -> Type.QUEEN;
+            case 'k' -> Type.KING;
+            default -> Type.NO_PIECE;
+        };
     }
 
     // test를 위한 메서드
