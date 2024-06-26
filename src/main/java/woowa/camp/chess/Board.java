@@ -206,4 +206,9 @@ public class Board {
     public int getBoardColSize() {
         return board.size();
     }
+
+    public int getPieceCount(final String pieceName, final Color color) {
+        return getPiecesFilterBy(pieceName, color).size();
+    }
+
 }
