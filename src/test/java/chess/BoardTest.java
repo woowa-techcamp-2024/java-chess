@@ -13,6 +13,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
+    @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
+    @Test
+    void move() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
     @DisplayName("찾고자 하는 좌표를 반대로 보낸 경우 예외가 발생한다.")
     @Test
     void findPieceWithInvalidCoordinate() {
