@@ -3,6 +3,7 @@ package com.wootecam.chess.pieces;
 import static com.wootecam.chess.pieces.PieceType.BISHOP;
 import static com.wootecam.chess.pieces.PieceType.KING;
 import static com.wootecam.chess.pieces.PieceType.KNIGHT;
+import static com.wootecam.chess.pieces.PieceType.NO_PIECE;
 import static com.wootecam.chess.pieces.PieceType.PAWN;
 import static com.wootecam.chess.pieces.PieceType.QUEEN;
 import static com.wootecam.chess.pieces.PieceType.ROOK;
@@ -24,7 +25,7 @@ public enum PieceRepresentation {
     WHITE_BISHOP(BISHOP, Color.WHITE, "b"),
     WHITE_QUEEN(QUEEN, Color.WHITE, "q"),
     WHITE_KING(KING, Color.WHITE, "k"),
-    NONE(null, null, ".");
+    NONE(NO_PIECE, Color.NO_COLOR, ".");
 
     private static final Map<PieceAttributes, PieceRepresentation> CONVERTOR = Arrays.stream(values())
             .collect(Collectors.toMap(

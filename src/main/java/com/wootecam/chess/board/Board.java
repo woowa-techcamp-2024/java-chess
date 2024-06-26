@@ -97,26 +97,12 @@ public class Board {
                 .toList();
     }
 
-
     private static class Rank {
         private final Piece[] squares;
 
         public Rank() {
             this.squares = new Piece[MAX_COL];
             Arrays.fill(squares, Piece.createBlank());
-        }
-
-        private static void checkPiecesLength(List<Piece> pieces) {
-            if (pieces.size() > MAX_COL) {
-                throw new IllegalArgumentException("pieces size is too large: " + pieces.size());
-            }
-        }
-
-        public void fill(List<Piece> pieces) {
-            checkPiecesLength(pieces);
-            for (int i = 0; i < pieces.size(); i++) {
-                squares[i] = pieces.get(i);
-            }
         }
 
         public void place(Piece piece, int index) {

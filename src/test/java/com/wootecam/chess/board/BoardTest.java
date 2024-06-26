@@ -146,7 +146,30 @@ class BoardTest {
         }
 
         @Test
-        void 기물의_점수를_계산할_수_있다() {
+        void 한_열에_폰이_한_개인_경우_기물의_점수를_계산할_수_있다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("b8"));
+            board.add(Piece.createBlackPawn(), createPosition("f8"));
+
+            double score = board.calculateScore(Color.BLACK);
+
+            assertThat(score).isEqualTo(3);
+        }
+
+        @Test
+        void 한_열에_폰이_여러_개인_경우_기물의_점수를_계산할_수_있다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("a3"));
+            board.add(Piece.createBlackPawn(), createPosition("e2"));
+            board.add(Piece.createBlackPawn(), createPosition("e1"));
+
+            double score = board.calculateScore(Color.BLACK);
+
+            assertThat(score).isEqualTo(2);
+        }
+
+        @Test
+        void 여러_기물들이_존재하는_경우_기물의_점수를_계산할_수_있다() {
             board.add(Piece.createBlackPawn(), createPosition("a8"));
             board.add(Piece.createBlackPawn(), createPosition("a7"));
             board.add(Piece.createWhitePawn(), createPosition("a4"));
