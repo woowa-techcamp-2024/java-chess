@@ -20,7 +20,7 @@ public class ChessGameManager {
                 System.out.println("Invalid input! input again!");
                 continue;
             }
-            System.out.println(board.print());
+            System.out.println(board.showBoard());
         }
     }
 
