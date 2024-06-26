@@ -10,11 +10,6 @@ import org.example.pieces.Piece.Type;
 
 public class Board {
 
-
-    public void move(Position position, Piece piece) {
-        oneColumns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
-    }
-
     private class OneColumn {
 
         // 자신의 col과 row길이를 생성시 받는다.
@@ -49,11 +44,15 @@ public class Board {
     private final List<OneColumn> oneColumns;
 
     private final int BOARD_SIZE = 8;
+    //전연변수 처리?
     private final char startChar = 'a';
 
     public Board() {
         oneColumns = createSizeList(BOARD_SIZE);
-        initialize();
+    }
+
+    public void move(Position position, Piece piece) {
+        oneColumns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
     }
 
     private List<OneColumn> createSizeList(int boardSize) {
@@ -64,7 +63,7 @@ public class Board {
         return ret;
     }
 
-    private void initialize() {
+    public void initialize() {
         initColoredPiece();
     }
 
@@ -147,5 +146,14 @@ public class Board {
     public Piece findPiece(Position position) {
 
         return oneColumns.get(position.getColIdx()).getPiece(position.getRow());
+    }
+
+    public double caculcatePoint(Color color) {
+        return oneColumns.stream()
+            .mapToDouble(oneColumn -> oneColumn.pieces.stream()
+                .filter(piece -> piece.isSameColor(color))
+                .mapToDouble(Piece::getPoint)
+                .sum())
+            .sum();
     }
 }

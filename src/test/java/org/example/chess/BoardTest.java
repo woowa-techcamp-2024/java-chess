@@ -26,6 +26,8 @@ public class BoardTest {
 
     @Test
     public void create() throws Exception {
+        board.initialize();
+
         assertEquals(32, board.nonEmptyPiece());
         String blankRank = appendNewLine("........");
         assertEquals(
@@ -47,6 +49,7 @@ public class BoardTest {
         Type type,
         int count
     ) {
+        board.initialize();
         assertEquals(count, board.countByQuery(color, type));
     }
 
@@ -63,8 +66,6 @@ public class BoardTest {
 
     @Test
     public void move() throws Exception {
-        board.initialize();
-
         Position position = new Position("b5");
         Piece piece = Piece.createBlackRook();
         board.move(position, piece);
@@ -108,6 +109,38 @@ public class BoardTest {
         assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
 
+        System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("새로로 폰이 있을 때 테스트")
+    public void testCaculatePoint() throws Exception {
+        // 검은색 기물 추가
+        addPiece("c8", Piece.createBlackKing());
+        addPiece("d8", Piece.createBlackRook());
+        addPiece("d7", Piece.createBlackPawn());
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("f4", Piece.createBlackKnight());
+        addPiece("g4", Piece.createBlackQueen());
+        addPiece("f3", Piece.createBlackPawn());
+        addPiece("h3", Piece.createBlackPawn());
+
+        // 흰색 기물 추가
+        addPiece("a7", Piece.createWhitePawn());
+        addPiece("c7", Piece.createWhitePawn());
+        addPiece("b6", Piece.createWhitePawn());
+        addPiece("d6", Piece.createWhiteBishop());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("g2", Piece.createWhitePawn());
+
+        // 점수 계산 확인
+        assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
+
+        // 체스판 출력
         System.out.println(board.showBoard());
     }
 

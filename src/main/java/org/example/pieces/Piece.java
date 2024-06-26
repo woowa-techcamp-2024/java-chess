@@ -14,6 +14,10 @@ public class Piece {
         return this.representation == type;
     }
 
+    public double getPoint() {
+        return representation.point;
+    }
+
     public enum Color {
         WHITE, BLACK, NO_COLOR;
 
@@ -24,19 +28,21 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN('♙'),
-        ROOK('♖'),
-        KNIGHT('♘'),
-        BISHOP('♗'),
-        QUEEN('♕'),
-        KING('♔'),
-        NO_PIECE('.');  // 빈 문자로 설정
+        PAWN('♙', 1.0),
+        ROOK('♖', 5.0),
+        KNIGHT('♘', 2.5),
+        BISHOP('♗', 3.0),
+        QUEEN('♕', 9.0),
+        KING('♔', 0.0),
+        NO_PIECE('.', 0.0);  // 빈 문자로 설정
 
         private final char representation;
+        private final double point;
 
 
-        Type(char representation) {
+        Type(char representation, double point) {
             this.representation = representation;
+            this.point = point;
         }
 
         public char getWhiteRepresentation() {
@@ -138,7 +144,8 @@ public class Piece {
         if (!(o instanceof Piece piece)) {
             return false;
         }
-        return color == piece.color && representation == piece.representation;
+        return color == piece.color
+            && representation == piece.representation;
     }
 
     @Override
