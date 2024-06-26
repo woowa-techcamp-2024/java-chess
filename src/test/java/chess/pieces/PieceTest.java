@@ -4,28 +4,35 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class PieceTest {
 
+
     @Test
     public void 피스_생성() {
-        verifyPiece(Piece.createWhitePawn(), Piece.Color.WHITE, Piece.Representation.WHITE_PAWN.getSymbol());
-        verifyPiece(Piece.createBlackPawn(), Piece.Color.BLACK, Piece.Representation.BLACK_PAWN.getSymbol());
-        verifyPiece(Piece.createWhiteKnight(), Piece.Color.WHITE, Piece.Representation.WHITE_KNIGHT.getSymbol());
-        verifyPiece(Piece.createBlackKnight(), Piece.Color.BLACK, Piece.Representation.BLACK_KNIGHT.getSymbol());
-        verifyPiece(Piece.createWhiteBishop(), Piece.Color.WHITE, Piece.Representation.WHITE_BISHOP.getSymbol());
-        verifyPiece(Piece.createBlackBishop(), Piece.Color.BLACK, Piece.Representation.BLACK_BISHOP.getSymbol());
-        verifyPiece(Piece.createWhiteRook(), Piece.Color.WHITE, Piece.Representation.WHITE_ROOK.getSymbol());
-        verifyPiece(Piece.createBlackRook(), Piece.Color.BLACK, Piece.Representation.BLACK_ROOK.getSymbol());
-        verifyPiece(Piece.createWhiteQueen(), Piece.Color.WHITE, Piece.Representation.WHITE_QUEEN.getSymbol());
-        verifyPiece(Piece.createBlackQueen(), Piece.Color.BLACK, Piece.Representation.BLACK_QUEEN.getSymbol());
-        verifyPiece(Piece.createWhiteKing(), Piece.Color.WHITE, Piece.Representation.WHITE_KING.getSymbol());
-        verifyPiece(Piece.createBlackKing(), Piece.Color.BLACK, Piece.Representation.BLACK_KING.getSymbol());
+        verifyPiece(Piece.createWhitePawn(), Piece.Color.WHITE, Piece.Type.PAWN);
+        verifyPiece(Piece.createBlackPawn(), Piece.Color.BLACK, Piece.Type.PAWN);
+        verifyPiece(Piece.createWhiteKnight(), Piece.Color.WHITE, Piece.Type.KNIGHT);
+        verifyPiece(Piece.createBlackKnight(), Piece.Color.BLACK, Piece.Type.KNIGHT);
+        verifyPiece(Piece.createWhiteBishop(), Piece.Color.WHITE, Piece.Type.BISHOP);
+        verifyPiece(Piece.createBlackBishop(), Piece.Color.BLACK, Piece.Type.BISHOP);
+        verifyPiece(Piece.createWhiteRook(), Piece.Color.WHITE, Piece.Type.ROOK);
+        verifyPiece(Piece.createBlackRook(), Piece.Color.BLACK, Piece.Type.ROOK);
+        verifyPiece(Piece.createWhiteQueen(), Piece.Color.WHITE, Piece.Type.QUEEN);
+        verifyPiece(Piece.createBlackQueen(), Piece.Color.BLACK, Piece.Type.QUEEN);
+        verifyPiece(Piece.createWhiteKing(), Piece.Color.WHITE, Piece.Type.KING);
+        verifyPiece(Piece.createBlackKing(), Piece.Color.BLACK, Piece.Type.KING);
+
+        Piece blank = Piece.createBlank();
+        assertFalse(blank.isWhite());
+        assertFalse(blank.isBlack());
+        assertEquals(blank.getType(), Piece.Type.NO_PIECE);
     }
 
-    private void verifyPiece(Piece piece, Piece.Color color, char symbol) {
+    private void verifyPiece(Piece piece, Piece.Color color, Piece.Type type) {
         assertEquals(color, piece.getColor());
-        assertEquals(symbol, piece.getRepresentation().getSymbol());
+        assertEquals(type, piece.getType());
     }
 
     @Test
