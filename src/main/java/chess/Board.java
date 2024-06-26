@@ -33,7 +33,6 @@ public class Board {
         setupPieces(8, Color.BLACK, Type.defaultOrder());
     }
 
-
     /**
      * 보드에 말을 추가합니다. 이미 해당 위치에 말이 있는 경우, 덮어씁니다.
      *
@@ -108,28 +107,26 @@ public class Board {
     }
 
     /**
-     * 보드에서 색이 일치하는 말들의 위치와 말을 갖고 옵니다.
+     * 보드에서 색이 일치하는 말들을 갖고 옵니다.
      *
      * @param color 색
-     * @return Entry < Location, Piece > 위치와 말
+     * @return 말들
      */
-    public List<Entry<Location, Piece>> getLocationsAndPiecesByColor(Color color) {
-        return table.entrySet().stream().filter(entry -> entry.getValue().verifySameColor(color))
-            .toList();
+    public List<Piece> getPiecesByColor(Color color) {
+        return table.values().stream().filter(piece -> piece.verifySameColor(color)).toList();
     }
 
     /**
-     * 보드에서 색과 타입이 일치하는 말들의 위치와 말을 갖고 옵니다.
+     * 보드에서 색이 일치하는 폰들의 위치를 갖고 옵니다.
      *
      * @param color 색
-     * @param type  타입
-     * @return Entry < Location, Piece > 위치와 말
+     * @return 위치
      */
-    public List<Entry<Location, Piece>> getLocationsAndPiecesByColorAndType(Color color,
-        Type type) {
+    public List<Location> getPawnsLocationsByColor(Color color) {
         return table.entrySet().stream()
             .filter(entry -> entry.getValue().verifySameColor(color))
-            .filter(entry -> type.isInstance(entry.getValue()))
+            .filter(entry -> Type.PAWN.isInstance(entry.getValue()))
+            .map(Entry::getKey)
             .toList();
     }
 

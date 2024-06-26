@@ -163,23 +163,23 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("체스 판에서 색이 일치하는 말들의 위치와 말을 갖고 온다.")
-    void getLocationsAndPiecesByColor() {
+    @DisplayName("체스 판에서 색이 일치하는 말들을 갖고 온다.")
+    void getPiecesByColor() {
         // Arrange
         init();
         // Act
-        var actualResult = board.getLocationsAndPiecesByColor(Color.WHITE);
+        var actualResult = board.getPiecesByColor(Color.WHITE);
         // Assert
         assertThat(actualResult).hasSize(5);
     }
 
     @Test
-    @DisplayName("체스 판에서 색과 타입이 일치하는 말들의 위치와 말을 갖고 온다.")
-    void getLocationsAndPiecesByColorAndType() {
+    @DisplayName("체스 판에서 색이 일치하는 폰들의 위치를 갖고 온다.")
+    void getPawnsLocationsByColor() {
         // Arrange
         init();
         // Act
-        var actualResult = board.getLocationsAndPiecesByColorAndType(Color.WHITE, Type.PAWN);
+        var actualResult = board.getPawnsLocationsByColor(Color.WHITE);
         // Assert
         assertThat(actualResult).hasSize(3);
     }
