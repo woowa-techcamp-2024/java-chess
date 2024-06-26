@@ -45,9 +45,10 @@ public class Rank {
                 .sum();
     }
 
-    public List<Piece> getAllPieces() {
+    public List<Piece> getAllPieces(Piece.Color color) {
         return pieces.stream()
                 .filter(piece -> !piece.isBlank())
+                .filter(piece -> piece.getColor().equals(color))
                 .toList();
     }
 
