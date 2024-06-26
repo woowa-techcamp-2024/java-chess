@@ -38,42 +38,53 @@ public class Board {
     //--------------init board start----------------
     private void initPawn() {
         for (File file : File.values()) {
-            setPiece(Rank.TWO, file, new Pawn(Color.WHITE, Rank.TWO, file));
-            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK, Rank.SEVEN, file));
+            addPiece(new Pawn(Color.WHITE, Rank.TWO, file));
+            addPiece(new Pawn(Color.BLACK, Rank.SEVEN, file));
         }
     }
 
     private void initKing() {
-        setPiece(Rank.ONE, File.D, new King(Color.WHITE, Rank.ONE, File.D));
-        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK, Rank.EIGHT, File.D));
+        addPiece(new King(Color.WHITE, Rank.ONE, File.D));
+        addPiece(new King(Color.BLACK, Rank.EIGHT, File.D));
     }
 
     private void initQueen() {
-        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE, Rank.ONE, File.E));
-        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK, Rank.EIGHT, File.E));
+        addPiece(new Queen(Color.WHITE, Rank.ONE, File.E));
+        addPiece(new Queen(Color.BLACK, Rank.EIGHT, File.E));
     }
 
     private void initBishop() {
-        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE, Rank.ONE, File.C));
-        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE, Rank.ONE, File.F));
-        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK, Rank.EIGHT, File.C));
-        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK, Rank.EIGHT, File.F));
+        addPiece(new Bishop(Color.WHITE, Rank.ONE, File.C));
+        addPiece(new Bishop(Color.WHITE, Rank.ONE, File.F));
+        addPiece(new Bishop(Color.BLACK, Rank.EIGHT, File.C));
+        addPiece(new Bishop(Color.BLACK, Rank.EIGHT, File.F));
     }
 
     private void initKnight() {
-        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE, Rank.ONE, File.B));
-        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE, Rank.ONE, File.G));
-        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK, Rank.EIGHT, File.B));
-        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK, Rank.EIGHT, File.G));
+        addPiece(new Knight(Color.WHITE, Rank.ONE, File.B));
+        addPiece(new Knight(Color.WHITE, Rank.ONE, File.G));
+        addPiece(new Knight(Color.BLACK, Rank.EIGHT, File.B));
+        addPiece(new Knight(Color.BLACK, Rank.EIGHT, File.G));
     }
 
     private void initRook() {
-        setPiece(Rank.ONE, File.A, new Rook(Color.WHITE, Rank.ONE, File.A));
-        setPiece(Rank.ONE, File.H, new Rook(Color.WHITE, Rank.ONE, File.H));
-        setPiece(Rank.EIGHT, File.A, new Rook(Color.BLACK, Rank.EIGHT, File.A));
-        setPiece(Rank.EIGHT, File.H, new Rook(Color.BLACK, Rank.EIGHT, File.H));
+        addPiece(new Rook(Color.WHITE, Rank.ONE, File.A));
+        addPiece(new Rook(Color.WHITE, Rank.ONE, File.H));
+        addPiece(new Rook(Color.BLACK, Rank.EIGHT, File.A));
+        addPiece(new Rook(Color.BLACK, Rank.EIGHT, File.H));
     }
+
     //--------------init board end  ----------------
+
+    /**
+     * 보드에 새로운 말을 추가합니다. 위치 정보는 piece의 초기 위치 값을 통해서 조회합니다.
+     * @param piece 추가할 말
+     */
+    public void addPiece(Piece piece) {
+        Rank row = piece.getRank();
+        File column = piece.getFile();
+        pieceLocation[row.index()][column.index()] = piece;
+    }
 
     public void setPiece(Rank row, File column, Piece piece) {
         pieceLocation[row.index()][column.index()] = piece;
@@ -138,6 +149,7 @@ public class Board {
 
     /**
      * 기물 조회시 높은 점수를 가진 기물순으로 순차적으로 정렬된 컬랙션을 반환한다.
+     *
      * @param color 조회할 기물의 색상
      * @return 정렬된 기물 컬랙션
      */

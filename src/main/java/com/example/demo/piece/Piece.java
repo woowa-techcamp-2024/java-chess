@@ -30,4 +30,12 @@ public abstract class Piece implements Comparable<Piece> {
     public boolean isLocatedAtInitLocation(Rank rank, File file){
         return this.rank == rank && this.file == file;
     }
+
+    public File getFile() {
+        return this.file;
+    }
+
+    public Rank getRank() {
+        return this.rank;
+    }
 }
