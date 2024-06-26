@@ -107,4 +107,21 @@ public class BoardTest {
         System.out.println(sortedWhitePieces);
         System.out.println(sortedWhitePieces.reversed());
     }
+
+    @Test
+    @DisplayName("King 기물이 원하는 대로 이동이 가능해야 한다")
+    public void moveKing() {
+        board.initialize();
+        board.saveByPosition(Piece.createBlackKing(null), new Position(1, 0));
+        board.saveByPosition(Piece.createBlackKnight(null), new Position(0, 0));
+
+        chessGame.move("b8", "a8");
+        assertEquals(Piece.createBlackKing(new Position("b8")), board.findPiece("b8"));
+
+        chessGame.move("b8", "b9");
+        assertEquals(Piece.createBlackKing(new Position("b8")), board.findPiece("b8"));
+
+        chessGame.move("b8", "b7");
+        assertEquals(Piece.createBlackKing(new Position("b7")), board.findPiece("b7"));
+    }
 }
