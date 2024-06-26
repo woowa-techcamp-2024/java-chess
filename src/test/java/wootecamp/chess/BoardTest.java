@@ -3,6 +3,7 @@ package wootecamp.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import wootecamp.chess.pieces.Piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static wootecamp.chess.util.StringUtils.appendNewline;
@@ -30,5 +31,26 @@ public class BoardTest {
                         appendNewline("pppppppp") +
                         appendNewline("rnbqkbnr")
                 );
+    }
+
+    @Test
+    @DisplayName("체스판의 기물 개수를 확인한다.")
+    void pieceCount() {
+        board.initialize();
+
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN)).isEqualTo(8);
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN)).isEqualTo(1);
+        assertThat(board.pieceCount(Piece.Color.BLACK, Piece.Type.KING)).isEqualTo(1);
+
+
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN)).isEqualTo(8);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP)).isEqualTo(2);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN)).isEqualTo(1);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.KING)).isEqualTo(1);
     }
 }
