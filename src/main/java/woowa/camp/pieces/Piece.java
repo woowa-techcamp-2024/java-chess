@@ -77,4 +77,25 @@ public class Piece {
         return color.getRepresentation();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isPieceOf(final String name) {
+        return this.name.equals(name);
+    }
+
+    public boolean isSameColor(final Color color) {
+        return this.color.equals(color);
+    }
+
+    public boolean isBlack() {
+        return "black".equals(color.getName());
+    }
+
+    public boolean isWhite() {
+        return "white".equals(color.getName());
+    }
+
+
 }
