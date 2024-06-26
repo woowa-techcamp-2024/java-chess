@@ -58,6 +58,10 @@ public class Piece {
         return createBlack(Type.KING);
     }
 
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+    }
+
     private static Piece createWhite(Type type) {
         return new Piece(Color.WHITE, type);
     }
@@ -102,7 +106,8 @@ public class Piece {
         ROOK('♖', '♜'),
         BISHOP('♗', '♝'),
         QUEEN('♕', '♛'),
-        KING('♔', '♚');
+        KING('♔', '♚'),
+        NO_PIECE('.', '.');
 
         private final char whiteRepresentation;
         private final char blackRepresentation;

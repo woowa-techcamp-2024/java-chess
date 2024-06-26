@@ -65,6 +65,11 @@ public class PieceTest {
         verifyPieces(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
         verifyPieces(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
         verifyPieces(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+
+        Piece blank = Piece.createBlank();
+        assertThat(blank.isWhite()).isFalse();
+        assertThat(blank.isBlack()).isFalse();
+        assertThat(blank.getType()).isEqualTo(Type.NO_PIECE);
     }
 
     private void verifyPieces(Piece whitePiece, Piece blackPiece, Type type) {
