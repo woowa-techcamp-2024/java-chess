@@ -1,6 +1,7 @@
 package org.example.chess.board;
 
 import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Board {
     static char EMPTY_CHAR = '.';
 //    int[][] board = new int[SIZE][SIZE];
     List<List<Piece>> board2 = new ArrayList<>();
+
     List<Piece> pieceList = new ArrayList<>();
     List<Piece> whitePieceList = new ArrayList<>();
     List<Piece> blackPieceList = new ArrayList<>();
@@ -212,10 +214,18 @@ public class Board {
 
     public Piece findPiece(String position) {
         //todo : position 유효값 검사
+        Position pos = Position.fromStr(position);
 
-        int col = position.charAt(0) - 'a';
-        int row = position.charAt(1) - '1';
+        return board2.get(pos.getRow()).get(pos.getColumn());
+    }
 
-        return board2.get(row).get(col);
+    public void move(String position, Piece piece) {
+        Piece locatedPiece = findPiece(position);
+        Position pos = Position.fromStr(position);
+
+        // todo : 현재는 임의로 말이 있는 경우 놓지 못하게 하였다.
+        if(locatedPiece.getPieceType()!= PieceType.NO_PIECE) return;
+
+        board2.get(pos.getRow()).set(pos.getColumn(),piece);
     }
 }

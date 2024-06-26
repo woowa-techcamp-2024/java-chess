@@ -126,4 +126,8 @@ public class Piece {
     public boolean isBlack() {
         return this.color.equals(BLACK);
     }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 }
