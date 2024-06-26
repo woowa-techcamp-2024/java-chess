@@ -77,9 +77,7 @@ public class Board {
     }
 
     public int countPiece(Class<? extends Piece> type, Piece.Color color) {
-        return (int) stream().filter(cell -> !cell.isEmpty())
-                .map(cell -> cell.getPiece())
-                .filter(piece -> piece.isColor(color) && type.isInstance(piece))
+        return (int) pieceStream().filter(piece -> piece.isColor(color) && type.isInstance(piece))
                 .count();
     }
 
@@ -103,23 +101,24 @@ public class Board {
     }
 
     public List<Piece> getPiecesInDescendingOrder(Piece.Color color) {
-        return stream().filter(cell -> !cell.isEmpty())
-                .map(cell -> cell.getPiece())
-                .filter(piece -> piece.isColor(color))
+        return pieceStream().filter(piece -> piece.isColor(color))
                 .sorted(Comparator.comparingDouble(Piece::value).reversed())
                 .toList();
     }
 
     public List<Pawn> findPawns() {
-        return stream().filter(cell -> !cell.isEmpty())
-                .map(cell -> cell.piece)
-                .filter(piece -> piece instanceof Pawn)
+        return pieceStream().filter(piece -> piece instanceof Pawn)
                 .map(Pawn.class::cast)
                 .toList();
     }
 
     protected Stream<Cell> stream() {
         return Arrays.stream(cells).flatMap(Arrays::stream);
+    }
+
+    protected Stream<Piece> pieceStream() {
+        return stream().filter(cell -> !cell.isEmpty())
+                .map(cell -> cell.getPiece());
     }
 
     public static class Cell {
