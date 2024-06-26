@@ -8,17 +8,19 @@ import chess.pieces.Representation;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO 이름 뭐라하지..?
-public final class ScoreUtils {
-    private ScoreUtils() {}
+public class ScoreCalculator {
+    private final List<Rank> ranks;
+
+    public ScoreCalculator(List<Rank> ranks) {
+        this.ranks = ranks;
+    }
 
     /**
      * 체스판에 기물들의 점수를 계산합니다
-     * @param ranks 체스판
      * @param color 색상 (흰색, 검은색)
      * @return 점수
      */
-    public static double calc(List<Rank> ranks, Color color) {
+    public double calc(Color color) {
         double sum = 0.0;
         int[] filePawnCount = new int[8];
 
@@ -51,11 +53,10 @@ public final class ScoreUtils {
 
     /**
      * 체스판의 기물들을 점수 기준으로 정렬합니다
-     * @param ranks 체스판
      * @param color 색상 (흰색, 검은색)
      * @return 정렬된 기물 리스트
      */
-    public static List<Piece> sort(List<Rank> ranks, Color color, OrderBy orderBy) {
+    public List<Piece> sort(Color color, OrderBy orderBy) {
         List<Piece> list = new ArrayList<>();
         for (Rank rank : ranks) {
             for (int i = 0; i < 8; i++) {
@@ -78,8 +79,8 @@ public final class ScoreUtils {
         return list;
     }
 
-    public static List<Piece> sort(List<Rank> ranks, Color color) {
-        return sort(ranks, color, OrderBy.DESC);
+    public List<Piece> sort(Color color) {
+        return sort(color, OrderBy.DESC);
     }
 
     private static double pointOfPiece(Piece piece) {

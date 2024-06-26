@@ -1,5 +1,6 @@
 import chess.board.Board;
 
+import chess.board.BoardMaker;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -9,13 +10,13 @@ public class ChessGame {
         Scanner scanner = new Scanner(System.in);
         chessView.startMessage();
 
-        Board board = new Board();
+        Board board = new Board(BoardMaker.standard());
         while (true) {
             chessView.pressKeyMessage();
             Command command = Command.from(scanner.next());
 
             if (command == Command.START) {
-                board.initialize();
+                board = new Board(BoardMaker.standard());
             }
             if (command == Command.END) {
                 break;

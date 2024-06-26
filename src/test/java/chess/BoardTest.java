@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
 
 import chess.board.Board;
+import chess.board.BoardMaker;
 import chess.board.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
@@ -19,14 +20,12 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board();
+        board = new Board(BoardMaker.standard());
     }
 
     @Test
     @DisplayName("체스판을 출력한다")
     void print() {
-        board.initialize();
-
         String print = board.print();
         assertThat(print).hasSize(72);
         System.out.println(print);
@@ -35,7 +34,6 @@ public class BoardTest {
     @Test
     @DisplayName("전체 체스판의 상태를 확인한다")
     public void create() throws Exception {
-        board.initialize();
         String blankRank = appendNewLine("........");
 
         assertEquals(32, board.pieceCount());
@@ -51,8 +49,6 @@ public class BoardTest {
     @Test
     @DisplayName("체스판 초기화 후 각 기물의 갯수를 확인한다")
     public void countPiece() {
-        board.initialize();
-
         assertThat(board.pieceCount(Representation.BLACK_ROOK)).isEqualTo(2);
         assertThat(board.pieceCount(Representation.BLACK_KNIGHT)).isEqualTo(2);
         assertThat(board.pieceCount(Representation.BLACK_BISHOP)).isEqualTo(2);
@@ -71,8 +67,6 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에서 특정 위치에 어떤 기물이 있는지 확인한다")
     public void findPiece() throws Exception {
-        board.initialize();
-
         assertEquals(Piece.create(Representation.Type.ROOK, Color.BLACK), board.findPiece("a8"));
         assertEquals(Piece.create(Representation.Type.ROOK, Color.BLACK), board.findPiece("h8"));
         assertEquals(Piece.create(Representation.Type.ROOK, Color.WHITE), board.findPiece("a1"));
@@ -82,7 +76,7 @@ public class BoardTest {
     @Test
     @DisplayName("임의의 기물을 체스판에 추가한다")
     public void move() throws Exception {
-        board.initializeEmpty();
+        board = new Board(BoardMaker.empty());
 
         String position = "b5";
         Piece piece = Piece.create(Representation.Type.ROOK, Color.BLACK);
@@ -95,7 +89,8 @@ public class BoardTest {
     @Test
     @DisplayName("일부 점수를 계산한다")
     public void getScore() throws Exception {
-        board.initializeEmpty();
+        board = new Board(BoardMaker.empty());
+
         board.setPiece("b5", Piece.create(Representation.Type.ROOK, Color.BLACK));
         board.setPiece("a4", Piece.create(Representation.Type.KNIGHT, Color.WHITE));
 
@@ -109,8 +104,6 @@ public class BoardTest {
     @Test
     @DisplayName("초기 체스판에서 점수를 계산한다")
     public void getScoreAll() throws Exception {
-        board.initialize();
-
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
 
@@ -121,7 +114,7 @@ public class BoardTest {
     @Test
     @DisplayName("같은 열에 폰이 2개일 때 점수를 계산한다")
     public void getScoreCase() throws Exception {
-        board.initializeEmpty();
+        board = new Board(BoardMaker.empty());
 
         board.setPiece("a1", Piece.create(Representation.Type.PAWN, Color.BLACK));
         board.setPiece("a2", Piece.create(Representation.Type.PAWN, Color.BLACK));
@@ -137,7 +130,7 @@ public class BoardTest {
     @Test
     @DisplayName("특정상황에서 체스판에 점수를 계산한다")
     public void caculcatePoint() throws Exception {
-        board.initializeEmpty();
+        board = new Board(BoardMaker.empty());
 
         addPiece("b6", Piece.create(Representation.Type.PAWN, Color.BLACK));
         addPiece("e6", Piece.create(Representation.Type.QUEEN, Color.BLACK));
@@ -162,8 +155,6 @@ public class BoardTest {
     @Test
     @DisplayName("기물의 점수순으로 정렬한다")
     public void sort() throws Exception {
-        board.initialize();
-
         List<Piece> whites = board.sortByScore(Color.WHITE, OrderBy.DESC);
         List<Piece> blacks = board.sortByScore(Color.BLACK, OrderBy.ASC);
 
@@ -188,8 +179,6 @@ public class BoardTest {
     @Test
     @DisplayName("체스말을 이동시킨다")
     public void moveTest() throws Exception {
-        board.initialize();
-
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
