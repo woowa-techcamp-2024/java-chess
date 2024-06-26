@@ -4,10 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
+import org.example.pieces.Piece.Color;
+import org.example.pieces.Piece.Type;
 import org.junit.jupiter.api.DisplayName;
-import java.util.function.Supplier;
-import java.util.Map;
-import java.util.HashMap;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,54 +17,105 @@ public class PieceTest {
     @DisplayName("색깔에 맞는 기물이 생성되어야 한다")
     @ParameterizedTest(name = "기물의 색깔은 {1}이고 표현은 {2}이어야 한다.")
     @MethodSource("argumentsStream")
-    public void create(Piece piece, String color, String representation) {
+    public void create(Piece piece, Color color, char representation) {
         verifyPiece(piece, color, representation);
     }
 
     @DisplayName("기물의 색상을 확인")
-    @ParameterizedTest(name = "기물의 색깔은 {0}이다.")
+    @ParameterizedTest(name = "기물의 색깔은 {1}이다.")
     @MethodSource("argumentsStream")
-    public void checkIsBlack(Piece piece, String color, String notUsed) {
+    public void checkIsBlack(Piece piece, Color color, char notUsed) {
         verifyColor(piece, color);
     }
 
     //verifyMethod
 
-    private void verifyColor(Piece piece, String color) {
-        if (color.equals(Piece.WHITE_COLOR)) {
+    private void verifyColor(Piece piece, Color color) {
+        if (color == Color.WHITE) {
             assertThat(piece.isWhite()).isTrue();
             assertThat(piece.isBlack()).isFalse();
-        } else {
+        } else if (color == Color.BLACK){
             assertThat(piece.isWhite()).isFalse();
             assertThat(piece.isBlack()).isTrue();
+        } else {
+            assertThat(piece.isWhite()).isFalse();
+            assertThat(piece.isBlack()).isFalse();
         }
     }
 
-    private void verifyPiece(final Piece piece, final String color, final String representation) {
+    private void verifyPiece(final Piece piece, final Color color, final char representation) {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
 
 
     private static Stream<Arguments> argumentsStream() {
-
-        // Map을 사용하여 기물 생성자와 예상 속성을 연결
-        Map<Supplier<Piece>, String[]> pieceData = new HashMap<>();
-        pieceData.put(Piece::createWhitePawn, new String[]{Piece.WHITE_COLOR, Piece.WHITE_PAWN_REPRESENTATION});
-        pieceData.put(Piece::createBlackPawn, new String[]{Piece.BLACK_COLOR, Piece.BLACK_PAWN_REPRESENTATION});
-        pieceData.put(Piece::createWhiteKnight, new String[]{Piece.WHITE_COLOR, Piece.WHITE_KNIGHT_REPRESENTATION});
-        pieceData.put(Piece::createBlackKnight, new String[]{Piece.BLACK_COLOR, Piece.BLACK_KNIGHT_REPRESENTATION});
-        pieceData.put(Piece::createWhiteRook, new String[]{Piece.WHITE_COLOR, Piece.WHITE_ROOK_REPRESENTATION});
-        pieceData.put(Piece::createBlackRook, new String[]{Piece.BLACK_COLOR, Piece.BLACK_ROOK_REPRESENTATION});
-        pieceData.put(Piece::createWhiteBishop, new String[]{Piece.WHITE_COLOR, Piece.WHITE_BISHOP_REPRESENTATION});
-        pieceData.put(Piece::createBlackBishop, new String[]{Piece.BLACK_COLOR, Piece.BLACK_BISHOP_REPRESENTATION});
-        pieceData.put(Piece::createWhiteQueen, new String[]{Piece.WHITE_COLOR, Piece.WHITE_QUEEN_REPRESENTATION});
-        pieceData.put(Piece::createBlackQueen, new String[]{Piece.BLACK_COLOR, Piece.BLACK_QUEEN_REPRESENTATION});
-        pieceData.put(Piece::createWhiteKing, new String[]{Piece.WHITE_COLOR, Piece.WHITE_KING_REPRESENTATION});
-        pieceData.put(Piece::createBlackKing, new String[]{Piece.BLACK_COLOR, Piece.BLACK_KING_REPRESENTATION});
-
-        // Map 데이터를 기반으로 Stream 생성
-        return pieceData.entrySet().stream()
-            .map(entry -> Arguments.arguments(entry.getKey().get(), entry.getValue()[0], entry.getValue()[1]));
+        return Stream.of(
+            Arguments.arguments(
+                Piece.createWhitePawn(),
+                Color.WHITE,
+                Type.PAWN.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackPawn(),
+                Color.BLACK,
+                Type.PAWN.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createWhiteKnight(),
+                Color.WHITE,
+                Type.KNIGHT.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackKnight(),
+                Color.BLACK,
+                Type.KNIGHT.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createWhiteRook(),
+                Color.WHITE,
+                Type.ROOK.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackRook(),
+                Color.BLACK,
+                Type.ROOK.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createWhiteBishop(),
+                Color.WHITE,
+                Type.BISHOP.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackBishop(),
+                Color.BLACK,
+                Type.BISHOP.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createWhiteQueen(),
+                Color.WHITE,
+                Type.QUEEN.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackQueen(),
+                Color.BLACK,
+                Type.QUEEN.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createWhiteKing(),
+                Color.WHITE,
+                Type.KING.getWhiteRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createBlackKing(),
+                Color.BLACK,
+                Type.KING.getBlackRepresentation()
+            ),
+            Arguments.arguments(
+                Piece.createNoColorPiece(),
+                Color.NO_COLOR,
+                Type.NO_PIECE.getWhiteRepresentation()
+            )
+        );
     }
 }

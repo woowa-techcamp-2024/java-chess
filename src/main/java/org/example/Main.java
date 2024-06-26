@@ -17,7 +17,6 @@ public class Main {
                 // 게임 시작
                 // 체스판 초기화
                 Board board = new Board();
-                board.initialize();
             }else{
                 System.out.println("Invalid command");
             }
