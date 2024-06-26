@@ -5,6 +5,7 @@ import chess.piece.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,18 +40,41 @@ public class Board {
         this.board.put(position, piece);
     }
 
+    public void move(final String source, final String target) {
+        Position sourcePosition = getPosition(source);
+
+        Piece piece = Optional.ofNullable(this.board.get(sourcePosition))
+                .orElseGet(Blank::create);
+
+        if (piece.getType().equals(Type.NO_PIECE)) {
+            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
+        }
+
+        move(target, piece);
+
+        this.board.remove(sourcePosition);
+    }
+
     public int pieceCount() {
         return this.board.size();
     }
 
     public Piece findPiece(final Position position) {
-        return this.board.get(position);
+        return Optional.ofNullable(this.board.get(position))
+                .orElseGet(Blank::create);
     }
 
     public Piece findPiece(final String input) {
         Position position = getPosition(input);
 
-        return this.board.get(position);
+        return Optional.ofNullable(this.board.get(position))
+                .orElseGet(Blank::create);
+    }
+
+    public List<Piece> findPiece(final PieceColor color) {
+        return this.board.values().stream()
+                .filter(piece -> piece.getColor().equals(color))
+                .collect(Collectors.toList());
     }
 
     public long getPieceResult(final PieceColor color, final Type type) {
@@ -88,7 +112,7 @@ public class Board {
 
         for (int row = BOARD_SIZE; row >= 1; row--) {
             for (int col = 1; col <= BOARD_SIZE; col++) {
-                Position position = Position.of(File.of(col), Rank.of(row));
+                Position position = Position.of(Rank.of(row), File.of(col));
                 char representation = getPieceInPosition(position);
 
                 chessBoard.append(representation);
@@ -105,10 +129,10 @@ public class Board {
         System.out.println(showBoard());
     }
 
-    private static Position getPosition(final String input) {
+    private Position getPosition(final String input) {
         File file = File.of(input.charAt(0));
         Rank rank = Rank.of(Character.getNumericValue(input.charAt(1)));
-        return Position.of(file, rank);
+        return Position.of(rank, file);
     }
 
     private char getPieceInPosition(final Position position) {
@@ -129,13 +153,6 @@ public class Board {
                             .toList();
                     return pawns.size() >= 2 ? pawns.stream() : Stream.empty();
                 })
-                .collect(Collectors.toList());
-    }
-
-
-    private List<Piece> findPiece(final PieceColor color) {
-        return this.board.values().stream()
-                .filter(piece -> piece.getColor().equals(color))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

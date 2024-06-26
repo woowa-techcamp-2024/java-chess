@@ -158,4 +158,18 @@ public class BoardTest {
         assertEquals(Type.ROOK, whitePieces.get(0).getType());
         assertEquals(Type.KING, whitePieces.get(3).getType());
     }
+
+    @Test
+    @DisplayName("기물을 이동한다.")
+    public void move_pieces() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+
+        assertEquals(Type.NO_PIECE, board.findPiece(sourcePosition).getType());
+        assertEquals(Type.PAWN, board.findPiece(targetPosition).getType());
+        assertEquals(PieceColor.WHITE, board.findPiece(targetPosition).getColor());
+    }
 }
