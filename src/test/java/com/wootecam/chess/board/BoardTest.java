@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
-import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -20,61 +18,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("체스판 테스트")
 class BoardTest {
+
     private Board board;
 
     private static Board createBoard() {
         return new Board();
     }
 
-    private static Board createBoard(List<Piece> pieces) {
-        Board board = new Board();
-        pieces.forEach(board::add);
-        return board;
-    }
-
-    @Nested
-    class 체스판에_말을_추가할_수_있다 {
-
-        @Test
-        void 말을_추가할_수_있다() {
-            var board = createBoard();
-            var pawn = Piece.createBlackPawn();
-
-            assertThatNoException().isThrownBy(() -> board.add(pawn));
-        }
-    }
-
-    @Nested
-    class 체스판에_추가된_말의_개수를_조회할_수_있다 {
-
-        static Stream<Arguments> pawnListForSize() {
-            return Stream.of(
-                    Arguments.arguments(List.of(Piece.createWhitePawn())),
-                    Arguments.arguments(
-                            List.of(Piece.createWhitePawn(), Piece.createBlackPawn())),
-                    Arguments.arguments(
-                            List.of(Piece.createBlackPawn(), Piece.createBlackPawn(),
-                                    Piece.createWhitePawn()))
-            );
-        }
-
-        @MethodSource("pawnListForSize")
-        @ParameterizedTest
-        void 말의_개수를_조회할_수_있다(List<Piece> pieceList) {
-            var board = createBoard(pieceList);
-
-            assertThat(board.size()).isEqualTo(pieceList.size());
-        }
+    private static Position createPosition(String position) {
+        return new Position(position);
     }
 
     public static class PieceTypeConverter extends SimpleArgumentConverter {
@@ -98,7 +57,36 @@ class BoardTest {
     }
 
     @Nested
+    class 체스판에_말을_배치할_수_있다 {
+
+        @Test
+        void 말을_배치할_수_있다() {
+            var board = createBoard();
+            var pawn = Piece.createBlackPawn();
+            Position pos = new Position("a8");
+
+            assertThatNoException().isThrownBy(() -> board.add(pawn, pos));
+        }
+    }
+
+    @Nested
+    class 체스판에_추가된_말의_개수를_조회할_수_있다 {
+
+        @Test
+        void 말의_개수를_조회할_수_있다() {
+            var board = createBoard();
+            board.add(Piece.createBlackPawn(), createPosition("e8"));
+            board.add(Piece.createBlackPawn(), createPosition("h7"));
+            board.add(Piece.createBlackPawn(), createPosition("a6"));
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+
+            assertThat(board.size()).isEqualTo(4);
+        }
+    }
+
+    @Nested
     class 기물_타입과_색으로_체스판에_존재하는_기물의_개수를_조회한다 {
+
         @BeforeEach
         void setUp() {
             board = createBoard();
@@ -106,13 +94,14 @@ class BoardTest {
 
         @Test
         void 기물_타입과_색으로_체스판에_존재하는_해당_기물_개수를_조회할_수_있다() {
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createBlackPawn());
-            board.add(Piece.createWhitePawn());
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+            board.add(Piece.createBlackPawn(), createPosition("b8"));
+            board.add(Piece.createBlackPawn(), createPosition("c4"));
+            board.add(Piece.createBlackPawn(), createPosition("d3"));
+            board.add(Piece.createWhitePawn(), createPosition("h6"));
 
             assertThat(board.countPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
+            assertThat(board.countPiece(PieceType.PAWN, Color.WHITE)).isEqualTo(1);
         }
     }
 
@@ -146,6 +135,7 @@ class BoardTest {
                     rkbqkbkr
                     """);
         }
+
     }
 
     @Nested
@@ -167,7 +157,7 @@ class BoardTest {
         void 주어진_위치의_기물을_조회할_수_있다(String position,
                                   @ConvertWith(PieceTypeConverter.class) PieceType type,
                                   @ConvertWith(ColorConverter.class) Color color) {
-            Piece piece = board.get(position);
+            Piece piece = board.get(new Position(position));
 
             assertAll(
                     () -> assertThat(piece.getType()).isEqualTo(type),
@@ -178,9 +168,9 @@ class BoardTest {
         @ValueSource(strings = {"a88", "i8", "a9"})
         @ParameterizedTest
         void 유효하지_않은_위치라면_예외가_발생한다(String position) {
-            assertThatThrownBy(() -> board.get(position))
+            Position pos = new Position(position);
+            assertThatThrownBy(() -> board.get(pos))
                     .isInstanceOf(IllegalArgumentException.class);
         }
-
     }
 }

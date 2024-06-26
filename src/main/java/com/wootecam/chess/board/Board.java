@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Board {
     public static final int MAX_COL = 8;
-    private static final int MAX_ROW = 8;
+    static final int MAX_ROW = 8;
     public static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
     public static final int INITIAL_TOTAL_PIECES = 32;
 
@@ -54,28 +54,11 @@ public class Board {
                 Piece.createWhiteRook()));
     }
 
-    public void add(Piece piece) {
-        if (totalPieces >= TOTAL_CELLS) {
-            throw new IllegalArgumentException("Cannot add anymore pieces");
-        }
-        add(piece, totalPieces);
-    }
-
-    public void add(Piece piece, int index) {
-        int row = index / MAX_COL;
-        int col = index % MAX_COL;
-        checkValidIndex(row);
-
-        ranks[row].place(piece, col);
+    public void add(Piece piece, Position pos) {
+        ranks[pos.x].place(piece, pos.y);
 
         if (piece.isPiece()) {
             ++totalPieces;
-        }
-    }
-
-    private void checkValidIndex(int row) {
-        if (row < 0 || row >= MAX_ROW) {
-            throw new IllegalArgumentException("The row index is invalid: " + row);
         }
     }
 
@@ -91,29 +74,8 @@ public class Board {
                 .sum();
     }
 
-    public Piece get(String position) {
-        checkValidPositionForm(position);
-
-        int row = MAX_ROW - (position.charAt(1) - '0');
-        int col = position.charAt(0) - 'a';
-        return ranks[row].get(col);
-    }
-
-    private void checkValidPositionForm(String position) {
-        if (position.length() != 2) {
-            throw new IllegalArgumentException("Invalid position: " + position);
-        }
-
-        char row = position.charAt(1);
-        if (row < '1' || row > '8') {
-
-            throw new IllegalArgumentException("Invalid position: " + position);
-        }
-
-        char col = position.charAt(0);
-        if (col < 'a' || col > 'h') {
-            throw new IllegalArgumentException("Invalid position: " + position);
-        }
+    public Piece get(Position pos) {
+        return ranks[pos.x].get(pos.y);
     }
 
     public int size() {
