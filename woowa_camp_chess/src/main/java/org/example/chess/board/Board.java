@@ -4,6 +4,7 @@ import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.PieceType;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.example.chess.pieces.Piece.createBlank;
@@ -160,5 +161,19 @@ public class Board {
         }
 
         return sum;
+    }
+
+    // 기물의 점수순으로 정렬 ( 내림차순 or 오름차순)
+    // todo : condition 예외
+    public void sortPieceByPoint(String condition) {
+        if ("desc".equals(condition)) {
+            whitePieceList.sort((a, b) -> -Double.compare(a.getPieceType().getDefaultPoint(), b.getPieceType().getDefaultPoint()));
+            blackPieceList.sort((a, b) -> -Double.compare(a.getPieceType().getDefaultPoint(), b.getPieceType().getDefaultPoint()));
+            return;
+        }
+        if ("asc".equals(condition)) {
+            whitePieceList.sort(Comparator.comparingDouble(a -> a.getPieceType().getDefaultPoint()));
+            blackPieceList.sort(Comparator.comparingDouble(a -> a.getPieceType().getDefaultPoint()));
+        }
     }
 }
