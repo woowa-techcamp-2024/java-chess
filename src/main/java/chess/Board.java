@@ -1,132 +1,150 @@
 package chess;
 
+import static chess.DirectionType.*;
+import static java.lang.Math.*;
+import static pieces.Color.*;
 import static pieces.PieceType.BLANK;
-import static pieces.PieceType.KNIGHT;
-import static pieces.PieceType.PAWN;
+import static pieces.PieceType.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import pieces.Color;
 import pieces.Piece;
 import pieces.PieceType;
+import utils.MathUtils;
+import utils.StringUtils;
 
-public record Board(
-    List<Rank> ranks
-) {
+public record Board(Ranks ranks) {
 
-    public static final int BOARD_SIZE = 8;
+	public static final int BOARD_SIZE = 8;
 
-    public int size() {
-        return ranks.size();
-    }
+	public int size() {
+		return BOARD_SIZE;
+	}
 
-    public int totalPieceCount() {
-        return ranks.stream()
-            .map(Rank::totalPieceCount)
-            .reduce(0, Integer::sum);
-    }
+	public Piece getPieceByPosition(int x, int y) {
+		return ranks.getRanks().get(x).getPiece(y);
+	}
 
-    public int getPieceCountByPieceType(PieceType pieceType) {
-        return ranks.stream()
-            .map(rank -> rank.getPieceCountByPieceType(pieceType))
-            .reduce(0, Integer::sum);
-    }
+	public Piece getPieceByPosition(Position position) {
+		return ranks.getRanks().get(position.getRow()).getPiece(position.getColumn());
+	}
 
-    public Piece getPieceByPosition(String pos) {
-        Position position = Position.of(pos);
-        return ranks.get(position.getRow()).getPiece(position.getColumn());
-    }
+	@Override
+	public String toString() {
+		return ranks.getRanks().stream()
+			.map(rank -> rank.pieces()
+				.stream()
+				.map(piece -> String.valueOf(piece.getRepresentation()))
+				.collect(Collectors.joining()))
+			.collect(Collectors.joining(StringUtils.appendNewLine()));
+	}
 
-    public void move(String sourcePosition, String destinationPosition) {
-        Piece sourcePiece = getPieceByPosition(sourcePosition);
-        Piece destinationPiece = getPieceByPosition(destinationPosition);
-        sourcePiece.move(destinationPosition);
+	public void move(Position sourcePosition, Position destinationPosition) {
+		Piece sourcePiece = getPieceByPosition(sourcePosition);
+		Piece destinationPiece = getPieceByPosition(destinationPosition);
 
-        int sourceRow = sourcePiece.getPosition().getRow();
-        int sourceColumn = sourcePiece.getPosition().getColumn();
-        int destinationRow = destinationPiece.getPosition().getRow();
-        int destinationColumn = destinationPiece.getPosition().getColumn();
+		DirectionType directionType = getDirectionType(sourcePiece, sourcePosition, destinationPosition);
+		validateDirectionType(sourcePiece, destinationPiece);
 
-        Piece tempPiece = ranks.get(sourceRow).pieces().get(sourceColumn);
-        ranks.get(sourceRow).pieces().set(sourceColumn, destinationPiece);
-        ranks.get(destinationRow).pieces().set(destinationColumn, tempPiece);
+		addDirectionToDestination(sourcePosition, directionType, destinationPosition);
+		updatePiece(sourcePosition, Piece.of(Color.BLANK, BLANK));
+		updatePiece(destinationPosition, sourcePiece);
+	}
 
-        sourcePiece.updatePosition(Position.of(destinationPosition));
-        destinationPiece.updatePosition(Position.of(sourcePosition));
-    }
+	private void addDirectionToDestination(Position sourcePosition, DirectionType directionType,
+		Position destinationPosition) {
+		Position temp = Position.of(sourcePosition.getRow(), sourcePosition.getColumn());
+		temp.addDirection(directionType);
+		while (!temp.equals(destinationPosition)) {
+			if (getPieceByPosition(temp).isSamePieceType(BLANK)) {
+				throw new IllegalArgumentException();
+			}
+			temp.addDirection(directionType);
+		}
+	}
 
-    public double calculatePoint(Color color) {
-        double result = 0;
-        for (int j = 0; j < BOARD_SIZE; j++) {
-            int pawnCount = 0;
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                Piece piece = ranks.get(i).pieces().get(j);
-                if (piece.isSameColor(color)) {
-                    result += piece.getPieceType().getDefaultPoint();
-                }
-                if (piece.isSamePieceType(PAWN)) {
-                    pawnCount++;
-                }
-            }
-            result -= pawnCount > 1 ? pawnCount * 0.5 : 0;
-        }
-        return result;
-    }
+	private void validateDirectionType(Piece sourcePiece, Piece destinationPiece) {
+		if (isInvalidPoint(sourcePiece, destinationPiece)) {
+			throw new IllegalArgumentException("invalid move");
+		}
+	}
 
-    public List<Piece> sortPieces(Color color, Comparator<Piece> comparator) {
-        List<Piece> pieces = new ArrayList<>(ranks.stream()
-            .map(rank -> rank.pieces().stream()
-                .filter(piece -> piece.getColor() == color)
-                .toList())
-            .flatMap(List::stream)
-            .toList());
-        pieces.sort(comparator);
-        return pieces;
-    }
+	private boolean isInvalidPoint(Piece sourcePiece, Piece destinationPiece) {
+		return sourcePiece.getPieceType() == BLANK || destinationPiece.isSameColor(sourcePiece.getColor());
+	}
 
-    public Piece getPieceByPosition(int x, int y) {
-        return ranks.get(x).getPiece(y);
-    }
+	private DirectionType getDirectionType(Piece sourcePiece, Position sourcePosition, Position destinationPosition) {
+		DirectionType finalDirectionType;
+		List<DirectionType> directionTypes = findByPiece(sourcePiece);
+		// piece 별로 갈 수 있는 모든 방향 정하는거
+		if (sourcePiece.getPieceType() == PAWN) {
+			if (sourcePiece.isSameColor(BLACK) && getPieceByPosition(sourcePosition.getRow() + 1, sourcePosition.getColumn()).isSameColor(WHITE)) {
+				directionTypes.clear();
+			}
+			if (sourcePiece.isSameColor(WHITE) && getPieceByPosition(sourcePosition.getRow() - 1, sourcePosition.getColumn()).isSameColor(BLACK)) {
+				directionTypes.clear();
+			}
+			if (sourcePiece.isSameColor(BLACK) && sourcePosition.getRow() == 1) {
+				directionTypes.add(SS);
+			} else if (sourcePiece.isSameColor(WHITE) && sourcePosition.getRow() == 6) {
+				directionTypes.add(NN);
+			}
+			if (sourcePiece.isSameColor(WHITE)) {
+				if (getPieceByPosition(sourcePosition.getRow() - 1, sourcePosition.getColumn() - 1).isSameColor(
+					BLACK)) {
+					directionTypes.add(NORTHWEST);
+				}
+				if (getPieceByPosition(sourcePosition.getRow() - 1, sourcePosition.getColumn() + 1).isSameColor(
+					BLACK)) {
+					directionTypes.add(NORTHEAST);
+				}
+			} else if (sourcePiece.isSameColor(BLACK)) {
+				if (getPieceByPosition(sourcePosition.getRow() + 1, sourcePosition.getColumn() - 1).isSameColor(
+					WHITE)) {
+					directionTypes.add(SOUTHWEST);
+				}
+				if (getPieceByPosition(sourcePosition.getRow() + 1, sourcePosition.getColumn() + 1).isSameColor(
+					WHITE)) {
+					directionTypes.add(SOUTHEAST);
+				}
+			}
+		}
+		// 방향 딱 하나 정하는거
+		if (sourcePiece.getPieceType() == BISHOP || sourcePiece.getPieceType() == ROOK
+			|| sourcePiece.getPieceType() == QUEEN) {
+			finalDirectionType = directionTypes.stream()
+				.filter(directionType -> {
+					int sourceDiff = destinationPosition.getRow() - sourcePosition.getRow();
+					int destinationDiff = destinationPosition.getColumn() - sourcePosition.getColumn();
+					int gcd = MathUtils.gcd(abs(sourceDiff), abs(destinationDiff));
+					if (gcd != 0) {
+						sourceDiff /= gcd;
+						destinationDiff /= gcd;
+					}
+					return directionType.getX() == sourceDiff && directionType.getY() == destinationDiff;
+				})
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
+		} else {
+			finalDirectionType = directionTypes.stream()
+				.filter(directionType -> {
+					int sourceDiff = destinationPosition.getRow() - sourcePosition.getRow();
+					int destinationDiff = destinationPosition.getColumn() - sourcePosition.getColumn();
+					return directionType.getX() == sourceDiff && directionType.getY() == destinationDiff;
+				})
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
+		}
+		return finalDirectionType;
+	}
 
-    public Piece getPieceByPosition(Position position) {
-        return ranks.get(position.getRow()).getPiece(position.getColumn());
-    }
-
-    public boolean isExistMyPiece(Position source, Position destination, DirectionType directionType) {
-        int sx = source.getRow();
-        int sy = source.getColumn();
-        int ex = destination.getRow();
-        int ey = destination.getColumn();
-
-        while (sx != ex || sy != ey) {
-            sx += directionType.getX();
-            sy += directionType.getY();
-            if (!getPieceByPosition(sx, sy).isSamePieceType(BLANK)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public List<Rank> getRanks() {
-        return ranks;
-    }
-
-    private void validateMove(Piece piece, String position) {
-        Position source = piece.getPosition();
-        Position target = Position.of(position);
-        DirectionType directionType = DirectionType.findByPath(source, target, piece.getPieceType());
-        // 나랑 색이 같은 경우
-        if (piece.isSameColor(getPieceByPosition(target).getColor())) {
-            throw new IllegalArgumentException("목적지에 아군이 있습니다.");
-        }
-        // 나이트는 뛰어넘을 수 있지만, 나머지는 뛰어넘을 수 없다.
-        if (!piece.isSamePieceType(KNIGHT)) {
-            while (!source.equals(target)) {
-                source.addDirection(directionType);
-
-            }
-        }
-    }
+	private void updatePiece(Position position, Piece piece) {
+		int row = position.getRow();
+		int column = position.getColumn();
+		ranks.getRanks().get(row).pieces().set(column, piece);
+	}
 }

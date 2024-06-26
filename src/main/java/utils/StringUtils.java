@@ -2,10 +2,10 @@ package utils;
 
 public class StringUtils {
 
-    private StringUtils() {
-    }
+	private StringUtils() {
+	}
 
-    public static String appendNewLine(String s) {
-        return s + System.lineSeparator();
-    }
+	public static String appendNewLine() {
+		return System.lineSeparator();
+	}
 }
