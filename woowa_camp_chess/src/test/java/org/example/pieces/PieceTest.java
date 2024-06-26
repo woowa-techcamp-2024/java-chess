@@ -45,7 +45,7 @@ class PieceTest {
     @Test
     @DisplayName("색을 구분한 결과값을 내야한다")
     public void compare_color() {
-        Piece piece = new Piece(WHITE_COLOR, PieceType.PAWN);
+        Piece piece = Piece.createPiece(WHITE_COLOR, PieceType.PAWN);
         Assertions.assertTrue(piece.isWhite());
         Assertions.assertFalse(piece.isBlack());
     }
