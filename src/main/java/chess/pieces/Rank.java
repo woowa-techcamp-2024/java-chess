@@ -8,6 +8,10 @@ public class Rank {
 
     public Rank(final List<Piece> rank) { this.rank = rank; }
 
+    public Piece get(int index) {
+        return rank.get(index);
+    }
+
     public int getCount() {
         return (int) rank.stream().filter(piece -> !Objects.equals(piece.getType(), Type.NO_PIECE)).count();
     }
@@ -15,10 +19,6 @@ public class Rank {
     public int getCount(final Color color, final Type type) {
         return (int) rank.stream().filter(
                 piece -> Objects.equals(color, piece.getColor()) && Objects.equals(type, piece.getType())).count();
-    }
-
-    public Piece get(int index) {
-        return rank.get(index);
     }
 
     public String showRank() {
