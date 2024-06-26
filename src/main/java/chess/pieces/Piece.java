@@ -2,7 +2,28 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public record Piece (Color color, Type type) implements Comparable<Piece> {
+public class Piece implements Comparable<Piece> {
+
+    private final Color color;
+    private final Type type;
+    private final Position position;
+
+    private Piece(final Color color, final Type type, final Position position) {
+        this.color = color;
+        this.type = type;
+        this.position = position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (Objects.equals(o, null)) return false;
+
+        Piece piece = (Piece) o;
+        if (!Objects.equals(this.color, piece.getColor())) return false;
+        if (!Objects.equals(this.type, piece.getType())) return false;
+
+        return true;
+    }
 
     public Color getColor() {
         return this.color;
@@ -12,56 +33,64 @@ public record Piece (Color color, Type type) implements Comparable<Piece> {
         return this.type;
     }
 
-    private static Piece createWhite(final Type type) { return new Piece(Color.WHITE, type); }
-    private static Piece createBlack(final Type type) { return new Piece(Color.BLACK, type); }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
+    public Position getPosition() {
+        return this.position;
     }
 
-    public static Piece createBlackPawn() { return createBlack(Type.PAWN); }
+    private static Piece createWhite(final Type type, final Position position) { return new Piece(Color.WHITE, type, position); }
+    private static Piece createBlack(final Type type, final Position position) { return new Piece(Color.BLACK, type, position); }
 
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
+    public static Piece createMovedPiece(final Piece piece, final Position position) {
+        return new Piece(piece.getColor(), piece.getType(), position);
     }
 
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
+    public static Piece createWhitePawn(final Position position) {
+        return createWhite(Type.PAWN, position);
     }
 
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
+    public static Piece createBlackPawn(final Position position) { return createBlack(Type.PAWN, position); }
+
+    public static Piece createWhiteKnight(final Position position) {
+        return createWhite(Type.KNIGHT, position);
     }
 
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
+    public static Piece createBlackKnight(final Position position) {
+        return createBlack(Type.KNIGHT, position);
     }
 
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
+    public static Piece createWhiteRook(final Position position) {
+        return createWhite(Type.ROOK, position);
     }
 
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
+    public static Piece createBlackRook(final Position position) {
+        return createBlack(Type.ROOK, position);
     }
 
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
+    public static Piece createWhiteBishop(final Position position) {
+        return createWhite(Type.BISHOP, position);
     }
 
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
+    public static Piece createBlackBishop(final Position position) {
+        return createBlack(Type.BISHOP, position);
     }
 
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
+    public static Piece createWhiteQueen(final Position position) {
+        return createWhite(Type.QUEEN, position);
     }
 
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
+    public static Piece createBlackQueen(final Position position) {
+        return createBlack(Type.QUEEN, position);
     }
 
-    public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE); }
+    public static Piece createWhiteKing(final Position position) {
+        return createWhite(Type.KING, position);
+    }
+
+    public static Piece createBlackKing(final Position position) {
+        return createBlack(Type.KING, position);
+    }
+
+    public static Piece createBlank(final Position position) { return new Piece(Color.NO_COLOR, Type.NO_PIECE, position); }
 
     public boolean isWhite() { return Objects.equals(this.color, Color.WHITE); }
 
@@ -70,26 +99,5 @@ public record Piece (Color color, Type type) implements Comparable<Piece> {
     @Override
     public int compareTo(Piece piece) {
         return Double.compare(piece.getType().getDefaultPoint(), this.getType().getDefaultPoint());
-    }
-
-    // test를 위한 메서드
-    private static Type getTypeOfRepresentation(final char representation) {
-        char lowerRepresentation = Character.toLowerCase(representation);
-        return switch (lowerRepresentation) {
-            case 'p' -> Type.PAWN;
-            case 'r' -> Type.ROOK;
-            case 'n' -> Type.KNIGHT;
-            case 'b' -> Type.BISHOP;
-            case 'q' -> Type.QUEEN;
-            case 'k' -> Type.KING;
-            default -> Type.NO_PIECE;
-        };
-    }
-
-    // test를 위한 메서드
-    public static Piece create(final char representation) {
-        if (representation == '.') return createBlank();
-        if ('a' <= representation && representation <= 'z') return createWhite(getTypeOfRepresentation(representation));
-        return createBlack(getTypeOfRepresentation(representation));
     }
 }

@@ -9,18 +9,18 @@ public class PieceTest {
     @Test
     @DisplayName("원하는 색상과 종류의 말이 생성되어야 한다")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+        verifyPiece(Piece.createWhitePawn(new Position("a1")), Piece.createBlackPawn(new Position("a1")), Type.PAWN);
+        verifyPiece(Piece.createWhiteKnight(new Position("a1")), Piece.createBlackKnight(new Position("a1")), Type.KNIGHT);
+        verifyPiece(Piece.createWhiteRook(new Position("a1")), Piece.createBlackRook(new Position("a1")), Type.ROOK);
+        verifyPiece(Piece.createWhiteBishop(new Position("a1")), Piece.createBlackBishop(new Position("a1")), Type.BISHOP);
+        verifyPiece(Piece.createWhiteQueen(new Position("a1")), Piece.createBlackQueen(new Position("a1")), Type.QUEEN);
+        verifyPiece(Piece.createWhiteKing(new Position("a1")), Piece.createBlackKing(new Position("a1")), Type.KING);
 
-        Piece blank = Piece.createBlank();
+        Piece blank = Piece.createBlank(new Position("a1"));
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
-        }
+    }
 
     private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
         assertTrue(whitePiece.isWhite());
@@ -28,18 +28,6 @@ public class PieceTest {
 
         assertTrue(blackPiece.isBlack());
         assertEquals(type, blackPiece.getType());
-    }
-
-    @Test
-    @DisplayName("검정색과 하얀색을 구분할 수 있어야 한다")
-    public void isColor() {
-        Piece white = Piece.createWhitePawn();
-        assertTrue(white.isWhite());
-        assertFalse(white.isBlack());
-
-        Piece black = Piece.createBlackPawn();
-        assertFalse(black.isWhite());
-        assertTrue(black.isBlack());
     }
 
     @Test
