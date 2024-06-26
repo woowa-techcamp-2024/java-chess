@@ -1,72 +1,16 @@
 package com.woowatechcamp.chess.pieces;
 
-public class Piece {
+import java.util.Objects;
+
+public abstract class Piece {
     private final Color color;
     private final Type type;
+    private Position position;
 
-    private Piece(Color color, Type type) {
+    public Piece(Color color, Type type, Position position) {
         this.color = color;
         this.type = type;
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
-
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
-
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NONE, Type.BLANK);
+        this.position = position;
     }
 
     public Color getColor() {
@@ -75,6 +19,17 @@ public class Piece {
 
     public Type getType() {
         return type;
+    }
+
+    public void move(Position position) {
+        validateMove(position);
+        this.position = position;
+    }
+
+    abstract protected void validateMove(Position position);
+
+    public Position getPosition() {
+        return position;
     }
 
     public boolean isWhite() {
@@ -101,24 +56,27 @@ public class Piece {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return color == piece.getColor() && type == piece.getType() && Objects.equals(position, piece.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type, position);
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(getRepresentation());
     }
 
     public enum Color {
-        BLACK("black"),
-        WHITE("white"),
-        NONE("none");
-
-        private final String color;
-
-        Color(String color) {
-            this.color = color;
-        }
-
-        public String getColor() {
-            return color;
-        }
+        BLACK,
+        WHITE,
+        NONE;
     }
 
     public enum Type {

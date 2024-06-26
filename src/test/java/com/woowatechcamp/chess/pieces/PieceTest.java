@@ -8,14 +8,14 @@ public class PieceTest {
     @Test
     @DisplayName("모든 흰색, 검은색 기물이 생성되어야 한다")
     public void create() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Piece.Type.PAWN);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Piece.Type.ROOK);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Piece.Type.KNIGHT);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Piece.Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Piece.Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Piece.Type.KING);
+        verifyPiece(PieceFactory.createWhitePawn(new Position("a2")), PieceFactory.createBlackPawn(new Position("a7")), Piece.Type.PAWN);
+        verifyPiece(PieceFactory.createWhiteRook(new Position("a1")), PieceFactory.createBlackRook(new Position("a8")), Piece.Type.ROOK);
+        verifyPiece(PieceFactory.createWhiteKnight(new Position("b1")), PieceFactory.createBlackKnight(new Position("b8")), Piece.Type.KNIGHT);
+        verifyPiece(PieceFactory.createWhiteBishop(new Position("c1")), PieceFactory.createBlackBishop(new Position("c8")), Piece.Type.BISHOP);
+        verifyPiece(PieceFactory.createWhiteQueen(new Position("d1")), PieceFactory.createBlackQueen(new Position("d8")), Piece.Type.QUEEN);
+        verifyPiece(PieceFactory.createWhiteKing(new Position("e1")), PieceFactory.createBlackKing(new Position("e8")), Piece.Type.KING);
 
-        Piece blank = Piece.createBlank();
+        Piece blank = PieceFactory.createBlank(new Position("a3"));
         assertThat(blank.isWhite()).isFalse();
         assertThat(blank.isBlack()).isFalse();
         assertThat(blank.getType()).isEqualTo(Piece.Type.BLANK);

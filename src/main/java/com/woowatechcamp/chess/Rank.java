@@ -1,6 +1,8 @@
 package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.PieceFactory;
+import com.woowatechcamp.chess.pieces.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,9 +24,13 @@ public class Rank {
         }
     }
 
-    public static Rank createBlankRank() {
-        return new Rank(Piece.createBlank(), Piece.createBlank(), Piece.createBlank(), Piece.createBlank(),
-                Piece.createBlank(), Piece.createBlank(), Piece.createBlank(), Piece.createBlank());
+    public static Rank createBlankRank(int yPos) {
+        return new Rank(
+                PieceFactory.createBlank(new Position("a" + yPos)), PieceFactory.createBlank(new Position("b" + yPos)),
+                PieceFactory.createBlank(new Position("c" + yPos)), PieceFactory.createBlank(new Position("d" + yPos)),
+                PieceFactory.createBlank(new Position("e" + yPos)), PieceFactory.createBlank(new Position("f" + yPos)),
+                PieceFactory.createBlank(new Position("g" + yPos)), PieceFactory.createBlank(new Position("h" + yPos))
+        );
     }
 
     public int getPieceCount() {
@@ -39,8 +45,8 @@ public class Rank {
                 .count();
     }
 
-    public void setPiece(int xPos, Piece piece) {
-        pieces.set(xPos, piece);
+    public void setPiece(Piece piece) {
+        pieces.set(piece.getPosition().getXPos(), piece);
     }
 
     public Piece getPiece(int xPos) {
