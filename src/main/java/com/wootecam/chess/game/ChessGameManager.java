@@ -3,6 +3,8 @@ package com.wootecam.chess.game;
 import com.wootecam.chess.Reader;
 
 public class ChessGameManager {
+    private static final String CMD_START = "start";
+    private static final String CMD_END = "end";
 
     public static void main(String[] args) {
         Reader reader = new Reader();
@@ -24,10 +26,10 @@ public class ChessGameManager {
             String cmd = reader.readLine();
 
             switch (cmd) {
-                case "start":
+                case CMD_START:
                     chessGame = startGame();
                     break;
-                case "end":
+                case CMD_END:
                     endGame(chessGame);
                     isFinished = true;
                     break;
