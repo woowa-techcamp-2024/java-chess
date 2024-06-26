@@ -1,46 +1,137 @@
 package chess;
 
 import chess.pieces.Piece;
+import utils.StringUtils;
 
-import static utils.StringUtils.appendNewLine;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
-    private Piece[][] map;
+    private final List<Rank> map = new ArrayList<>();
 
+
+    public static class Rank {
+
+        private final List<Piece> pieces = new ArrayList<>();
+        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE;}
+
+        public List<Piece> getPieces() {
+            return pieces;
+        }
+        public Rank(Type type) {
+            if (type == Type.WHITE_PAWN) {
+                for (int i = 0; i < 8; i++) {
+                    pieces.add(Piece.createWhitePawn());
+                }
+            }
+            else if (type == Type.BLACK_PAWN) {
+                for (int i = 0; i < 8; i++) {
+                    pieces.add(Piece.createBlackPawn());
+                }
+            }
+            else if (type == Type.WHITE_ROOK_TO_KING) {
+                pieces.add(Piece.createWhiteRook());
+                pieces.add(Piece.createWhiteKnight());
+                pieces.add(Piece.createWhiteBishop());
+                pieces.add(Piece.createWhiteQueen());
+                pieces.add(Piece.createWhiteKing());
+                pieces.add(Piece.createWhiteBishop());
+                pieces.add(Piece.createWhiteKnight());
+                pieces.add(Piece.createWhiteRook());
+            }
+            else if (type == Type.BLACK_ROOK_TO_KING) {
+                pieces.add(Piece.createBlackRook());
+                pieces.add(Piece.createBlackKnight());
+                pieces.add(Piece.createBlackBishop());
+                pieces.add(Piece.createBlackQueen());
+                pieces.add(Piece.createBlackKing());
+                pieces.add(Piece.createBlackBishop());
+                pieces.add(Piece.createBlackKnight());
+                pieces.add(Piece.createBlackRook());
+            }
+            else if (type == Type.NO_PIECE) {
+                for (int i = 0; i < 8; i++) {
+                    pieces.add(Piece.createBlank());
+                }
+            }
+        }
+
+
+    }
     public Board() {}
+    public void initializeEmpty() {
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+        map.add(new Rank(Rank.Type.NO_PIECE));
+    }
 
     public void initialize() {
-        map = new Piece[8][8];
-        map[0][0] = Piece.createBlackRook();
-        map[0][1] = Piece.createBlackKnight();
-        map[0][2] = Piece.createBlackBishop();
-        map[0][3] = Piece.createBlackQueen();
-        map[0][4] = Piece.createBlackKing();
-        map[0][5] = Piece.createBlackBishop();
-        map[0][6] = Piece.createBlackKnight();
-        map[0][7] = Piece.createBlackRook();
-        for (int i = 0; i < 8; i++) {
-            map[1][i] = Piece.createBlackPawn();
-            map[6][i] = Piece.createWhitePawn();
+        map.add(new Rank(Rank.Type.BLACK_ROOK_TO_KING));
+        map.add(new Rank(Rank.Type.BLACK_PAWN));
+        for (int i = 0; i < 4; i++) {
+            map.add(new Rank(Rank.Type.NO_PIECE));
         }
-        map[7][0] = Piece.createWhiteRook();
-        map[7][1] = Piece.createWhiteKnight();
-        map[7][2] = Piece.createWhiteBishop();
-        map[7][3] = Piece.createWhiteQueen();
-        map[7][4] = Piece.createWhiteKing();
-        map[7][5] = Piece.createWhiteBishop();
-        map[7][6] = Piece.createWhiteKnight();
-        map[7][7] = Piece.createWhiteRook();
+        map.add(new Rank(Rank.Type.WHITE_PAWN));
+        map.add(new Rank(Rank.Type.WHITE_ROOK_TO_KING));
+    }
+
+    public void move(String position, Piece piece) {
+        Position pos = new Position(position);
+        map.get(pos.getRow()).getPieces().set(pos.getCol(), piece);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        double sum = 0;
+        for (Rank rank : map) {
+            for (Piece piece : rank.getPieces()) {
+                if (piece.getColor() == color) {
+                    if (piece.getType() == Piece.Type.QUEEN) sum += 9;
+                    if (piece.getType() == Piece.Type.ROOK) sum += 5;
+                    if (piece.getType() == Piece.Type.BISHOP) sum += 3;
+                    if (piece.getType() == Piece.Type.KNIGHT) sum += 2.5;
+                }
+            }
+        }
+        for (int i=0; i<8; i++){
+            int pawnCount = 0;
+            for (Rank rank : map) {
+                Piece piece = rank.getPieces().get(i);
+                if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
+                    pawnCount++;
+                }
+            }
+            if (pawnCount >= 2) sum += pawnCount * 0.5;
+            else sum += pawnCount;
+        }
+        return sum;
+    }
+
+    public Piece findPiece(String position){
+        Position pos = new Position(position);
+        return map.get(pos.getRow()).getPieces().get(pos.getCol());
+    }
+
+    public int pieceCount(Piece.Color color, Piece.Type type) {
+        int count = 0;
+        for (Rank rank : map) {
+            for (Piece piece : rank.getPieces()) {
+                if (piece.getColor() == color && piece.getType() == type) count++;
+            }
+        }
+        return count;
     }
 
     public int pieceCount() {
         int count = 0;
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                if (map[row][col] != null) {
-                    count++;
-                }
+        for (Rank rank : map) {
+            for (Piece piece : rank.getPieces()) {
+                if (piece.getType() != Piece.Type.NO_PIECE) count++;
             }
         }
         return count;
@@ -48,13 +139,12 @@ public class Board {
 
     public String showBoard() {
         StringBuilder builder = new StringBuilder();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                if (map[row][col] != null) {
-                    builder.append(map[row][col].getRepresentation().getSymbol());
-                } else builder.append('.');
+        for (Rank rank : map) {
+            for (Piece piece : rank.getPieces()) {
+                if (piece.getType() == Piece.Type.NO_PIECE) builder.append('.');
+                else builder.append(piece.getRepresentation().getSymbol());
             }
-            builder.append(appendNewLine(""));
+            builder.append(StringUtils.appendNewLine(""));
         }
         return builder.toString();
     }
