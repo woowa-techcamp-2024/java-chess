@@ -73,4 +73,9 @@ public class Rank {
         }
     }
 
+    public List<Piece> getAllPieces() {
+        return pieces.stream()
+                .filter(piece -> !piece.isBlank())
+                .toList();
+    }
 }
