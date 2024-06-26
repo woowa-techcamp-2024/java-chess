@@ -1,7 +1,10 @@
 package chess;
 
+import static chess.pieces.enums.Type.PAWN;
+
 import chess.pieces.Piece;
 import chess.pieces.enums.Color;
+import chess.pieces.enums.Direction;
 import chess.pieces.enums.Type;
 import chess.pieces.values.Location;
 import java.util.ArrayList;
@@ -65,7 +68,6 @@ public class Board {
         return table.getOrDefault(location, Piece.getBlank());
     }
 
-
     /**
      * 해당 행에 존재하는 말들을 갖고 옵니다.
      *
@@ -117,6 +119,44 @@ public class Board {
     }
 
     /**
+     * 해당 위치에 존재하는 말의 이동 가능 위치들을 갖고 옵니다.
+     *
+     * @param location 위치
+     * @return 이동 가능 위치
+     * @throws IllegalArgumentException 위치에 말이 없을 경우
+     */
+    public List<Location> getLocationsThatPieceCanMoveByLocation(Location location) {
+        var piece = getPiece(location);
+        var color = piece.getColor();
+        // TODO: piece가 Blank일때의 예외 처리 해줘~
+        if (PAWN.isInstance(piece)) {
+            return getLocationsThatPawnCanMoveByLocation(location, color);
+        }
+        var result = new ArrayList<Location>();
+        var directions = piece.getDirections();
+        for (Direction direction : directions) {
+            // Rook, Bishop, Queen은 직선으로 갈 수 있어요 (flag = true)
+            // King, Knight은 재귀호출을 사용할 필요가 없어요(flag = false)
+            verifyMoveable(location, direction, color, result, piece.canMoveMultipleTimes());
+        }
+        return result;
+    }
+
+    private List<Location> getLocationsThatPawnCanMoveByLocation(Location location, Color color) {
+        var result = new ArrayList<Location>();
+        var piece = getPiece(location);
+        for (Direction direction : piece.getDirections()) {
+            verifyMoveable(location, direction, color, result, false);
+        }
+        if (location.getX() == 2 && color.equals(Color.WHITE)) {
+            verifyMoveable(location, Direction.PAWN_WHITE_DOUBLE_UP, color, result, false);
+        } else if (location.getX() == 7 && color.equals(Color.BLACK)) {
+            verifyMoveable(location, Direction.PAWN_BLACK_DOUBLE_DOWN, color, result, false);
+        }
+        return result;
+    }
+
+    /**
      * 보드에서 색이 일치하는 폰들의 위치를 갖고 옵니다.
      *
      * @param color 색
@@ -125,7 +165,7 @@ public class Board {
     public List<Location> getPawnsLocationsByColor(Color color) {
         return table.entrySet().stream()
             .filter(entry -> entry.getValue().verifySameColor(color))
-            .filter(entry -> Type.PAWN.isInstance(entry.getValue()))
+            .filter(entry -> PAWN.isInstance(entry.getValue()))
             .map(Entry::getKey)
             .toList();
     }
@@ -156,7 +196,7 @@ public class Board {
     private void setupPieces(int row, Color color) {
         for (char col : COLS) {
             var location = Location.of(row, col);
-            addPiece(location, Piece.generatePiece(Type.PAWN, color));
+            addPiece(location, Piece.generatePiece(PAWN, color));
         }
     }
 
@@ -167,4 +207,19 @@ public class Board {
         }
     }
 
+    private void verifyMoveable(Location location, Direction direction, Color color,
+        List<Location> result, boolean flag) {
+        if (!direction.canMove(location)) {
+            return;
+        }
+        var nextLocation = direction.nextLocation(location);
+        var nextPiece = getPiece(nextLocation);
+        if (nextPiece.verifySameColor(color)) {
+            return;
+        }
+        result.add(nextLocation);
+        if (flag) {
+            verifyMoveable(nextLocation, direction, color, result, true);
+        }
+    }
 }

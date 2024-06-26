@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.pieces.enums.Color;
+import chess.pieces.enums.Direction;
 import chess.pieces.enums.Symbol;
 import chess.pieces.enums.Type;
 
@@ -35,6 +36,10 @@ public abstract class Piece {
     public double getScore() {
         return score;
     }
+
+    public abstract Direction[] getDirections();
+
+    public abstract boolean canMoveMultipleTimes();
 
     public static Piece generatePiece(Type type, Color color) {
         Piece piece = null;

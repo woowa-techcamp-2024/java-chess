@@ -184,6 +184,24 @@ class BoardTest {
         assertThat(actualResult).hasSize(3);
     }
 
+    @MethodSource
+    @ParameterizedTest
+    @DisplayName("체스 판에서 말이 움직일 수 있는 위치들을 갖고 온다.")
+    void getLocationsThatPieceCanMoveByLocation(Location location, Type type, int expectedSize,
+        Location... expectedLocations) {
+        // Arrange
+        board.addPiece(location, Piece.generatePiece(type, Color.WHITE));
+
+        // Act
+        var actualResult = board.getLocationsThatPieceCanMoveByLocation(location);
+
+        // Assert
+        assertAll(
+            () -> assertThat(actualResult).hasSize(expectedSize),
+            () -> assertThat(actualResult).contains(expectedLocations)
+        );
+    }
+
     static Stream<Arguments> pieceProvider() {
         return Stream.of(
             Arguments.of(Location.from("a1"), Piece.generatePiece(Type.ROOK, Color.WHITE)),
@@ -202,6 +220,35 @@ class BoardTest {
             Arguments.of(Type.KNIGHT, Color.BLACK, 2),
             Arguments.of(Type.PAWN, Color.BLACK, 8),
             Arguments.of(Type.BISHOP, Color.WHITE, 2)
+        );
+    }
+
+    static Stream<Arguments> getLocationsThatPieceCanMoveByLocation() {
+        return Stream.of(
+            Arguments.of(Location.from("c2"), Type.PAWN, 2,
+                new Location[]{Location.from("c3"), Location.from("c4")}),
+            Arguments.of(Location.from("d4"), Type.KNIGHT, 8, new Location[]{Location.from("b3"),
+                Location.from("b5"), Location.from("c2"), Location.from("c6"), Location.from("e2"),
+                Location.from("e6"), Location.from("f3"), Location.from("f5")}),
+            Arguments.of(Location.from("c2"), Type.BISHOP, 9, new Location[]{Location.from("b1"),
+                Location.from("d1"), Location.from("b3"), Location.from("a4"), Location.from("d3"),
+                Location.from("e4"), Location.from("f5"), Location.from("g6"),
+                Location.from("h7")}),
+            Arguments.of(Location.from("c2"), Type.ROOK, 14, new Location[]{Location.from("b2"),
+                Location.from("a2"), Location.from("d2"), Location.from("e2"), Location.from("f2"),
+                Location.from("g2"), Location.from("h2"), Location.from("c1"), Location.from("c3"),
+                Location.from("c4"), Location.from("c5"), Location.from("c6"), Location.from("c7"),
+                Location.from("c8")}),
+            Arguments.of(Location.from("b2"), Type.QUEEN, 23, new Location[]{Location.from("a1"),
+                Location.from("b1"), Location.from("c1"), Location.from("a2"), Location.from("c2"),
+                Location.from("d2"), Location.from("e2"), Location.from("f2"), Location.from("g2"),
+                Location.from("h2"), Location.from("b3"), Location.from("b4"), Location.from("b5"),
+                Location.from("b6"), Location.from("b7"), Location.from("b8"), Location.from("a3"),
+                Location.from("c3"), Location.from("d4"), Location.from("e5"), Location.from("f6"),
+                Location.from("g7"), Location.from("h8")}),
+            Arguments.of(Location.from("c2"), Type.KING, 8, new Location[]{Location.from("b1"),
+                Location.from("d1"), Location.from("b2"), Location.from("d2"), Location.from("b3"),
+                Location.from("c3"), Location.from("d3"), Location.from("c1")})
         );
     }
 
