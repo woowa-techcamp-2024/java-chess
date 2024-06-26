@@ -6,26 +6,35 @@ import com.wootecam.chess.common.Reader;
 public class ChessGameManager {
     private static final String CMD_START = "start";
     private static final String CMD_END = "end";
+    private static final String CMD_MOVE = "move";
 
     private static final BoardInitializer boardInitializer = new BoardInitializer();
 
+    private final Reader reader;
+
+    public ChessGameManager(Reader reader) {
+        this.reader = reader;
+    }
+
     public static void main(String[] args) {
         Reader reader = new Reader();
+        ChessGameManager manager = new ChessGameManager(reader);
 
         try {
-            playGame(reader);
+            manager.playGame(reader);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
-            reader.close();
+            manager.close();
         }
     }
 
-    private static void playGame(Reader reader) {
+    public void playGame(Reader reader) {
         ChessGame chessGame = null;
         boolean isFinished = false;
 
         while (!isFinished) {
+            System.out.print(">>> ");
             String cmd = reader.readLine();
 
             switch (cmd) {
@@ -37,22 +46,44 @@ public class ChessGameManager {
                     isFinished = true;
                     break;
                 default:
-                    throw new IllegalArgumentException("Unknown command: " + cmd);
+                    if (!cmd.startsWith(CMD_MOVE)) {
+                        throw new IllegalArgumentException("Unknown command: " + cmd);
+                    }
+                    move(chessGame, cmd);
             }
         }
     }
 
-    private static ChessGame startGame() {
+    private ChessGame startGame() {
         ChessGame chessGame = new ChessGame(boardInitializer);
         chessGame.start();
 
         return chessGame;
     }
 
-    private static void endGame(ChessGame chessGame) {
-        if (chessGame == null) {
-            throw new IllegalStateException("You should start chessGame first");
-        }
+    private void move(ChessGame chessGame, String cmd) {
+        validGameStarted(chessGame);
+
+        String[] split = cmd.split(" ");
+        String source = split[1];
+        String target = split[2];
+
+        chessGame.move(source, target);
+    }
+
+    private void endGame(ChessGame chessGame) {
+        validGameStarted(chessGame);
+
         chessGame.end();
+    }
+
+    private void validGameStarted(ChessGame chessGame) {
+        if (chessGame == null) {
+            throw new IllegalStateException("You should start game first");
+        }
+    }
+
+    private void close() {
+        reader.close();
     }
 }
