@@ -56,4 +56,23 @@ public class PieceTest {
         assertThat(Type.PAWN.getBlackRepresentation()).isEqualTo('♟');
     }
 
+    @DisplayName("색상과 타입을 지정해 기물을 생성할 수 있다.")
+    @Test
+    void create_piece() {
+        verifyPieces(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
+        verifyPieces(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
+        verifyPieces(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
+        verifyPieces(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
+        verifyPieces(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
+        verifyPieces(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+    }
+
+    private void verifyPieces(Piece whitePiece, Piece blackPiece, Type type) {
+        assertThat(whitePiece.isWhite()).isTrue();
+        assertThat(whitePiece.getType()).isEqualTo(type);
+
+        assertThat(blackPiece.isBlack()).isTrue();
+        assertThat(blackPiece.getType()).isEqualTo(type);
+    }
+
 }
