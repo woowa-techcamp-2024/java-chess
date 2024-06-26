@@ -2,6 +2,7 @@ package org.example.board;
 
 
 import org.example.chess.board.Board;
+import org.example.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +38,16 @@ public class BoardTest {
         assertEquals("PPPPPPPPNNBBRRQK", board.getBlackPawnsResult());
         assertEquals("ppppppppnnbbrrqk", board.getWhitePawnsResult());
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    public void findPiece() {
+        board.initializeV2();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+        
     }
 }
