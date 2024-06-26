@@ -16,6 +16,7 @@ class BoardTest {
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
     void move() {
+        Board board = new Board();
         board.initializeEmpty();
 
         String position = "b5";
