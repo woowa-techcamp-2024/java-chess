@@ -30,7 +30,6 @@ public class PieceFactoryTest {
     }
 
     private void verifyPiece(final Piece piece, final PieceColor color, final PieceType type, final PieceUnicode pieceUnicode) throws Exception {
-        assertEquals(new Piece(color, type, new Position("a1")), piece);
         assertEquals(color, piece.getColor());
         assertEquals(type, piece.getType());
         assertEquals(pieceUnicode.getUnicode(), piece.getRepresent());

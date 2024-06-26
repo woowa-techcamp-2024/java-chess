@@ -2,9 +2,7 @@ package chess;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pieces.Piece;
-import pieces.PieceColor;
-import pieces.PieceType;
+import pieces.*;
 import util.Order;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class BoardTest {
     @Test
     public void countColorPiece() throws Exception {
         // given
-        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
+        board.setPiece(new Position("a1"), new Pawn(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
         // when & then
         assertEquals(1, board.countPiece(PieceColor.BLACK, PieceType.PAWN));
     }
@@ -30,9 +28,9 @@ public class BoardTest {
     @Test
     public void findPiece() throws Exception {
         // given
-        board.setPiece(new Position("a1"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
+        board.setPiece(new Position("a1"), new Pawn(PieceColor.BLACK, PieceType.PAWN, new Position("a1")));
         // when & then
-        assertEquals(new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("a1")), board.findPiece(new Position("a1")));
+        assertEquals(new Pawn(PieceColor.BLACK, PieceType.PAWN, new Position("a1")), board.findPiece(new Position("a1")));
     }
 
     @Test
@@ -56,14 +54,14 @@ public class BoardTest {
     }
 
     private void anySet() throws Exception {
-        board.setPiece(new Position("b6"), new Piece(PieceColor.BLACK, PieceType.PAWN, new Position("b6")));
-        board.setPiece(new Position("e6"), new Piece(PieceColor.BLACK, PieceType.QUEEN, new Position("e6")));
-        board.setPiece(new Position("b8"), new Piece(PieceColor.BLACK, PieceType.KING, new Position("b8")));
-        board.setPiece(new Position("c8"), new Piece(PieceColor.BLACK, PieceType.ROOK, new Position("c8")));
+        board.setPiece(new Position("b6"), new Pawn(PieceColor.BLACK, PieceType.PAWN, new Position("b6")));
+        board.setPiece(new Position("e6"), new Queen(PieceColor.BLACK, PieceType.QUEEN, new Position("e6")));
+        board.setPiece(new Position("b8"), new King(PieceColor.BLACK, PieceType.KING, new Position("b8")));
+        board.setPiece(new Position("c8"), new Rook(PieceColor.BLACK, PieceType.ROOK, new Position("c8")));
 
-        board.setPiece(new Position("f2"), new Piece(PieceColor.WHITE, PieceType.PAWN, new Position("f2")));
-        board.setPiece(new Position("g2"), new Piece(PieceColor.WHITE, PieceType.PAWN, new Position("g2")));
-        board.setPiece(new Position("e1"), new Piece(PieceColor.WHITE, PieceType.ROOK, new Position("e1")));
-        board.setPiece(new Position("f1"), new Piece(PieceColor.WHITE, PieceType.KING, new Position("f1")));
+        board.setPiece(new Position("f2"), new Pawn(PieceColor.WHITE, PieceType.PAWN, new Position("f2")));
+        board.setPiece(new Position("g2"), new Pawn(PieceColor.WHITE, PieceType.PAWN, new Position("g2")));
+        board.setPiece(new Position("e1"), new Rook(PieceColor.WHITE, PieceType.ROOK, new Position("e1")));
+        board.setPiece(new Position("f1"), new King(PieceColor.WHITE, PieceType.KING, new Position("f1")));
     }
 }

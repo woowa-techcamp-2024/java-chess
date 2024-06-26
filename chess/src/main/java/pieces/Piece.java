@@ -4,7 +4,7 @@ import chess.Position;
 
 import java.util.Objects;
 
-public class Piece{
+public abstract class Piece{
     private final PieceColor color;
     private final PieceType type;
     private Position position;

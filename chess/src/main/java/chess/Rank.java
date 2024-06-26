@@ -1,5 +1,6 @@
 package chess;
 
+import pieces.Blank;
 import pieces.Piece;
 import pieces.PieceColor;
 import pieces.PieceType;
@@ -21,7 +22,7 @@ public class Rank {
         for (int i = 0; i < BoardArea.X.getMax(); i++) {
             char x = (char) (start + i);
             Position position = new Position(x + Integer.toString(y));
-            pieces.add(new Piece(PieceColor.NO_COLOR, PieceType.NO_PIECE, position));
+            pieces.add(new Blank(PieceColor.NO_COLOR, PieceType.NO_PIECE, position));
         }
     }
 
