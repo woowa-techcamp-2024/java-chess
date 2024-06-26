@@ -1,9 +1,14 @@
 package org.example.chess.pieces;
 
+import static org.example.chess.pieces.Piece.Color.*;
+
 public class Piece {
 
+    public enum Color{
+        WHITE, BLACK
+    }
 
-    private final String color;
+    private final Color color;
     private final char representation;
     private final PieceType pieceType;
     public static final int CASE_DIFFERENCE = 32;
@@ -12,9 +17,9 @@ public class Piece {
     public static final char WHITE_REPRESENTATION = 'p';
     public static final char BLACK_REPRESENTATION = 'P';
 
-    private Piece(String color, PieceType pieceType) {
+    private Piece(Color color, PieceType pieceType) {
         this.color = color;
-        this.representation = color.equals(WHITE_COLOR) ? pieceType.getWhiteRepresentation() : pieceType.getBlackRepresentation();
+        this.representation = color.equals(WHITE) ? pieceType.getWhiteRepresentation() : pieceType.getBlackRepresentation();
         this.pieceType = pieceType;
     }
 
@@ -22,10 +27,10 @@ public class Piece {
         this.representation = (char) (PieceType.PAWN.getBlackRepresentation()+32);
         System.out.println(representation);
         this.pieceType = PieceType.PAWN;
-        this.color = WHITE_COLOR;
+        this.color = WHITE;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -33,16 +38,16 @@ public class Piece {
         return representation;
     }
 
-    public static Piece createPiece(String color, PieceType pieceType) {
+    public static Piece createPiece(Color color, PieceType pieceType) {
         return new Piece(color, pieceType);
     }
 
     private static Piece createWhite(PieceType pieceType) {
-        return new Piece(Piece.WHITE_COLOR, pieceType);
+        return new Piece(WHITE, pieceType);
     }
 
     private static Piece createBlack(PieceType pieceType) {
-        return new Piece(Piece.BLACK_COLOR, pieceType);
+        return new Piece(BLACK, pieceType);
     }
 
     public static Piece createBlackPawn() {
@@ -94,10 +99,10 @@ public class Piece {
     }
 
     public boolean isWhite() {
-        return this.color.equals(Piece.WHITE_COLOR);
+        return this.color.equals(WHITE);
     }
 
     public boolean isBlack() {
-        return this.color.equals(Piece.BLACK_COLOR);
+        return this.color.equals(BLACK);
     }
 }
