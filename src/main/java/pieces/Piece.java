@@ -1,22 +1,43 @@
 package pieces;
 
-import static pieces.Piece.Color.BLACK;
-import static pieces.Piece.Color.WHITE;
-
+import chess.Position;
+import java.util.List;
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
 
-    private final Color color;
-    private final PieceType pieceType;
+    protected final Color color;
+    protected PieceType pieceType;
+    protected Position position;
 
-    private Piece(Color color, PieceType pieceType) {
-        this.color = color;
-        this.pieceType = pieceType;
+    abstract public void move(String pos);
+
+    abstract List<Position> getAccessiblePosition();
+
+    public static Piece of(Color color, PieceType pieceType, Position position) {
+        return switch (pieceType) {
+            case PAWN -> new Pawn(color, pieceType, position);
+            case KNIGHT -> new Knight(color, pieceType, position);
+            case ROOK -> new Rook(color, pieceType, position);
+            case BISHOP -> new Bishop(color, pieceType, position);
+            case QUEEN -> new Queen(color, pieceType, position);
+            case KING -> new King(color, pieceType, position);
+            default -> new Blank(color, pieceType, position);
+        };
     }
 
-    public static Piece createPiece(Color color, PieceType pieceType) {
-        return new Piece(color, pieceType);
+    public Piece(Color color, PieceType pieceType, Position position) {
+        this.color = color;
+        this.pieceType = pieceType;
+        this.position = position;
+    }
+
+    public boolean isSameColor(Color color) {
+        return this.color == color;
+    }
+
+    public boolean isSamePieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 
     public Color getColor() {
@@ -27,25 +48,12 @@ public class Piece {
         return pieceType;
     }
 
-    public char getRepresentation() {
-        return WHITE.equals(color) ? Character.toLowerCase(pieceType.getRepresentation())
-            : pieceType.getRepresentation();
+    public Position getPosition() {
+        return position;
     }
 
-    public boolean isBlack() {
-        return BLACK.equals(color);
-    }
-
-    public boolean isWhite() {
-        return WHITE.equals(color);
-    }
-
-    public boolean isBlank() {
-        return pieceType == PieceType.BLANK;
-    }
-
-    public boolean isPawn() {
-        return pieceType == PieceType.PAWN;
+    public void updatePosition(Position position) {
+        this.position = position;
     }
 
     @Override
@@ -57,52 +65,11 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return color == piece.color && pieceType == piece.pieceType;
+        return color == piece.color && pieceType == piece.pieceType && Objects.equals(position, piece.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, pieceType);
-    }
-
-    public enum Color {
-        WHITE,
-        BLACK,
-        BLANK;
-    }
-
-    public enum PieceType {
-
-        PAWN('P', 1.0),
-        KNIGHT('N', 2.5),
-        ROOK('R', 5.0),
-        BISHOP('B', 3.0),
-        QUEEN('Q', 9.0),
-        KING('K', 0.0),
-        BLANK('.', 0.0);
-
-        private final char representation;
-        private final double defaultPoint;
-
-        PieceType(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public char getRepresentation() {
-            return representation;
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-
-        public char getWhiteRepresentation() {
-            return Character.toLowerCase(representation);
-        }
-
-        public char getBlackRepresentation() {
-            return representation;
-        }
+        return Objects.hash(color, pieceType, position);
     }
 }

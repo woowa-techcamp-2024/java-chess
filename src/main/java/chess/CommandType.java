@@ -3,7 +3,8 @@ package chess;
 public enum CommandType {
 
     START("start"),
-    END("end");
+    END("end"),
+    MOVE("move");
 
     private final String value;
 
