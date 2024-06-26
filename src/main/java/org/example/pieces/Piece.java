@@ -2,6 +2,8 @@ package org.example.pieces;
 
 import static org.example.pieces.Piece.Color.*;
 
+import java.util.Objects;
+
 public class Piece {
 
     public boolean isSameColor(Color color) {
@@ -126,5 +128,21 @@ public class Piece {
 
     public boolean isBlack() {
         return color.equals(BLACK);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Piece piece)) {
+            return false;
+        }
+        return color == piece.color && representation == piece.representation;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, representation);
     }
 }

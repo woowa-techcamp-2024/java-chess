@@ -10,6 +10,7 @@ import org.example.pieces.Piece.Type;
 
 public class Board {
 
+
     private class OneColumn {
 
         // 자신의 col과 row길이를 생성시 받는다.
@@ -104,15 +105,6 @@ public class Board {
         oneColumns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
     }
 
-    public String getWhitePawnsResult() {
-        return "";
-    }
-
-    public String getBlackPawnsResult() {
-        return "";
-    }
-
-
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
 
@@ -145,5 +137,11 @@ public class Board {
                 .filter(piece -> piece.isSameColor(color) && piece.isSameType(type))
                 .count())
             .sum();
+    }
+
+    public Piece findPiece(String location) {
+        char col = location.charAt(0);
+        int row = Character.getNumericValue(location.charAt(1));
+        return oneColumns.get(col - startChar).getPiece(row);
     }
 }
