@@ -179,7 +179,7 @@ public class Board {
                 .toList();
     }
 
-    public String print() {
+    public String showBoard() {
         final StringBuilder sb = new StringBuilder();
         for (int row = 0; row < MAX_ROW; row++) {
             appendRowRepresentation(row, sb);

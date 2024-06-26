@@ -112,7 +112,7 @@ public class BoardTest {
     @DisplayName("[Success] 초기화한 Board의 기물 위치 확인")
     void initialBoardStatus() {
         board.initialize();
-        String result = board.print();
+        String result = board.showBoard();
         String expectedInitialBoardState = """
                 RNBQKBNR
                 PPPPPPPP

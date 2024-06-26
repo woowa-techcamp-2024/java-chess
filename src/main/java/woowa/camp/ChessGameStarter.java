@@ -16,7 +16,7 @@ public class ChessGameStarter {
             Board board = new Board();
             board.initialize();
 
-            String print = board.print();
+            String print = board.showBoard();
             System.out.println(print);
         }
     }
