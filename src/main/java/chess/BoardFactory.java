@@ -9,6 +9,9 @@ public class BoardFactory {
     private static final int whiteInitRowWithoutPawn = rowNum - 8;
     private static final int blackInitRowWithoutPawn = rowNum - 1;
 
+    private BoardFactory() {
+    }
+
     public static void createPawn(final Board board) {
         for (int col = 1; col <= boardSize; col++) {
             board.add(Position.of(rowNum - 2, col), Pawn.create(PieceColor.BLACK));
