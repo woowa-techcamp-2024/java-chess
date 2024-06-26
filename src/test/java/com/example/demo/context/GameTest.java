@@ -1,5 +1,6 @@
 package com.example.demo.context;
 
+import com.example.demo.piece.Bishop;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Pawn;
 import com.example.demo.piece.Piece;
@@ -110,6 +111,64 @@ class GameTest {
             return Stream.of(
                     Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.THREE, File.A), new Location(Rank.FIVE, File.A)),
                     Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SIX, File.A), new Location(Rank.FOUR, File.A))
+            );
+        }
+    }
+
+
+    @Nested
+    @DisplayName("비숍 규칙 테스트")
+    public class BishopRule {
+
+        @ParameterizedTest
+        @DisplayName("비숍 이동 성공 테스트")
+        @MethodSource("successCase")
+        public void moveBishop(Location from, Location to) {
+            // given
+            Piece bishop = new Bishop(from.rank(), from.file());
+            Board board = new Board();
+            board.setPiece(from.rank(), from.file(), bishop);
+            Game game = new Game(board);
+
+            // when
+            game.move(from, to);
+
+            // then
+            assertThat(board.getPiece(from)).isNull();
+            assertThat(board.getPiece(to)).isEqualTo(bishop);
+        }
+
+        public static Stream<Arguments> successCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.A)),
+                    Arguments.of(new Location(Rank.ONE, File.F), new Location(Rank.FOUR, File.C)),
+                    Arguments.of(new Location(Rank.EIGHT, File.C), new Location(Rank.FIVE, File.F)),
+                    Arguments.of(new Location(Rank.EIGHT, File.F), new Location(Rank.FIVE, File.C))
+            );
+        }
+
+        @ParameterizedTest
+        @DisplayName("비숍 이동 실패 테스트")
+        @MethodSource("failCase")
+        public void moveBishopFailTest(Location from, Location to) {
+            // given
+            Piece bishop = new Bishop(from.rank(), from.file());
+            Board board = new Board();
+            board.setPiece(from.rank(), from.file(), bishop);
+            Game game = new Game(board);
+
+            // when & then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> failCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.B)),
+                    Arguments.of(new Location(Rank.ONE, File.F), new Location(Rank.FOUR, File.D)),
+                    Arguments.of(new Location(Rank.EIGHT, File.C), new Location(Rank.FIVE, File.E)),
+                    Arguments.of(new Location(Rank.EIGHT, File.F), new Location(Rank.FIVE, File.B))
             );
         }
     }

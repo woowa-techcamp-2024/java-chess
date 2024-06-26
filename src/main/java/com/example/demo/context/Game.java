@@ -21,6 +21,7 @@ public class Game {
     public Game(Board board) {
         this.board = board;
         initPawnRules();
+        initBishopRules();
     }
 
     //--------------init game start----------------
@@ -31,6 +32,20 @@ public class Game {
         pawnRules.add(new NormalRule(-1, 0, Color.BLACK, Type.PAWN, false));
         pawnRules.add(new NormalRule(-2, 0, Color.BLACK, Type.PAWN, true));
         rules.put(Type.PAWN, pawnRules);
+    }
+
+    private void initBishopRules() {
+        List<Rule> bishopRules = new ArrayList<>();
+        bishopRules.add(new NormalRule(7, 7, Color.WHITE, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(-7, 7, Color.WHITE, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(7, -7, Color.WHITE, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(-7, -7, Color.WHITE, Type.BISHOP, false));
+
+        bishopRules.add(new NormalRule(7, 7, Color.BLACK, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(-7, 7, Color.BLACK, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(7, -7, Color.BLACK, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(-7, -7, Color.BLACK, Type.BISHOP, false));
+        rules.put(Type.BISHOP, bishopRules);
     }
     //--------------init game end  ----------------
 
@@ -59,7 +74,6 @@ public class Game {
     public void move(Location from, Location to) {
 
         Piece piece = board.getPiece(from.rank(), from.file());
-        Type type = piece.getType();
 
         if (!accept(from, to)) {
             throw new RuntimeException("이동할 수 없습니다.");
@@ -79,6 +93,10 @@ public class Game {
     public boolean accept(Location from, Location to) {
 
         Piece piece = board.getPiece(from);
+
+        if(piece == null){
+            return false;
+        }
 
         return rules.getOrDefault(piece.getType(), new ArrayList<>())
                 .stream()
