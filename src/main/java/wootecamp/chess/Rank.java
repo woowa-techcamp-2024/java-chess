@@ -98,4 +98,8 @@ public class Rank {
     public Piece findPiece(int fileIndex) {
         return pieces.get(fileIndex);
     }
+
+    public void setPiece(int filePosition, Piece piece) {
+        pieces.set(filePosition, piece);
+    }
 }
