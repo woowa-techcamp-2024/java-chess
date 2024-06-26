@@ -1,5 +1,7 @@
 package com.wootecam.chess.pieces;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -62,5 +64,12 @@ public class Rank {
 
     public Piece findPieceByColumn(int columnIndex) {
         return pieces.get(columnIndex);
+    }
+
+    public Rank placePiece(int columnIndex, Piece piece) {
+        List<Piece> newPieces = new ArrayList<>(pieces);
+        newPieces.set(columnIndex, piece);
+
+        return new Rank(Collections.unmodifiableList(newPieces));
     }
 }

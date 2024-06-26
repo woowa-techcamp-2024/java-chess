@@ -34,6 +34,19 @@ public class Board {
         ranks.add(Rank.createWhiteOtherPieces());
     }
 
+    public void initializeEmpty() {
+        ranks.clear();
+
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+    }
+
     public String showBoard() {
         return appendNewLine(ranks.stream()
                 .map(this::createRankResults)
@@ -62,12 +75,31 @@ public class Board {
 
     public Piece findPiece(String coordinate) {
         validateCoordinate(coordinate);
-        int columnIndex = coordinate.charAt(0) - START_COLUMN_SYMBOL;
-        int rowIndex = reverseRowIndex(coordinate);
+        int rowIndex = extractRowIndex(coordinate);
+        int columnIndex = extractColumnIndex(coordinate);
 
         Rank rowRank = ranks.get(rowIndex);
 
         return rowRank.findPieceByColumn(columnIndex);
+    }
+
+    private int extractRowIndex(String coordinate) {
+        int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
+
+        return Math.abs(rawRow - Rank.PIECE_COUNT);
+    }
+
+    private static int extractColumnIndex(String coordinate) {
+        return coordinate.charAt(0) - START_COLUMN_SYMBOL;
+    }
+
+    public void move(String coordinate, Piece piece) {
+        validateCoordinate(coordinate);
+
+        int rowIndex = extractRowIndex(coordinate);
+        int columnIndex = extractColumnIndex(coordinate);
+        Rank rank = ranks.get(rowIndex);
+        ranks.set(rowIndex, rank.placePiece(columnIndex, piece));
     }
 
     private void validateCoordinate(String coordinate) {
@@ -89,11 +121,5 @@ public class Board {
                 || columnSymbol > END_COLUMN_SYMBOL
                 || rowSymbol < START_ROW_SYMBOL
                 || rowSymbol > END_ROW_SYMBOL;
-    }
-
-    private int reverseRowIndex(String coordinate) {
-        int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
-
-        return Math.abs(rawRow - Rank.PIECE_COUNT);
     }
 }

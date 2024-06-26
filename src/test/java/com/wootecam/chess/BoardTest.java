@@ -114,4 +114,36 @@ public class BoardTest {
             }
         }
     }
+
+    @Nested
+    class initializeEmpty_메소드는 {
+
+        @Test
+        void 아무것도_없는_체스판을_생성한다() {
+            // when
+            board.initializeEmpty();
+            int count = board.countBoardPieces();
+
+            // then
+            assertThat(count).isZero();
+        }
+    }
+
+    @Nested
+    class move_메소드는 {
+
+        @Test
+        void 입력한_좌표로_기물을_이동시킨다() {
+            // given
+            board.initializeEmpty();
+            Piece piece = Piece.createBlack(Type.ROOK);
+            String coordinate = "b5";
+
+            // when
+            board.move(coordinate, piece);
+
+            // then
+            assertThat(board.findPiece(coordinate)).isEqualTo(piece);
+        }
+    }
 }

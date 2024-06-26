@@ -68,4 +68,30 @@ class RankTest {
         // then
         assertThat(count).isEqualTo(2);
     }
+
+    @Test
+    void 열_좌표에_해당되는_piece를_찾을_수_있다() {
+        // given
+        Rank blackOtherPieces = Rank.createBlackOtherPieces();
+
+        // when
+        Piece piece = blackOtherPieces.findPieceByColumn(0);
+
+        // then
+        assertThat(piece).isEqualTo(Piece.createBlack(Type.ROOK));
+    }
+
+    @Test
+    void 특정_열_좌표에_기물을_놓을_수_있다() {
+        // given
+        Rank rank = Rank.createBlanks();
+
+        // when
+        Rank replacedRank = rank.placePiece(0, Piece.createBlack(Type.KING));
+
+        // then
+        assertThat(replacedRank)
+                .extracting(newRank -> newRank.findPieceByColumn(0))
+                .isEqualTo(Piece.createBlack(Type.KING));
+    }
 }
