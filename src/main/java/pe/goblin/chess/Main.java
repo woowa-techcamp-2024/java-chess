@@ -14,7 +14,7 @@ public class Main {
             if ("start".equalsIgnoreCase(input)) {
                 Board board = new Board();
                 board.initialize();
-                System.out.println(board.print());
+                System.out.println(board.showBoard());
             } else {
                 System.out.println("Invalid input");
             }

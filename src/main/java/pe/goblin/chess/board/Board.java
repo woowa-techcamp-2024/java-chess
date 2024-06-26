@@ -49,17 +49,6 @@ public class Board {
         this.pieces = initialPieces;
     }
 
-    public String print() {
-        StringBuilder sb = new StringBuilder();
-        for (int row = MIN_ROWS; row < MAX_ROWS; row++) {
-            for (int col = MIN_ROWS; col < MAX_ROWS; col++) {
-                Piece piece = pieces.get(row).get(col);
-                sb.append(piece.getRepresentation());
-            }
-        }
-        return sb.toString();
-    }
-
     public int pieceCount() {
         return (int) pieces.parallelStream()
                 .flatMap(List::stream)
