@@ -29,12 +29,12 @@ class BoardTest {
         board.move(sourceCoordinate, targetCoordinate);
 
         // then
-        Piece findPiece1 = board.findPiece(new Coordinate(sourceCoordinate));
+        Piece findPiece1 = board.findPiece(Coordinate.of(sourceCoordinate));
         assertThat(findPiece1)
                 .extracting("color", "type")
                 .contains(Color.NOCOLOR, Type.NO_PIECE);
 
-        Piece findPiece2 = board.findPiece(new Coordinate(targetCoordinate));
+        Piece findPiece2 = board.findPiece(Coordinate.of(targetCoordinate));
         assertThat(findPiece2)
                 .extracting("color", "type")
                 .contains(Color.WHITE, Type.PAWN);
@@ -130,7 +130,7 @@ class BoardTest {
         board.initializeEmpty();
 
         String coordinateStr = "b5";
-        Coordinate coordinate = new Coordinate(coordinateStr);
+        Coordinate coordinate = Coordinate.of(coordinateStr);
         Piece piece = Piece.createBlackRook();
 
         // when
@@ -173,7 +173,7 @@ class BoardTest {
         String coordinate = "a1";
 
         // when
-        Piece piece = board.findPiece(new Coordinate(coordinate));
+        Piece piece = board.findPiece(Coordinate.of(coordinate));
 
         // then
         assertThat(piece).isNotNull()
@@ -217,7 +217,7 @@ class BoardTest {
     }
 
     private void addPiece(String coordniate, Piece piece, Board board) {
-        board.move(new Coordinate(coordniate), piece);
+        board.move(Coordinate.of(coordniate), piece);
     }
 
     private String givenBoardPrint() {

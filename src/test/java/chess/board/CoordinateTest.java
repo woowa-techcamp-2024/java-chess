@@ -15,7 +15,7 @@ class CoordinateTest {
         String coordinate = "1e";
 
         // when & then
-        assertThatThrownBy(() -> new Coordinate(coordinate))
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
     }
@@ -28,7 +28,7 @@ class CoordinateTest {
         String coordinateStr = "a1";
 
         // when
-        Coordinate coordinate = new Coordinate(coordinateStr);
+        Coordinate coordinate = Coordinate.of(coordinateStr);
 
         // then
         assertThat(coordinate).isNotNull()
@@ -43,7 +43,7 @@ class CoordinateTest {
         String coordinate = "i1";
 
         // when & then
-        assertThatThrownBy(() -> new Coordinate(coordinate))
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("범위를 넘어선 좌표입니다.");
     }
@@ -52,11 +52,10 @@ class CoordinateTest {
     @Test
     void createCoordinateWithInvalidFormat() {
         // given
-        Board board = new Board();
         String coordinate = "i11";
 
         // when & then
-        assertThatThrownBy(() -> new Coordinate(coordinate))
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("좌표는 2글자여야 합니다.");
     }
@@ -67,7 +66,7 @@ class CoordinateTest {
         String coordinate = "";
 
         // when & then
-        assertThatThrownBy(() -> new Coordinate(coordinate))
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("좌표를 입력해주세요.");
     }
@@ -79,7 +78,7 @@ class CoordinateTest {
         String coordinate = "a9";
 
         // when & then
-        assertThatThrownBy(() -> new Coordinate(coordinate))
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("범위를 넘어선 좌표입니다.");
     }
