@@ -5,57 +5,53 @@ import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
 import com.wootecam.chess.utils.StringUtils;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     public static final int MAX_COL = 8;
     private static final int MAX_ROW = 8;
     public static final int TOTAL_CELLS = MAX_ROW * MAX_COL;
+    public static final int INITIAL_TOTAL_PIECES = 32;
 
-    private final Piece[][] cells;
+    private final Rank[] ranks;
     private int totalPieces;
 
     public Board() {
-        this.cells = new Piece[MAX_ROW][MAX_COL];
-        for (Piece[] rows : cells) {
-            Arrays.fill(rows, Piece.createBlank());
+        this.ranks = new Rank[MAX_ROW];
+        for (int i = 0; i < MAX_ROW; i++) {
+            this.ranks[i] = new Rank();
         }
     }
 
     public void initialize() {
         addBlackPieces();
         addWhitePieces();
+        totalPieces = INITIAL_TOTAL_PIECES;
     }
 
     private void addBlackPieces() {
-        int startIdx = 0;
+        final int blackPieceStartRank = 0;
 
-        add(Piece.createBlackRook(), startIdx++);
-        add(Piece.createBlackKnight(), startIdx++);
-        add(Piece.createBlackBishop(), startIdx++);
-        add(Piece.createBlackQueen(), startIdx++);
-        add(Piece.createBlackKing(), startIdx++);
-        add(Piece.createBlackBishop(), startIdx++);
-        add(Piece.createBlackKnight(), startIdx++);
-        add(Piece.createBlackRook(), startIdx++);
-        for (int i = 0; i < MAX_COL; ++i) {
-            add(Piece.createBlackPawn(), startIdx++);
-        }
+        ranks[blackPieceStartRank].fill(List.of(
+                Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(), Piece.createBlackQueen(),
+                Piece.createBlackKing(), Piece.createBlackBishop(), Piece.createBlackKnight(),
+                Piece.createBlackRook()));
+        ranks[blackPieceStartRank + 1].fill(List.of(
+                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
+                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn()));
     }
 
     private void addWhitePieces() {
-        int startIdx = TOTAL_CELLS - 2 * MAX_COL;
+        final int whitePieceStartRank = MAX_ROW - 2;
 
-        for (int i = 0; i < MAX_COL; ++i) {
-            add(Piece.createWhitePawn(), startIdx++);
-        }
-        add(Piece.createWhiteRook(), startIdx++);
-        add(Piece.createWhiteKnight(), startIdx++);
-        add(Piece.createWhiteBishop(), startIdx++);
-        add(Piece.createWhiteQueen(), startIdx++);
-        add(Piece.createWhiteKing(), startIdx++);
-        add(Piece.createWhiteBishop(), startIdx++);
-        add(Piece.createWhiteKnight(), startIdx++);
-        add(Piece.createWhiteRook(), startIdx);
+        ranks[whitePieceStartRank].fill(List.of(
+                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
+                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn()));
+        ranks[whitePieceStartRank + 1].fill(List.of(
+                Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(), Piece.createWhiteQueen(),
+                Piece.createWhiteKing(), Piece.createWhiteBishop(), Piece.createWhiteKnight(),
+                Piece.createWhiteRook()));
     }
 
     public void add(Piece piece) {
@@ -68,51 +64,88 @@ public class Board {
     public void add(Piece piece, int index) {
         int row = index / MAX_COL;
         int col = index % MAX_COL;
-        if (row < 0 || col < 0 || row >= MAX_ROW) {
-            throw new IllegalArgumentException("The index is invalid: " + index);
-        }
-        if (cells[row][col].isPiece()) {
-            throw new IllegalArgumentException("The cell is already occupied");
-        }
+        checkValidIndex(row);
 
-        cells[row][col] = piece;
+        ranks[row].place(piece, col);
+
         if (piece.isPiece()) {
             ++totalPieces;
         }
     }
 
+    private void checkValidIndex(int row) {
+        if (row < 0 || row >= MAX_ROW) {
+            throw new IllegalArgumentException("The row index is invalid: " + row);
+        }
+    }
+
     public String print() {
-        StringBuilder curState = new StringBuilder();
-
-        for (Piece[] rows : cells) {
-            for (Piece cell : rows) {
-                updateCurState(cell, curState);
-            }
-            StringUtils.appendNewLine(curState);
-        }
-
-        return curState.toString();
+        return Arrays.stream(ranks)
+                .map(Rank::print)
+                .collect(Collectors.joining(StringUtils.NEW_LINE, "", StringUtils.NEW_LINE));
     }
 
-    private void updateCurState(Piece piece, StringBuilder curState) {
-        curState.append(piece.getRepresentation().value);
-    }
-
-    public int findPiece(PieceType type, Color color) {
-        int count = 0;
-
-        for (int r = 0; r < MAX_ROW; ++r) {
-            for (int c = 0; c < MAX_COL; ++c) {
-                if (cells[r][c].getType() == type && cells[r][c].getColor() == color) {
-                    ++count;
-                }
-            }
-        }
-
-        return count;
+    public int countPiece(PieceType type, Color color) {
+        return Arrays.stream(ranks)
+                .mapToInt(r -> r.countPiece(type, color))
+                .sum();
     }
 
     public int size() {
         return totalPieces;
+    }
+
+    private static class Rank {
+        private final Piece[] squares;
+
+        public Rank() {
+            this.squares = new Piece[MAX_COL];
+            Arrays.fill(squares, Piece.createBlank());
+        }
+
+        private static void checkPiecesLength(List<Piece> pieces) {
+            if (pieces.size() > MAX_COL) {
+                throw new IllegalArgumentException("pieces size is too large: " + pieces.size());
+            }
+        }
+
+        public void fill(List<Piece> pieces) {
+            checkPiecesLength(pieces);
+            for (int i = 0; i < pieces.size(); i++) {
+                squares[i] = pieces.get(i);
+            }
+        }
+
+        public void place(Piece piece, int index) {
+            checkValidIndex(index);
+            checkEmptySquare(index);
+
+            squares[index] = piece;
+        }
+
+        private void checkValidIndex(int index) {
+            if (index < 0 || index >= MAX_COL) {
+                throw new IllegalArgumentException("The index is invalid: " + index);
+            }
+        }
+
+        private void checkEmptySquare(int index) {
+            if (squares[index].isPiece()) {
+                throw new IllegalArgumentException("The square is already occupied");
+            }
+        }
+
+        public String print() {
+            return Arrays.stream(squares)
+                    .map(Piece::getRepresentation)
+                    .map(r -> r.value)
+                    .collect(Collectors.joining());
+        }
+
+        public int countPiece(PieceType type, Color color) {
+            return (int) Arrays.stream(squares)
+                    .filter(piece -> piece.hasTypeAndColor(type, color))
+                    .count();
+        }
     }
 }

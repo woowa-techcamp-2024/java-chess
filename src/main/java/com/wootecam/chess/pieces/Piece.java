@@ -103,6 +103,10 @@ public class Piece {
         return color;
     }
 
+    public boolean hasTypeAndColor(PieceType type, Color color) {
+        return this.type == type && this.color == color;
+    }
+
     public PieceRepresentation getRepresentation() {
         return representation;
     }

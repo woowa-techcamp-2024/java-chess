@@ -98,8 +98,7 @@ class BoardTest {
                     ........
                     ........
                     pppppppp
-                    rkbqkbkr
-                    """);
+                    rkbqkbkr""");
         }
     }
 
@@ -118,7 +117,7 @@ class BoardTest {
             board.add(Piece.createBlackPawn());
             board.add(Piece.createWhitePawn());
 
-            assertThat(board.findPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
+            assertThat(board.countPiece(PieceType.PAWN, Color.BLACK)).isEqualTo(4);
         }
     }
 }
