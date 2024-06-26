@@ -9,56 +9,64 @@ public class Piece {
         this.type = type;
     }
 
+    private static Piece createWhite(Type type) {
+        return new Piece(Color.WHITE, type);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(Color.BLACK, type);
+    }
+
     public static Piece createWhitePawn() {
-        return new Piece(Color.WHITE, Type.WHITE_PAWN);
+        return createWhite(Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(Color.BLACK, Type.BLACK_PAWN);
+        return createBlack(Type.PAWN);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(Color.WHITE, Type.WHITE_ROOK);
+        return createWhite(Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(Color.BLACK, Type.BLACK_ROOK);
+        return createBlack(Type.ROOK);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(Color.WHITE, Type.WHITE_KNIGHT);
+        return createWhite(Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(Color.BLACK, Type.BLACK_KNIGHT);
+        return createBlack(Type.KNIGHT);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(Color.WHITE, Type.WHITE_BISHOP);
+        return createWhite(Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(Color.BLACK, Type.BLACK_BISHOP);
+        return createBlack(Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(Color.WHITE, Type.WHITE_QUEEN);
+        return createWhite(Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(Color.BLACK, Type.BLACK_QUEEN);
+        return createBlack(Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(Color.WHITE, Type.WHITE_KING);
+        return createWhite(Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(Color.BLACK, Type.BLACK_KING);
+        return createBlack(Type.KING);
     }
 
-    public static Piece createEmpty() {
-        return new Piece(Color.NONE, Type.EMPTY);
+    public static Piece createBlank() {
+        return new Piece(Color.NONE, Type.BLANK);
     }
 
     public Color getColor() {
@@ -78,15 +86,70 @@ public class Piece {
     }
 
     public char getRepresentation() {
-        return type.getSymbol();
+        if (color == Color.WHITE) {
+            return type.getWhiteRepresentation();
+        }
+        return type.getBlackRepresentation();
     }
 
-    public boolean isNotEmpty() {
-        return type != Type.EMPTY;
+    public boolean isNotBlank() {
+        return type != Type.BLANK;
+    }
+
+    public boolean isSameTypeAndColor(Type type, Color color) {
+        return this.type == type && this.color == color;
     }
 
     @Override
     public String toString() {
         return String.valueOf(getRepresentation());
+    }
+
+    public enum Color {
+        BLACK("black"),
+        WHITE("white"),
+        NONE("none");
+
+        private final String color;
+
+        Color(String color) {
+            this.color = color;
+        }
+
+        public String getColor() {
+            return color;
+        }
+    }
+
+    public enum Type {
+        PAWN ('♙', '♟', 1.0),
+        KNIGHT('♘', '♞', 2.5),
+        BISHOP('♗', '♝', 3.0),
+        ROOK('♖', '♜', 5.0),
+        QUEEN('♕', '♛', 9.0),
+        KING('♔', '♚', 0.0),
+        BLANK('.', '.', 0.0);
+
+        private final char whiteRepresentation;
+        private final char blackRepresentation;
+        private final double point;
+
+        Type(char whiteRepresentation, char blackRepresentation, double point) {
+            this.whiteRepresentation = whiteRepresentation;
+            this.blackRepresentation = blackRepresentation;
+            this.point = point;
+        }
+
+        public char getWhiteRepresentation() {
+            return whiteRepresentation;
+        }
+
+        public char getBlackRepresentation() {
+            return blackRepresentation;
+        }
+
+        public double getPoint() {
+            return point;
+        }
     }
 }
