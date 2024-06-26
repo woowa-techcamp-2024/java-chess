@@ -1,5 +1,7 @@
 package com.example.demo.context;
 
+import com.example.demo.piece.Color;
+import com.example.demo.piece.Pawn;
 import com.example.demo.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,6 +14,7 @@ import java.util.stream.Stream;
 import static com.example.demo.context.Board.Location;
 import static com.example.demo.context.Board.createBoard;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class GameTest {
@@ -43,6 +46,36 @@ class GameTest {
                     Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.THREE, File.A)),
                     Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SIX, File.A)),
                     Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.FIVE, File.A))
+            );
+        }
+
+        @ParameterizedTest
+        @DisplayName("폰 이동 실패 테스트")
+        @MethodSource("movePawnFailCase")
+        public void movePawnFail(Location from, Location to) {
+            // given
+            Board board = createBoard();
+            board.setPiece(Rank.THREE, File.A, new Pawn());
+            Game game = new Game(board);
+
+            // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
+            for(File file: File.values()){
+                board.setPiece(Rank.THREE, file, new Pawn());
+                board.setPiece(Rank.SIX, file, new Pawn(Color.BLACK));
+            }
+
+            // then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> movePawnFailCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.FIVE, File.A)),
+                    Arguments.of(new Location(Rank.TWO, File.A), new Location(Rank.TWO, File.B)),
+                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.FIVE, File.A)),
+                    Arguments.of(new Location(Rank.SEVEN, File.A), new Location(Rank.SEVEN, File.B))
             );
         }
     }
