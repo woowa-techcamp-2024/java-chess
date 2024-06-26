@@ -4,6 +4,9 @@ import chess.pieces.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static chess.pieces.Piece.Color;
 import static chess.pieces.Piece.Type;
 import static chess.utils.StringUtils.NEWLINE;
@@ -12,6 +15,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
+
+    @DisplayName("기물의 점수가 높은 순으로 정렬하여 반환할 수 있다.")
+    @Test
+    void sortPiecesByPoint() {
+        // given
+        Board board = new Board();
+
+        // when
+        List<Piece> pieces = board.sortPiecesByPoint();
+
+        // then
+        assertThat(pieces).extracting("point")
+                .containsExactly(9.0, 5.0, 5.0, 3.0, 3.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    }
 
     @Test
     @DisplayName("포인트를 계산할 수 있다")
