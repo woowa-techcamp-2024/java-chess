@@ -46,8 +46,8 @@ public class Board {
 
     public void initialize() {
         initBoard();
-        initPawns(1, Color.PAWN_BLACK);
-        initPawns(6, Color.PAWN_WHITE);
+        initBlackPieces();
+        initWhitePieces();
     }
 
     private void initBoard() {
@@ -57,9 +57,105 @@ public class Board {
         }
     }
 
+    private void initBlackPieces() {
+        initBlackRook();
+        initBlackKnight();
+        initBlackBishop();
+        initBlackQueen();
+        initBlackKing();
+        initPawns(1, Color.PAWN_BLACK);
+    }
+
+    private void initBlackRook() {
+        final Piece leftBlackRook = Piece.createBlackRook();
+        final Piece rightBlackRook = Piece.createBlackRook();
+        board.get(0).set(0, leftBlackRook);
+        board.get(0).set(7, rightBlackRook);
+        pieces.add(leftBlackRook);
+        pieces.add(rightBlackRook);
+    }
+
+    private void initBlackKnight() {
+        final Piece leftBlackKnight = Piece.createBlackKnight();
+        final Piece rightBlackKnight = Piece.createBlackKnight();
+        board.get(0).set(1, leftBlackKnight);
+        board.get(0).set(6, rightBlackKnight);
+        pieces.add(leftBlackKnight);
+        pieces.add(rightBlackKnight);
+    }
+
+    private void initBlackBishop() {
+        final Piece leftBlackBishop = Piece.createBlackBishop();
+        final Piece rightBlackBishop = Piece.createBlackBishop();
+        board.get(0).set(2, leftBlackBishop);
+        board.get(0).set(5, rightBlackBishop);
+        pieces.add(leftBlackBishop);
+        pieces.add(rightBlackBishop);
+    }
+
+    private void initBlackQueen() {
+        final Piece blackQueen = Piece.createBlackQueen();
+        board.get(0).set(3, blackQueen);
+        pieces.add(blackQueen);
+    }
+
+    private void initBlackKing() {
+        final Piece blackKing = Piece.createBlackKing();
+        board.get(0).set(4, blackKing);
+        pieces.add(blackKing);
+    }
+
+    private void initWhitePieces() {
+        initWhiteRook();
+        initWhiteKnight();
+        initWhiteBishop();
+        initWhiteQueen();
+        initWhiteKing();
+        initPawns(6, Color.PAWN_WHITE);
+    }
+
+    private void initWhiteRook() {
+        final Piece leftWhiteRook = Piece.createWhiteRook();
+        final Piece rightWhiteRook = Piece.createWhiteRook();
+        board.get(7).set(0, leftWhiteRook);
+        board.get(7).set(7, rightWhiteRook);
+        pieces.add(leftWhiteRook);
+        pieces.add(rightWhiteRook);
+    }
+
+    private void initWhiteKnight() {
+        final Piece leftWhiteKnight = Piece.createWhiteKnight();
+        final Piece rightWhiteKnight = Piece.createWhiteKnight();
+        board.get(7).set(1, leftWhiteKnight);
+        board.get(7).set(6, rightWhiteKnight);
+        pieces.add(leftWhiteKnight);
+        pieces.add(rightWhiteKnight);
+    }
+
+    private void initWhiteBishop() {
+        final Piece leftWhiteBishop = Piece.createWhiteBishop();
+        final Piece rightWhiteBishop = Piece.createWhiteBishop();
+        board.get(7).set(2, leftWhiteBishop);
+        board.get(7).set(5, rightWhiteBishop);
+        pieces.add(leftWhiteBishop);
+        pieces.add(rightWhiteBishop);
+    }
+
+    private void initWhiteQueen() {
+        final Piece whiteQueen = Piece.createWhiteQueen();
+        board.get(7).set(3, whiteQueen);
+        pieces.add(whiteQueen);
+    }
+
+    private void initWhiteKing() {
+        final Piece whiteKing = Piece.createWhiteKing();
+        board.get(7).set(4, whiteKing);
+        pieces.add(whiteKing);
+    }
+
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL).forEach(col -> {
-            final Piece piece = new Piece(color);
+            final Piece piece = Piece.createPiece(Piece.PAWN, color);
             addPawn(initRow, col, piece);
         });
     }
