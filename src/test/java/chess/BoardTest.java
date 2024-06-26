@@ -1,17 +1,16 @@
 package chess;
 
 import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import chess.pieces.Piece;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.StringUtils.appendNewLine;
 
@@ -62,7 +61,7 @@ class BoardTest {
     void findPiece() {
         board.initialize();
 
-        assertEquals(8, board.findPiece(Color.BLACK, Piece.Type.PAWN));
+        assertEquals(8, board.findPiece(Color.BLACK, Type.PAWN));
     }
 
     @Test
@@ -70,10 +69,10 @@ class BoardTest {
     void findPiece_by_pos() {
         board.initialize();
 
-        assertEquals(Piece.createBlack(Piece.Type.ROOK).getType(), board.findPiece("a8").getType());
-        assertEquals(Piece.createBlack(Piece.Type.ROOK).getType(), board.findPiece("h8").getType());
-        assertEquals(Piece.createWhite(Piece.Type.ROOK).getType(), board.findPiece("a1").getType());
-        assertEquals(Piece.createWhite(Piece.Type.ROOK).getType(), board.findPiece("h1").getType());
+        assertEquals(Piece.createBlack(Type.ROOK), board.findPiece("a8"));
+        assertEquals(Piece.createBlack(Type.ROOK), board.findPiece("h8"));
+        assertEquals(Piece.createWhite(Type.ROOK), board.findPiece("a1"));
+        assertEquals(Piece.createWhite(Type.ROOK), board.findPiece("h1"));
 
     }
 
@@ -83,7 +82,7 @@ class BoardTest {
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createBlack(Piece.Type.ROOK);
+        Piece piece = Piece.createBlack(Type.ROOK);
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -95,15 +94,15 @@ class BoardTest {
     void calcScore() {
         board.initializeEmpty();
 
-        board.move("b6", Piece.createBlack(Piece.Type.PAWN));
-        board.move("e6", Piece.createBlack(Piece.Type.QUEEN));
-        board.move("b8", Piece.createBlack(Piece.Type.KING));
-        board.move("c8", Piece.createBlack(Piece.Type.ROOK));
+        board.move("b6", Piece.createBlack(Type.PAWN));
+        board.move("e6", Piece.createBlack(Type.QUEEN));
+        board.move("b8", Piece.createBlack(Type.KING));
+        board.move("c8", Piece.createBlack(Type.ROOK));
 
-        board.move("f2", Piece.createWhite(Piece.Type.PAWN));
-        board.move("g2", Piece.createWhite(Piece.Type.PAWN));
-        board.move("e1", Piece.createWhite(Piece.Type.ROOK));
-        board.move("f1", Piece.createWhite(Piece.Type.KING));
+        board.move("f2", Piece.createWhite(Type.PAWN));
+        board.move("g2", Piece.createWhite(Type.PAWN));
+        board.move("e1", Piece.createWhite(Type.ROOK));
+        board.move("f1", Piece.createWhite(Type.KING));
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
@@ -125,4 +124,16 @@ class BoardTest {
         }
     }
 
+
+    @Test
+    @DisplayName("기물의 이동 구현")
+    public void move() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhite(Type.PAWN, new Position(targetPosition)), board.findPiece(targetPosition));
+    }
 }

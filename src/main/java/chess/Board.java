@@ -6,11 +6,9 @@ import chess.pieces.Piece.Type;
 import utils.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Board {
-    public static Map<String, Position> cmdToPos = new HashMap<>();
 
     private Set<Piece> whitePieces;
     private Set<Piece> blackPieces;
@@ -86,7 +84,7 @@ public class Board {
             for (int j = 'a'; j <= 'h'; j++ ) {
                 // change int to char and concat them
                 String command = Character.toString(j) + Character.toString(i);
-                cmdToPos.put(command, new Position(command));
+                CommandChanger.setPosition(command, new Position(command));
             }
         }
     }
@@ -138,7 +136,7 @@ public class Board {
     }
 
     public Piece findPiece(String cmd) {
-        Position pos = cmdToPos.get(cmd);
+        Position pos = CommandChanger.getPosition(cmd);
         return boardMap.get(pos.getRow()).get(pos.getColumn());
     }
 
@@ -156,8 +154,19 @@ public class Board {
     }
 
     public void move(String position, Piece piece) {
-        Position pos = cmdToPos.get(position);
+        Position pos = CommandChanger.getPosition(position);
         boardMap.get(pos.getRow()).set(pos.getColumn(), piece);
+    }
+
+    public void move(String source, String target) {
+        Piece sourcePiece = findPiece(source);
+        sourcePiece.setPosition(CommandChanger.getPosition(target));
+
+        Position sourcePos = CommandChanger.getPosition(source);
+        Position targetPos = CommandChanger.getPosition(target);
+        // boardMap 수정
+        boardMap.get(sourcePos.getRow()).set(sourcePos.getColumn(), Piece.createBlank(sourcePos));
+        boardMap.get(targetPos.getRow()).set(targetPos.getColumn(), sourcePiece);
     }
 
     public double calculatePoint(Color color) {
@@ -209,8 +218,6 @@ public class Board {
     }
 
     public void addInPieceSet(List<Piece> list, Set<Piece> set) {
-        for (Piece piece : list) {
-            set.add(piece);
-        }
+        set.addAll(list);
     }
 }
