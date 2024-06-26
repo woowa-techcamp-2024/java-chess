@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
+import woowa.camp.utils.StringUtils;
 
 public class Board {
 
@@ -182,7 +183,7 @@ public class Board {
         final StringBuilder sb = new StringBuilder();
         for (int row = 0; row < MAX_ROW; row++) {
             appendRowRepresentation(row, sb);
-            sb.append("\n");
+            sb.append(StringUtils.appendNewLine(""));
         }
         return sb.toString();
     }
