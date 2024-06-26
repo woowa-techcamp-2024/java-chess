@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.Position;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,12 +50,12 @@ public class BoardTest {
     }
 
     @Test
-    public void 기물을_이동시킨다() {
+    public void 기물을_추가한다() {
         board.initializeEmpty();
 
-        String position = "b5";
-        Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
+        Position position = new Position("b5");
+        Piece piece = Piece.createBlackRook(position);
+        board.move(piece);
 
          assertThat(piece).isEqualTo(board.findPiece(position));
         System.out.println(board.showBoard());
@@ -64,21 +65,21 @@ public class BoardTest {
     public void 기물의_점수를_계산한다() {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece(Piece.createBlackPawn(new Position("b6")));
+        addPiece(Piece.createBlackQueen(new Position("e6")));
+        addPiece(Piece.createBlackKing(new Position("b8")));
+        addPiece(Piece.createBlackRook(new Position("c8")));
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece(Piece.createWhitePawn(new Position("f2")));
+        addPiece(Piece.createWhitePawn(new Position("g2")));
+        addPiece(Piece.createWhiteRook(new Position("e1")));
+        addPiece(Piece.createWhiteKing(new Position("f1")));
 
         assertThat(15.0).isEqualTo(board.calculatePoint(Piece.Color.BLACK));
         assertThat(7.0).isEqualTo(board.calculatePoint(Piece.Color.WHITE));
     }
 
-    private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+    private void addPiece(Piece piece) {
+        board.move(piece);
     }
 }

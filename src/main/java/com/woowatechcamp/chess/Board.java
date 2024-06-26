@@ -1,6 +1,7 @@
 package com.woowatechcamp.chess;
 
 import com.woowatechcamp.chess.pieces.Piece;
+import com.woowatechcamp.chess.pieces.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +20,29 @@ public class Board {
 
     public void initialize() {
         ranks.add(new Rank(
-                Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(),
-                Piece.createBlackQueen(), Piece.createBlackKing(), Piece.createBlackBishop(),
-                Piece.createBlackKnight(), Piece.createBlackRook()
+                Piece.createBlackRook(new Position("a8")), Piece.createBlackKnight(new Position("b8")), Piece.createBlackBishop(new Position("c8")),
+                Piece.createBlackQueen(new Position("d8")), Piece.createBlackKing(new Position("e8")), Piece.createBlackBishop(new Position("f8")),
+                Piece.createBlackKnight(new Position("g8")), Piece.createBlackRook(new Position("h8"))
         ));
         ranks.add(new Rank(
-                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
-                Piece.createBlackPawn(), Piece.createBlackPawn(), Piece.createBlackPawn(),
-                Piece.createBlackPawn(), Piece.createBlackPawn()
+                Piece.createBlackPawn(new Position("a7")), Piece.createBlackPawn(new Position("b7")), Piece.createBlackPawn(new Position("c7")),
+                Piece.createBlackPawn(new Position("d7")), Piece.createBlackPawn(new Position("e7")), Piece.createBlackPawn(new Position("f7")),
+                Piece.createBlackPawn(new Position("g7")), Piece.createBlackPawn(new Position("h7"))
         ));
 
-        for (int i = 0; i < 4; i++) {
-            ranks.add(Rank.createBlankRank());
+        for (int yPos = 6; yPos >= 3; yPos--) {
+            ranks.add(Rank.createBlankRank(yPos));
         }
 
         ranks.add(new Rank(
-                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
-                Piece.createWhitePawn(), Piece.createWhitePawn(), Piece.createWhitePawn(),
-                Piece.createWhitePawn(), Piece.createWhitePawn()
+                Piece.createWhitePawn(new Position("a2")), Piece.createWhitePawn(new Position("b2")), Piece.createWhitePawn(new Position("c2")),
+                Piece.createWhitePawn(new Position("d2")), Piece.createWhitePawn(new Position("e2")), Piece.createWhitePawn(new Position("f2")),
+                Piece.createWhitePawn(new Position("g2")), Piece.createWhitePawn(new Position("h2"))
         ));
         ranks.add(new Rank(
-                Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(), Piece.createWhiteRook()
+                Piece.createWhiteRook(new Position("a1")), Piece.createWhiteKnight(new Position("b1")), Piece.createWhiteBishop(new Position("c1")),
+                Piece.createWhiteQueen(new Position("d1")), Piece.createWhiteKing(new Position("e1")), Piece.createWhiteBishop(new Position("f1")),
+                Piece.createWhiteKnight(new Position("g1")), Piece.createWhiteRook(new Position("h1"))
         ));
 
         ranks.stream()
@@ -51,8 +52,8 @@ public class Board {
     }
 
     public void initializeEmpty() {
-        for (int i = 0; i < 8; i++) {
-            ranks.add(Rank.createBlankRank());
+        for (int yPos = 8; yPos >= 1; yPos--) {
+            ranks.add(Rank.createBlankRank(yPos));
         }
     }
 
@@ -78,38 +79,15 @@ public class Board {
                 .reduce("", String::concat);
     }
 
-    public void move(String position, Piece piece) {
-        validatePosition(position);
-        int xPos = getXPosition(position);
-        int yPos = getYPosition(position);
-        ranks.get(yPos)
-                .setPiece(xPos, piece);
+    public void move(Piece piece) {
+        ranks.get(piece.getPosition().getYPos())
+                .setPiece(piece);
         addPiece(piece);
     }
 
-    private void validatePosition(String position) {
-        if (position.charAt(0) < 'a' || position.charAt(0) > 'h') {
-            throw new IllegalArgumentException("Invalid XPosition: " + position);
-        }
-        if (position.charAt(1) < '1' || position.charAt(1) > '8') {
-            throw new IllegalArgumentException("Invalid YPosition: " + position);
-        }
-    }
-
-    private int getXPosition(String position) {
-        return position.charAt(0) - 'a';
-    }
-
-    private int getYPosition(String position) {
-        return 7 - (position.charAt(1) - '1');
-    }
-
-    public Object findPiece(String position) {
-        validatePosition(position);
-        int xPos = getXPosition(position);
-        int yPos = getYPosition(position);
-        return ranks.get(yPos)
-                .getPiece(xPos);
+    public Object findPiece(Position position) {
+        return ranks.get(position.getYPos())
+                .getPiece(position.getXPos());
     }
 
     public double calculatePoint(Piece.Color color) {
