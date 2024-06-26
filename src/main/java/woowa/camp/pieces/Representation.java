@@ -18,7 +18,8 @@ public enum Representation {
     q("q", Type.QUEEN, Color.WHITE),
     Q("Q", Type.QUEEN, Color.BLACK),
     k("k", Type.KING, Color.WHITE),
-    K("K", Type.KING, Color.BLACK);
+    K("K", Type.KING, Color.BLACK),
+    DOT(".", Type.NO_PIECE, Color.NONE);
 
     private final String name;
     private final Type type;
@@ -42,4 +43,7 @@ public enum Representation {
         return representation -> representation.type == targetType && representation.color == targetColor;
     }
 
+    public String getName() {
+        return name;
+    }
 }

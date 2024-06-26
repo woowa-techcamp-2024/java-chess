@@ -45,6 +45,7 @@ public class Board {
 
     public void initialize() {
         initBoard();
+        initBlankPieces();
         initBlackPieces();
         initWhitePieces();
     }
@@ -53,6 +54,14 @@ public class Board {
         for (int row = 0; row < MAX_ROW; row++) {
             List<Piece> rows = new ArrayList<>(Collections.nCopies(8, null));
             board.add(rows);
+        }
+    }
+
+    private void initBlankPieces() {
+        for (int row = 0; row < MAX_ROW; row++) {
+            for (int col = 0; col < MAX_COL; col++) {
+                board.get(row).set(col, Piece.createBlank());
+            }
         }
     }
 
