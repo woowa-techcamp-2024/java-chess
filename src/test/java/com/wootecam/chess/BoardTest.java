@@ -7,7 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.Rank;
 import com.wootecam.chess.pieces.Type;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,7 +23,18 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
+        List<Rank> ranks = new ArrayList<>();
+        ranks.add(Rank.createBlackOtherPieces());
+        ranks.add(Rank.createPawns(Color.BLACK));
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createPawns(Color.WHITE));
+        ranks.add(Rank.createWhiteOtherPieces());
+        CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+        board = new Board(ranks, extractor);
     }
 
     @Nested
@@ -118,10 +132,25 @@ public class BoardTest {
     @Nested
     class initializeEmpty_메소드는 {
 
+        @BeforeEach
+        void setUp() {
+            List<Rank> ranks = new ArrayList<>();
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+            board = new Board(ranks, extractor);
+        }
+
         @Test
         void 아무것도_없는_체스판을_생성한다() {
             // when
-            board.initializeEmpty();
             int count = board.countBoardPieces();
 
             // then
@@ -132,18 +161,33 @@ public class BoardTest {
     @Nested
     class move_메소드는 {
 
+        @BeforeEach
+        void setUp() {
+            List<Rank> ranks = new ArrayList<>();
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            ranks.add(Rank.createBlanks());
+            CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+            board = new Board(ranks, extractor);
+        }
+
         @Test
         void 입력한_좌표로_기물을_이동시킨다() {
             // given
-            board.initializeEmpty();
             Piece piece = Piece.createBlack(Type.ROOK);
-            String coordinate = "b5";
+            String coordinates = "b5";
 
             // when
-            board.move(coordinate, piece);
+            board.move(coordinates, piece);
 
             // then
-            assertThat(board.findPiece(coordinate)).isEqualTo(piece);
+            assertThat(board.findPiece(coordinates)).isEqualTo(piece);
         }
     }
 }

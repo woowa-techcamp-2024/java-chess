@@ -1,5 +1,9 @@
 package com.wootecam.chess;
 
+import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.Rank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ChessApplication {
@@ -10,7 +14,19 @@ public class ChessApplication {
 
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
-        Board board = new Board();
+
+        List<Rank> ranks = new ArrayList<>();
+        ranks.add(Rank.createBlackOtherPieces());
+        ranks.add(Rank.createPawns(Color.BLACK));
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createPawns(Color.WHITE));
+        ranks.add(Rank.createWhiteOtherPieces());
+        CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+        Board board = new Board(ranks, extractor);
 
         while (isContinue(inputReader.nextLine())) {
             board.print();
