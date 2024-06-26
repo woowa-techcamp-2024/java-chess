@@ -33,8 +33,12 @@ class RankTest {
         List<Piece> pieces = rank.getAllPieces();
 
         // then
+        List<Piece> pieceList = initialPieces.stream().filter(piece -> !piece.isBlank())
+                .toList();
+
         assertThat(pieces)
-                .containsExactlyElementsOf(initialPieces);
+                .hasSize(5)
+                .containsExactlyElementsOf(pieceList);
     }
 
     @DisplayName("해당 랭크의 색깔별 포인트를 계산할 수 있다.")
