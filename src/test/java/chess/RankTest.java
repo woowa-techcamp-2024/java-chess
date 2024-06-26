@@ -20,17 +20,17 @@ class RankTest {
         List<Piece> initialPieces = List.of(
                 Piece.createBlank(),
                 Piece.createWhiteKing(),
-                Piece.createBlackBishop(),
+                Piece.createWhiteBishop(),
                 Piece.createBlank(),
                 Piece.createWhiteQueen(),
-                Piece.createBlackRook(),
+                Piece.createWhiteRook(),
                 Piece.createBlank(),
-                Piece.createBlackPawn()
+                Piece.createWhitePawn()
         );
         Rank rank = Rank.initializeRank(initialPieces);
 
         // when
-        List<Piece> pieces = rank.getAllPieces();
+        List<Piece> pieces = rank.getAllPieces(Piece.Color.WHITE);
 
         // then
         List<Piece> pieceList = initialPieces.stream().filter(piece -> !piece.isBlank())
