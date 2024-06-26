@@ -184,9 +184,11 @@ public class Board {
 
     private void appendRowRepresentation(final int row, final StringBuilder sb) {
         for (int col = 0; col < MAX_COL; col++) {
+            final int specificCol = col;
             getPawnByPosition(row, col)
-                    .map(Piece::getRepresentation)
-                    .ifPresentOrElse(sb::append, () -> sb.append("."));
+                    .map(piece -> sb.append(piece.getRepresentation().getName()))
+                    .orElseThrow(() -> new IllegalStateException(
+                            String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, specificCol)));
         }
     }
 
