@@ -114,31 +114,22 @@ public class BoardTest {
 
     @Test
     @DisplayName("새로로 폰이 있을 때 테스트")
-    public void testCaculatePoint() throws Exception {
-        // 검은색 기물 추가
-        addPiece("c8", Piece.createBlackKing());
-        addPiece("d8", Piece.createBlackRook());
-        addPiece("d7", Piece.createBlackPawn());
+    public void caculatePoint2() throws Exception {
         addPiece("b6", Piece.createBlackPawn());
         addPiece("e6", Piece.createBlackQueen());
-        addPiece("f4", Piece.createBlackKnight());
-        addPiece("g4", Piece.createBlackQueen());
-        addPiece("f3", Piece.createBlackPawn());
-        addPiece("h3", Piece.createBlackPawn());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
 
-        // 흰색 기물 추가
-        addPiece("a7", Piece.createWhitePawn());
-        addPiece("c7", Piece.createWhitePawn());
-        addPiece("b6", Piece.createWhitePawn());
-        addPiece("d6", Piece.createWhiteBishop());
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("f3", Piece.createWhitePawn());
+        addPiece("f4", Piece.createWhitePawn());
         addPiece("e1", Piece.createWhiteRook());
         addPiece("f1", Piece.createWhiteKing());
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
+
 
         // 점수 계산 확인
         assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
+        assertEquals(6.5, board.caculcatePoint(Color.WHITE), 0.01);
 
         // 체스판 출력
         System.out.println(board.showBoard());
