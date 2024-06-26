@@ -54,15 +54,15 @@ public class BoardTest {
     @Test
     public void findPiece() throws Exception {
 
-        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+        assertEquals(Piece.createBlackRook(), board.findPiece(new Position("a8")));
+        assertEquals(Piece.createBlackRook(), board.findPiece(new Position("h8")));
+        assertEquals(Piece.createWhiteRook(), board.findPiece(new Position("a1")));
+        assertEquals(Piece.createWhiteRook(), board.findPiece(new Position("h1")));
     }
 
     @Test
     public void move() throws Exception {
-        String position = "b5";
+        Position position = new Position("b5");
         Piece piece = Piece.createBlackRook();
         board.move(position, piece);
 
