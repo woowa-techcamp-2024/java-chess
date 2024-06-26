@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
@@ -165,20 +164,18 @@ public class Board {
         pieces.add(piece);
     }
 
-    public String getPawnsResult(final Color color) {
+    public String getPiecesResult(final String pieceName, final Color color) {
         final StringBuilder sb = new StringBuilder();
-        appendPawnsResultFilteredByColor(color, sb);
+        final List<Piece> filteredPieces = getPiecesFilterBy(pieceName, color);
+        filteredPieces.forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
         return sb.toString();
     }
 
-    private void appendPawnsResultFilteredByColor(final Color color, final StringBuilder sb) {
-        pieces.stream()
-                .filter(isSameColor(color))
-                .forEach(filteredPiece -> sb.append(filteredPiece.getRepresentation()));
-    }
-
-    private Predicate<Piece> isSameColor(final Color color) {
-        return piece -> piece.getColor().equals(color.getName());
+    private List<Piece> getPiecesFilterBy(final String pieceName, final Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.isPieceOf(pieceName))
+                .filter(piece -> piece.isSameColor(color))
+                .toList();
     }
 
     public String print() {
