@@ -4,7 +4,6 @@ import chess.pieces.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static chess.pieces.Piece.Color;
@@ -12,6 +11,7 @@ import static chess.pieces.Piece.Type;
 import static chess.utils.StringUtils.NEWLINE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.groups.Tuple.tuple;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
@@ -26,8 +26,23 @@ class BoardTest {
         List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint()));
 
         // then
-        assertThat(pieces).extracting("point")
-                .containsExactly(9.0, 5.0, 5.0, 3.0, 3.0, 2.5, 2.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0);
+        assertThat(pieces).extracting("point", "type")
+                .containsExactly(tuple(9.0, Type.QUEEN),
+                        tuple(5.0, Type.ROOK),
+                        tuple(5.0, Type.ROOK),
+                        tuple(3.0, Type.BISHOP),
+                        tuple(3.0, Type.BISHOP),
+                        tuple(2.5, Type.KNIGHT),
+                        tuple(2.5, Type.KNIGHT),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(1.0, Type.PAWN),
+                        tuple(0.0, Type.KING));
     }
 
     @Test
