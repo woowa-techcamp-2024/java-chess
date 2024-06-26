@@ -16,6 +16,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
+    @Test
+    @DisplayName("기물을 특정 좌표로 이동할 수 있다")
+    void moveToPosition() {
+        // given
+        Board board = new Board();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+
+        // when
+        board.move(sourcePosition, targetPosition);
+
+        // then
+        Piece findPiece1 = board.findPiece(sourcePosition);
+        assertThat(findPiece1)
+                .extracting("color", "type")
+                .contains(Color.NOCOLOR, Type.NO_PIECE);
+
+        Piece findPiece2 = board.findPiece(targetPosition);
+        assertThat(findPiece2)
+                .extracting("color", "type")
+                .contains(Color.WHITE, Type.PAWN);
+    }
+
     @DisplayName("기물의 점수가 높은 순으로 정렬하여 반환할 수 있다.")
     @Test
     void sortPiecesByPoint() {
