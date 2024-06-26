@@ -60,6 +60,16 @@ public class BoardTest {
         assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
     }
 
+    @Test
+    public void move() throws Exception {
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
     private static Stream<Arguments> countByQueryArgument() {
         // 색상, 기물 종류, 개수
         return Stream.of(
