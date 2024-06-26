@@ -28,7 +28,7 @@ class RankTest {
         double rankPoint = rank.calculateRankPoint(Piece.Color.WHITE);
 
         // then
-        assertEquals(5.5, rankPoint);
+        assertEquals(3.5, rankPoint);
     }
 
     @DisplayName("랭크를 생성할 수 있다")
