@@ -4,6 +4,7 @@ import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
+import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
 import org.example.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +48,16 @@ public class BoardTest {
         int count
     ) {
         assertEquals(count, board.countByQuery(color, type));
+    }
+
+
+    @Test
+    public void findPiece() throws Exception {
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
     }
 
     private static Stream<Arguments> countByQueryArgument() {
