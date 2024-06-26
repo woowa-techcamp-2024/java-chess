@@ -3,6 +3,7 @@ package chess;
 import chess.piece.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -99,6 +100,14 @@ public class Board {
             value += pawnCount * pawnValue;
         }
         return value;
+    }
+
+    public List<Piece> getPiecesInDescendingOrder(Piece.Color color) {
+        return stream().filter(cell -> !cell.isEmpty())
+                .map(cell -> cell.getPiece())
+                .filter(piece -> piece.isColor(color))
+                .sorted(Comparator.comparingDouble(Piece::value).reversed())
+                .toList();
     }
 
     public List<Pawn> findPawns() {

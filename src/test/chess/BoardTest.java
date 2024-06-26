@@ -4,6 +4,8 @@ import chess.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {
@@ -85,6 +87,19 @@ public class BoardTest {
                 """);
         assertThat(board.value(Piece.Color.BLACK)).isEqualTo(20.0);
         assertThat(board.value(Piece.Color.WHITE)).isEqualTo(20.0);
+    }
+
+    @Test
+    @DisplayName("체스판의 기물을 점수가 높은 순서로 반환해야 한다")
+    public void sorted() {
+        Board board = new Board();
+        board.initialize();
+
+        List<Piece> pieces = board.getPiecesInDescendingOrder(Piece.Color.WHITE);
+
+        for (int i = 0; i < pieces.size() - 1; i++) {
+            assertThat(pieces.get(i).value()).isGreaterThanOrEqualTo(pieces.get(i + 1).value());
+        }
     }
 
     private Board createBoard(String state) {
