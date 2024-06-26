@@ -138,10 +138,10 @@ class BoardTest {
     public void calculateScoreCase1() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.ONE, File.A, new Queen(Color.WHITE, null, null));
-        board.setPiece(Rank.ONE, File.B, new Rook(Color.WHITE, null, null));
-        board.setPiece(Rank.ONE, File.C, new Knight(Color.WHITE,null, null));
-        board.setPiece(Rank.ONE, File.D, new Bishop(Color.WHITE, null, null));
+        board.addPiece(new Queen(Color.WHITE, Rank.ONE, File.A));
+        board.addPiece(new Rook(Color.WHITE, Rank.ONE, File.B));
+        board.addPiece(new Knight(Color.WHITE, Rank.ONE, File.C));
+        board.addPiece(new Bishop(Color.WHITE, Rank.ONE, File.D));
 
         // when
         float score = board.getScore(Color.WHITE);
@@ -155,9 +155,9 @@ class BoardTest {
     public void calculateScoreCase2() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.TWO, File.A, new Pawn(Color.WHITE, null, null));
-        board.setPiece(Rank.SEVEN, File.A, new Pawn(Color.WHITE, null, null));
-        board.setPiece(Rank.FOUR, File.A, new Pawn(Color.WHITE, null, null));
+        board.addPiece(new Pawn(Color.WHITE, Rank.TWO, File.A));
+        board.addPiece(new Pawn(Color.WHITE, Rank.SEVEN, File.A));
+        board.addPiece(new Pawn(Color.WHITE, Rank.FOUR, File.A));
 
         // when
         float score = board.getScore(Color.WHITE);
@@ -172,19 +172,19 @@ class BoardTest {
         // given
         Board board = new Board();
 
-        var queen = new Queen(Color.WHITE, null, null);
-        var rook = new Rook(Color.WHITE, null, null);
-        var bishop = new Bishop(Color.WHITE, null, null);
-        var knight = new Knight(Color.WHITE, null, null);
-        var pawn1 = new Pawn(Color.WHITE, null, null);
-        var pawn2 = new Pawn(Color.WHITE, null, null);
+        var queen = new Queen(Color.WHITE, Rank.ONE, File.A);
+        var rook = new Rook(Color.WHITE, Rank.ONE, File.B);
+        var bishop = new Bishop(Color.WHITE, Rank.ONE, File.D);
+        var knight = new Knight(Color.WHITE, Rank.ONE, File.C);
+        var pawn1 = new Pawn(Color.WHITE, Rank.TWO, File.A);
+        var pawn2 = new Pawn(Color.WHITE, Rank.SEVEN, File.A);
 
-        board.setPiece(Rank.ONE, File.A, queen);
-        board.setPiece(Rank.ONE, File.B, rook);
-        board.setPiece(Rank.ONE, File.C, knight);
-        board.setPiece(Rank.ONE, File.D, bishop);
-        board.setPiece(Rank.TWO, File.A, pawn1);
-        board.setPiece(Rank.SEVEN, File.A, pawn2);
+        board.addPiece(queen);
+        board.addPiece(rook);
+        board.addPiece(bishop);
+        board.addPiece(knight);
+        board.addPiece(pawn1);
+        board.addPiece(pawn2);
 
         // when
         Collection<Piece> pieces = board.getPieces(Color.WHITE);
@@ -193,5 +193,4 @@ class BoardTest {
         assertThat(pieces.stream().map(Piece::toString).toList())
                 .containsExactly(queen.toString(), rook.toString(), bishop.toString(), knight.toString(), pawn1.toString(), pawn2.toString());
     }
-
 }

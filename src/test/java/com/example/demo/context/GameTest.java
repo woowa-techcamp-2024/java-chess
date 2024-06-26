@@ -56,13 +56,13 @@ class GameTest {
         public void movePawnFail(Location from, Location to) {
             // given
             Board board = createBoard();
-            board.setPiece(Rank.THREE, File.A, new Pawn(null, null));
+            board.addPiece(new Pawn(Rank.THREE, File.A));
             Game game = new Game(board);
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
             for(File file: File.values()){
-                board.setPiece(Rank.THREE, file, new Pawn(null, null));
-                board.setPiece(Rank.SIX, file, new Pawn(Color.BLACK, null, null));
+                board.addPiece(new Pawn(Color.WHITE, Rank.THREE, file));
+                board.addPiece(new Pawn(Color.BLACK, Rank.SIX, file));
             }
 
             // then
@@ -127,7 +127,7 @@ class GameTest {
             // given
             Piece bishop = new Bishop(from.rank(), from.file());
             Board board = new Board();
-            board.setPiece(from.rank(), from.file(), bishop);
+            board.addPiece(bishop);
             Game game = new Game(board);
 
             // when
@@ -154,7 +154,7 @@ class GameTest {
             // given
             Piece bishop = new Bishop(from.rank(), from.file());
             Board board = new Board();
-            board.setPiece(from.rank(), from.file(), bishop);
+            board.addPiece(bishop);
             Game game = new Game(board);
 
             // when & then
