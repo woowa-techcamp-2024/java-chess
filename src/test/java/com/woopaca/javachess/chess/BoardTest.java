@@ -109,6 +109,32 @@ public class BoardTest {
         assertThat(board.calculatePoint(Color.WHITE)).isEqualTo(7.0);
     }
 
+    @DisplayName("체스판에 존재하는 특정 색상 기물들을 점수를 기준으로 정렬할 수 있다.")
+    @Test
+    void sortPieces() {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("g2", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertThat(board.sortPiecesByPoint(Color.BLACK).get(0)).isEqualTo(Piece.createBlackKing());
+        assertThat(board.sortPiecesByPoint(Color.BLACK).get(1)).isEqualTo(Piece.createBlackPawn());
+        assertThat(board.sortPiecesByPointDescending(Color.BLACK).get(0)).isEqualTo(Piece.createBlackQueen());
+        assertThat(board.sortPiecesByPointDescending(Color.BLACK).get(1)).isEqualTo(Piece.createBlackRook());
+
+        assertThat(board.sortPiecesByPoint(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteKing());
+        assertThat(board.sortPiecesByPoint(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn());
+        assertThat(board.sortPiecesByPointDescending(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteRook());
+        assertThat(board.sortPiecesByPointDescending(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn());
+    }
+
     private void addPiece(String fileRank, Piece piece) {
         board.move(fileRank, piece);
     }

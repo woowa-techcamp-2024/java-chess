@@ -156,17 +156,21 @@ public class Board {
         return pawnsPoint;
     }
 
-    public List<Piece> sortPiecesByPoint() {
-        return ranks.stream()
-                .flatMap(rank -> rank.getPieces().stream())
-                .sorted(Comparator.comparing(Piece::getPoint))
-                .toList();
+    public List<Piece> sortPiecesByPoint(Color color) {
+        Comparator<Piece> comparator = Comparator.comparing(Piece::getPoint);
+        return sortPieces(color, comparator);
     }
 
-    public List<Piece> sortPiecesByPointDescending() {
+    public List<Piece> sortPiecesByPointDescending(Color color) {
+        Comparator<Piece> comparator = Comparator.comparing(Piece::getPoint).reversed();
+        return sortPieces(color, comparator);
+    }
+
+    private List<Piece> sortPieces(Color color, Comparator<Piece> comparator) {
         return ranks.stream()
                 .flatMap(rank -> rank.getPieces().stream())
-                .sorted(Comparator.comparing(Piece::getPoint).reversed())
+                .filter(piece -> piece.getColor() == color)
+                .sorted(comparator)
                 .toList();
     }
 
