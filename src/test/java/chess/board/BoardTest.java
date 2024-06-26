@@ -1,6 +1,7 @@
 package chess.board;
 
 import chess.pieces.Piece;
+import chess.view.ChessView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -118,7 +119,7 @@ class BoardTest {
         assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(ChessView.printBoard(board));
     }
 
 
@@ -133,7 +134,6 @@ class BoardTest {
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
     }
 
     @DisplayName("기존 보드를 빈 보드로 바꿀 수 있다.")
@@ -157,7 +157,7 @@ class BoardTest {
         sb.append(blankRank).append(NEWLINE);
         sb.append(blankRank);
 
-        assertThat(board.showBoard()).isEqualTo(sb.toString());
+        assertThat(ChessView.printBoard(board)).isEqualTo(sb.toString());
 
     }
 
@@ -247,7 +247,7 @@ class BoardTest {
         Board board = new Board();
 
         assertEquals(32, board.getTotalPieceCount());
-        assertEquals(givenBoardPrint(), board.showBoard());
+        assertEquals(givenBoardPrint(), ChessView.printBoard(board));
     }
 
     @DisplayName("해당하는 색상과 종류의 Piece 개수를 반환한다")

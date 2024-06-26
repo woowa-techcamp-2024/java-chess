@@ -102,22 +102,6 @@ class RankTest {
                 .hasMessage("한 랭크는 8개의 말을 가집니다.");
     }
 
-    @DisplayName("랭크를 출력할 수 있다")
-    @Test
-    void printRank() {
-        // given
-        List<Piece> pieces = IntStream.range(0, 8)
-                .mapToObj(i -> Piece.createBlank())
-                .toList();
-        Rank rank = Rank.initializeRank(pieces);
-
-        // when
-        String printedRank = rank.printRank();
-
-        // then
-        assertThat(printedRank).isEqualTo("........");
-    }
-
     @DisplayName("랭크에서 piece의 개수를 반환할 수 있다")
     @Test
     void getTotalPieceCount() {
