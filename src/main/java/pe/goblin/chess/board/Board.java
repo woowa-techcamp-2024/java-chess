@@ -56,10 +56,10 @@ public class Board {
                 .count();
     }
 
-    private long countPawns(String color) {
+    private long countPawns(Piece.Color color) {
         return pieces.parallelStream()
                 .flatMap(List::stream)
-                .filter(piece -> Objects.equals(piece.getColor(), color) && Objects.equals(piece.getName(), "pawn"))
+                .filter(piece -> Objects.equals(piece.getColor(), color) && Objects.equals(piece.getType(), Piece.Type.PAWN))
                 .count();
     }
 
