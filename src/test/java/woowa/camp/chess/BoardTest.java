@@ -3,13 +3,24 @@ package woowa.camp.chess;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import woowa.camp.pieces.Color;
 import woowa.camp.pieces.Piece;
 
 public class BoardTest {
+
+    private static final int KING_COUNT = 1;
+    private static final int QUEEN_COUNT = 1;
+    private static final int ROOK_COUNT = 2;
+    private static final int KNIGHT_COUNT = 2;
+    private static final int BISHOP_COUNT = 2;
+    private static final int PAWN_COUNT = 8;
 
     Board board;
     Piece white;
@@ -18,24 +29,24 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = new Piece(Color.PAWN_WHITE);
-        black = new Piece(Color.PAWN_BLACK);
+        white = Piece.createWhitePawn();
+        black = Piece.createBlackPawn();
     }
 
     @Test
     @DisplayName("[Success] Pawn을 체스판에 추가할 수 있다.")
     void board_add_pawn() {
         board.add(white);
-        verifyBoardSize(board, 1);
+        verifyBoardPieceCount(board, 1);
         verifyFindPawn(board, 0, white);
 
         board.add(black);
-        verifyBoardSize(board, 2);
+        verifyBoardPieceCount(board, 2);
         verifyFindPawn(board, 1, black);
     }
 
-    private void verifyBoardSize(Board board, int expectedBoardSize) {
-        assertThat(board.size()).isEqualTo(expectedBoardSize);
+    private void verifyBoardPieceCount(Board board, int expectedBoardSize) {
+        assertThat(board.pieceCount()).isEqualTo(expectedBoardSize);
     }
 
     private void verifyFindPawn(Board board, int findPawnIndex, Piece expectedPiece) {
@@ -49,7 +60,7 @@ public class BoardTest {
         board.add(black);
 
         int lowerBound = -1;
-        int upperBound = board.size();
+        int upperBound = board.pieceCount();
 
         verifyOutOfRangeFindPawn(board, lowerBound, upperBound);
     }
@@ -61,40 +72,31 @@ public class BoardTest {
 
     @Test
     @DisplayName("[Success] 초기화한 Board이 관리하고 있는 Pawn의 결과를 확인")
-    void getPawnsResult() {
+    void getPiecesResult() {
         board.initialize();
         String expectedWhitePawnsResult = "pppppppp";
         String expectedBlackPawnsResult = "PPPPPPPP";
 
-        assertThat(board.getPawnsResult(Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
-        assertThat(board.getPawnsResult(Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
+        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_WHITE)).isEqualTo(expectedWhitePawnsResult);
+        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_BLACK)).isEqualTo(expectedBlackPawnsResult);
     }
 
     @Test
     @DisplayName("[Success] 초기화한 Board가 가지고 있는 검은색 Pawn과 흰색 Pawn은 각각 8개이다.")
-    void initialPawnSize() {
+    void initialPawnPieceCount() {
         board.initialize();
         int expectedPawnsCount = Board.MAX_PAWN;
-
         verifyInitialPawnsCount(board, expectedPawnsCount);
     }
 
     private void verifyInitialPawnsCount(Board board, int expectedPawnsCount) {
-        assertThat(board.getPawnsResult(Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
-        assertThat(board.getPawnsResult(Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
-    }
-
-    @Test
-    @DisplayName("[Success] print 메서드 콘솔 출력 테스트")
-    void print() {
-        board.initialize();
-        String print = board.print();
-        System.out.println(print);
+        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_WHITE).length()).isEqualTo(expectedPawnsCount);
+        assertThat(board.getPiecesResult(Piece.PAWN, Color.PAWN_BLACK).length()).isEqualTo(expectedPawnsCount);
     }
 
     @Test
     @DisplayName("[Success] 초기화한 Board의 크기는 8 x 8 이다.")
-    void initialBoardSize() {
+    void initialBoardPieceCount() {
         board.initialize();
 
         int resultBoardRowSize = board.getBoardRowSize();
@@ -104,6 +106,52 @@ public class BoardTest {
 
         assertThat(resultBoardRowSize).isEqualTo(expectedBoardRowSize);
         assertThat(resultBoardColSize).isEqualTo(expectedBoardColSize);
+    }
+
+    @Test
+    @DisplayName("[Success] 초기화한 Board의 기물 위치 확인")
+    void initialBoardStatus() {
+        board.initialize();
+        String result = board.print();
+        String expectedInitialBoardState = """
+                RNBQKBNR
+                PPPPPPPP
+                ........
+                ........
+                ........
+                ........
+                pppppppp
+                rnbqkbnr
+                """;
+        assertThat(result).isEqualTo(expectedInitialBoardState);
+    }
+
+    @ParameterizedTest
+    @MethodSource("providePiecesAndCounts")
+    @DisplayName("[Success] 초기화한 Board의 기물 개수 확인")
+    void initialPieceCount(String pieceName, Color color, int expectedCount) {
+        board.initialize();
+        Piece piece = Piece.createPiece(pieceName, color);
+        int actualCount = board.getPieceCount(piece.getName(), color);
+        assertThat(actualCount).isEqualTo(expectedCount);
+    }
+
+    static Stream<Arguments> providePiecesAndCounts() {
+        return Stream.of(
+                Arguments.of(Piece.KING, Color.KING_BLACK, KING_COUNT),
+                Arguments.of(Piece.QUEEN, Color.QUEEN_BLACK, QUEEN_COUNT),
+                Arguments.of(Piece.ROOK, Color.ROOK_BLACK, ROOK_COUNT),
+                Arguments.of(Piece.KNIGHT, Color.KNIGHT_BLACK, KNIGHT_COUNT),
+                Arguments.of(Piece.BISHOP, Color.BISHOP_BLACK, BISHOP_COUNT),
+                Arguments.of(Piece.PAWN, Color.PAWN_BLACK, PAWN_COUNT),
+
+                Arguments.of(Piece.KING, Color.KING_WHITE, KING_COUNT),
+                Arguments.of(Piece.QUEEN, Color.QUEEN_WHITE, QUEEN_COUNT),
+                Arguments.of(Piece.ROOK, Color.ROOK_WHITE, ROOK_COUNT),
+                Arguments.of(Piece.KNIGHT, Color.KNIGHT_WHITE, KNIGHT_COUNT),
+                Arguments.of(Piece.BISHOP, Color.BISHOP_WHITE, BISHOP_COUNT),
+                Arguments.of(Piece.PAWN, Color.PAWN_WHITE, PAWN_COUNT)
+        );
     }
 
 }
