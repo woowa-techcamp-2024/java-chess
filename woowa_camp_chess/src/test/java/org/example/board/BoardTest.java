@@ -48,6 +48,17 @@ public class BoardTest {
         assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
-        
+    }
+
+    @Test
+    public void move() {
+        board.initializeV2();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
     }
 }
