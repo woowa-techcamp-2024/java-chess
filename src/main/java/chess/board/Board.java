@@ -25,6 +25,10 @@ public class Board {
     public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
     public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
 
+
+    public List<Rank> getRanks() {
+        return ranks;
+    }
     /*
     * 테스트에서만 사용하는 초기화 메서드
     * */
