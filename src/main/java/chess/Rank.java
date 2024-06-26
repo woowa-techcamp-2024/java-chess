@@ -45,6 +45,12 @@ public class Rank {
                 .sum();
     }
 
+    public List<Piece> getAllPieces() {
+        return pieces.stream()
+                .filter(piece -> !piece.isBlank())
+                .toList();
+    }
+
     protected void setPiece(int widthIndex, Piece piece) {
         pieces.set(widthIndex, piece);
         pieceCount = calculatePieceCount();
@@ -71,11 +77,5 @@ public class Rank {
         if (pieces.size() != BOARD_WIDTH) {
             throw new IllegalArgumentException("한 랭크는 8개의 말을 가집니다.");
         }
-    }
-
-    public List<Piece> getAllPieces() {
-        return pieces.stream()
-                .filter(piece -> !piece.isBlank())
-                .toList();
     }
 }
