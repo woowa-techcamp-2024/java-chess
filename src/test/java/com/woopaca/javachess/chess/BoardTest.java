@@ -69,4 +69,25 @@ public class BoardTest {
         assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook());
         assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook());
     }
+
+    @DisplayName("임의의 기물을 체스판 위에 추가(이동)할 수 있다.")
+    @Test
+    void move() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertThat(board.findPiece(position)).isEqualTo(piece);
+
+        position = "e2";
+        piece = Piece.createWhiteKing();
+        board.move(position, piece);
+
+        assertThat(board.findPiece(position)).isEqualTo(piece);
+
+        System.out.println(board.showBoard());
+    }
+
 }

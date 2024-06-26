@@ -32,7 +32,12 @@ public class Rank {
                 .count();
     }
 
-    public Piece get(int file) {
-        return pieces.get(file);
+    public Piece findPieceByFile(int fileIndex) {
+        return pieces.get(fileIndex);
     }
+
+    public void moveTo(int file, Piece piece) {
+        pieces.set(file, piece);
+    }
+
 }

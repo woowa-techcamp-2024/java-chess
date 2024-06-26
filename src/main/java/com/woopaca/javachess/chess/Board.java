@@ -30,6 +30,15 @@ public class Board {
         addWhiteMajorPieces();
     }
 
+    public void initializeEmpty() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Rank rank = ranks.get(i);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                rank.addPiece(Piece.createBlank());
+            }
+        }
+    }
+
     private void addBlankRanks() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             ranks.get(2).addPiece(Piece.createBlank());
@@ -109,11 +118,16 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(String position) {
-        int file = position.charAt(0) - 'a';
-        int rank = position.charAt(1) - '0';
-        return ranks.get(8 - rank)
-                .get(file);
+    public Piece findPiece(String fileRank) {
+        Position position = new Position(fileRank);
+        return ranks.get(position.getRankIndex())
+                .findPieceByFile(position.getFileIndex());
+    }
+
+    public void move(String fileRank, Piece piece) {
+        Position position = new Position(fileRank);
+        Rank rank = ranks.get(position.getRankIndex());
+        rank.moveTo(position.getFileIndex(), piece);
     }
 
 }
