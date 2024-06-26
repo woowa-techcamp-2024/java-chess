@@ -1,4 +1,4 @@
-package utils;
+package chess.board;
 
 import chess.board.Rank;
 import chess.pieces.Color;
