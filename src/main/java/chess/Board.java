@@ -6,6 +6,7 @@ import chess.pieces.Piece;
 import chess.pieces.Representation;
 import chess.calculator.ScoreUtils;
 
+import chess.pieces.Representation.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,15 +41,27 @@ public class Board {
         return ScoreUtils.sort(ranks, color, orderBy);
     }
 
-    public void move(String position, Piece piece) {
-        Position pos = Position.from(position);
-        move(pos, piece);
+    public void move(String sourcePosition, String targetPosition) {
+        Position source = Position.from(sourcePosition);
+        Position target = Position.from(targetPosition);
+
+        final Piece sourcePiece = findPiece(source);
+
+        if (sourcePiece.isPieceOf(Representation.BLANK)) {
+            throw new IllegalArgumentException("빈칸을 움직일 수 없습니다");
+        }
+        setPiece(source, Piece.create(Type.NO_PIECE, Color.NOCOLOR));
+        setPiece(target, sourcePiece);
     }
 
-    public void move(Position position, Piece piece) {
-        // TODO 움직임 구현 (현재는 add에 가까움)
+    public void setPiece(Position position, Piece piece) {
         ranks.get(position.getRank())
                 .set(position.getFile(), piece);
+    }
+
+    public void setPiece(String position, Piece piece) {
+        Position p = Position.from(position);
+        setPiece(p, piece);
     }
 
     public String print() {
@@ -73,10 +86,13 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(String rankFile) {
-        Position position = Position.from(rankFile);
-
+    public Piece findPiece(Position position) {
         Rank rank = ranks.get(position.getRank());
         return rank.get(position.getFile());
+    }
+
+    public Piece findPiece(String rankFile) {
+        Position position = Position.from(rankFile);
+        return findPiece(position);
     }
 }

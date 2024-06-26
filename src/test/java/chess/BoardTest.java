@@ -8,6 +8,7 @@ import chess.calculator.OrderBy;
 import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Representation;
+import chess.pieces.Representation.Type;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class BoardTest {
 
         String position = "b5";
         Piece piece = Piece.create(Representation.Type.ROOK, Color.BLACK);
-        board.move(position, piece);
+        board.setPiece(position, piece);
 
         assertEquals(piece, board.findPiece(position));
         System.out.println(board.print());
@@ -94,8 +95,8 @@ public class BoardTest {
     @DisplayName("일부 점수를 계산한다")
     public void getScore() throws Exception {
         board.initializeEmpty();
-        board.move("b5", Piece.create(Representation.Type.ROOK, Color.BLACK));
-        board.move("a4", Piece.create(Representation.Type.KNIGHT, Color.WHITE));
+        board.setPiece("b5", Piece.create(Representation.Type.ROOK, Color.BLACK));
+        board.setPiece("a4", Piece.create(Representation.Type.KNIGHT, Color.WHITE));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -121,9 +122,9 @@ public class BoardTest {
     public void getScoreCase() throws Exception {
         board.initializeEmpty();
 
-        board.move("a1", Piece.create(Representation.Type.PAWN, Color.BLACK));
-        board.move("a2", Piece.create(Representation.Type.PAWN, Color.BLACK));
-        board.move("a3", Piece.create(Representation.Type.PAWN, Color.BLACK));
+        board.setPiece("a1", Piece.create(Representation.Type.PAWN, Color.BLACK));
+        board.setPiece("a2", Piece.create(Representation.Type.PAWN, Color.BLACK));
+        board.setPiece("a3", Piece.create(Representation.Type.PAWN, Color.BLACK));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -154,7 +155,7 @@ public class BoardTest {
     }
 
     private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+        board.setPiece(position, piece);
     }
 
     @Test
@@ -181,5 +182,18 @@ public class BoardTest {
         assertEquals(Color.BLACK, blackPiece1.getColor());
         assertEquals(Representation.Type.PAWN, blackPiece2.getType());
         assertEquals(Color.BLACK, blackPiece2.getColor());
+    }
+
+    @Test
+    @DisplayName("체스말을 이동시킨다")
+    public void moveTest() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+
+        assertEquals(Piece.create(Type.NO_PIECE, Color.NOCOLOR), board.findPiece(sourcePosition));
+        assertEquals(Piece.create(Type.PAWN, Color.WHITE), board.findPiece(targetPosition));
     }
 }
