@@ -6,6 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
 
+
+    @Test
+    public void getRepresentationPerPiece() throws Exception {
+        assertEquals('p', Piece.Type.PAWN.getWhiteRepresentation());
+        assertEquals('P', Piece.Type.PAWN.getBlackRepresentation());
+    }
+
     @Test
     @DisplayName("Piece가 생성되어야 한다.")
     public void create_piece() {
