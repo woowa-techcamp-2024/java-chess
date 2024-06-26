@@ -125,6 +125,13 @@ public class Board {
                 .toList();
     }
 
+    public void move(String sourcePosition, String targetPosition) {
+        Piece sourcePiece = findPiece(sourcePosition);
+        Piece targetPiece = findPiece(targetPosition);
+        move(targetPosition, sourcePiece);
+        move(sourcePosition, targetPiece);
+    }
+
     public Board() {
         ranks = new ArrayList<>();
         initialize();
