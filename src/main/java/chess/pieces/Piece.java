@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public record Piece (Color color, Type type) {
+public record Piece (Color color, Type type) implements Comparable {
 
     public Color getColor() {
         return this.color;
@@ -87,4 +87,10 @@ public record Piece (Color color, Type type) {
     public boolean isWhite() { return Objects.equals(this.color, Color.WHITE); }
 
     public boolean isBlack() { return Objects.equals(this.color, Color.BLACK); }
+
+    @Override
+    public int compareTo(Object o) {
+        Piece piece = (Piece) o;
+        return Double.compare(piece.getType().getDefaultPoint(), this.getType().getDefaultPoint());
+    }
 }
