@@ -7,7 +7,7 @@ public enum Type {
     BISHOP("b"),
     QUEEN("q"),
     KING("k"),
-    NO_PIECE("NO_PIECE");
+    NO_PIECE(".");
 
     private final String representation;
 
