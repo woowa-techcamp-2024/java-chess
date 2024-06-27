@@ -105,4 +105,41 @@ class BoardMoveManagerTest {
         assertEquals(sourcePiece.getType(), Type.KNIGHT);
         assertEquals(sourcePiece, boardMoveManager.findPiece(targetPosition));
     }
+
+    @Test
+    void move_SamePosition_ThrowsException() {
+        String position = "b2";
+        assertThrows(IllegalArgumentException.class, () -> {
+            boardMoveManager.move(position, position);
+        });
+    }
+
+    @Test
+    void move_SameColorPiece_ThrowsException() {
+        String from = "b2";
+        String to = "c2";
+
+        // 임의로 두 위치에 같은 색의 기물을 배치하여 테스트
+        Piece whitePawn = PieceFactory.createWhitePawn();
+        boardMoveManager.move("b2", whitePawn);
+        boardMoveManager.move("c2", whitePawn);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            boardMoveManager.move(from, to);
+        });
+    }
+
+    @Test
+    void move_ValidMove_NoException() {
+        String from = "b2";
+        String to = "c3";
+
+        // 임의로 두 위치에 다른 색의 기물을 배치하여 테스트
+        Piece whitePawn = PieceFactory.createWhitePawn();
+        Piece blackPawn = PieceFactory.createBlackPawn();
+        boardMoveManager.move("b2", whitePawn);
+        boardMoveManager.move("c3", blackPawn);
+
+        boardMoveManager.move(from, to);
+    }
 }
