@@ -82,7 +82,7 @@ public class BoardTest {
                         appendNewLine(". . . . . . . . 3") +
                         appendNewLine("♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ 2") +
                         appendNewLine("♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ 1") +
-                        appendNewLine("a b c d e f g h"),
+                        "a b c d e f g h",
                 ChessView.showBoard(board));
     }
 

@@ -16,7 +16,7 @@ public record Position(Rank rank, File file) {
     }
 
     public static Position of(final String input) {
-        File file = File.of(input.charAt(0));
+        File file = File.of (input.charAt(0));
         int rankValue = Character.getNumericValue(input.charAt(1));
 
         if (rankValue < 0) {

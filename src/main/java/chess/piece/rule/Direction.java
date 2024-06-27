@@ -13,22 +13,12 @@ public enum Direction implements Moveable {
     WEST(-1, 0),
     NORTHWEST(-1, 1);
 
-    private final int xDegree;
-    private final int yDegree;
+    private final int fileDegree;
+    private final int rankDegree;
 
-    Direction(int xDegree, int yDegree) {
-        this.xDegree = xDegree;
-        this.yDegree = yDegree;
-    }
-
-    @Override
-    public int getRankDegree() {
-        return xDegree;
-    }
-
-    @Override
-    public int getFileDegree() {
-        return yDegree;
+    Direction(final int fileDegree, final int rankDegree) {
+        this.fileDegree = fileDegree;
+        this.rankDegree = rankDegree;
     }
 
     public static List<Moveable> linearDirection() {
@@ -37,5 +27,15 @@ public enum Direction implements Moveable {
 
     public static List<Moveable> diagonalDirection() {
         return Arrays.asList(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
+    }
+
+    @Override
+    public int getRankDegree() {
+        return rankDegree;
+    }
+
+    @Override
+    public int getFileDegree() {
+        return fileDegree;
     }
 }

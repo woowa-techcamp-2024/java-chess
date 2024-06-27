@@ -23,10 +23,10 @@ public class Pawn extends Piece {
     public PieceMove getMoveable() {
         if(isFirstMove) {
             isFirstMove = false;
-            return PieceMove.of(SpecialDirection.getPawnDirection(), 2);
+            return PieceMove.of(SpecialDirection.getPawnDirection(this.color), 2);
         }
 
-        return PieceMove.of(SpecialDirection.getPawnDirection(), 1);
+        return PieceMove.of(SpecialDirection.getPawnDirection(this.color), 1);
     }
 
     public void completeFirstMove() {

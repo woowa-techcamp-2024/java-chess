@@ -1,5 +1,7 @@
 package chess.piece.rule;
 
+import chess.piece.PieceColor;
+
 import java.util.List;
 
 public enum SpecialDirection implements Moveable {
@@ -11,31 +13,36 @@ public enum SpecialDirection implements Moveable {
     KNIGHT_EES(2, -1),
     KNIGHT_WWN(-2, 1),
     KNIGHT_WWS(-2, -1),
-    PAWN(0, 1);
+    PAWN_WHITE(0, 1),
+    PAWN_BLACK(0, -1);
 
-    private final int xDegree;
-    private final int yDegree;
+    private final int fileDegree;
+    private final int rankDegree;
 
-    SpecialDirection(final int xDegree, final int yDegree) {
-        this.xDegree = xDegree;
-        this.yDegree = yDegree;
-    }
-
-    @Override
-    public int getRankDegree() {
-        return xDegree;
-    }
-
-    @Override
-    public int getFileDegree() {
-        return yDegree;
+    SpecialDirection(final int fileDegree, final int rankDegree) {
+        this.fileDegree = fileDegree;
+        this.rankDegree = rankDegree;
     }
 
     public static List<Moveable> getKnightDirection() {
         return List.of(KNIGHT_NNE, KNIGHT_NNW, KNIGHT_SSE, KNIGHT_SSW, KNIGHT_EEN, KNIGHT_EES, KNIGHT_WWN, KNIGHT_WWS);
     }
 
-    public static List<Moveable> getPawnDirection() {
-        return List.of(PAWN);
+    public static List<Moveable> getPawnDirection(final PieceColor color) {
+        if(color == PieceColor.WHITE) {
+            return List.of(PAWN_WHITE);
+        }
+
+        return List.of(PAWN_BLACK);
+    }
+
+    @Override
+    public int getRankDegree() {
+        return rankDegree;
+    }
+
+    @Override
+    public int getFileDegree() {
+        return fileDegree;
     }
 }

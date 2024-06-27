@@ -19,4 +19,8 @@ public abstract class Piece {
     public PieceColor getColor() {
         return color;
     }
+
+    public boolean isSameColor(final Piece piece) {
+        return this.color == piece.color;
+    }
 }

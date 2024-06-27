@@ -24,9 +24,10 @@ class PawnTest {
         PieceMove blackMove = Pawn.create(PieceColor.BLACK).getMoveable();
 
         assertAll(
-                () -> assertEquals(whiteMove.directions(), blackMove.directions()),
+                () -> assertFalse(whiteMove.directions().containsAll(blackMove.directions())),
                 () -> assertEquals(whiteMove.distance(), blackMove.distance()),
-                () -> assertTrue(whiteMove.directions().containsAll(SpecialDirection.getPawnDirection())),
+                () -> assertTrue(whiteMove.directions().containsAll(SpecialDirection.getPawnDirection(PieceColor.WHITE))),
+                () -> assertTrue(blackMove.directions().containsAll(SpecialDirection.getPawnDirection(PieceColor.BLACK))),
                 () -> assertFalse(whiteMove.directions().containsAll(Direction.diagonalDirection()))
         );
     }
