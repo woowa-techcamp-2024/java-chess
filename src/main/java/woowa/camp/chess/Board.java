@@ -21,25 +21,8 @@ import woowa.camp.utils.StringUtils;
 public class Board {
 
     private final List<Rank> board = new ArrayList<>();
-    private final List<Piece> pieces = new ArrayList<>();
 
     /* ----- biz logic -----*/
-    public void add(final Piece piece) {
-        pieces.add(piece);
-    }
-
-    private void validateFindPawn(final int pawnIndex) {
-        final int pieceCount = getPieceCount();
-        if (isOutOfRange(pieceCount, pawnIndex)) {
-            throw new IllegalArgumentException(String.format("범위를 벗어난 PawnIndex = %d, 현재 Pawn Size = %d",
-                    pawnIndex, pieceCount));
-        }
-    }
-
-    private boolean isOutOfRange(int size, int index) {
-        return index < 0 || index >= size;
-    }
-
     public void initialize() {
         initBoard();
         initBlackPieces();
@@ -66,8 +49,6 @@ public class Board {
         final Piece rightBlackRook = Piece.createBlackPieceOf(ROOK);
         board.get(0).replace(0, leftBlackRook);
         board.get(0).replace(7, rightBlackRook);
-        pieces.add(leftBlackRook);
-        pieces.add(rightBlackRook);
     }
 
     private void initBlackKnight() {
@@ -75,8 +56,6 @@ public class Board {
         final Piece rightBlackKnight = Piece.createBlackPieceOf(KNIGHT);
         board.get(0).replace(1, leftBlackKnight);
         board.get(0).replace(6, rightBlackKnight);
-        pieces.add(leftBlackKnight);
-        pieces.add(rightBlackKnight);
     }
 
     private void initBlackBishop() {
@@ -84,20 +63,16 @@ public class Board {
         final Piece rightBlackBishop = Piece.createBlackPieceOf(BISHOP);
         board.get(0).replace(2, leftBlackBishop);
         board.get(0).replace(5, rightBlackBishop);
-        pieces.add(leftBlackBishop);
-        pieces.add(rightBlackBishop);
     }
 
     private void initBlackQueen() {
         final Piece blackQueen = Piece.createBlackPieceOf(QUEEN);
         board.get(0).replace(3, blackQueen);
-        pieces.add(blackQueen);
     }
 
     private void initBlackKing() {
         final Piece blackKing = Piece.createBlackPieceOf(KING);
         board.get(0).replace(4, blackKing);
-        pieces.add(blackKing);
     }
 
     private void initWhitePieces() {
@@ -114,8 +89,6 @@ public class Board {
         final Piece rightWhiteRook = Piece.createWhitePieceOf(ROOK);
         board.get(7).replace(0, leftWhiteRook);
         board.get(7).replace(7, rightWhiteRook);
-        pieces.add(leftWhiteRook);
-        pieces.add(rightWhiteRook);
     }
 
     private void initWhiteKnight() {
@@ -123,8 +96,6 @@ public class Board {
         final Piece rightWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
         board.get(7).replace(1, leftWhiteKnight);
         board.get(7).replace(6, rightWhiteKnight);
-        pieces.add(leftWhiteKnight);
-        pieces.add(rightWhiteKnight);
     }
 
     private void initWhiteBishop() {
@@ -132,20 +103,16 @@ public class Board {
         final Piece rightWhiteBishop = Piece.createWhitePieceOf(BISHOP);
         board.get(7).replace(2, leftWhiteBishop);
         board.get(7).replace(5, rightWhiteBishop);
-        pieces.add(leftWhiteBishop);
-        pieces.add(rightWhiteBishop);
     }
 
     private void initWhiteQueen() {
         final Piece whiteQueen = Piece.createWhitePieceOf(QUEEN);
         board.get(7).replace(3, whiteQueen);
-        pieces.add(whiteQueen);
     }
 
     private void initWhiteKing() {
         final Piece whiteKing = Piece.createWhitePieceOf(KING);
         board.get(7).replace(4, whiteKing);
-        pieces.add(whiteKing);
     }
 
     private void initPawns(final int initRow, final Color color) {
@@ -157,7 +124,6 @@ public class Board {
 
     private void addPawn(final int row, final int col, final Piece piece) {
         board.get(row).replace(col, piece);
-        pieces.add(piece);
     }
 
     public String showBoard() {
@@ -181,7 +147,10 @@ public class Board {
 
     /* ----- getter ----- */
     public int getPieceCount() {
-        return pieces.size();
+        return board.stream()
+                .map(Rank::getPieces)
+                .mapToInt(List::size)
+                .sum();
     }
 
     public Piece getPieceBy(final String position) {
@@ -213,10 +182,13 @@ public class Board {
     }
 
     private List<Piece> getPiecesFilterBy(final Type type, final Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.isPieceOf(type))
-                .filter(piece -> piece.isSameColor(color))
-                .toList();
+        final List<Piece> filteredPieces = new ArrayList<>();
+
+        board.stream()
+                .map(rank -> rank.getPiecesFilterBy(type, color))
+                .forEach(filteredPieces::addAll);
+
+        return filteredPieces;
     }
 
 }
