@@ -22,15 +22,11 @@ public class BoardTest {
         Position whitePosition = Position.of("b1");
         board.set(whitePosition, white);
         assertThat(board.get(whitePosition)).isEqualTo(white);
-        assertThat(board.findPawns()).hasSize(1);
-        assertThat(board.findPawns().get(0)).isEqualTo(white);
 
         Piece black = Pawn.createBlack();
         Position blackPosition = Position.of("a3");
         board.set(blackPosition, black);
         assertThat(board.get(blackPosition)).isEqualTo(black);
-        assertThat(board.findPawns()).hasSize(2);
-        assertThat(board.findPawns().get(1)).isEqualTo(black);
     }
 
     @Test
@@ -69,15 +65,6 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환해야 한다")
-    public void count() {
-        Board board = new Board();
-        board.initialize();
-        assertThat(board.countPiece(Pawn.class, Piece.Color.BLACK)).isEqualTo(8);
-        assertThat(board.countPiece(Rook.class, Piece.Color.WHITE)).isEqualTo(2);
-    }
-
-    @Test
     @DisplayName("체스판의 점수 결과를 반환해야 한다")
     public void value() {
         Board board = createBoard("""
@@ -92,19 +79,6 @@ public class BoardTest {
                 """);
         assertThat(board.value(Piece.Color.BLACK)).isEqualTo(20.0);
         assertThat(board.value(Piece.Color.WHITE)).isEqualTo(20.0);
-    }
-
-    @Test
-    @DisplayName("체스판의 기물을 점수가 높은 순서로 반환해야 한다")
-    public void sorted() {
-        Board board = new Board();
-        board.initialize();
-
-        List<Piece> pieces = board.getPiecesInDescendingOrder(Piece.Color.WHITE);
-
-        for (int i = 0; i < pieces.size() - 1; i++) {
-            assertThat(pieces.get(i).value()).isGreaterThanOrEqualTo(pieces.get(i + 1).value());
-        }
     }
 
     @Test

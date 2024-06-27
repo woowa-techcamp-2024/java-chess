@@ -80,11 +80,6 @@ public class Board {
         return cells[r][c];
     }
 
-    public int countPiece(Class<? extends Piece> type, Piece.Color color) {
-        return (int) pieceStream().filter(piece -> piece.isColor(color) && type.isInstance(piece))
-                .count();
-    }
-
     public double value(Piece.Color color) {
         double value = 0.0;
         for (int c = 0; c < LENGTH; c++) {
@@ -104,25 +99,8 @@ public class Board {
         return value;
     }
 
-    public List<Piece> getPiecesInDescendingOrder(Piece.Color color) {
-        return pieceStream().filter(piece -> piece.isColor(color))
-                .sorted(Comparator.comparingDouble(Piece::value).reversed())
-                .toList();
-    }
-
-    public List<Pawn> findPawns() {
-        return pieceStream().filter(piece -> piece instanceof Pawn)
-                .map(Pawn.class::cast)
-                .toList();
-    }
-
     protected Stream<Cell> stream() {
         return Arrays.stream(cells).flatMap(Arrays::stream);
-    }
-
-    protected Stream<Piece> pieceStream() {
-        return stream().filter(cell -> !cell.isEmpty())
-                .map(cell -> cell.getPiece());
     }
 
     public static class Cell {
