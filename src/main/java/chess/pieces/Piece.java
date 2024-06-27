@@ -70,6 +70,7 @@ public class Piece {
         return Piece.of(Color.BLACK.name(), type.getBlackRepresentation(), type.getDefaultPoint());
     }
 
+
     public static  Piece of(final String color, final String representation, final double defaultPoint) {
         return new Piece(color, representation, defaultPoint);
     }

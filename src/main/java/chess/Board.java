@@ -3,91 +3,27 @@ package chess;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
-import utils.StringUtils;
 
 import java.util.*;
 
 
 public class Board {
-
-    private Set<Piece> whitePieces;
-    private Set<Piece> blackPieces;
-
     private List<List<Piece>> boardMap;
     private int pieceCount = 0;
+    private int rowSize;
+    private int colSize;
 
-    public void initialize() {
-        boardMap = new ArrayList<>();
-        whitePieces = new HashSet<>();
-        blackPieces = new HashSet<>();
+    public Board(final int rowSize, final int colSize) {
+        this.boardMap = new ArrayList<>();
 
-        for (int i = 0; i < 8; i++) {
-            if (i == 0) {
-                List<Piece> p = new ArrayList<>();
-                p.add(Piece.createWhite(Type.ROOK));
-                p.add(Piece.createWhite(Type.KNIGHT));
-                p.add(Piece.createWhite(Type.BISHOP));
-                p.add(Piece.createWhite(Type.QUEEN));
-                p.add(Piece.createWhite(Type.KING));
-                p.add(Piece.createWhite(Type.BISHOP));
-                p.add(Piece.createWhite(Type.KNIGHT));
-                p.add(Piece.createWhite(Type.ROOK));
-                boardMap.add(p);
-
-                addInPieceSet(p,whitePieces);
-            } else if (i == 7) {
-                List<Piece> p = new ArrayList<>();
-                p.add(Piece.createBlack(Type.ROOK));
-                p.add(Piece.createBlack(Type.KNIGHT));
-                p.add(Piece.createBlack(Type.BISHOP));
-                p.add(Piece.createBlack(Type.QUEEN));
-                p.add(Piece.createBlack(Type.KING));
-                p.add(Piece.createBlack(Type.BISHOP));
-                p.add(Piece.createBlack(Type.KNIGHT));
-                p.add(Piece.createBlack(Type.ROOK));
-                boardMap.add(p);
-
-                addInPieceSet(p,blackPieces);
-
-            } else if(i == 1) {
-                List<Piece> p = new ArrayList<>();
-                for (int j = 0; j < 8; j++) {
-                    p.add(Piece.createWhite(Type.PAWN));
-                }
-                boardMap.add(p);
-
-                addInPieceSet(p,whitePieces);
-            } else if(i == 6){
-                List<Piece> p = new ArrayList<>();
-                for (int j = 0; j < 8; j++) {
-                    p.add(Piece.createBlack(Type.PAWN));
-                }
-                boardMap.add(p);
-
-                addInPieceSet(p,blackPieces);
-            } else {
-                List<Piece> p = new ArrayList<>();
-                for (int j = 0; j < 8; j++) {
-                    p.add(Piece.createBlank());
-                }
-                boardMap.add(p);
-            }
+        for (int row = 0; row < rowSize; row++) {
+            boardMap = new ArrayList<>();
         }
 
-        pieceCount = 32;
-
-        initializeCmdToPos();
+        this.rowSize = rowSize;
+        this.colSize = colSize;
     }
 
-    private void initializeCmdToPos() {
-        for (int i = '1'; i <= '9'; i++ ) {
-            for (int j = 'a'; j <= 'h'; j++ ) {
-                // change int to char and concat them
-                String command = Character.toString(j) + Character.toString(i);
-                CommandChanger.setPosition(command, new Position(command));
-            }
-        }
-    }
 
     private String getLineAt(int pos) {
         StringBuilder res = new StringBuilder();
@@ -103,18 +39,6 @@ public class Board {
 
     public String getBlackPawnsResult() {
         return getLineAt(6);
-    }
-
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < 8; j++) {
-                sb.append(boardMap.get(i).get(j).getType());
-            }
-            sb.append("\n");
-        }
-
-        return StringUtils.replaceNewLine(sb.toString());
     }
 
     public int getPieceCount() {
@@ -140,84 +64,28 @@ public class Board {
         return boardMap.get(pos.getRow()).get(pos.getColumn());
     }
 
-    public void initializeEmpty() {
-        boardMap = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            List<Piece> p = new ArrayList<>();
-            for (int j = 0; j < 8; j++) {
-                p.add(Piece.createBlank());
-            }
-            boardMap.add(p);
-        }
-
-        initializeCmdToPos();
-    }
-
-    public void move(String position, Piece piece) {
+    public void add(String position, Piece piece) {
         Position pos = CommandChanger.getPosition(position);
         boardMap.get(pos.getRow()).set(pos.getColumn(), piece);
     }
 
-    public void move(String source, String target) {
-        Piece sourcePiece = findPiece(source);
-        sourcePiece.setPosition(CommandChanger.getPosition(target));
-
-        Position sourcePos = CommandChanger.getPosition(source);
-        Position targetPos = CommandChanger.getPosition(target);
-        // boardMap 수정
-        boardMap.get(sourcePos.getRow()).set(sourcePos.getColumn(), Piece.createBlank(sourcePos));
-        boardMap.get(targetPos.getRow()).set(targetPos.getColumn(), sourcePiece);
+    public void appendLine(List<Piece> line) {
+        boardMap.add(line);
     }
 
-    public double calculatePoint(Color color) {
-        double score = 0.0;
-
-        // KING
-        score += Type.KING.getDefaultPoint() * findPiece(color, Type.KING);
-
-        // QUEEN
-        score += Type.QUEEN.getDefaultPoint() * findPiece(color, Type.QUEEN);
-
-        // BISHOP
-        score += Type.BISHOP.getDefaultPoint() * findPiece(color, Type.BISHOP);
-
-        // ROOK
-        score += Type.ROOK.getDefaultPoint() * findPiece(color, Type.ROOK);
-
-        // KNIGHT
-        score += Type.KNIGHT.getDefaultPoint() * findPiece(color, Type.KNIGHT);
-
-        int targetColor = color.equals(Color.WHITE) ? 1 : 0;
-
-        // PAWN
-        for (int i = 0; i < 8; i++) {
-            int cnt = 0;
-            for (int j = 0; j < 8; j++) {
-                if (targetColor == 1) {
-                    if (Objects.equals(boardMap.get(j).get(i).getType(), Type.PAWN.getWhiteRepresentation())) {
-                        cnt++;
-                    }
-                } else {
-                    if (Objects.equals(boardMap.get(j).get(i).getType(), Type.PAWN.getBlackRepresentation())) {
-                        cnt++;
-                    }
-                }
-            }
-            if (cnt >= 2) {
-                score += cnt * 0.5;
-            } else {
-                score += cnt;
-            }
-        }
-
-        return score;
+    public Piece getPiece(int i, int j) {
+        return boardMap.get(i).get(j);
     }
 
-    public List<Piece> getWhitePieces() {
-        return whitePieces.stream().toList();
+    public void replacePiece(int row, int column, Piece piece) {
+        boardMap.get(row).set(column, piece);
     }
 
-    public void addInPieceSet(List<Piece> list, Set<Piece> set) {
-        set.addAll(list);
+    public int getRowSize() {
+        return rowSize;
+    }
+
+    public int getColSize() {
+        return colSize;
     }
 }
