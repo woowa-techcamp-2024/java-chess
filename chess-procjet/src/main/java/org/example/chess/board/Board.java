@@ -17,23 +17,6 @@ public class Board {
     protected static final int BOARD_SIZE = 8;
 
     private final List<Rank> board = new ArrayList<>();
-    private final BoardInitializeManger boardInitializeManger;
-    private final BoardScoreManager boardScoreManager;
-    private final BoardMoveManger boardMoveManger;
-
-    public Board(BoardInitializeManger boardInitializeManger, BoardScoreManager boardScoreManager, BoardMoveManger boardMoveManger) {
-        this.boardInitializeManger = boardInitializeManger;
-        this.boardScoreManager = boardScoreManager;
-        this.boardMoveManger = boardMoveManger;
-    }
-
-    public void initialize() {
-        boardInitializeManger.initialize(board);
-    }
-
-    public void initializeEmpty() {
-        boardInitializeManger.initializeEmpty(board);
-    }
 
     public void print() {
         System.out.println(showBoard());
@@ -72,28 +55,6 @@ public class Board {
 
         return count;
     }
-//------------todo: 테스트코드떄문에 남겨둔것. 추후 테스트코드도 분리하면 제거 예정
-    public Piece findPiece(String pos) {
-        return boardMoveManger.findPiece(board, pos);
-    }
-
-    public void move(String position, Piece piece) {
-        boardMoveManger.move(board, position, piece);
-    }
-
-    public void move(String source, String destination) {
-        boardMoveManger.move(board, source, destination);
-    }
-
-    public double calculatePoint(Color color) {
-        return boardScoreManager.calculatePoint(board, color);
-    }
-
-    public List<Piece> findAllPiecesSortByPoint(Color color, PieceComparator comparator) {
-        return boardScoreManager.findAllPiecesSortByPoint(board, color, comparator);
-    }
-    //---------------------
-
 
     protected List<Rank> getBoard() {
         return board;

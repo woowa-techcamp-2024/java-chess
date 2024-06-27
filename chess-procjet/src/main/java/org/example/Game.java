@@ -21,8 +21,7 @@ public class Game {
             String command = scanner.nextLine().toLowerCase();
 
             if (command.equals(START)) {
-                Board board = new Board(new BoardInitializeManger(), new BoardScoreManager());
-                board.initialize();
+                Board board = new Board();
                 board.print();
 
                 // move 명령을 받는다.
@@ -31,7 +30,7 @@ public class Game {
                     String[] m = moveCommand.split(" ");
                     String source = m[1];
                     String destination = m[2];
-                    board.move(source, destination);
+//                    board.move(source, destination);
                     board.print();
                 }
                 continue;
