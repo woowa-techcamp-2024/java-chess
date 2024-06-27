@@ -30,9 +30,11 @@ public class QueenTest {
         board.saveByPosition(PieceFactory.createQueen(Color.BLACK, null), new Position(1, 0));
 
         chessGame.move("b8", "a8");
+        System.out.println(chessView.showBoard());
         assertEquals(PieceFactory.createQueen(Color.BLACK, new Position("a8")), board.findPiece("a8"));
 
         chessGame.move("a8", "e4");
+        System.out.println(chessView.showBoard());
         assertEquals(PieceFactory.createQueen(Color.BLACK, new Position("e4")), board.findPiece("e4"));
     }
 }

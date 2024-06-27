@@ -31,12 +31,15 @@ public class KingTest {
         board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position(0, 0));
 
         chessGame.move("b8", "a8");
+        System.out.println(chessView.showBoard());
         assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b8")), board.findPiece("b8"));
 
         chessGame.move("b8", "b9");
+        System.out.println(chessView.showBoard());
         assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b8")), board.findPiece("b8"));
 
         chessGame.move("b8", "b7");
+        System.out.println(chessView.showBoard());
         assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b7")), board.findPiece("b7"));
     }
 }
