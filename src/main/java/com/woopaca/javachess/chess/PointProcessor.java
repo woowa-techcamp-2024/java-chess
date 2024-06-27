@@ -27,17 +27,20 @@ public class PointProcessor {
     private double calculatePawnsPoint(Color color) {
         double pawnsPoint = 0;
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            int fileIndex = i;
-            long pawnsCount = board.getRanks()
-                    .stream()
-                    .filter(rank -> {
-                        Piece piece = rank.findPieceByFile(fileIndex);
-                        return piece.getType() == Type.PAWN && piece.getColor() == color;
-                    })
-                    .count();
+            long pawnsCount = getFilePawnsCount(color, i);
             pawnsPoint += pawnsCount * (pawnsCount > 1 ? 0.5 : Type.PAWN.getPoint());
         }
         return pawnsPoint;
+    }
+
+    private long getFilePawnsCount(Color color, int fileIndex) {
+        return board.getRanks()
+                .stream()
+                .filter(rank -> {
+                    Piece piece = rank.findPieceByFile(fileIndex);
+                    return piece.getType() == Type.PAWN && piece.getColor() == color;
+                })
+                .count();
     }
 
     public List<Piece> sortPiecesByPoint(Color color) {
