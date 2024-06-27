@@ -1,6 +1,9 @@
 package org.example.chess.board;
 
 import static org.example.chess.board.Board.BOARD_SIZE;
+import static org.example.utils.MathUtils.gcd;
+
+import java.util.Objects;
 
 public class Position {
 
@@ -35,7 +38,36 @@ public class Position {
     }
 
     public Position delta(Position other) {
-        //TODO: 나이트나 폰 이외에는 여러칸이 이동 가능하므로 delta를 나눠서 방향을 나타내게 만들어야한다.
-        return new Position(r - other.r, c - other.c);
+        int deltaR = r - other.getR();
+        int deltaC = c - other.getC();
+
+        int gcd = gcd(Math.abs(deltaR), Math.abs(deltaC));
+
+        if (deltaR == 0) {
+            deltaC = deltaC > 0 ? 1 : -1;
+        } else if (deltaC == 0) {
+            deltaR = deltaR > 0 ? 1 : -1;
+        } else {
+            deltaR /= gcd;
+            deltaC /= gcd;
+        }
+        return new Position(deltaR, deltaC);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return r == position.r && c == position.c;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(r, c);
     }
 }
