@@ -29,14 +29,12 @@ public class BoardTest {
 
     @Test
     public void move() {
-        board.initializeEmpty();
-
-        String position = "b5";
-        Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
-
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        board.initialize();
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
 
     @Test
@@ -60,7 +58,7 @@ public class BoardTest {
     }
 
     private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+        board.addPiece(position, piece);
     }
 
     @Test
