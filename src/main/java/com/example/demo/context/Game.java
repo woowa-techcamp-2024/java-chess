@@ -50,21 +50,55 @@ public class Game {
     //--------------init game start----------------
     private void initPawnRules() {
         List<Rule> pawnRules = new ArrayList<>();
+        List<Rule> attackPawnRules = new ArrayList<>();
+
         Rule whiteRule = Builder.create(Type.PAWN, Color.WHITE, 1, 0)
                 .addHook(Hook.PROMOTION)
                 .build();
+
         Rule white2StepRule = Builder.create(Type.PAWN, Color.WHITE, 2, 0).isApplyFirstMove().build();
+
+        Rule whiteAttackRule1 = Builder.create(Type.PAWN, Color.WHITE, 1, 1)
+                .addHook(Hook.PROMOTION)
+                .isAttackRule()
+                .build();
+        Rule whiteAttackRule2 = Builder.create(Type.PAWN, Color.WHITE, 1, -1)
+                .addHook(Hook.PROMOTION)
+                .isAttackRule()
+                .build();
 
         Rule blackRule = Builder.create(Type.PAWN, Color.BLACK, -1, 0)
                 .addHook(Hook.PROMOTION)
                 .build();
+
         Rule black2StepRule = Builder.create(Type.PAWN, Color.BLACK, -2, 0).isApplyFirstMove().build();
+
+        Rule blackAttackRule1 = Builder.create(Type.PAWN, Color.BLACK, -1, 1)
+                .addHook(Hook.PROMOTION)
+                .isAttackRule()
+                .build();
+        Rule blackAttackRule2 = Builder.create(Type.PAWN, Color.BLACK, -1, -1)
+                .addHook(Hook.PROMOTION)
+                .isAttackRule()
+                .build();
 
         pawnRules.add(whiteRule);
         pawnRules.add(white2StepRule);
         pawnRules.add(blackRule);
         pawnRules.add(black2StepRule);
+
+        pawnRules.add(whiteAttackRule1);
+        pawnRules.add(whiteAttackRule2);
+        pawnRules.add(blackAttackRule1);
+        pawnRules.add(blackAttackRule2);
+
+        attackPawnRules.add(whiteAttackRule1);
+        attackPawnRules.add(whiteAttackRule2);
+        attackPawnRules.add(blackAttackRule1);
+        attackPawnRules.add(blackAttackRule2);
+
         rules.put(Type.PAWN, pawnRules);
+        attackRules.put(Type.PAWN, attackPawnRules);
     }
 
     private void initBishopRules() {
