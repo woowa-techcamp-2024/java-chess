@@ -3,15 +3,14 @@ package chess;
 import chess.pieces.ChessPiece;
 import chess.pieces.PieceFactory;
 import chess.pieces.PieceTypes;
-import chess.pieces.PieceTypes.Color;
-import chess.pieces.PieceTypes.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static chess.pieces.PieceTypes.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
     private Board board;
@@ -75,16 +74,22 @@ public class BoardTest {
         board.initialize();
 
         //when
-        ChessPiece a8 = board.findPiece("a8");
-        ChessPiece h8 = board.findPiece("h8");
-        ChessPiece a1 = board.findPiece("a1");
-        ChessPiece h1 = board.findPiece("h1");
+        Optional<ChessPiece> a8 = board.findPiece("a8");
+        Optional<ChessPiece> h8 = board.findPiece("h8");
+        Optional<ChessPiece> a1 = board.findPiece("a1");
+        Optional<ChessPiece> h1 = board.findPiece("h1");
+
+        assertTrue(a8.isPresent());
+        assertTrue(h8.isPresent());
+        assertTrue(a1.isPresent());
+        assertTrue(h1.isPresent());
+
 
         //then=
-        verifyPieceColorAndType(a8,BLACK_ROOK);
-        verifyPieceColorAndType(h8,BLACK_ROOK);
-        verifyPieceColorAndType(a1,WHITE_ROOK);
-        verifyPieceColorAndType(h1,WHITE_ROOK);
+        verifyPieceColorAndType(a8.get(),BLACK_ROOK);
+        verifyPieceColorAndType(h8.get(),BLACK_ROOK);
+        verifyPieceColorAndType(a1.get(),WHITE_ROOK);
+        verifyPieceColorAndType(h1.get(),WHITE_ROOK);
     }
 
     private void verifyPieceColorAndType(ChessPiece chessPiece, PieceTypes pieceType){
@@ -208,14 +213,36 @@ public class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition,targetPosition);
+        boolean moved = board.move(sourcePosition,targetPosition);
+
+        assertTrue(moved);
         verifyPieceWithPosition(sourcePosition,NO_PIECE);
         verifyPieceWithPosition(targetPosition,WHITE_PAWN);
     }
 
+    @Test
+    public void moveOutOfRange(){
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPositionOutOfRange = "A1";
+        boolean moved = board.move(sourcePosition, targetPositionOutOfRange);
+        assertFalse(moved);
+
+        targetPositionOutOfRange = "i8";
+        assertFalse(board.move(sourcePosition,targetPositionOutOfRange));
+
+        targetPositionOutOfRange = "a10";
+        assertFalse(board.move(sourcePosition, targetPositionOutOfRange));
+    }
+
     void verifyPieceWithPosition(String position,PieceTypes type){
-        ChessPiece chessPiece = board.findPiece(position);
-        assertEquals(type.getType(), chessPiece.getType());
-        assertEquals(type.getColor(), chessPiece.getColor());
+        Optional<ChessPiece> chessPiece = board.findPiece(position);
+
+        assertTrue(chessPiece.isPresent());
+
+        ChessPiece cp = chessPiece.get();
+        assertEquals(type.getType(), cp.getType());
+        assertEquals(type.getColor(), cp.getColor());
     }
 }

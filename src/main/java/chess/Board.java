@@ -5,6 +5,7 @@ import chess.pieces.PieceFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static chess.pieces.PieceTypes.*;
 
@@ -53,16 +54,17 @@ public class Board {
     }
 
     protected boolean isIn(String position){
+        if(position.length() != 2) return false;
         int row = getRow(position);
         int col = getCol(position);
 
         return isIn(row,col);
     }
 
-    public ChessPiece findPiece(String position){
+    public Optional<ChessPiece> findPiece(String position){
         int row = getRow(position);
         int col = getCol(position);
-        return board[row][col];
+        return Optional.ofNullable(isIn(row,col) ? board[row][col] : null);
     }
 
     public int pieceCount(){
@@ -161,12 +163,14 @@ public class Board {
         }
     }
 
-    public void move(String position, ChessPiece chessPiece){
+    public boolean move(String position, ChessPiece chessPiece){
+        if(!isIn(position)) return false;
         removePiece(chessPiece);
         int row = getRow(position);
         int col = getCol(position);
 
         board[row][col] = chessPiece;
+        return true;
     }
 
     public String print(){
@@ -219,15 +223,23 @@ public class Board {
         return (isIn(x+1,y) && Type.PAWN.equals(board[x+1][y].getType()) || isIn(x-1,y) && Type.PAWN.equals(board[x-1][y].getType()));
     }
 
-    public void move(String sourcePosition,String targetPosition){
-        ChessPiece source = findPiece(sourcePosition);
-        if(Type.NO_PIECE.equals(source.getType())){
-            return;
-        }
-        ChessPiece target = findPiece(targetPosition);
+    public boolean move(String sourcePosition,String targetPosition){
+        Optional<ChessPiece> source = findPiece(sourcePosition);
+        Optional<ChessPiece> target = findPiece(targetPosition);
 
-        removePiece(target);
-        move(targetPosition,source);
-        setPiece(sourcePosition, pieceCreator.createPiece(NO_PIECE));
+        if(source.isEmpty() || target.isEmpty()) return false;
+
+        ChessPiece s = source.get();
+        ChessPiece t = target.get();
+        if(Type.NO_PIECE.equals(s.getType())){
+            return false;
+        }
+        removePiece(t);
+        System.out.println("targetPosition = " + targetPosition);
+        boolean moved = move(targetPosition,s);
+        if(moved) {
+            setPiece(sourcePosition, pieceCreator.createPiece(NO_PIECE));
+        }
+        return moved;
     }
 }

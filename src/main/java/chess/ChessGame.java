@@ -5,6 +5,7 @@ import chess.pieces.Course;
 import chess.pieces.Direction;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 public class ChessGame {
@@ -55,14 +56,17 @@ public class ChessGame {
     }
 
     private boolean move(String source, String target) {
-        ChessPiece sourcePiece = board.findPiece(source);
+        Optional<ChessPiece> sourcePiece = board.findPiece(source);
 
-        if (isPossibleMove(sourcePiece, source, target)) {
-            board.move(source, target);
-            return true;
-        }
-
-        return false;
+        return sourcePiece.map(sp->{
+            if(isPossibleMove(sp,source,target)){
+                board.move(source,target);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }).orElse(false);
     }
 
     private boolean isSameTeam(ChessPiece p1, ChessPiece p2) {
@@ -73,20 +77,24 @@ public class ChessGame {
         Course pieceCourse = piece.getCourse();
         boolean recursive = pieceCourse.isRecursive();
         List<Direction> directions = pieceCourse.getDirections();
-        ChessPiece sourcePiece = board.findPiece(source);
+        Optional<ChessPiece> sourcePiece = board.findPiece(source);
 
-        for (Direction direction : directions) {
-            int multiple = 1;
-            boolean flag = recursive;
-            do {
-                String nextPosition = getNextPosition(source, direction, multiple++);
-                if (!board.isIn(nextPosition)) {
-                    flag = false;
-                }
-                if (nextPosition.equals(target) && !isSameTeam(sourcePiece, board.findPiece(nextPosition))) return true;
-            } while (flag);
-        }
-        return false;
+        return sourcePiece.map(p->{
+            for (Direction direction : directions) {
+                int multiple = 1;
+                boolean flag = recursive;
+                do {
+                    String nextPosition = getNextPosition(source, direction, multiple++);
+                    if (!board.isIn(nextPosition)) {
+                        flag = false;
+                    }
+                    Optional<ChessPiece> nextPieceOptional = board.findPiece(nextPosition);
+                    ChessPiece nextPiece = nextPieceOptional.get();
+                    if (nextPosition.equals(target) && !isSameTeam(p, nextPiece)) return true;
+                } while (flag);
+            }
+            return false;
+        }).orElse(false);
     }
 
     private String getNextPosition(String sourcePosition, Direction direction) {
