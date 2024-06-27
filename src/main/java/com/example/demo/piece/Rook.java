@@ -1,16 +1,9 @@
 package com.example.demo.piece;
 
-import com.example.demo.context.File;
-import com.example.demo.context.Rank;
-
 public class Rook extends Piece {
 
-    public Rook(Rank rank, File file) {
-        super(rank, file);
-    }
-
-    public Rook(Color color, Rank rank, File file) {
-        super(color, rank, file);
+    public Rook(PieceBuilder builder) {
+        super(builder);
     }
 
     @Override

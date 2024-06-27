@@ -1,8 +1,12 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.*;
+import com.example.demo.piece.Color;
+import com.example.demo.piece.Pawn;
+import com.example.demo.piece.Piece;
 
 import java.util.*;
+
+import static com.example.demo.piece.Type.*;
 
 public class Board {
 
@@ -44,40 +48,112 @@ public class Board {
     //--------------init board start----------------
     private void initPawn() {
         for (File file : File.values()) {
-            addPiece(new Pawn(Color.WHITE, Rank.TWO, file));
-            addPiece(new Pawn(Color.BLACK, Rank.SEVEN, file));
+            addPiece(Piece.builder(PAWN)
+                    .color(Color.WHITE)
+                    .rank(Rank.TWO)
+                    .file(file)
+                    .build());
+            addPiece(Piece.builder(PAWN)
+                    .color(Color.BLACK)
+                    .rank(Rank.SEVEN)
+                    .file(file)
+                    .build());
         }
     }
 
     private void initKing() {
-        addPiece(new King(Color.WHITE, Rank.ONE, File.D));
-        addPiece(new King(Color.BLACK, Rank.EIGHT, File.D));
+        addPiece(Piece.builder(KING)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.D)
+                .build());
+        addPiece(Piece.builder(KING)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.D)
+                .build());
     }
 
     private void initQueen() {
-        addPiece(new Queen(Color.WHITE, Rank.ONE, File.E));
-        addPiece(new Queen(Color.BLACK, Rank.EIGHT, File.E));
+        addPiece(Piece.builder(QUEEN)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.E)
+                .build());
+        addPiece(Piece.builder(QUEEN)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.E)
+                .build());
     }
 
     private void initBishop() {
-        addPiece(new Bishop(Color.WHITE, Rank.ONE, File.C));
-        addPiece(new Bishop(Color.WHITE, Rank.ONE, File.F));
-        addPiece(new Bishop(Color.BLACK, Rank.EIGHT, File.C));
-        addPiece(new Bishop(Color.BLACK, Rank.EIGHT, File.F));
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.C)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.F)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.C)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.F)
+                .build());
     }
 
     private void initKnight() {
-        addPiece(new Knight(Color.WHITE, Rank.ONE, File.B));
-        addPiece(new Knight(Color.WHITE, Rank.ONE, File.G));
-        addPiece(new Knight(Color.BLACK, Rank.EIGHT, File.B));
-        addPiece(new Knight(Color.BLACK, Rank.EIGHT, File.G));
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.B)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.G)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.B)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.G)
+                .build());
     }
 
     private void initRook() {
-        addPiece(new Rook(Color.WHITE, Rank.ONE, File.A));
-        addPiece(new Rook(Color.WHITE, Rank.ONE, File.H));
-        addPiece(new Rook(Color.BLACK, Rank.EIGHT, File.A));
-        addPiece(new Rook(Color.BLACK, Rank.EIGHT, File.H));
+        addPiece(Piece.builder(ROOK)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.A)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.H)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.A)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.H)
+                .build());
     }
 
     //--------------init board end  ----------------
@@ -122,7 +198,7 @@ public class Board {
         }
         sb.append("\n");
         for (Rank rank : Rank.values()) {
-            sb.append(rank.index()+1 + " ");
+            sb.append(rank.index() + 1 + " ");
             for (File file : File.values()) {
                 Piece piece = getPiece(rank, file);
                 if (piece != null) {

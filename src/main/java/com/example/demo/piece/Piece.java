@@ -6,18 +6,62 @@ import com.example.demo.context.Rank;
 
 public abstract class Piece implements Comparable<Piece> {
 
-    private final Color color;
+    private Color color;
     private final Rank rank;
     private final File file;
+    private int turn;
 
-    public Piece(Rank rank, File file) {
-        this(Color.WHITE, rank, file);
+    public static PieceBuilder builder(Type type) {
+        return new PieceBuilder(type);
     }
 
-    public Piece(Color color, Rank rank, File file) {
-        this.color = color;
-        this.rank = rank;
-        this.file = file;
+    public static class PieceBuilder {
+        private Color color = Color.WHITE;
+        private Rank rank;
+        private File file;
+        private int turn = 0;
+        private final Type type;
+
+        private PieceBuilder(Type type) {
+            this.type = type;
+        }
+
+        public PieceBuilder color(Color color) {
+            this.color = color;
+            return this;
+        }
+
+        public PieceBuilder rank(Rank rank) {
+            this.rank = rank;
+            return this;
+        }
+
+        public PieceBuilder file(File file) {
+            this.file = file;
+            return this;
+        }
+
+        public PieceBuilder turn(int turn) {
+            this.turn = turn;
+            return this;
+        }
+
+        public Piece build() {
+            return switch (type) {
+                case KING -> new King(this);
+                case QUEEN -> new Queen(this);
+                case ROOK -> new Rook(this);
+                case BISHOP -> new Bishop(this);
+                case KNIGHT -> new Knight(this);
+                case PAWN -> new Pawn(this);
+            };
+        }
+    }
+
+    public Piece(PieceBuilder builder){
+        this.color = builder.color;
+        this.rank = builder.rank;
+        this.file = builder.file;
     }
 
     public Color getColor(){

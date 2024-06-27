@@ -1,7 +1,10 @@
 package com.example.demo.context;
 
 import com.example.demo.event.EventPublisher;
-import com.example.demo.piece.*;
+import com.example.demo.piece.Color;
+import com.example.demo.piece.Piece;
+import com.example.demo.piece.Queen;
+import com.example.demo.piece.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,14 +66,14 @@ class GameTest {
         public void movePawnFail(Location from, Location to) {
             // given
             Board board = createBoard();
-            board.addPiece(new Pawn(Rank.THREE, File.A));
+            board.addPiece(Piece.builder(Type.PAWN).rank(Rank.THREE).file(File.A).build());
             Game game = Game.builder(board).build();
             synTurn(game, board.getPiece(from).getColor());
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
             for (File file : File.values()) {
-                board.addPiece(new Pawn(Color.WHITE, Rank.THREE, file));
-                board.addPiece(new Pawn(Color.BLACK, Rank.SIX, file));
+                board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.THREE).file(file).build());
+                board.addPiece(Piece.builder(Type.PAWN).color(Color.BLACK).rank(Rank.SIX).file(file).build());
             }
 
             // then
@@ -135,7 +138,10 @@ class GameTest {
         @MethodSource("successCase")
         public void moveBishop(Location from, Location to) {
             // given
-            Piece bishop = new Bishop(from.rank(), from.file());
+            Piece bishop = Piece.builder(Type.BISHOP)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(bishop);
             Game game = Game.builder(board).build();
@@ -162,8 +168,17 @@ class GameTest {
         @MethodSource("attackSuccessCase")
         public void attackBishop(Location from, Location to) {
             // given
-            Piece bishop = new Bishop(from.rank(), from.file());
-            Piece target = new Pawn(Color.BLACK, to.rank(), to.file());
+            Piece bishop = Piece.builder(Type.BISHOP)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
+
+            Piece target = Piece.builder(Type.PAWN)
+                    .color(Color.BLACK)
+                    .rank(to.rank())
+                    .file(to.file())
+                    .build();
+
             Board board = new Board();
             board.addPiece(bishop);
             board.addPiece(target);
@@ -188,7 +203,10 @@ class GameTest {
         @MethodSource("failCase")
         public void moveBishopFailTest(Location from, Location to) {
             // given
-            Piece bishop = new Bishop(from.rank(), from.file());
+            Piece bishop = Piece.builder(Type.BISHOP)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(bishop);
             Game game = Game.builder(board).build();
@@ -218,7 +236,10 @@ class GameTest {
         @MethodSource("successCase")
         public void moveRook(Location from, Location to) {
             // given
-            Piece rook = new Rook(from.rank(), from.file());
+            Piece rook = Piece.builder(Type.ROOK)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(rook);
             Game game = Game.builder(board).build();
@@ -251,7 +272,10 @@ class GameTest {
         @MethodSource("failCase")
         public void moveRookFailTest(Location from, Location to) {
             // given
-            Piece rook = new Rook(from.rank(), from.file());
+            Piece rook = Piece.builder(Type.ROOK)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(rook);
             Game game = Game.builder(board).build();
@@ -285,7 +309,10 @@ class GameTest {
         @MethodSource("successCase")
         public void moveKnight(Location from, Location to) {
             // given
-            Piece knight = new Knight(from.rank(), from.file());
+            Piece knight = Piece.builder(Type.KNIGHT)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(knight);
             Game game = Game.builder(board).build();
@@ -312,7 +339,10 @@ class GameTest {
         @MethodSource("failCase")
         public void moveKnightFailTest(Location from, Location to) {
             // given
-            Piece knight = new Knight(from.rank(), from.file());
+            Piece knight = Piece.builder(Type.KNIGHT)
+                    .rank(from.rank())
+                    .file(from.file())
+                    .build();
             Board board = new Board();
             board.addPiece(knight);
             Game game = Game.builder(board).build();
@@ -341,8 +371,14 @@ class GameTest {
         @DisplayName("비숍이 같은 편을 공격하면 실패한다.")
         public void bishopAttackSameColorPiece() {
             // given
-            Piece bishop = new Bishop(Rank.FIVE, File.C);
-            Piece target = new Pawn(Rank.THREE, File.E);
+            Piece bishop = Piece.builder(Type.BISHOP)
+                    .rank(Rank.FIVE)
+                    .file(File.C)
+                    .build();
+            Piece target = Piece.builder(Type.PAWN)
+                    .rank(Rank.THREE)
+                    .file(File.E)
+                    .build();
             Board board = new Board();
             board.addPiece(bishop);
             board.addPiece(target);
@@ -359,7 +395,11 @@ class GameTest {
     @DisplayName("승진 규칙 테스트")
     public void promotionTest() {
         // given
-        Piece pawn = new Pawn(Color.WHITE, Rank.SEVEN, File.A);
+        Piece pawn = Piece.builder(Type.PAWN)
+                .color(Color.WHITE)
+                .rank(Rank.SEVEN)
+                .file(File.A)
+                .build();
 
         Board board = new Board();
         board.setPiece(new Location(pawn.getRank(), pawn.getFile()), pawn);
@@ -408,33 +448,32 @@ class GameTest {
     public static Stream<Arguments> castlingCase() {
         return Stream.of(
                 Arguments.of(
-                        new King(Color.WHITE, Rank.ONE, File.E),
-                        new Rook(Color.WHITE, Rank.ONE, File.H),
-                        new Knight(Color.BLACK, Rank.EIGHT, File.F),
+                        Piece.builder(Type.KING).color(Color.WHITE).rank(Rank.ONE).file(File.E).build(),
+                        Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.H).build(),
+                        Piece.builder(Type.KNIGHT).color(Color.BLACK).rank(Rank.EIGHT).file(File.F).build(),
                         new Location(Rank.ONE, File.G),
                         new Location(Rank.ONE, File.F)
                 ),
                 Arguments.of(
-                        new King(Color.BLACK, Rank.EIGHT, File.E),
-                        new Rook(Color.BLACK, Rank.EIGHT, File.A),
-                        new Knight(Color.WHITE, Rank.ONE, File.F),
+                        Piece.builder(Type.KING).color(Color.BLACK).rank(Rank.EIGHT).file(File.E).build(),
+                        Piece.builder(Type.ROOK).color(Color.BLACK).rank(Rank.EIGHT).file(File.A).build(),
+                        Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.F).build(),
                         new Location(Rank.EIGHT, File.C),
                         new Location(Rank.EIGHT, File.D)
                 ),
                 Arguments.of(
-                        new King(Color.BLACK, Rank.EIGHT, File.E),
-                        new Rook(Color.BLACK, Rank.EIGHT, File.H),
-                        new Knight(Color.WHITE, Rank.ONE, File.F),
+                        Piece.builder(Type.KING).color(Color.BLACK).rank(Rank.EIGHT).file(File.E).build(),
+                        Piece.builder(Type.ROOK).color(Color.BLACK).rank(Rank.EIGHT).file(File.H).build(),
+                        Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.F).build(),
                         new Location(Rank.EIGHT, File.G),
                         new Location(Rank.EIGHT, File.F)
                 ),
                 Arguments.of(
-                        new King(Color.WHITE, Rank.ONE, File.E),
-                        new Rook(Color.WHITE, Rank.ONE, File.A),
-                        new Knight(Color.BLACK, Rank.EIGHT, File.F),
+                        Piece.builder(Type.KING).color(Color.WHITE).rank(Rank.ONE).file(File.E).build(),
+                        Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.A).build(),
+                        Piece.builder(Type.KNIGHT).color(Color.BLACK).rank(Rank.EIGHT).file(File.F).build(),
                         new Location(Rank.ONE, File.C),
                         new Location(Rank.ONE, File.D)
-                )
-        );
+                ));
     }
 }

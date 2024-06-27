@@ -1,16 +1,9 @@
 package com.example.demo.piece;
 
-import com.example.demo.context.File;
-import com.example.demo.context.Rank;
-
 public class Queen extends Piece {
 
-    public Queen(Rank rank, File file) {
-        super(rank, file);
-    }
-
-    public Queen(Color color, Rank rank, File file) {
-        super(color, rank, file);
+    public Queen(PieceBuilder builder) {
+        super(builder);
     }
 
     @Override
@@ -24,7 +17,7 @@ public class Queen extends Piece {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return switch (getColor()) {
             case WHITE -> "q";
             case BLACK -> "Q";

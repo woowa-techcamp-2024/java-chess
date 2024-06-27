@@ -1,16 +1,9 @@
 package com.example.demo.piece;
 
-import com.example.demo.context.File;
-import com.example.demo.context.Rank;
-
 public class Bishop extends Piece {
 
-    public Bishop(Rank rank, File file) {
-        super(Color.WHITE, rank, file);
-    }
-
-    public Bishop(Color color, Rank rank, File file) {
-        super(color, rank, file);
+    public Bishop(PieceBuilder builder) {
+        super(builder);
     }
 
     @Override

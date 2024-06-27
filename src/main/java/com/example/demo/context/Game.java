@@ -1,7 +1,9 @@
 package com.example.demo.context;
 
 import com.example.demo.event.*;
-import com.example.demo.piece.*;
+import com.example.demo.piece.Color;
+import com.example.demo.piece.Piece;
+import com.example.demo.piece.Type;
 import com.example.demo.rules.CastlingRule;
 import com.example.demo.rules.GlobalRules;
 import com.example.demo.rules.KnightRule;
@@ -307,13 +309,11 @@ public class Game {
 
         checkTurn(promotionPieceLocation);
 
-        Piece piece = switch (type) {
-            case QUEEN -> new Queen(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
-            case ROOK -> new Rook(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
-            case BISHOP -> new Bishop(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
-            case KNIGHT -> new Knight(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
-            default -> throw new RuntimeException("대상 타입으로 승진할 수 없습니다.");
-        };
+        Piece piece = Piece.builder(type)
+                .color(currentTurnColor)
+                .rank(promotionPieceLocation.rank())
+                .file(promotionPieceLocation.file())
+                .build();
 
         board.setPiece(promotionPieceLocation, piece);
         promotionPieceLocation = null;

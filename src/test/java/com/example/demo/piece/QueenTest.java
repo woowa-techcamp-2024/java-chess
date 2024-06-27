@@ -13,7 +13,9 @@ class QueenTest {
     @ParameterizedTest
     @MethodSource("colors")
     public void create(final Color color){
-        Piece queen = new Queen(color, null, null);
+        var queen = Piece.builder(Type.QUEEN)
+                .color(color)
+                .build();
         assertThat(queen.getColor()).isEqualTo(color);
     }
 
@@ -24,28 +26,34 @@ class QueenTest {
     @Test
     @DisplayName("색을 지정하지 않고 퀀을 생성하면 흰색이다.")
     public void create_기본생성자() {
-        Piece queen = new Queen(null, null);
+        var queen = Piece.builder(Type.QUEEN)
+                .build();
         assertThat(queen.getColor()).isEqualTo(Color.WHITE);
     }
 
     @Test
     @DisplayName("검은 색 퀀이라면 대문자 q를 출력한다.")
     public void print_black(){
-        Piece queen = new Queen(Color.BLACK, null, null);
+        var queen = Piece.builder(Type.QUEEN)
+                .color(Color.BLACK)
+                .build();
         assertThat(queen.toString()).isEqualTo("Q");
     }
 
     @Test
     @DisplayName("흰 색 퀀이라면 소문자 q를 출력한다.")
     public void print_white(){
-        Piece queen = new Queen(Color.WHITE, null, null);
+        var queen = Piece.builder(Type.QUEEN)
+                .color(Color.WHITE)
+                .build();
         assertThat(queen.toString()).isEqualTo("q");
     }
 
     @Test
     @DisplayName("퀀의 점수는 9점이다.")
     public void score(){
-        Piece queen = new Queen(null, null);
+        var queen = Piece.builder(Type.QUEEN)
+                .build();
         assertThat(queen.getPoint()).isEqualTo(9);
     }
 }

@@ -138,11 +138,10 @@ class BoardTest {
     public void calculateScoreCase1() {
         // given
         Board board = new Board();
-        board.addPiece(new Queen(Color.WHITE, Rank.ONE, File.A));
-        board.addPiece(new Rook(Color.WHITE, Rank.ONE, File.B));
-        board.addPiece(new Knight(Color.WHITE, Rank.ONE, File.C));
-        board.addPiece(new Bishop(Color.WHITE, Rank.ONE, File.D));
-
+        board.addPiece(Piece.builder(Type.QUEEN).color(Color.WHITE).rank(Rank.ONE).file(File.A).build());
+        board.addPiece(Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.B).build());
+        board.addPiece(Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.C).build());
+        board.addPiece(Piece.builder(Type.BISHOP).color(Color.WHITE).rank(Rank.ONE).file(File.D).build());
         // when
         float score = board.getScore(Color.WHITE);
 
@@ -155,10 +154,9 @@ class BoardTest {
     public void calculateScoreCase2() {
         // given
         Board board = new Board();
-        board.addPiece(new Pawn(Color.WHITE, Rank.TWO, File.A));
-        board.addPiece(new Pawn(Color.WHITE, Rank.SEVEN, File.A));
-        board.addPiece(new Pawn(Color.WHITE, Rank.FOUR, File.A));
-
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.TWO).file(File.A).build());
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.SEVEN).file(File.A).build());
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.FOUR).file(File.A).build());
         // when
         float score = board.getScore(Color.WHITE);
 
@@ -172,13 +170,12 @@ class BoardTest {
         // given
         Board board = new Board();
 
-        var queen = new Queen(Color.WHITE, Rank.ONE, File.A);
-        var rook = new Rook(Color.WHITE, Rank.ONE, File.B);
-        var bishop = new Bishop(Color.WHITE, Rank.ONE, File.D);
-        var knight = new Knight(Color.WHITE, Rank.ONE, File.C);
-        var pawn1 = new Pawn(Color.WHITE, Rank.TWO, File.A);
-        var pawn2 = new Pawn(Color.WHITE, Rank.SEVEN, File.A);
-
+        var queen = Piece.builder(Type.QUEEN).color(Color.WHITE).rank(Rank.ONE).file(File.A).build();
+        var rook = Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.B).build();
+        var bishop = Piece.builder(Type.BISHOP).color(Color.WHITE).rank(Rank.ONE).file(File.D).build();
+        var knight = Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.C).build();
+        var pawn1 = Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.TWO).file(File.A).build();
+        var pawn2 = Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.SEVEN).file(File.A).build();
         board.addPiece(queen);
         board.addPiece(rook);
         board.addPiece(bishop);
