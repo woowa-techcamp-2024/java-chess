@@ -37,7 +37,7 @@ public enum Direction {
 	}
 
 	public static List<Direction> findDirectionsByPiece(Piece piece) {
-		return switch (piece.pieceType()) {
+		return switch (piece.getPieceType()) {
 			case PAWN -> piece.isSameColor(BLACK) ? blackPawnDirection() : whitePawnDirection();
 			case KNIGHT -> knightDirection();
 			case ROOK -> rookDirection();

@@ -11,6 +11,21 @@ public class InputView {
 	}
 
 	public static Command inputCommand() {
-		return new Command(SCANNER.nextLine());
+		try {
+			return new Command(SCANNER.nextLine());
+		} catch (IllegalArgumentException ex) {
+			OutputView.printString(ex.getMessage() + " please retry");
+			return inputCommand();
+		}
+	}
+
+	public static Command inputPromotion() {
+		OutputView.printPromotion();
+		try {
+			return new Command(SCANNER.nextLine());
+		} catch (IllegalArgumentException ex) {
+			OutputView.printString(ex.getMessage() + " please retry");
+			return inputPromotion();
+		}
 	}
 }

@@ -15,4 +15,8 @@ public enum Color {
 		}
 		return BLANK;
 	}
+
+	public static Color fromByTurn(int turn) {
+		return turn == 0 ? WHITE : BLACK;
+	}
 }

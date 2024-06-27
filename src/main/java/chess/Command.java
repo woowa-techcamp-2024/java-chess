@@ -1,6 +1,8 @@
 package chess;
 
 import java.util.Arrays;
+import pieces.PieceType;
+import utils.StringUtils;
 
 public class Command {
 
@@ -15,7 +17,7 @@ public class Command {
 		commandType = Arrays.stream(CommandType.values())
 			.filter(type -> arguments.startsWith(type.getValue().toLowerCase()))
 			.findFirst()
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new IllegalArgumentException("invalid command type."));
 		this.arguments = parseCommand(arguments);
 	}
 
@@ -38,7 +40,7 @@ public class Command {
 
 	private void validateCommand(String[] split) {
 		if (split.length != END_EXCLUSIVE) {
-			throw new IllegalArgumentException("Invalid number of arguments");
+			throw new IllegalArgumentException("Invalid number of arguments.");
 		}
 	}
 }

@@ -31,7 +31,7 @@ public class Position {
 
 	private static void validatePosition(String position, int row, int col) {
 		if (position.length() != POSITION_INPUT_SIZE || isInvalidRange(row, col)) {
-			throw new IllegalArgumentException("invalid position input, position: " + position);
+			throw new IllegalArgumentException("invalid position input, position: " + position + ".");
 		}
 	}
 

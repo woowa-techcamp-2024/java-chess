@@ -1,13 +1,26 @@
 package pieces;
 
 import static java.lang.Math.abs;
+import static pieces.Color.BLACK;
+import static pieces.Color.WHITE;
 
+import chess.Command;
 import chess.Direction;
 import chess.Position;
 import java.util.List;
 import utils.MathUtils;
+import view.InputView;
+import view.OutputView;
 
-public record Piece(Color color, PieceType pieceType) {
+public class Piece {
+
+	private final Color color;
+	private PieceType pieceType;
+
+	public Piece(Color color, PieceType pieceType) {
+		this.color = color;
+		this.pieceType = pieceType;
+	}
 
 	public static Piece of(Color color, PieceType pieceType) {
 		return new Piece(color, pieceType);
@@ -31,7 +44,13 @@ public record Piece(Color color, PieceType pieceType) {
 			.filter(direction -> isSameDirection(pieceType, direction,
 				target.getRow() - source.getRow(), target.getColumn() - source.getColumn()))
 			.findFirst()
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new IllegalArgumentException("invalid target position."));
+	}
+
+	public void validateTurn(int turn) {
+		if ((color == WHITE && turn != 0) || (color == BLACK && turn != 1)) {
+			throw new IllegalArgumentException("invalid turn.");
+		}
 	}
 
 	private boolean isSameDirection(PieceType pieceType, Direction direction, int rowDiff, int columnDiff) {
@@ -64,4 +83,27 @@ public record Piece(Color color, PieceType pieceType) {
 		return color == piece.color && pieceType == piece.pieceType;
 	}
 
+	public void doPromotion(Position position) {
+		if (canPromotion(position)) {
+			Command command = InputView.inputPromotion();
+			updatePieceType(PieceType.from(command.getArguments()[0]));
+		}
+	}
+
+	private boolean canPromotion(Position position) {
+		return pieceType == PieceType.PAWN
+			&& ((color == BLACK && position.getRow() == 7) || (color == WHITE && position.getRow() == 0));
+	}
+
+	private void updatePieceType(PieceType pieceType) {
+		this.pieceType = pieceType;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public PieceType getPieceType() {
+		return pieceType;
+	}
 }

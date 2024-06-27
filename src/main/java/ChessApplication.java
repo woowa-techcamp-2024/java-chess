@@ -3,6 +3,7 @@ import chess.ChessGame;
 import chess.Command;
 import chess.CommandType;
 import chess.Ranks;
+import java.util.Objects;
 import view.InputView;
 import view.OutputView;
 
@@ -13,8 +14,12 @@ public class ChessApplication {
 		ChessGame chessGame = null;
 		do {
 			command = InputView.inputCommand();
-			chessGame = executeChessGame(command, chessGame);
-		} while (command.getCommandType() != CommandType.END);
+			try {
+				chessGame = executeChessGame(command, chessGame);
+			} catch (IllegalArgumentException e) {
+				OutputView.printString(e.getMessage() + " please retry");
+			}
+		} while (command.getCommandType() != CommandType.END && !Objects.requireNonNull(chessGame).isGameEnd());
 	}
 
 	private static ChessGame executeChessGame(Command command, ChessGame chessGame) {

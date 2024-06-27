@@ -2,6 +2,10 @@ package pieces;
 
 import static pieces.Color.WHITE;
 
+import java.util.Arrays;
+import java.util.List;
+import utils.StringUtils;
+
 public enum PieceType {
 
 	PAWN('P', 1.0),
@@ -48,5 +52,16 @@ public enum PieceType {
 
 	public double getDefaultPoint() {
 		return defaultPoint;
+	}
+
+	private static List<PieceType> getPromotionPieceTypes() {
+		return List.of(KNIGHT, ROOK, QUEEN, BISHOP);
+	}
+
+	public static PieceType from(String input) {
+		return getPromotionPieceTypes().stream()
+			.filter(pieceType -> StringUtils.equalsIgnoreCase(pieceType.name(), input))
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("invalid PieceType."));
 	}
 }
