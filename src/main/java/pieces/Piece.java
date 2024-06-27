@@ -10,7 +10,6 @@ import chess.Position;
 import java.util.List;
 import utils.MathUtils;
 import view.InputView;
-import view.OutputView;
 
 public class Piece {
 
@@ -47,10 +46,29 @@ public class Piece {
 			.orElseThrow(() -> new IllegalArgumentException("invalid target position."));
 	}
 
+	public void doPromotion(Position position) {
+		if (canPromotion(position)) {
+			Command command = InputView.inputPromotion();
+			updatePieceType(PieceType.from(command.getArguments()[0]));
+		}
+	}
+
 	public void validateTurn(int turn) {
 		if ((color == WHITE && turn != 0) || (color == BLACK && turn != 1)) {
 			throw new IllegalArgumentException("invalid turn.");
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Piece piece = (Piece) o;
+		return color == piece.color && pieceType == piece.pieceType;
 	}
 
 	private boolean isSameDirection(PieceType pieceType, Direction direction, int rowDiff, int columnDiff) {
@@ -69,25 +87,6 @@ public class Piece {
 	 */
 	private boolean isMultipleMovePieceType(PieceType pieceType) {
 		return pieceType == PieceType.BISHOP || pieceType == PieceType.QUEEN || pieceType == PieceType.ROOK;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		Piece piece = (Piece) o;
-		return color == piece.color && pieceType == piece.pieceType;
-	}
-
-	public void doPromotion(Position position) {
-		if (canPromotion(position)) {
-			Command command = InputView.inputPromotion();
-			updatePieceType(PieceType.from(command.getArguments()[0]));
-		}
 	}
 
 	private boolean canPromotion(Position position) {

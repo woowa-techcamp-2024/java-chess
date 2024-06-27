@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import pieces.Color;
 import pieces.Piece;
 import utils.StringUtils;
-import view.OutputView;
 
 public record Board(Ranks ranks) {
 

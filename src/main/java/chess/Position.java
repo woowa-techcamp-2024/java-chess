@@ -29,15 +29,15 @@ public class Position {
 		return new Position(row, col);
 	}
 
+	public static boolean isInvalidRange(int row, int col) {
+		return row < MINIMUM_POSITION_BOUND || row > MAXIMUM_POSITION_BOUND
+			|| col < MINIMUM_POSITION_BOUND || col > MAXIMUM_POSITION_BOUND;
+	}
+
 	private static void validatePosition(String position, int row, int col) {
 		if (position.length() != POSITION_INPUT_SIZE || isInvalidRange(row, col)) {
 			throw new IllegalArgumentException("invalid position input, position: " + position + ".");
 		}
-	}
-
-	public static boolean isInvalidRange(int row, int col) {
-		return row < MINIMUM_POSITION_BOUND || row > MAXIMUM_POSITION_BOUND
-			|| col < MINIMUM_POSITION_BOUND || col > MAXIMUM_POSITION_BOUND;
 	}
 
 	public int getColumn() {

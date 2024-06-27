@@ -1,8 +1,6 @@
 package chess;
 
 import java.util.Arrays;
-import pieces.PieceType;
-import utils.StringUtils;
 
 public class Command {
 

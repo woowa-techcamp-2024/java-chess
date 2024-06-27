@@ -2,7 +2,6 @@ package pieces;
 
 import static pieces.Color.WHITE;
 
-import java.util.Arrays;
 import java.util.List;
 import utils.StringUtils;
 
@@ -46,14 +45,6 @@ public enum PieceType {
 		return KING;
 	}
 
-	public char getRepresentation(Color color) {
-		return color == WHITE ? Character.toLowerCase(representation) : representation;
-	}
-
-	public double getDefaultPoint() {
-		return defaultPoint;
-	}
-
 	private static List<PieceType> getPromotionPieceTypes() {
 		return List.of(KNIGHT, ROOK, QUEEN, BISHOP);
 	}
@@ -63,5 +54,13 @@ public enum PieceType {
 			.filter(pieceType -> StringUtils.equalsIgnoreCase(pieceType.name(), input))
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException("invalid PieceType."));
+	}
+
+	public char getRepresentation(Color color) {
+		return color == WHITE ? Character.toLowerCase(representation) : representation;
+	}
+
+	public double getDefaultPoint() {
+		return defaultPoint;
 	}
 }
