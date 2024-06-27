@@ -1,11 +1,11 @@
 package com.wootecam.chess.game;
 
-import com.wootecam.chess.ChessView;
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.board.ScoreCalculationRule;
 import com.wootecam.chess.move.PieceMovementManager;
+import com.wootecam.chess.view.ChessView;
 
 public class ChessGame {
     private final BoardInitializer boardInitializer;

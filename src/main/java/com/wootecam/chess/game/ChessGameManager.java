@@ -1,10 +1,10 @@
 package com.wootecam.chess.game;
 
-import com.wootecam.chess.ChessView;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.ScoreCalculationRule;
 import com.wootecam.chess.common.Reader;
 import com.wootecam.chess.move.PieceMovementManager;
+import com.wootecam.chess.view.ChessView;
 
 public class ChessGameManager {
     private static final String CMD_START = "start";
@@ -39,6 +39,7 @@ public class ChessGameManager {
         ChessGame chessGame = null;
         boolean isFinished = false;
 
+        chessView.printGreetMessage();
         while (!isFinished) {
             System.out.print(">>> ");
             String cmd = reader.readLine();
