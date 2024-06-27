@@ -23,6 +23,7 @@ public class Game {
         initPawnRules();
         initBishopRules();
         initRookRules();
+        initQueenRules();
     }
 
     //--------------init game start----------------
@@ -37,30 +38,53 @@ public class Game {
 
     private void initBishopRules() {
         List<Rule> bishopRules = new ArrayList<>();
-        bishopRules.add(new NormalRule(7, 7, Color.WHITE, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(-7, 7, Color.WHITE, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(7, -7, Color.WHITE, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(-7, -7, Color.WHITE, Type.BISHOP, false, true));
+        int[][] directions = {
+                {7, 7},
+                {-7, 7},
+                {7, -7},
+                {-7, -7}
+        };
 
-        bishopRules.add(new NormalRule(7, 7, Color.BLACK, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(-7, 7, Color.BLACK, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(7, -7, Color.BLACK, Type.BISHOP, false, true));
-        bishopRules.add(new NormalRule(-7, -7, Color.BLACK, Type.BISHOP, false, true));
+        for (int[] direction : directions) {
+            bishopRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.BISHOP, false, true));
+            bishopRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.BISHOP, false, true));
+        }
         rules.put(Type.BISHOP, bishopRules);
     }
 
     private void initRookRules() {
         List<Rule> rookRules = new ArrayList<>();
-        rookRules.add(new NormalRule(7, 0, Color.WHITE, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(-7, 0, Color.WHITE, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(0, 7, Color.WHITE, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(0, -7, Color.WHITE, Type.ROOK, false, true));
-
-        rookRules.add(new NormalRule(7, 0, Color.BLACK, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(-7, 0, Color.BLACK, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(0, 7, Color.BLACK, Type.ROOK, false, true));
-        rookRules.add(new NormalRule(0, -7, Color.BLACK, Type.ROOK, false, true));
+        int[][] directions = {
+                {7, 0},
+                {-7, 0},
+                {0, 7},
+                {0, -7}
+        };
+        for (int[] direction : directions) {
+            rookRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.ROOK, false, true));
+            rookRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.ROOK, false, true));
+        }
         rules.put(Type.ROOK, rookRules);
+    }
+
+    private void initQueenRules() {
+        List<Rule> queenRules = new ArrayList<>();
+        int[][] directions = {
+                {7, 0},
+                {-7, 0},
+                {0, 7},
+                {0, -7},
+                {7, 7},
+                {-7, 7},
+                {7, -7},
+                {-7, -7}
+        };
+
+        for (int[] direction : directions) {
+            queenRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.QUEEN, false, true));
+            queenRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.QUEEN, false, true));
+        }
+        rules.put(Type.QUEEN, queenRules);
     }
     //--------------init game end  ----------------
 
