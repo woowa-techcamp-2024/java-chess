@@ -2,6 +2,7 @@ package com.woopaca.javachess.chess;
 
 import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Piece;
+import com.woopaca.javachess.pieces.PieceFactory;
 import com.woopaca.javachess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,11 +69,11 @@ public class BoardTest {
     void findPiece() {
         board.initialize();
 
-        assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook(new Position("a8")));
+        assertThat(board.findPiece("a8")).isEqualTo(PieceFactory.createBlackRook(new Position("a8")));
         Piece findPiece = board.findPiece("h8");
-        assertThat(findPiece).isEqualTo(Piece.createBlackRook(new Position("h8")));
-        assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook(new Position("a1")));
-        assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook(new Position("h1")));
+        assertThat(findPiece).isEqualTo(PieceFactory.createBlackRook(new Position("h8")));
+        assertThat(board.findPiece("a1")).isEqualTo(PieceFactory.createWhiteRook(new Position("a1")));
+        assertThat(board.findPiece("h1")).isEqualTo(PieceFactory.createWhiteRook(new Position("h1")));
     }
 
     @DisplayName("체스판에 존재하는 특정 색상 기물들의 점수를 계산할 수 있다.")
@@ -80,15 +81,15 @@ public class BoardTest {
     void calculatePoint() {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn(new Position("b6")));
-        addPiece("e6", Piece.createBlackQueen(new Position("e6")));
-        addPiece("b8", Piece.createBlackKing(new Position("b8")));
-        addPiece("c8", Piece.createBlackRook(new Position("c8")));
+        addPiece("b6", PieceFactory.createBlackPawn(new Position("b6")));
+        addPiece("e6", PieceFactory.createBlackQueen(new Position("e6")));
+        addPiece("b8", PieceFactory.createBlackKing(new Position("b8")));
+        addPiece("c8", PieceFactory.createBlackRook(new Position("c8")));
 
-        addPiece("f2", Piece.createWhitePawn(new Position("f2")));
-        addPiece("g2", Piece.createWhitePawn(new Position("g2")));
-        addPiece("e1", Piece.createWhiteRook(new Position("e1")));
-        addPiece("f1", Piece.createWhiteKing(new Position("f1")));
+        addPiece("f2", PieceFactory.createWhitePawn(new Position("f2")));
+        addPiece("g2", PieceFactory.createWhitePawn(new Position("g2")));
+        addPiece("e1", PieceFactory.createWhiteRook(new Position("e1")));
+        addPiece("f1", PieceFactory.createWhiteKing(new Position("f1")));
 
         assertThat(pointProcessor.calculatePoint(Color.BLACK)).isEqualTo(15.0);
         assertThat(pointProcessor.calculatePoint(Color.WHITE)).isEqualTo(7.0);
@@ -99,25 +100,25 @@ public class BoardTest {
     void sortPieces() {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn(new Position("b6")));
-        addPiece("e6", Piece.createBlackQueen(new Position("e6")));
-        addPiece("b8", Piece.createBlackKing(new Position("b8")));
-        addPiece("c8", Piece.createBlackRook(new Position("c8")));
+        addPiece("b6", PieceFactory.createBlackPawn(new Position("b6")));
+        addPiece("e6", PieceFactory.createBlackQueen(new Position("e6")));
+        addPiece("b8", PieceFactory.createBlackKing(new Position("b8")));
+        addPiece("c8", PieceFactory.createBlackRook(new Position("c8")));
 
-        addPiece("f2", Piece.createWhitePawn(new Position("f2")));
-        addPiece("g2", Piece.createWhitePawn(new Position("g2")));
-        addPiece("e1", Piece.createWhiteRook(new Position("e1")));
-        addPiece("f1", Piece.createWhiteKing(new Position("f1")));
+        addPiece("f2", PieceFactory.createWhitePawn(new Position("f2")));
+        addPiece("g2", PieceFactory.createWhitePawn(new Position("g2")));
+        addPiece("e1", PieceFactory.createWhiteRook(new Position("e1")));
+        addPiece("f1", PieceFactory.createWhiteKing(new Position("f1")));
 
-        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(0)).isEqualTo(Piece.createBlackKing(new Position("b8")));
-        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(1)).isEqualTo(Piece.createBlackPawn(new Position("b6")));
-        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(0)).isEqualTo(Piece.createBlackQueen(new Position("e6")));
-        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(1)).isEqualTo(Piece.createBlackRook(new Position("c8")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(0)).isEqualTo(PieceFactory.createBlackKing(new Position("b8")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(1)).isEqualTo(PieceFactory.createBlackPawn(new Position("b6")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(0)).isEqualTo(PieceFactory.createBlackQueen(new Position("e6")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(1)).isEqualTo(PieceFactory.createBlackRook(new Position("c8")));
 
-        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteKing(new Position("f1")));
-        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("f2")));
-        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteRook(new Position("e1")));
-        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("f2")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(0)).isEqualTo(PieceFactory.createWhiteKing(new Position("f1")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(1)).isEqualTo(PieceFactory.createWhitePawn(new Position("f2")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(0)).isEqualTo(PieceFactory.createWhiteRook(new Position("e1")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(1)).isEqualTo(PieceFactory.createWhitePawn(new Position("f2")));
     }
 
     private void addPiece(String fileRank, Piece piece) {
@@ -133,8 +134,8 @@ public class BoardTest {
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
 
-        assertThat(board.findPiece(sourcePosition)).isEqualTo(Piece.createBlank(new Position(sourcePosition)));
-        assertThat(board.findPiece(targetPosition)).isEqualTo(Piece.createWhitePawn(new Position(targetPosition)));
+        assertThat(board.findPiece(sourcePosition)).isEqualTo(PieceFactory.createBlank(new Position(sourcePosition)));
+        assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn(new Position(targetPosition)));
     }
 
 }

@@ -2,6 +2,7 @@ package com.woopaca.javachess.chess;
 
 import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Piece;
+import com.woopaca.javachess.pieces.PieceFactory;
 import com.woopaca.javachess.pieces.Type;
 
 import java.util.ArrayList;
@@ -35,49 +36,49 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Rank rank = ranks.get(i);
             for (int j = 0; j < BOARD_SIZE; j++) {
-                rank.addPiece(Piece.createBlank(new Position(j, i)));
+                rank.addPiece(PieceFactory.createBlank(new Position(j, i)));
             }
         }
     }
 
     private void addBlankRanks() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            ranks.get(2).addPiece(Piece.createBlank(new Position(i, 2)));
-            ranks.get(3).addPiece(Piece.createBlank(new Position(i, 3)));
-            ranks.get(4).addPiece(Piece.createBlank(new Position(i, 4)));
-            ranks.get(5).addPiece(Piece.createBlank(new Position(i, 5)));
+            ranks.get(2).addPiece(PieceFactory.createBlank(new Position(i, 2)));
+            ranks.get(3).addPiece(PieceFactory.createBlank(new Position(i, 3)));
+            ranks.get(4).addPiece(PieceFactory.createBlank(new Position(i, 4)));
+            ranks.get(5).addPiece(PieceFactory.createBlank(new Position(i, 5)));
         }
     }
 
     private void addPawns() {
         for (int i = 0; i < PAWNS_COUNT; i++) {
-            ranks.get(BLACK_PAWNS_RANK).addPiece(Piece.createBlackPawn(new Position(i, BLACK_PAWNS_RANK)));
-            ranks.get(WHITE_PAWNS_RANK).addPiece(Piece.createWhitePawn(new Position(i, WHITE_PAWNS_RANK)));
+            ranks.get(BLACK_PAWNS_RANK).addPiece(PieceFactory.createBlackPawn(new Position(i, BLACK_PAWNS_RANK)));
+            ranks.get(WHITE_PAWNS_RANK).addPiece(PieceFactory.createWhitePawn(new Position(i, WHITE_PAWNS_RANK)));
         }
     }
 
     private void addBlackMainPieces() {
         Rank blackMainRank = ranks.get(BLACK_MAIN_RANK);
-        blackMainRank.addPiece(Piece.createBlackRook(new Position(0, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackKnight(new Position(1, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackBishop(new Position(2, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackQueen(new Position(3, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackKing(new Position(4, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackBishop(new Position(5, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackKnight(new Position(6, BLACK_MAIN_RANK)));
-        blackMainRank.addPiece(Piece.createBlackRook(new Position(7, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackRook(new Position(0, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackKnight(new Position(1, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackBishop(new Position(2, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackQueen(new Position(3, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackKing(new Position(4, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackBishop(new Position(5, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackKnight(new Position(6, BLACK_MAIN_RANK)));
+        blackMainRank.addPiece(PieceFactory.createBlackRook(new Position(7, BLACK_MAIN_RANK)));
     }
 
     private void addWhiteMainPieces() {
         Rank whiteMainRank = ranks.get(WHITE_MAIN_RANK);
-        whiteMainRank.addPiece(Piece.createWhiteRook(new Position(0, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteKnight(new Position(1, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteBishop(new Position(2, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteQueen(new Position(3, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteKing(new Position(4, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteBishop(new Position(5, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteKnight(new Position(6, WHITE_MAIN_RANK)));
-        whiteMainRank.addPiece(Piece.createWhiteRook(new Position(7, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteRook(new Position(0, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteKnight(new Position(1, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteBishop(new Position(2, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteQueen(new Position(3, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteKing(new Position(4, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteBishop(new Position(5, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteKnight(new Position(6, WHITE_MAIN_RANK)));
+        whiteMainRank.addPiece(PieceFactory.createWhiteRook(new Position(7, WHITE_MAIN_RANK)));
     }
 
     public int pieceCount() {
