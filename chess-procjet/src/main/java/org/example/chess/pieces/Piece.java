@@ -1,17 +1,44 @@
 package org.example.chess.pieces;
 
+import java.util.List;
 import java.util.Objects;
+import org.example.chess.board.Position;
+import org.example.chess.pieces.enums.Direction;
+import org.example.utils.MathUtils;
 
-public class Piece {
+public abstract class Piece {
 
     private final Color color;
     private final Type type;
     private final String representation;
 
-    private Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
         this.representation = initializeRepresentation();
+    }
+
+    protected abstract List<Direction> getDirections();
+    protected double getMaxDistance() {
+        return Double.MAX_VALUE;
+    };
+
+    public boolean isValidMove(String source, String destination,List<Position> positions) {
+        Position from = new Position(source);
+        Position to = new Position(destination);
+
+        double distance = MathUtils.getDistance(from.getR(), from.getC(), to.getR(), to.getC());
+        if (MathUtils.greaterThan(distance, getMaxDistance())) {
+            return false;
+        }
+        Position delta = to.delta(from);
+        List<Direction> directions = getDirections();
+        for (Direction direction : directions) {
+            if (direction.isMovableDirection(delta)) {
+                return positions.isEmpty() || this.type == Type.KNIGHT;
+            }
+        }
+        return false;
     }
 
     private String initializeRepresentation() {
@@ -24,18 +51,6 @@ public class Piece {
         }
 
         return this.type.getRepresentation();
-    }
-
-    private static Piece createPiece(Color color, Type type) {
-        return new Piece(color, type);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
     }
 
     public Color getColor() {
@@ -58,100 +73,8 @@ public class Piece {
         return this.color == Color.BLACK;
     }
 
-    public boolean isPawn() {return this.type == Type.PAWN;}
-
-    public enum Color {
-
-        WHITE("흰색"),
-        BLACK("검은색"),
-        NONCOLOR("무색");
-
-        private final String description;
-
-        Color(String description) {
-            this.description = description;
-        }
-    }
-
-    public enum Type {
-        PAWN("P", 1.0),
-        KNIGHT("N", 2.5),
-        ROOK("R", 5.0),
-        BISHOP("B", 3.0),
-        QUEEN("Q", 9.0),
-        KING("K", 0.0),
-        NO_TYPE(".", 0.0);
-
-        private final String representation;
-        private final double defaultPoint;
-
-        public String getRepresentation() {
-            return this.representation;
-        }
-
-        public double getDefaultPoint() {
-            return this.defaultPoint;
-        }
-
-        Type(String representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-    }
-
-    public static class PieceFactory {
-
-        public static Piece createBlank() {
-            return createPiece(Color.NONCOLOR, Type.NO_TYPE);
-        }
-
-        public static Piece createWhitePawn() {
-            return createWhite(Type.PAWN);
-        }
-
-        public static Piece createBlackPawn() {
-            return createBlack(Type.PAWN);
-        }
-
-        public static Piece createWhiteKnight() {
-            return createWhite(Type.KNIGHT);
-        }
-
-        public static Piece createBlackKnight() {
-            return createBlack(Type.KNIGHT);
-        }
-
-        public static Piece createWhiteRook() {
-            return createWhite(Type.ROOK);
-        }
-
-        public static Piece createBlackRook() {
-            return createBlack(Type.ROOK);
-        }
-
-        public static Piece createWhiteBishop() {
-            return createWhite(Type.BISHOP);
-        }
-
-        public static Piece createBlackBishop() {
-            return createBlack(Type.BISHOP);
-        }
-
-        public static Piece createWhiteQueen() {
-            return createWhite(Type.QUEEN);
-        }
-
-        public static Piece createBlackQueen() {
-            return createBlack(Type.QUEEN);
-        }
-
-        public static Piece createWhiteKing() {
-            return createWhite(Type.KING);
-        }
-
-        public static Piece createBlackKing() {
-            return createBlack(Type.KING);
-        }
+    public boolean isPawn() {
+        return this.type == Type.PAWN;
     }
 
     @Override
@@ -171,12 +94,42 @@ public class Piece {
         return Objects.hash(color, type, representation);
     }
 
-    @Override
-    public String toString() {
-        return "Piece{" +
-                "color=" + color +
-                ", type=" + type +
-                ", representation='" + representation + '\'' +
-                '}';
+    public enum Color {
+
+        WHITE("흰색"),
+        BLACK("검은색"),
+        NONCOLOR("무색");
+
+        private final String description;
+
+        Color(String description) {
+            this.description = description;
+        }
+    }
+
+    public enum Type {
+        PAWN("P", 1.0),
+        ROOK("R", 5.0),
+        BISHOP("B", 3.0),
+        KNIGHT("N", 2.5),
+        QUEEN("Q", 9.0),
+        KING("K", 0.0),
+        NO_TYPE(".", 0.0);
+
+        private final String representation;
+        private final double defaultPoint;
+
+        public String getRepresentation() {
+            return this.representation;
+        }
+
+        public double getDefaultPoint() {
+            return this.defaultPoint;
+        }
+
+        Type(String representation, double defaultPoint) {
+            this.representation = representation;
+            this.defaultPoint = defaultPoint;
+        }
     }
 }
