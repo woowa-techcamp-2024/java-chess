@@ -1,5 +1,7 @@
 package woowa.camp.chess;
 
+import static woowa.camp.chess.BoardConstants.MAX_COL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -14,7 +16,7 @@ public class Rank {
     }
 
     public void initRank() {
-        IntStream.range(0, Board.MAX_COL).forEach(count -> {
+        IntStream.range(0, MAX_COL.getCount()).forEach(count -> {
             pieces.add(Piece.createBlank());
         });
     }

@@ -2,6 +2,14 @@ package woowa.camp.chess;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static woowa.camp.chess.BoardConstants.MAX_BISHOP;
+import static woowa.camp.chess.BoardConstants.MAX_COL;
+import static woowa.camp.chess.BoardConstants.MAX_KING;
+import static woowa.camp.chess.BoardConstants.MAX_KNIGHT;
+import static woowa.camp.chess.BoardConstants.MAX_PAWN;
+import static woowa.camp.chess.BoardConstants.MAX_QUEEN;
+import static woowa.camp.chess.BoardConstants.MAX_ROOK;
+import static woowa.camp.chess.BoardConstants.MAX_ROW;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +23,6 @@ import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
 
 public class BoardTest {
-
-    private static final int KING_COUNT = 1;
-    private static final int QUEEN_COUNT = 1;
-    private static final int ROOK_COUNT = 2;
-    private static final int KNIGHT_COUNT = 2;
-    private static final int BISHOP_COUNT = 2;
-    private static final int PAWN_COUNT = 8;
 
     Board board;
     Piece white;
@@ -86,7 +87,7 @@ public class BoardTest {
     @DisplayName("[Success] 초기화한 Board가 가지고 있는 검은색 Pawn과 흰색 Pawn은 각각 8개이다.")
     void initialPawnGetPieceCount() {
         board.initialize();
-        int expectedPawnsCount = Board.MAX_PAWN;
+        int expectedPawnsCount = MAX_PAWN.getCount();
         verifyInitialPawnsCount(board, expectedPawnsCount);
     }
 
@@ -102,8 +103,8 @@ public class BoardTest {
 
         int resultBoardRowSize = board.getBoardRowSize();
         int resultBoardColSize = board.getBoardColSize();
-        int expectedBoardRowSize = Board.MAX_ROW;
-        int expectedBoardColSize = Board.MAX_COL;
+        int expectedBoardRowSize = MAX_ROW.getCount();
+        int expectedBoardColSize = MAX_COL.getCount();
 
         assertThat(resultBoardRowSize).isEqualTo(expectedBoardRowSize);
         assertThat(resultBoardColSize).isEqualTo(expectedBoardColSize);
@@ -139,19 +140,19 @@ public class BoardTest {
 
     static Stream<Arguments> providePiecesAndCounts() {
         return Stream.of(
-                Arguments.of(Type.KING, Color.BLACK, KING_COUNT),
-                Arguments.of(Type.QUEEN, Color.BLACK, QUEEN_COUNT),
-                Arguments.of(Type.ROOK, Color.BLACK, ROOK_COUNT),
-                Arguments.of(Type.KNIGHT, Color.BLACK, KNIGHT_COUNT),
-                Arguments.of(Type.BISHOP, Color.BLACK, BISHOP_COUNT),
-                Arguments.of(Type.PAWN, Color.BLACK, PAWN_COUNT),
+                Arguments.of(Type.KING, Color.BLACK, MAX_KING.getCount()),
+                Arguments.of(Type.QUEEN, Color.BLACK, MAX_QUEEN.getCount()),
+                Arguments.of(Type.ROOK, Color.BLACK, MAX_ROOK.getCount()),
+                Arguments.of(Type.KNIGHT, Color.BLACK, MAX_KNIGHT.getCount()),
+                Arguments.of(Type.BISHOP, Color.BLACK, MAX_BISHOP.getCount()),
+                Arguments.of(Type.PAWN, Color.BLACK, MAX_PAWN.getCount()),
 
-                Arguments.of(Type.KING, Color.WHITE, KING_COUNT),
-                Arguments.of(Type.QUEEN, Color.WHITE, QUEEN_COUNT),
-                Arguments.of(Type.ROOK, Color.WHITE, ROOK_COUNT),
-                Arguments.of(Type.KNIGHT, Color.WHITE, KNIGHT_COUNT),
-                Arguments.of(Type.BISHOP, Color.WHITE, BISHOP_COUNT),
-                Arguments.of(Type.PAWN, Color.WHITE, PAWN_COUNT)
+                Arguments.of(Type.KING, Color.WHITE, MAX_KING.getCount()),
+                Arguments.of(Type.QUEEN, Color.WHITE, MAX_QUEEN.getCount()),
+                Arguments.of(Type.ROOK, Color.WHITE, MAX_ROOK.getCount()),
+                Arguments.of(Type.KNIGHT, Color.WHITE, MAX_KNIGHT.getCount()),
+                Arguments.of(Type.BISHOP, Color.WHITE, MAX_BISHOP.getCount()),
+                Arguments.of(Type.PAWN, Color.WHITE, MAX_PAWN.getCount())
         );
     }
 

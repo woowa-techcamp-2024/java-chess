@@ -1,5 +1,7 @@
 package woowa.camp.chess;
 
+import static woowa.camp.chess.BoardConstants.MAX_COL;
+import static woowa.camp.chess.BoardConstants.MAX_ROW;
 import static woowa.camp.pieces.Piece.Type.BISHOP;
 import static woowa.camp.pieces.Piece.Type.KING;
 import static woowa.camp.pieces.Piece.Type.KNIGHT;
@@ -17,10 +19,6 @@ import woowa.camp.pieces.Piece.Type;
 import woowa.camp.utils.StringUtils;
 
 public class Board {
-
-    public static final int MAX_PAWN = 8;
-    public static final int MAX_ROW = 8;
-    public static final int MAX_COL = 8;
 
     private final List<Rank> board = new ArrayList<>();
     private final List<Piece> pieces = new ArrayList<>();
@@ -49,7 +47,7 @@ public class Board {
     }
 
     private void initBoard() {
-        IntStream.range(0, MAX_ROW).forEach(count -> {
+        IntStream.range(0, MAX_ROW.getCount()).forEach(count -> {
             board.add(new Rank());
         });
     }
@@ -151,7 +149,7 @@ public class Board {
     }
 
     private void initPawns(final int initRow, final Color color) {
-        IntStream.range(0, MAX_COL).forEach(col -> {
+        IntStream.range(0, MAX_COL.getCount()).forEach(col -> {
             final Piece piece = Piece.createPiece(PAWN, color);
             addPawn(initRow, col, piece);
         });
@@ -164,7 +162,7 @@ public class Board {
 
     public String showBoard() {
         final StringBuilder sb = new StringBuilder();
-        for (int row = 0; row < MAX_ROW; row++) {
+        for (int row = 0; row < MAX_ROW.getCount(); row++) {
             appendRowRepresentation(row, sb);
             sb.append(StringUtils.appendNewLine(""));
         }
@@ -172,7 +170,7 @@ public class Board {
     }
 
     private void appendRowRepresentation(final int row, final StringBuilder sb) {
-        for (int col = 0; col < MAX_COL; col++) {
+        for (int col = 0; col < MAX_COL.getCount(); col++) {
             final int specificCol = col;
             getPawnByPosition(row, col)
                     .map(piece -> sb.append(piece.getRepresentation().getName()))
