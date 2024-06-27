@@ -2,10 +2,9 @@ package org.example.chess.board;
 
 import static org.example.chess.board.Board.BOARD_SIZE;
 
-import java.util.List;
 import org.example.chess.board.Board.Rank;
 import org.example.chess.pieces.Piece;
-import org.example.chess.pieces.Piece.PieceFactory;
+import org.example.chess.pieces.PieceFactory;
 
 public class BoardInitializeManger {
 

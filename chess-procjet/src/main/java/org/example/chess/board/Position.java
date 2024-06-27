@@ -33,4 +33,9 @@ public class Position {
     private boolean isValidPosition(int r, int c) {
         return r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE;
     }
+
+    public Position delta(Position other) {
+        //TODO: 나이트나 폰 이외에는 여러칸이 이동 가능하므로 delta를 나눠서 방향을 나타내게 만들어야한다.
+        return new Position(r - other.r, c - other.c);
+    }
 }

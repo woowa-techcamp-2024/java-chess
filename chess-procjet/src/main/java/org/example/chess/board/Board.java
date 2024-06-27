@@ -2,6 +2,7 @@ package org.example.chess.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.Type;
@@ -43,7 +44,8 @@ public class Board {
     }
 
     public List<Rank> getBoardOnlyRead() {
-        return board.stream().toList();
+        return board.stream()
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public static class Rank {
@@ -59,6 +61,7 @@ public class Board {
         }
 
         public List<Piece> getPieces() {
+            //todo: 외부에서 수정이 가능하므로 불변리스트를 리턴하고 수정동작 메서드 추가.
             return pieces;
         }
 

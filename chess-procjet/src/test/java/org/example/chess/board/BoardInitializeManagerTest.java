@@ -3,11 +3,7 @@ package org.example.chess.board;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-import org.example.chess.board.sort.PieceComparatorFactory;
-import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
-import org.example.chess.pieces.Piece.PieceFactory;
 import org.example.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

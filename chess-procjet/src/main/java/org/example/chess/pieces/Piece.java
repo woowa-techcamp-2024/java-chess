@@ -1,19 +1,18 @@
 package org.example.chess.pieces;
 
-import java.util.Objects;
-
-public class Piece {
-    //TODO: 이동 룰 추가
+public abstract class Piece {
 
     private final Color color;
     private final Type type;
     private final String representation;
 
-    private Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
         this.representation = initializeRepresentation();
     }
+
+    public abstract boolean isValidMove(String source, String destination);
 
     private String initializeRepresentation() {
         if (this.color == Color.BLACK) {
@@ -25,18 +24,6 @@ public class Piece {
         }
 
         return this.type.getRepresentation();
-    }
-
-    private static Piece createPiece(Color color, Type type) {
-        return new Piece(color, type);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
     }
 
     public Color getColor() {
@@ -100,86 +87,5 @@ public class Piece {
             this.representation = representation;
             this.defaultPoint = defaultPoint;
         }
-    }
-
-    public static class PieceFactory {
-
-        public static Piece createBlank() {
-            return createPiece(Color.NONCOLOR, Type.NO_TYPE);
-        }
-
-        public static Piece createWhitePawn() {
-            return createWhite(Type.PAWN);
-        }
-
-        public static Piece createBlackPawn() {
-            return createBlack(Type.PAWN);
-        }
-
-        public static Piece createWhiteKnight() {
-            return createWhite(Type.KNIGHT);
-        }
-
-        public static Piece createBlackKnight() {
-            return createBlack(Type.KNIGHT);
-        }
-
-        public static Piece createWhiteRook() {
-            return createWhite(Type.ROOK);
-        }
-
-        public static Piece createBlackRook() {
-            return createBlack(Type.ROOK);
-        }
-
-        public static Piece createWhiteBishop() {
-            return createWhite(Type.BISHOP);
-        }
-
-        public static Piece createBlackBishop() {
-            return createBlack(Type.BISHOP);
-        }
-
-        public static Piece createWhiteQueen() {
-            return createWhite(Type.QUEEN);
-        }
-
-        public static Piece createBlackQueen() {
-            return createBlack(Type.QUEEN);
-        }
-
-        public static Piece createWhiteKing() {
-            return createWhite(Type.KING);
-        }
-
-        public static Piece createBlackKing() {
-            return createBlack(Type.KING);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return color == piece.color && type == piece.type && Objects.equals(representation, piece.representation);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(color, type, representation);
-    }
-
-    @Override
-    public String toString() {
-        return "Piece{" +
-                "color=" + color +
-                ", type=" + type +
-                ", representation='" + representation + '\'' +
-                '}';
     }
 }

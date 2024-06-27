@@ -3,8 +3,8 @@ package org.example.chess.board;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.example.chess.pieces.Piece;
-import org.example.chess.pieces.Piece.PieceFactory;
 import org.example.chess.pieces.Piece.Type;
+import org.example.chess.pieces.PieceFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
