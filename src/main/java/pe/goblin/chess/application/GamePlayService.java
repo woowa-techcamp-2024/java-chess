@@ -2,7 +2,7 @@ package pe.goblin.chess.application;
 
 import pe.goblin.chess.application.usecase.GamePlayUseCase;
 import pe.goblin.chess.domain.game.Game;
-import pe.goblin.chess.domain.game.Game.GameResult;
+import pe.goblin.chess.domain.game.Game.GameScore;
 import pe.goblin.chess.domain.game.vo.GameStatus;
 import pe.goblin.chess.exception.ApplicationException;
 import pe.goblin.chess.storage.GameStorage;
@@ -21,23 +21,33 @@ public class GamePlayService implements GamePlayUseCase {
     @Override
     public MoveResult move(String input) throws ApplicationException {
         validateInput(input);
-        Game game = gameStorage.get();
-        if (game == null) {
-            throw new ApplicationException("Game has not been started");
-        }
-        String[] command = input.split(" ");
+        Game game = findGame();
         try {
+            String[] command = input.split(" ");
             game.move(command[1], command[2]);
         } catch (Exception e) {
             throw new ApplicationException(e.getMessage());
         }
         GameStatus status = game.getStatus();
-        String board = game.showBoard();
-        if (status == GameStatus.IN_PROGRESS) {
-            return new MoveResult(status, 0, 0, board);
-        }
-        GameResult result = game.showResult();
+        String board = getBoard(game);
+        GameScore result = game.showResult();
         return new MoveResult(status, result.whiteScore(), result.blackScore(), board);
+    }
+
+    private Game findGame() throws ApplicationException {
+        Game game = gameStorage.get();
+        if (game == null) {
+            throw new ApplicationException("Game has not been started");
+        }
+        return game;
+    }
+
+    private String getBoard(Game game) {
+        StringBuilder sb = new StringBuilder();
+        for (String row : game.showBoard()) {
+            sb.append(row).append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 
     private static void validateInput(String input) throws ApplicationException {
