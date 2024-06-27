@@ -69,8 +69,16 @@ public enum Direction {
         return linearDirection();
     }
 
+    public static List<Direction> bishopDirections() {
+        return diagonalDirection();
+    }
+
     public static Optional<Direction> findByDegree(int xDegree, int yDegree) {
         return Optional.ofNullable(CONVERTOR.get(new Degree(xDegree, yDegree)));
+    }
+
+    public static List<Direction> queenDirections() {
+        return everyDirection();
     }
 
     private record Degree(int x, int y) {

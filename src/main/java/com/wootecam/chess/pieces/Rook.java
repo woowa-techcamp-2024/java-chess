@@ -1,7 +1,5 @@
 package com.wootecam.chess.pieces;
 
-import static com.wootecam.chess.common.ChessConstraint.isValidIndex;
-
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.move.Direction;
 import com.wootecam.chess.pieces.property.Color;
@@ -18,21 +16,6 @@ public class Rook extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        for (Direction d : ROOK_DIRECTIONS) {
-            int nx = from.x;
-            int ny = from.y;
-            while (true) {
-                nx += d.xDegree;
-                ny += d.yDegree;
-                if (!isValidIndex(nx, ny)) {
-                    break;
-                }
-                if (nx == to.x && ny == to.y) {
-                    return Optional.of(d);
-                }
-            }
-        }
-
-        return Optional.empty();
+        return findCorrectDirectionInternal(from, to, ROOK_DIRECTIONS);
     }
 }

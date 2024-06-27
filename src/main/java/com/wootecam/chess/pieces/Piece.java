@@ -1,10 +1,13 @@
 package com.wootecam.chess.pieces;
 
+import static com.wootecam.chess.common.ChessConstraint.isValidIndex;
+
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.move.Direction;
 import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.pieces.property.PieceRepresentation;
 import com.wootecam.chess.pieces.property.PieceType;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -126,6 +129,25 @@ public class Piece {
     }
 
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
+        return Optional.empty();
+    }
+
+    protected Optional<Direction> findCorrectDirectionInternal(Position from, Position to, List<Direction> directions) {
+        for (Direction d : directions) {
+            int nx = from.x;
+            int ny = from.y;
+            while (true) {
+                nx += d.xDegree;
+                ny += d.yDegree;
+                if (!isValidIndex(nx, ny)) {
+                    break;
+                }
+                if (nx == to.x && ny == to.y) {
+                    return Optional.of(d);
+                }
+            }
+        }
+
         return Optional.empty();
     }
 
