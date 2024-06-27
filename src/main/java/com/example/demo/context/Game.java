@@ -37,29 +37,29 @@ public class Game {
 
     private void initBishopRules() {
         List<Rule> bishopRules = new ArrayList<>();
-        bishopRules.add(new NormalRule(7, 7, Color.WHITE, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(-7, 7, Color.WHITE, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(7, -7, Color.WHITE, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(-7, -7, Color.WHITE, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(7, 7, Color.WHITE, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(-7, 7, Color.WHITE, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(7, -7, Color.WHITE, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(-7, -7, Color.WHITE, Type.BISHOP, false, true));
 
-        bishopRules.add(new NormalRule(7, 7, Color.BLACK, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(-7, 7, Color.BLACK, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(7, -7, Color.BLACK, Type.BISHOP, false));
-        bishopRules.add(new NormalRule(-7, -7, Color.BLACK, Type.BISHOP, false));
+        bishopRules.add(new NormalRule(7, 7, Color.BLACK, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(-7, 7, Color.BLACK, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(7, -7, Color.BLACK, Type.BISHOP, false, true));
+        bishopRules.add(new NormalRule(-7, -7, Color.BLACK, Type.BISHOP, false, true));
         rules.put(Type.BISHOP, bishopRules);
     }
 
     private void initRookRules() {
         List<Rule> rookRules = new ArrayList<>();
-        rookRules.add(new NormalRule(7, 0, Color.WHITE, Type.ROOK, false));
-        rookRules.add(new NormalRule(-7, 0, Color.WHITE, Type.ROOK, false));
-        rookRules.add(new NormalRule(0, 7, Color.WHITE, Type.ROOK, false));
-        rookRules.add(new NormalRule(0, -7, Color.WHITE, Type.ROOK, false));
+        rookRules.add(new NormalRule(7, 0, Color.WHITE, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(-7, 0, Color.WHITE, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(0, 7, Color.WHITE, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(0, -7, Color.WHITE, Type.ROOK, false, true));
 
-        rookRules.add(new NormalRule(7, 0, Color.BLACK, Type.ROOK, false));
-        rookRules.add(new NormalRule(-7, 0, Color.BLACK, Type.ROOK, false));
-        rookRules.add(new NormalRule(0, 7, Color.BLACK, Type.ROOK, false));
-        rookRules.add(new NormalRule(0, -7, Color.BLACK, Type.ROOK, false));
+        rookRules.add(new NormalRule(7, 0, Color.BLACK, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(-7, 0, Color.BLACK, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(0, 7, Color.BLACK, Type.ROOK, false, true));
+        rookRules.add(new NormalRule(0, -7, Color.BLACK, Type.ROOK, false, true));
         rules.put(Type.ROOK, rookRules);
     }
     //--------------init game end  ----------------

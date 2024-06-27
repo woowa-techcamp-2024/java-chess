@@ -147,6 +147,32 @@ class GameTest {
         }
 
         @ParameterizedTest
+        @DisplayName("비숍 공격 테스트")
+        @MethodSource("attackSuccessCase")
+        public void attackBishop(Location from, Location to) {
+            // given
+            Piece bishop = new Bishop(from.rank(), from.file());
+            Piece target = new Pawn(to.rank(), to.file());
+            Board board = new Board();
+            board.addPiece(bishop);
+            board.addPiece(target);
+            Game game = new Game(board);
+
+            // when
+            game.move(from, to);
+
+            // then
+            assertThat(board.getPiece(from)).isNull();
+            assertThat(board.getPiece(to)).isEqualTo(bishop);
+        }
+
+        public static Stream<Arguments> attackSuccessCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E))
+            );
+        }
+
+        @ParameterizedTest
         @DisplayName("비숍 이동 실패 테스트")
         @MethodSource("failCase")
         public void moveBishopFailTest(Location from, Location to) {

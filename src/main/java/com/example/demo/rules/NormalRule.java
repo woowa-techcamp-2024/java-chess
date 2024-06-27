@@ -21,16 +21,39 @@ public class NormalRule implements Rule {
     private final Color targetColor;
     private final Type targetType;
     private final boolean isApplyFirstMove;
+    private final boolean isAttackRule;
 
+    // todo : 중복된 로직의 생성자 추후 빌더나 추상 팩토리로 리펙터링 예정
     public NormalRule(int rankStep, int fileStep,
                       Color targetColor,
                       Type targetType,
-                      boolean isApplyFirstMove) {
+                      boolean isApplyFirstMove,
+                      boolean isAttackRule
+    ) {
         this.rankStep = rankStep;
         this.fileStep = fileStep;
         this.targetColor = targetColor;
         this.targetType = targetType;
         this.isApplyFirstMove = isApplyFirstMove;
+        this.isAttackRule = isAttackRule;
+
+        if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
+        else this.minRankStep = 0;
+        if (fileStep != 0) this.minFileStep = fileStep / Math.abs(fileStep);
+        else this.minFileStep = 0;
+    }
+
+    public NormalRule(int rankStep, int fileStep,
+                      Color targetColor,
+                      Type targetType,
+                      boolean isApplyFirstMove
+    ) {
+        this.rankStep = rankStep;
+        this.fileStep = fileStep;
+        this.targetColor = targetColor;
+        this.targetType = targetType;
+        this.isApplyFirstMove = isApplyFirstMove;
+        this.isAttackRule = false;
 
         if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
         else this.minRankStep = 0;
@@ -43,13 +66,14 @@ public class NormalRule implements Rule {
 
         Piece piece = board.getPiece(from);
 
-        if(isApplyFirstMove && !piece.isLocatedAtInitLocation(from.rank(), from.file()))
+        if (isApplyFirstMove && !piece.isLocatedAtInitLocation(from.rank(), from.file()))
             return false;
         if (piece.getType() != targetType || piece.getColor() != targetColor)
             return false;
 
         int moveRank = minRankStep;
         int moveFile = minFileStep;
+        int attackChanceCount = isAttackRule ? 1 : 0;
 
         Rank nextRank = from.rank().move(minRankStep);
         File nextFile = from.file().move(minFileStep);
@@ -60,7 +84,8 @@ public class NormalRule implements Rule {
                 return false;
 
             if (board.getPiece(nextRank, nextFile) != null) {
-                return false;
+                if (attackChanceCount == 0) return false;
+                else attackChanceCount--;
             }
 
             if (nextRank == to.rank() && nextFile == to.file())
