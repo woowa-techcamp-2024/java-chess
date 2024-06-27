@@ -223,7 +223,12 @@ public class Board {
         Piece tmp = boardMap.get(point);
         boardMap.put(point, allyColor == Piece.Color.WHITE ? King.createWhite() : King.createBlack());
         boolean result = isAttackablePoint(point, allyColor);
-        boardMap.put(point, tmp);
+        if (tmp == null) {
+            boardMap.remove(point);
+        }
+        else {
+            boardMap.put(point, tmp);
+        }
         return result;
     }
 
