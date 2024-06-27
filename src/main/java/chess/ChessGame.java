@@ -1,5 +1,8 @@
 package chess;
 
+import chess.board.Board;
+import chess.view.ChessView;
+
 public class ChessGame {
 
     private final Board board;
@@ -8,16 +11,16 @@ public class ChessGame {
         this.board = board;
     }
 
-    public void start() {
+    public String start() {
         board.initialize();
 
-        board.print();
+        return ChessView.showBoard(board);
     }
 
-    public void play(final String source, final String target) {
+    public String play(final String source, final String target) {
         board.move(source, target);
 
-        board.print();
+        return ChessView.showBoard(board);
     }
 
     public void end() {

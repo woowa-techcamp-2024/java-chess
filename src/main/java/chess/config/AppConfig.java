@@ -1,12 +1,13 @@
 package chess.config;
 
-import chess.Board;
 import chess.ChessGame;
+import chess.board.Board;
 
 public class AppConfig {
 
     public static ChessGame chessGame() {
-        return new ChessGame(board());
+        Board board = board();
+        return new ChessGame(board);
     }
 
     public static Board board() {

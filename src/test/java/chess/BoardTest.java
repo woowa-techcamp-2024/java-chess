@@ -1,6 +1,10 @@
 package chess;
 
+import chess.board.Board;
+import chess.board.Position;
 import chess.piece.*;
+import chess.view.ChessView;
+import chess.view.ConsoleView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,21 +66,24 @@ public class BoardTest {
     @DisplayName("보드 출력시 기물이 정상적으로 출력된다.")
     public void print() {
         board.initialize();
-        board.print();
 
-        assertEquals(32, board.pieceCount());
+        String chessBoard = ChessView.showBoard(board);
+
+        ConsoleView.printChessBoard(chessBoard);
+
+        assertEquals(32, this.board.pieceCount());
 
         assertEquals(
-                appendNewLine("♜♞♝♛♚♝♞♜8") +
-                        appendNewLine("♟♟♟♟♟♟♟♟7") +
-                        appendNewLine("........6") +
-                        appendNewLine("........5") +
-                        appendNewLine("........4") +
-                        appendNewLine("........3") +
-                        appendNewLine("♙♙♙♙♙♙♙♙2") +
-                        appendNewLine("♖♘♗♕♔♗♘♖1") +
-                        appendNewLine("abcdefgh"),
-                board.showBoard());
+                appendNewLine("♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ 8") +
+                        appendNewLine("♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ 7") +
+                        appendNewLine(". . . . . . . . 6") +
+                        appendNewLine(". . . . . . . . 5") +
+                        appendNewLine(". . . . . . . . 4") +
+                        appendNewLine(". . . . . . . . 3") +
+                        appendNewLine("♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ 2") +
+                        appendNewLine("♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ 1") +
+                        appendNewLine("a b c d e f g h"),
+                ChessView.showBoard(board));
     }
 
     @Test
@@ -110,7 +117,7 @@ public class BoardTest {
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        System.out.println(ChessView.showBoard(board));
     }
 
     @Test
@@ -129,7 +136,7 @@ public class BoardTest {
         assertEquals(15.0, board.calculatePoint(PieceColor.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(PieceColor.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(ChessView.showBoard(board));
     }
 
     private void addPiece(String position, Piece piece) {

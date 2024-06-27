@@ -1,7 +1,4 @@
-package chess.piece;
-
-import chess.File;
-import chess.Rank;
+package chess.board;
 
 public record Position(Rank rank, File file) {
 

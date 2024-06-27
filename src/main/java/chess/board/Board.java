@@ -1,4 +1,4 @@
-package chess;
+package chess.board;
 
 import chess.piece.*;
 
@@ -9,12 +9,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static chess.BoardFactory.*;
-import static chess.utils.StringUtils.appendNewLine;
+import static chess.board.BoardFactory.*;
 
 public class Board {
-
-    private static final int BOARD_SIZE = 8;
 
     private final Map<Position, Piece> board = new HashMap<>();
 
@@ -43,12 +40,7 @@ public class Board {
     public void move(final String source, final String target) {
         Position sourcePosition = getPosition(source);
 
-        Piece piece = Optional.ofNullable(this.board.get(sourcePosition))
-                .orElseGet(Blank::create);
-
-        if (piece.getType().equals(Type.NO_PIECE)) {
-            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
-        }
+        Piece piece = validatePieceInPosition(sourcePosition);
 
         move(target, piece);
 
@@ -107,38 +99,16 @@ public class Board {
                 .toList();
     }
 
-    public String showBoard() {
-        StringBuilder chessBoard = new StringBuilder();
+    public char getPieceInPosition(final Position position) {
+        Piece piece = board.getOrDefault(position, Blank.create());
 
-        for (int row = BOARD_SIZE; row >= 1; row--) {
-            for (int col = 1; col <= BOARD_SIZE; col++) {
-                Position position = Position.of(Rank.of(row), File.of(col));
-                char representation = getPieceInPosition(position);
-
-                chessBoard.append(representation);
-            }
-            chessBoard.append(appendNewLine(String.valueOf(Rank.of(row).getIndex())));
-        }
-
-        chessBoard.append(appendNewLine("abcdefgh"));
-
-        return chessBoard.toString();
-    }
-
-    public void print() {
-        System.out.println(showBoard());
+        return piece.getType().getRepresentation(piece.getColor());
     }
 
     private Position getPosition(final String input) {
         File file = File.of(input.charAt(0));
         Rank rank = Rank.of(Character.getNumericValue(input.charAt(1)));
         return Position.of(rank, file);
-    }
-
-    private char getPieceInPosition(final Position position) {
-        Piece piece = board.getOrDefault(position, Blank.create());
-
-        return piece.getType().getRepresentation(piece.getColor());
     }
 
     private List<Piece> findSameFilePawn(final PieceColor color) {
@@ -154,5 +124,15 @@ public class Board {
                     return pawns.size() >= 2 ? pawns.stream() : Stream.empty();
                 })
                 .toList();
+    }
+
+    private Piece validatePieceInPosition(final Position sourcePosition) {
+        Piece piece = Optional.ofNullable(this.board.get(sourcePosition))
+                .orElseGet(Blank::create);
+
+        if (piece.getType().equals(Type.NO_PIECE)) {
+            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
+        }
+        return piece;
     }
 }
