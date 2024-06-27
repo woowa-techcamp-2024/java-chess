@@ -10,19 +10,22 @@ import static chess.utils.StringUtils.NEWLINE;
 
 public class ChessView {
 
-    public static String printBoard(Board board) {
+    private final Board board;
+
+    public ChessView(Board board) {
+        this.board = board;
+    }
+
+    public String printBoard() {
         return board.getRanks().stream()
-                .map(ChessView::printRank)
+                .map(this::printRank)
                 .collect(Collectors.joining(NEWLINE));
     }
 
-    protected static String printRank(Rank rank) {
+    protected String printRank(Rank rank) {
         return rank.getPieces().stream()
                 .map(Piece::getRepresentation)
                 .map(String::valueOf)
                 .collect(Collectors.joining());
-    }
-
-    private ChessView() {
     }
 }

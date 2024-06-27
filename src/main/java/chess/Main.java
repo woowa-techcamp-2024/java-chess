@@ -16,13 +16,14 @@ public class Main {
 
     public static void main(String[] args) {
         Board board = new Board();
+        ChessView chessView = new ChessView(board);
 
         Scanner sc = new Scanner(System.in);
         String input;
 
         while (!(input = sc.nextLine()).equals(QUIT)) {
             if(isPrintCommand(input)) {
-                System.out.println(ChessView.printBoard(board));
+                System.out.println(chessView.printBoard());
             }
             if(isMoveCommand(input)) {
                 String[] split = input.split(" ");

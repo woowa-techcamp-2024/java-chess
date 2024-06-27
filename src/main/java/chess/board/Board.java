@@ -2,7 +2,6 @@ package chess.board;
 
 import chess.pieces.Piece;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -46,10 +45,6 @@ public class Board {
 
     public int getTotalPieceCount() {
         return pieceCount;
-    }
-
-    public double caculcatePoint(Piece.Color color, PointCalculator pointCalculator) {
-        return pointCalculator.calculatePoint(this, color);
     }
 
     public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
