@@ -140,7 +140,7 @@ public class BoardTest {
         assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn());
     }
 
-    @DisplayName(" 이동할 수 없는 경우 예외가 발생한다.")
+    @DisplayName("이동할 수 없는 경우 예외가 발생한다.")
     @Test
     void should_throwException_invalidMove() {
         board.initialize();
