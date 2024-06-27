@@ -24,28 +24,28 @@ public class Board {
 
     public void initialize() {
         clear();
-        set(Position.of("a1"), Piece.createWhite(Rook.class));
-        set(Position.of("b1"), Piece.createWhite(Knight.class));
-        set(Position.of("c1"), Piece.createWhite(Bishop.class));
-        set(Position.of("d1"), Piece.createWhite(Queen.class));
-        set(Position.of("e1"), Piece.createWhite(King.class));
-        set(Position.of("f1"), Piece.createWhite(Bishop.class));
-        set(Position.of("g1"), Piece.createWhite(Knight.class));
-        set(Position.of("h1"), Piece.createWhite(Rook.class));
+        set(Position.of("a1"), Rook.createWhite());
+        set(Position.of("b1"), Knight.createWhite());
+        set(Position.of("c1"), Bishop.createWhite());
+        set(Position.of("d1"), Queen.createWhite());
+        set(Position.of("e1"), King.createWhite());
+        set(Position.of("f1"), Bishop.createWhite());
+        set(Position.of("g1"), Knight.createWhite());
+        set(Position.of("h1"), Rook.createWhite());
         for (char file = 'a'; file <= 'h'; file++) {
-            set(Position.of(file, 2), Piece.createWhite(Pawn.class));
+            set(Position.of(file, 2), Pawn.createWhite());
         }
         for (char file = 'a'; file <= 'h'; file++) {
-            set(Position.of(file, 7), Piece.createBlack(Pawn.class));
+            set(Position.of(file, 7), Pawn.createBlack());
         }
-        set(Position.of("a8"), Piece.createBlack(Rook.class));
-        set(Position.of("b8"), Piece.createBlack(Knight.class));
-        set(Position.of("c8"), Piece.createBlack(Bishop.class));
-        set(Position.of("d8"), Piece.createBlack(Queen.class));
-        set(Position.of("e8"), Piece.createBlack(King.class));
-        set(Position.of("f8"), Piece.createBlack(Bishop.class));
-        set(Position.of("g8"), Piece.createBlack(Knight.class));
-        set(Position.of("h8"), Piece.createBlack(Rook.class));
+        set(Position.of("a8"), Rook.createBlack());
+        set(Position.of("b8"), Knight.createBlack());
+        set(Position.of("c8"), Bishop.createBlack());
+        set(Position.of("d8"), Queen.createBlack());
+        set(Position.of("e8"), King.createBlack());
+        set(Position.of("f8"), Bishop.createBlack());
+        set(Position.of("g8"), Knight.createBlack());
+        set(Position.of("h8"), Rook.createBlack());
     }
 
     public Piece get(Position position) {

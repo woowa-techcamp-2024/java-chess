@@ -6,10 +6,6 @@ public class Queen extends Piece {
 
     public static final double VALUE = 9.0;
 
-    protected Queen() {
-        super();
-    }
-
     protected Queen(final Color color) {
         super(color);
     }
@@ -27,6 +23,14 @@ public class Queen extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_QUEEN;
+    }
+
+    public static Queen createBlack() {
+        return new Queen(Color.BLACK);
+    }
+
+    public static Queen createWhite() {
+        return new Queen(Color.WHITE);
     }
 
 }

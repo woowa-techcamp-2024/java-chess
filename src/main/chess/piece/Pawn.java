@@ -8,10 +8,6 @@ public class Pawn extends Piece {
 
     public static final double MULTIPLE_IN_FILE_VALUE = 0.5;
 
-    protected Pawn() {
-        super();
-    }
-
     protected Pawn(final Color color) {
         super(color);
     }
@@ -29,6 +25,14 @@ public class Pawn extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_PAWN;
+    }
+
+    public static Pawn createBlack() {
+        return new Pawn(Color.BLACK);
+    }
+
+    public static Pawn createWhite() {
+        return new Pawn(Color.WHITE);
     }
 
 }

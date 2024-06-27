@@ -6,10 +6,6 @@ public class Knight extends Piece {
 
     public static final double VALUE = 3.0;
 
-    protected Knight() {
-        super();
-    }
-
     protected Knight(final Color color) {
         super(color);
     }
@@ -27,6 +23,14 @@ public class Knight extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_KNIGHT;
+    }
+
+    public static Knight createBlack() {
+        return new Knight(Color.BLACK);
+    }
+
+    public static Knight createWhite() {
+        return new Knight(Color.WHITE);
     }
 
 }

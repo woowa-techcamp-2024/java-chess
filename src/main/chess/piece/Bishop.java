@@ -6,10 +6,6 @@ public class Bishop extends Piece {
 
     public static final double VALUE = 3.0;
 
-    protected Bishop() {
-        super();
-    }
-
     protected Bishop(final Color color) {
         super(color);
     }
@@ -27,6 +23,14 @@ public class Bishop extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_BISHOP;
+    }
+
+    public static Bishop createBlack() {
+        return new Bishop(Color.BLACK);
+    }
+
+    public static Bishop createWhite() {
+        return new Bishop(Color.WHITE);
     }
 
 }

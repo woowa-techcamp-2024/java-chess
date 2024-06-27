@@ -15,14 +15,14 @@ public class BoardTest {
     public void create() {
         Board board = new Board();
 
-        Piece white = Piece.createWhite(Pawn.class);
+        Piece white = Pawn.createWhite();
         Position whitePosition = Position.of("b1");
         board.set(whitePosition, white);
         assertThat(board.get(whitePosition)).isEqualTo(white);
         assertThat(board.findPawns()).hasSize(1);
         assertThat(board.findPawns().get(0)).isEqualTo(white);
 
-        Piece black = Piece.createBlack(Pawn.class);
+        Piece black = Pawn.createBlack();
         Position blackPosition = Position.of("a3");
         board.set(blackPosition, black);
         assertThat(board.get(blackPosition)).isEqualTo(black);
@@ -34,8 +34,8 @@ public class BoardTest {
     @DisplayName("보드의 toString 결과에 유니코드 체스말 형식으로 표시되어야 한다.")
     public void string() {
         Board board = new Board();
-        board.set(Position.of("a2"), Piece.create(Pawn.class, Piece.Color.WHITE));
-        board.set(Position.of("b7"), Piece.create(Pawn.class, Piece.Color.BLACK));
+        board.set(Position.of("a2"), Pawn.createWhite());
+        board.set(Position.of("b7"), Pawn.createBlack());
         assertThat(board).hasToString("""
                 ........
                 .♟......
@@ -137,18 +137,18 @@ public class BoardTest {
 
     private Piece getPieceFromRepr(char repr) {
         return switch (repr) {
-            case 'P' -> Piece.createBlack(Pawn.class);
-            case 'p' -> Piece.createWhite(Pawn.class);
-            case 'N' -> Piece.createBlack(Knight.class);
-            case 'n' -> Piece.createWhite(Knight.class);
-            case 'B' -> Piece.createBlack(Bishop.class);
-            case 'b' -> Piece.createWhite(Bishop.class);
-            case 'R' -> Piece.createBlack(Rook.class);
-            case 'r' -> Piece.createWhite(Rook.class);
-            case 'Q' -> Piece.createBlack(Queen.class);
-            case 'q' -> Piece.createWhite(Queen.class);
-            case 'K' -> Piece.createBlack(King.class);
-            case 'k' -> Piece.createWhite(King.class);
+            case 'P' -> Pawn.createBlack();
+            case 'p' -> Pawn.createWhite();
+            case 'N' -> Knight.createBlack();
+            case 'n' -> Knight.createWhite();
+            case 'B' -> Bishop.createBlack();
+            case 'b' -> Bishop.createWhite();
+            case 'R' -> Rook.createBlack();
+            case 'r' -> Rook.createWhite();
+            case 'Q' -> Queen.createBlack();
+            case 'q' -> Queen.createWhite();
+            case 'K' -> King.createBlack();
+            case 'k' -> King.createWhite();
             default -> null;
         };
     }

@@ -6,10 +6,6 @@ public class Rook extends Piece {
 
     public static final double VALUE = 5.0;
 
-    protected Rook() {
-        super();
-    }
-
     protected Rook(final Color color) {
         super(color);
     }
@@ -27,6 +23,14 @@ public class Rook extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_ROOK;
+    }
+
+    public static Rook createBlack() {
+        return new Rook(Color.BLACK);
+    }
+
+    public static Rook createWhite() {
+        return new Rook(Color.WHITE);
     }
 
 }

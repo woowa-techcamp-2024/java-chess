@@ -4,10 +4,6 @@ import chess.ChessStrings;
 
 public class King extends Piece {
 
-    protected King() {
-        super();
-    }
-
     protected King(final Color color) {
         super(color);
     }
@@ -25,6 +21,14 @@ public class King extends Piece {
     @Override
     protected String blackRepresentation() {
         return ChessStrings.BLACK_KING;
+    }
+
+    public static King createBlack() {
+        return new King(Color.BLACK);
+    }
+
+    public static King createWhite() {
+        return new King(Color.WHITE);
     }
 
 }
