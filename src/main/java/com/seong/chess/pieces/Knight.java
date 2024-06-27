@@ -26,6 +26,8 @@ public class Knight extends Piece {
 
     @Override
     public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        return null;
+        direction.checkKnight();
+        Position position = Position.convert(sourcePosition);
+        return new Position(position.col() + direction.col, position.row() + direction.row);
     }
 }

@@ -8,7 +8,16 @@ public enum Direction {
     NORTHEAST(-1, 1),
     SOUTHEAST(1, 1),
     SOUTHWEST(1, -1),
-    NORTHWEST(-1, -1);
+    NORTHWEST(-1, -1),
+
+    NNE(-2, 1),
+    EEN(-1, 2),
+    EES(1, 2),
+    SSE(2, 1),
+    SSW(2, -1),
+    WWS(1, -2),
+    WWN(-1, -2),
+    NNW(-2, -1);
 
     final int row;
     final int col;
@@ -21,6 +30,13 @@ public enum Direction {
     public void checkBishop() {
         if (this == NORTH || this == SOUTH || this == EAST || this == WEST) {
             throw new IllegalArgumentException("비숍은 정방향으로 이동할 수 없습니다.");
+        }
+    }
+
+    public void checkKnight() {
+        if (this == NORTH || this == SOUTH || this == EAST || this == WEST ||
+                this == NORTHEAST || this == SOUTHEAST || this == NORTHWEST || this == SOUTHWEST) {
+            throw new IllegalArgumentException("나이트는 정방향, 대각선으로 이동할 수 없습니다.");
         }
     }
 }
