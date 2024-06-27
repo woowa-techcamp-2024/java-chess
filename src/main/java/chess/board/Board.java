@@ -9,7 +9,7 @@ import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
 import chess.pieces.Position;
-import chess.sorter.PointSorter;
+import chess.sorter.Direction;
 import chess.sorter.Sorter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +32,6 @@ public class Board {
 
     private final List<Piece> whitePieces;
 
-    private final Sorter sorter;
-
     public Board() {
         this.ranks = new ArrayList<>(Collections.nCopies(RANK_COUNT, null));
         pointCalculator = new PointCalculator(List.of(
@@ -42,7 +40,6 @@ public class Board {
         ));
         blackPieces = new ArrayList<>();
         whitePieces = new ArrayList<>();
-        sorter = new PointSorter();
     }
 
 
@@ -175,12 +172,14 @@ public class Board {
         return pointCalculator.calculate(this, color);
     }
 
-    public List<Piece> sortByPointAsc(Color color) {
-        return Collections.unmodifiableList(sorter.sortAsc(this, color));
-    }
-
-    public List<Piece> sortByPointDesc(Color color) {
-        return Collections.unmodifiableList(sorter.sortDesc(this, color));
+    public List<Piece> sort(Color color, Sorter sorter, Direction direction) {
+        List<Piece> sorted;
+        if (direction.equals(Direction.ASC)) {
+            sorted = sorter.sortAsc(this, color);
+        } else {
+            sorted = sorter.sortDesc(this, color);
+        }
+        return Collections.unmodifiableList(sorted);
     }
 
     public List<Piece> getPieces(Color color) {
