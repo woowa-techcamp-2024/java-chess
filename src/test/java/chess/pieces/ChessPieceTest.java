@@ -19,12 +19,19 @@ public class ChessPieceTest {
         assertEquals(type, chessPiece.getType());
     }
 
+    interface PieceCommonTestRules{
+        void createTest();
+        void isBlackAndIsWhiteTestWithBlackPiece();
+        void isWhiteAndIsBlackTestWithWhitePiece();
+        void courseTest();
+    }
+
     @Nested
     @DisplayName("Pawn")
-    class PawnTest {
+    class PawnTest implements PieceCommonTestRules{
 
         @Test
-        public void createPawnTest() {
+        public void createTest() {
             ChessPiece whitePawn = new Pawn(WHITE_PAWN);
             ChessPiece blackPawn = new Pawn(BLACK_PAWN);
 
@@ -49,26 +56,21 @@ public class ChessPieceTest {
         }
 
         @Test
-        public void courseTestWithWhitePawn(){
+        public void courseTest(){
             ChessPiece whitePawn = new Pawn(WHITE_PAWN);
-
-            assertEquals(Direction.whitePawnDirection(),whitePawn.getCourse().getDirections());
-        }
-
-        @Test
-        public void courseTestWithBlackPawn(){
             ChessPiece blackPawn = new Pawn(BLACK_PAWN);
 
             assertEquals(Direction.blackPawnDirection(),blackPawn.getCourse().getDirections());
+            assertEquals(Direction.whitePawnDirection(),whitePawn.getCourse().getDirections());
         }
     }
 
     @Nested
     @DisplayName("Knight")
-    class KnightTest {
+    class KnightTest implements PieceCommonTestRules{
 
         @Test
-        public void createKnightTest() {
+        public void createTest() {
             ChessPiece whiteKnight = new Knight(WHITE_KNIGHT);
             ChessPiece blackKnight = new Knight(BLACK_KNIGHT);
 
@@ -106,10 +108,10 @@ public class ChessPieceTest {
 
     @Nested
     @DisplayName("Rook")
-    class RookTest {
+    class RookTest implements PieceCommonTestRules{
 
         @Test
-        public void createRookTest() {
+        public void createTest() {
             ChessPiece whiteRook = new Rook(WHITE_ROOK);
             ChessPiece blackRook = new Rook(BLACK_ROOK);
 
@@ -147,10 +149,10 @@ public class ChessPieceTest {
 
     @Nested
     @DisplayName("Bishop")
-    class BishopTest {
+    class BishopTest implements PieceCommonTestRules{
 
         @Test
-        public void createBishopTest() {
+        public void createTest() {
             ChessPiece whiteBishop = new Bishop(WHITE_BISHOP);
             ChessPiece blackBishop = new Bishop(BLACK_BISHOP);
 
@@ -188,10 +190,10 @@ public class ChessPieceTest {
 
     @Nested
     @DisplayName("Queen")
-    class QueenTest {
+    class QueenTest implements PieceCommonTestRules{
 
         @Test
-        public void createQueenTest() {
+        public void createTest() {
             ChessPiece whiteQueen = new Queen(WHITE_QUEEN);
             ChessPiece blackQueen = new Queen(BLACK_QUEEN);
 
@@ -229,10 +231,10 @@ public class ChessPieceTest {
 
     @Nested
     @DisplayName("King")
-    class KingTest {
+    class KingTest implements PieceCommonTestRules{
 
         @Test
-        public void createKingTest() {
+        public void createTest() {
             ChessPiece whiteKing = new King(WHITE_KING);
             ChessPiece blackKing = new King(BLACK_KING);
 
