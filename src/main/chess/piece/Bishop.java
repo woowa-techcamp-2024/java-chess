@@ -1,6 +1,8 @@
 package chess.piece;
 
+import chess.BoardContext;
 import chess.ChessStrings;
+import chess.Offset;
 
 public class Bishop extends Piece {
 
@@ -13,6 +15,16 @@ public class Bishop extends Piece {
     @Override
     public double value() {
         return VALUE;
+    }
+
+    @Override
+    public boolean canMoveImpl(Offset offset, BoardContext context) {
+        for (Offset dir : Offset.DIAGONAL) {
+            if (offset.isMultipleOf(dir)) {
+                return isEmptyUntil(dir, offset, context);
+            }
+        }
+        return false;
     }
 
     @Override

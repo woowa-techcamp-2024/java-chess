@@ -61,13 +61,29 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
-        Cell fromCell = cellAt(from);
-        if (fromCell.isEmpty()) {
-            throw new IllegalArgumentException("Cell is empty");
+        if (!canMove(from, to)) {
+            throw new IllegalArgumentException("Cannot move from " + from + " to " + to);
         }
+        Cell fromCell = cellAt(from);
         Cell toCell = cellAt(to);
-        toCell.setPiece(fromCell.getPiece());
+        Piece piece = fromCell.getPiece();
+        toCell.setPiece(piece);
         fromCell.clear();
+        piece.setMoved();
+    }
+
+    private boolean canMove(Position from, Position to) {
+        Cell fromCell = cellAt(from);
+        return !fromCell.isEmpty() &&
+                fromCell.getPiece().canMove(Offset.between(from, to), context(from));
+    }
+
+    protected BoardContext context(Position position) {
+        return new BoardContextImpl((offset) -> {
+            Position targtPosition = position.add(offset);
+            if (!targtPosition.isValid()) return null;
+            return get(targtPosition);
+        });
     }
 
     public Cell cellAt(Position position) {

@@ -1,11 +1,14 @@
 package chess;
 
-import chess.piece.*;
+import chess.piece.Pawn;
+import chess.piece.Piece;
+import chess.piece.Rook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static chess.BoardUtils.createBoard;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {
@@ -117,40 +120,6 @@ public class BoardTest {
 
         assertThat(board.get(from)).isNull();
         assertThat(board.get(to)).isEqualTo(pieceBeforeMove);
-    }
-
-    private Board createBoard(String state) {
-        assertThat(state).hasLineCount(Board.LENGTH);
-        assertThat(state.lines()).allSatisfy(line -> assertThat(line).hasSize(Board.LENGTH));
-
-        String[] lines = state.lines().toArray(String[]::new);
-        Board board = new Board();
-        for (int r = 0; r < Board.LENGTH; r++) {
-            for (int c = 0; c < Board.LENGTH; c++) {
-                char repr = lines[r].charAt(c);
-                Piece piece = getPieceFromRepr(repr);
-                board.set(Position.of(r, c), piece);
-            }
-        }
-        return board;
-    }
-
-    private Piece getPieceFromRepr(char repr) {
-        return switch (repr) {
-            case 'P' -> Pawn.createBlack();
-            case 'p' -> Pawn.createWhite();
-            case 'N' -> Knight.createBlack();
-            case 'n' -> Knight.createWhite();
-            case 'B' -> Bishop.createBlack();
-            case 'b' -> Bishop.createWhite();
-            case 'R' -> Rook.createBlack();
-            case 'r' -> Rook.createWhite();
-            case 'Q' -> Queen.createBlack();
-            case 'q' -> Queen.createWhite();
-            case 'K' -> King.createBlack();
-            case 'k' -> King.createWhite();
-            default -> null;
-        };
     }
 
 }

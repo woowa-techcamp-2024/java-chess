@@ -1,6 +1,8 @@
 package chess.piece;
 
+import chess.BoardContext;
 import chess.ChessStrings;
+import chess.Offset;
 
 public class Knight extends Piece {
 
@@ -13,6 +15,14 @@ public class Knight extends Piece {
     @Override
     public double value() {
         return VALUE;
+    }
+
+    @Override
+    public boolean canMoveImpl(Offset offset, BoardContext context) {
+        for (Offset dir : Offset.KNIGHT) {
+            if (offset.equals(dir)) return true;
+        }
+        return false;
     }
 
     @Override
