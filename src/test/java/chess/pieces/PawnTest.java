@@ -25,7 +25,7 @@ public class PawnTest {
 
     @Test
     @DisplayName("Pawn 기물이 처음 이동 시 2칸 이동이 가능해야 한다")
-    public void movePawnFirst() {
+    public void movePawnFirst() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createPawn(Color.BLACK, null), new Position(1, 1));
 
@@ -40,7 +40,7 @@ public class PawnTest {
 
     @Test
     @DisplayName("Pawn 기물이 원하는 대로 이동이 가능해야 한다")
-    public void movePawn() {
+    public void movePawn() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createPawn(Color.BLACK, null), new Position(1, 1));
         board.saveByPosition(PieceFactory.createPawn(Color.WHITE, null), new Position(2, 2));

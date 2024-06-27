@@ -25,7 +25,7 @@ public class QueenTest {
 
     @Test
     @DisplayName("Queen 기물이 원하는 대로 이동이 가능해야 한다")
-    public void moveQueen() {
+    public void moveQueen() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createQueen(Color.BLACK, null), new Position(1, 0));
 

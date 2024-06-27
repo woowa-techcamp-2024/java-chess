@@ -66,7 +66,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("임의의 기물을 체스판의 다른 위치로 이동할 수 있다")
-    public void move() {
+    public void move() throws Exception {
         chessGame.start();
         String sourcePosition = "b2";
         String targetPosition = "b3";
