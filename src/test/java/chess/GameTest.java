@@ -1,12 +1,14 @@
 package chess;
 
 import chess.board.Position;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     @Test
+    @DisplayName("기물을 이동시킬 수 있다")
     public void test_successful_move_when_path_is_clear() {
         // Given
         Game game = new Game();
@@ -23,6 +25,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("빈칸은 이동할 수 없다")
     public void test_move_from_blank_position_throws_exception() {
         // Given
         Game game = new Game();
@@ -37,6 +40,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("같은 팀이 있는 곳으로는 이동할 수 없다")
     public void test_move_to_same_color_position_throws_exception() {
         // Given
         Game game = new Game();
