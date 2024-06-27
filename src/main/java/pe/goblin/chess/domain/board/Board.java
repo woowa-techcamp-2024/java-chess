@@ -8,9 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    // TODO: 삭제
-    public static final int MAX_COLS = 7;
-
     private final int rowSize;
     private final int columnSize;
     private final List<String> initialState;
