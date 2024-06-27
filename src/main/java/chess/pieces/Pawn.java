@@ -35,7 +35,7 @@ public class Pawn extends Piece {
         for (Direction direction: currentDirections) {
             int y = sourcePosition.getY() + direction.getYDegree();
             int x = sourcePosition.getX() + direction.getXDegree();
-            if (destinationPosition.getX() == x && destinationPosition.getY() == y) canMovePosition = true;
+            canMovePosition |= (destinationPosition.getX() == x && destinationPosition.getY() == y);
         }
         if (!canMovePosition) return false;
 
