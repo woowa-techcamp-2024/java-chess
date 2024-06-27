@@ -9,6 +9,9 @@ import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
 import chess.pieces.Position;
+import chess.sorter.Direction;
+import chess.sorter.PointSorter;
+import chess.sorter.Sorter;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
@@ -236,13 +239,14 @@ class BoardTest {
     @Test
     void sortPiecesByPointAsc() {
         board.initialize();
-        List<Piece> sortedWhitePieces = board.sortByPointDesc(Color.WHITE);
+        Sorter sorter = new PointSorter();
+        List<Piece> sortedWhitePieces = board.sort(Color.WHITE, sorter, Direction.DESC);
 
         assertEquals(16, sortedWhitePieces.size());
         assertTrue(sortedWhitePieces.get(0).getDefaultPoint() >
                 sortedWhitePieces.get(sortedWhitePieces.size() - 1).getDefaultPoint());
 
-        List<Piece> sortedBlackPieces = board.sortByPointDesc(Color.BLACK);
+        List<Piece> sortedBlackPieces = board.sort(Color.WHITE, sorter, Direction.DESC);
         assertEquals(16, sortedBlackPieces.size());
         assertTrue(sortedBlackPieces.get(0).getDefaultPoint() >
                 sortedBlackPieces.get(sortedBlackPieces.size() - 1).getDefaultPoint());
@@ -252,13 +256,14 @@ class BoardTest {
     @Test
     void sortPiecesByPointDesc() {
         board.initialize();
-        List<Piece> sortedWhitePieces = board.sortByPointAsc(Color.WHITE);
+        Sorter sorter = new PointSorter();
+        List<Piece> sortedWhitePieces = board.sort(Color.WHITE, sorter, Direction.ASC);
 
         assertEquals(16, sortedWhitePieces.size());
         assertTrue(sortedWhitePieces.get(0).getDefaultPoint() <
                 sortedWhitePieces.get(sortedWhitePieces.size() - 1).getDefaultPoint());
 
-        List<Piece> sortedBlackPieces = board.sortByPointAsc(Color.BLACK);
+        List<Piece> sortedBlackPieces = board.sort(Color.BLACK, sorter, Direction.ASC);
         assertEquals(16, sortedBlackPieces.size());
         assertTrue(sortedBlackPieces.get(0).getDefaultPoint() <
                 sortedBlackPieces.get(sortedBlackPieces.size() - 1).getDefaultPoint());
