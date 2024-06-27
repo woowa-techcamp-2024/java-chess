@@ -59,36 +59,58 @@ public enum Direction {
     }
 
     public static Optional<Direction> determineDirection(MoveVector moveVector) {
-        if(moveVector.getDx() * moveVector.getDx() + moveVector.getDy() * moveVector.getDy() == 5) {
+        if (moveVector.getDx() * moveVector.getDx() + moveVector.getDy() * moveVector.getDy() == 5) {
             return determineNightDirection(moveVector);
         }
-        determineEveryDirection(moveVector);
+        if (moveVector.getDx() == 0 || moveVector.getDy() == 0) {
+            return determineLinearDirection(moveVector);
+        }
+        if (Math.abs(moveVector.calculateInclination()) == 1.0) {
+            return determineDialognal(moveVector);
+        }
 
         return Optional.empty();
     }
 
     private static Optional<Direction> determineNightDirection(MoveVector moveVector) {
         for (Direction direction : knightDirection()) {
-            if(direction.x == moveVector.getDx() && direction.y == moveVector.getDy()) {
+            if (direction.x == moveVector.getDx() && direction.y == moveVector.getDy()) {
                 return Optional.of(direction);
             }
         }
         return Optional.empty();
     }
 
-    private static Optional<Direction> determineEveryDirection(MoveVector moveVector) {
+    private static Optional<Direction> determineLinearDirection(MoveVector moveVector) {
         int dx = moveVector.getDx();
         int dy = moveVector.getDy();
 
-        if(dy == 0) {
+        if (dy == 0) {
             dx /= Math.abs(dx);
         }
-        if(dx == 0) {
+        if (dx == 0) {
             dy /= Math.abs(dy);
         }
 
-        for (Direction direction : everyDirection()) {
-            if(direction.x == dx && direction.y == dy) {
+        for (Direction direction : linearDirection()) {
+            if (direction.x == dx && direction.y == dy) {
+                return Optional.of(direction);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private static Optional<Direction> determineDialognal(MoveVector moveVector) {
+        int dx = moveVector.getDx();
+        int dy = moveVector.getDy();
+
+        dx /= Math.abs(dx);
+        dy /= Math.abs(dy);
+
+
+        for (Direction direction : diagonalDirection()) {
+            if (direction.x == dx && direction.y == dy) {
                 return Optional.of(direction);
             }
         }

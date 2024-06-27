@@ -1,16 +1,22 @@
 package wootecamp.chess.board;
 
+import wootecamp.chess.pieces.Direction;
+
 public class MoveVector {
     private final int dx;
     private final int dy;
 
     public MoveVector(BoardPosition source, BoardPosition destination) {
-        this.dx = Math.abs(source.getFilePosition() - destination.getFilePosition());
-        this.dy = Math.abs(destination.getRankPosition() - source.getRankPosition());
+        this.dx = source.getFilePosition() - destination.getFilePosition();
+        this.dy = source.getRankPosition() - destination.getRankPosition();
     }
 
     public int getSquareDistance() {
-        return dx * dx + dy + dy;
+        return dx * dx + dy * dy;
+    }
+
+    public double calculateInclination() {
+        return (double) dy / dx;
     }
 
     public int getDx() {
