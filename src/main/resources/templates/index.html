@@ -7,8 +7,9 @@
         #board {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            width: 100%;
-            max-width: 600px;
+            width: min-content;
+            height: min-content;
+            border: 5px solid brown;
         }
 
         #board > div {
@@ -19,8 +20,13 @@
             justify-content: center;
             align-items: center;
             font-size: 100px;
-            border: 1px solid black;
             box-sizing: border-box;
+            user-select: none;
+            cursor: default;
+        }
+
+        #board > div:hover {
+            filter: brightness(0.8);
         }
 
         .black {
@@ -147,41 +153,64 @@
             .then(text => document.getElementById("turn").innerText = text)
     }
 
+    updateBoard();
+
     let selected = null;
     let canMoves = [];
 
-    updateBoard();
+    function canMoveTo(pos) {
+        return canMoves.find(m => m === pos)
+    }
+
+    function setMoves(list) {
+        clearMoves()
+        canMoves = list
+        for (const pos of canMoves) {
+            document.getElementById(pos).classList.add("can")
+        }
+    }
+
+    function clearMoves() {
+        for (const pos of canMoves) {
+            document.getElementById(pos).classList.remove("can")
+        }
+        canMoves = []
+    }
+
+    function select(id) {
+        if (selected) {
+            document.getElementById(selected).classList.remove("selected")
+        }
+        selected = id
+        document.getElementById(selected).classList.add("selected")
+        fetch("/moves/" + selected)
+            .then(res => res.json())
+            .then(json => setMoves(json))
+    }
+
+    function deselect() {
+        if (selected) {
+            document.getElementById(selected).classList.remove("selected")
+            selected = null
+            clearMoves()
+        }
+    }
+
     cells.forEach(cell => {
         cell.addEventListener("click", (ev) => {
-            if (selected == null) {
-                if (ev.target.innerHTML == "") return;
-                selected = ev.target.id
-                ev.target.classList.add("selected")
-                fetch("/moves/" + selected)
-                    .then(res => res.json())
-                    .then(json => {
-                        canMoves = json
-                        for (const pos of canMoves) {
-                            document.getElementById(pos).classList.add("can")
-                        }
-                    })
-                console.log(selected)
-            } else if (canMoves.find(m => m === ev.target.id)) {
-                for (const pos of canMoves) {
-                    document.getElementById(pos).classList.remove("can")
-                }
-                fetch("/move/" + selected + "/" + ev.target.id, {method: "POST"})
+            let id = ev.target.id
+            let isPieceCell = !!ev.target.innerHTML
+
+            if (canMoveTo(id)) {
+                fetch("/move/" + selected + "/" + id, {method: "POST"})
                     .then(() => {
                         updateBoard();
                     })
-                document.getElementById(selected).classList.remove("selected")
-                selected = null;
+                deselect()
+            } else if (!isPieceCell || id === selected) {
+                deselect()
             } else {
-                for (const pos of canMoves) {
-                    document.getElementById(pos).classList.remove("can")
-                }
-                document.getElementById(selected).classList.remove("selected")
-                selected = null;
+                select(id)
             }
         })
     })
