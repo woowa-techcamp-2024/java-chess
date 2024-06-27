@@ -67,12 +67,13 @@ public class BoardTest {
 
     @Test
     public void move() throws Exception {
-        Position position = new Position("b5");
-        Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
+        board.initialize();
 
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createNoColorPiece(), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
 
     private static Stream<Arguments> countByQueryArgument() {
