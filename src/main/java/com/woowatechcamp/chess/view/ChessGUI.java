@@ -7,7 +7,9 @@ import com.woowatechcamp.chess.pieces.Position;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChessGUI extends JFrame {
@@ -24,7 +26,9 @@ public class ChessGUI extends JFrame {
     private int secondsElapsed;
     private JButton startButton;
     private JButton restartButton;
+    private List<JLabel> highlightedSquares = new ArrayList<>();
     private static final Map<String, String> PIECE_SYMBOLS = new HashMap<>();
+    private static final Color HIGHLIGHT_COLOR = new Color(0, 0, 255, 64);
 
     static {
         PIECE_SYMBOLS.put("WHITE_KING", "♔");
@@ -117,11 +121,13 @@ public class ChessGUI extends JFrame {
     private void startGame() {
         gameTimer.start();
         startButton.setEnabled(false);
+        updateScores();
     }
 
     private void restartGame() {
         game = new ChessGame();
         updateBoard();
+        updateScores();
         resetTimer();
         startButton.setEnabled(true);
         gameTimer.stop();
@@ -150,14 +156,17 @@ public class ChessGUI extends JFrame {
                 Position position = new Position(positionString);
                 Piece piece = game.getPieceAt(position);
                 if (piece != null) {
-                    String symbolKey = piece.getColor() + "_" + piece.getType();
-                    pieceLabels[row][col].setText(PIECE_SYMBOLS.get(symbolKey));
+                    pieceLabels[row][col].setText(getPieceSymbol(piece));
                 } else {
                     pieceLabels[row][col].setText("");
                 }
             }
         }
-        updateScores();
+    }
+
+    private String getPieceSymbol(Piece piece) {
+        String symbolKey = piece.getColor() + "_" + piece.getType();
+        return PIECE_SYMBOLS.get(symbolKey);
     }
 
     private void updateScores() {
@@ -165,6 +174,31 @@ public class ChessGUI extends JFrame {
         double blackScore = game.calculateScore(Piece.Color.BLACK);
         whiteScoreLabel.setText(String.format("White: %.1f", whiteScore));
         blackScoreLabel.setText(String.format("Black: %.1f", blackScore));
+    }
+
+    private void showPossibleMoves(Position position) {
+        Piece piece = game.getPieceAt(position);
+        if (piece != null) {
+            List<Position> possibleMoves = piece.getPossibleMoves(game.getBoard());
+            for (Position move : possibleMoves) {
+                JPanel square = (JPanel) chessBoard.getComponent(move.getYPos() * 8 + move.getXPos());
+                JLabel highlight = new JLabel();
+                highlight.setOpaque(true);
+                highlight.setBackground(HIGHLIGHT_COLOR);
+                highlight.setBounds(0, 0, square.getWidth(), square.getHeight());
+                square.add(highlight, 0); // 맨 앞에 추가하여 기존 내용 위에 오도록 함
+                highlightedSquares.add(highlight);
+            }
+        }
+    }
+
+    private void clearPossibleMoves() {
+        for (JLabel highlight : highlightedSquares) {
+            Container parent = highlight.getParent();
+            parent.remove(highlight);
+            parent.repaint();
+        }
+        highlightedSquares.clear();
     }
 
     private class PieceListener extends MouseAdapter {
@@ -187,6 +221,8 @@ public class ChessGUI extends JFrame {
                 draggedPieceLabel.setForeground(piece.getColor() == Piece.Color.WHITE ? Color.BLACK : Color.WHITE);
                 glassPane.add(draggedPieceLabel);
                 glassPane.setVisible(true);
+
+                showPossibleMoves(dragSource);
             }
         }
 
@@ -196,12 +232,18 @@ public class ChessGUI extends JFrame {
                 Point p = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), chessBoard);
                 int targetRow = p.y / (chessBoard.getHeight() / 8);
                 int targetCol = p.x / (chessBoard.getWidth() / 8);
+
+                // 체스판 범위를 벗어나는 경우 처리
+                if (targetRow < 0) targetRow = 0;
+                if (targetRow > 7) targetRow = 7;
+                if (targetCol < 0) targetCol = 0;
+                if (targetCol > 7) targetCol = 7;
+
                 String targetPosString = String.format("%c%c", (char)('a' + targetCol), (char)('1' + (7 - targetRow)));
                 Position targetPos = new Position(targetPosString);
 
                 try {
                     move(dragSource, targetPos);
-                    updateBoard();
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(ChessGUI.this, ex.getMessage(), "Invalid Move", JOptionPane.ERROR_MESSAGE);
                 }
@@ -210,6 +252,9 @@ public class ChessGUI extends JFrame {
                 glassPane.setVisible(false);
                 draggedPieceLabel = null;
                 dragSource = null;
+
+                clearPossibleMoves();
+                updateBoard();
             }
         }
     }
@@ -219,6 +264,7 @@ public class ChessGUI extends JFrame {
             Piece.Color currentTurn = game.getCurrentTurn();
             game.move(from, to);
             updateBoard();
+            updateScores();
 
             Piece.Color opponent = game.getOpponentColor(currentTurn);
             if (game.isCheckmate(opponent)) {

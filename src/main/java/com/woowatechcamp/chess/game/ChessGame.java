@@ -65,9 +65,9 @@ public class ChessGame {
         if (!isInCheck(color)) {
             return false;
         }
-        for (Piece piece : getAllPieces(color)) {
-            for (Position target : getAllPossibleMoves(piece)) {
-                if (canMoveWithoutCheck(piece.getPosition(), target)) {
+        for (Piece piece : board.getAllPieces(color)) {
+            for (Position target : piece.getPossibleMoves(board)) {
+                if (isValidMove(piece.getPosition(), target)) {
                     return false;
                 }
             }
@@ -77,7 +77,8 @@ public class ChessGame {
 
     public boolean isInCheck(Piece.Color color) {
         Position kingPosition = board.findKingPosition(color);
-        for (Piece opponentPiece : getAllPieces(getOpponentColor(color))) {
+        Piece.Color opponentColor = getOpponentColor(color);
+        for (Piece opponentPiece : board.getAllPieces(opponentColor)) {
             if (opponentPiece.canMoveTo(kingPosition, board)) {
                 return true;
             }
@@ -85,11 +86,22 @@ public class ChessGame {
         return false;
     }
 
-    private boolean canMoveWithoutCheck(Position from, Position to) {
-        board.move(from, to);
-        boolean inCheck = isInCheck(board.findPiece(to).getColor());
-        board.undoMove(from, to);
-        return !inCheck;
+    public boolean isValidMove(Position from, Position to) {
+        Piece piece = board.findPiece(from);
+        if (piece == null || piece.getType() == Piece.Type.BLANK) {
+            return false;
+        }
+
+        if (!piece.canMoveTo(to, board)) {
+            return false;
+        }
+
+        // 임시로 이동해보고 체크 상태가 되는지 확인
+        Piece capturedPiece = board.moveTemporarily(from, to);
+        boolean valid = !isInCheck(piece.getColor());
+        board.undoTemporaryMove(from, to, capturedPiece);
+
+        return valid;
     }
 
     private List<Piece> getAllPieces(Piece.Color color) {
@@ -106,5 +118,9 @@ public class ChessGame {
 
     public Piece.Color getCurrentTurn() {
         return currentTurn;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

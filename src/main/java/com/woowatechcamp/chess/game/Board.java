@@ -165,7 +165,35 @@ public class Board {
                 .toList();
     }
 
-    public void undoMove(Position from, Position to) {
-        move(to, from);
+    public Piece movePermanently(Position from, Position to) {
+        Piece sourcePiece = findPiece(from);
+        Piece capturedPiece = findPiece(to);
+
+        sourcePiece.move(to, this);
+        ranks.get(to.getYPos()).setPiece(sourcePiece);
+        ranks.get(from.getYPos()).setPiece(PieceFactory.createBlank(from));
+
+        return capturedPiece;
+    }
+
+    public Piece moveTemporarily(Position from, Position to) {
+        Piece sourcePiece = findPiece(from);
+        Piece capturedPiece = findPiece(to);
+
+        ranks.get(to.getYPos()).setPiece(sourcePiece);
+        ranks.get(from.getYPos()).setPiece(PieceFactory.createBlank(from));
+
+        return capturedPiece;
+    }
+
+    public void undoTemporaryMove(Position from, Position to, Piece capturedPiece) {
+        Piece movedPiece = findPiece(to);
+
+        ranks.get(from.getYPos()).setPiece(movedPiece);
+        if (capturedPiece != null) {
+            ranks.get(to.getYPos()).setPiece(capturedPiece);
+        } else {
+            ranks.get(to.getYPos()).setPiece(PieceFactory.createBlank(to));
+        }
     }
 }
