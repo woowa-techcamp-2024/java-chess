@@ -128,6 +128,11 @@ public class Board {
         });
     }
 
+    public Piece findPieceBy(final String position) {
+        final Position chessPosition = Position.mapBy(position);
+        return board.get(chessPosition.getRow()).get(chessPosition.getCol());
+    }
+
     // TODO: step1-6 움직임 요구사항 반영
     public void move(final Piece piece, final String position) {
         final Position chessPosition = Position.mapBy(position);
@@ -142,22 +147,6 @@ public class Board {
         board.get(row).replace(col, piece);
     }
 
-    public String showBoard() {
-        final StringBuilder sb = new StringBuilder();
-        for (int row = 0; row < MAX_ROW.getCount(); row++) {
-            appendRowRepresentation(row, sb);
-            sb.append(StringUtils.appendNewLine(""));
-        }
-        return sb.toString();
-    }
-
-    private void appendRowRepresentation(final int row, final StringBuilder sb) {
-        for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final Piece piece = getPieceByPosition(row, col);
-            sb.append(piece.getRepresentation().getName());
-        }
-    }
-
     public double calculateScore(final Color color) {
         double score = 0.0;
         for (int col = 0; col < MAX_COL.getCount(); col++) {
@@ -170,12 +159,28 @@ public class Board {
     private List<Piece> extractPiecesByFile(final int col, final Color color) {
         final List<Piece> piecesByFile = new ArrayList<>();
         for (int row = 0; row < MAX_ROW.getCount(); row++) {
-            final Piece piece = getPieceByPosition(row, col);
+            final Piece piece = getPieceBy(row, col);
             if (piece.isSameColor(color)) {
                 piecesByFile.add(piece);
             }
         }
         return piecesByFile;
+    }
+
+    public String showBoard() {
+        final StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < MAX_ROW.getCount(); row++) {
+            appendRowRepresentation(row, sb);
+            sb.append(StringUtils.appendNewLine(""));
+        }
+        return sb.toString();
+    }
+
+    private void appendRowRepresentation(final int row, final StringBuilder sb) {
+        for (int col = 0; col < MAX_COL.getCount(); col++) {
+            final Piece piece = getPieceBy(row, col);
+            sb.append(piece.getRepresentation().getName());
+        }
     }
 
     /* ----- getter ----- */
@@ -186,11 +191,6 @@ public class Board {
                 .sum();
     }
 
-    public Piece getPieceBy(final String position) {
-        final Position chessPosition = Position.mapBy(position);
-        return board.get(chessPosition.getRow()).get(chessPosition.getCol());
-    }
-
     public String getPiecesResult(final Type type, final Color color) {
         final StringBuilder sb = new StringBuilder();
         final List<Piece> filteredPieces = getPiecesFilterBy(type, color);
@@ -198,17 +198,9 @@ public class Board {
         return sb.toString();
     }
 
-    private Piece getPieceByPosition(final int row, final int col) {
+    private Piece getPieceBy(final int row, final int col) {
         return Optional.ofNullable(board.get(row).get(col))
                 .orElseThrow(() -> new IllegalArgumentException(String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, col)));
-    }
-
-    public int getBoardRowSize() {
-        return board.get(0).size();
-    }
-
-    public int getBoardColSize() {
-        return board.size();
     }
 
     public List<Piece> getAscendingSortedPiecesFilterBy(final Color color) {
@@ -235,10 +227,12 @@ public class Board {
                 .toList();
     }
 
-    private List<Piece> getPiecesFilterBy(final Color color) {
-        return board.stream()
-                .flatMap(rank -> rank.getPiecesFilterBy(color).stream())
-                .toList();
+    public int getBoardRowSize() {
+        return board.get(0).size();
+    }
+
+    public int getBoardColSize() {
+        return board.size();
     }
 
 }

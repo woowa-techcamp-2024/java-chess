@@ -62,7 +62,7 @@ public class BoardTest {
         }
 
         private void verifyGetPiece(Board board, String position, Piece expectedPiece) {
-            assertThat(board.getPieceBy(position)).isEqualTo(expectedPiece);
+            assertThat(board.findPieceBy(position)).isEqualTo(expectedPiece);
         }
 
         @Test
@@ -74,7 +74,7 @@ public class BoardTest {
             Piece piece = Piece.createBlackPieceOf(Type.ROOK);
             board.move(piece, position);
 
-            Piece findPiece = board.getPieceBy(position);
+            Piece findPiece = board.findPieceBy(position);
             assertThat(findPiece).isEqualTo(piece);
         }
 
@@ -88,10 +88,10 @@ public class BoardTest {
         @DisplayName("[Success] 체스위치에 대한 기물을 찾는다.")
         void findPawn() {
             board.initialize();
-            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.getPieceBy("a8"));
-            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.getPieceBy("h8"));
-            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.getPieceBy("a1"));
-            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.getPieceBy("h1"));
+            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("a8"));
+            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("h8"));
+            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("a1"));
+            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("h1"));
         }
 
         @Test
@@ -108,7 +108,7 @@ public class BoardTest {
         }
 
         private void verifyOutOfRangeGetPiece(Board board, String outOfPosition) {
-            assertThatThrownBy(() -> board.getPieceBy(outOfPosition)).isInstanceOf(
+            assertThatThrownBy(() -> board.findPieceBy(outOfPosition)).isInstanceOf(
                     IllegalArgumentException.class);
         }
 
