@@ -127,4 +127,14 @@ public class Board {
 
         return count;
     }
+
+    public List<Piece> collectPieces(Piece.Color color, PieceComparator pieceComparator) {
+        List<Piece> pieces = new ArrayList<>();
+        for (Rank rank : board) {
+            pieces.addAll(rank.collectPieces(color));
+        }
+
+        pieces.sort(pieceComparator.getComparator());
+        return pieces;
+    }
 }

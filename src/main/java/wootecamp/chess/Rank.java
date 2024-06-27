@@ -115,12 +115,22 @@ public class Rank {
         return point;
     }
 
-    public boolean hasKing(Piece.Color color) {
+    public boolean hasKing(final Piece.Color color) {
         for (Piece piece : pieces) {
             if(piece.isKing(color)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public List<Piece> collectPieces(final Piece.Color color) {
+        final List<Piece> pieces = new ArrayList<>();
+        for (Piece piece : this.pieces) {
+            if(!piece.isEmptyPiece() && piece.getColor() == color) {
+                pieces.add(piece);
+            }
+        }
+        return pieces;
     }
 }
