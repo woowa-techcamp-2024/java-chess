@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
-public class SwingGameView extends SwingViewComponent implements GameView, GameManager {
+public class SwingGameViewAndManager extends SwingViewComponent implements GameView, GameManager {
     private static final int BOARD_SIZE = 8;
     private static final int TILE_SIZE = 50; // 크기 조정
     private ChessGame chessGame;
@@ -22,7 +22,7 @@ public class SwingGameView extends SwingViewComponent implements GameView, GameM
 
     private Stack<PieceTileComponent> selectedPieces = new Stack<>();
 
-    public SwingGameView(ChessGame chessGame) {
+    public SwingGameViewAndManager(ChessGame chessGame) {
         this.chessGame = chessGame;
         this.chessGame.init();
         initStartButton(chessGame);
@@ -146,7 +146,7 @@ public class SwingGameView extends SwingViewComponent implements GameView, GameM
     }
 
     public static void main(String[] args) {
-        new SwingGameView(new ChessGame(new Board(new PieceCreatorWithFactory())));
+        new SwingGameViewAndManager(new ChessGame(new Board(new PieceCreatorWithFactory())));
     }
 
     @Override
