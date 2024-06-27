@@ -31,7 +31,7 @@ public class Piece implements Comparable<Piece> {
 
 
 
-    public enum Color { WHITE, BLACK }
+    public enum Color { WHITE, BLACK, NO_COLOR }
 
     public enum Representation {
         WHITE_PAWN('♙'), BLACK_PAWN('♟'),
@@ -39,7 +39,8 @@ public class Piece implements Comparable<Piece> {
         WHITE_BISHOP('♗'), BLACK_BISHOP('♝'),
         WHITE_ROOK('♖'), BLACK_ROOK('♜'),
         WHITE_QUEEN('♕'), BLACK_QUEEN('♛'),
-        WHITE_KING('♔'), BLACK_KING('♚');
+        WHITE_KING('♔'), BLACK_KING('♚'),
+        NO_PIECE('.');
 
         private final char symbol;
 
@@ -66,7 +67,7 @@ public class Piece implements Comparable<Piece> {
             case ROOK -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
             case QUEEN -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
             case KING -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
-            case NO_PIECE -> new Piece(type, null, null);
+            case NO_PIECE -> new Piece(type, color, Representation.NO_PIECE);
         };
     }
 
@@ -83,7 +84,7 @@ public class Piece implements Comparable<Piece> {
     }
 
     public static Piece createBlank() {
-        return create(Type.NO_PIECE, null);
+        return create(Type.NO_PIECE, Color.NO_COLOR);
     }
 
     public static Piece createWhitePawn(){
