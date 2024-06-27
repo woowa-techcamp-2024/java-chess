@@ -46,7 +46,7 @@ public class Board {
                 .sum();
     }
 
-    private String createRankResults(Rank rank) {
+    private String createRankResults(final Rank rank) {
         return rank.createResults();
     }
 
@@ -54,7 +54,7 @@ public class Board {
         System.out.println(showBoard());
     }
 
-    public Piece findPiece(String coordinate) {
+    public Piece findPiece(final String coordinate) {
         extractor.validateCoordinates(coordinate);
 
         int rowIndex = extractor.extractRowIndex(coordinate);
@@ -64,20 +64,33 @@ public class Board {
         return rowRank.findPieceByColumn(columnIndex);
     }
 
-    public void move(String coordinate, Piece piece) {
-        extractor.validateCoordinates(coordinate);
+    public void move(final String coordinates, final Piece piece) {
+        extractor.validateCoordinates(coordinates);
 
-        int rowIndex = extractor.extractRowIndex(coordinate);
-        int columnIndex = extractor.extractColumnIndex(coordinate);
+        int rowIndex = extractor.extractRowIndex(coordinates);
+        int columnIndex = extractor.extractColumnIndex(coordinates);
         Rank rank = ranks.get(rowIndex);
         ranks.set(rowIndex, rank.placePiece(columnIndex, piece));
     }
 
-    public double calculatePoint(Color color) {
+    public void move(final String startCoordinates, final String targetCoordinates) {
+        Piece piece = findPiece(startCoordinates);
+        validateMovePieces(piece);
+        move(startCoordinates, Piece.createBlank());
+        move(targetCoordinates, piece);
+    }
+
+    private void validateMovePieces(final Piece piece) {
+        if (piece.isBlank()) {
+            throw new IllegalArgumentException("빈칸은 이동시킬 수 없습니다.");
+        }
+    }
+
+    public double calculatePoint(final Color color) {
         return calculatePiecesPoint(color) + calculatePawnsPoint(color);
     }
 
-    private double calculatePiecesPoint(Color color) {
+    private double calculatePiecesPoint(final Color color) {
         return ranks.stream()
                 .mapToDouble(rank -> rank.calculateRankPiecesPoint(color))
                 .sum();
@@ -108,7 +121,7 @@ public class Board {
                 .toList();
     }
 
-    private Stream<Piece> findSpecificColorPiece(Rank rank, Color color) {
+    private Stream<Piece> findSpecificColorPiece(final Rank rank, final Color color) {
 
         return IntStream.range(0, END_COLUMN_SYMBOL - START_COLUMN_SYMBOL)
                 .mapToObj(rank::findPieceByColumn)

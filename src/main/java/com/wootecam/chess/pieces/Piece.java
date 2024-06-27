@@ -75,4 +75,12 @@ public class Piece {
         result = 31 * result + Objects.hashCode(type);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "color=" + color +
+                ", type=" + type +
+                '}';
+    }
 }

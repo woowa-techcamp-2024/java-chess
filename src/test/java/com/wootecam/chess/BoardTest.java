@@ -172,20 +172,39 @@ public class BoardTest {
 
         @BeforeEach
         void setUp() {
-            board = initializeEmpty();
+            board = initialize();
         }
 
         @Test
-        void 입력한_좌표로_기물을_이동시킨다() {
+        void 시작좌표에서_도착좌표로_기물을_이동한다() {
             // given
-            Piece piece = Piece.createBlack(Type.ROOK);
-            String coordinates = "b5";
+            String startCoordinates = "b2";
+            String targetCoordinates = "b3";
 
             // when
-            board.move(coordinates, piece);
+            board.move(startCoordinates, targetCoordinates);
 
             // then
-            assertThat(board.findPiece(coordinates)).isEqualTo(piece);
+            assertAll(
+                    () -> assertThat(board.findPiece(startCoordinates)).isEqualTo(Piece.createBlank()),
+                    () -> assertThat(board.findPiece(targetCoordinates)).isEqualTo(Piece.createWhite(Type.PAWN))
+            );
+        }
+
+        @Nested
+        class 빈칸을_이동시키려_하면 {
+
+            @Test
+            void 예외가_발생한다() {
+                // given
+                String startCoordinates = "b3";
+                String targetCoordinates = "b2";
+
+                // expect
+                assertThatThrownBy(() -> board.move(startCoordinates, targetCoordinates))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("빈칸은 이동시킬 수 없습니다.");
+            }
         }
     }
 
