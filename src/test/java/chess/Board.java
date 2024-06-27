@@ -35,6 +35,30 @@ public class Board {
         Position sourcePos = new Position(sourcePosition);
         Position targetPos = new Position(targetPosition);
         Piece movePiece = map.get(sourcePos.getRow()).findPiece(sourcePos.getCol());
+        Piece targetPiece = map.get(targetPos.getRow()).findPiece(targetPos.getCol());
+        List<List<Position>> allDirectionMoves = movePiece.getPossibleMoves(sourcePos);
+        List<Position> moves = allDirectionMoves.stream()
+                .filter(list -> list.contains(targetPos))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("impossible move"));
+        boolean isPossible = false;
+        for (Position move : moves) {
+            if (move.equals(targetPos)) {
+                if (movePiece.getType() == Piece.Type.PAWN) {
+                    if (sourcePos.getCol() != targetPos.getCol() && targetPiece.getType() == Piece.Type.NO_PIECE) {
+                        break;
+                    }
+                    if (sourcePos.getCol() == targetPos.getCol() && targetPiece.getType() != Piece.Type.NO_PIECE) {
+                        break;
+                    }
+                }
+                isPossible = true;
+                break;
+            }
+            Piece piece = map.get(move.getRow()).findPiece(move.getCol());
+            if (piece.getType() != Piece.Type.NO_PIECE) break;
+        }
+        if (!isPossible) throw new IllegalArgumentException("impossible move");
         map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), Piece.createBlank());
         map.get(targetPos.getRow()).setPiece(targetPos.getCol(), movePiece);
     }
