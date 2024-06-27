@@ -47,11 +47,11 @@ public class BoardTest {
         @DisplayName("[Success] 기물을 추가하면 기물 개수도 반영된다.")
         void board_add_pawn() {
             board.initialize();
-            board.move(white, Position.mapBy("a6"));
+            board.replace(white, Position.mapBy("a6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 1);
             verifyGetPiece(board, "a6", white);
 
-            board.move(black, Position.mapBy("b6"));
+            board.replace(black, Position.mapBy("b6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 2);
             verifyGetPiece(board, "b6", black);
         }
@@ -68,11 +68,11 @@ public class BoardTest {
         @Test
         @DisplayName("[Success] 임의의 위치에 기물을 이동할 수 있어야 한다.")
         void move() {
-            board.initialize();
+            BoardGame boardGame = new BoardGame(board);
 
             String sourcePosition = "b2";
             String targetPosition = "b3";
-            board.move(sourcePosition, targetPosition);
+            boardGame.move(sourcePosition, targetPosition);
             assertThat(board.findPieceBy(sourcePosition)).isEqualTo(Piece.createBlank());
             assertThat(board.findPieceBy(targetPosition)).isEqualTo(Piece.createWhitePieceOf(Type.PAWN));
         }
@@ -228,7 +228,8 @@ public class BoardTest {
         }
 
         private void addPiece(String position, Piece piece) {
-            board.move(piece, position);
+            Position p = Position.mapBy(position);
+            board.replace(piece, p);
         }
     }
 

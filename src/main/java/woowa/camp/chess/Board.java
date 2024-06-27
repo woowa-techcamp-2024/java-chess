@@ -5,7 +5,6 @@ import static woowa.camp.chess.BoardConstants.MAX_ROW;
 import static woowa.camp.pieces.Piece.Type.BISHOP;
 import static woowa.camp.pieces.Piece.Type.KING;
 import static woowa.camp.pieces.Piece.Type.KNIGHT;
-import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 import static woowa.camp.pieces.Piece.Type.PAWN;
 import static woowa.camp.pieces.Piece.Type.QUEEN;
 import static woowa.camp.pieces.Piece.Type.ROOK;
@@ -124,7 +123,7 @@ public class Board {
         IntStream.range(0, MAX_COL.getCount()).forEach(col -> {
             final Piece piece = Piece.createPiece(PAWN, color);
             final Position position = new Position(initRow, col);
-            move(piece, position);
+            replace(piece, position);
         });
     }
 
@@ -133,34 +132,16 @@ public class Board {
         return board.get(chessPosition.getRow()).get(chessPosition.getCol());
     }
 
-    // TODO: step1-6 움직임 요구사항 반영
-    public void move(final Piece piece, final String position) {
-        final Position chessPosition = Position.mapBy(position);
-        final int row = chessPosition.getRow();
-        final int col = chessPosition.getCol();
-        board.get(row).replace(col, piece);
+    public void replace(final Piece piece, final Position destination) {
+        final int destinationRow = destination.getRow();
+        final int destinationCol = destination.getCol();
+        board.get(destinationRow).replace(destinationCol, piece);
     }
 
-    public void move(final Piece piece, final Position position) {
-        final int row = position.getRow();
-        final int col = position.getCol();
-        board.get(row).replace(col, piece);
-    }
-
-    public void move(final String sourcePosition, final String targetPosition) {
-        final Position source = Position.mapBy(sourcePosition);
-        final Position target = Position.mapBy(targetPosition);
-
-        final Piece sourcePiece = getPieceBy(source.getRow(), source.getCol());
-        final Piece targetPiece = getPieceBy(target.getRow(), target.getCol());
-
-        // TODO: move validation 추가
-        if (sourcePiece.isPieceOf(NO_PIECE)) {
-            throw new IllegalArgumentException(sourcePosition + "에 움직일 수 있는 기물이 없습니다.");
-        }
-
-        board.get(source.getRow()).replace(source.getCol(), Piece.createBlank());
-        move(sourcePiece, target);
+    public void remove(final Position target) {
+        final int targetRow = target.getRow();
+        final int targetCol = target.getCol();
+        board.get(targetRow).replace(targetCol, Piece.createBlank());
     }
 
     public double calculateScore(final Color color) {
@@ -214,7 +195,7 @@ public class Board {
         return sb.toString();
     }
 
-    private Piece getPieceBy(final int row, final int col) {
+    public Piece getPieceBy(final int row, final int col) {
         return Optional.ofNullable(board.get(row).get(col))
                 .orElseThrow(() -> new IllegalArgumentException(String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, col)));
     }
