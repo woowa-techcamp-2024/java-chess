@@ -12,6 +12,7 @@ import static woowa.camp.chess.BoardConstants.MAX_QUEEN;
 import static woowa.camp.chess.BoardConstants.MAX_ROOK;
 import static woowa.camp.chess.BoardConstants.MAX_ROW;
 
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -232,4 +233,56 @@ public class BoardTest {
         }
     }
 
+    @Nested
+    @DisplayName("Describe_기물을 정렬하는 기능은")
+    class SortPieceTest {
+
+        @Test
+        @DisplayName("[Success] 남아있는 기물을 점수 기준으로 내림차순 정렬한다.")
+        void descending() {
+            board.initialize();
+            List<Piece> result = board.getDescendingSortedPiecesFilterBy(Color.BLACK);
+            assertThat(result).containsExactly(Piece.createBlackPieceOf(Type.QUEEN),
+                    Piece.createBlackPieceOf(Type.ROOK),
+                    Piece.createBlackPieceOf(Type.ROOK),
+                    Piece.createBlackPieceOf(Type.BISHOP),
+                    Piece.createBlackPieceOf(Type.BISHOP),
+                    Piece.createBlackPieceOf(Type.KNIGHT),
+                    Piece.createBlackPieceOf(Type.KNIGHT),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.KING));
+        }
+
+        @Test
+        @DisplayName("[Success] 남아있는 기물을 점수 기준으로 오름차순 정렬한다.")
+        void ascending() {
+            board.initialize();
+
+            List<Piece> result = board.getAscendingSortedPiecesFilterBy(Color.BLACK);
+            assertThat(result).containsExactly(
+                    Piece.createBlackPieceOf(Type.KING),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.PAWN),
+                    Piece.createBlackPieceOf(Type.KNIGHT),
+                    Piece.createBlackPieceOf(Type.KNIGHT),
+                    Piece.createBlackPieceOf(Type.BISHOP),
+                    Piece.createBlackPieceOf(Type.BISHOP),
+                    Piece.createBlackPieceOf(Type.ROOK),
+                    Piece.createBlackPieceOf(Type.ROOK),
+                    Piece.createBlackPieceOf(Type.QUEEN));
+        }
+    }
 }
