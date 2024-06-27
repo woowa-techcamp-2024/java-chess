@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 public class Board {
 
     private final List<Rank> ranks;
+    // TODO 이거 왜 있지,,
     private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
@@ -18,6 +19,8 @@ public class Board {
     private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
+
+    // TODO 이건 차라리 Enum으로 하는 게 나을 듯,,,
     public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
     public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
 
@@ -35,7 +38,9 @@ public class Board {
     }
 
     public int getPieceCount(Piece.Color color, Piece.Type type) {
-        return ranks.stream().mapToInt(rank -> rank.getPieceCount(color, type)).sum();
+        return ranks.stream()
+                .mapToInt(rank -> rank.getPieceCount(color, type))
+                .sum();
     }
 
     public int getTotalPieceCount() {
