@@ -37,6 +37,8 @@ public class BoardTest {
         board.initialize();
 
         assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        System.out.println(board.findPiece("h8").getRepresentation());
+
         assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));

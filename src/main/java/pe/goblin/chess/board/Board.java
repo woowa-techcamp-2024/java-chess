@@ -6,7 +6,6 @@ import pe.goblin.chess.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
     public static final int MIN_ROWS = 0;
@@ -32,15 +31,15 @@ public class Board {
         List<List<Piece>> initialPieces = createEmptyBoard();
         // 백색 말 배치
         Piece[] fullMajorWhitePieces = {Piece.createWhiteRook(), Piece.createWhiteKnight(), Piece.createWhiteBishop(), Piece.createWhiteQueen(), Piece.createWhiteKing(), Piece.createWhiteBishop(), Piece.createWhiteKnight(), Piece.createWhiteRook()};
-        for (int col = MIN_ROWS; col <= MAX_ROWS; col++) {
-            initialPieces.get(0).set(col, fullMajorWhitePieces[col]);
-            initialPieces.get(1).set(col, Piece.createWhitePawn());
+        for (int col = MIN_COLS; col <= MAX_COLS; col++) {
+            initialPieces.get(7).set(col, fullMajorWhitePieces[col]);
+            initialPieces.get(6).set(col, Piece.createWhitePawn());
         }
         // 흑색 말 배치
         Piece[] fullMajorBlackPieces = {Piece.createBlackRook(), Piece.createBlackKnight(), Piece.createBlackBishop(), Piece.createBlackQueen(), Piece.createBlackKing(), Piece.createBlackBishop(), Piece.createBlackKnight(), Piece.createBlackRook()};
-        for (int col = MIN_ROWS; col <= MAX_ROWS; col++) {
-            initialPieces.get(7).set(col, fullMajorBlackPieces[col]);
-            initialPieces.get(6).set(col, Piece.createBlackPawn());
+        for (int col = MIN_COLS; col <= MAX_COLS; col++) {
+            initialPieces.get(0).set(col, fullMajorBlackPieces[col]);
+            initialPieces.get(1).set(col, Piece.createBlackPawn());
         }
         // pieces 필드에 초기 보드 설정
         this.pieces = initialPieces;
@@ -74,14 +73,10 @@ public class Board {
 
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-        for (int row = MAX_ROWS; row >= MIN_ROWS; row--) {
-            for (int col = MIN_ROWS; col <= MAX_ROWS; col++) {
+        for (int row = MIN_ROWS; row <= MAX_ROWS; row++) {
+            for (int col = MIN_COLS; col <= MAX_COLS; col++) {
                 Piece piece = pieces.get(row).get(col);
-                if (piece == null) {
-                    sb.append('.');
-                } else {
-                    sb.append(piece.getRepresentation());
-                }
+                sb.append(piece.getRepresentation());
             }
             sb.append(StringUtils.NEW_LINE); // 각 행 끝에 줄 바꿈 추가
         }
@@ -100,7 +95,7 @@ public class Board {
 
     private record Position(int row, int col) {
         Position(String posStr) {
-            this(posStr.charAt(1) - '1', posStr.charAt(0) - 'a');
+            this(MAX_COLS - (posStr.charAt(1) - '1'), posStr.charAt(0) - 'a');
         }
     }
 }
