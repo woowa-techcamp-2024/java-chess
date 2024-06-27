@@ -18,15 +18,12 @@ public class ChessGame {
         board.initialize();
     }
 
-    public void showBoard() {
-        System.out.println("====================================");
-        System.out.println(board.print());
-        System.out.println("====================================");
+    public String showBoard() {
+        return this.board.print();
     }
 
     private void startGame() {
         init();
-        System.out.println("게임을 시작하지");
     }
 
     public boolean move(String source, String target) {
