@@ -77,6 +77,40 @@ public enum MoveRule{
             return castlingPoints;
         }
 
+        private boolean canCastle(Board board, King king, Rook rook, ChessPoint kingPoint, ChessPoint rookPoint) {
+            Piece.Color color = king.getColor();
+
+            // 캐슬링의 대상이 되는 킹과 룩은 캐슬링하는 시점 전에 움직인 적이 없어야 한다.
+            if (king.isMoved() || rook.isMoved() || board.isCheck(color)) {
+                return false;
+            }
+
+            // 킹과 룩 사이에는 기물이 없어야 한다.
+            for (char c = (char) (Math.min(kingPoint.file(), rookPoint.file()) + 1); c < Math.max(kingPoint.file(), rookPoint.file()); c++) {
+                ChessPoint betweenPoint = ChessPoint.of(c, kingPoint.rank());
+                if (board.findPiece(betweenPoint) != null) {
+                    return false;
+                }
+            }
+
+            // 킹이 캐슬링을 하기 위해 지나가는 칸들 중 상대 기물에 의해서 공격받는 칸이 있어서는 안된다.
+            Direction rookDirection = kingPoint.file() < rookPoint.file() ? Direction.EAST : Direction.WEST;
+            if (board.isAttackablePointIfKingMove(kingPoint.move(rookDirection, 1), color)
+                    || board.isAttackablePointIfKingMove(kingPoint.move(rookDirection, 2), color)) {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        // 룩의 목표 지점을 계산하는 메서드
+        private ChessPoint getRookTargetPoint(ChessPoint kingPoint, ChessPoint rookPoint) {
+            Direction rookTargetDirection = kingPoint.file() < rookPoint.file() ? Direction.WEST : Direction.EAST;
+            return kingPoint.move(rookTargetDirection, 1);
+        }
+
+
         @Override
         public boolean isAttackable() {
             return false;
@@ -86,6 +120,7 @@ public enum MoveRule{
     PawnMove {
         public void move(Board board, String source, String target) {
             Piece piece = board.findPiece(source);
+            piece.setMoved();
             board.removePieceIfExist(ChessPoint.of(source));
             board.removePieceIfExist(ChessPoint.of(target));
             board.putPiece(target, piece);
@@ -211,64 +246,6 @@ public enum MoveRule{
                     System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
-    }
-
-    // TODO: 폰이 이동 가능한 포인트를 반환하는 메서드
-    public static List<ChessPoint> getPawnMovablePoints(ChessPoint source, Board board, Pawn pawn) {
-        return null;
-    }
-
-    // 캐슬링 가능한 포인트를 반환하는 메서드
-    public static List<ChessPoint> getCastlingPoints(Board board, King king, ChessPoint kingPoint) {
-        List<ChessPoint> castlingPoints = new ArrayList<>();
-        Piece.Color color = king.getColor();
-
-        List<Map.Entry<ChessPoint, Rook>> rooks = board.findAllPiecesMap(Rook.class, color);
-
-        for (Map.Entry<ChessPoint, Rook> entry : rooks) {
-            ChessPoint rookPoint = entry.getKey();
-            Rook rook = entry.getValue();
-
-            // 캐슬링 가능 여부를 체크하고, 가능하면 캐슬링 포인트를 추가
-            if (canCastle(board, king, rook, kingPoint, rookPoint)) {
-                castlingPoints.add(getRookTargetPoint(kingPoint, rookPoint));
-            }
-        }
-
-        return castlingPoints;
-    }
-
-    // 캐슬링 가능 여부를 체크하는 메서드
-    private static boolean canCastle(Board board, King king, Rook rook, ChessPoint kingPoint, ChessPoint rookPoint) {
-        Piece.Color color = king.getColor();
-
-        // 캐슬링의 대상이 되는 킹과 룩은 캐슬링하는 시점 전에 움직인 적이 없어야 한다.
-        if (king.isMoved() || rook.isMoved() || board.isCheck(color)) {
-            return false;
-        }
-
-        // 킹과 룩 사이에는 기물이 없어야 한다.
-        for (char c = (char) (Math.min(kingPoint.file(), rookPoint.file()) + 1); c < Math.max(kingPoint.file(), rookPoint.file()); c++) {
-            ChessPoint betweenPoint = ChessPoint.of(c, kingPoint.rank());
-            if (board.findPiece(betweenPoint) != null) {
-                return false;
-            }
-        }
-
-        // 킹이 캐슬링을 하기 위해 지나가는 칸들 중 상대 기물에 의해서 공격받는 칸이 있어서는 안된다.
-        Direction rookDirection = kingPoint.file() < rookPoint.file() ? Direction.EAST : Direction.WEST;
-        if (board.isAttackablePointIfKingMove(kingPoint.move(rookDirection, 1), color)
-                || board.isAttackablePointIfKingMove(kingPoint.move(rookDirection, 2), color)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    // 룩의 목표 지점을 계산하는 메서드
-    private static ChessPoint getRookTargetPoint(ChessPoint kingPoint, ChessPoint rookPoint) {
-        Direction rookTargetDirection = kingPoint.file() < rookPoint.file() ? Direction.WEST : Direction.EAST;
-        return kingPoint.move(rookTargetDirection, 1);
     }
 
 }
