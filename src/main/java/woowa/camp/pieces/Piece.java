@@ -13,7 +13,7 @@ public class Piece {
     private final Type type;
     private final Color color;
 
-    private Piece(final Type type, final Color color) {
+    private Piece(Type type, Color color) {
         this.type = type;
         this.color = color;
     }

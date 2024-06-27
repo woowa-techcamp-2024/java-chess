@@ -5,6 +5,7 @@ import static woowa.camp.chess.BoardConstants.MAX_ROW;
 import static woowa.camp.pieces.Piece.Type.BISHOP;
 import static woowa.camp.pieces.Piece.Type.KING;
 import static woowa.camp.pieces.Piece.Type.KNIGHT;
+import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 import static woowa.camp.pieces.Piece.Type.PAWN;
 import static woowa.camp.pieces.Piece.Type.QUEEN;
 import static woowa.camp.pieces.Piece.Type.ROOK;
@@ -144,6 +145,22 @@ public class Board {
         final int row = position.getRow();
         final int col = position.getCol();
         board.get(row).replace(col, piece);
+    }
+
+    public void move(final String sourcePosition, final String targetPosition) {
+        final Position source = Position.mapBy(sourcePosition);
+        final Position target = Position.mapBy(targetPosition);
+
+        final Piece sourcePiece = getPieceBy(source.getRow(), source.getCol());
+        final Piece targetPiece = getPieceBy(target.getRow(), target.getCol());
+
+        // TODO: move validation 추가
+        if (sourcePiece.isPieceOf(NO_PIECE)) {
+            throw new IllegalArgumentException(sourcePosition + "에 움직일 수 있는 기물이 없습니다.");
+        }
+
+        board.get(source.getRow()).replace(source.getCol(), Piece.createBlank());
+        move(sourcePiece, target);
     }
 
     public double calculateScore(final Color color) {
