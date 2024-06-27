@@ -2,9 +2,9 @@ package chess;
 
 import chess.piece.*;
 import chess.util.ChessPoint;
+import chess.util.MoveRule;
 import chess.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,20 +13,14 @@ import java.util.stream.Stream;
 
 public class Board {
 
-    private final List<Piece> pieces = new ArrayList<>();
-
     private final Map<ChessPoint, Piece> boardMap = new HashMap<>();
 
-    public void add(Piece piece) {
-        pieces.add(piece);
-    }
 
     public int size() {
-        return pieces.size();
+        return boardMap.size();
     }
 
     public void initializeEmpty() {
-        pieces.clear();
         boardMap.clear();
     }
 
@@ -45,10 +39,10 @@ public class Board {
         addPiece(Rook.createBlack(), ChessPoint.of("a8"));
         addPiece(Rook.createBlack(), ChessPoint.of("h8"));
 
-        addPiece(Knight.createWhiteKnight(), ChessPoint.of("b1"));
-        addPiece(Knight.createWhiteKnight(), ChessPoint.of("g1"));
-        addPiece(Knight.createBlackKnight(), ChessPoint.of("b8"));
-        addPiece(Knight.createBlackKnight(), ChessPoint.of("g8"));
+        addPiece(Knight.createWhite(), ChessPoint.of("b1"));
+        addPiece(Knight.createWhite(), ChessPoint.of("g1"));
+        addPiece(Knight.createBlack(), ChessPoint.of("b8"));
+        addPiece(Knight.createBlack(), ChessPoint.of("g8"));
 
         addPiece(Bishop.createWhite(), ChessPoint.of("c1"));
         addPiece(Bishop.createWhite(), ChessPoint.of("f1"));
@@ -63,7 +57,6 @@ public class Board {
     }
 
     private void addPiece(Piece piece, ChessPoint point) {
-        pieces.add(piece);
         boardMap.put(point, piece);
     }
 
@@ -79,55 +72,36 @@ public class Board {
         return sb.toString();
     }
 
-    public Pawn findPawn(int index) {
-        return findPiece(index, Pawn.class);
-    }
-
-    public String getWhitePawnsResult() {
-        return getPawnsResult(Piece.Color.WHITE);
-    }
-
-    public String getBlackPawnsResult() {
-        return getPawnsResult(Pawn.Color.BLACK);
-    }
-
-    private String getPawnsResult(final Piece.Color color) {
-        StringBuilder sb = new StringBuilder();
-        List<Pawn> pawns = findAllPieces(Pawn.class);
-        for (Pawn pawn : pawns) {
-            if (pawn.getColor().equals(color)) {
-                sb.append(pawn.getRepresentation());
-            }
-        }
-        return sb.toString();
-    }
-
-    public long count(Piece.Color color, Class<? extends Piece> type) {
-        return filterPiecesByType(type)
-                .filter(piece -> piece.getColor().equals(color))
-                .count();
-    }
-
-    private <T extends Piece> List<T> findAllPieces(Class<T> type) {
+    public <T extends Piece> List<T> findAllPieces(Class<T> type) {
         return filterPiecesByType(type)
                 .collect(Collectors.toList());
     }
 
-    private <T extends Piece> T findPiece(int index, Class<T> type) {
+    public <T extends Piece> List<T> findAllPieces(Class<T> type, Piece.Color color) {
         return filterPiecesByType(type)
-                .skip(index)
+                .filter(piece -> piece.getColor().equals(color))
+                .collect(Collectors.toList());
+    }
+
+    public <T extends Piece> List<Map.Entry<ChessPoint, T>> findAllPiecesMap(Class<T> type, Piece.Color color) {
+        return boardMap.entrySet().stream()
+                .filter(entry -> entry.getValue().getClass().equals(type) && entry.getValue().getColor().equals(color))
+                .map(entry -> Map.entry(entry.getKey(), type.cast(entry.getValue())))
+                .collect(Collectors.toList());
+    }
+
+    public <T extends Piece> Map.Entry<ChessPoint, T> findPiece(Class<T> type, Piece.Color color) {
+        return boardMap.entrySet().stream()
+                .filter(entry -> entry.getValue().getClass().equals(type) && entry.getValue().getColor().equals(color))
+                .map(entry -> Map.entry(entry.getKey(), type.cast(entry.getValue())))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 index에 맞는 Piece가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("맞는 Piece가 없습니다."));
     }
 
     private <T extends Piece> Stream<T> filterPiecesByType(Class<T> type) {
-        return pieces.stream()
+        return boardMap.values().stream()
                 .filter(type::isInstance)
                 .map(type::cast);
-    }
-
-    public int pieceCount() {
-        return pieces.size();
     }
 
     public String showBoard() {
@@ -146,7 +120,11 @@ public class Board {
     }
 
     public Piece findPiece(String point) {
-        return boardMap.get(ChessPoint.of(point));
+        return findPiece(ChessPoint.of(point));
+    }
+
+    public Piece findPiece(ChessPoint point) {
+        return boardMap.get(point);
     }
 
     public void putPiece(String pointString, Piece piece) {
@@ -157,8 +135,15 @@ public class Board {
         addPiece(piece, point);
     }
 
+    public void putPiece(ChessPoint point, Piece piece) {
+        if (boardMap.containsKey(point)) {
+            throw new IllegalArgumentException("해당 위치에는 이미 말이 있습니다.");
+        }
+        addPiece(piece, point);
+    }
+
     public double calculatePoint(Piece.Color color) {
-        Double point = pieces.stream()
+        double point = boardMap.values().stream()
                 .filter(piece -> piece.getColor().equals(color))
                 .mapToDouble(Piece::getDefaultPoint)
                 .sum();
@@ -185,14 +170,70 @@ public class Board {
     }
 
     public List<Piece> sortByPointAsc() {
-        return pieces.stream()
+        return boardMap.values().stream()
                 .sorted((p1, p2) -> Double.compare(p1.getDefaultPoint(), p2.getDefaultPoint()))
                 .collect(Collectors.toList());
     }
 
     public List<Piece> sortByPointDesc() {
-        return pieces.stream()
+        return boardMap.values().stream()
                 .sorted((p1, p2) -> Double.compare(p2.getDefaultPoint(), p1.getDefaultPoint()))
                 .collect(Collectors.toList());
+    }
+
+    public void move(String source, String target) {
+        Piece piece = findPiece(source);
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
+        }
+        MoveRule moveRule = piece.getMoveRule(this, ChessPoint.of(source), ChessPoint.of(target));
+        moveRule.move(this, source, target);
+    }
+
+    public void removePieceIfExist(ChessPoint point) {
+        Piece piece = boardMap.get(point);
+        if (piece != null) {
+            boardMap.remove(point);
+        }
+    }
+
+    public boolean isKingDead(Piece.Color color) {
+        try {
+            findPiece(King.class, color);
+        }
+        catch (IllegalArgumentException e) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isCheck(Piece.Color color) {
+        Map.Entry<ChessPoint, King> kingEntry = findPiece(King.class, color);
+        ChessPoint kingPoint = kingEntry.getKey();
+        return isAttackablePoint(kingPoint, color);
+    }
+
+    public boolean isAttackablePoint(ChessPoint point, Piece.Color allyColor) {
+        return boardMap.entrySet().stream()
+                .filter(entry -> !entry.getValue().getColor().equals(allyColor))
+                .anyMatch(entry -> entry.getValue().getAttackablePoints(entry.getKey(), this).containsKey(point));
+    }
+
+    public boolean isAttackablePointIfKingMove(ChessPoint point, Piece.Color allyColor) {
+        Piece tmp = boardMap.get(point);
+        boardMap.put(point, allyColor == Piece.Color.WHITE ? King.createWhite() : King.createBlack());
+        boolean result = isAttackablePoint(point, allyColor);
+        if (tmp == null) {
+            boardMap.remove(point);
+        }
+        else {
+            boardMap.put(point, tmp);
+        }
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return showBoard();
     }
 }

@@ -36,7 +36,7 @@ class PieceTest {
     public void is_white() {
         assertTrue(Pawn.createWhite().isWhite());
         assertTrue(Rook.createWhite().isWhite());
-        assertTrue(Knight.createWhiteKnight().isWhite());
+        assertTrue(Knight.createWhite().isWhite());
         assertTrue(Bishop.createWhite().isWhite());
         assertTrue(Queen.createWhite().isWhite());
         assertTrue(King.createWhite().isWhite());
@@ -46,7 +46,7 @@ class PieceTest {
     public void is_black() {
         assertTrue(Pawn.createBlack().isBlack());
         assertTrue(Rook.createBlack().isBlack());
-        assertTrue(Knight.createBlackKnight().isBlack());
+        assertTrue(Knight.createBlack().isBlack());
         assertTrue(Bishop.createBlack().isBlack());
         assertTrue(Queen.createBlack().isBlack());
         assertTrue(King.createBlack().isBlack());

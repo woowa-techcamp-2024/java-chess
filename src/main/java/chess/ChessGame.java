@@ -1,9 +1,16 @@
 package chess;
 
-import java.util.Scanner;
+import chess.piece.Piece;
+import chess.util.ChessPoint;
+import chess.util.MoveRule;
+
+import java.util.Map;
 
 public class ChessGame {
     private final Board board;
+    private boolean isWhiteTurn = true;
+    private boolean isStarted = false;
+
 
     public ChessGame(Board board) {
         this.board = board;
@@ -14,25 +21,46 @@ public class ChessGame {
     }
 
     public void start() {
+        isStarted = true;
+        board.initialize();
+    }
 
-        Scanner scanner = new Scanner(System.in);
-        String command;
+    public boolean isStarted() {
+        return isStarted;
+    }
 
-        while (true) {
-            System.out.print("> ");
-            command = scanner.nextLine();
+    public void move(String source, String target) {
+        checkTurn(board.findPiece(source));
+        board.move(source, target);
+        isWhiteTurn = !isWhiteTurn;
+    }
 
-            if (command.equalsIgnoreCase("start")) {
-                board.initialize();
-                board.print();
-            } else if (command.equalsIgnoreCase("end")) {
-                System.out.println("게임을 종료합니다.");
-                break;
-            } else {
-                System.out.println("유효하지 않은 명령어입니다");
-            }
+    public Map<ChessPoint, MoveRule> getMovablePoints(String source) {
+        Piece piece = board.findPiece(source);
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
         }
+        checkTurn(piece);
+        Map<ChessPoint, MoveRule> movablePoints = piece.getMovablePoints(ChessPoint.of(source), board);
+        return movablePoints;
+    }
 
-        scanner.close();
+    private void checkTurn(Piece piece) {
+        if (piece.isWhite() != isWhiteTurn) {
+            throw new IllegalArgumentException((isWhiteTurn ? "백색" : "흑색") + " 차례입니다.");
+        }
+    }
+
+    public void print() {
+        board.print();
+    }
+
+    public boolean isEnded() {
+        return board.isKingDead(isWhiteTurn ? Piece.Color.WHITE : Piece.Color.BLACK);
+    }
+
+    public boolean isCheck() {
+        boolean check = board.isCheck(isWhiteTurn ? Piece.Color.WHITE : Piece.Color.BLACK);
+        return check;
     }
 }
