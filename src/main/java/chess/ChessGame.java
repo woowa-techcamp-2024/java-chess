@@ -1,6 +1,7 @@
 package chess;
 
 import chess.board.Board;
+import chess.board.Position;
 import chess.view.ChessView;
 
 public class ChessGame {
@@ -18,7 +19,7 @@ public class ChessGame {
     }
 
     public String play(final String source, final String target) {
-        board.move(source, target);
+        board.move(Position.of(source), Position.of(target));
 
         return ChessView.showBoard(board);
     }

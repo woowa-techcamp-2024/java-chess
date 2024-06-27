@@ -114,7 +114,7 @@ public class BoardTest {
     public void move() throws Exception {
         String position = "b5";
         Piece piece = Rook.create(PieceColor.BLACK);
-        board.move(position, piece);
+        addPiece(position, piece);
 
         assertEquals(piece, board.findPiece(position));
         System.out.println(ChessView.showBoard(board));
@@ -140,7 +140,7 @@ public class BoardTest {
     }
 
     private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+        board.move(Position.of(position), piece);
     }
 
     @Test
@@ -173,7 +173,7 @@ public class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
+        board.move(Position.of(sourcePosition), Position.of(targetPosition));
 
         assertEquals(Type.NO_PIECE, board.findPiece(sourcePosition).getType());
         assertEquals(Type.PAWN, board.findPiece(targetPosition).getType());

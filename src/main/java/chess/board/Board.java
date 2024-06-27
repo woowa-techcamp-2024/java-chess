@@ -1,6 +1,9 @@
 package chess.board;
 
-import chess.piece.*;
+import chess.piece.Blank;
+import chess.piece.Piece;
+import chess.piece.PieceColor;
+import chess.piece.Type;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,20 +34,16 @@ public class Board {
         this.board.put(position, piece);
     }
 
-    public void move(final String target, final Piece piece) {
-        Position position = getPosition(target);
-
-        this.board.put(position, piece);
+    public void move(final Position target, final Piece piece) {
+        this.board.put(target, piece);
     }
 
-    public void move(final String source, final String target) {
-        Position sourcePosition = getPosition(source);
-
-        Piece piece = validatePieceInPosition(sourcePosition);
+    public void move(final Position source, final Position target) {
+        Piece piece = validatePieceInPosition(source);
 
         move(target, piece);
 
-        this.board.remove(sourcePosition);
+        this.board.remove(source);
     }
 
     public int pieceCount() {
@@ -57,7 +56,7 @@ public class Board {
     }
 
     public Piece findPiece(final String input) {
-        Position position = getPosition(input);
+        Position position = Position.of(input);
 
         return Optional.ofNullable(this.board.get(position))
                 .orElseGet(Blank::create);
@@ -103,12 +102,6 @@ public class Board {
         Piece piece = board.getOrDefault(position, Blank.create());
 
         return piece.getType().getRepresentation(piece.getColor());
-    }
-
-    private Position getPosition(final String input) {
-        File file = File.of(input.charAt(0));
-        Rank rank = Rank.of(Character.getNumericValue(input.charAt(1)));
-        return Position.of(rank, file);
     }
 
     private List<Piece> findSameFilePawn(final PieceColor color) {
