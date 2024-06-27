@@ -1,6 +1,7 @@
 package java_chess;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import java_chess.application.ChessGame;
 import java_chess.application.ChessView;
 import java_chess.chess.Board;
@@ -14,24 +15,28 @@ public class ChessApplication {
         ChessGame chessGame = new ChessGame(board);
         ChessView chessView = new ChessView(board);
         try (var scanner = new Scanner(System.in)) {
-            Command command;
+            Command command = Command.NONE;
             do {
-                var fullCommand = scanner.nextLine();
-                command = Command.of(fullCommand);
-                switch (command) {
-                    case START -> {
-                        chessGame.startGame();
-                        System.out.println(chessView.printBoard());
+                try {
+                    var fullCommand = scanner.nextLine();
+                    command = Command.of(fullCommand);
+                    switch (command) {
+                        case START -> {
+                            chessGame.startGame();
+                            chessView.printBoard();
+                        }
+                        case MOVE -> {
+                            Command.verifyMoveCommand(fullCommand);
+                            var from = fullCommand.substring(5, 7);
+                            var to = fullCommand.substring(8, 10);
+                            chessGame.movePiece(Location.from(from), Location.from(to));
+                            chessView.printBoard();
+                        }
+                        default -> {
+                        }
                     }
-                    case MOVE -> {
-                        var from = fullCommand.substring(5, 7);
-                        var to = fullCommand.substring(8, 10);
-                        chessGame.movePiece(Location.from(from), Location.from(to));
-                        System.out.println(chessView.printBoard());
-                    }
-                    case END -> {
-                    }
-                    default -> System.out.println("Wrong Command input");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } while (!command.equals(Command.END));
         }
@@ -41,7 +46,9 @@ public class ChessApplication {
         START("start"),
         END("end"),
         MOVE("move"),
-        ERROR("error");
+        NONE("none");
+
+        private static final Pattern MOVE_PATTERN = Pattern.compile("move [a-h][1-8] [a-h][1-8]");
 
         private final String value;
 
@@ -55,7 +62,13 @@ public class ChessApplication {
                     return command;
                 }
             }
-            return ERROR;
+            throw new IllegalArgumentException("Invalid command");
+        }
+
+        static void verifyMoveCommand(String fullCommand) {
+            if (!MOVE_PATTERN.matcher(fullCommand).matches()) {
+                throw new IllegalArgumentException("Invalid move command");
+            }
         }
     }
 }

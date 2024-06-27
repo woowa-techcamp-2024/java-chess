@@ -22,4 +22,5 @@ public class Blank extends Piece {
     public boolean canMoveMultipleTimes() {
         return false;
     }
+
 }

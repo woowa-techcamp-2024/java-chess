@@ -24,4 +24,5 @@ public class Knight extends Piece {
     public boolean canMoveMultipleTimes() {
         return false;
     }
+
 }

@@ -24,4 +24,5 @@ public class Queen extends Piece {
     public boolean canMoveMultipleTimes() {
         return true;
     }
+
 }
