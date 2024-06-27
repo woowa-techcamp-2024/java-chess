@@ -1,4 +1,4 @@
-# be-chess
+# be-javachess
 
 2024 우아한 테크캠프 7기 체스 프로젝트
 
