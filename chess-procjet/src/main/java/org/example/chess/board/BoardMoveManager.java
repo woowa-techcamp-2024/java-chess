@@ -47,6 +47,8 @@ public class BoardMoveManager {
         List<Position> positionInPath = Collections.emptyList();
         Piece piece = findPiece(source);
 
+        validateMoveCommand(from, to);
+
         if (piece.getType() != Type.KNIGHT) {
             positionInPath = getPositionInPath(from, to);
         }
@@ -71,14 +73,14 @@ public class BoardMoveManager {
         move(destination, piece);
     }
 
-    private boolean isPathBlocked(List<Position> path) {
-        Piece blank = PieceFactory.createBlank();
-        for (Position position : path) {
-            if (!findPiece(position).equals(blank)) {
-                return true; //경로에 기물 존재
-            }
+    private void validateMoveCommand(Position from, Position to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-        return false;
+
+        if (findPiece(from).getColor() == findPiece(to).getColor()) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 
     private List<Position> getPositionInPath(Position from, Position to) {
