@@ -1,4 +1,4 @@
-package chess.pieces;
+package chess.constant;
 
 public enum Type {
     PAWN('p', 1.0),
