@@ -2,6 +2,7 @@ package wootecamp.chess.board;
 
 import wootecamp.chess.PieceComparator;
 import wootecamp.chess.pieces.Piece;
+import wootecamp.chess.pieces.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class Board {
 
     public void move(String source, String target) {
         Piece piece = findPiece(source);
-        setPiece(source, Piece.getEmptyPiece());
+        setPiece(source, PieceFactory.createEmptyPiece());
         setPiece(target, piece);
     }
 

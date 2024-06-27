@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import wootecamp.chess.board.Board;
 import wootecamp.chess.pieces.Piece;
+import wootecamp.chess.pieces.PieceFactory;
 
 import java.util.List;
 
@@ -62,10 +63,10 @@ public class BoardTest {
     void findPiece() {
         board.initialize();
 
-        assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook());
-        assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook());
-        assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook());
-        assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook());
+        assertThat(board.findPiece("a8")).isEqualTo(PieceFactory.createBlackRook());
+        assertThat(board.findPiece("h8")).isEqualTo(PieceFactory.createBlackRook());
+        assertThat(board.findPiece("a1")).isEqualTo(PieceFactory.createWhiteRook());
+        assertThat(board.findPiece("h1")).isEqualTo(PieceFactory.createWhiteRook());
     }
 
     @Test
@@ -73,15 +74,15 @@ public class BoardTest {
     void calculatePoint() {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", PieceFactory.createBlackPawn());
+        addPiece("e6", PieceFactory.createBlackQueen());
+        addPiece("b8", PieceFactory.createBlackKing());
+        addPiece("c8", PieceFactory.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("f3", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", PieceFactory.createWhitePawn());
+        addPiece("f3", PieceFactory.createWhitePawn());
+        addPiece("e1", PieceFactory.createWhiteRook());
+        addPiece("f1", PieceFactory.createWhiteKing());
 
         assertThat(board.calculatePoint(Piece.Color.BLACK)).isEqualTo(15.0);
         assertThat(board.calculatePoint(Piece.Color.WHITE)).isEqualTo(6.0);
@@ -92,10 +93,10 @@ public class BoardTest {
     void getSortedPiecesPiece() {
         board.initializeEmpty();
 
-        Piece blackPawn = Piece.createBlackPawn();
-        Piece blackQueen = Piece.createBlackQueen();
-        Piece blackKing = Piece.createBlackKing();
-        Piece blackRook = Piece.createBlackRook();
+        Piece blackPawn = PieceFactory.createBlackPawn();
+        Piece blackQueen = PieceFactory.createBlackQueen();
+        Piece blackKing = PieceFactory.createBlackKing();
+        Piece blackRook = PieceFactory.createBlackRook();
 
         addPiece("b6", blackPawn);
         addPiece("e6", blackQueen);
@@ -123,7 +124,7 @@ public class BoardTest {
 
         board.move(sourcePosition, targetPosition);
 
-        assertThat(board.findPiece(sourcePosition)).isEqualTo(Piece.getEmptyPiece());
-        assertThat(board.findPiece(targetPosition)).isEqualTo(Piece.createWhitePawn());
+        assertThat(board.findPiece(sourcePosition)).isEqualTo(PieceFactory.createEmptyPiece());
+        assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn());
     }
 }
