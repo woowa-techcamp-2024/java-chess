@@ -6,8 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ChessGameTest {
     private PieceCreator pieceCreator;
@@ -712,6 +711,31 @@ public class ChessGameTest {
                 assertFalse(movedBlack);
                 verifyPieceWithPosition(bs,originBlackType);
             }
+        }
+    }
+
+    @Nested
+    @DisplayName("[Init]")
+    class InitTest{
+        @Test
+        public void initSuccess() throws Exception {
+            //given
+            String success = """
+                RNBQKBNR
+                PPPPPPPP
+                ........
+                ........
+                ........
+                ........
+                pppppppp
+                rnbqkbnr
+                """;
+
+            //when
+            chessGame.init();
+
+            //then
+            assertEquals(success,board.print());
         }
     }
 }
