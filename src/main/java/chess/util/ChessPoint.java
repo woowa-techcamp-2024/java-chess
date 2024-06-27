@@ -27,4 +27,12 @@ public record ChessPoint(char file, int rank) {
     private static boolean isValidRank(int rank) {
         return rank >= 1 && rank <= 8;
     }
+
+    public ChessPoint move(Direction direction, int distance) {
+        return new ChessPoint((char) (file + direction.getXDegree() * distance), rank + direction.getYDegree() * distance);
+    }
+
+    public boolean isMoveable(Direction direction, int distance) {
+        return isValidFile((char) (file + direction.getXDegree() * distance)) && isValidRank(rank + direction.getYDegree() * distance);
+    }
 }
