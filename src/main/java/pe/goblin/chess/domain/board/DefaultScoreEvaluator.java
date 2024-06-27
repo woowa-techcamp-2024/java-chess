@@ -1,28 +1,26 @@
 package pe.goblin.chess.domain.board;
 
 import pe.goblin.chess.domain.piece.Piece;
+import pe.goblin.chess.domain.piece.vo.Color;
+import pe.goblin.chess.domain.piece.vo.PieceType;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static pe.goblin.chess.domain.board.Board.MAX_COLS;
-import static pe.goblin.chess.domain.board.Board.MAX_ROWS;
-
 public class DefaultScoreEvaluator implements ScoreEvaluator {
     @Override
-    public double evaluate(Piece.Color color, List<List<Piece>> pieces) {
+    public double evaluate(Color color, List<List<Piece>> pieces) {
         double score = getTotalScore(color, pieces);
         score = evaluateSuccessivePawn(color, score, pieces);
         return score;
     }
 
     @Override
-    public List<Piece> orderPiecesByScore(Piece.Color color, boolean naturalOrder, List<List<Piece>> pieces) {
+    public List<Piece> orderPiecesByScore(Color color, boolean naturalOrder, List<List<Piece>> pieces) {
         List<Piece> result = new ArrayList<>();
-        for (int row = 0; row <= MAX_ROWS; row++) {
-            for (int col = 0; col <= MAX_COLS; col++) {
-                Piece piece = pieces.get(row).get(col);
+        for (List<Piece> pieceList : pieces) {
+            for (Piece piece : pieceList) {
                 if (piece.getColor() == color) {
                     result.add(piece);
                 }
@@ -33,11 +31,10 @@ public class DefaultScoreEvaluator implements ScoreEvaluator {
     }
 
 
-    private double getTotalScore(Piece.Color color, List<List<Piece>> pieces) {
+    private double getTotalScore(Color color, List<List<Piece>> pieces) {
         double score = 0.0;
-        for (int row = 0; row <= MAX_ROWS; row++) {
-            for (int col = 0; col <= MAX_COLS; col++) {
-                Piece piece = pieces.get(row).get(col);
+        for (List<Piece> pieceList : pieces) {
+            for (Piece piece : pieceList) {
                 if (piece.getColor() == color) {
                     score += piece.getType().getDefaultPoint();
                 }
@@ -46,13 +43,13 @@ public class DefaultScoreEvaluator implements ScoreEvaluator {
         return score;
     }
 
-    private double evaluateSuccessivePawn(Piece.Color color, double score, List<List<Piece>> pieces) {
-        for (int col = 0; col <= MAX_COLS; col++) {
+    private double evaluateSuccessivePawn(Color color, double score, List<List<Piece>> pieces) {
+        for (int col = 0; col < pieces.getFirst().size(); col++) {
             boolean isPawnBefore = false;
             int pawnInCol = 1;
-            for (int row = 0; row <= MAX_ROWS; row++) {
-                Piece piece = pieces.get(row).get(col);
-                if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
+            for (List<Piece> pieceList : pieces) {
+                Piece piece = pieceList.get(col);
+                if (piece.getColor() == color && piece.getType() == PieceType.PAWN) {
                     if (isPawnBefore) {
                         pawnInCol++;
                     }
