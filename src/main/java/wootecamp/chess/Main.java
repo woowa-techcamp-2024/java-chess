@@ -1,5 +1,7 @@
 package wootecamp.chess;
 
+import wootecamp.chess.board.Board;
+
 import java.util.Scanner;
 
 public class Main {

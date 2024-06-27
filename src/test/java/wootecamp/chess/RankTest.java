@@ -2,6 +2,7 @@ package wootecamp.chess;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import wootecamp.chess.board.Rank;
 import wootecamp.chess.pieces.Piece;
 
 import static org.assertj.core.api.Assertions.assertThat;

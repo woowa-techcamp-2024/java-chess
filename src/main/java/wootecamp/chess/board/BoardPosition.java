@@ -1,4 +1,4 @@
-package wootecamp.chess;
+package wootecamp.chess.board;
 
 public class BoardPosition {
     private final int rankPosition;

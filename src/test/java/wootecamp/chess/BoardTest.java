@@ -3,6 +3,7 @@ package wootecamp.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import wootecamp.chess.board.Board;
 import wootecamp.chess.pieces.Piece;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package wootecamp.chess;
+package wootecamp.chess.board;
 
+import wootecamp.chess.PieceComparator;
 import wootecamp.chess.pieces.Piece;
 
 import java.util.ArrayList;

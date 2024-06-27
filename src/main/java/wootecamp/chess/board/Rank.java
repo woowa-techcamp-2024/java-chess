@@ -1,4 +1,4 @@
-package wootecamp.chess;
+package wootecamp.chess.board;
 
 import wootecamp.chess.pieces.Piece;
 
