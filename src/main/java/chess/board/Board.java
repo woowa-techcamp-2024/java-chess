@@ -7,25 +7,20 @@ import chess.pieces.Piece.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static utils.StringUtils.appendNewLine;
 
 public class Board {
 
     private final List<Rank> board;
-    private final int BOARD_SIZE = 8;
-    private int pieceNumber;
+    private static final int BOARD_SIZE = 8;
 
     public Board() {
         board = new ArrayList<>();
     }
 
-    public int pieceCount() {
-        return pieceNumber;
-    }
-
     public void initialize() {
-        pieceNumber = 32;
         initializeEmpty();
         initializeBlackPiece();
         initializeWhitePiece();
@@ -108,6 +103,9 @@ public class Board {
     public double calculatePoint(Color color) {
         int[] pawnCount = new int[8];
         double totalPoint = 0.0;
+
+        // board에서 rank 단위로 점수 계산이 필요한 기물들을 Rank class에서 점수 계산하는 방법은 어떤지?
+        // 그렇게 하는 경우 폰이 세로줄에 겹치는 경우를 어떻게 처리해야할지 고민
         for (Rank rank : board) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 Piece piece = rank.getPiece(i);
@@ -141,11 +139,9 @@ public class Board {
             }
         }
 
-        if(order == Order.ASC) {
-            sortedPieces.sort(Comparator.comparingDouble(p -> p.getType().getDefaultPoint()));
-        } else sortedPieces.sort((p1, p2) -> Double.compare(p2.getType().getDefaultPoint(), p1.getType().getDefaultPoint()));
-
-        return sortedPieces;
+        return sortedPieces.stream()
+                .sorted(order.getComparator())
+                .toList();
     }
 
 }
