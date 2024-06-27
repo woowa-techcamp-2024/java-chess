@@ -29,17 +29,6 @@ public class Position {
         return Board.BOARD_SIZE - rank;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Position position = (Position) o;
-        return file == position.file && rank == position.rank;
-    }
-
     public Position moveIn(Direction direction) {
         return new Position(
                 file + direction.getFileDegree(),
@@ -49,6 +38,17 @@ public class Position {
 
     public boolean isValid() {
         return file >= 0 && file < Board.BOARD_SIZE && rank > 0 && rank <= Board.BOARD_SIZE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Position position = (Position) o;
+        return file == position.file && rank == position.rank;
     }
 
 }

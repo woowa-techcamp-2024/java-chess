@@ -1,18 +1,16 @@
 package com.woopaca.javachess.pieces;
 
-import com.woopaca.javachess.chess.Position;
-
 import java.util.List;
 
 public class Pawn extends Piece {
 
-    protected Pawn(Color color, Position position) {
-        super(color, Type.PAWN, position);
+    protected Pawn(Color color) {
+        super(color, Type.PAWN);
     }
 
     @Override
     public List<Direction> getDirections() {
-        return getColor() == Color.BLACK ? Direction.blackPawnDirection() : Direction.whitePawnDirection();
+        return isBlack() ? Direction.blackPawnDirection() : Direction.whitePawnDirection();
     }
 
 }

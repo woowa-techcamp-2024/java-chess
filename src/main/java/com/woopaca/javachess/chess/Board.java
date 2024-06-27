@@ -108,8 +108,6 @@ public class Board {
         Piece targetPiece = findPiece(targetPosition);
         placePiece(sourcePosition, targetPiece);
         placePiece(targetPosition, sourcePiece);
-        sourcePiece.updatePosition(targetPosition);
-        targetPiece.updatePosition(sourcePosition);
     }
 
     public void placePiece(Position position, Piece piece) {

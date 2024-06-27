@@ -1,13 +1,11 @@
 package com.woopaca.javachess.pieces;
 
-import com.woopaca.javachess.chess.Position;
-
 import java.util.List;
 
 public class Blank extends Piece {
 
-    protected Blank(Color color, Position position) {
-        super(color, Type.NO_PIECE, position);
+    protected Blank(Color color) {
+        super(color, Type.NO_PIECE);
     }
 
     @Override

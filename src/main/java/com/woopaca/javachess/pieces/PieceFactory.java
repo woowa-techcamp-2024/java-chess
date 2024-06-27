@@ -56,26 +56,26 @@ public class PieceFactory {
     }
 
     public static Piece createBlank(Position position) {
-        return new Blank(Color.NOCOLOR, position);
+        return new Blank(Color.NOCOLOR);
     }
 
     private static Piece createWhite(Type type, Position position) {
-        return create(Color.WHITE, type, position);
+        return create(Color.WHITE, type);
     }
 
     private static Piece createBlack(Type type, Position position) {
-        return create(Color.BLACK, type, position);
+        return create(Color.BLACK, type);
     }
 
-    private static Piece create(Color color, Type type, Position position) {
+    private static Piece create(Color color, Type type) {
         return switch (type) {
-            case PAWN -> new Pawn(color, position);
-            case KNIGHT -> new Knight(color, position);
-            case BISHOP -> new Bishop(color, position);
-            case ROOK -> new Rook(color, position);
-            case QUEEN -> new Queen(color, position);
-            case KING -> new King(color, position);
-            case NO_PIECE -> new Blank(color, position);
+            case PAWN -> new Pawn(color);
+            case KNIGHT -> new Knight(color);
+            case BISHOP -> new Bishop(color);
+            case ROOK -> new Rook(color);
+            case QUEEN -> new Queen(color);
+            case KING -> new King(color);
+            case NO_PIECE -> new Blank(color);
         };
     }
 

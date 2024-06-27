@@ -1,13 +1,11 @@
 package com.woopaca.javachess.pieces;
 
-import com.woopaca.javachess.chess.Position;
-
 import java.util.List;
 
 public class Bishop extends Piece {
 
-    protected Bishop(Color color, Position position) {
-        super(color, Type.BISHOP, position);
+    protected Bishop(Color color) {
+        super(color, Type.BISHOP);
     }
 
     @Override

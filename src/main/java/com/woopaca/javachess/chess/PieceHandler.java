@@ -19,22 +19,22 @@ public class PieceHandler {
         Position sourcePosition = moveCommand.getSourcePosition();
         Position targetPosition = moveCommand.getTargetPosition();
         Piece piece = board.findPiece(sourcePosition);
-        if (!isPossibleMovePosition(piece, targetPosition)) {
+        if (!isPossibleMovePosition(piece, sourcePosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 기물을 이동할 수 없습니다!");
         }
         board.move(moveCommand.getSourcePosition(), moveCommand.getTargetPosition());
     }
 
-    public boolean isPossibleMovePosition(Piece piece, Position targetPosition) {
-        List<Position> possibleMovePositions = getPossibleMovePositions(piece);
+    public boolean isPossibleMovePosition(Piece piece, Position sourcePosition, Position targetPosition) {
+        List<Position> possibleMovePositions = getPossibleMovePositions(piece, sourcePosition);
         return possibleMovePositions.contains(targetPosition);
     }
 
-    public List<Position> getPossibleMovePositions(Piece piece) {
+    public List<Position> getPossibleMovePositions(Piece piece, Position sourcePosition) {
         List<Position> possiblePositions = new ArrayList<>();
         List<Direction> directions = piece.getDirections();
         for (Direction direction : directions) {
-            Position position = piece.getPosition();
+            Position position = sourcePosition;
             while (true) {
                 position = position.moveIn(direction);
                 if (!position.isValid()) {

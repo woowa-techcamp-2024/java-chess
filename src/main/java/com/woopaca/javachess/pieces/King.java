@@ -1,13 +1,11 @@
 package com.woopaca.javachess.pieces;
 
-import com.woopaca.javachess.chess.Position;
-
 import java.util.List;
 
 public class King extends Piece {
 
-    protected King(Color color, Position position) {
-        super(color, Type.KING, position);
+    protected King(Color color) {
+        super(color, Type.KING);
     }
 
     @Override
