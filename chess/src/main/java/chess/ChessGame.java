@@ -2,13 +2,19 @@ package chess;
 
 import exception.InvalidMoveException;
 import pieces.Piece;
+import pieces.PieceColor;
 import pieces.PieceFactory;
 import pieces.PieceType;
+import util.Order;
+
+import java.util.List;
 
 public class ChessGame {
     private final Board board;
     private final PieceFactory pieceFactory;
     private boolean isWhiteTurn = true;
+    private boolean whiteWin = false;
+    private boolean blackWin = false;
 
     public ChessGame() {
         this.board = new Board();
@@ -79,10 +85,60 @@ public class ChessGame {
         if (piece.canMove(targetPiece)) {
             checkPath(piece, sourcePosition, targetPosition);
             moveOnBoard(piece, sourcePosition, targetPosition);
+            if (checkWin(targetPiece)) return;
             switchTurn();
+            checkCheck(PieceColor.WHITE);
+            checkCheck(PieceColor.BLACK);
         } else {
             throw new InvalidMoveException("움직일 수 없는 위치입니다. piece: " + piece + " source: " + sourcePosition + " target: " + targetPosition);
         }
+    }
+
+    private boolean checkWin(Piece targetPiece) {
+        if (targetPiece.getType().equals(PieceType.KING)) {
+            if (targetPiece.isWhite()) {
+                blackWin = true;
+                System.out.println(PieceColor.BLACK.getColor() + " WIN");
+            } else {
+                whiteWin = true;
+                System.out.println(PieceColor.WHITE.getColor() + " WIN");
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isWhiteWin() {
+        return whiteWin;
+    }
+
+    public boolean isBlackWin() {
+        return blackWin;
+    }
+
+    private void checkCheck(PieceColor color) {
+        Piece King = findKing(color);
+        if (isCheck(King)) {
+            System.out.println(color.getColor() + " is check(공격 받았습니다)!!");
+        }
+    }
+
+    private Piece findKing(PieceColor color) {
+        return board.findKing(color);
+    }
+
+    private boolean isCheck(Piece king) {
+        PieceColor enemyColor = PieceColor.BLACK;
+        if (king.getColor().equals(PieceColor.BLACK)) {
+            enemyColor = PieceColor.WHITE;
+        }
+        List<Piece> enemyPieces = board.getPieces(enemyColor, Order.DESC);
+        for (Piece enemy : enemyPieces) {
+            if (enemy.canMove(king)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void moveOnBoard(Piece piece, Position sourcePosition, Position targetPosition) {

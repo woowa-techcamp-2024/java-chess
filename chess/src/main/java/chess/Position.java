@@ -37,10 +37,6 @@ public class Position {
         }
     }
 
-    public Position calcVector(Position targetPostion){
-        return new Position(targetPostion.getX() - x, targetPostion.getY() - y);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

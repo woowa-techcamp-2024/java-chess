@@ -48,6 +48,18 @@ public class Board {
         return pieces;
     }
 
+    public Piece findKing(PieceColor color){
+        for(Rank rank : ranks){
+            for(int i=0; i < BoardArea.X.getMax(); i++){
+                Piece piece = rank.getPiece(i);
+                if(piece.getType().equals(PieceType.KING) && piece.getColor().equals(color)){
+                    return piece;
+                }
+            }
+        }
+        return null;
+    }
+
 
     // set
     public void setPiece(Position position, Piece piece) {
