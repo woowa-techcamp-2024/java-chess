@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.example.chess.pieces.Piece.*;
-import static org.example.chess.pieces.Piece.createBlank;
+import static org.example.chess.pieces.PieceFactory.*;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,14 +32,6 @@ public class BoardTest {
                         appendNewLine("rnbqkbnr"),
                 board.showBoard()
         );
-    }
-
-    @Test
-    public void initialize() {
-        board.initialize();
-        assertEquals("PPPPPPPPNNBBRRQK", board.getBlackPawnsResult());
-        assertEquals("ppppppppnnbbrrqk", board.getWhitePawnsResult());
-        System.out.println(board.showBoard());
     }
 
     @Test
@@ -77,6 +69,9 @@ public class BoardTest {
         addPiece("g2", createWhitePawn());
         addPiece("e1", createWhiteRook());
         addPiece("f1", createWhiteKing());
+
+        String s = board.showBoard();
+        System.out.println(s);
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);

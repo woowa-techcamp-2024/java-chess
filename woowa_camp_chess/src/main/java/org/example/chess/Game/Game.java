@@ -2,10 +2,10 @@ package org.example.chess.Game;
 
 import org.example.chess.board.Board;
 
-abstract class Rule {
+abstract class Game {
     protected final Board board;
 
-    Rule(Board board) {
+    Game(Board board) {
         this.board = board;
     }
 

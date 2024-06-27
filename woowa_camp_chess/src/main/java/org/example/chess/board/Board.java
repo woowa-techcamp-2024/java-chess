@@ -1,13 +1,15 @@
 package org.example.chess.board;
 
 import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.PieceFactory;
 import org.example.chess.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.example.chess.pieces.Piece.createBlank;
+import static org.example.chess.pieces.PieceFactory.createBlank;
+
 
 public class Board {
     static final int SIZE = 8;
@@ -29,48 +31,42 @@ public class Board {
     }
 
     public int pieceCount() {
-        return pieceList.size();
+        int count = 0;
+        for(List<Piece> pieceList : board) {
+            for(Piece piece : pieceList) {
+                if(!piece.getPieceType().equals(PieceType.NO_PIECE)) count++;
+            }
+        }
+        return count;
     }
 
 
     public void initialize() {
-        for (int i = 0; i < 8; i++) {
-            List<Piece> row = new ArrayList<>();
-            if (i != 0 && i != 7) {
-                for (int j = 0; j < 8; j++) {
-                    row.add(createBlank()); // 빈 칸은 Blank 입력
-                }
-            } else {
-                for (int j = 0; j < 8; j++) {
-                    row.add(null); // 말이 들어갈 곳은 Null 입력
-                }
-            }
-            board.add(row);
-        }
+        initializeEmpty();
 
         // 체스말 인스턴스 추가
-        board.get(0).set(0, Piece.createWhiteRook());
-        board.get(0).set(1, Piece.createWhiteKnight());
-        board.get(0).set(2, Piece.createWhiteBishop());
-        board.get(0).set(3, Piece.createWhiteQueen());
-        board.get(0).set(4, Piece.createWhiteKing());
-        board.get(0).set(5, Piece.createWhiteBishop());
-        board.get(0).set(6, Piece.createWhiteKnight());
-        board.get(0).set(7, Piece.createWhiteRook());
+        board.get(7).set(0, PieceFactory.createWhiteRook());
+        board.get(7).set(1, PieceFactory.createWhiteKnight());
+        board.get(7).set(2, PieceFactory.createWhiteBishop());
+        board.get(7).set(3, PieceFactory.createWhiteQueen());
+        board.get(7).set(4, PieceFactory.createWhiteKing());
+        board.get(7).set(5, PieceFactory.createWhiteBishop());
+        board.get(7).set(6, PieceFactory.createWhiteKnight());
+        board.get(7).set(7, PieceFactory.createWhiteRook());
         for (int i = 0; i < 8; i++) {
-            board.get(1).set(i, Piece.createWhitePawn());
+            board.get(6).set(i, PieceFactory.createWhitePawn());
         }
 
-        board.get(7).set(0, Piece.createBlackRook());
-        board.get(7).set(1, Piece.createBlackKnight());
-        board.get(7).set(2, Piece.createBlackBishop());
-        board.get(7).set(3, Piece.createBlackQueen());
-        board.get(7).set(4, Piece.createBlackKing());
-        board.get(7).set(5, Piece.createBlackBishop());
-        board.get(7).set(6, Piece.createBlackKnight());
-        board.get(7).set(7, Piece.createBlackRook());
+        board.get(0).set(0, PieceFactory.createBlackRook());
+        board.get(0).set(1, PieceFactory.createBlackKnight());
+        board.get(0).set(2, PieceFactory.createBlackBishop());
+        board.get(0).set(3, PieceFactory.createBlackQueen());
+        board.get(0).set(4, PieceFactory.createBlackKing());
+        board.get(0).set(5, PieceFactory.createBlackBishop());
+        board.get(0).set(6, PieceFactory.createBlackKnight());
+        board.get(0).set(7, PieceFactory.createBlackRook());
         for (int i = 0; i < 8; i++) {
-            board.get(6).set(i, Piece.createBlackPawn());
+            board.get(1).set(i, PieceFactory.createBlackPawn());
         }
 
         printBoard();
@@ -94,11 +90,11 @@ public class Board {
     }
 
 
-    public String getWhitePawnsResult() {
+    public String getWhitePieceList() {
         return getPawnResult(whitePieceList);
     }
 
-    public String getBlackPawnsResult() {
+    public String getBlackPieceList() {
         return getPawnResult(blackPieceList);
     }
 
@@ -113,7 +109,11 @@ public class Board {
     public Piece findPiece(String position) {
         //todo : position 유효값 검사
         Position pos = Position.fromStr(position);
+        return board.get(pos.getRow()).get(pos.getColumn());
+    }
 
+    public Piece findPiece(Position pos) {
+        //todo : position 유효값 검사
         return board.get(pos.getRow()).get(pos.getColumn());
     }
 
@@ -148,10 +148,11 @@ public class Board {
                 if(!piece.getColor().equals(color)) continue;
                 double defaultPoint = piece.getPieceType().getDefaultPoint();
 
-                //todo : 현재는 같은 열에 Pawn이 있는지 for 문을 돌며 확인 -> Piece별 점수 계산을 담당하는 부분을 구현해야 할지 ?
+                //todo : 현재는 같은 행에 Pawn이 있는지 for 문을 돌며 확인 -> Piece별 점수 계산을 담당하는 부분을 구현해야 할지 ?
                 if (piece.getPieceType().equals(PieceType.PAWN)) {
                     for (int k = 0; k < SIZE; k++) {
-                        Piece pieceTmp = board.get(j).get(k);
+                        Piece pieceTmp = board.get(k).get(j);
+                        if(i==k) continue;
                         if(pieceTmp.getPieceType().equals(PieceType.PAWN)&&pieceTmp.getColor().equals(color)) defaultPoint-=0.5;
                     }
                 }
@@ -182,7 +183,7 @@ public class Board {
         Position tarPosition = Position.fromStr(targetPosition);
 
         Piece srcPiece = board.get(srcPosition.getRow()).get(srcPosition.getColumn());
-        board.get(srcPosition.getRow()).set(srcPosition.getColumn(), Piece.createBlank());
+        board.get(srcPosition.getRow()).set(srcPosition.getColumn(), PieceFactory.createBlank());
         board.get(tarPosition.getRow()).set(tarPosition.getColumn(), srcPiece);
     }
 }
