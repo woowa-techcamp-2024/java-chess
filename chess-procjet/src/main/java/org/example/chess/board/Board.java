@@ -141,6 +141,11 @@ public class Board {
         row.changePiece(c, piece);
     }
 
+    public void move(String source, String destination) {
+        Position from = new Position(source);
+        Position to = new Position(destination);
+    }
+
     public double calculatePoint(Color color) {
         double points = 0.0;
         for (Rank rank : board) {
