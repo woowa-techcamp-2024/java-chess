@@ -152,9 +152,24 @@ public abstract class Piece {
         return this.color == color;
     }
 
-    public Position nextPosition(String sourcePosition, Direction direction) {
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
         Position position = Position.convert(sourcePosition);
-        return new Position(position.col() + direction.col, position.row() + direction.row);
+        if (moveCount == 0) {
+            return Position.convert(sourcePosition);
+        }
+
+        try {
+            Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
+            if (this instanceof King) {
+                return nextPosition(nextPosition.convert(), direction, 0);
+            } else if (this instanceof Queen) {
+                return nextPosition(nextPosition.convert(), direction, moveCount - 1);
+            } else {
+                throw new IllegalStateException("체스 기물이 아닙니다.");
+            }
+        } catch (IllegalArgumentException e) {
+            return nextPosition(sourcePosition, direction, 0);
+        }
     }
 
     public double getDefaultPoint() {

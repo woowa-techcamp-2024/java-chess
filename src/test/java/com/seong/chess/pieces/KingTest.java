@@ -1,8 +1,8 @@
 package com.seong.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchException;
 
+import com.seong.chess.Position;
 import com.seong.chess.pieces.Piece.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,29 +17,29 @@ class KingTest {
         King king = King.createBlack();
         String sourcePosition = "e2";
 
-        assertThat(king.nextPosition(sourcePosition, Direction.NORTH).convert()).isEqualTo("e3");
-        assertThat(king.nextPosition(sourcePosition, Direction.SOUTH).convert()).isEqualTo("e1");
-        assertThat(king.nextPosition(sourcePosition, Direction.EAST).convert()).isEqualTo("f2");
-        assertThat(king.nextPosition(sourcePosition, Direction.WEST).convert()).isEqualTo("d2");
-        assertThat(king.nextPosition(sourcePosition, Direction.NORTHEAST).convert()).isEqualTo("f3");
-        assertThat(king.nextPosition(sourcePosition, Direction.SOUTHEAST).convert()).isEqualTo("f1");
-        assertThat(king.nextPosition(sourcePosition, Direction.SOUTHWEST).convert()).isEqualTo("d1");
-        assertThat(king.nextPosition(sourcePosition, Direction.NORTHWEST).convert()).isEqualTo("d3");
+        assertThat(king.nextPosition(sourcePosition, Direction.NORTH, 7).convert()).isEqualTo("e3");
+        assertThat(king.nextPosition(sourcePosition, Direction.SOUTH, 7).convert()).isEqualTo("e1");
+        assertThat(king.nextPosition(sourcePosition, Direction.EAST, 7).convert()).isEqualTo("f2");
+        assertThat(king.nextPosition(sourcePosition, Direction.WEST, 7).convert()).isEqualTo("d2");
+        assertThat(king.nextPosition(sourcePosition, Direction.NORTHEAST, 7).convert()).isEqualTo("f3");
+        assertThat(king.nextPosition(sourcePosition, Direction.SOUTHEAST, 7).convert()).isEqualTo("f1");
+        assertThat(king.nextPosition(sourcePosition, Direction.SOUTHWEST, 7).convert()).isEqualTo("d1");
+        assertThat(king.nextPosition(sourcePosition, Direction.NORTHWEST, 7).convert()).isEqualTo("d3");
     }
 
     @ParameterizedTest
     @CsvSource({
             "e1,SOUTH", "a1,WEST", "a8,NORTH", "h8,EAST"
     })
-    @DisplayName("체스판 밖으로 움직이면 예외가 발생한다.")
+    @DisplayName("체스판 밖으로 움직이려고 시도하면 무시한다.")
     void kingMoveWhenBoardOutThenException(String sourcePosition, String rawDirection) {
         //given
         King king = King.createBlack();
 
         //when
-        Exception exception = catchException(() -> king.nextPosition(sourcePosition, Direction.valueOf(rawDirection)));
+        Position nextPosition = king.nextPosition(sourcePosition, Direction.valueOf(rawDirection), 1);
 
         //then
-        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        assertThat(nextPosition.convert()).isEqualTo(sourcePosition);
     }
 }

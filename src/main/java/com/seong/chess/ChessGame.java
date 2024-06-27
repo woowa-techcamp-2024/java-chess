@@ -22,7 +22,7 @@ public class ChessGame {
 
     public void move(String sourcePosition, Direction direction) {
         Piece piece = board.findPiece(sourcePosition);
-        Position targetPosition = piece.nextPosition(sourcePosition, direction);
+        Position targetPosition = piece.nextPosition(sourcePosition, direction, 7);
         board.move(targetPosition.convert(), piece);
     }
 
