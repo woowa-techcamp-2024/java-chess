@@ -1,5 +1,7 @@
 package chess.view;
 
+import chess.piece.PieceColor;
+
 import java.util.Scanner;
 
 public class ConsoleView {
@@ -13,6 +15,7 @@ public class ConsoleView {
     private static final String MOVE = "move";
     private static final String MOVE_FAIL_MESSAGE = "잘못 입력하셨습니다. 다시 입력해주세요.";
     private static final String CHESS_BOARD_MESSAGE = "체스판의 상태입니다.";
+    private static final String TURN_MESSAGE = " 차례입니다.";
     private static final Scanner scanner = new Scanner(System.in);
 
     private ConsoleView() {
@@ -34,9 +37,9 @@ public class ConsoleView {
         }
     }
 
-    public static String[] play() {
+    public static String[] play(PieceColor turn) {
         System.out.println(MOVE_MESSAGE);
-
+        System.out.println(turn + TURN_MESSAGE);
 
         return splitCommand();
     }

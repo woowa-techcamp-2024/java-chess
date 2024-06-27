@@ -4,6 +4,8 @@ import chess.exception.InvalidMoveException;
 
 import java.util.Arrays;
 
+import static chess.exception.ExceptionConstant.INVALID_MOVE;
+
 public enum File {
     A(1), B(2), C(3), D(4),
     E(5), F(6), G(7), H(8);
@@ -18,13 +20,13 @@ public enum File {
     public static File of(final int index) {
         return Arrays.stream(File.values()).filter(file -> file.index == index)
                 .findAny()
-                .orElseThrow(InvalidMoveException::new);
+                .orElseThrow(() -> new InvalidMoveException(INVALID_MOVE));
     }
 
     public static File of(final char index) {
         return Arrays.stream(File.values()).filter(file -> file.name().toLowerCase().charAt(0) == index)
                 .findAny()
-                .orElseThrow(InvalidMoveException::new);
+                .orElseThrow(() -> new InvalidMoveException(INVALID_MOVE));
     }
 
     public int getIndex() {
