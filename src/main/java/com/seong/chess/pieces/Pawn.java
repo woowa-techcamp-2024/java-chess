@@ -1,6 +1,7 @@
 package com.seong.chess.pieces;
 
 import com.seong.chess.Position;
+import java.util.List;
 
 public class Pawn extends Piece {
 
@@ -25,6 +26,29 @@ public class Pawn extends Piece {
     }
 
     @Override
+    protected boolean isPiecesDirection(Direction direction) {
+        if (color == Color.WHITE && direction == Direction.NORTH) {
+            return true;
+        }
+        if (color == Color.BLACK && direction == Direction.SOUTH) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void findNextPositions(Position prevPosition, Direction direction, List<Position> positions) {
+        if (Position.canNotMove(prevPosition.col() + direction.col, prevPosition.row() + direction.row)) {
+            return;
+        }
+        Position nextPosition = new Position(prevPosition.col() + direction.col, prevPosition.row() + direction.row);
+        positions.add(nextPosition);
+        if (prevPosition.isPawnRow()) {
+            findNextPositions(nextPosition, direction, positions);
+        }
+    }
+
+    @Override
     public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
         checkPieceCanMove(direction);
         Position position = Position.convert(sourcePosition);
@@ -34,10 +58,7 @@ public class Pawn extends Piece {
 
     @Override
     public void checkPieceCanMove(Direction direction) {
-        if (color == Color.WHITE && direction == Direction.NORTH) {
-            return;
-        }
-        if (color == Color.BLACK && direction == Direction.SOUTH) {
+        if (isPiecesDirection(direction)) {
             return;
         }
         throw new IllegalArgumentException("폰은 전진만 할 수 있습니다.");

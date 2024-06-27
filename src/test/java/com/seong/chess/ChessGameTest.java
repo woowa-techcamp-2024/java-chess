@@ -1,6 +1,7 @@
 package com.seong.chess;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.seong.chess.pieces.Direction;
@@ -9,6 +10,7 @@ import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ChessGameTest {
@@ -22,16 +24,71 @@ class ChessGameTest {
         chessGame = new ChessGame(board);
     }
 
-    @Test
-    @DisplayName("체스 보드의 기물은 현재 위치에서 다른 위치로 이동할 수 있다.")
-    public void move() throws Exception {
-        chessGame.initialize();
+    @Nested
+    @DisplayName("move 호출 시")
+    class Move {
 
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-        chessGame.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(Position.convert(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(Position.convert(targetPosition)), board.findPiece(targetPosition));
+        @BeforeEach
+        void setUp() {
+            chessGame.initialize();
+        }
+
+        @Test
+        @DisplayName("체스 보드의 기물은 현재 위치에서 다른 위치로 이동할 수 있다.")
+        public void move() {
+            //given
+            String sourcePosition = "b2";
+            String targetPosition = "b3";
+
+            //when
+            chessGame.move(sourcePosition, targetPosition);
+
+            //then
+            assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
+            assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
+        }
+
+        @Test
+        @DisplayName("예외(IllegalArgument): 이동할 위치에 같은 팀의 기물이 있으면")
+        public void equalsColor() {
+            //given
+            String sourcePosition = "a1";
+            String targetPosition = "b1";
+
+            //when
+            Exception exception = catchException(() -> chessGame.move(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("예외(IllegalArgument): 기물의 이동 규칙을 따르지 않는다면")
+        public void ignoreConcept() {
+            //given
+            String sourcePosition = "a2";
+            String targetPosition = "a1";
+
+            //when
+            Exception exception = catchException(() -> chessGame.move(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("예외(IllegalArgument): 기물의 이동 위치가 현재 위치와 같다면")
+        public void samePosition() {
+            //given
+            String sourcePosition = "a1";
+            String targetPosition = "a1";
+
+            //when
+            Exception exception = catchException(() -> chessGame.move(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Test

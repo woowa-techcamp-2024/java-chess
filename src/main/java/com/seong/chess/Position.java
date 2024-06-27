@@ -13,6 +13,16 @@ public record Position(int col, int row) {
         return new Position(col, row);
     }
 
+    public static boolean canNotMove(int col, int row) {
+        if (row < 0 || row >= 8) {
+            return true;
+        }
+        if (col < 0 || col >= 8) {
+            return true;
+        }
+        return false;
+    }
+
     private void validateRow(int row) {
         if (row < 0 || row >= 8) {
             throw new IllegalArgumentException("체스 보드 행은 1이상, 8 이하입니다.");

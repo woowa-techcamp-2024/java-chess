@@ -15,9 +15,12 @@ public class ChessGame {
     }
 
     public void move(String sourcePosition, String targetPosition) {
-        Piece piece = board.findPiece(sourcePosition);
+        Piece sourcePositionPiece = board.findPiece(sourcePosition);
+        Piece targetPositionPiece = board.findPiece(targetPosition);
+        sourcePositionPiece.checkMoveTargetPosition(sourcePosition, targetPosition);
+        sourcePositionPiece.checkSameColor(targetPositionPiece);
         board.move(sourcePosition, Blank.create());
-        board.move(targetPosition, piece);
+        board.move(targetPosition, sourcePositionPiece);
     }
 
     public void move(String sourcePosition, Direction direction, int moveCount) {

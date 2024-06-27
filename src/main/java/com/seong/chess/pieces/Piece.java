@@ -1,6 +1,8 @@
 package com.seong.chess.pieces;
 
 import com.seong.chess.Position;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -133,6 +135,40 @@ public abstract class Piece {
         return this.color == color;
     }
 
+    public void checkMoveTargetPosition(String sourcePosition, String targetPosition) {
+        if (sourcePosition.equals(targetPosition)) {
+            throw new IllegalArgumentException("이동 위치와 현재 위치가 동일합니다.");
+        }
+        List<Position> movablePosition = findMovablePosition(sourcePosition);
+        if (movablePosition.contains(Position.convert(targetPosition))) {
+            return;
+        }
+        throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+    }
+
+    public List<Position> findMovablePosition(String sourcePosition) {
+        Position position = Position.convert(sourcePosition);
+        List<Position> positions = new ArrayList<>();
+        for (Direction direction : Direction.values()) {
+            if (!isPiecesDirection(direction)) {
+                continue;
+            }
+            findNextPositions(position, direction, positions);
+        }
+        return positions;
+    }
+
+    protected abstract boolean isPiecesDirection(Direction direction);
+
+    protected void findNextPositions(Position prevPosition, Direction direction, List<Position> positions) {
+        if (Position.canNotMove(prevPosition.col() + direction.col, prevPosition.row() + direction.row)) {
+            return;
+        }
+        Position nextPosition = new Position(prevPosition.col() + direction.col, prevPosition.row() + direction.row);
+        positions.add(nextPosition);
+        findNextPositions(nextPosition, direction, positions);
+    }
+
     public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
         checkPieceCanMove(direction);
         Position position = Position.convert(sourcePosition);
@@ -144,6 +180,13 @@ public abstract class Piece {
     }
 
     public abstract void checkPieceCanMove(Direction direction);
+
+    public void checkSameColor(Piece targetPositionPiece) {
+        if (color != targetPositionPiece.color) {
+            return;
+        }
+        throw new IllegalArgumentException("현재 위치와 이동 위치의 기물이 같은 편입니다.");
+    }
 
     public double getDefaultPoint() {
         return defaultPoint;
