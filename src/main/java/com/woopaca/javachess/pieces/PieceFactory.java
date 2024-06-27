@@ -78,4 +78,5 @@ public class PieceFactory {
             case NO_PIECE -> new Blank(color, position);
         };
     }
+
 }
