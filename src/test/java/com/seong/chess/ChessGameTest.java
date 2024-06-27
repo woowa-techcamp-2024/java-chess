@@ -118,4 +118,42 @@ class ChessGameTest {
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
     }
+
+    @Nested
+    @DisplayName("checkRightPlayerTurn 호출 시")
+    class CheckRightPlayerTurn {
+
+        @BeforeEach
+        void setUp() {
+            board.initialize();
+        }
+
+        @Test
+        @DisplayName("올바른 플레이어의 턴인지 검사할 수 있다.")
+        void rightPlayerTurn() {
+            //given
+            Turn turn = Turn.start();
+            String sourcePosition = "a2";
+
+            //when
+            Exception exception = catchException(() -> chessGame.checkRightPlayerTurn(turn, sourcePosition));
+
+            //then
+            assertThat(exception).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("예외(IllegalArgument): 해당 플레이어의 턴이 아닐 때")
+        void notYourTour() {
+            //given
+            Turn turn = Turn.start();
+            String sourcePosition = "a7";
+
+            //when
+            Exception exception = catchException(() -> chessGame.checkRightPlayerTurn(turn, sourcePosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+    }
 }

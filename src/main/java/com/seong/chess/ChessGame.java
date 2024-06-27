@@ -40,4 +40,12 @@ public class ChessGame {
         }
         return result;
     }
+
+    public void checkRightPlayerTurn(Turn turn, String sourcePosition) {
+        Piece sourcePiece = board.findPiece(sourcePosition);
+        if (sourcePiece.isEqual(turn.getColor())) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 플레이어의 턴이 아닙니다.");
+    }
 }
