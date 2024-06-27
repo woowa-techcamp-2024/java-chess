@@ -2,6 +2,7 @@ package com.example.demo.rules;
 
 import com.example.demo.context.Board;
 import com.example.demo.context.File;
+import com.example.demo.context.Location;
 import com.example.demo.context.Rank;
 import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
@@ -44,7 +45,7 @@ public class NormalRule implements Rule {
     }
 
     @Override
-    public boolean allow(Board.Location from, Board.Location to, Board board) {
+    public boolean allow(Location from, Location to, Board board) {
 
         Piece piece = board.getPiece(from);
 

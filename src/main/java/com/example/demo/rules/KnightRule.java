@@ -1,10 +1,9 @@
 package com.example.demo.rules;
 
 import com.example.demo.context.Board;
+import com.example.demo.context.Location;
 
 import java.util.Arrays;
-
-import static com.example.demo.context.Board.Location;
 
 public class KnightRule implements Rule {
 

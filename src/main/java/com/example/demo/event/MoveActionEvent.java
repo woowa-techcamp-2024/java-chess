@@ -1,6 +1,6 @@
 package com.example.demo.event;
 
-import com.example.demo.context.Board;
+import com.example.demo.context.Location;
 
 /**
  * 특수 규칙에 의해서 무조건 이동해야하는 상황애서 사용합니다.
@@ -8,7 +8,7 @@ import com.example.demo.context.Board;
  * @param to 이동할 위치
  */
 public record MoveActionEvent(
-        Board.Location from,
-        Board.Location to
+        Location from,
+        Location to
 ) implements Event{
 }

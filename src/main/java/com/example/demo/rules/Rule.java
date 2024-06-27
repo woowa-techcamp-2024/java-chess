@@ -1,8 +1,7 @@
 package com.example.demo.rules;
 
 import com.example.demo.context.Board;
-
-import static com.example.demo.context.Board.Location;
+import com.example.demo.context.Location;
 
 @FunctionalInterface
 public interface Rule {

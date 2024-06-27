@@ -14,8 +14,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.example.demo.context.Board.Location;
-
 public class Game {
     private final Board board;
     private Color currentTurnColor = Color.WHITE;

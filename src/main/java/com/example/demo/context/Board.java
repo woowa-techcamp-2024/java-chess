@@ -17,15 +17,6 @@ public class Board {
         return checkPoints.getOrDefault(targetLocation, new HashSet<>()).contains(color);
     }
 
-    public record Location(
-            Rank rank,
-            File file
-    ) {
-        public boolean isValid() {
-            return rank != null && file != null;
-        }
-    }
-
     /**
      * <p>
      * 보드는 생성시에 정해진 규칙에 따라서 말을 배치한 초기상태를 가져야한다.

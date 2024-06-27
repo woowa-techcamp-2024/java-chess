@@ -1,6 +1,7 @@
 package com.example.demo.rules;
 
 import com.example.demo.context.Board;
+import com.example.demo.context.Location;
 
 public enum GlobalRules implements Rule{
 
@@ -19,7 +20,7 @@ public enum GlobalRules implements Rule{
     }
 
     @Override
-    public boolean allow(Board.Location from, Board.Location to, Board board) {
+    public boolean allow(Location from, Location to, Board board) {
         return rule.allow(from, to, board);
     }
 }

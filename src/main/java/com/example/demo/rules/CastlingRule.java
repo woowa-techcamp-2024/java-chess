@@ -2,13 +2,12 @@ package com.example.demo.rules;
 
 import com.example.demo.context.Board;
 import com.example.demo.context.File;
+import com.example.demo.context.Location;
 import com.example.demo.context.Rank;
 import com.example.demo.event.EventPublisher;
 import com.example.demo.event.MoveActionEvent;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Type;
-
-import static com.example.demo.context.Board.Location;
 
 public enum CastlingRule implements Rule {
 

@@ -1,7 +1,7 @@
 package com.example.demo.event;
 
-import com.example.demo.context.Board;
 import com.example.demo.context.File;
+import com.example.demo.context.Location;
 import com.example.demo.context.Rank;
 
 public record PromotionEvent(
@@ -9,7 +9,7 @@ public record PromotionEvent(
         File file
 ) implements Event {
 
-    public Board.Location getLocation() {
-        return new Board.Location(rank, file);
+    public Location getLocation() {
+        return new Location(rank, file);
     }
 }

@@ -1,14 +1,13 @@
 package com.example.demo.rules;
 
 import com.example.demo.context.Board;
+import com.example.demo.context.Location;
 import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
 
 import java.util.*;
-
-import static com.example.demo.context.Board.Location;
 
 public class RuleManager {
 
