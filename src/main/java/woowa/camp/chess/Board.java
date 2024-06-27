@@ -10,6 +10,7 @@ import static woowa.camp.pieces.Piece.Type.QUEEN;
 import static woowa.camp.pieces.Piece.Type.ROOK;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -212,18 +213,34 @@ public class Board {
         return board.size();
     }
 
+    public List<Piece> getAscendingSortedPiecesFilterBy(final Color color) {
+        return board.stream()
+                .flatMap(rank -> rank.getPiecesFilterBy(color).stream())
+                .sorted(Comparator.comparing(Piece::getDefaultScore))
+                .toList();
+    }
+
+    public List<Piece> getDescendingSortedPiecesFilterBy(final Color color) {
+        return board.stream()
+                .flatMap(rank -> rank.getPiecesFilterBy(color).stream())
+                .sorted(Comparator.comparing(Piece::getDefaultScore).reversed())
+                .toList();
+    }
+
     public int getPieceCount(final Type type, final Color color) {
         return getPiecesFilterBy(type, color).size();
     }
 
     private List<Piece> getPiecesFilterBy(final Type type, final Color color) {
-        final List<Piece> filteredPieces = new ArrayList<>();
+        return board.stream()
+                .flatMap(rank -> rank.getPiecesFilterBy(type, color).stream())
+                .toList();
+    }
 
-        board.stream()
-                .map(rank -> rank.getPiecesFilterBy(type, color))
-                .forEach(filteredPieces::addAll);
-
-        return filteredPieces;
+    private List<Piece> getPiecesFilterBy(final Color color) {
+        return board.stream()
+                .flatMap(rank -> rank.getPiecesFilterBy(color).stream())
+                .toList();
     }
 
 }

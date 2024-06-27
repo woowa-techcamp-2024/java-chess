@@ -5,6 +5,7 @@ import static woowa.camp.pieces.Piece.Color.NONE;
 import static woowa.camp.pieces.Piece.Color.WHITE;
 import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -47,6 +48,10 @@ public class Piece {
 
     public boolean isSameColor(final Color color) {
         return this.color == color;
+    }
+
+    public double getDefaultScore() {
+        return this.type.getDefaultScore();
     }
 
     public enum Type {
@@ -123,4 +128,11 @@ public class Piece {
         return Objects.hash(type, color);
     }
 
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                ", color=" + color +
+                '}';
+    }
 }
