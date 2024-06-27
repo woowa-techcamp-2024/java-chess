@@ -12,6 +12,7 @@ import chess.pieces.Position;
 import chess.sorter.Direction;
 import chess.sorter.PointSorter;
 import chess.sorter.Sorter;
+import chess.view.ChessView;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,7 +51,10 @@ class BoardTest {
 
     private static Piece blankPiece;
 
+    private static ChessView chessView;
+
     private Board board;
+
 
     @BeforeAll
     static void beforeAll() {
@@ -67,6 +71,7 @@ class BoardTest {
         whiteKing = Piece.createWhiteKing();
         blackKing = Piece.createBlackKing();
         blankPiece = Piece.createBlank();
+        chessView = new ChessView();
     }
 
     @BeforeEach
@@ -85,7 +90,7 @@ class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                board.showBoard()
+                chessView.showBoard(board)
         );
     }
 
@@ -193,7 +198,7 @@ class BoardTest {
         addPiece(Position.e1, whiteRook);
         addPiece(Position.f1, whiteKing);
 
-        board.print();
+        chessView.showBoard(board);
         assertEquals(20.0, board.calculatePoint(Color.BLACK), 0.1);
         assertEquals(19.5, board.calculatePoint(Color.WHITE), 0.1);
     }

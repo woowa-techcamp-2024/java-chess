@@ -2,11 +2,16 @@ package chess;
 
 import chess.board.Board;
 import chess.pieces.Position;
+import chess.view.ChessView;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Application {
+
     private static Board board;
+
+    private static ChessView chessView;
+
 
     enum GameControlCommand {
         START, END, MOVE;
@@ -65,13 +70,14 @@ public class Application {
     private static void startGame() {
         board = new Board();
         board.initialize();
-        board.print();
+        chessView = new ChessView();
+        chessView.print(board);
     }
 
     private static void movePiece(String originalCommand) {
         String[] token = originalCommand.split(" ");
         board.move(Position.fromString(token[1]), Position.fromString(token[2]));
-        board.print();
+        chessView.print(board);
     }
 
 

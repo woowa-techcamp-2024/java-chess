@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import utils.StringUtils;
 
 public class Board {
 
@@ -50,7 +49,7 @@ public class Board {
         return ranks.get(position.getRankNumber());
     }
 
-    private Rank getRank(int rankNum) {
+    public Rank getRank(int rankNum) {
         if (rankNum < 0 || rankNum >= RANK_COUNT) {
             throw new IllegalArgumentException();
         }
@@ -108,19 +107,6 @@ public class Board {
         for (int rankNum = 0; rankNum < RANK_COUNT; rankNum++) {
             ranks.set(rankNum, createBlankRank(FILE_COUNT));
         }
-    }
-
-    public void print() {
-        System.out.println(showBoard());
-    }
-
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-        for (int rankNum = RANK_COUNT - 1; rankNum >= 0; rankNum--) {
-            StringBuilder rank = StringUtils.appendNewLine(getRank(rankNum).show());
-            sb.append(rank);
-        }
-        return sb.toString();
     }
 
     public void move(Position position, Piece piece) {
