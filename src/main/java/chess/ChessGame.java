@@ -36,11 +36,11 @@ public class ChessGame {
 
         Piece piece = board.findPiece(from);
 
-        if (turn % 2 == 0 && piece.isBlack()) {
+        if (isWhiteTurn() && piece.isBlack()) {
             throw new IllegalArgumentException("해당 턴에 움직일 수 없는 말입니다.");
         }
 
-        if (turn % 2 == 1 && piece.isWhite()) {
+        if (isBlackTurn() && piece.isWhite()) {
             throw new IllegalArgumentException("해당 턴에 움직일 수 없는 말입니다.");
         }
 
@@ -60,6 +60,14 @@ public class ChessGame {
 
         board.movePiece(from, to);
         turn++;
+    }
+
+    private boolean isWhiteTurn() {
+        return turn % 2 == 0;
+    }
+
+    private boolean isBlackTurn() {
+        return turn % 2 == 1;
     }
 
     private void isValidMoveRequest(String from, String to) {
