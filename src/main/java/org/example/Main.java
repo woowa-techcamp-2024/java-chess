@@ -1,5 +1,7 @@
 package org.example;
 
+import static org.example.utils.BoardPrinter.showBoard;
+
 import java.util.Scanner;
 import org.example.chess.Board;
 import org.example.chess.Position;
@@ -25,7 +27,7 @@ public class Main {
                     board.initialize();
                     isGameStarted = true;
                     System.out.println("Game started.");
-                    System.out.println(board.showBoard());
+                    System.out.println(showBoard(board));
                     break;
                 case MOVE:
                     if (isGameStarted) {
@@ -35,7 +37,7 @@ public class Main {
                         }
                         board.move(new Position(cmds[1]), new Position(cmds[2]));
 
-                        System.out.println(board.showBoard());
+                        System.out.println(showBoard(board));
                     } else {
                         System.out.println("Game has not started yet.");
                     }

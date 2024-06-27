@@ -91,24 +91,6 @@ public class Board {
         columns.get(7).setPiece(Piece.createBlackRook(), blackPieceRow);
     }
 
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-
-        // row를 구하면 각 col마다 해당 row의 piece를 가져와서 출력한다.
-        for (int i = BOARD_SIZE; i > 0; i--) {
-            sb.append(appendNewLine(getRow(i)));
-        }
-        return sb.toString();
-    }
-
-    private String getRow(int row) {
-        StringBuilder sb = new StringBuilder();
-        for (Column column : columns) {
-            sb.append(column.getPiece(row).getRepresentation());
-        }
-        return sb.toString();
-    }
-
     public int nonEmptyPiece() {
         return columns.stream()
             .mapToInt(column -> (int) column.getPieces().stream()

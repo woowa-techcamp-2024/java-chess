@@ -1,5 +1,6 @@
 package org.example.chess;
 
+import static org.example.utils.BoardPrinter.showBoard;
 import static org.example.utils.BoardScoreCalculator.calculatePoint;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -38,7 +39,7 @@ public class BoardTest {
                 blankRank + blankRank + blankRank + blankRank +
                 appendNewLine("♙♙♙♙♙♙♙♙") +
                 appendNewLine("♖♘♗♕♔♗♘♖"),
-            board.showBoard());
+            showBoard(board));
 
     }
 
@@ -71,14 +72,14 @@ public class BoardTest {
     public void move() throws Exception {
         board.initialize();
         System.out.println("Before");
-        System.out.println(board.showBoard());
+        System.out.println(showBoard(board));
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
 
         System.out.println("After");
-        System.out.println(board.showBoard());
+        System.out.println(showBoard(board));
         assertEquals(Piece.createNoColorPiece(), board.findPiece(sourcePosition));
         assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
@@ -118,7 +119,7 @@ public class BoardTest {
         assertEquals(15.0, calculatePoint(board, Color.BLACK), 0.01);
         assertEquals(7.0, calculatePoint(board, Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(showBoard(board));
     }
 
     @Test
@@ -140,7 +141,7 @@ public class BoardTest {
         assertEquals(6.5, calculatePoint(board, Color.WHITE), 0.01);
 
         // 체스판 출력
-        System.out.println(board.showBoard());
+        System.out.println(showBoard(board));
     }
 
     @Test
