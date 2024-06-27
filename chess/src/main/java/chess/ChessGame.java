@@ -135,7 +135,10 @@ public class ChessGame {
         List<Piece> enemyPieces = board.getPieces(enemyColor, Order.DESC);
         for (Piece enemy : enemyPieces) {
             if (enemy.canMove(king)) {
-                return true;
+                if (enemy.getType().equals(PieceType.KNIGHT)) {
+                    return true;
+                }
+                return isPathClear(enemy.getPosition(), king.getPosition());
             }
         }
         return false;
