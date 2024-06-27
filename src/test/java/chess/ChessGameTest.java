@@ -765,4 +765,28 @@ public class ChessGameTest {
         }
     }
 
+    @Nested
+    @DisplayName("[StartGame]")
+    class StartGameTest{
+        @Test
+        public void startGameTest() throws Exception {
+            //given
+            String success = """
+                RNBQKBNR
+                PPPPPPPP
+                ........
+                ........
+                ........
+                ........
+                pppppppp
+                rnbqkbnr
+                """;
+
+            //when
+            chessGame.startGame();
+
+            //then
+            assertEquals(success,board.print());
+        }
+    }
 }

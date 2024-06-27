@@ -22,7 +22,7 @@ public class ChessGame {
         return this.board.print();
     }
 
-    private void startGame() {
+    public void startGame() {
         init();
     }
 
