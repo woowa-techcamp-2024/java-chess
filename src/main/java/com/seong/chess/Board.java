@@ -2,6 +2,7 @@ package com.seong.chess;
 
 import static com.seong.chess.utils.StringUtils.appendNewLine;
 
+import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import java.util.ArrayList;
@@ -100,5 +101,26 @@ public class Board {
                 .flatMap(rank -> rank.getSameColorPieces(color).stream())
                 .sorted(order)
                 .toList();
+    }
+
+    public List<Position> getPawnMovable(String rawSourcePosition, String rawTargetPosition) {
+        List<Position> movablePositions = new ArrayList<>();
+        if (!findPiece(rawTargetPosition).isNotBlank()) {
+            return movablePositions;
+        }
+        Piece sourcePiece = findPiece(rawSourcePosition);
+        if (!sourcePiece.isPawn()) {
+            return movablePositions;
+        }
+        Position sourcePosition = Position.convert(rawSourcePosition);
+        Position targetPosition = Position.convert(rawTargetPosition);
+
+        if (sourcePiece.isWhite() && Direction.isNorthDiagonal(sourcePosition, targetPosition)) {
+            movablePositions.add(targetPosition);
+        }
+        if (sourcePiece.isBlack() && Direction.isSouthDiagonal(sourcePosition, targetPosition)) {
+            movablePositions.add(targetPosition);
+        }
+        return movablePositions;
     }
 }

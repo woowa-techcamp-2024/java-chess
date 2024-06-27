@@ -21,6 +21,9 @@ public class ChessGame {
         checkIsSamePosition(sourcePosition, targetPosition);
 
         List<Position> movablePosition = sourcePiece.findMovablePosition(sourcePosition);
+        if (targetPiece.isNotBlank()) {
+            movablePosition.addAll(board.getPawnMovable(sourcePosition, targetPosition));
+        }
         checkIsMovable(movablePosition, targetPosition);
 
         board.move(sourcePosition, Blank.create());

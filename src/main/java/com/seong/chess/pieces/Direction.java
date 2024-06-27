@@ -1,5 +1,8 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Position;
+import java.util.Arrays;
+
 public enum Direction {
     NORTH(-1, 0),
     SOUTH(1, 0),
@@ -33,5 +36,33 @@ public enum Direction {
 
     public boolean isDiagonal() {
         return this == NORTHEAST || this == SOUTHEAST || this == NORTHWEST || this == SOUTHWEST;
+    }
+
+    public static boolean isNorthDiagonal(Position source, Position target) {
+        return Arrays.stream(values())
+                .filter(Direction::isNorthDiagonal)
+                .anyMatch(direction -> {
+                    Position diagonalPosition = new Position(
+                            source.col() + direction.col, source.row() + direction.row);
+                    return diagonalPosition.equals(target);
+                });
+    }
+
+    private boolean isNorthDiagonal() {
+        return this == NORTHEAST || this == NORTHWEST;
+    }
+
+    public static boolean isSouthDiagonal(Position source, Position target) {
+        return Arrays.stream(values())
+                .filter(Direction::isSouthDiagonal)
+                .anyMatch(direction -> {
+                    Position diagonalPosition = new Position(
+                            source.col() + direction.col, source.row() + direction.row);
+                    return diagonalPosition.equals(target);
+                });
+    }
+
+    private boolean isSouthDiagonal() {
+        return this == SOUTHEAST || this == SOUTHWEST;
     }
 }

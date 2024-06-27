@@ -52,6 +52,44 @@ class ChessGameTest {
         }
 
         @Test
+        @DisplayName("흰색 폰은 대각선 위쪽의 적 방향으로 이동할 수 있다.")
+        void moveWhenNorthDiagonalTarget() {
+            //given
+            String sourcePosition = "b3";
+            String targetPosition = "c4";
+
+            board.initializeEmpty();
+            board.move(sourcePosition, Pawn.createWhite());
+            board.move(targetPosition, Pawn.createBlack());
+
+            //when
+            chessGame.move(sourcePosition, targetPosition);
+
+            //then
+            assertThat(Blank.create()).isEqualTo(board.findPiece(sourcePosition));
+            assertThat(Pawn.createWhite()).isEqualTo(board.findPiece(targetPosition));
+        }
+
+        @Test
+        @DisplayName("검은색 폰은 대각선 아래쪽의 적 방향으로 이동할 수 있다.")
+        void moveWhenSouthDiagonalTarget() {
+            //given
+            String sourcePosition = "c4";
+            String targetPosition = "b3";
+
+            board.initializeEmpty();
+            board.move(sourcePosition, Pawn.createBlack());
+            board.move(targetPosition, Pawn.createWhite());
+
+            //when
+            chessGame.move(sourcePosition, targetPosition);
+
+            //then
+            assertThat(Blank.create()).isEqualTo(board.findPiece(sourcePosition));
+            assertThat(Pawn.createBlack()).isEqualTo(board.findPiece(targetPosition));
+        }
+
+        @Test
         @DisplayName("예외(IllegalArgument): 이동할 위치에 같은 팀의 기물이 있으면")
         public void equalsColor() {
             //given

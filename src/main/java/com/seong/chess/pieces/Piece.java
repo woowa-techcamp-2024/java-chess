@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
@@ -70,6 +71,10 @@ public abstract class Piece {
 
     public boolean isPawn(Color color) {
         return this instanceof Pawn pawn && pawn.color == color;
+    }
+
+    public boolean isPawn() {
+        return this instanceof Pawn;
     }
 
     public double getDefaultPoint() {
