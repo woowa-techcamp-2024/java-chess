@@ -95,12 +95,12 @@ public class ChessGame {
         board.saveByPosition(piece, piecePosition);
     }
 
-    public void move(final String source, final String destination) {
+    public void move(final String source, final String destination) throws Exception {
         Position sourcePosition = new Position(source);
         Position destinationPosition = new Position(destination);
 
         Piece piece = board.findByPosition(sourcePosition);
-        if (destinationPosition.isOutOfIndex()) return;
+        if (destinationPosition.isOutOfIndex()) throw new Exception("보드를 벗어났습니다");
 
         Piece destinationPiece = board.findByPosition(destinationPosition);
         if (isColorSame(piece.getColor(), destinationPosition)) return;
