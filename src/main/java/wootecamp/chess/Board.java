@@ -68,8 +68,22 @@ public class Board {
 
     public void move(final String position, final Piece piece) {
         final BoardPosition boardPosition = new BoardPosition(position);
-        Rank rank = board.get(boardPosition.getRankPosition());
 
+        Rank rank = board.get(boardPosition.getRankPosition());
+        rank.setPiece(boardPosition.getFilePosition(), piece);
+    }
+
+
+    public void move(String source, String target) {
+        Piece piece = findPiece(source);
+        setPiece(source, Piece.getEmptyPiece());
+        setPiece(target, piece);
+    }
+
+    private void setPiece(final String position, final Piece piece) {
+        BoardPosition boardPosition = new BoardPosition(position);
+
+        Rank rank = board.get(boardPosition.getRankPosition());
         rank.setPiece(boardPosition.getFilePosition(), piece);
     }
 
