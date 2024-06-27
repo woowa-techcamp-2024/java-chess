@@ -1,5 +1,7 @@
 package chess;
 
+import chess.constant.Color;
+import chess.constant.Type;
 import chess.pieces.*;
 
 import java.util.List;
@@ -114,13 +116,16 @@ public class ChessGame {
         if (Objects.equals(piece.getType(), Type.KING)) {
             return isKingMoveAvailable(piece, position);
         }
+        if (Objects.equals(piece.getType(), Type.QUEEN)) {
+            return isQueenMoveAvailable(piece, position);
+        }
         return false;
     }
 
     private boolean isKingMoveAvailable(final Piece piece, final Position position) {
         Position sourcePosition = piece.getPosition();
-        final int[] y_grad = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
-        final int[] x_grad = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+        final int[] y_grad = {-1, -1, -1, 0, 0, 1, 1, 1};
+        final int[] x_grad = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         for (int i = 0; i < 8; i++) {
             int y = sourcePosition.getY() + y_grad[i];
@@ -128,5 +133,29 @@ public class ChessGame {
             if (position.getX() == x && position.getY() == y) return true;
         }
         return false;
+    }
+
+    private boolean isQueenMoveAvailable(final Piece piece, final Position position) {
+        Position sourcePosition = piece.getPosition();
+        final int[] y_grad = {-1, -1, -1, 0, 0, 1, 1, 1};
+        final int[] x_grad = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i = 0; i < 8; i++) {
+            Position nextPosition = new Position(sourcePosition.getX() + x_grad[i], sourcePosition.getY() + y_grad[i]);
+            boolean moveAvailable = moveVirtualQueen(nextPosition, position, y_grad[i], x_grad[i]);
+            if (moveAvailable) return true;
+        }
+        return false;
+    }
+
+    private boolean moveVirtualQueen(final Position source, final Position destination, final int y_grad, final int x_grad) {
+        if (source.isOutOfIndex()) return false;
+        if (source.getX() == destination.getX() && source.getY() == destination.getY()) return true;
+
+        Piece piece = board.findByPosition(source);
+        if (!Objects.equals(piece.getType(), Type.NO_PIECE)) return false;
+
+        Position position = new Position(source.getX() + x_grad, source.getY() + y_grad);
+        return moveVirtualQueen(position, destination, y_grad, x_grad);
     }
 }
