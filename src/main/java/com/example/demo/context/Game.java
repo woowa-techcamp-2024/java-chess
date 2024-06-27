@@ -21,6 +21,7 @@ public class Game extends Board {
     private final User blackUser;
     private boolean isEnd = false;
     private Location promotionPieceLocation = null;
+    private int turn = 0;
 
     // builder class
     public static GameBuilder builder() {
@@ -122,6 +123,7 @@ public class Game extends Board {
     }
 
     public void nextTurn() {
+        turn++;
         currentTurnColor = currentTurnColor == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 
