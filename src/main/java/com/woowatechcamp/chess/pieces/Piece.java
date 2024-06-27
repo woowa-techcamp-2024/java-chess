@@ -1,5 +1,7 @@
 package com.woowatechcamp.chess.pieces;
 
+import com.woowatechcamp.chess.Board;
+
 import java.util.Objects;
 
 public abstract class Piece {
@@ -21,12 +23,12 @@ public abstract class Piece {
         return type;
     }
 
-    public void move(Position position) {
-        validateMove(position);
+    public void move(Position position, Board board) {
+        validateMove(position, board);
         this.position = position;
     }
 
-    abstract protected void validateMove(Position position);
+    abstract protected void validateMove(Position position, Board board);
 
     public Position getPosition() {
         return position;

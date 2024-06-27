@@ -12,6 +12,11 @@ public class Position {
         yPos = getYPosition(position);
     }
 
+    public Position(int xPos, int yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
     private static void validate(String position) {
         if (position == null || position.length() != 2) {
             throw new IllegalArgumentException("Invalid position");
@@ -59,5 +64,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(xPos, yPos);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "xPos=" + xPos +
+                ", yPos=" + yPos +
+                '}';
     }
 }
