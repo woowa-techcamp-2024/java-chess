@@ -39,17 +39,17 @@ public class BoardTest {
 
     @Nested
     @DisplayName("Describe_체스판에 기물을 추가하는 기능은")
-    class AddPieceTest {
+    class MovePieceTest {
 
         @Test
         @DisplayName("[Success] 기물을 추가하면 기물 개수도 반영된다.")
         void board_add_pawn() {
             board.initialize();
-            board.addPiece(white, Position.mapBy("a6"));
+            board.move(white, Position.mapBy("a6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 1);
             verifyGetPiece(board, "a6", white);
 
-            board.addPiece(black, Position.mapBy("b6"));
+            board.move(black, Position.mapBy("b6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 2);
             verifyGetPiece(board, "b6", black);
         }
@@ -61,6 +61,19 @@ public class BoardTest {
 
         private void verifyGetPiece(Board board, String position, Piece expectedPiece) {
             assertThat(board.getPieceBy(position)).isEqualTo(expectedPiece);
+        }
+
+        @Test
+        @DisplayName("[Success] 임의의 위치에 기물을 이동할 수 있어야 한다.")
+        void move() {
+            board.initializeEmpty();
+
+            String position = "b5";
+            Piece piece = Piece.createBlackPieceOf(Type.ROOK);
+            board.move(piece, position);
+
+            Piece findPiece = board.getPieceBy(position);
+            assertThat(findPiece).isEqualTo(piece);
         }
 
     }
