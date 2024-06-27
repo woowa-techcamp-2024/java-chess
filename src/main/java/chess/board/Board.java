@@ -1,6 +1,8 @@
 package chess.board;
 
+import static chess.board.Rank.getBlackPawnRank;
 import static chess.board.Rank.getBlankRank;
+import static chess.board.Rank.getWhitePawnRank;
 
 import chess.calculator.DefaultPointCalculateStrategy;
 import chess.calculator.PointCalculator;
@@ -12,6 +14,7 @@ import chess.pieces.Position;
 import chess.sorter.Direction;
 import chess.sorter.Sorter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import utils.StringUtils;
@@ -23,8 +26,6 @@ public class Board {
     public static final int FILE_COUNT = 8;
 
     private final List<Rank> ranks;
-
-    private int pieceCount;
 
     private final PointCalculator pointCalculator;
 
@@ -60,10 +61,6 @@ public class Board {
         return RANK_COUNT * FILE_COUNT;
     }
 
-    public int pieceCount() {
-        return pieceCount;
-    }
-
     public int pieceCount(Type type, Color color) {
         return ranks.stream()
                 .mapToInt(rank -> rank.count(type, color))
@@ -71,7 +68,7 @@ public class Board {
     }
 
     public void initialize() {
-        initializeRank(0, new Rank(FILE_COUNT, List.of(
+        initializeRank(0, new Rank(FILE_COUNT, Arrays.asList(
                 Piece.createWhiteRook(),
                 Piece.createWhiteKnight(),
                 Piece.createWhiteBishop(),
@@ -81,31 +78,13 @@ public class Board {
                 Piece.createWhiteKnight(),
                 Piece.createWhiteRook()
         )));
-        initializeRank(1, new Rank(FILE_COUNT, List.of(
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn(),
-                Piece.createWhitePawn()
-        )));
+        initializeRank(1, getWhitePawnRank(FILE_COUNT));
         initializeRank(2, getBlankRank(FILE_COUNT));
         initializeRank(3, getBlankRank(FILE_COUNT));
         initializeRank(4, getBlankRank(FILE_COUNT));
         initializeRank(5, getBlankRank(FILE_COUNT));
-        initializeRank(6, new Rank(FILE_COUNT, List.of(
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn(),
-                Piece.createBlackPawn()
-        )));
-        initializeRank(7, new Rank(FILE_COUNT, List.of(
+        initializeRank(6, getBlackPawnRank(FILE_COUNT));
+        initializeRank(7, new Rank(FILE_COUNT, Arrays.asList(
                 Piece.createBlackRook(),
                 Piece.createBlackKnight(),
                 Piece.createBlackBishop(),
@@ -117,14 +96,10 @@ public class Board {
         )));
     }
 
-
     private void initializeRank(int rankNum, Rank rank) {
-        rank.getPieces()
-                .forEach(piece -> {
-                    if (!piece.isBlank()) {
-                        pieceCount += 1;
-                    }
-                });
+        if (rankNum >= RANK_COUNT) {
+            throw new IllegalArgumentException();
+        }
         ranks.set(rankNum, rank);
     }
 
