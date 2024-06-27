@@ -127,31 +127,17 @@ public class Board {
      */
     public List<Location> getLocationsThatPieceCanMoveByLocation(Location location) {
         var piece = getPiece(location);
+        if (piece.isBlank()) {
+            throw new IllegalArgumentException("location: " + location + " does not have a piece.");
+        }
         var color = piece.getColor();
-        // TODO: piece가 Blank일때의 예외 처리 해줘~
         if (PAWN.isInstance(piece)) {
-            return getLocationsThatPawnCanMoveByLocation(location, color);
+            return getLocationsThatPawnCanMoveByLocation(location);
         }
         var result = new ArrayList<Location>();
         var directions = piece.getDirections();
         for (Direction direction : directions) {
-            // Rook, Bishop, Queen은 직선으로 갈 수 있어요 (flag = true)
-            // King, Knight은 재귀호출을 사용할 필요가 없어요(flag = false)
             verifyMoveable(location, direction, color, result, piece.canMoveMultipleTimes());
-        }
-        return result;
-    }
-
-    private List<Location> getLocationsThatPawnCanMoveByLocation(Location location, Color color) {
-        var result = new ArrayList<Location>();
-        var piece = getPiece(location);
-        for (Direction direction : piece.getDirections()) {
-            verifyMoveable(location, direction, color, result, false);
-        }
-        if (location.getX() == 2 && color.equals(Color.WHITE)) {
-            verifyMoveable(location, Direction.PAWN_WHITE_DOUBLE_UP, color, result, false);
-        } else if (location.getX() == 7 && color.equals(Color.BLACK)) {
-            verifyMoveable(location, Direction.PAWN_BLACK_DOUBLE_DOWN, color, result, false);
         }
         return result;
     }
@@ -207,6 +193,18 @@ public class Board {
         }
     }
 
+    private List<Location> getLocationsThatPawnCanMoveByLocation(Location location) {
+        var result = new ArrayList<Location>();
+        // Verify diagonal and single move possible
+        var piece = table.get(location);
+        for (Direction direction : piece.getDirections()) {
+            if (verifyPawnMoveable(location, direction, piece.getColor())) {
+                result.add(direction.nextLocation(location));
+            }
+        }
+        return result;
+    }
+
     private void verifyMoveable(Location location, Direction direction, Color color,
         List<Location> result, boolean flag) {
         if (!direction.canMove(location)) {
@@ -222,4 +220,28 @@ public class Board {
             verifyMoveable(nextLocation, direction, color, result, true);
         }
     }
+
+    private boolean verifyPawnMoveable(Location location, Direction direction, Color color) {
+        if (!direction.canMove(location)) {
+            return false;
+        }
+        var nextLocation = direction.nextLocation(location);
+        var nextPiece = getPiece(nextLocation);
+        return switch (direction) {
+            case UP, DOWN -> nextPiece.isBlank();
+            case PAWN_BLACK_DOUBLE_DOWN -> {
+                var isMoved = location.getX() == 7;
+                yield isMoved && nextPiece.isBlank() && getPiece(
+                    Direction.DOWN.nextLocation(location)).isBlank();
+            }
+            case PAWN_WHITE_DOUBLE_UP -> {
+                var isMoved = location.getX() == 2;
+                yield isMoved && nextPiece.isBlank() && getPiece(
+                    Direction.UP.nextLocation(location)).isBlank();
+            }
+            default -> !nextPiece.isBlank() && !nextPiece.verifySameColor(color);
+        };
+
+    }
+
 }

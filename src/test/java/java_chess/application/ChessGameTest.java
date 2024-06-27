@@ -29,6 +29,16 @@ class ChessGameTest {
     }
 
     @Test
+    @DisplayName("게임을 시작합니다.")
+    void startGame() {
+        // Act
+        chessGame.startGame();
+
+        // Assert
+        assertThat(board.getPiece(Location.of(1, 'a'))).isNotEqualTo(Piece.getBlank());
+    }
+
+    @Test
     @DisplayName("현재 게임의 점수를 계산합니다.")
     void calculateScoreByColor() {
         board.addPiece(Location.of(1, 'a'), Piece.generatePiece(Type.ROOK, Color.WHITE));
@@ -63,8 +73,8 @@ class ChessGameTest {
 
     @MethodSource
     @ParameterizedTest
-    @DisplayName("말 이동에 실패합니다.")
-    void movePieceFail(String locationFrom, Piece piece, String LocationTo) {
+    @DisplayName("잘못된 위치를 입력하여 말 이동에 실패합니다.")
+    void movePieceFailWhenWrongLocationGiven(String locationFrom, Piece piece, String LocationTo) {
         // Arrange
         var from = Location.from(locationFrom);
         var to = Location.from(LocationTo);
@@ -76,6 +86,24 @@ class ChessGameTest {
             () -> chessGame.movePiece(from, to))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("This piece cannot move to the location.");
+    }
+
+    @Test
+    @DisplayName("잘못된 차례에 말 이동을 시도하여 실패합니다.")
+    void movePieceFailWhenWrongTurn() {
+        // Assert
+        var expectedFrom = Location.of(2, 'a');
+        var expectedTo = Location.of(3, 'a');
+
+        // Arrange
+        board.addPiece(Location.of(1, 'a'), Piece.generatePiece(Type.ROOK, Color.WHITE));
+        board.addPiece(Location.of(2, 'a'), Piece.generatePiece(Type.ROOK, Color.BLACK));
+
+        // Act & Assert
+        assertThatThrownBy(
+            () -> chessGame.movePiece(expectedFrom, expectedTo))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("This piece is not yours.");
     }
 
     static Stream<Arguments> movePieceSuccess() {
@@ -96,7 +124,7 @@ class ChessGameTest {
         );
     }
 
-    static Stream<Arguments> movePieceFail() {
+    static Stream<Arguments> movePieceFailWhenWrongLocationGiven() {
         return Stream.of(
             Arguments.of("a2", Piece.generatePiece(Type.PAWN, Color.WHITE), "a5"),
             Arguments.of("a2", Piece.generatePiece(Type.PAWN, Color.WHITE), "b3"),
