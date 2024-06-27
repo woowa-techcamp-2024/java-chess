@@ -44,16 +44,16 @@ public class Board {
         board.set(0, new Rank(pieces));
         pieces.clear();
 
-        for(int i = 0; i < BOARD_SIZE; i++){
+        for (int i = 0; i < BOARD_SIZE; i++) {
             pieces.add(Piece.createBlackPawn());
         }
         board.set(1, new Rank(pieces));
     }
 
     public void initializeEmpty() {
-        for(int i = 0; i < BOARD_SIZE; i++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieces = new ArrayList<>();
-            for(int j = 0; j < BOARD_SIZE; j++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 pieces.add(Piece.createBlank());
             }
             board.add(new Rank(pieces));
@@ -63,7 +63,7 @@ public class Board {
     public void initializeWhitePiece() {
         List<Piece> pieces = new ArrayList<>();
 
-        for(int i = 0; i < BOARD_SIZE; i++){
+        for (int i = 0; i < BOARD_SIZE; i++) {
             pieces.add(Piece.createWhitePawn());
         }
         board.set(6, new Rank(pieces));
@@ -104,4 +104,28 @@ public class Board {
         board.get(position.getRank()).setPiece(position.getFile(), piece);
     }
 
+    public double calculatePoint(Color color) {
+        int[] pawnCount = new int[8];
+        double totalPoint = 0.0;
+        for (Rank rank : board) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                Piece piece = rank.getPiece(i);
+                if (piece.getColor() != color) {
+                    continue;
+                }
+                if (piece.getType() == Type.PAWN) {
+                    pawnCount[i]++;
+                }
+                totalPoint += piece.getType().getDefaultPoint();
+            }
+        }
+
+        for (int p : pawnCount) {
+            if (p > 1) {
+                totalPoint = totalPoint - 0.5 * p;
+            }
+        }
+
+        return totalPoint;
+    }
 }
