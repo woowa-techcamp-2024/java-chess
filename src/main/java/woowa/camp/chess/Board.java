@@ -35,9 +35,8 @@ public class Board {
     }
 
     private void initBoard() {
-        IntStream.range(0, MAX_ROW.getCount()).forEach(count -> {
-            board.add(new Rank());
-        });
+        IntStream.range(0, MAX_ROW.getCount())
+                .forEach(count -> board.add(new Rank()));
     }
 
     private void initBlackPieces() {

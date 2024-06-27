@@ -19,9 +19,8 @@ public class Rank {
     }
 
     public void initRank() {
-        IntStream.range(0, MAX_COL.getCount()).forEach(count -> {
-            pieces.add(Piece.createBlank());
-        });
+        IntStream.range(0, MAX_COL.getCount())
+                .forEach(count -> pieces.add(Piece.createBlank()));
     }
 
     public void replace(final int index, final Piece piece) {
