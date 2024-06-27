@@ -1,5 +1,8 @@
 package chess;
 
+import exception.InvalidMoveException;
+import exception.OutOfBoardException;
+
 import java.util.Scanner;
 
 public class Main {
@@ -11,20 +14,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ChessGame chessGame = new ChessGame();
-        while (true)
-        {
+        while (true) {
             String str = scanner.next();
-            if(str.equals(START))
-            {
+            if (str.equals(START)) {
                 chessGame.initialize();
-            }
-            else if(str.equals(END))
-            {
+            } else if (str.equals(END)) {
                 return;
-            }
-            else if(str.startsWith(MOVE))
-            {
-                chessGame.move(scanner.next(), scanner.next());
+            } else if (str.startsWith(MOVE)) {
+                try {
+                    chessGame.move(scanner.next(), scanner.next());
+                } catch (InvalidMoveException | OutOfBoardException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             System.out.println(chessGame.showBoard());
         }
