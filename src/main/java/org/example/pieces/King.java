@@ -15,9 +15,4 @@ public class King extends Piece{
         int depth = Direction.depth(start, end);
         return Direction.everyDirection().contains(direction) && depth == 1;
     }
-
-    @Override
-    public boolean verifyRecursive(Position now, Position dest, Direction direction) {
-        return false;
-    }
 }

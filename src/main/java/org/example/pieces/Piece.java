@@ -118,7 +118,6 @@ public abstract class Piece {
     }
 
     abstract public boolean verifyMove(Position start, Position end);
-    abstract public boolean verifyRecursive(Position now, Position dest, Direction direction);
 
     boolean verifyMove(String start, String end) {
         return verifyMove(new Position(start), new Position(end));

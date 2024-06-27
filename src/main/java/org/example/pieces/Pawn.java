@@ -21,9 +21,4 @@ public class Pawn extends Piece {
         }
         return false;
     }
-
-    @Override
-    public boolean verifyRecursive(Position now, Position dest, Direction direction) {
-        return false;
-    }
 }

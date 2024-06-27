@@ -13,9 +13,4 @@ public class Bishop extends Piece{
         Direction direction = Direction.determineDirection(start, end);
         return Direction.diagonalDirection().contains(direction);
     }
-
-    @Override
-    public boolean verifyRecursive(Position now, Position dest, Direction direction) {
-        return false;
-    }
 }

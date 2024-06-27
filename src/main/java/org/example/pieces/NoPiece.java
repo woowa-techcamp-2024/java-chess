@@ -13,9 +13,4 @@ public class NoPiece extends Piece {
     public boolean verifyMove(Position start, Position end) {
         return false;
     }
-
-    @Override
-    public boolean verifyRecursive(Position now, Position dest, Direction direction) {
-        return false;
-    }
 }
