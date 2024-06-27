@@ -1,14 +1,15 @@
 package pe.goblin.chess.console;
 
-import pe.goblin.chess.application.exception.ApplicationException;
 import pe.goblin.chess.application.query.BoardQuery;
 import pe.goblin.chess.application.query.BoardQuery.BoardTypeResponse;
 import pe.goblin.chess.application.usecase.GameCreationUseCase;
 import pe.goblin.chess.application.usecase.GameCreationUseCase.BoardTypeQuery;
 import pe.goblin.chess.application.usecase.GamePlayUseCase;
-import pe.goblin.chess.application.usecase.GamePlayUseCase.GameResult;
+import pe.goblin.chess.application.usecase.GamePlayUseCase.MoveResult;
 import pe.goblin.chess.domain.game.vo.GameStatus;
+import pe.goblin.chess.exception.ApplicationException;
 
+import java.util.List;
 import java.util.Map;
 
 public class AppConsole {
@@ -54,7 +55,7 @@ public class AppConsole {
     private Processor configureBoardProcess() {
         BoardTypeResponse boardTypeResponse = boardQuery.showPossibleBoardTypes();
         output.println(CHOOSE_BOARD_DISPLAY);
-        for (Map.Entry<Integer, String[]> possibleBoardType : boardTypeResponse.boardTypes().entrySet()) {
+        for (Map.Entry<Integer, List<String>> possibleBoardType : boardTypeResponse.boardTypes().entrySet()) {
             output.println(" - " + possibleBoardType.getKey() + " - ");
             for (String boardRow : possibleBoardType.getValue()) {
                 output.println(boardRow);
@@ -81,13 +82,14 @@ public class AppConsole {
 
         return input -> {
             try {
-                GameResult gameResult = gamePlayUseCase.move(input);
-                switch (gameResult.gameStatus()) {
+                MoveResult moveResult = gamePlayUseCase.move(input);
+                switch (moveResult.gameStatus()) {
                     case GameStatus.IN_PROGRESS -> {
+                        output.println(moveResult.board());
                         return movePieceProcess();
                     }
                     case GameStatus.WHITE_WINS, GameStatus.BLACK_WINS -> {
-                        return showResult(gameResult);
+                        return showResult(moveResult);
                     }
                     default -> throw new RuntimeException();
                 }
@@ -98,13 +100,13 @@ public class AppConsole {
         };
     }
 
-    private Processor showResult(GameResult gameResult) {
-        switch (gameResult.gameStatus()) {
+    private Processor showResult(MoveResult moveResult) {
+        switch (moveResult.gameStatus()) {
             case GameStatus.BLACK_WINS -> output.print(BLACK_WIN_DISPLAY);
             case GameStatus.WHITE_WINS -> output.print(WHITE_WIN_DISPLAY);
             default -> throw new RuntimeException();
         }
-        output.println(gameResult.blackScore() + " vs " + gameResult.whiteScore());
+        output.println(moveResult.blackScore() + " vs " + moveResult.whiteScore());
 
         return getGameStartProcessor();
     }

@@ -1,4 +1,4 @@
-package pe.goblin.chess.application.exception;
+package pe.goblin.chess.exception;
 
 public class ApplicationException extends Exception {
     public ApplicationException(String message) {

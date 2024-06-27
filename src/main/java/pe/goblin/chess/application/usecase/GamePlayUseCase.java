@@ -1,11 +1,11 @@
 package pe.goblin.chess.application.usecase;
 
-import pe.goblin.chess.application.exception.ApplicationException;
 import pe.goblin.chess.domain.game.vo.GameStatus;
+import pe.goblin.chess.exception.ApplicationException;
 
 public interface GamePlayUseCase {
-    GameResult move(String input) throws ApplicationException;
+    MoveResult move(String input) throws ApplicationException;
 
-    record GameResult(GameStatus gameStatus, Integer whiteScore, Integer blackScore) {
+    record MoveResult(GameStatus gameStatus, Integer whiteScore, Integer blackScore, String board) {
     }
 }

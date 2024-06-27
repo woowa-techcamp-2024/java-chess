@@ -1,9 +1,9 @@
 package pe.goblin.chess.application;
 
-import pe.goblin.chess.application.exception.ApplicationException;
 import pe.goblin.chess.application.usecase.GameCreationUseCase;
 import pe.goblin.chess.domain.board.type.BoardType;
 import pe.goblin.chess.domain.game.Game;
+import pe.goblin.chess.exception.ApplicationException;
 import pe.goblin.chess.storage.GameStorage;
 
 public class GameCreationService implements GameCreationUseCase {
