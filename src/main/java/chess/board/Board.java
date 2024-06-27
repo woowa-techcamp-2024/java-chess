@@ -1,6 +1,6 @@
 package chess.board;
 
-import chess.pieces.Piece;
+import chess.pieces.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static chess.utils.StringUtils.NEWLINE;
-
 public class Board {
 
     private final List<Rank> ranks;
+    // TODO 이거 왜 있지,,
     private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
@@ -20,11 +19,15 @@ public class Board {
     private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
-    private static final int WIDTH_INDEX = 0;
-    private static final int RANK_INDEX = 1;
-    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
-    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
 
+    // TODO 이건 차라리 Enum으로 하는 게 나을 듯,,,
+    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getDefaultPoint);
+    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint());
+
+
+    public List<Rank> getRanks() {
+        return ranks;
+    }
     /*
     * 테스트에서만 사용하는 초기화 메서드
     * */
@@ -32,6 +35,62 @@ public class Board {
         ranks.clear();
         initializeEmtpyRows(0, RANK_HEIGHT);
         pieceCount = 0;
+    }
+
+    public int getPieceCount(Piece.Color color, Piece.Type type) {
+        return ranks.stream()
+                .mapToInt(rank -> rank.getPieceCount(color, type))
+                .sum();
+    }
+
+    public int getTotalPieceCount() {
+        return pieceCount;
+    }
+
+    public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
+        return ranks.stream().map(rank -> rank.getAllPieces(color))
+                .flatMap(List::stream)
+                .sorted(comparator)
+                .toList();
+    }
+
+    public void move(String sourceCoordinateStr, String targetCoordinateStr) {
+        Coordinate sourceCoordinate = Coordinate.of(sourceCoordinateStr);
+        Coordinate targetCoordinate = Coordinate.of(targetCoordinateStr);
+
+        Piece sourcePiece = findPiece(sourceCoordinate);
+        Piece targetPiece = findPiece(targetCoordinate);
+        move(targetCoordinate, sourcePiece);
+        move(sourceCoordinate, targetPiece);
+    }
+
+    public Board() {
+        ranks = new ArrayList<>();
+        initialize();
+    }
+
+    protected Piece findPiece(Coordinate coordinate) {
+        return ranks.get(coordinate.getRankIndex())
+                .getPieceByIndex(coordinate.getWidthIndex());
+    }
+
+    protected void move(Coordinate coordinate, Piece piece) {
+        Rank targetRank = ranks.get(coordinate.getRankIndex());
+        targetRank.setPiece(coordinate.getWidthIndex(), piece);
+    }
+
+    private void initializeWhitePawns() {
+        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
+                .mapToObj(i -> Pawn.createWhitePawn())
+                .collect(Collectors.toCollection(ArrayList::new));
+        this.ranks.add(Rank.initializeRank(initializedPieces));
+    }
+
+    private void initializeBlackPawns() {
+        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
+                .mapToObj(i -> Pawn.createBlackPawn())
+                .collect(Collectors.toCollection(ArrayList::new));
+        this.ranks.add(Rank.initializeRank(initializedPieces));
     }
 
     private void initialize() {
@@ -51,139 +110,40 @@ public class Board {
     }
 
     private void initializeEmtpyRows(int start, int end) {
-        IntStream.range(start, end).forEach(i ->
-                ranks.add(Rank.initializeRank(IntStream.range(0, BOARD_WIDTH)
-                        .mapToObj(c -> Piece.createBlank())
-                        .collect(Collectors.toCollection(ArrayList::new)))));
+        IntStream.range(start, end).forEach(i -> {
+                    ArrayList<Blank> collect = IntStream.range(0, BOARD_WIDTH)
+                            .mapToObj(c -> Blank.createBlank())
+                            .collect(Collectors.toCollection(ArrayList::new));
+
+                    ranks.add(Rank.initializeRank(collect));
+                });
     }
 
     private void initializeBlackFirstRow() {
         List<Piece> firstRow = List.of(
-                Piece.createBlackRook(),
-                Piece.createBlackKnight(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen(),
-                Piece.createBlackKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlackKnight(),
-                Piece.createBlackRook());
+                Rook.createBlackRook(),
+                Knight.createBlackKnight(),
+                Bishop.createBlackBishop(),
+                Queen.createBlackQueen(),
+                King.createBlackKing(),
+                Bishop.createBlackBishop(),
+                Knight.createBlackKnight(),
+                Rook.createBlackRook());
 
         ranks.add(Rank.initializeRank(firstRow));
     }
 
     private void initializeWhiteFirstRow() {
         List<Piece> lastRow = List.of(
-                Piece.createWhiteRook(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteRook());
+                Rook.createWhiteRook(),
+                Knight.createWhiteKnight(),
+                Bishop.createWhiteBishop(),
+                Queen.createWhiteQueen(),
+                King.createWhiteKing(),
+                Bishop.createWhiteBishop(),
+                Knight.createWhiteKnight(),
+                Rook.createWhiteRook());
 
         ranks.add(Rank.initializeRank(lastRow));
-    }
-
-    private String print() {
-        return ranks.stream()
-                .map(Rank::printRank)
-                .collect(Collectors.joining(NEWLINE));
-    }
-
-    public int getPieceCount(Piece.Color color, Piece.Type type) {
-        return ranks.stream().mapToInt(rank -> rank.getPieceCount(color, type)).sum();
-    }
-
-    public int getTotalPieceCount() {
-        return pieceCount;
-    }
-
-    public String showBoard() {
-        return print();
-    }
-
-    public void move(String position, Piece piece) {
-        validateCoordinate(position);
-        int widthIndex = convertWidthIndex(position.charAt(WIDTH_INDEX));
-        int rankIndex = convertRankIndex(position.charAt(RANK_INDEX));
-
-        Rank targetRank = ranks.get(rankIndex);
-        targetRank.setPiece(widthIndex, piece);
-    }
-
-    public double caculcatePoint(Piece.Color color) {
-        return ranks.stream()
-                .mapToDouble(rank -> rank.calculateRankPoint(color))
-                .sum();
-    }
-
-    public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
-        return ranks.stream().map(rank -> rank.getAllPieces(color))
-                .flatMap(List::stream)
-                .sorted(comparator)
-                .toList();
-    }
-
-    public Board() {
-        ranks = new ArrayList<>();
-        initialize();
-    }
-
-    private void initializeWhitePawns() {
-        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> Piece.createWhitePawn())
-                .collect(Collectors.toCollection(ArrayList::new));
-        this.ranks.add(Rank.initializeRank(initializedPieces));
-    }
-
-    private void initializeBlackPawns() {
-        ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> Piece.createBlackPawn())
-                .collect(Collectors.toCollection(ArrayList::new));
-        this.ranks.add(Rank.initializeRank(initializedPieces));
-    }
-
-
-    public Piece findPiece(String coordinate) {
-        validateCoordinate(coordinate);
-        int index = convertWidthIndex(coordinate.charAt(WIDTH_INDEX));
-        int rank = convertRankIndex(coordinate.charAt(RANK_INDEX));
-
-        return ranks.get(rank).getPieceByIndex(index);
-    }
-
-    private void validateCoordinate(String coordinate) {
-        if(coordinate == null || coordinate.isBlank()) {
-            throw new IllegalArgumentException("좌표를 입력해주세요.");
-        }
-        if(coordinate.length() != 2) {
-            throw new IllegalArgumentException("좌표는 2글자여야 합니다.");
-        }
-    }
-
-    private int convertRankIndex(char rank) {
-        if(rank >= 'a') {
-            throw new IllegalArgumentException("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
-        }
-        int convertedRank = rank - '1';
-
-        if(convertedRank < 0 || convertedRank >= RANK_HEIGHT) {
-            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
-        }
-        return RANK_HEIGHT - convertedRank - 1;
-    }
-
-    private int convertWidthIndex(char width) {
-        if(width < 'a') {
-            throw new IllegalArgumentException("좌표는 알파벳과 숫자의 순서로 이루어져야 합니다.");
-        }
-
-        int convertedWidth = width - 'a';
-
-        if(convertedWidth < 0 || convertedWidth >= BOARD_WIDTH) {
-            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
-        }
-        return convertedWidth;
     }
 }

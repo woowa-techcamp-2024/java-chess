@@ -1,91 +1,29 @@
 package chess.pieces;
 
-public class Piece {
+import java.util.Arrays;
+import java.util.List;
+
+public abstract class Piece {
     private final Color color;
     private final Type type;
 
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
+    // verifyMovePosition은 Piece가 유효한 좌표를 이동할 수 있는 지 검증하는 책임만 가지고
+    // 주변과의 상호작용은 ChessGame에서 담당하도록 변경
+    public abstract boolean verifyMoveCoordinate(String source, String dest);
 
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
-
-    // Knight
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    // Bishop
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    // Rook
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    // Queen
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    // King
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
-    }
-    
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-    
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Color getColor() {
+    public final Color getColor() {
         return color;
     }
 
     public char getRepresentation() {
-        return color.equals(Color.WHITE) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        return color.equals(Color.BLACK) ? Character.toUpperCase(type.getRepresentation()) : type.getRepresentation();
     }
 
-    public double getPoint() {
+    public double getDefaultPoint() {
         return type.getPoint();
     }
-    
-    private Piece(Color color, Type type) {
+
+    public Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
     }
@@ -98,12 +36,24 @@ public class Piece {
         return this.color.equals(Color.WHITE);
     }
 
-    public boolean isBlank() {
-        return this.type.equals(Type.NO_PIECE);
-    }
-
     public boolean isSameColorAndType(Color color, Type type) {
         return this.color.equals(color) && this.type.equals(type);
+    }
+
+    public boolean isSameColor(Color color) {
+        return this.color.equals(color);
+    }
+
+    public boolean isSameType(Type type) {
+        return this.type.equals(type);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public boolean isBlank() {
+        return this.type.equals(Type.NO_PIECE);
     }
 
     public enum Color {
@@ -122,16 +72,13 @@ public class Piece {
         private final char representation;
         private final double defaultPoint;
 
-        public char getWhiteRepresentation() {
-            return representation;
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(representation);
-        }
 
         public double getPoint() {
             return defaultPoint;
+        }
+
+        public char getRepresentation() {
+            return representation;
         }
 
         Type(char representation, double defaultPoint) {
@@ -139,4 +86,56 @@ public class Piece {
             this.defaultPoint = defaultPoint;
         }
     }
+    public enum Direction {
+        NORTH(0, -1),
+        NORTHEAST(1, -1),
+        EAST(1, 0),
+        SOUTHEAST(1, 1),
+        SOUTH(0, 1),
+        SOUTHWEST(-1, 1),
+        WEST(-1, 0),
+        NORTHWEST(-1, -1),
+
+        NNE(1, -2),
+        NNW(-1, -2),
+        SSE(1, 2),
+        SSW(-1, 2),
+        EEN(2, -1),
+        EES(2, 1),
+        WWN(-2, -1),
+        WWS(-2, 1);
+
+        private int xDegree;
+        private int yDegree;
+
+        Direction(int xDegree, int yDegree) {
+            this.xDegree = xDegree;
+            this.yDegree = yDegree;
+        }
+
+        public int getXDegree() {
+            return xDegree;
+        }
+
+        public int getYDegree() {
+            return yDegree;
+        }
+
+        public static List<Direction> everyDirection() {
+            return Arrays.asList(NORTH, EAST, SOUTH, WEST, NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
+        }
+
+        public static List<Direction> knightDirection() {
+            return Arrays.asList(NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS);
+        }
+
+        public static List<Direction> whitePawnDirection() {
+            return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
+        }
+
+        public static List<Direction> blackPawnDirection() {
+            return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
+        }
+    }
+
 }

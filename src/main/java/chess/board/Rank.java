@@ -4,7 +4,6 @@ import chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Rank {
 
@@ -12,6 +11,10 @@ public class Rank {
     private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
+
+    public List<Piece> getPieces() {
+        return pieces;
+    }
 
     public int getTotalPieceCount() {
         return pieceCount;
@@ -23,26 +26,12 @@ public class Rank {
                 .count();
     }
 
-    public static Rank initializeRank(List<Piece> pieces) {
+    public static Rank initializeRank(List<? extends Piece> pieces) {
         return new Rank(pieces);
-    }
-
-    public String printRank() {
-        return pieces.stream()
-                .map(Piece::getRepresentation)
-                .map(String::valueOf)
-                .collect(Collectors.joining());
     }
 
     public Piece getPieceByIndex(int index) {
         return pieces.get(index);
-    }
-
-    public double calculateRankPoint(Piece.Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.getColor().equals(color))
-                .mapToDouble(Piece::getPoint)
-                .sum();
     }
 
     public List<Piece> getAllPieces(Piece.Color color) {
@@ -57,7 +46,7 @@ public class Rank {
         pieceCount = calculatePieceCount();
     }
 
-    private Rank(List<Piece> pieces) {
+    private Rank(List<? extends Piece> pieces) {
         validatePieceCount(pieces);
         for (Piece piece : pieces) {
             if (!piece.isBlank()) {
@@ -74,7 +63,7 @@ public class Rank {
     }
 
 
-    private void validatePieceCount(List<Piece> pieces) {
+    private void validatePieceCount(List<? extends Piece> pieces) {
         if (pieces.size() != BOARD_WIDTH) {
             throw new IllegalArgumentException("한 랭크는 8개의 말을 가집니다.");
         }
