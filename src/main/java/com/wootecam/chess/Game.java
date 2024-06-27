@@ -17,22 +17,27 @@ public class Game {
 
     private final Board board;
     private final CoordinatesExtractor extractor;
+    private final PieceMoveVerifier pieceMoveVerifier;
 
-    public Game(final Board board, final CoordinatesExtractor extractor) {
+
+    public Game(final Board board, final CoordinatesExtractor extractor, final PieceMoveVerifier pieceMoveVerifier) {
         this.board = board;
         this.extractor = extractor;
+        this.pieceMoveVerifier = pieceMoveVerifier;
     }
 
     public void move(final String startCoordinates, final String targetCoordinates) {
         Position startPosition = extractor.extractPosition(startCoordinates);
         Position targetPosition = extractor.extractPosition(targetCoordinates);
 
-        Piece piece = board.findPiece(startPosition);
-        validateMovePieces(piece);
+        Piece startPiece = board.findPiece(startPosition);
+        Piece targetPiece = board.findPiece(targetPosition);
 
-        board.verifyMove(piece, startPosition, targetPosition);
+        validateMovePieces(startPiece);
+        pieceMoveVerifier.verifyMove(startPiece, targetPiece, startPosition, targetPosition, board::findPiece);
+
         board.updatePiece(startPosition, new Blank());
-        board.updatePiece(targetPosition, piece);
+        board.updatePiece(targetPosition, startPiece);
     }
 
     private void validateMovePieces(final Piece piece) {

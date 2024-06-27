@@ -18,7 +18,8 @@ public class ChessApplication {
         Scanner inputReader = new Scanner(System.in);
         Board board = initialize();
         CoordinatesExtractor extractor = new CoordinatesExtractor();
-        Game game = new Game(board, extractor);
+        PieceMoveVerifier pieceMoveVerifier = new PieceMoveVerifier();
+        Game game = new Game(board, extractor, pieceMoveVerifier);
 
         ChessView chessView = new ChessView();
 
@@ -38,6 +39,7 @@ public class ChessApplication {
     }
 
     private static Board initialize() {
+
         List<Rank> ranks = new ArrayList<>();
         ranks.add(Rank.createBlackOtherPieces());
         ranks.add(Rank.createPawns(Color.BLACK));

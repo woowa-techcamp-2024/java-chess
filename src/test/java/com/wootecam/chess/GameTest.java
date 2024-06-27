@@ -26,16 +26,16 @@ class GameTest {
 
     private Board board;
 
-    private ChessView chessView = new ChessView();
+    private PieceMoveVerifier verifier;
 
     private CoordinatesExtractor extractor;
 
     @BeforeEach
     void setUp() {
+        verifier = new PieceMoveVerifier();
         board = initialize();
         extractor = new CoordinatesExtractor();
-
-        game = new Game(board, extractor);
+        game = new Game(board, extractor, verifier);
     }
 
     private Board initialize() {
@@ -77,7 +77,6 @@ class GameTest {
 
             // when
 
-            chessView.printBoard(board.getRanks());
             game.move(startCoordinates, targetCoordinates);
             // then
             assertAll(
@@ -109,7 +108,7 @@ class GameTest {
         @BeforeEach
         void setUp() {
             board = initializeEmpty();
-            game = new Game(board, extractor);
+            game = new Game(board, extractor, verifier);
         }
 
         @Test
