@@ -32,7 +32,7 @@ public class ChessGUI extends JFrame {
 	public static String inputPromotion() {
 		String[] options = PieceType.getPromotionPieceTypes();
 		int choice = JOptionPane.showOptionDialog(null, "Choose promotion piece:", "Pawn Promotion",
-			JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+			JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
 		return options[choice];
 	}
 

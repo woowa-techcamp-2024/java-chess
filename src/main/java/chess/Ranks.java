@@ -2,6 +2,7 @@ package chess;
 
 import static chess.Board.BOARD_SIZE;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import pieces.Color;
@@ -14,9 +15,9 @@ public class Ranks {
 
 	public Ranks() {
 		ranks = IntStream.range(0, BOARD_SIZE)
-			.mapToObj(row -> new Rank(IntStream.range(0, BOARD_SIZE)
+			.mapToObj(row -> new Rank(new ArrayList<>(IntStream.range(0, BOARD_SIZE)
 				.mapToObj(column -> Piece.of(Color.from(row), PieceType.from(row, column)))
-				.toList()))
+				.toList())))
 			.toList();
 	}
 
