@@ -15,10 +15,10 @@ public class Position {
     @Override
     public boolean equals(Object o) {
         if (Objects.equals(o, null)) return false;
+        if (getClass() != o.getClass()) return false;
 
         Position position = (Position) o;
-        if (this.getX() == position.getX() && this.getY() == position.getY()) return true;
-        else return false;
+        return this.getX() == position.getX() && this.getY() == position.getY();
     }
 
     public Position(final String position) {

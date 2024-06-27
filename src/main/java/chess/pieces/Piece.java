@@ -45,13 +45,12 @@ public abstract class Piece implements Comparable<Piece> {
     @Override
     public boolean equals(Object o) {
         if (Objects.equals(o, null)) return false;
+        if (this.getClass() != o.getClass()) return false;
 
         Piece piece = (Piece) o;
         if (!Objects.equals(this.color, piece.getColor())) return false;
         if (!Objects.equals(this.type, piece.getType())) return false;
-        if (!Objects.equals(this.position, piece.getPosition())) return false;
-
-        return true;
+        return Objects.equals(this.position, piece.getPosition());
     }
 
     public Color getColor() {
