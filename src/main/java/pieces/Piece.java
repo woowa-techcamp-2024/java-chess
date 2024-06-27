@@ -4,12 +4,11 @@ import static java.lang.Math.abs;
 import static pieces.Color.BLACK;
 import static pieces.Color.WHITE;
 
-import chess.Command;
 import chess.Direction;
 import chess.Position;
 import java.util.List;
 import utils.MathUtils;
-import view.InputView;
+import view.ChessGUI;
 
 public class Piece {
 
@@ -48,8 +47,7 @@ public class Piece {
 
 	public void doPromotion(Position position) {
 		if (canPromotion(position)) {
-			Command command = InputView.inputPromotion();
-			updatePieceType(PieceType.from(command.getArguments()[0]));
+			updatePieceType(PieceType.from(ChessGUI.inputPromotion()));
 		}
 	}
 
@@ -82,16 +80,12 @@ public class Piece {
 		return direction.getX() == rowDiff && direction.getY() == columnDiff;
 	}
 
-	/**
-	 * 하나의 Direction으로 끝까지 갈 수 있는 pieceType BISHOP, QUEEN, ROOK
-	 */
 	private boolean isMultipleMovePieceType(PieceType pieceType) {
 		return pieceType == PieceType.BISHOP || pieceType == PieceType.QUEEN || pieceType == PieceType.ROOK;
 	}
 
 	private boolean canPromotion(Position position) {
-		return pieceType == PieceType.PAWN
-			&& ((color == BLACK && position.getRow() == 7) || (color == WHITE && position.getRow() == 0));
+		return pieceType == PieceType.PAWN && (position.getRow() == 7 || position.getRow() == 0);
 	}
 
 	private void updatePieceType(PieceType pieceType) {
