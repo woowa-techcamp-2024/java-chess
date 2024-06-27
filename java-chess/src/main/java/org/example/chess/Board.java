@@ -1,8 +1,7 @@
 package org.example.chess;
 
-import org.example.chess.pieces.Piece;
-import org.example.chess.pieces.global.Order;
-import org.example.chess.pieces.global.Position;
+import org.example.chess.pieces.*;
+import org.example.chess.pieces.global.*;
 
 import java.util.*;
 
@@ -15,25 +14,46 @@ public class Board {
         initializeEmpty();
     }
 
-    public void moveTo(Position from, Position to) throws RuntimeException{
-        Board.Rank fromRow = pieces.get(from.getRow());
-        Board.Rank toRow = pieces.get(to.getRow());
+    public void moveTo(Position from, Position to) {
+        Piece piece = findPiece(from);
+        Rank fromRank = pieces.get(from.getRow());
+        Rank toRank = pieces.get(to.getRow());
 
-        Piece piece = fromRow.getPiece(from.getCol());
-        Piece dest = toRow.getPiece(to.getCol());
+        List<MoveSeq> moveSeqs = piece.getMoveSeqs();
 
         validateNotEmpty(piece);
 
-        if (dest.getName() == Piece.Type.NO_PIECE) {
-            fromRow.emptyPiece(from.getCol());
-            toRow.placePiece(to.getCol(), piece);
-        } else if (dest.getColor() == piece.getColor()) {
-            throw new RuntimeException("자리에 이미 우리팀 말이 존재합니다.");
-        } else {
-            fromRow.emptyPiece(from.getCol());
-            toRow.placePiece(to.getCol(), piece);
-            System.out.printf("%s 말이 잡아 먹혔습니다%n", to);
+        for(MoveSeq moveSeq: moveSeqs) {
+            if (isReachable(from, moveSeq, to)) {
+                fromRank.emptyPiece(from.getCol());
+                toRank.setPiece(from.getCol(), piece);
+            }
         }
+    }
+
+    public boolean isReachable(Position from, MoveSeq moveSeq, Position to) {
+        Position cur = from.copy();
+        for (Move move : moveSeq.getMoves()) {
+            if (!isOnceMovable(cur, move)) {
+                return false;
+            }
+            cur = cur.move(move.getDir());
+            if (cur.equals(to)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isOnceMovable(Position from, Move move) throws RuntimeException {
+        Piece dest = findPiece(from.move(move.getDir()));
+
+        if (dest.getName() == Piece.Type.NO_PIECE) {
+            return true;
+        }
+
+        return move.isJumpable();
     }
 
     private void validateNotEmpty(Piece piece) {
@@ -55,8 +75,7 @@ public class Board {
     }
 
     public Piece findPiece(Position position) {
-        //TODO rank 객체와의 협력 필요
-        return pieces.get(position.getRow()).pieceRow.get(position.getCol());
+        return pieces.get(position.getRow()).getPiece(position.getCol());
     }
 
     public String getWhitePawnsRepresentation() {
@@ -81,35 +100,35 @@ public class Board {
 
     public void initializeEmpty() {
         List<Rank> board = new ArrayList<>();
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             board.add(new Rank());
         }
         pieces = board;
     }
 
     public void initialize() {
-        for(int i = 0; i < 8; i++) {
-            this.place(Piece.createBlackPawn(), new Position(1, i));
-            this.place(Piece.createWhitePawn(), new Position(6, i));
+        for (int i = 0; i < 8; i++) {
+            this.setPiece(new Position(1, i), Pawn.of(Piece.Color.BLACK));
+            this.setPiece(new Position(6, i), Pawn.of(Piece.Color.WHITE));
         }
 
-        this.place(Piece.createBlackRook(), new Position(0, 0));
-        this.place(Piece.createBlackKnight(), new Position(0, 1));
-        this.place(Piece.createBlackBishop(), new Position(0, 2));
-        this.place(Piece.createBlackQueen(), new Position(0, 3));
-        this.place(Piece.createBlackKing(), new Position(0, 4));
-        this.place(Piece.createBlackBishop(), new Position(0, 5));
-        this.place(Piece.createBlackKnight(), new Position(0, 6));
-        this.place(Piece.createBlackRook(), new Position(0, 7));
+        this.setPiece(new Position(0, 0), Rook.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 1), Knight.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 2), Bishop.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 3), Queen.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 4), King.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 5), Bishop.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 6), Knight.of(Piece.Color.BLACK));
+        this.setPiece(new Position(0, 7), Rook.of(Piece.Color.BLACK));
 
-        this.place(Piece.createWhiteRook(), new Position(7, 0));
-        this.place(Piece.createWhiteKnight(), new Position(7, 1));
-        this.place(Piece.createWhiteBishop(), new Position(7, 2));
-        this.place(Piece.createWhiteQueen(), new Position(7, 3));
-        this.place(Piece.createWhiteKing(), new Position(7, 4));
-        this.place(Piece.createWhiteBishop(), new Position(7, 5));
-        this.place(Piece.createWhiteKnight(), new Position(7, 6));
-        this.place(Piece.createWhiteRook(), new Position(7, 7));
+        this.setPiece(new Position(7, 0), Rook.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 1), Knight.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 2), Bishop.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 3), Queen.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 4), King.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 5), Bishop.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 6), Knight.of(Piece.Color.WHITE));
+        this.setPiece(new Position(7, 7), Rook.of(Piece.Color.WHITE));
 
         this.showBoard();
     }
@@ -139,46 +158,46 @@ public class Board {
 //    }
 
     public double calculatePoint(Piece.Color color) {
-        revisePawnScore();
+//        revisePawnScore();
         return this.pieces.stream()
                 .mapToDouble(rank -> rank.calculateScore(color))
                 .sum();
     }
 
-    // TODO pawn 점수 저장하지 않도록 수정 필요
-    // board pawn 들의 점수를 재조정하는 함수
-    private void revisePawnScore() {
-        for(int colIdx= 0; colIdx < 8; colIdx++) {
-            int finalColIdx = colIdx;
-            long blackPawnCount = this.pieces.stream()
-                    .map(rank -> rank.getPiece(finalColIdx))
-                    .filter(Piece::isPawn)
-                    .filter(Piece::isBlack)
-                    .count();
-
-            long whitePawnCount = this.pieces.stream()
-                    .map(rank -> rank.getPiece(finalColIdx))
-                    .filter(Piece::isPawn)
-                    .filter(Piece::isWhite)
-                    .count();
-            
-            if (blackPawnCount >= 2) {
-                this.pieces.stream()
-                        .map(rank -> rank.getPiece(finalColIdx))
-                        .filter(Piece::isPawn)
-                        .filter(Piece::isBlack)
-                        .forEach(piece -> piece.setPoint(0.5));
-            }
-
-            if (whitePawnCount >= 2) {
-                this.pieces.stream()
-                        .map(rank -> rank.getPiece(finalColIdx))
-                        .filter(Piece::isPawn)
-                        .filter(Piece::isWhite)
-                        .forEach(piece -> piece.setPoint(0.5));
-            }
-        }
-    }
+//    // TODO pawn 점수 저장하지 않도록 수정 필요
+//    // board pawn 들의 점수를 재조정하는 함수
+//    private void revisePawnScore() {
+//        for(int colIdx= 0; colIdx < 8; colIdx++) {
+//            int finalColIdx = colIdx;
+//            long blackPawnCount = this.pieces.stream()
+//                    .map(rank -> rank.getPiece(finalColIdx))
+//                    .filter(Piece::isPawn)
+//                    .filter(Piece::isBlack)
+//                    .count();
+//
+//            long whitePawnCount = this.pieces.stream()
+//                    .map(rank -> rank.getPiece(finalColIdx))
+//                    .filter(Piece::isPawn)
+//                    .filter(Piece::isWhite)
+//                    .count();
+//
+//            if (blackPawnCount >= 2) {
+//                this.pieces.stream()
+//                        .map(rank -> rank.getPiece(finalColIdx))
+//                        .filter(Piece::isPawn)
+//                        .filter(Piece::isBlack)
+//                        .forEach(piece -> piece.setPoint(0.5));
+//            }
+//
+//            if (whitePawnCount >= 2) {
+//                this.pieces.stream()
+//                        .map(rank -> rank.getPiece(finalColIdx))
+//                        .filter(Piece::isPawn)
+//                        .filter(Piece::isWhite)
+//                        .forEach(piece -> piece.setPoint(0.5));
+//            }
+//        }
+//    }
 
     public List<Piece> sort(Order order) {
         Comparator<Piece> asc = Comparator.comparingDouble(piece -> piece.getName().getDefaultPoint());
@@ -205,8 +224,8 @@ public class Board {
 
         public Rank() {
             List<Piece> pieceRow = new ArrayList<Piece>();
-            for(int i = 0; i < 8; i++) {
-                pieceRow.add(Piece.createBlank());
+            for (int i = 0; i < 8; i++) {
+                pieceRow.add(NoPiece.of());
             }
             this.pieceRow = pieceRow;
         }
@@ -216,7 +235,7 @@ public class Board {
         }
 
         public void emptyPiece(int idx) {
-            this.pieceRow.set(idx, Piece.createBlank());
+            this.pieceRow.set(idx, NoPiece.of());
         }
 
         public Piece getPiece(int idx) {
@@ -235,17 +254,18 @@ public class Board {
             return this.pieceRow.stream().filter(Piece::isExist).count();
         }
 
-        public double calculateScore(Piece.Color color) {
-            return this.pieceRow.stream()
-                    .filter(piece -> piece.getColor() == color)
-                    .mapToDouble(Piece::getPoint)
-                    .sum();
-        }
+        //TODO 계산
+//        public double calculateScore(Piece.Color color) {
+//            return this.pieceRow.stream()
+//                    .filter(piece -> piece.getColor() == color)
+//                    .mapToDouble(Piece::)
+//                    .sum();
+//        }
 
-        public String showScore() {
-            return Arrays.toString(this.pieceRow.stream()
-                    .mapToDouble(Piece::getPoint)
-                    .toArray());
-        }
+//        public String showScore() {
+//            return Arrays.toString(this.pieceRow.stream()
+//                    .mapToDouble(Piece::getPoint)
+//                    .toArray());
+//        }
     }
 }

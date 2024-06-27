@@ -1,16 +1,19 @@
 package org.example.chess.pieces;
 
+import org.example.chess.pieces.global.Direction;
+import org.example.chess.pieces.global.MoveSeq;
+import org.example.chess.pieces.global.Position;
+
+import java.util.List;
 import java.util.Objects;
 
-public class Piece{
+public abstract class Piece{
     private final Color color;
     private final Type type;
-    private double point;
 
-    private Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
-        this.point = type.defaultPoint;
     }
 
     public boolean isWhite() {
@@ -43,73 +46,65 @@ public class Piece{
         return Character.toUpperCase(this.type.representation);
     }
 
-    public double getPoint() {
-        return this.point;
-    }
-
-    public void setPoint(double point) {
-        this.point = point;
-    }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
-
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
-
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
-    }
+//    public static Piece createWhitePawn() {
+//        return createWhite(Type.PAWN);
+//    }
+//
+//    public static Piece createBlackPawn() {
+//        return createBlack(Type.PAWN);
+//    }
+//
+//    public static Piece createWhiteKnight() {
+//        return createWhite(Type.KNIGHT);
+//    }
+//
+//    public static Piece createBlackKnight() {
+//        return createBlack(Type.KNIGHT);
+//    }
+//
+//    public static Piece createWhiteRook() {
+//        return createWhite(Type.ROOK);
+//    }
+//
+//    public static Piece createBlackRook() {
+//        return createBlack(Type.ROOK);
+//    }
+//
+//    public static Piece createWhiteBishop() {
+//        return createWhite(Type.BISHOP);
+//    }
+//
+//    public static Piece createBlackBishop() {
+//        return createBlack(Type.BISHOP);
+//    }
+//
+//    public static Piece createWhiteQueen() {
+//        return createWhite(Type.QUEEN);
+//    }
+//
+//    public static Piece createBlackQueen() {
+//        return createBlack(Type.QUEEN);
+//    }
+//
+//    public static Piece createWhiteKing() {
+//        return createWhite(Type.KING);
+//    }
+//
+//    public static Piece createBlackKing() {
+//        return createBlack(Type.KING);
+//    }
+//
+//    private static Piece createWhite(Type type) {
+//        return new Piece(Color.WHITE, type);
+//    }
+//
+//    private static Piece createBlack(Type type) {
+//        return new Piece(Color.BLACK, type);
+//    }
+//
+//    public static Piece createBlank() {
+//        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -128,6 +123,7 @@ public class Piece{
         return String.format("Color: %s, Type: %s \n", color, type);
     }
 
+    public abstract List<MoveSeq> getMoveSeqs();
 
     public enum Color {
         WHITE, BLACK, NOCOLOR
@@ -150,7 +146,7 @@ public class Piece{
             this.defaultPoint = defaultPoint;
         }
 
-        public char getSymbol() {
+        public char getRepresentation() {
             return this.representation;
         }
 
