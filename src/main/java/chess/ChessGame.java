@@ -1,6 +1,7 @@
 package chess;
 
 import chess.constant.Color;
+import chess.constant.Direction;
 import chess.constant.Type;
 import chess.pieces.*;
 
@@ -33,32 +34,32 @@ public class ChessGame {
     }
 
     private void initializeWhitePiece() {
-        board.saveByPosition(Piece.createWhiteRook(null), new Position("a1"));
-        board.saveByPosition(Piece.createWhiteKnight(null), new Position("b1"));
-        board.saveByPosition(Piece.createWhiteBishop(null), new Position("c1"));
-        board.saveByPosition(Piece.createWhiteQueen(null), new Position("d1"));
-        board.saveByPosition(Piece.createWhiteKing(null), new Position("e1"));
-        board.saveByPosition(Piece.createWhiteBishop(null), new Position("f1"));
-        board.saveByPosition(Piece.createWhiteKnight(null), new Position("g1"));
-        board.saveByPosition(Piece.createWhiteRook(null), new Position("h1"));
+        board.saveByPosition(PieceFactory.createRook(Color.WHITE, null), new Position("a1"));
+        board.saveByPosition(PieceFactory.createKnight(Color.WHITE, null), new Position("b1"));
+        board.saveByPosition(PieceFactory.createBishop(Color.WHITE, null), new Position("c1"));
+        board.saveByPosition(PieceFactory.createQueen(Color.WHITE, null), new Position("d1"));
+        board.saveByPosition(PieceFactory.createKing(Color.WHITE, null), new Position("e1"));
+        board.saveByPosition(PieceFactory.createBishop(Color.WHITE, null), new Position("f1"));
+        board.saveByPosition(PieceFactory.createKnight(Color.WHITE, null), new Position("g1"));
+        board.saveByPosition(PieceFactory.createRook(Color.WHITE, null), new Position("h1"));
 
         for (int i = 0; i < BOARD_SIZE; i++) {
-            board.saveByPosition(Piece.createWhitePawn(null), new Position(i, 6));
+            board.saveByPosition(PieceFactory.createPawn(Color.WHITE, null), new Position(i, 6));
         }
     }
 
     private void initializeBlackPiece() {
-        board.saveByPosition(Piece.createBlackRook(null), new Position("a8"));
-        board.saveByPosition(Piece.createBlackKnight(null), new Position("b8"));
-        board.saveByPosition(Piece.createBlackBishop(null), new Position("c8"));
-        board.saveByPosition(Piece.createBlackQueen(null), new Position("d8"));
-        board.saveByPosition(Piece.createBlackKing(null), new Position("e8"));
-        board.saveByPosition(Piece.createBlackBishop(null), new Position("f8"));
-        board.saveByPosition(Piece.createBlackKnight(null), new Position("g8"));
-        board.saveByPosition(Piece.createBlackRook(null), new Position("h8"));
+        board.saveByPosition(PieceFactory.createRook(Color.BLACK, null), new Position("a8"));
+        board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position("b8"));
+        board.saveByPosition(PieceFactory.createBishop(Color.BLACK, null), new Position("c8"));
+        board.saveByPosition(PieceFactory.createQueen(Color.BLACK, null), new Position("d8"));
+        board.saveByPosition(PieceFactory.createKing(Color.BLACK, null), new Position("e8"));
+        board.saveByPosition(PieceFactory.createBishop(Color.BLACK, null), new Position("f8"));
+        board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position("g8"));
+        board.saveByPosition(PieceFactory.createRook(Color.BLACK, null), new Position("h8"));
 
         for (int i = 0; i < BOARD_SIZE; i++) {
-            board.saveByPosition(Piece.createBlackPawn(null), new Position(i, 1));
+            board.saveByPosition(PieceFactory.createPawn(Color.BLACK, null), new Position(i, 1));
         }
     }
 
@@ -100,11 +101,16 @@ public class ChessGame {
 
         Piece piece = board.findByPosition(sourcePosition);
         if (destinationPosition.isOutOfIndex()) return;
+
+        Piece destinationPiece = board.findByPosition(destinationPosition);
         if (isColorSame(piece.getColor(), destinationPosition)) return;
-        if (!isMoveAvailable(piece, destinationPosition)) return;
+        if (!piece.verifyMovePosition(destinationPiece)) return;
+
+        Direction direction = piece.getDirection(destinationPosition);
+        if (!verifyMoveDirection(direction, sourcePosition, destinationPosition)) return;
 
         board.saveByPosition(piece, destinationPosition);
-        board.saveByPosition(Piece.createBlank(sourcePosition), sourcePosition);
+        board.saveByPosition(PieceFactory.createBlank(sourcePosition), sourcePosition);
     }
 
     private boolean isColorSame(final Color color, final Position position) {
@@ -112,50 +118,14 @@ public class ChessGame {
         return Objects.equals(color, piece.getColor());
     }
 
-    private boolean isMoveAvailable(final Piece piece, final Position position) {
-        if (Objects.equals(piece.getType(), Type.KING)) {
-            return isKingMoveAvailable(piece, position);
+    private boolean verifyMoveDirection(final Direction direction, final Position source, final Position destination) {
+        Position position = new Position(source.getX() + direction.getXDegree(), source.getY() + direction.getYDegree());
+        while (!Objects.equals(position, destination)) {
+            Piece piece = board.findByPosition(position);
+            if (!Objects.equals(piece.getType(), Type.NO_PIECE)) return false;
+
+            position = new Position(position.getX() + direction.getXDegree(), position.getY() + direction.getYDegree());
         }
-        if (Objects.equals(piece.getType(), Type.QUEEN)) {
-            return isQueenMoveAvailable(piece, position);
-        }
-        return false;
-    }
-
-    private boolean isKingMoveAvailable(final Piece piece, final Position position) {
-        Position sourcePosition = piece.getPosition();
-        final int[] y_grad = {-1, -1, -1, 0, 0, 1, 1, 1};
-        final int[] x_grad = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-        for (int i = 0; i < 8; i++) {
-            int y = sourcePosition.getY() + y_grad[i];
-            int x = sourcePosition.getX() + x_grad[i];
-            if (position.getX() == x && position.getY() == y) return true;
-        }
-        return false;
-    }
-
-    private boolean isQueenMoveAvailable(final Piece piece, final Position position) {
-        Position sourcePosition = piece.getPosition();
-        final int[] y_grad = {-1, -1, -1, 0, 0, 1, 1, 1};
-        final int[] x_grad = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-        for (int i = 0; i < 8; i++) {
-            Position nextPosition = new Position(sourcePosition.getX() + x_grad[i], sourcePosition.getY() + y_grad[i]);
-            boolean moveAvailable = moveVirtualQueen(nextPosition, position, y_grad[i], x_grad[i]);
-            if (moveAvailable) return true;
-        }
-        return false;
-    }
-
-    private boolean moveVirtualQueen(final Position source, final Position destination, final int y_grad, final int x_grad) {
-        if (source.isOutOfIndex()) return false;
-        if (source.getX() == destination.getX() && source.getY() == destination.getY()) return true;
-
-        Piece piece = board.findByPosition(source);
-        if (!Objects.equals(piece.getType(), Type.NO_PIECE)) return false;
-
-        Position position = new Position(source.getX() + x_grad, source.getY() + y_grad);
-        return moveVirtualQueen(position, destination, y_grad, x_grad);
+        return true;
     }
 }
