@@ -38,8 +38,8 @@ public class ConsoleView {
     }
 
     public static String[] play(PieceColor turn) {
-        System.out.println(MOVE_MESSAGE);
         System.out.println(turn + TURN_MESSAGE);
+        System.out.println(MOVE_MESSAGE);
 
         return splitCommand();
     }

@@ -29,7 +29,7 @@ public class ChessView {
             chessBoard.append(appendNewLine(String.valueOf(Rank.of(row).getIndex())));
         }
 
-        chessBoard.append(appendNewLine(RANK));
+        chessBoard.append(RANK);
 
         return chessBoard.toString();
     }
