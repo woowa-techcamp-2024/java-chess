@@ -1,12 +1,16 @@
 package org.example.chess.pieces;
 
-public class Piece {
+import java.util.Objects;
+
+public class Piece{
     private final Color color;
     private final Type type;
+    private double point;
 
     private Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
+        this.point = type.defaultPoint;
     }
 
     public boolean isWhite() {
@@ -20,6 +24,8 @@ public class Piece {
     public boolean isBlank() { return this.type == Type.NO_PIECE; }
 
     public boolean isExist() { return this.type != Type.NO_PIECE; }
+
+    public boolean isPawn() { return this.type == Type.PAWN; }
 
     public Color getColor() {
         return color;
@@ -35,6 +41,14 @@ public class Piece {
         }
 
         return Character.toUpperCase(this.type.representation);
+    }
+
+    public double getPoint() {
+        return this.point;
+    }
+
+    public void setPoint(double point) {
+        this.point = point;
     }
 
     public static Piece createWhitePawn() {
@@ -97,21 +111,51 @@ public class Piece {
         return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece piece)) return false;
+        return color == piece.color && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Color: %s, Type: %s \n", color, type);
+    }
+
+
     public enum Color {
         WHITE, BLACK, NOCOLOR
     }
 
     public enum Type {
-        PAWN('P'), KNIGHT('N'), ROOK('R'), BISHOP('B'), QUEEN('Q'), KING('K'), NO_PIECE('.');
+        PAWN('P', 1.0),
+        KNIGHT('N', 2.5),
+        ROOK('R', 5.0),
+        BISHOP('B', 3.0),
+        QUEEN('Q', 9.0),
+        KING('K', 0.0),
+        NO_PIECE('.', 0.0);
 
         private final char representation;
+        private final double defaultPoint;
 
-        Type(char representation) {
+        Type(char representation, double defaultPoint) {
             this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
 
         public char getSymbol() {
             return this.representation;
+        }
+
+        public double getDefaultPoint() {
+            return this.defaultPoint;
         }
     }
 }
