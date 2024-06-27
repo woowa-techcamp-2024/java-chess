@@ -1,5 +1,6 @@
 package org.example;
 
+import static java.lang.System.exit;
 import static org.example.utils.BoardPrinter.showBoard;
 
 import java.util.Scanner;
@@ -14,9 +15,8 @@ public class Main {
         Board board = null;
         ChessGame chessGame = null;
         boolean isGameStarted = false;
-        boolean isGameEnded = false;
 
-        while (!isGameEnded) {
+        while (true) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter a command: ");
             String[] cmds = scanner.nextLine().split(" ");
@@ -27,9 +27,9 @@ public class Main {
                 case START:
                     board = new Board();
                     chessGame = new ChessGame(board);
+                    chessGame.initialize();
                     isGameStarted = true;
                     System.out.println("Game started.");
-                    System.out.println(showBoard(chessGame.getBoard()));
                     break;
                 case MOVE:
                     if (isGameStarted) {
@@ -37,21 +37,27 @@ public class Main {
                             System.out.println("Invalid command");
                             continue;
                         }
-                        chessGame.move(cmds[1], cmds[2]);
 
-                        System.out.println(showBoard(chessGame.getBoard()));
+                        try {
+                            chessGame.move(cmds[1], cmds[2]);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            continue;
+                        }
                     } else {
                         System.out.println("Game has not started yet.");
                     }
                     break;
                 case END:
-                    isGameEnded = true;
+                    exit(0);
                     break;
                 case INVALID:
                 default:
                     System.out.println("Invalid command");
                     break;
             }
+
+            System.out.println(showBoard(chessGame.getBoard()));
         }
     }
 }
