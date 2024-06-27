@@ -37,12 +37,15 @@ public class ChessGUI extends JFrame {
     public ChessGUI() {
         game = new ChessGame();
         setTitle("Chess Game");
-        setSize(400, 400);
+        setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        chessBoard = new JPanel(new GridLayout(8, 8));
         pieceLabels = new JLabel[8][8];
 
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // 체스판 생성
+        chessBoard = new JPanel(new GridLayout(8, 8));
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 JPanel square = new JPanel(new BorderLayout());
@@ -56,7 +59,24 @@ public class ChessGUI extends JFrame {
             }
         }
 
-        add(chessBoard);
+        // 왼쪽 좌표 패널
+        JPanel leftCoordinates = new JPanel(new GridLayout(8, 1));
+        for (int i = 8; i >= 1; i--) {
+            leftCoordinates.add(new JLabel(String.valueOf(i), SwingConstants.CENTER));
+        }
+
+        // 아래쪽 좌표 패널
+        JPanel bottomCoordinates = new JPanel(new GridLayout(1, 8));
+        for (char c = 'a'; c <= 'h'; c++) {
+            bottomCoordinates.add(new JLabel(String.valueOf(c), SwingConstants.CENTER));
+        }
+
+        // 패널들을 메인 패널에 추가
+        mainPanel.add(leftCoordinates, BorderLayout.WEST);
+        mainPanel.add(chessBoard, BorderLayout.CENTER);
+        mainPanel.add(bottomCoordinates, BorderLayout.SOUTH);
+
+        add(mainPanel);
 
         glassPane = new JPanel();
         glassPane.setOpaque(false);
