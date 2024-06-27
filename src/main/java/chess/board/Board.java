@@ -11,12 +11,9 @@ import java.util.stream.IntStream;
 public class Board {
 
     private final List<Rank> ranks;
-    // TODO 이거 왜 있지,,
-    private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
     private static final int RANK_HEIGHT = 8;
-    private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
 
@@ -30,17 +27,12 @@ public class Board {
     protected void initializeEmpty() {
         ranks.clear();
         initializeEmtpyRows(0, RANK_HEIGHT);
-        pieceCount = 0;
     }
 
     public int getPieceCount(Piece.Color color, Piece.Type type) {
         return ranks.stream()
                 .mapToInt(rank -> rank.getPieceCount(color, type))
                 .sum();
-    }
-
-    public int getTotalPieceCount() {
-        return pieceCount;
     }
 
     public List<Piece> sortPiecesByPoint(Piece.Color color, SORT sort) {
@@ -94,7 +86,6 @@ public class Board {
     }
 
     private void initialize() {
-        pieceCount = INITIAL_PIECE_COUNT;
         initializeBlackFirstRow();
         initializeBlackPawns();
         initializeEmtpyRows(BLANK_ROW_START, BLANK_ROW_END);

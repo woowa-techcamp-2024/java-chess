@@ -84,28 +84,4 @@ class RankTest {
                 .hasMessage("한 랭크는 8개의 말을 가집니다.");
     }
 
-    @DisplayName("랭크에서 piece의 개수를 반환할 수 있다")
-    @Test
-    void getTotalPieceCount() {
-        // given
-        List<Piece> pieces = List.of(
-                Blank.createBlank(),
-                King.createWhiteKing(),
-                Bishop.createBlackBishop(),
-                Blank.createBlank(),
-                Queen.createWhiteQueen(),
-                Rook.createBlackRook(),
-                Blank.createBlank(),
-                Pawn.createBlackPawn()
-        );
-
-        Rank rank = Rank.initializeRank(pieces);
-
-        // when
-        int pieceCount = rank.getTotalPieceCount();
-
-        // then
-        assertEquals(5, pieceCount);
-    }
-
 }

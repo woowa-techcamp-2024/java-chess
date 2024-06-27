@@ -8,16 +8,11 @@ import java.util.List;
 public class Rank {
 
     private final List<Piece> pieces;
-    private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
 
     public List<Piece> getPieces() {
         return pieces;
-    }
-
-    public int getTotalPieceCount() {
-        return pieceCount;
     }
 
     public int getPieceCount(Piece.Color color, Piece.Type type) {
@@ -43,16 +38,10 @@ public class Rank {
 
     protected void setPiece(int widthIndex, Piece piece) {
         pieces.set(widthIndex, piece);
-        pieceCount = calculatePieceCount();
     }
 
     private Rank(List<? extends Piece> pieces) {
         validatePieceCount(pieces);
-        for (Piece piece : pieces) {
-            if (!piece.isBlank()) {
-                pieceCount++;
-            }
-        }
         this.pieces = new ArrayList<>(pieces);
     }
 

@@ -162,14 +162,6 @@ class BoardTest {
                 .contains(Piece.Color.WHITE, Piece.Type.ROOK);
     }
 
-    @Test
-    @DisplayName("보드를 생성할 수 있다")
-    void create() {
-
-        assertEquals(32, board.getTotalPieceCount());
-        assertEquals(givenBoardPrint(), chessView.printBoard());
-    }
-
     @DisplayName("해당하는 색상과 종류의 Piece 개수를 반환한다")
     @Test
     void getPieceCount() {
