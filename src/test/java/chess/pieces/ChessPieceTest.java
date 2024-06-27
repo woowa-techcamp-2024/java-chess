@@ -1,112 +1,283 @@
 package chess.pieces;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static chess.pieces.PieceTypes.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChessPieceTest {
+
     private void verifyPiece(final ChessPiece chessPiece, final PieceTypes type) {
-        verifyPiece(chessPiece, type.getColor(), type.getRepresentation(), type.getType());
+        verifyPiece(chessPiece, type.getColor(), type.getRepresentation(), type.getType(),type.getCourse());
     }
 
-    private void verifyPiece(final ChessPiece chessPiece, final Color color, final char representation, final Type type) {
+    private void verifyPiece(final ChessPiece chessPiece, final PieceTypes.Color color, final char representation, final PieceTypes.Type type, final Course course) {
         assertEquals(color, chessPiece.getColor());
         assertEquals(representation, chessPiece.getRepresentation());
         assertEquals(type, chessPiece.getType());
     }
 
-    @Test
-    public void create() {
-        ChessPiece whitePawn = PieceFactory.createPiece(WHITE_PAWN);
-        ChessPiece blackPawn = PieceFactory.createPiece(BLACK_PAWN);
-        ChessPiece whiteKnight = PieceFactory.createPiece(WHITE_KNIGHT);
-        ChessPiece blackKnight = PieceFactory.createPiece(BLACK_KNIGHT);
-        ChessPiece whiteRook = PieceFactory.createPiece(WHITE_ROOK);
-        ChessPiece blackRook = PieceFactory.createPiece(BLACK_ROOK);
-        ChessPiece whiteBishop = PieceFactory.createPiece(WHITE_BISHOP);
-        ChessPiece blackBishop = PieceFactory.createPiece(BLACK_BISHOP);
-        ChessPiece whiteQueen = PieceFactory.createPiece(WHITE_QUEEN);
-        ChessPiece blackQueen = PieceFactory.createPiece(BLACK_QUEEN);
-        ChessPiece whiteKing = PieceFactory.createPiece(WHITE_KING);
-        ChessPiece blackKing = PieceFactory.createPiece(BLACK_KING);
+    @Nested
+    @DisplayName("Pawn")
+    class PawnTest {
 
-        verifyPiece(whitePawn, WHITE_PAWN);
-        verifyPiece(blackPawn, BLACK_PAWN);
-        verifyPiece(whiteKnight, WHITE_KNIGHT);
-        verifyPiece(blackKnight, BLACK_KNIGHT);
-        verifyPiece(whiteRook, WHITE_ROOK);
-        verifyPiece(blackRook, BLACK_ROOK);
-        verifyPiece(whiteBishop, WHITE_BISHOP);
-        verifyPiece(blackBishop, BLACK_BISHOP);
-        verifyPiece(whiteQueen, WHITE_QUEEN);
-        verifyPiece(blackQueen, BLACK_QUEEN);
-        verifyPiece(whiteKing, WHITE_KING);
-        verifyPiece(blackKing, BLACK_KING);
+        @Test
+        public void createPawnTest() {
+            ChessPiece whitePawn = new Pawn(WHITE_PAWN);
+            ChessPiece blackPawn = new Pawn(BLACK_PAWN);
+
+            verifyPiece(whitePawn, WHITE_PAWN);
+            verifyPiece(blackPawn, BLACK_PAWN);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackPawn = new Pawn(BLACK_PAWN);
+
+            assertTrue(blackPawn.isBlack());
+            assertFalse(blackPawn.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whitePawn = new Pawn(WHITE_PAWN);
+
+            assertTrue(whitePawn.isWhite());
+            assertFalse(whitePawn.isBlack());
+        }
+
+        @Test
+        public void courseTestWithWhitePawn(){
+            ChessPiece whitePawn = new Pawn(WHITE_PAWN);
+
+            assertEquals(Direction.whitePawnDirection(),whitePawn.getCourse().getDirections());
+        }
+
+        @Test
+        public void courseTestWithBlackPawn(){
+            ChessPiece blackPawn = new Pawn(BLACK_PAWN);
+
+            assertEquals(Direction.blackPawnDirection(),blackPawn.getCourse().getDirections());
+        }
+    }
+
+    @Nested
+    @DisplayName("Knight")
+    class KnightTest {
+
+        @Test
+        public void createKnightTest() {
+            ChessPiece whiteKnight = new Knight(WHITE_KNIGHT);
+            ChessPiece blackKnight = new Knight(BLACK_KNIGHT);
+
+            verifyPiece(whiteKnight, WHITE_KNIGHT);
+            verifyPiece(blackKnight, BLACK_KNIGHT);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackKnight = new Knight(BLACK_KNIGHT);
+
+            assertTrue(blackKnight.isBlack());
+            assertFalse(blackKnight.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whiteKnight = new Knight(WHITE_KNIGHT);
+
+            assertTrue(whiteKnight.isWhite());
+            assertFalse(whiteKnight.isBlack());
+        }
+
+        @Test
+        public void courseTest(){
+            ChessPiece whiteKnight = new Knight(WHITE_KNIGHT);
+            ChessPiece blackKnight = new Knight(BLACK_KNIGHT);
+
+            assertEquals(Direction.knightDirection(),whiteKnight.getCourse().getDirections());
+            assertEquals(Direction.knightDirection(),blackKnight.getCourse().getDirections());
+            assertFalse(whiteKnight.getCourse().isRecursive());
+            assertFalse(blackKnight.getCourse().isRecursive());
+        }
+    }
+
+    @Nested
+    @DisplayName("Rook")
+    class RookTest {
+
+        @Test
+        public void createRookTest() {
+            ChessPiece whiteRook = new Rook(WHITE_ROOK);
+            ChessPiece blackRook = new Rook(BLACK_ROOK);
+
+            verifyPiece(whiteRook, WHITE_ROOK);
+            verifyPiece(blackRook, BLACK_ROOK);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackRook = new Rook(BLACK_ROOK);
+
+            assertTrue(blackRook.isBlack());
+            assertFalse(blackRook.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whiteRook = new Rook(WHITE_ROOK);
+
+            assertTrue(whiteRook.isWhite());
+            assertFalse(whiteRook.isBlack());
+        }
+
+        @Test
+        public void courseTest(){
+            ChessPiece whiteRook = new Rook(WHITE_ROOK);
+            ChessPiece blackRook = new Rook(BLACK_ROOK);
+
+            assertEquals(Direction.linearDirection(),whiteRook.getCourse().getDirections());
+            assertEquals(Direction.linearDirection(),blackRook.getCourse().getDirections());
+            assertTrue(whiteRook.getCourse().isRecursive());
+            assertTrue(blackRook.getCourse().isRecursive());
+        }
+    }
+
+    @Nested
+    @DisplayName("Bishop")
+    class BishopTest {
+
+        @Test
+        public void createBishopTest() {
+            ChessPiece whiteBishop = new Bishop(WHITE_BISHOP);
+            ChessPiece blackBishop = new Bishop(BLACK_BISHOP);
+
+            verifyPiece(whiteBishop, WHITE_BISHOP);
+            verifyPiece(blackBishop, BLACK_BISHOP);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackBishop = new Bishop(BLACK_BISHOP);
+
+            assertTrue(blackBishop.isBlack());
+            assertFalse(blackBishop.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whiteBishop = new Bishop(WHITE_BISHOP);
+
+            assertTrue(whiteBishop.isWhite());
+            assertFalse(whiteBishop.isBlack());
+        }
+
+        @Test
+        public void courseTest(){
+            ChessPiece whiteBishop = new Rook(WHITE_BISHOP);
+            ChessPiece blackBishop = new Rook(BLACK_BISHOP);
+
+            assertEquals(Direction.diagonalDirection(),whiteBishop.getCourse().getDirections());
+            assertEquals(Direction.diagonalDirection(),blackBishop.getCourse().getDirections());
+            assertTrue(whiteBishop.getCourse().isRecursive());
+            assertTrue(blackBishop.getCourse().isRecursive());
+        }
+    }
+
+    @Nested
+    @DisplayName("Queen")
+    class QueenTest {
+
+        @Test
+        public void createQueenTest() {
+            ChessPiece whiteQueen = new Queen(WHITE_QUEEN);
+            ChessPiece blackQueen = new Queen(BLACK_QUEEN);
+
+            verifyPiece(whiteQueen, WHITE_QUEEN);
+            verifyPiece(blackQueen, BLACK_QUEEN);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackQueen = new Queen(BLACK_QUEEN);
+
+            assertTrue(blackQueen.isBlack());
+            assertFalse(blackQueen.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whiteQueen = new Queen(WHITE_QUEEN);
+
+            assertTrue(whiteQueen.isWhite());
+            assertFalse(whiteQueen.isBlack());
+        }
+
+        @Test
+        public void courseTest(){
+            ChessPiece whiteQueen = new Rook(WHITE_QUEEN);
+            ChessPiece blackQueen = new Rook(BLACK_QUEEN);
+
+            assertEquals(Direction.linearDirection(),whiteQueen.getCourse().getDirections());
+            assertEquals(Direction.linearDirection(),blackQueen.getCourse().getDirections());
+            assertTrue(whiteQueen.getCourse().isRecursive());
+            assertTrue(blackQueen.getCourse().isRecursive());
+        }
+    }
+
+    @Nested
+    @DisplayName("King")
+    class KingTest {
+
+        @Test
+        public void createKingTest() {
+            ChessPiece whiteKing = new King(WHITE_KING);
+            ChessPiece blackKing = new King(BLACK_KING);
+
+            verifyPiece(whiteKing, WHITE_KING);
+            verifyPiece(blackKing, BLACK_KING);
+        }
+
+        @Test
+        public void isBlackAndIsWhiteTestWithBlackPiece() {
+            ChessPiece blackKing = new King(BLACK_KING);
+
+            assertTrue(blackKing.isBlack());
+            assertFalse(blackKing.isWhite());
+        }
+
+        @Test
+        public void isWhiteAndIsBlackTestWithWhitePiece() {
+            ChessPiece whiteKing = new King(WHITE_KING);
+
+            assertTrue(whiteKing.isWhite());
+            assertFalse(whiteKing.isBlack());
+        }
+
+        @Test
+        public void courseTest(){
+            ChessPiece whiteKing = new King(WHITE_KING);
+            ChessPiece blackKing = new King(BLACK_KING);
+
+            assertEquals(Direction.everyDirection(),whiteKing.getCourse().getDirections());
+            assertEquals(Direction.everyDirection(),blackKing.getCourse().getDirections());
+
+            assertFalse(whiteKing.getCourse().isRecursive());
+            assertFalse(blackKing.getCourse().isRecursive());
+        }
     }
 
     @Test
-    public void isBlackAndIsWhiteTestWithBlackPieces() {
-        ChessPiece blackPawn = PieceFactory.createPiece(BLACK_PAWN);
-        assertTrue(blackPawn.isBlack());
-        assertFalse(blackPawn.isWhite());
-
-        ChessPiece blackKnight = PieceFactory.createPiece(BLACK_KNIGHT);
-        assertTrue(blackKnight.isBlack());
-        assertFalse(blackKnight.isWhite());
-
-
-        ChessPiece blackRook = PieceFactory.createPiece(BLACK_ROOK);
-        assertTrue(blackRook.isBlack());
-        assertFalse(blackRook.isWhite());
-
-        ChessPiece blackBishop = PieceFactory.createPiece(BLACK_BISHOP);
-        assertTrue(blackBishop.isBlack());
-        assertFalse(blackBishop.isWhite());
-
-        ChessPiece blackQueen = PieceFactory.createPiece(BLACK_QUEEN);
-        assertTrue(blackQueen.isBlack());
-        assertFalse(blackQueen.isWhite());
-
-        ChessPiece blackKing = PieceFactory.createPiece(BLACK_KING);
-        assertTrue(blackKing.isBlack());
-        assertFalse(blackKing.isWhite());
-    }
-
-    @Test
-    public void isBlackAndIsWhiteTestWithWhitePieces() {
-        ChessPiece whitePawn = PieceFactory.createPiece(WHITE_PAWN);
-        assertFalse(whitePawn.isBlack());
-        assertTrue(whitePawn.isWhite());
-
-        ChessPiece whiteKnight = PieceFactory.createPiece(WHITE_KNIGHT);
-        assertFalse(whiteKnight.isBlack());
-        assertTrue(whiteKnight.isWhite());
-
-
-        ChessPiece whiteRook = PieceFactory.createPiece(WHITE_ROOK);
-        assertFalse(whiteRook.isBlack());
-        assertTrue(whiteRook.isWhite());
-
-        ChessPiece whiteBishop = PieceFactory.createPiece(WHITE_BISHOP);
-        assertFalse(whiteBishop.isBlack());
-        assertTrue(whiteBishop.isWhite());
-
-        ChessPiece whiteQueen = PieceFactory.createPiece(WHITE_QUEEN);
-        assertFalse(whiteQueen.isBlack());
-        assertTrue(whiteQueen.isWhite());
-
-        ChessPiece whiteKing = PieceFactory.createPiece(WHITE_KING);
-        assertFalse(whiteKing.isBlack());
-        assertTrue(whiteKing.isWhite());
-    }
-
-    @Test
-    public void createBlank(){
+    public void createBlank() {
         ChessPiece blank = PieceFactory.createPiece(NO_PIECE);
 
-        assertEquals(Type.NO_PIECE,blank.getType());
+        assertEquals(Type.NO_PIECE, blank.getType());
         assertFalse(blank.isBlack());
         assertFalse(blank.isWhite());
+
+        assertEquals(0,blank.getCourse().getDirections().size());
+        assertFalse(blank.getCourse().isRecursive());
     }
 }
