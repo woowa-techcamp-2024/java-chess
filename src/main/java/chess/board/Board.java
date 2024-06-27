@@ -20,10 +20,6 @@ public class Board {
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
 
-    // TODO 이건 차라리 Enum으로 하는 게 나을 듯,,,
-    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getDefaultPoint);
-    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint());
-
 
     public List<Rank> getRanks() {
         return ranks;
@@ -47,10 +43,10 @@ public class Board {
         return pieceCount;
     }
 
-    public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
+    public List<Piece> sortPiecesByPoint(Piece.Color color, SORT sort) {
         return ranks.stream().map(rank -> rank.getAllPieces(color))
                 .flatMap(List::stream)
-                .sorted(comparator)
+                .sorted(sort.getComparator())
                 .toList();
     }
 
@@ -149,5 +145,20 @@ public class Board {
                 Rook.createWhiteRook());
 
         ranks.add(Rank.initializeRank(lastRow));
+    }
+
+    public enum SORT {
+        ASCENDING(Comparator.comparingDouble(Piece::getDefaultPoint)),
+        DESCENDING((o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint()));
+
+        private final Comparator<Piece> comparator;
+
+        SORT(Comparator<Piece> comparator) {
+            this.comparator = comparator;
+        }
+
+        public Comparator<Piece> getComparator() {
+            return comparator;
+        }
     }
 }

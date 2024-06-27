@@ -55,7 +55,7 @@ class BoardTest {
         // given
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_DESCENDING);
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT.DESCENDING);
 
         // then
         assertThat(pieces).extracting("type.point", "type")
@@ -83,7 +83,7 @@ class BoardTest {
         // given
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_ASCENDING);
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT.ASCENDING);
 
         // then
         assertThat(pieces).extracting("type.point", "type")

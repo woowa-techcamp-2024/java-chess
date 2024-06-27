@@ -68,8 +68,7 @@ public class ChessGame {
         }
     }
 
-    public List<Piece> sortPiecesByPoint(Piece.Color color, boolean isDescending) {
-        return board.sortPiecesByPoint(color, isDescending ? Board.SORT_DESCENDING : Board.SORT_ASCENDING);
+    public List<Piece> sortPiecesByPoint(Piece.Color color, Board.SORT sort) {
+        return board.sortPiecesByPoint(color, sort);
     }
-
 }
