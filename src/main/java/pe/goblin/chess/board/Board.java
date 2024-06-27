@@ -5,7 +5,6 @@ import pe.goblin.chess.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Board {
@@ -15,6 +14,7 @@ public class Board {
     public static final int MAX_COLS = 7;
 
     private List<List<Piece>> pieces = Collections.emptyList();
+    private ScoreEvaluator scoreEvaluator;
 
     public void initializeEmpty() {
         this.pieces = createEmptyBoard();
@@ -87,56 +87,11 @@ public class Board {
     }
 
     public double calculatePoint(Piece.Color color) {
-        double score = getTotalScore(color);
-        score = evaluateSuccessivePawn(color, score);
-        return score;
-    }
-
-    private double getTotalScore(Piece.Color color) {
-        double score = 0.0;
-        for (int row = 0; row <= MAX_ROWS; row++) {
-            for (int col = 0; col <= MAX_COLS; col++) {
-                Piece piece = pieces.get(row).get(col);
-                if (piece.getColor() == color) {
-                    score += piece.getType().getDefaultPoint();
-                }
-            }
-        }
-        return score;
+        return scoreEvaluator.evaluate(color, this.pieces);
     }
 
     public List<Piece> orderByScore(Piece.Color color, boolean naturalOrder) {
-        List<Piece> result = new ArrayList<>();
-        for (int row = 0; row <= MAX_ROWS; row++) {
-            for (int col = 0; col <= MAX_COLS; col++) {
-                Piece piece = pieces.get(row).get(col);
-                if (piece.getColor() == color) {
-                    result.add(piece);
-                }
-            }
-        }
-        result.sort(Comparator.comparing(p -> p.getType().getDefaultPoint()));
-        return naturalOrder ? result : result.reversed();
-    }
-
-    private double evaluateSuccessivePawn(Piece.Color color, double score) {
-        for (int col = 0; col <= MAX_COLS; col++) {
-            boolean isPawnBefore = false;
-            int pawnInCol = 1;
-            for (int row = 0; row <= MAX_ROWS; row++) {
-                Piece piece = pieces.get(row).get(col);
-                if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
-                    if (isPawnBefore) {
-                        pawnInCol++;
-                    }
-                    isPawnBefore = true;
-                }
-            }
-            if (pawnInCol != 1) {
-                score -= 0.5 * pawnInCol;
-            }
-        }
-        return score;
+        return scoreEvaluator.orderPiecesByScore(color, naturalOrder, this.pieces);
     }
 
     private record Position(int row, int col) {
