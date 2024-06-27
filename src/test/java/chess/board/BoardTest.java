@@ -1,6 +1,7 @@
 package chess.board;
 
 import chess.pieces.Piece;
+import chess.pieces.Rook;
 import chess.view.ChessView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +58,7 @@ class BoardTest {
         List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_DESCENDING);
 
         // then
-        assertThat(pieces).extracting("point", "type")
+        assertThat(pieces).extracting("type.point", "type")
                 .containsExactly(tuple(9.0, Type.QUEEN),
                         tuple(5.0, Type.ROOK),
                         tuple(5.0, Type.ROOK),
@@ -85,7 +86,7 @@ class BoardTest {
         List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_ASCENDING);
 
         // then
-        assertThat(pieces).extracting("point", "type")
+        assertThat(pieces).extracting("type.point", "type")
                 .containsExactly(tuple(0.0, Type.KING),
                         tuple(1.0, Type.PAWN),
                         tuple(1.0, Type.PAWN),
@@ -113,7 +114,7 @@ class BoardTest {
 
         String coordinateStr = "b5";
         Coordinate coordinate = Coordinate.of(coordinateStr);
-        Piece piece = Piece.createBlackRook();
+        Piece piece = Rook.createBlackRook();
 
         // when
         board.move(coordinate, piece);

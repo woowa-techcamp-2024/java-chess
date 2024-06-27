@@ -1,6 +1,6 @@
 package chess.board;
 
-import chess.pieces.Piece;
+import chess.pieces.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +18,14 @@ class RankTest {
     void getAllPieces() {
         // given
         List<Piece> initialPieces = List.of(
-                Piece.createBlank(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createBlank(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteRook(),
-                Piece.createBlank(),
-                Piece.createWhitePawn()
+                Blank.createBlank(),
+                King.createWhiteKing(),
+                Bishop.createWhiteBishop(),
+                Blank.createBlank(),
+                Queen.createWhiteQueen(),
+                Rook.createWhiteRook(),
+                Blank.createBlank(),
+                Pawn.createWhitePawn()
         );
         Rank rank = Rank.initializeRank(initialPieces);
 
@@ -46,7 +46,7 @@ class RankTest {
     void createRank() {
         // given
         List<Piece> pieces = IntStream.range(0, 8)
-                .mapToObj(i -> Piece.createBlank())
+                .mapToObj(i -> Blank.createBlank())
                 .toList();
 
         // when
@@ -61,7 +61,7 @@ class RankTest {
     void createRankWithMoreThan8Pieces() {
         // given
         List<Piece> pieces = IntStream.range(0, 9)
-                .mapToObj(i -> Piece.createBlank())
+                .mapToObj(i -> Blank.createBlank())
                 .toList();
 
         // when & then
@@ -75,7 +75,7 @@ class RankTest {
     void createRankWithLessThan8Pieces() {
         // given
         List<Piece> pieces = IntStream.range(0, 7)
-                .mapToObj(i -> Piece.createBlank())
+                .mapToObj(i -> Blank.createBlank())
                 .toList();
 
         // when & then
@@ -89,14 +89,14 @@ class RankTest {
     void getTotalPieceCount() {
         // given
         List<Piece> pieces = List.of(
-                Piece.createBlank(),
-                Piece.createWhiteKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlank(),
-                Piece.createWhiteQueen(),
-                Piece.createBlackRook(),
-                Piece.createBlank(),
-                Piece.createBlackPawn()
+                Blank.createBlank(),
+                King.createWhiteKing(),
+                Bishop.createBlackBishop(),
+                Blank.createBlank(),
+                Queen.createWhiteQueen(),
+                Rook.createBlackRook(),
+                Blank.createBlank(),
+                Pawn.createBlackPawn()
         );
 
         Rank rank = Rank.initializeRank(pieces);

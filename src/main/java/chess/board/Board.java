@@ -1,6 +1,6 @@
 package chess.board;
 
-import chess.pieces.Piece;
+import chess.pieces.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,8 +21,8 @@ public class Board {
     private static final int BLANK_ROW_END = 6;
 
     // TODO 이건 차라리 Enum으로 하는 게 나을 듯,,,
-    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getPoint);
-    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getPoint(), o1.getPoint());
+    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getDefaultPoint);
+    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint());
 
 
     public List<Rank> getRanks() {
@@ -81,14 +81,14 @@ public class Board {
 
     private void initializeWhitePawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> Piece.createWhitePawn())
+                .mapToObj(i -> Pawn.createWhitePawn())
                 .collect(Collectors.toCollection(ArrayList::new));
         this.ranks.add(Rank.initializeRank(initializedPieces));
     }
 
     private void initializeBlackPawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
-                .mapToObj(i -> Piece.createBlackPawn())
+                .mapToObj(i -> Pawn.createBlackPawn())
                 .collect(Collectors.toCollection(ArrayList::new));
         this.ranks.add(Rank.initializeRank(initializedPieces));
     }
@@ -112,34 +112,34 @@ public class Board {
     private void initializeEmtpyRows(int start, int end) {
         IntStream.range(start, end).forEach(i ->
                 ranks.add(Rank.initializeRank(IntStream.range(0, BOARD_WIDTH)
-                        .mapToObj(c -> Piece.createBlank())
+                        .mapToObj(c -> Blank.createBlank())
                         .collect(Collectors.toCollection(ArrayList::new)))));
     }
 
     private void initializeBlackFirstRow() {
         List<Piece> firstRow = List.of(
-                Piece.createBlackRook(),
-                Piece.createBlackKnight(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen(),
-                Piece.createBlackKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlackKnight(),
-                Piece.createBlackRook());
+                Rook.createBlackRook(),
+                Knight.createBlackKnight(),
+                Bishop.createBlackBishop(),
+                Queen.createBlackQueen(),
+                King.createBlackKing(),
+                Bishop.createBlackBishop(),
+                Knight.createBlackKnight(),
+                Rook.createBlackRook());
 
         ranks.add(Rank.initializeRank(firstRow));
     }
 
     private void initializeWhiteFirstRow() {
         List<Piece> lastRow = List.of(
-                Piece.createWhiteRook(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteRook());
+                Rook.createWhiteRook(),
+                Knight.createWhiteKnight(),
+                Bishop.createWhiteBishop(),
+                Queen.createWhiteQueen(),
+                King.createWhiteKing(),
+                Bishop.createWhiteBishop(),
+                Knight.createWhiteKnight(),
+                Rook.createWhiteRook());
 
         ranks.add(Rank.initializeRank(lastRow));
     }

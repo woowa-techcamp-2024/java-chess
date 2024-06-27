@@ -21,7 +21,7 @@ public class PointCalculator {
             if (piece.isSameType(Piece.Type.PAWN)) {
                 point += pawnPoint;
             } else {
-                point += piece.getPoint();
+                point += piece.getDefaultPoint();
             }
         }
         return point;

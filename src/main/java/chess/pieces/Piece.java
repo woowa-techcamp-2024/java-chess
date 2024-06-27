@@ -1,97 +1,29 @@
 package chess.pieces;
 
-public class Piece {
+import java.util.Objects;
+
+public abstract class Piece {
     private final Color color;
     private final Type type;
 
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
 
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
+    public abstract boolean verifyMovePosition(String source, String dest);
 
-    // Knight
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    // Bishop
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    // Rook
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    // Queen
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    // King
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
-    }
-    
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-    
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Color getColor() {
+    public final Color getColor() {
         return color;
     }
 
     public char getRepresentation() {
-        return color.equals(Color.WHITE) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        return color.equals(Color.BLACK) ? Character.toUpperCase(type.getRepresentation()) : type.getRepresentation();
     }
 
-    public double getPoint() {
+    public double getDefaultPoint() {
         return type.getPoint();
     }
-    
-    private Piece(Color color, Type type) {
+
+    public Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
-    }
-
-    public boolean isSameType(Type type) {
-        return this.type.equals(type);
     }
 
     public boolean isBlack() {
@@ -102,12 +34,24 @@ public class Piece {
         return this.color.equals(Color.WHITE);
     }
 
-    public boolean isBlank() {
-        return this.type.equals(Type.NO_PIECE);
-    }
-
     public boolean isSameColorAndType(Color color, Type type) {
         return this.color.equals(color) && this.type.equals(type);
+    }
+
+    public boolean isSameColor(Color color) {
+        return this.color.equals(color);
+    }
+
+    public boolean isSameType(Type type) {
+        return this.type.equals(type);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public boolean isBlank() {
+        return this.type.equals(Type.NO_PIECE);
     }
 
     public enum Color {
@@ -126,16 +70,13 @@ public class Piece {
         private final char representation;
         private final double defaultPoint;
 
-        public char getWhiteRepresentation() {
-            return representation;
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(representation);
-        }
 
         public double getPoint() {
             return defaultPoint;
+        }
+
+        public char getRepresentation() {
+            return representation;
         }
 
         Type(char representation, double defaultPoint) {
