@@ -3,6 +3,7 @@ package com.example.demo.context;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
+import com.example.demo.rules.KnightRule;
 import com.example.demo.rules.NormalRule;
 import com.example.demo.rules.Rule;
 
@@ -25,6 +26,7 @@ public class Game {
         initRookRules();
         initQueenRules();
         initKingRules();
+        initKnightRules();
     }
 
     //--------------init game start----------------
@@ -106,6 +108,12 @@ public class Game {
             kingRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.KING, false, true));
         }
         rules.put(Type.KING, kingRules);
+    }
+
+    private void initKnightRules(){
+        List<Rule> knightRules = new ArrayList<>();
+        knightRules.add(new KnightRule());
+        rules.put(Type.KNIGHT, knightRules);
     }
     //--------------init game end  ----------------
 

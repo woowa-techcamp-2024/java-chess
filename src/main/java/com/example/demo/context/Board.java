@@ -14,6 +14,9 @@ public class Board {
             Rank rank,
             File file
     ) {
+        public boolean isValid(){
+            return rank != null && file != null;
+        }
     }
 
     /**

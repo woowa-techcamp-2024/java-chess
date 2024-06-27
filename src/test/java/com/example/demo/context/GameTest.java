@@ -264,4 +264,61 @@ class GameTest {
             return cases.stream();
         }
     }
+
+    @Nested
+    @DisplayName("나이트 규칙 테스트")
+    public class KnightRule {
+
+        @ParameterizedTest
+        @DisplayName("나이트 이동 성공 테스트")
+        @MethodSource("successCase")
+        public void moveKnight(Location from, Location to) {
+            // given
+            Piece knight = new Knight(from.rank(), from.file());
+            Board board = new Board();
+            board.addPiece(knight);
+            Game game = new Game(board);
+
+            // when
+            game.move(from, to);
+
+            // then
+            assertThat(board.getPiece(from)).isNull();
+            assertThat(board.getPiece(to)).isEqualTo(knight);
+        }
+
+        public static Stream<Arguments> successCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.FOUR, File.D), new Location(Rank.TWO, File.C)),
+                    Arguments.of(new Location(Rank.FOUR, File.D), new Location(Rank.THREE, File.B)),
+                    Arguments.of(new Location(Rank.FOUR, File.D), new Location(Rank.SIX, File.E)),
+                    Arguments.of(new Location(Rank.FOUR, File.D), new Location(Rank.TWO, File.E))
+            );
+        }
+
+        @ParameterizedTest
+        @DisplayName("나이트 이동 실패 테스트")
+        @MethodSource("failCase")
+        public void moveKnightFailTest(Location from, Location to) {
+            // given
+            Piece knight = new Knight(from.rank(), from.file());
+            Board board = new Board();
+            board.addPiece(knight);
+            Game game = new Game(board);
+
+            // when & then
+            assertThatThrownBy(() -> game.move(from, to))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
+        }
+
+        public static Stream<Arguments> failCase() {
+            return Stream.of(
+                    Arguments.of(new Location(Rank.ONE, File.B), new Location(Rank.THREE, File.D)),
+                    Arguments.of(new Location(Rank.ONE, File.G), new Location(Rank.FOUR, File.F)),
+                    Arguments.of(new Location(Rank.EIGHT, File.B), new Location(Rank.SIX, File.D)),
+                    Arguments.of(new Location(Rank.EIGHT, File.G), new Location(Rank.FIVE, File.F))
+            );
+        }
+    }
 }
