@@ -1,13 +1,15 @@
 package chess.pieces;
 
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Piece {
     private final Color color;
     private final Type type;
 
-
-    public abstract boolean verifyMovePosition(String source, String dest);
+    // verifyMovePosition은 Piece가 유효한 좌표를 이동할 수 있는 지 검증하는 책임만 가지고
+    // 주변과의 상호작용은 ChessGame에서 담당하도록 변경
+    public abstract boolean verifyMoveCoordinate(String source, String dest);
 
     public final Color getColor() {
         return color;
@@ -84,4 +86,64 @@ public abstract class Piece {
             this.defaultPoint = defaultPoint;
         }
     }
+    public enum Direction {
+        NORTH(0, -1),
+        NORTHEAST(1, -1),
+        EAST(1, 0),
+        SOUTHEAST(1, 1),
+        SOUTH(0, 1),
+        SOUTHWEST(-1, 1),
+        WEST(-1, 0),
+        NORTHWEST(-1, -1),
+
+        NNE(1, -2),
+        NNW(-1, -2),
+        SSE(1, 2),
+        SSW(-1, 2),
+        EEN(2, -1),
+        EES(2, 1),
+        WWN(-2, -1),
+        WWS(-2, 1);
+
+        private int xDegree;
+        private int yDegree;
+
+        Direction(int xDegree, int yDegree) {
+            this.xDegree = xDegree;
+            this.yDegree = yDegree;
+        }
+
+        public int getXDegree() {
+            return xDegree;
+        }
+
+        public int getYDegree() {
+            return yDegree;
+        }
+
+        public static List<Direction> linearDirection() {
+            return Arrays.asList(NORTH, EAST, SOUTH, WEST);
+        }
+
+        public static List<Direction> diagonalDirection() {
+            return Arrays.asList(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
+        }
+
+        public static List<Direction> everyDirection() {
+            return Arrays.asList(NORTH, EAST, SOUTH, WEST, NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
+        }
+
+        public static List<Direction> knightDirection() {
+            return Arrays.asList(NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS);
+        }
+
+        public static List<Direction> whitePawnDirection() {
+            return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
+        }
+
+        public static List<Direction> blackPawnDirection() {
+            return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
+        }
+    }
+
 }

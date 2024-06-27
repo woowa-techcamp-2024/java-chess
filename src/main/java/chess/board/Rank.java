@@ -26,7 +26,7 @@ public class Rank {
                 .count();
     }
 
-    public static Rank initializeRank(List<Piece> pieces) {
+    public static Rank initializeRank(List<? extends Piece> pieces) {
         return new Rank(pieces);
     }
 
@@ -46,7 +46,7 @@ public class Rank {
         pieceCount = calculatePieceCount();
     }
 
-    private Rank(List<Piece> pieces) {
+    private Rank(List<? extends Piece> pieces) {
         validatePieceCount(pieces);
         for (Piece piece : pieces) {
             if (!piece.isBlank()) {
@@ -63,7 +63,7 @@ public class Rank {
     }
 
 
-    private void validatePieceCount(List<Piece> pieces) {
+    private void validatePieceCount(List<? extends Piece> pieces) {
         if (pieces.size() != BOARD_WIDTH) {
             throw new IllegalArgumentException("한 랭크는 8개의 말을 가집니다.");
         }

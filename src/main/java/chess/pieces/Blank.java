@@ -3,11 +3,11 @@ package chess.pieces;
 public class Blank extends Piece {
 
     @Override
-    public boolean verifyMovePosition(String source, String dest) {
+    public boolean verifyMoveCoordinate(String source, String dest) {
         return false;
     }
 
-    public static Piece createBlank() {
+    public static Blank createBlank() {
         return new Blank(Color.NOCOLOR);
     }
 

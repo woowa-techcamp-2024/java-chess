@@ -110,10 +110,13 @@ public class Board {
     }
 
     private void initializeEmtpyRows(int start, int end) {
-        IntStream.range(start, end).forEach(i ->
-                ranks.add(Rank.initializeRank(IntStream.range(0, BOARD_WIDTH)
-                        .mapToObj(c -> Blank.createBlank())
-                        .collect(Collectors.toCollection(ArrayList::new)))));
+        IntStream.range(start, end).forEach(i -> {
+                    ArrayList<Blank> collect = IntStream.range(0, BOARD_WIDTH)
+                            .mapToObj(c -> Blank.createBlank())
+                            .collect(Collectors.toCollection(ArrayList::new));
+
+                    ranks.add(Rank.initializeRank(collect));
+                });
     }
 
     private void initializeBlackFirstRow() {

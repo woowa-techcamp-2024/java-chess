@@ -45,7 +45,7 @@ class RankTest {
     @Test
     void createRank() {
         // given
-        List<Piece> pieces = IntStream.range(0, 8)
+        List<? extends Piece> pieces = IntStream.range(0, 8)
                 .mapToObj(i -> Blank.createBlank())
                 .toList();
 
@@ -60,7 +60,7 @@ class RankTest {
     @Test
     void createRankWithMoreThan8Pieces() {
         // given
-        List<Piece> pieces = IntStream.range(0, 9)
+        List<? extends Piece> pieces = IntStream.range(0, 9)
                 .mapToObj(i -> Blank.createBlank())
                 .toList();
 
@@ -74,7 +74,7 @@ class RankTest {
     @Test
     void createRankWithLessThan8Pieces() {
         // given
-        List<Piece> pieces = IntStream.range(0, 7)
+        List<? extends Piece> pieces = IntStream.range(0, 7)
                 .mapToObj(i -> Blank.createBlank())
                 .toList();
 
