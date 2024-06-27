@@ -1,6 +1,7 @@
 package org.example.chess.pieces;
 
 import java.util.List;
+import java.util.Objects;
 import org.example.chess.board.Position;
 import org.example.chess.pieces.enums.Direction;
 import org.example.utils.MathUtils;
@@ -22,19 +23,19 @@ public abstract class Piece {
         return Double.MAX_VALUE;
     };
 
-    public boolean isValidMove(String source, String destination) {
+    public boolean isValidMove(String source, String destination,List<Position> positions) {
         Position from = new Position(source);
         Position to = new Position(destination);
 
         double distance = MathUtils.getDistance(from.getR(), from.getC(), to.getR(), to.getC());
-        if (distance > getMaxDistance()) {
+        if (MathUtils.greaterThan(distance, getMaxDistance())) {
             return false;
         }
         Position delta = to.delta(from);
         List<Direction> directions = getDirections();
         for (Direction direction : directions) {
             if (direction.isMovableDirection(delta)) {
-                return true;
+                return positions.isEmpty() || this.type == Type.KNIGHT;
             }
         }
         return false;
@@ -74,6 +75,23 @@ public abstract class Piece {
 
     public boolean isPawn() {
         return this.type == Type.PAWN;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return color == piece.color && type == piece.type && Objects.equals(representation, piece.representation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type, representation);
     }
 
     public enum Color {

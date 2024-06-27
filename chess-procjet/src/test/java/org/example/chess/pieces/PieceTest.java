@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import org.example.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -62,14 +63,14 @@ class PieceTest {
         void testValidMove() {
             King king = new King(Piece.Color.WHITE);
 
-            assertThat(king.isValidMove("e2", "e3")).isTrue();
-            assertThat(king.isValidMove("e2", "d3")).isTrue();
-            assertThat(king.isValidMove("e2", "f3")).isTrue();
-            assertThat(king.isValidMove("e2", "d2")).isTrue();
-            assertThat(king.isValidMove("e2", "f2")).isTrue();
-            assertThat(king.isValidMove("e2", "e1")).isTrue();
-            assertThat(king.isValidMove("e2", "d1")).isTrue();
-            assertThat(king.isValidMove("e2", "f1")).isTrue();
+            assertThat(king.isValidMove("e2", "e3", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "d3", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "f3", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "d2", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "f2", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "e1", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "d1", List.of())).isTrue();
+            assertThat(king.isValidMove("e2", "f1", List.of())).isTrue();
         }
 
         @Test
@@ -77,13 +78,13 @@ class PieceTest {
         void testInvalidMove() {
             King king = new King(Piece.Color.WHITE);
 
-            king.isValidMove("e2", "e4");
+            king.isValidMove("e2", "e4", List.of());
 
-            assertThat(king.isValidMove("e2", "e4")).isFalse();
-            assertThat(king.isValidMove("e2", "g3")).isFalse();
-            assertThat(king.isValidMove("e2", "c1")).isFalse();
-            assertThat(king.isValidMove("e2", "e5")).isFalse();
-            assertThat(king.isValidMove("e2", "h2")).isFalse();
+            assertThat(king.isValidMove("e2", "e4", List.of())).isFalse();
+            assertThat(king.isValidMove("e2", "g3", List.of())).isFalse();
+            assertThat(king.isValidMove("e2", "c1", List.of())).isFalse();
+            assertThat(king.isValidMove("e2", "e5", List.of())).isFalse();
+            assertThat(king.isValidMove("e2", "h2", List.of())).isFalse();
         }
 
         @Test
@@ -91,11 +92,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             King king = new King(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> king.isValidMove("e2", "e9"))
+            assertThatThrownBy(() -> king.isValidMove("e2", "e9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> king.isValidMove("e2", "i2"))
+            assertThatThrownBy(() -> king.isValidMove("e2", "i2", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
@@ -110,9 +111,9 @@ class PieceTest {
         void testValidMove() {
             Pawn pawn = new Pawn(Piece.Color.WHITE);
 
-            assertThat(pawn.isValidMove("e2", "e3")).isTrue();
-            assertThat(pawn.isValidMove("e2", "e4")).isTrue();
-            assertThat(pawn.isValidMove("e5", "e6")).isTrue();
+            assertThat(pawn.isValidMove("e2", "e3", List.of())).isTrue();
+            assertThat(pawn.isValidMove("e2", "e4", List.of())).isTrue();
+            assertThat(pawn.isValidMove("e5", "e6", List.of())).isTrue();
         }
 
         @Test
@@ -120,10 +121,10 @@ class PieceTest {
         void testInvalidMove() {
             Pawn pawn = new Pawn(Piece.Color.WHITE);
 
-            assertThat(pawn.isValidMove("e2", "e5")).isFalse();
+            assertThat(pawn.isValidMove("e2", "e5", List.of())).isFalse();
             //TODO: 만약 상대방 말이 있다면 이동 가능 현재 미구현 초기 리스트에 대각 방향을 제외시키고 해당 대각에 상대가 있다면 추가해주는 형태로 구현할지도
 //            assertThat(pawn.isValidMove("e2", "f3")).isFalse();
-            assertThat(pawn.isValidMove("e2", "e1")).isFalse();
+            assertThat(pawn.isValidMove("e2", "e1", List.of())).isFalse();
         }
 
         @Test
@@ -131,11 +132,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             Pawn pawn = new Pawn(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> pawn.isValidMove("e2", "e9"))
+            assertThatThrownBy(() -> pawn.isValidMove("e2", "e9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> pawn.isValidMove("e2", "i2"))
+            assertThatThrownBy(() -> pawn.isValidMove("e2", "i2", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
@@ -150,8 +151,8 @@ class PieceTest {
         void testValidMove() {
             Rook rook = new Rook(Piece.Color.WHITE);
 
-            assertThat(rook.isValidMove("a1", "a8")).isTrue(); // Vertical move
-            assertThat(rook.isValidMove("a1", "h1")).isTrue(); // Horizontal move
+            assertThat(rook.isValidMove("a1", "a8", List.of())).isTrue(); // Vertical move
+            assertThat(rook.isValidMove("a1", "h1", List.of())).isTrue(); // Horizontal move
         }
 
         @Test
@@ -159,8 +160,8 @@ class PieceTest {
         void testInvalidMove() {
             Rook rook = new Rook(Piece.Color.WHITE);
 
-            assertThat(rook.isValidMove("a1", "b2")).isFalse(); // Diagonal move
-            assertThat(rook.isValidMove("a1", "c3")).isFalse(); // Diagonal move
+            assertThat(rook.isValidMove("a1", "b2", List.of())).isFalse(); // Diagonal move
+            assertThat(rook.isValidMove("a1", "c3", List.of())).isFalse(); // Diagonal move
         }
 
         @Test
@@ -168,11 +169,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             Rook rook = new Rook(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> rook.isValidMove("a1", "a9"))
+            assertThatThrownBy(() -> rook.isValidMove("a1", "a9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> rook.isValidMove("a1", "i1"))
+            assertThatThrownBy(() -> rook.isValidMove("a1", "i1", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
@@ -187,8 +188,8 @@ class PieceTest {
         void testValidMove() {
             Bishop bishop = new Bishop(Piece.Color.WHITE);
 
-            assertThat(bishop.isValidMove("c1", "a3")).isTrue();
-            assertThat(bishop.isValidMove("c1", "e3")).isTrue();
+            assertThat(bishop.isValidMove("c1", "a3", List.of())).isTrue();
+            assertThat(bishop.isValidMove("c1", "e3", List.of())).isTrue();
         }
 
         @Test
@@ -196,8 +197,8 @@ class PieceTest {
         void testInvalidMove() {
             Bishop bishop = new Bishop(Piece.Color.WHITE);
 
-            assertThat(bishop.isValidMove("c1", "c2")).isFalse();
-            assertThat(bishop.isValidMove("c1", "d1")).isFalse();
+            assertThat(bishop.isValidMove("c1", "c2", List.of())).isFalse();
+            assertThat(bishop.isValidMove("c1", "d1", List.of())).isFalse();
         }
 
         @Test
@@ -205,11 +206,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             Bishop bishop = new Bishop(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> bishop.isValidMove("c1", "a9"))
+            assertThatThrownBy(() -> bishop.isValidMove("c1", "a9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> bishop.isValidMove("c1", "i3"))
+            assertThatThrownBy(() -> bishop.isValidMove("c1", "i3", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
@@ -224,8 +225,8 @@ class PieceTest {
         void testValidMove() {
             Knight knight = new Knight(Piece.Color.WHITE);
 
-            assertThat(knight.isValidMove("b1", "c3")).isTrue(); // L-shaped move
-            assertThat(knight.isValidMove("b1", "a3")).isTrue(); // L-shaped move
+            assertThat(knight.isValidMove("b1", "c3", List.of())).isTrue();
+            assertThat(knight.isValidMove("b1", "a3", List.of())).isTrue();
         }
 
         @Test
@@ -233,8 +234,8 @@ class PieceTest {
         void testInvalidMove() {
             Knight knight = new Knight(Piece.Color.WHITE);
 
-            assertThat(knight.isValidMove("b1", "b3")).isFalse(); // Vertical move
-            assertThat(knight.isValidMove("b1", "c2")).isFalse(); // Horizontal move
+            assertThat(knight.isValidMove("b1", "b3", List.of())).isFalse(); // Vertical move
+            assertThat(knight.isValidMove("b1", "c2", List.of())).isFalse(); // Horizontal move
         }
 
         @Test
@@ -242,11 +243,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             Knight knight = new Knight(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> knight.isValidMove("b1", "c9"))
+            assertThatThrownBy(() -> knight.isValidMove("b1", "c9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> knight.isValidMove("b1", "i3"))
+            assertThatThrownBy(() -> knight.isValidMove("b1", "i3", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
@@ -261,9 +262,9 @@ class PieceTest {
         void testValidMove() {
             Queen queen = new Queen(Piece.Color.WHITE);
 
-            assertThat(queen.isValidMove("d1", "d8")).isTrue(); // Vertical move
-            assertThat(queen.isValidMove("d1", "h1")).isTrue(); // Horizontal move
-            assertThat(queen.isValidMove("d1", "h5")).isTrue(); // Diagonal move
+            assertThat(queen.isValidMove("d1", "d8", List.of())).isTrue(); // Vertical move
+            assertThat(queen.isValidMove("d1", "h1", List.of())).isTrue(); // Horizontal move
+            assertThat(queen.isValidMove("d1", "h5", List.of())).isTrue(); // Diagonal move
         }
 
         @Test
@@ -271,8 +272,8 @@ class PieceTest {
         void testInvalidMove() {
             Queen queen = new Queen(Piece.Color.WHITE);
 
-            assertThat(queen.isValidMove("d1", "e3")).isFalse(); // Invalid diagonal move
-            assertThat(queen.isValidMove("d1", "f2")).isFalse(); // Invalid diagonal move
+            assertThat(queen.isValidMove("d1", "e3", List.of())).isFalse(); // Invalid diagonal move
+            assertThat(queen.isValidMove("d1", "f2", List.of())).isFalse(); // Invalid diagonal move
         }
 
         @Test
@@ -280,11 +281,11 @@ class PieceTest {
         void testOutOfBoundsMove() {
             Queen queen = new Queen(Piece.Color.WHITE);
 
-            assertThatThrownBy(() -> queen.isValidMove("d1", "d9"))
+            assertThatThrownBy(() -> queen.isValidMove("d1", "d9", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
 
-            assertThatThrownBy(() -> queen.isValidMove("d1", "i1"))
+            assertThatThrownBy(() -> queen.isValidMove("d1", "i1", List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("올바른 위치를 입력해주세요");
         }
