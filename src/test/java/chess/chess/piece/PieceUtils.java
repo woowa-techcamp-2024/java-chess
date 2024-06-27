@@ -1,7 +1,5 @@
 package chess.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class PieceUtils {
 
     public static void assertIsBlack(Piece piece) {

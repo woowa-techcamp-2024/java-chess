@@ -1,4 +1,4 @@
-package chess;
+package chess.chess;
 
 import java.util.Objects;
 

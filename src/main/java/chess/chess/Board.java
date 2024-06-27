@@ -1,6 +1,4 @@
-package chess;
-
-import chess.piece.*;
+package chess.chess;
 
 import java.util.Arrays;
 import java.util.Comparator;
