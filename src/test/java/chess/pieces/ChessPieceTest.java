@@ -222,8 +222,8 @@ public class ChessPieceTest {
             ChessPiece whiteQueen = new Rook(WHITE_QUEEN);
             ChessPiece blackQueen = new Rook(BLACK_QUEEN);
 
-            assertEquals(Direction.linearDirection(),whiteQueen.getCourse().getDirections());
-            assertEquals(Direction.linearDirection(),blackQueen.getCourse().getDirections());
+            assertEquals(Direction.everyDirection(),whiteQueen.getCourse().getDirections());
+            assertEquals(Direction.everyDirection(),blackQueen.getCourse().getDirections());
             assertTrue(whiteQueen.getCourse().isRecursive());
             assertTrue(blackQueen.getCourse().isRecursive());
         }

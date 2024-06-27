@@ -11,8 +11,8 @@ public enum PieceTypes {
     BLACK_ROOK(Color.BLACK,Type.ROOK,Direction.linearDirection(),true),
     WHITE_BISHOP(Color.WHITE,Type.BISHOP,Direction.diagonalDirection(),true),
     BLACK_BISHOP(Color.BLACK,Type.BISHOP,Direction.diagonalDirection(),true),
-    WHITE_QUEEN(Color.WHITE,Type.QUEEN,Direction.linearDirection(),true),
-    BLACK_QUEEN(Color.BLACK,Type.QUEEN,Direction.linearDirection(),true),
+    WHITE_QUEEN(Color.WHITE,Type.QUEEN,Direction.everyDirection(),true),
+    BLACK_QUEEN(Color.BLACK,Type.QUEEN,Direction.everyDirection(),true),
     WHITE_KING(Color.WHITE,Type.KING,Direction.everyDirection(),false),
     BLACK_KING(Color.BLACK,Type.KING,Direction.everyDirection(),false),
     NO_PIECE(Color.NOCOLOR,Type.NO_PIECE,Direction.noDirection(),false);
@@ -46,7 +46,6 @@ public enum PieceTypes {
     private final Color color;
     private final Type type;
     private final char representation;
-    private final double point;
     private final Course course;
 
     PieceTypes(Color color, Type type,List<Direction> direction,boolean recursive) {
@@ -54,7 +53,6 @@ public enum PieceTypes {
         this.type = type;
         char representation = type.getRepresentation();
         this.representation = color.equals(Color.WHITE) ? representation : Character.toUpperCase(representation);
-        this.point = type.getPoint();
         this.course = new Course(direction,recursive);
     }
 
@@ -68,10 +66,6 @@ public enum PieceTypes {
 
     public char getRepresentation() {
         return representation;
-    }
-
-    public double getPoint(){
-        return point;
     }
 
     public Course getCourse() {
