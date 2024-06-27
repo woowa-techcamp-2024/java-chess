@@ -2,6 +2,7 @@ package org.example.board;
 
 
 import org.example.chess.board.Board;
+import org.example.chess.board.Position;
 import org.example.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,6 +81,17 @@ public class BoardTest {
         assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    public void move() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
     }
 
     private void addPiece(String position, Piece piece) {
