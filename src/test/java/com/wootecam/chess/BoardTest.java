@@ -90,10 +90,10 @@ public class BoardTest {
         void 주어진_위치의_기물을_조회한다() {
             // expect
             assertAll(
-                    () -> assertThat(board.findPiece(0, 0)).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece(0, 7)).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece(7, 0)).isEqualTo(Piece.createWhite(Type.ROOK)),
-                    () -> assertThat(board.findPiece(7, 7)).isEqualTo(Piece.createWhite(Type.ROOK))
+                    () -> assertThat(board.findPiece(new Position(0, 0))).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece(new Position(0, 7))).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece(new Position(7, 0))).isEqualTo(Piece.createWhite(Type.ROOK)),
+                    () -> assertThat(board.findPiece(new Position(7, 7))).isEqualTo(Piece.createWhite(Type.ROOK))
             );
         }
     }
@@ -127,14 +127,13 @@ public class BoardTest {
         @Test
         void 해당_좌표에_기물을_세운다() {
             // given
-            int rowIndex = 0;
-            int columnIndex = 0;
+            Position position = new Position(0, 0);
 
             // when
-            board.updatePiece(0, 0, Piece.createWhite(Type.PAWN));
+            board.updatePiece(position, Piece.createWhite(Type.PAWN));
 
             // then
-            assertThat(board.findPiece(0, 0)).isEqualTo(Piece.createWhite(Type.PAWN));
+            assertThat(board.findPiece(new Position(0, 0))).isEqualTo(Piece.createWhite(Type.PAWN));
         }
     }
 

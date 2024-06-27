@@ -72,8 +72,8 @@ class GameTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.findPiece(6, 1)).isEqualTo(Piece.createBlank()),
-                    () -> assertThat(board.findPiece(5, 1)).isEqualTo(Piece.createWhite(Type.PAWN))
+                    () -> assertThat(board.findPiece(new Position(6, 1))).isEqualTo(Piece.createBlank()),
+                    () -> assertThat(board.findPiece(new Position(5, 1))).isEqualTo(Piece.createWhite(Type.PAWN))
             );
         }
 
@@ -126,11 +126,9 @@ class GameTest {
             );
         }
 
-        private void addPiece(String position, Piece piece) {
-            int rowIndex = extractor.extractRowIndex(position);
-            int columnIndex = extractor.extractColumnIndex(position);
-
-            board.updatePiece(rowIndex, columnIndex, piece);
+        private void addPiece(String coordinates, Piece piece) {
+            Position position = extractor.extractPosition(coordinates);
+            board.updatePiece(position, piece);
         }
     }
 }

@@ -35,14 +35,15 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(final int rowIndex, final int columnIndex) {
-        Rank rowRank = ranks.get(rowIndex);
-        return rowRank.findPieceByColumn(columnIndex);
+    public Piece findPiece(final Position position) {
+        Rank rowRank = ranks.get(position.row());
+
+        return rowRank.findPieceByColumn(position.column());
     }
 
-    public void updatePiece(final int rowIndex, final int columnIndex, final Piece piece) {
-        Rank rank = ranks.get(rowIndex);
-        ranks.set(rowIndex, rank.placePiece(columnIndex, piece));
+    public void updatePiece(final Position position, final Piece piece) {
+        Rank rank = ranks.get(position.row());
+        ranks.set(position.row(), rank.placePiece(position.column(), piece));
     }
 
     public List<Piece> findDescOrderedPieces(final Color color) {

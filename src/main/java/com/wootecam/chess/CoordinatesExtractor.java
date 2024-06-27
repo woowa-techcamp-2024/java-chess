@@ -12,19 +12,13 @@ public class CoordinatesExtractor {
     private static final int ROW_COORDINATE_INDEX = 1;
     private static final int COLUMN_COORDINATES_INDEX = 0;
 
-    public int extractRowIndex(String coordinate) {
-        validateCoordinates(coordinate);
-        int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
+    public Position extractPosition(final String coordinates) {
+        validateCoordinates(coordinates);
 
-        return Math.abs(rawRow - Rank.PIECE_COUNT);
+        return new Position(extractRowIndex(coordinates), extractColumnIndex(coordinates));
     }
 
-    public int extractColumnIndex(String coordinate) {
-        validateCoordinates(coordinate);
-        return coordinate.charAt(COLUMN_COORDINATES_INDEX) - START_COLUMN_SYMBOL;
-    }
-
-    public void validateCoordinates(String coordinate) {
+    private void validateCoordinates(String coordinate) {
         char columnSymbol = coordinate.charAt(COLUMN_COORDINATES_INDEX);
         char rowSymbol = coordinate.charAt(ROW_COORDINATE_INDEX);
 
@@ -36,6 +30,16 @@ public class CoordinatesExtractor {
             );
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private int extractRowIndex(String coordinate) {
+        int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
+
+        return Math.abs(rawRow - Rank.PIECE_COUNT);
+    }
+
+    private int extractColumnIndex(String coordinate) {
+        return coordinate.charAt(COLUMN_COORDINATES_INDEX) - START_COLUMN_SYMBOL;
     }
 
     private boolean isOutOfCoordinates(char columnSymbol, char rowSymbol) {

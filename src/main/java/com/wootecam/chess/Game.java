@@ -21,26 +21,24 @@ public class Game {
     }
 
     public void move(final String startCoordinates, final String targetCoordinates) {
-        int rowIndex = extractor.extractRowIndex(startCoordinates);
-        int columnIndex = extractor.extractColumnIndex(startCoordinates);
-        Piece piece = board.findPiece(rowIndex, columnIndex);
+        Position startPosition = extractor.extractPosition(startCoordinates);
+        Position targetPosition = extractor.extractPosition(targetCoordinates);
 
-        validateMovePieces(piece);
+        Piece piece = board.findPiece(startPosition);
+
+        validateMovePieces(piece, startPosition, targetPosition);
 
         updatePiece(startCoordinates, Piece.createBlank());
         updatePiece(targetCoordinates, piece);
     }
 
     private void updatePiece(final String coordinates, final Piece piece) {
-        extractor.validateCoordinates(coordinates);
+        Position position = extractor.extractPosition(coordinates);
 
-        int rowIndex = extractor.extractRowIndex(coordinates);
-        int columnIndex = extractor.extractColumnIndex(coordinates);
-
-        board.updatePiece(rowIndex, columnIndex, piece);
+        board.updatePiece(position, piece);
     }
 
-    private void validateMovePieces(final Piece piece) {
+    private void validateMovePieces(final Piece piece, final Position startPosition, final Position targetPosition) {
         if (piece.isBlank()) {
             throw new IllegalArgumentException("빈칸은 이동시킬 수 없습니다.");
         }
@@ -72,9 +70,8 @@ public class Game {
     }
 
     private boolean isSamePawn(final Color color, final String coordinates) {
-        int rowIndex = extractor.extractRowIndex(coordinates);
-        int columnIndex = extractor.extractColumnIndex(coordinates);
+        Position position = extractor.extractPosition(coordinates);
 
-        return board.findPiece(rowIndex, columnIndex).isSameColorAndType(color, Type.PAWN);
+        return board.findPiece(position).isSameColorAndType(color, Type.PAWN);
     }
 }
