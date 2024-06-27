@@ -46,7 +46,7 @@ public class BoardTest {
                 ........
                 pppppppp
                 rnbqkbnr
-                """,board.print());
+                """.replaceAll("\n",System.lineSeparator()),board.print());
     }
 
     @Test

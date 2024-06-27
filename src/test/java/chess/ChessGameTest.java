@@ -769,7 +769,7 @@ public class ChessGameTest {
                 ........
                 pppppppp
                 rnbqkbnr
-                """;
+                """.replaceAll("\n",System.lineSeparator());
 
             //when
             chessGame.init();
@@ -794,7 +794,7 @@ public class ChessGameTest {
                 ........
                 .ppppppp
                 rnbqkbnr
-                """;
+                """.replaceAll("\n",System.lineSeparator());
             board.initialize();
             board.move("a2","c5");
 
@@ -820,7 +820,7 @@ public class ChessGameTest {
                 ........
                 pppppppp
                 rnbqkbnr
-                """;
+                """.replaceAll("\n",System.lineSeparator());
 
             //when
             chessGame.startGame();
@@ -846,7 +846,7 @@ public class ChessGameTest {
                 ........
                 ........
                 ........
-                """;
+                """.replaceAll("\n",System.lineSeparator());
 
             //when
             chessGame.finishGame();
