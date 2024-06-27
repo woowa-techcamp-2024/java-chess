@@ -1,18 +1,16 @@
 package chess.board;
 
+import chess.pieces.PieceFactory;
 import chess.pieces.type.Color;
 import chess.pieces.Piece;
-import chess.pieces.type.Type;
 
 public final class RankMaker {
     private RankMaker() {}
 
     public static Rank initWhitePawns() {
         Rank rank = new Rank();
-        Color color = Color.WHITE;
-
         for (int i=0; i<8; i++) {
-            Piece pawn = Piece.create(Type.PAWN, color, Position.from(i, 6));
+            Piece pawn = PieceFactory.createWhitePawn(Position.from(i, 6));
             rank.add(pawn);
         }
         return rank;
@@ -20,10 +18,8 @@ public final class RankMaker {
 
     public static Rank initBlackPawns() {
         Rank rank = new Rank();
-        Color color = Color.BLACK;
-
         for (int i=0; i<8; i++) {
-            Piece pawn = Piece.create(Type.PAWN, color, Position.from(i, 1));
+            Piece pawn = PieceFactory.createBlackPawn(Position.from(i, 1));
             rank.add(pawn);
         }
         return rank;
@@ -32,7 +28,7 @@ public final class RankMaker {
     public static Rank initEmptyRank(int line) {
         Rank rank = new Rank();
         for (int i=0; i<8; i++) {
-            Piece empty = Piece.create(Type.NO_PIECE, Color.NOCOLOR, Position.from(i, line));
+            Piece empty = PieceFactory.createBlank(Position.from(i, line));
             rank.add(empty);
         }
         return rank;
@@ -40,33 +36,27 @@ public final class RankMaker {
 
     public static Rank initWhiteGoodPieces() {
         Rank rank = new Rank();
-        Color color = Color.WHITE;
-
-        int i = 0;
-        rank.add(Piece.create(Type.ROOK, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.KNIGHT, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.BISHOP, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.QUEEN, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.KING, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.BISHOP, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.KNIGHT, color, Position.from(i++, 7)));
-        rank.add(Piece.create(Type.ROOK, color, Position.from(i++, 7)));
+        rank.add(PieceFactory.createWhiteRook(Position.from(0, 7)));
+        rank.add(PieceFactory.createWhiteKnight(Position.from(1, 7)));
+        rank.add(PieceFactory.createWhiteBishop(Position.from(2, 7)));
+        rank.add(PieceFactory.createWhiteQueen(Position.from(3, 7)));
+        rank.add(PieceFactory.createWhiteKing(Position.from(4, 7)));
+        rank.add(PieceFactory.createWhiteBishop(Position.from(5, 7)));
+        rank.add(PieceFactory.createWhiteKnight(Position.from(6, 7)));
+        rank.add(PieceFactory.createWhiteRook(Position.from(7, 7)));
         return rank;
     }
 
     public static Rank initBlackGoodPieces() {
         Rank rank = new Rank();
-        Color color = Color.BLACK;
-
-        int i = 0;
-        rank.add(Piece.create(Type.ROOK, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.KNIGHT, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.BISHOP, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.QUEEN, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.KING, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.BISHOP, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.KNIGHT, color, Position.from(i++, 0)));
-        rank.add(Piece.create(Type.ROOK, color, Position.from(i++, 0)));
+        rank.add(PieceFactory.createBlackRook(Position.from(0, 7)));
+        rank.add(PieceFactory.createBlackKnight(Position.from(1, 7)));
+        rank.add(PieceFactory.createBlackBishop(Position.from(2, 7)));
+        rank.add(PieceFactory.createBlackQueen(Position.from(3, 7)));
+        rank.add(PieceFactory.createBlackKing(Position.from(4, 7)));
+        rank.add(PieceFactory.createBlackBishop(Position.from(5, 7)));
+        rank.add(PieceFactory.createBlackKnight(Position.from(6, 7)));
+        rank.add(PieceFactory.createBlackRook(Position.from(7, 7)));
         return rank;
     }
 }

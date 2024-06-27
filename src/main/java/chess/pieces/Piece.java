@@ -7,25 +7,19 @@ import chess.pieces.type.Type;
 
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
     private final Color color;
     private final Type type;
     private final Position position;
 
-    private Piece(Color color, Type type, Position position) {
+    protected Piece(Color color, Type type, Position position) {
         this.color = color;
         this.type = type;
         this.position = position;
     }
 
-    public static Piece create(Type type, Color color, Position position) {
-        return new Piece(color, type, position);
-    }
-
-    public Piece copyWithPosition(Position position) {
-        return new Piece(this.color, this.type, position);
-    }
-
+    public abstract Piece copyWithPosition(Position position);
+    public abstract boolean canMove(Piece target);
 
     public Color getColor() {
         return color;

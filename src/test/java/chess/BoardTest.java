@@ -9,6 +9,7 @@ import chess.board.Board;
 import chess.board.BoardMaker;
 import chess.board.Position;
 import chess.board.calculator.OrderBy;
+import chess.pieces.PieceFactory;
 import chess.pieces.type.Color;
 import chess.pieces.Piece;
 import chess.pieces.type.Representation;
@@ -81,7 +82,7 @@ public class BoardTest {
         board = new Board(BoardMaker.empty());
 
         String position = "b5";
-        Piece piece = Piece.create(Type.ROOK, Color.BLACK, Position.from(position));
+        Piece piece = PieceFactory.createBlackRook(Position.from(position));
         board.setPiece(piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -93,8 +94,8 @@ public class BoardTest {
     public void getScore() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        board.setPiece(Piece.create(Type.ROOK, Color.BLACK, Position.from("b5")));
-        board.setPiece(Piece.create(Type.KNIGHT, Color.WHITE, Position.from("a4")));
+        board.setPiece(PieceFactory.createBlackRook(Position.from("b5")));
+        board.setPiece(PieceFactory.createWhiteKnight(Position.from("a4")));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -118,9 +119,9 @@ public class BoardTest {
     public void getScoreCase() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        board.setPiece(Piece.create(Type.PAWN, Color.BLACK, Position.from("a1")));
-        board.setPiece(Piece.create(Type.PAWN, Color.BLACK, Position.from("a2")));
-        board.setPiece(Piece.create(Type.PAWN, Color.BLACK, Position.from("a3")));
+        board.setPiece(PieceFactory.createBlackPawn(Position.from("a1")));
+        board.setPiece(PieceFactory.createBlackPawn(Position.from("a2")));
+        board.setPiece(PieceFactory.createBlackPawn(Position.from("a3")));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -134,14 +135,14 @@ public class BoardTest {
     public void caculcatePoint() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        board.setPiece(Piece.create(Type.PAWN, Color.BLACK, Position.from("b6")));
-        board.setPiece(Piece.create(Type.QUEEN, Color.BLACK, Position.from("e6")));
-        board.setPiece(Piece.create(Type.KING, Color.BLACK, Position.from("b8")));
-        board.setPiece(Piece.create(Type.ROOK, Color.BLACK, Position.from("c8")));
-        board.setPiece(Piece.create(Type.PAWN, Color.WHITE, Position.from("f2")));
-        board.setPiece(Piece.create(Type.PAWN, Color.WHITE, Position.from("g2")));
-        board.setPiece(Piece.create(Type.ROOK, Color.WHITE, Position.from("e1")));
-        board.setPiece(Piece.create(Type.KING, Color.WHITE, Position.from("f1")));
+        board.setPiece(PieceFactory.createBlackPawn(Position.from("b6")));
+        board.setPiece(PieceFactory.createBlackQueen(Position.from("e6")));
+        board.setPiece(PieceFactory.createBlackKing(Position.from("b8")));
+        board.setPiece(PieceFactory.createBlackRook(Position.from("c8")));
+        board.setPiece(PieceFactory.createWhitePawn(Position.from("f2")));
+        board.setPiece(PieceFactory.createWhitePawn(Position.from("g2")));
+        board.setPiece(PieceFactory.createWhiteRook(Position.from("e1")));
+        board.setPiece(PieceFactory.createWhiteKing(Position.from("f1")));
 
         assertEquals(15.0, board.getScore(Color.BLACK), 0.01);
         assertEquals(7.0, board.getScore(Color.WHITE), 0.01);
@@ -181,7 +182,7 @@ public class BoardTest {
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
 
-        assertEquals(Piece.create(Type.NO_PIECE, Color.NOCOLOR, Position.from(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.create(Type.PAWN, Color.WHITE, Position.from(targetPosition)), board.findPiece(targetPosition));
+        assertEquals(PieceFactory.createBlank(Position.from(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(PieceFactory.createWhitePawn(Position.from(targetPosition)), board.findPiece(targetPosition));
     }
 }

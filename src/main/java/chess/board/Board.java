@@ -1,12 +1,12 @@
 package chess.board;
 
 import chess.board.calculator.OrderBy;
+import chess.pieces.PieceFactory;
 import chess.pieces.type.Color;
 import chess.pieces.Piece;
 import chess.pieces.type.Representation;
 import chess.board.calculator.ScoreCalculator;
 
-import chess.pieces.type.Type;
 import java.util.List;
 
 import static utils.StringUtils.*;
@@ -33,11 +33,18 @@ public class Board {
         Position target = Position.from(targetPosition);
 
         final Piece sourcePiece = findPiece(source);
+        final Piece targetPiece = findPiece(target);
 
+        // 움직일 수 있는지 검증
         if (sourcePiece.isPieceOf(Representation.BLANK)) {
             throw new IllegalArgumentException("빈칸을 움직일 수 없습니다");
         }
-        setPiece(Piece.create(Type.NO_PIECE, Color.NOCOLOR, source));
+        if (!sourcePiece.canMove(targetPiece)) {
+            throw new IllegalArgumentException("이동 가능 범위 초과~");
+        }
+
+        // 이동
+        setPiece(PieceFactory.createBlank(source));
         setPiece(sourcePiece.copyWithPosition(target));
     }
 
