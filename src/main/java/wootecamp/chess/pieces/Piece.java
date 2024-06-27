@@ -8,22 +8,28 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN('p'),
-        ROOK('r'),
-        KNIGHT('n'),
-        BISHOP('b'),
-        QUEEN('q'),
-        KING('k'),
-        EMPTY('.');
+        PAWN('p', 1.0),
+        ROOK('r', 5.0),
+        KNIGHT('n', 2.5),
+        BISHOP('b', 3.0),
+        QUEEN('q', 9.0),
+        KING('k', 0.0),
+        EMPTY('.', 0.0);
 
         private final char representation;
+        private final double point;
 
-        Type(final char representation) {
+        Type(final char representation, double point) {
             this.representation = representation;
+            this.point = point;
         }
 
         public char getRepresentation() {
             return representation;
+        }
+
+        public double getPoint() {
+            return point;
         }
     }
 
@@ -103,6 +109,14 @@ public class Piece {
 
     public boolean isEmptyPiece() {
         return this.equals(EMPTY_PIECE);
+    }
+
+    public boolean isKing(final Color color) {
+        return this.type == Type.KING && this.color == color;
+    }
+
+    public boolean isPawn(Color color) {
+        return this.type == Type.PAWN && this.color == color;
     }
 
     public Type getType() {

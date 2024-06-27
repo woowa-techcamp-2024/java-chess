@@ -32,7 +32,6 @@ public class Board {
         }
     }
 
-
     public int pieceCount() {
         int pieceCount = 0;
         for (Rank rank : board) {
@@ -72,5 +71,59 @@ public class Board {
         Rank rank = board.get(boardPosition.getRankPosition());
 
         rank.setPiece(boardPosition.getFilePosition(), piece);
+    }
+
+    public double calculatePoint(final Piece.Color color) {
+        //TODO: King만 남은 경우 어떻게 처리하는가?
+        if(!hasKing(color)) {
+            return 0.0;
+        }
+
+        double point = calculateDefaultPoint(color) - calculateReducePointByPawn(color);
+        return point;
+    }
+
+    private boolean hasKing(final Piece.Color color) {
+        for (Rank rank : board) {
+            if(rank.hasKing(color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private double calculateDefaultPoint(final Piece.Color color) {
+        double point = 0.0;
+
+        for (Rank rank : board) {
+            point += rank.calculatePoint(color);
+        }
+
+        return point;
+    }
+
+    private double calculateReducePointByPawn(final Piece.Color color) {
+        final double minusPointPerPawn = 0.5;
+
+        double point = 0.0;
+        for (int filePosition = 0; filePosition < BOARD_SIZE; filePosition++) {
+            int pawnCount = countPawnInFile(filePosition, color);
+            if(pawnCount >= 2) {
+                point += countPawnInFile(filePosition, color) * minusPointPerPawn;
+            }
+        }
+
+        return point;
+    }
+
+    private int countPawnInFile(final int filePosition, final Piece.Color color) {
+        int count = 0;
+        for (Rank rank : board) {
+            if(rank.isPawn(color, filePosition)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

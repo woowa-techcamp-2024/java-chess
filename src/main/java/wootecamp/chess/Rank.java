@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Rank {
     public static final int RANK_SIZE = 8;
+
     private final List<Piece> pieces = new ArrayList<>();
 
     private Rank() {
@@ -101,5 +102,29 @@ public class Rank {
 
     public void setPiece(int filePosition, Piece piece) {
         pieces.set(filePosition, piece);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        double point = 0;
+        for (Piece piece : pieces) {
+            if(piece.getColor() == color) {
+                point += piece.getType().getPoint();
+            }
+        }
+
+        return point;
+    }
+
+    public boolean hasKing(Piece.Color color) {
+        for (Piece piece : pieces) {
+            if(piece.isKing(color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPawn(Piece.Color color, int filePosition) {
+        return pieces.get(filePosition).isPawn(color);
     }
 }
