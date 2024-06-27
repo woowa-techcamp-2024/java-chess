@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.context.Board;
 import com.example.demo.context.Game;
 import com.example.demo.event.Event;
 import com.example.demo.event.EventPublisher;
@@ -20,8 +19,7 @@ public class DemoApplication {
         ChessHandler cliHandler = new ChessHandler();
         EventPublisher eventPublisher = EventPublisher.INSTANCE;
 
-        Board board = new Board();
-        Game game = Game.builder(board).build();
+        Game game = Game.builder().build();
 
         while (!game.isEnd()) {
             cliHandler.handle(input.next(), game);

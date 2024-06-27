@@ -1,6 +1,6 @@
 package com.example.demo.rules;
 
-import com.example.demo.context.Board;
+import com.example.demo.context.Game;
 import com.example.demo.context.Location;
 import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
@@ -191,7 +191,7 @@ public class RuleManager {
      * @param to   이동할 위치를 나타냅니다.
      * @return 이동이 가능한 경우 true를 반환하고 이동이 불가능한 경우에는 false를 반환합니다.
      */
-    public boolean accept(Board board, Location from, Location to) {
+    public boolean accept(Game board, Location from, Location to) {
 
         // check global rules
         var notAllowedRules = Arrays.stream(GlobalRules.values())
@@ -217,7 +217,7 @@ public class RuleManager {
     /**
      * 공격 가능한지 여부를 확인할 때, 사용합니다.
      */
-    public boolean canAttack(Board board, Location from, Location to) {
+    public boolean canAttack(Game board, Location from, Location to) {
         // check global rules
         var notAllowedRules = Arrays.stream(GlobalRules.values())
                 .filter(rule -> !rule.allow(from, to, board))

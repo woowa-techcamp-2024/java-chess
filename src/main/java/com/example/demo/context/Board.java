@@ -10,7 +10,7 @@ import static com.example.demo.piece.Type.*;
 
 public class Board {
 
-    Piece[][] pieceLocation = new Piece[8][8];
+    private Piece[][] pieceLocation = new Piece[8][8];
     private Map<Location, Set<Color>> checkPoints = new HashMap<>();
 
     public boolean isCheckPoint(Location targetLocation, Color color) {
@@ -19,21 +19,18 @@ public class Board {
 
     /**
      * <p>
-     * 보드는 생성시에 정해진 규칙에 따라서 말을 배치한 초기상태를 가져야한다.
+     *     체스판의 초기 상태를 설정합니다.
      * </p>
      * <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Immortal_game_animation.gif" />
      */
-    public static Board createBoard() {
-        Board board = new Board();
-
-        board.initPawn();
-        board.initKing();
-        board.initQueen();
-        board.initBishop();
-        board.initKnight();
-        board.initRook();
-
-        return board;
+    public void initBoard() {
+        this.pieceLocation = new Piece[8][8];
+        this.initPawn();
+        this.initKing();
+        this.initQueen();
+        this.initBishop();
+        this.initKnight();
+        this.initRook();
     }
 
     //--------------init board start----------------

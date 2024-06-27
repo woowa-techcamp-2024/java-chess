@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.example.demo.context.Board.createBoard;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -37,17 +36,17 @@ class GameTest {
         @MethodSource("movePawnSuccessCase")
         public void movePawn(Location from, Location to) {
             // given
-            Board board = createBoard();
-            Piece target = board.getPiece(from);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.initBoard();
+            Piece target = game.getPiece(from);
             synTurn(game, target.getColor());
 
             // when
             game.move(from, to);
 
             // then
-            assertThat(board.getPiece(to)).isEqualTo(target);
-            assertThat(board.getPiece(from)).isNull();
+            assertThat(game.getPiece(to)).isEqualTo(target);
+            assertThat(game.getPiece(from)).isNull();
         }
 
         public static Stream<Arguments> movePawnSuccessCase() {
@@ -64,15 +63,15 @@ class GameTest {
         @MethodSource("movePawnSuccessCase")
         public void movePawnFail(Location from, Location to) {
             // given
-            Board board = createBoard();
-            board.addPiece(Piece.builder(Type.PAWN).rank(Rank.THREE).file(File.A).build());
-            Game game = Game.builder(board).build();
-            synTurn(game, board.getPiece(from).getColor());
+            Game game = Game.builder().build();
+            game.initBoard();
+            game.addPiece(Piece.builder(Type.PAWN).rank(Rank.THREE).file(File.A).build());
+            synTurn(game, game.getPiece(from).getColor());
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
             for (File file : File.values()) {
-                board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.THREE).file(file).build());
-                board.addPiece(Piece.builder(Type.PAWN).color(Color.BLACK).rank(Rank.SIX).file(file).build());
+                game.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.THREE).file(file).build());
+                game.addPiece(Piece.builder(Type.PAWN).color(Color.BLACK).rank(Rank.SIX).file(file).build());
             }
 
             // then
@@ -86,9 +85,9 @@ class GameTest {
         @MethodSource("movePawnFailCaseWhenExceed")
         public void movePawnFailWhenExceed(Location from, Location to) {
             // given
-            Board board = createBoard();
-            Game game = Game.builder(board).build();
-            synTurn(game, board.getPiece(from).getColor());
+            Game game = Game.builder().build();
+            game.initBoard();
+            synTurn(game, game.getPiece(from).getColor());
 
             // then
             assertThatThrownBy(() -> game.move(from, to))
@@ -108,9 +107,9 @@ class GameTest {
         @MethodSource("movePawnFailCaseWhenNotFirstMove")
         public void movePawnFailWhenNotFirstMove(Location first, Location from, Location to) {
             // given
-            Board board = createBoard();
-            Game game = Game.builder(board).build();
-            synTurn(game, board.getPiece(first).getColor());
+            Game game = Game.builder().build();
+            game.initBoard();
+            synTurn(game, game.getPiece(first).getColor());
             game.move(first, from);
 
             // then
@@ -141,16 +140,15 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(bishop);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(bishop);
 
             // when
             game.move(from, to);
 
             // then
-            assertThat(board.getPiece(from)).isNull();
-            assertThat(board.getPiece(to)).isEqualTo(bishop);
+            assertThat(game.getPiece(from)).isNull();
+            assertThat(game.getPiece(to)).isEqualTo(bishop);
         }
 
         public static Stream<Arguments> successCase() {
@@ -178,17 +176,16 @@ class GameTest {
                     .file(to.file())
                     .build();
 
-            Board board = new Board();
-            board.addPiece(bishop);
-            board.addPiece(target);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(bishop);
+            game.addPiece(target);
 
             // when
             game.move(from, to);
 
             // then
-            assertThat(board.getPiece(from)).isNull();
-            assertThat(board.getPiece(to)).isEqualTo(bishop);
+            assertThat(game.getPiece(from)).isNull();
+            assertThat(game.getPiece(to)).isEqualTo(bishop);
         }
 
         public static Stream<Arguments> attackSuccessCase() {
@@ -206,9 +203,8 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(bishop);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(bishop);
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -239,16 +235,15 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(rook);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(rook);
 
             // when
             game.move(from, to);
 
             // then
-            assertThat(board.getPiece(from)).isNull();
-            assertThat(board.getPiece(to)).isEqualTo(rook);
+            assertThat(game.getPiece(from)).isNull();
+            assertThat(game.getPiece(to)).isEqualTo(rook);
         }
 
         public static Stream<Arguments> successCase() {
@@ -275,9 +270,8 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(rook);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(rook);
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -312,16 +306,15 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(knight);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(knight);
 
             // when
             game.move(from, to);
 
             // then
-            assertThat(board.getPiece(from)).isNull();
-            assertThat(board.getPiece(to)).isEqualTo(knight);
+            assertThat(game.getPiece(from)).isNull();
+            assertThat(game.getPiece(to)).isEqualTo(knight);
         }
 
         public static Stream<Arguments> successCase() {
@@ -342,9 +335,8 @@ class GameTest {
                     .rank(from.rank())
                     .file(from.file())
                     .build();
-            Board board = new Board();
-            board.addPiece(knight);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(knight);
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -378,10 +370,9 @@ class GameTest {
                     .rank(Rank.THREE)
                     .file(File.E)
                     .build();
-            Board board = new Board();
-            board.addPiece(bishop);
-            board.addPiece(target);
-            Game game = Game.builder(board).build();
+            Game game = Game.builder().build();
+            game.addPiece(bishop);
+            game.addPiece(target);
 
             // when & then
             assertThatThrownBy(() -> game.move(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E)))
@@ -400,10 +391,9 @@ class GameTest {
                 .file(File.A)
                 .build();
 
-        Board board = new Board();
-        board.setPiece(new Location(pawn.getRank(), pawn.getFile()), pawn);
+        Game game = Game.builder().build();
+        game.setPiece(new Location(pawn.getRank(), pawn.getFile()), pawn);
 
-        Game game = Game.builder(board).build();
 
         // when
         game.move(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
@@ -413,7 +403,7 @@ class GameTest {
 
         // then
         assertThat(e).isNotNull();
-        assertThat(board.getPiece(new Location(Rank.EIGHT, File.A))).isInstanceOf(Queen.class);
+        assertThat(game.getPiece(new Location(Rank.EIGHT, File.A))).isInstanceOf(Queen.class);
     }
 
     @ParameterizedTest
@@ -427,11 +417,10 @@ class GameTest {
             Location rookTo
     ) {
         // given
-        Board board = new Board();
-        board.setPiece(king.getRank(), king.getFile(), king);
-        board.setPiece(rook.getRank(), rook.getFile(), rook);
-        board.setPiece(enemy.getRank(), enemy.getFile(), enemy);
-        Game game = Game.builder(board).build();
+        Game game = Game.builder().build();
+        game.setPiece(king.getRank(), king.getFile(), king);
+        game.setPiece(rook.getRank(), rook.getFile(), rook);
+        game.setPiece(enemy.getRank(), enemy.getFile(), enemy);
         game.calculateCheckPoint();
         synTurn(game, king.getColor());
 
@@ -440,8 +429,8 @@ class GameTest {
         game.handle(EventPublisher.INSTANCE.consume());
 
         // then
-        assertThat(board.getPiece(kingTo)).isEqualTo(king);
-        assertThat(board.getPiece(rookTo)).isEqualTo(rook);
+        assertThat(game.getPiece(kingTo)).isEqualTo(king);
+        assertThat(game.getPiece(rookTo)).isEqualTo(rook);
     }
 
     public static Stream<Arguments> castlingCase() {

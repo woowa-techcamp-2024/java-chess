@@ -1,7 +1,7 @@
 package com.example.demo.rules;
 
-import com.example.demo.context.Board;
 import com.example.demo.context.File;
+import com.example.demo.context.Game;
 import com.example.demo.context.Location;
 import com.example.demo.context.Rank;
 import com.example.demo.event.Hook;
@@ -45,7 +45,7 @@ public class NormalRule implements Rule {
     }
 
     @Override
-    public boolean allow(Location from, Location to, Board board) {
+    public boolean allow(Location from, Location to, Game board) {
 
         Piece piece = board.getPiece(from);
 

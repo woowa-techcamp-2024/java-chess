@@ -1,9 +1,6 @@
 package com.example.demo.rules;
 
-import com.example.demo.context.Board;
-import com.example.demo.context.File;
-import com.example.demo.context.Location;
-import com.example.demo.context.Rank;
+import com.example.demo.context.*;
 import com.example.demo.event.EventPublisher;
 import com.example.demo.event.MoveActionEvent;
 import com.example.demo.piece.Color;
@@ -55,7 +52,7 @@ public enum CastlingRule implements Rule {
     }
 
     @Override
-    public boolean allow(Location from, Location to, Board board) {
+    public boolean allow(Location from, Location to, Game board) {
         return this.rule.allow(from, to, board);
     }
 
