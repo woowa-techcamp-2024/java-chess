@@ -108,6 +108,6 @@ public class ChessGame {
 
 
     public void finishGame() {
-        System.out.println("게임을 종료하지");
+        board.initializeEmpty();
     }
 }
