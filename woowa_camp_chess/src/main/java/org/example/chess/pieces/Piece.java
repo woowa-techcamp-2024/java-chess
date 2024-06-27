@@ -29,7 +29,6 @@ public abstract class Piece {
         moveCount++;
     }
 
-
     protected Piece(Color color, PieceType pieceType) {
         this.color = color;
         this.representation = color.equals(WHITE) ? pieceType.getWhiteRepresentation() : pieceType.getBlackRepresentation();

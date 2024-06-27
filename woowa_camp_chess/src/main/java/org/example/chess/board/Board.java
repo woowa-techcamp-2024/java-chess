@@ -133,12 +133,8 @@ public class Board {
                 double defaultPoint = piece.getPieceType().getDefaultPoint();
 
                 //todo : 현재는 같은 행에 Pawn이 있는지 for 문을 돌며 확인 -> Piece별 점수 계산을 담당하는 부분을 구현해야 할지 ?
-                if (piece.getPieceType().equals(PieceType.PAWN)) {
-                    for (int k = 0; k < SIZE; k++) {
-                        Piece pieceTmp = board.get(k).get(j);
-                        if(i==k) continue;
-                        if(pieceTmp.getPieceType().equals(PieceType.PAWN)&&pieceTmp.getColor().equals(color)) defaultPoint-=0.5;
-                    }
+                if (piece.getPieceType().equals(PieceType.PAWN) && isSamePawnOnColumn(color, j, i)) {
+                    defaultPoint -= 0.5;
                 }
 
                 sum += defaultPoint;
@@ -146,6 +142,15 @@ public class Board {
         }
 
         return sum;
+    }
+
+    public boolean isSamePawnOnColumn(Piece.Color color, int column, int row) {
+        for (int k = 0; k < SIZE; k++) {
+            Piece pieceTmp = board.get(k).get(column);
+            if(row ==k) continue;
+            if(pieceTmp.getPieceType().equals(PieceType.PAWN)&&pieceTmp.getColor().equals(color)) return true;
+        }
+        return false;
     }
 
     // 기물의 점수순으로 정렬 ( 내림차순 or 오름차순)

@@ -2,16 +2,20 @@ package org.example;
 
 import org.example.chess.Game.GameImpl;
 import org.example.chess.board.Board;
+import org.example.chess.board.BoardView;
+import org.example.chess.board.PointManager;
 
 import java.util.Scanner;
 
 public class Main {
     static GameImpl game;
     static Board board ;
+    static PointManager pointManager;
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("체스 게임에 오신것을 환영합니다.");
+
         while (true){
             System.out.println("원하시는 값을 입력하여 주시기 바랍니다.");
             System.out.println("시작 : start, 종료 : end, 말 이동 : move");
@@ -22,6 +26,7 @@ public class Main {
                     board = new Board();
                     board.initialize();
                     game = new GameImpl(board);
+                    pointManager = new PointManager(board);
                     break;
 
                 case "move" :
@@ -31,7 +36,7 @@ public class Main {
                     String desPosition = scan.next();
                     try {
                         game.move(srcPosition, desPosition);
-                        System.out.println(board.showBoard());
+                        BoardView.viewBoard(board,pointManager);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
