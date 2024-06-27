@@ -5,6 +5,8 @@ import static woowa.camp.pieces.Piece.Color.NONE;
 import static woowa.camp.pieces.Piece.Color.WHITE;
 import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
+import java.util.Objects;
+
 public class Piece {
 
     private final Type type;
@@ -31,10 +33,6 @@ public class Piece {
         return new Piece(NO_PIECE, NONE);
     }
 
-    public String getColor() {
-        return color.getName();
-    }
-
     public Representation getRepresentation() {
         return Representation.findMatchedRepresentation(type, color);
     }
@@ -49,14 +47,6 @@ public class Piece {
 
     public boolean isSameColor(final Color color) {
         return this.color == color;
-    }
-
-    public boolean isBlack() {
-        return color == BLACK;
-    }
-
-    public boolean isWhite() {
-        return color == WHITE;
     }
 
     public enum Type {
@@ -92,5 +82,21 @@ public class Piece {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
+    }
 
 }
