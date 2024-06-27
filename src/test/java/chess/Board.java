@@ -14,11 +14,12 @@ public class Board {
     public static class Rank {
 
         private final List<Piece> pieces = new ArrayList<>();
-        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE;}
 
+        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE;}
         public List<Piece> getPieces() {
             return pieces;
         }
+
         public Rank(Type type) {
             if (type == Type.WHITE_PAWN) {
                 for (int i = 0; i < 8; i++) {
@@ -70,7 +71,6 @@ public class Board {
         map.add(new Rank(Rank.Type.NO_PIECE));
         map.add(new Rank(Rank.Type.NO_PIECE));
     }
-
     public void initialize() {
         map.add(new Rank(Rank.Type.BLACK_ROOK_TO_KING));
         map.add(new Rank(Rank.Type.BLACK_PAWN));
@@ -81,9 +81,17 @@ public class Board {
         map.add(new Rank(Rank.Type.WHITE_ROOK_TO_KING));
     }
 
-    public void move(String position, Piece piece) {
-        Position pos = new Position(position);
-        map.get(pos.getRow()).getPieces().set(pos.getCol(), piece);
+    public void move(String sourcePosition, String targetPosition) {
+        Position sourcePos = new Position(sourcePosition);
+        Position targetPos = new Position(targetPosition);
+        Piece movePiece = map.get(sourcePos.getRow()).getPieces().get(sourcePos.getCol());
+        map.get(sourcePos.getRow()).getPieces().set(sourcePos.getCol(), Piece.createBlank());
+        map.get(targetPos.getRow()).getPieces().set(targetPos.getCol(), movePiece);
+    }
+
+    public void addPiece(String position, Piece piece) {
+        Position sourcePos = new Position(position);
+        map.get(sourcePos.getRow()).getPieces().set(sourcePos.getCol(), piece);
     }
 
     public double calculatePoint(Piece.Color color) {
