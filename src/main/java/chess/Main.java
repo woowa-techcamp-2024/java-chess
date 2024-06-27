@@ -22,7 +22,7 @@ public class Main {
                     System.out.println(chessView.showBoard());
                 }
                 catch (Exception e) {
-                    System.out.println(e.toString());
+                    System.out.println(e.getMessage());
                 }
             }
         }
