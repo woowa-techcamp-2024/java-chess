@@ -1,8 +1,12 @@
 package chess.pieces;
 
+import chess.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class Piece implements Comparable<Piece> {
+public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece o) {
@@ -14,6 +18,8 @@ public class Piece implements Comparable<Piece> {
     private final Color color;
 
     private final Representation representation;
+
+    public abstract List<List<Position>> getPossibleMoves(Position currentPosition);
 
     public boolean isWhite() {
         return color == Color.WHITE;
@@ -29,9 +35,45 @@ public class Piece implements Comparable<Piece> {
         public double getPoint() { return point; }
     }
 
+    public enum Direction {
+        UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1),
+        LEFT_UP(-1, -1), LEFT_DOWN(1, -1), RIGHT_UP(-1, 1), RIGHT_DOWN(1, 1),
+        LEFT_LEFT_UP(-1, -2), LEFT_UP_UP(-2, -1), RIGHT_UP_UP(-2, 1), RIGHT_RIGHT_UP(-1, 2),
+        LEFT_LEFT_DOWN(1, -2), LEFT_DOWN_DOWN(2, -1), RIGHT_DOWN_DOWN(2, 1), RIGHT_RIGHT_DOWN(1, 2);
+
+        private final int dr, dc;
+        Direction(int dr, int dc) { this.dr = dr; this.dc = dc; }
+        public int getDr() { return dr; }
+        public int getDc() { return dc; }
+    }
+
+    protected List<Position> getPossibleMovesOfDirection(Position curPos, Direction direction, int distance) {
+        List<Position> possibleMoves = new ArrayList<>();
+        Position nextPos = curPos;
+        if (distance == 0){
+            while (true){
+                nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
+                if (outOfBounds(nextPos)) break;
+                possibleMoves.add(nextPos);
+            }
+            return possibleMoves;
+        }
+        for (int i=0; i<distance; i++){
+            nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
+            if (outOfBounds(nextPos)) break;
+            possibleMoves.add(nextPos);
+        }
+        return possibleMoves;
+    }
+
+    private boolean outOfBounds(Position position) {
+        int row = position.getRow();
+        int col = position.getCol();
+        return row < 0 || row >= 8 || col < 0 || col >= 8;
+    }
 
 
-    public enum Color { WHITE, BLACK }
+    public enum Color { WHITE, BLACK, NO_COLOR }
 
     public enum Representation {
         WHITE_PAWN('♙'), BLACK_PAWN('♟'),
@@ -39,7 +81,8 @@ public class Piece implements Comparable<Piece> {
         WHITE_BISHOP('♗'), BLACK_BISHOP('♝'),
         WHITE_ROOK('♖'), BLACK_ROOK('♜'),
         WHITE_QUEEN('♕'), BLACK_QUEEN('♛'),
-        WHITE_KING('♔'), BLACK_KING('♚');
+        WHITE_KING('♔'), BLACK_KING('♚'),
+        NO_PIECE('.');
 
         private final char symbol;
 
@@ -52,7 +95,7 @@ public class Piece implements Comparable<Piece> {
         }
     }
 
-    private Piece(Type type, Color color, Representation representation) {
+    protected Piece(Type type, Color color, Representation representation) {
         this.type = type;
         this.color = color;
         this.representation = representation;
@@ -60,13 +103,13 @@ public class Piece implements Comparable<Piece> {
 
     private static Piece create(Type type, Color color) {
         return switch (type) {
-            case PAWN -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_PAWN : Representation.BLACK_PAWN);
-            case KNIGHT -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KNIGHT : Representation.BLACK_KNIGHT);
-            case BISHOP -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_BISHOP : Representation.BLACK_BISHOP);
-            case ROOK -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
-            case QUEEN -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
-            case KING -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
-            case NO_PIECE -> new Piece(type, null, null);
+            case PAWN -> new Pawn(type, color, (color == Color.WHITE) ? Representation.WHITE_PAWN : Representation.BLACK_PAWN);
+            case KNIGHT -> new Knight(type, color, (color == Color.WHITE) ? Representation.WHITE_KNIGHT : Representation.BLACK_KNIGHT);
+            case BISHOP -> new Bishop(type, color, (color == Color.WHITE) ? Representation.WHITE_BISHOP : Representation.BLACK_BISHOP);
+            case ROOK -> new Rook(type, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
+            case QUEEN -> new Queen(type, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
+            case KING -> new King(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
+            case NO_PIECE -> new NoPiece(type, color, Representation.NO_PIECE);
         };
     }
 
@@ -83,7 +126,7 @@ public class Piece implements Comparable<Piece> {
     }
 
     public static Piece createBlank() {
-        return create(Type.NO_PIECE, null);
+        return create(Type.NO_PIECE, Color.NO_COLOR);
     }
 
     public static Piece createWhitePawn(){

@@ -10,55 +10,6 @@ public class Board {
 
     private final List<Rank> map = new ArrayList<>();
 
-
-    public static class Rank {
-
-        private final List<Piece> pieces = new ArrayList<>();
-        public enum Type { WHITE_PAWN, BLACK_PAWN, WHITE_ROOK_TO_KING, BLACK_ROOK_TO_KING, NO_PIECE;}
-
-        public List<Piece> getPieces() {
-            return pieces;
-        }
-        public Rank(Type type) {
-            if (type == Type.WHITE_PAWN) {
-                for (int i = 0; i < 8; i++) {
-                    pieces.add(Piece.createWhitePawn());
-                }
-            }
-            else if (type == Type.BLACK_PAWN) {
-                for (int i = 0; i < 8; i++) {
-                    pieces.add(Piece.createBlackPawn());
-                }
-            }
-            else if (type == Type.WHITE_ROOK_TO_KING) {
-                pieces.add(Piece.createWhiteRook());
-                pieces.add(Piece.createWhiteKnight());
-                pieces.add(Piece.createWhiteBishop());
-                pieces.add(Piece.createWhiteQueen());
-                pieces.add(Piece.createWhiteKing());
-                pieces.add(Piece.createWhiteBishop());
-                pieces.add(Piece.createWhiteKnight());
-                pieces.add(Piece.createWhiteRook());
-            }
-            else if (type == Type.BLACK_ROOK_TO_KING) {
-                pieces.add(Piece.createBlackRook());
-                pieces.add(Piece.createBlackKnight());
-                pieces.add(Piece.createBlackBishop());
-                pieces.add(Piece.createBlackQueen());
-                pieces.add(Piece.createBlackKing());
-                pieces.add(Piece.createBlackBishop());
-                pieces.add(Piece.createBlackKnight());
-                pieces.add(Piece.createBlackRook());
-            }
-            else if (type == Type.NO_PIECE) {
-                for (int i = 0; i < 8; i++) {
-                    pieces.add(Piece.createBlank());
-                }
-            }
-        }
-
-
-    }
     public Board() {}
     public void initializeEmpty() {
         map.add(new Rank(Rank.Type.NO_PIECE));
@@ -70,7 +21,6 @@ public class Board {
         map.add(new Rank(Rank.Type.NO_PIECE));
         map.add(new Rank(Rank.Type.NO_PIECE));
     }
-
     public void initialize() {
         map.add(new Rank(Rank.Type.BLACK_ROOK_TO_KING));
         map.add(new Rank(Rank.Type.BLACK_PAWN));
@@ -81,27 +31,52 @@ public class Board {
         map.add(new Rank(Rank.Type.WHITE_ROOK_TO_KING));
     }
 
-    public void move(String position, Piece piece) {
-        Position pos = new Position(position);
-        map.get(pos.getRow()).getPieces().set(pos.getCol(), piece);
+    public void move(String sourcePosition, String targetPosition) {
+        Position sourcePos = new Position(sourcePosition);
+        Position targetPos = new Position(targetPosition);
+        Piece movePiece = map.get(sourcePos.getRow()).findPiece(sourcePos.getCol());
+        Piece targetPiece = map.get(targetPos.getRow()).findPiece(targetPos.getCol());
+        List<List<Position>> allDirectionMoves = movePiece.getPossibleMoves(sourcePos);
+        List<Position> moves = allDirectionMoves.stream()
+                .filter(list -> list.contains(targetPos))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("impossible move"));
+        boolean isPossible = false;
+        for (Position move : moves) {
+            if (move.equals(targetPos)) {
+                if (movePiece.getType() == Piece.Type.PAWN) {
+                    if (sourcePos.getCol() != targetPos.getCol() && targetPiece.getType() == Piece.Type.NO_PIECE) {
+                        break;
+                    }
+                    if (sourcePos.getCol() == targetPos.getCol() && targetPiece.getType() != Piece.Type.NO_PIECE) {
+                        break;
+                    }
+                }
+                isPossible = true;
+                break;
+            }
+            Piece piece = map.get(move.getRow()).findPiece(move.getCol());
+            if (piece.getType() != Piece.Type.NO_PIECE) break;
+        }
+        if (!isPossible) throw new IllegalArgumentException("impossible move");
+        map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), Piece.createBlank());
+        map.get(targetPos.getRow()).setPiece(targetPos.getCol(), movePiece);
+    }
+
+    public void addPiece(String position, Piece piece) {
+        Position sourcePos = new Position(position);
+        map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), piece);
     }
 
     public double calculatePoint(Piece.Color color) {
         double sum = 0;
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getColor() == color) {
-                    if (piece.getType() == Piece.Type.QUEEN) sum += 9;
-                    if (piece.getType() == Piece.Type.ROOK) sum += 5;
-                    if (piece.getType() == Piece.Type.BISHOP) sum += 3;
-                    if (piece.getType() == Piece.Type.KNIGHT) sum += 2.5;
-                }
-            }
+            sum += rank.calculatePointKnightToQueen(color);
         }
         for (int i=0; i<8; i++){
             int pawnCount = 0;
             for (Rank rank : map) {
-                Piece piece = rank.getPieces().get(i);
+                Piece piece = rank.findPiece(i);
                 if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
                     pawnCount++;
                 }
@@ -114,25 +89,13 @@ public class Board {
 
     public Piece findPiece(String position){
         Position pos = new Position(position);
-        return map.get(pos.getRow()).getPieces().get(pos.getCol());
-    }
-
-    public int pieceCount(Piece.Color color, Piece.Type type) {
-        int count = 0;
-        for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getColor() == color && piece.getType() == type) count++;
-            }
-        }
-        return count;
+        return map.get(pos.getRow()).findPiece(pos.getCol());
     }
 
     public int pieceCount() {
         int count = 0;
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getType() != Piece.Type.NO_PIECE) count++;
-            }
+            count += rank.getTotalCountNotNoPiece();
         }
         return count;
     }
@@ -140,11 +103,7 @@ public class Board {
     public String showBoard() {
         StringBuilder builder = new StringBuilder();
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getType() == Piece.Type.NO_PIECE) builder.append('.');
-                else builder.append(piece.getRepresentation().getSymbol());
-            }
-            builder.append(StringUtils.appendNewLine(""));
+            builder.append(StringUtils.appendNewLine(rank.showRank()));
         }
         return builder.toString();
     }
