@@ -61,6 +61,9 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
+        if (!from.isValid()) throw new IllegalArgumentException("Invalid position from: " + from);
+        if (!to.isValid()) throw new IllegalArgumentException("Invalid position to: " + to);
+
         Cell fromCell = cellAt(from);
         Cell toCell = cellAt(to);
         Piece piece = fromCell.getPiece();
