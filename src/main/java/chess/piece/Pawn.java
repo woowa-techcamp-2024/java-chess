@@ -1,6 +1,11 @@
 package chess.piece;
 
+import chess.piece.rule.PieceMove;
+import chess.piece.rule.SpecialDirection;
+
 public class Pawn extends Piece {
+
+    private boolean isFirstMove = true;
 
     private Pawn(final PieceColor pieceColor) {
         super(pieceColor);
@@ -12,5 +17,15 @@ public class Pawn extends Piece {
 
     public Type getType() {
         return Type.PAWN;
+    }
+
+    @Override
+    public PieceMove getMoveable() {
+        if(isFirstMove) {
+            isFirstMove = false;
+            return PieceMove.of(SpecialDirection.getPawnDirection(), 2);
+        }
+
+        return PieceMove.of(SpecialDirection.getPawnDirection(), 1);
     }
 }

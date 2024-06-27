@@ -1,5 +1,7 @@
 package chess.piece;
 
+import chess.piece.rule.PieceMove;
+
 public abstract class Piece {
 
     protected final PieceColor color;
@@ -9,6 +11,10 @@ public abstract class Piece {
     }
 
     public abstract Type getType();
+
+    public abstract PieceMove getMoveable();
+
+//    public abstract int movableDistance();
 
     public PieceColor getColor() {
         return color;

@@ -1,5 +1,9 @@
 package chess.piece;
 
+import chess.piece.rule.PieceMove;
+
+import java.util.List;
+
 public class Blank extends Piece {
 
     private Blank(final PieceColor color) {
@@ -17,5 +21,10 @@ public class Blank extends Piece {
     @Override
     public Type getType() {
         return Type.NO_PIECE;
+    }
+
+    @Override
+    public PieceMove getMoveable() {
+        return PieceMove.of(List.of(), 0);
     }
 }
