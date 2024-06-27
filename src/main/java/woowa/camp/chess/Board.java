@@ -153,11 +153,8 @@ public class Board {
 
     private void appendRowRepresentation(final int row, final StringBuilder sb) {
         for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final int specificCol = col;
-            getPawnByPosition(row, col)
-                    .map(piece -> sb.append(piece.getRepresentation().getName()))
-                    .orElseThrow(() -> new IllegalStateException(
-                            String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, specificCol)));
+            final Piece piece = getPieceByPosition(row, col);
+            sb.append(piece.getRepresentation().getName());
         }
     }
 
@@ -201,8 +198,9 @@ public class Board {
         return sb.toString();
     }
 
-    private Optional<Piece> getPawnByPosition(final int row, final int col) {
-        return Optional.ofNullable(board.get(row).get(col));
+    private Piece getPieceByPosition(final int row, final int col) {
+        return Optional.ofNullable(board.get(row).get(col))
+                .orElseThrow(() -> new IllegalArgumentException(String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, col)));
     }
 
     public int getBoardRowSize() {
