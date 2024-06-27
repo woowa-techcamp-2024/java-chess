@@ -1,6 +1,7 @@
 package com.example.demo.context;
 
 import com.example.demo.piece.Color;
+import com.example.demo.piece.Pawn;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
 import com.example.demo.rules.GlobalRules;
@@ -19,6 +20,7 @@ public class Game {
     private final User blackUser;
     private boolean isEnd = false;
     private final Map<Type, List<Rule>> rules = new HashMap<>();
+    private Location promotionPieceLocation = null;
 
     // todo : 추후 빌더나 추상 팩토리로 리펙터링 예정
     public Game(Board board, User whiteUser, User blackUser) {
@@ -158,8 +160,11 @@ public class Game {
     public void move(Location from, Location to) {
 
         // check user color
-        if(board.getPiece(from).getColor() != currentTurnColor) {
-            throw new RuntimeException("현재 턴의 말을 이동해야 합니다.");
+        checkTurn(from);
+
+        // check promotion rule
+        if(promotionPieceLocation != null){
+            throw new RuntimeException("먼저 폰의 승진이 필요합니다.");
         }
 
         Piece piece = board.getPiece(from.rank(), from.file());
@@ -178,6 +183,44 @@ public class Game {
 
     public void nextTurn(){
         currentTurnColor = currentTurnColor == Color.WHITE ? Color.BLACK : Color.WHITE;
+    }
+
+    /**
+     * 승진 명령을 처리하는 메서드
+     * @param type 승진할 대상인 말의 타입
+     */
+    public void promotion(Type type){
+
+        if(promotionPieceLocation == null){
+            throw new RuntimeException("승진할 폰이 없습니다.");
+        }
+
+        checkTurn(promotionPieceLocation);
+
+        Piece piece = switch (type){
+            case QUEEN -> new Pawn(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
+            case ROOK -> new Pawn(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
+            case BISHOP -> new Pawn(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
+            case KNIGHT -> new Pawn(currentTurnColor, promotionPieceLocation.rank(), promotionPieceLocation.file());
+            default -> throw new RuntimeException("대상 타입으로 승진할 수 없습니다.");
+        };
+
+        board.setPiece(promotionPieceLocation, piece);
+        promotionPieceLocation = null;
+    }
+
+    /**
+     * 승진 이벤트가 발생하였을 때, 승진이 필요한 폰의 위치를 게임에 저장하는 메서드
+     * @param location 승진을 해야하는 폰의 위치를 나타냅니다.
+     * @throws RuntimeException 폰이 아닌 말이 승진을 요청한 경우
+     */
+    public void setPromotionPawn(Location location){
+        Piece piece = board.getPiece(location);
+        if(piece.getType() != Type.PAWN){
+            throw new RuntimeException("폰이 아닙니다.");
+        }
+
+        promotionPieceLocation = location;
     }
 
     /**
@@ -208,5 +251,16 @@ public class Game {
         return rules.getOrDefault(piece.getType(), new ArrayList<>())
                 .stream()
                 .anyMatch(rule -> rule.allow(from, to, board));
+    }
+
+    /**
+     * 변경할 대상이 현재 턴의 색상인지 확인합니다.
+     * @param location 변경할 대상의 위치
+     * @throws RuntimeException 변경할 대상이 현재 턴의 색상이 아닌 경우
+     */
+    private void checkTurn(Location location){
+        if(board.getPiece(location).getColor() != currentTurnColor) {
+            throw new RuntimeException("현재 턴의 말을 이동해야 합니다.");
+        }
     }
 }
