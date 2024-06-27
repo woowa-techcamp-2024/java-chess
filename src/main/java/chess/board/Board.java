@@ -61,8 +61,8 @@ public class Board {
     }
 
     public void move(String sourceCoordinateStr, String targetCoordinateStr) {
-        Coordinate sourceCoordinate = convertCoordinate(sourceCoordinateStr);
-        Coordinate targetCoordinate = convertCoordinate(targetCoordinateStr);
+        Coordinate sourceCoordinate = Coordinate.of(sourceCoordinateStr);
+        Coordinate targetCoordinate = Coordinate.of(targetCoordinateStr);
 
         Piece sourcePiece = findPiece(sourceCoordinate);
         Piece targetPiece = findPiece(targetCoordinate);
@@ -76,7 +76,8 @@ public class Board {
     }
 
     protected Piece findPiece(Coordinate coordinate) {
-        return ranks.get(coordinate.getRankIndex()).getPieceByIndex(coordinate.getWidthIndex());
+        return ranks.get(coordinate.getRankIndex())
+                .getPieceByIndex(coordinate.getWidthIndex());
     }
 
     protected void move(Coordinate coordinate, Piece piece) {
