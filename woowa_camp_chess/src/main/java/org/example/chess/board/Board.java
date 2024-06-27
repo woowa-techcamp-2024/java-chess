@@ -11,7 +11,7 @@ import static org.example.chess.pieces.Piece.createBlank;
 
 public class Board {
     static final int SIZE = 8;
-    List<List<Piece>> board = new ArrayList<>();
+    protected List<List<Piece>> board = new ArrayList<>();
     List<Piece> pieceList = new ArrayList<>();
     List<Piece> whitePieceList = new ArrayList<>();
     List<Piece> blackPieceList = new ArrayList<>();
@@ -74,7 +74,6 @@ public class Board {
         }
 
         printBoard();
-
     }
 
     private void printBoard() {
