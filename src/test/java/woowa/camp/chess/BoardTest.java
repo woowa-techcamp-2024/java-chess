@@ -13,6 +13,7 @@ import static woowa.camp.chess.BoardConstants.MAX_ROOK;
 import static woowa.camp.chess.BoardConstants.MAX_ROW;
 
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -198,6 +199,36 @@ public class BoardTest {
                     Arguments.of(Type.BISHOP, Color.WHITE, MAX_BISHOP.getCount()),
                     Arguments.of(Type.PAWN, Color.WHITE, MAX_PAWN.getCount())
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("Describe_체스판의 점수를 계산하는 기능은")
+    class CalculateScoreTest {
+
+        @Test
+        @DisplayName("색상을 기준으로 현재 남아 있는 기물에 따라 점수를 계산한다.")
+        void calculate() {
+            board.initializeEmpty();
+
+            addPiece("b6", Piece.createBlackPieceOf(Type.PAWN));
+            addPiece("e6", Piece.createBlackPieceOf(Type.QUEEN));
+            addPiece("b8", Piece.createBlackPieceOf(Type.KING));
+            addPiece("c8", Piece.createBlackPieceOf(Type.ROOK));
+
+            addPiece("f2", Piece.createWhitePieceOf(Type.PAWN));
+            addPiece("g2", Piece.createWhitePieceOf(Type.PAWN));
+            addPiece("e1", Piece.createWhitePieceOf(Type.ROOK));
+            addPiece("f1", Piece.createWhitePieceOf(Type.KING));
+
+            Assertions.assertEquals(15.0, board.calculateScore(Color.BLACK), 0.01);
+            Assertions.assertEquals(7.0, board.calculateScore(Color.WHITE), 0.01);
+
+            System.out.println(board.showBoard());
+        }
+
+        private void addPiece(String position, Piece piece) {
+            board.move(piece, position);
         }
     }
 
