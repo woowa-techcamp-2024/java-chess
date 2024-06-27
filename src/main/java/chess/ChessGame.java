@@ -120,11 +120,15 @@ public class ChessGame {
         board.initializeEmpty();
     }
 
-    protected boolean isWhiteTurn() {
+    public boolean isWhiteTurn() {
         return whiteTurn;
     }
 
     protected void setWhiteTurn(boolean whiteTurn) {
         this.whiteTurn = whiteTurn;
+    }
+
+    public void turnChange(){
+        setWhiteTurn(!isWhiteTurn());
     }
 }
