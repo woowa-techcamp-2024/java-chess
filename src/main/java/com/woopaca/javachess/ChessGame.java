@@ -27,25 +27,33 @@ public class ChessGame {
 
         do {
             input = scanner.nextLine();
-            if (input.equalsIgnoreCase(START_COMMAND)) {
-                System.out.println("게임을 시작합니다.");
-                board.initialize();
-                System.out.println(chessView.showBoard());
-                isStarted = true;
-            }
+            try {
+                validateCommandPrefix(input);
 
-            if (input.startsWith(MOVE_COMMAND) && isStarted) {
-                MoveCommand moveCommand = new MoveCommand(input);
-                try {
-                    pieceHandler.movePiece(moveCommand);
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                    continue;
+                if (input.equalsIgnoreCase(START_COMMAND)) {
+                    System.out.println("게임을 시작합니다.");
+                    board.initialize();
+                    System.out.println(chessView.showBoard());
+                    isStarted = true;
                 }
-                System.out.println(chessView.showBoard());
+
+                if (input.startsWith(MOVE_COMMAND) && isStarted) {
+                    MoveCommand moveCommand = new MoveCommand(input);
+                    pieceHandler.movePiece(moveCommand);
+                    System.out.println(chessView.showBoard());
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         } while (!isEndGame(input));
         System.out.println("게임을 종료합니다.");
+    }
+
+    private static void validateCommandPrefix(String input) {
+        if (input.startsWith(START_COMMAND) || input.startsWith(END_COMMAND) || input.startsWith(MOVE_COMMAND)) {
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 올바르지 않은 입력입니다.");
     }
 
     private static boolean isEndGame(String input) {

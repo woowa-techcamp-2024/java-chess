@@ -8,7 +8,7 @@ public class Position {
     private final int file;
 
     public Position(String fileRank) {
-        if (fileRank.length() > 2) {
+        if (fileRank.length() != 2) {
             throw new IllegalArgumentException(String.format("[ERROR] 위치 값의 길이가 올바르지 않습니다. file & rank: %s", fileRank));
         }
 

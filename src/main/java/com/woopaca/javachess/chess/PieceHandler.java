@@ -3,6 +3,7 @@ package com.woopaca.javachess.chess;
 import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Direction;
 import com.woopaca.javachess.pieces.Piece;
+import com.woopaca.javachess.pieces.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,27 @@ public class PieceHandler {
         Position sourcePosition = moveCommand.getSourcePosition();
         Position targetPosition = moveCommand.getTargetPosition();
         Piece piece = board.findPiece(sourcePosition);
+        Piece targetPositionPiece = board.findPiece(targetPosition);
         if (!isPossibleMovePosition(piece, sourcePosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 기물을 이동할 수 없습니다!");
         }
-        board.move(moveCommand.getSourcePosition(), moveCommand.getTargetPosition());
+
+        if (!targetPositionPiece.isBlank() && targetPositionPiece.getColor() != piece.getColor()) {
+            capturing(targetPosition, piece, sourcePosition);
+            return;
+        }
+
+        swap(sourcePosition, targetPositionPiece, targetPosition, piece);
+    }
+
+    private void capturing(Position targetPosition, Piece piece, Position sourcePosition) {
+        board.placePiece(targetPosition, piece);
+        board.placePiece(sourcePosition, PieceFactory.createBlank(null));
+    }
+
+    private void swap(Position sourcePosition, Piece targetPositionPiece, Position targetPosition, Piece piece) {
+        board.placePiece(sourcePosition, targetPositionPiece);
+        board.placePiece(targetPosition, piece);
     }
 
     public boolean isPossibleMovePosition(Piece piece, Position sourcePosition, Position targetPosition) {

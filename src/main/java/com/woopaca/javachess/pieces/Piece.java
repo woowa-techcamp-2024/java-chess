@@ -40,6 +40,10 @@ public abstract class Piece {
         return type.getPoint();
     }
 
+    public boolean isBlank() {
+        return type == Type.NO_PIECE;
+    }
+
     public abstract List<Direction> getDirections();
 
     @Override
@@ -59,5 +63,4 @@ public abstract class Piece {
         result = 31 * result + Objects.hashCode(type);
         return result;
     }
-
 }
