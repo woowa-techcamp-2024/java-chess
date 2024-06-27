@@ -1,7 +1,8 @@
 package chess;
 
 
-import chess.pieces.Piece;
+import chess.pieces.*;
+import chess.pieces.Piece.Color;
 import utils.StringUtils;
 
 import java.util.*;
@@ -85,8 +86,9 @@ public class ChessGame {
     }
 
     public void add(String position, Piece piece) {
+        piece.setPosition(position);
         board.add(position, piece);
-        if (Objects.equals(piece.getColor(), Piece.Color.WHITE)) {
+        if (Objects.equals(piece.getColor(), Color.WHITE)) {
             whitePieces.add(piece);
             return ;
         }
@@ -102,12 +104,12 @@ public class ChessGame {
         Position sourcePos = CommandChanger.getPosition(source);
         Position targetPos = CommandChanger.getPosition(target);
         // boardMap 수정
-        board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.createBlank(sourcePos));
+        board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
         board.replacePiece(targetPos.getRow(), targetPos.getColumn(), sourcePiece);
     }
 
 
-    public double calculatePoint(Piece.Color color) {
+    public double calculatePoint(Color color) {
         double score = 0.0;
 
         // KING
@@ -125,20 +127,12 @@ public class ChessGame {
         // KNIGHT
         score += Piece.Type.KNIGHT.getDefaultPoint() * board.findPiece(color, Piece.Type.KNIGHT);
 
-        int targetColor = color.equals(Piece.Color.WHITE) ? 1 : 0;
-
         // PAWN
         for (int i = 0; i < 8; i++) {
             int cnt = 0;
             for (int j = 0; j < 8; j++) {
-                if (targetColor == 1) {
-                    if (Objects.equals(board.getPiece(j, i).getType(), Piece.Type.PAWN.getWhiteRepresentation())) {
-                        cnt++;
-                    }
-                } else {
-                    if (Objects.equals(board.getPiece(j, i).getType(), Piece.Type.PAWN.getBlackRepresentation())) {
-                        cnt++;
-                    }
+                if (Objects.equals(board.getPiece(j, i).getType(), Piece.Type.PAWN.getRepresentation(color))) {
+                    cnt++;
                 }
             }
             if (cnt >= 2) {
@@ -153,14 +147,14 @@ public class ChessGame {
 
     public void createWhitePieces() {
         List<Piece> p = new ArrayList<>();
-        p.add(Piece.createWhite(Piece.Type.ROOK));
-        p.add(Piece.createWhite(Piece.Type.KNIGHT));
-        p.add(Piece.createWhite(Piece.Type.BISHOP));
-        p.add(Piece.createWhite(Piece.Type.QUEEN));
-        p.add(Piece.createWhite(Piece.Type.KING));
-        p.add(Piece.createWhite(Piece.Type.BISHOP));
-        p.add(Piece.createWhite(Piece.Type.KNIGHT));
-        p.add(Piece.createWhite(Piece.Type.ROOK));
+        p.add(Piece.of(Rook.class, Color.WHITE, CommandChanger.getPosition("a1")));
+        p.add(Piece.of(Knight.class, Color.WHITE, CommandChanger.getPosition("b1")));
+        p.add(Piece.of(Bishop.class, Color.WHITE, CommandChanger.getPosition("c1")));
+        p.add(Piece.of(Queen.class, Color.WHITE, CommandChanger.getPosition("d1")));
+        p.add(Piece.of(King.class, Color.WHITE, CommandChanger.getPosition("e1")));
+        p.add(Piece.of(Bishop.class, Color.WHITE, CommandChanger.getPosition("f1")));
+        p.add(Piece.of(Knight.class, Color.WHITE, CommandChanger.getPosition("g1")));
+        p.add(Piece.of(Rook.class, Color.WHITE, CommandChanger.getPosition("h1")));
 
         board.appendLine(p);
 
@@ -170,7 +164,7 @@ public class ChessGame {
     public void createWhitePawns() {
         List<Piece> p = new ArrayList<>();
         for (int j = 0; j < 8; j++) {
-            p.add(Piece.createWhite(Piece.Type.PAWN));
+            p.add(Piece.of(Pawn.class, Color.WHITE, CommandChanger.getPosition(Character.toString('a' + j) + "2")));
         }
         board.appendLine(p);
 
@@ -180,14 +174,14 @@ public class ChessGame {
     public void createBlackPieces() {
 
         List<Piece> p = new ArrayList<>();
-        p.add(Piece.createBlack(Piece.Type.ROOK));
-        p.add(Piece.createBlack(Piece.Type.KNIGHT));
-        p.add(Piece.createBlack(Piece.Type.BISHOP));
-        p.add(Piece.createBlack(Piece.Type.QUEEN));
-        p.add(Piece.createBlack(Piece.Type.KING));
-        p.add(Piece.createBlack(Piece.Type.BISHOP));
-        p.add(Piece.createBlack(Piece.Type.KNIGHT));
-        p.add(Piece.createBlack(Piece.Type.ROOK));
+        p.add(Piece.of(Rook.class, Color.BLACK, CommandChanger.getPosition("a8")));
+        p.add(Piece.of(Knight.class, Color.BLACK, CommandChanger.getPosition("b8")));
+        p.add(Piece.of(Bishop.class, Color.BLACK, CommandChanger.getPosition("c8")));
+        p.add(Piece.of(Queen.class, Color.BLACK, CommandChanger.getPosition("d8")));
+        p.add(Piece.of(King.class, Color.BLACK, CommandChanger.getPosition("e8")));
+        p.add(Piece.of(Bishop.class, Color.BLACK, CommandChanger.getPosition("f8")));
+        p.add(Piece.of(Knight.class, Color.BLACK, CommandChanger.getPosition("g8")));
+        p.add(Piece.of(Rook.class, Color.BLACK, CommandChanger.getPosition("h8")));
 
         board.appendLine(p);
 
@@ -197,7 +191,7 @@ public class ChessGame {
     public void createBlackPawns(){
         List<Piece> p = new ArrayList<>();
         for (int j = 0; j < 8; j++) {
-            p.add(Piece.createBlack(Piece.Type.PAWN));
+            p.add(Piece.of(Pawn.class, Color.BLACK, CommandChanger.getPosition(Character.toString('a' + j)+"7")));
         }
         board.appendLine(p);
 
@@ -208,7 +202,7 @@ public class ChessGame {
         for (int i = 0; i < row; i++) {
             List<Piece> p = new ArrayList<>();
             for (int j = 0; j < CHESS_COLUMN_SIZE; j++) {
-                p.add(Piece.createBlank());
+                p.add(Piece.of(NoPiece.class, Color.NOCOLOR, CommandChanger.getPosition(Character.toString('a' + j ) + Character.toString(i))));
             }
             board.appendLine(p);
         }

@@ -47,7 +47,7 @@ public class Board {
 
     public int findPiece(Color color, Type type) {
         int count = 0;
-        String t = color.equals(Color.WHITE) ? type.getWhiteRepresentation() : type.getBlackRepresentation();
+        Character t = type.getRepresentation(color);
         for (List<Piece> row : boardMap) {
             for (Piece c : row) {
                 if (Objects.equals(c.getType(), t)) {
