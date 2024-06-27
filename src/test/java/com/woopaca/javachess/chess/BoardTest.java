@@ -4,6 +4,7 @@ import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Piece;
 import com.woopaca.javachess.pieces.PieceFactory;
 import com.woopaca.javachess.pieces.Type;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -137,6 +138,19 @@ public class BoardTest {
 
         assertThat(board.findPiece(sourcePosition)).isEqualTo(PieceFactory.createBlank());
         assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn());
+    }
+
+    @DisplayName(" 이동할 수 없는 경우 예외가 발생한다.")
+    @Test
+    void should_throwException_invalidMove() {
+        board.initialize();
+        String sourcePosition = "b2";
+        String targetPosition = "d5";
+        MoveCommand moveCommand = new MoveCommand(String.join(" ", "move", sourcePosition, targetPosition));
+
+        Assertions.assertThatThrownBy(() -> pieceHandler.movePiece(moveCommand))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 기물을 이동할 수 없습니다!");
     }
 
 }
