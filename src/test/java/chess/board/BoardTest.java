@@ -24,7 +24,7 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        chessView = new ChessView(board);
+        chessView = new ChessView();
     }
 
     @Test
@@ -143,7 +143,7 @@ class BoardTest {
         sb.append(blankRank).append(NEWLINE);
         sb.append(blankRank);
 
-        assertThat(chessView.printBoard()).isEqualTo(sb.toString());
+        assertThat(chessView.printBoard(board)).isEqualTo(sb.toString());
 
     }
 

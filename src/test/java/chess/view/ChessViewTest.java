@@ -14,10 +14,10 @@ class ChessViewTest {
     void printBoard() {
         // given
         Board board = new Board();
-        ChessView chessView = new ChessView(board);
+        ChessView chessView = new ChessView();
 
         // when
-        String printedBoard = chessView.printBoard();
+        String printedBoard = chessView.printBoard(board);
 
         // then
         assertEquals(givenBoardPrint(), printedBoard);
