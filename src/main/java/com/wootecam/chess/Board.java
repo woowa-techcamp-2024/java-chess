@@ -7,9 +7,11 @@ import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.Rank;
 import com.wootecam.chess.pieces.Type;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Board {
 
@@ -97,5 +99,19 @@ public class Board {
 
     private boolean isSamePawn(final Color color, final String coordinates) {
         return findPiece(coordinates).isSameColorAndType(color, Type.PAWN);
+    }
+
+    public List<Piece> findDescOrderedPieces(final Color color) {
+        return ranks.stream()
+                .flatMap(rank -> findSpecificColorPiece(rank, color))
+                .sorted(Comparator.comparingDouble((Piece piece) -> piece.getType().getPoint()).reversed())
+                .toList();
+    }
+
+    private Stream<Piece> findSpecificColorPiece(Rank rank, Color color) {
+
+        return IntStream.range(0, END_COLUMN_SYMBOL - START_COLUMN_SYMBOL)
+                .mapToObj(rank::findPieceByColumn)
+                .filter(piece -> piece.getColor() == color);
     }
 }

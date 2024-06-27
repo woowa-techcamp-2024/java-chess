@@ -23,6 +23,10 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
+        board = initialize();
+    }
+
+    private Board initialize() {
         List<Rank> ranks = new ArrayList<>();
         ranks.add(Rank.createBlackOtherPieces());
         ranks.add(Rank.createPawns(Color.BLACK));
@@ -34,7 +38,22 @@ public class BoardTest {
         ranks.add(Rank.createWhiteOtherPieces());
         CoordinatesExtractor extractor = new CoordinatesExtractor();
 
-        board = new Board(ranks, extractor);
+        return new Board(ranks, extractor);
+    }
+
+    private Board initializeEmpty() {
+        List<Rank> ranks = new ArrayList<>();
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        ranks.add(Rank.createBlanks());
+        CoordinatesExtractor extractor = new CoordinatesExtractor();
+
+        return new Board(ranks, extractor);
     }
 
     @Nested
@@ -65,6 +84,7 @@ public class BoardTest {
                         appendNewLine("rnbqkbnr");
             }
         }
+
     }
 
     @Nested
@@ -134,18 +154,7 @@ public class BoardTest {
 
         @BeforeEach
         void setUp() {
-            List<Rank> ranks = new ArrayList<>();
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            CoordinatesExtractor extractor = new CoordinatesExtractor();
-
-            board = new Board(ranks, extractor);
+            board = initializeEmpty();
         }
 
         @Test
@@ -163,18 +172,7 @@ public class BoardTest {
 
         @BeforeEach
         void setUp() {
-            List<Rank> ranks = new ArrayList<>();
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            CoordinatesExtractor extractor = new CoordinatesExtractor();
-
-            board = new Board(ranks, extractor);
+            board = initializeEmpty();
         }
 
         @Test
@@ -196,18 +194,7 @@ public class BoardTest {
 
         @BeforeEach
         void setUp() {
-            List<Rank> ranks = new ArrayList<>();
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            ranks.add(Rank.createBlanks());
-            CoordinatesExtractor extractor = new CoordinatesExtractor();
-
-            board = new Board(ranks, extractor);
+            board = initializeEmpty();
         }
 
         @Test
@@ -235,6 +222,29 @@ public class BoardTest {
 
         private void addPiece(String position, Piece piece) {
             board.move(position, piece);
+        }
+    }
+
+    @Nested
+    class findDescOrderedPieces_메소드는 {
+
+        @BeforeEach
+        void setUp() {
+            List<Rank> ranks = List.of(new Rank(List.of(
+                    Piece.createWhite(Type.ROOK), Piece.createBlack(Type.ROOK), Piece.createWhite(Type.QUEEN),
+                    Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK),
+                    Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK)))
+            );
+            board = new Board(ranks, new CoordinatesExtractor());
+        }
+
+        @Test
+        void 지정한_색상의_기물을_점수_내림차순으로_조회한다() {
+            // when
+            List<Piece> descOrderedPieces = board.findDescOrderedPieces(Color.WHITE);
+
+            // then
+            assertThat(descOrderedPieces).containsExactly(Piece.createWhite(Type.QUEEN), Piece.createWhite(Type.ROOK));
         }
     }
 }
