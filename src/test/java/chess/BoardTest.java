@@ -15,9 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
     private Board board;
+    private PieceCreator pieceCreator;
     @BeforeEach
     void boardInit(){
-        board = new Board();
+        pieceCreator = new PieceCreatorWithFactory();
+        board = new Board(pieceCreator);
     }
     @Test
     public void create() throws Exception {
