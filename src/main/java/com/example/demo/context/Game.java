@@ -24,6 +24,7 @@ public class Game {
         initBishopRules();
         initRookRules();
         initQueenRules();
+        initKingRules();
     }
 
     //--------------init game start----------------
@@ -85,6 +86,26 @@ public class Game {
             queenRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.QUEEN, false, true));
         }
         rules.put(Type.QUEEN, queenRules);
+    }
+
+    private void initKingRules() {
+        List<Rule> kingRules = new ArrayList<>();
+        int[][] directions = {
+                {1, 0},
+                {-1, 0},
+                {0, 1},
+                {0, -1},
+                {1, 1},
+                {-1, 1},
+                {1, -1},
+                {-1, -1}
+        };
+
+        for (int[] direction : directions) {
+            kingRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.KING, false, true));
+            kingRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.KING, false, true));
+        }
+        rules.put(Type.KING, kingRules);
     }
     //--------------init game end  ----------------
 
