@@ -1,4 +1,7 @@
-package chess.pieces;
+package chess;
+
+import chess.constant.Type;
+import chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;

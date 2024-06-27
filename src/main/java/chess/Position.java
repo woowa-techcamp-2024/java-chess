@@ -1,4 +1,4 @@
-package chess.pieces;
+package chess;
 
 import static chess.Board.BOARD_SIZE;
 
