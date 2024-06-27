@@ -1,10 +1,13 @@
 package chess.piece;
 
-import java.lang.reflect.Constructor;
+import chess.BoardContext;
+import chess.Offset;
 
 public abstract class Piece {
 
     private final Color color;
+
+    private boolean moved;
 
     protected Piece() {
         this(Color.WHITE);
@@ -12,6 +15,7 @@ public abstract class Piece {
 
     protected Piece(final Color color) {
         this.color = color;
+        this.moved = false;
     }
 
     public boolean isBlack() {
@@ -26,7 +30,37 @@ public abstract class Piece {
         return this.color == color;
     }
 
+    protected Color getColor() {
+        return color;
+    }
+
+    public boolean notMoved() {
+        return !moved;
+    }
+
+    public void setMoved() {
+        moved = true;
+    }
+
     public abstract double value();
+
+    public boolean canMove(Offset offset, BoardContext context) {
+        if (context.isColorAt(offset, getColor())) {
+            return false;
+        }
+        return canMoveImpl(offset, context);
+    }
+
+    protected abstract boolean canMoveImpl(Offset offset, BoardContext context);
+
+    protected boolean isEmptyUntil(Offset unit, Offset endExclusive, BoardContext context) {
+        int scale = endExclusive.getScale(unit);
+        for (int s = 1; s < scale; s++) {
+            Offset offset = unit.multiply(s);
+            if (!context.isEmptyAt(offset)) return false;
+        }
+        return true;
+    }
 
     @Override
     public final String toString() {
@@ -37,26 +71,15 @@ public abstract class Piece {
 
     protected abstract String blackRepresentation();
 
-    public static <T extends Piece> T createBlack(Class<T> type) {
-        return create(type, Color.BLACK);
-    }
-
-    public static <T extends Piece> T createWhite(Class<T> type) {
-        return create(type, Color.WHITE);
-    }
-
-    public static <T extends Piece> T create(Class<T> type, Color color) {
-        try {
-            Constructor<T> constructor = type.getDeclaredConstructor(Color.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(color);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public enum Color {
-        BLACK, WHITE
+        BLACK, WHITE;
+
+        public Color opposite() {
+            return switch (this) {
+                case BLACK -> Color.WHITE;
+                case WHITE -> Color.BLACK;
+            };
+        }
     }
 
 }

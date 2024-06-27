@@ -24,55 +24,56 @@ public class Board {
 
     public void initialize() {
         clear();
-        set("a1", Piece.createWhite(Rook.class));
-        set("b1", Piece.createWhite(Knight.class));
-        set("c1", Piece.createWhite(Bishop.class));
-        set("d1", Piece.createWhite(Queen.class));
-        set("e1", Piece.createWhite(King.class));
-        set("f1", Piece.createWhite(Bishop.class));
-        set("g1", Piece.createWhite(Knight.class));
-        set("h1", Piece.createWhite(Rook.class));
+        set(Position.of("a1"), Rook.createWhite());
+        set(Position.of("b1"), Knight.createWhite());
+        set(Position.of("c1"), Bishop.createWhite());
+        set(Position.of("d1"), Queen.createWhite());
+        set(Position.of("e1"), King.createWhite());
+        set(Position.of("f1"), Bishop.createWhite());
+        set(Position.of("g1"), Knight.createWhite());
+        set(Position.of("h1"), Rook.createWhite());
         for (char file = 'a'; file <= 'h'; file++) {
-            set(file, 2, Piece.createWhite(Pawn.class));
+            set(Position.of(file, 2), Pawn.createWhite());
         }
         for (char file = 'a'; file <= 'h'; file++) {
-            set(file, 7, Piece.createBlack(Pawn.class));
+            set(Position.of(file, 7), Pawn.createBlack());
         }
-        set("a8", Piece.createBlack(Rook.class));
-        set("b8", Piece.createBlack(Knight.class));
-        set("c8", Piece.createBlack(Bishop.class));
-        set("d8", Piece.createBlack(Queen.class));
-        set("e8", Piece.createBlack(King.class));
-        set("f8", Piece.createBlack(Bishop.class));
-        set("g8", Piece.createBlack(Knight.class));
-        set("h8", Piece.createBlack(Rook.class));
+        set(Position.of("a8"), Rook.createBlack());
+        set(Position.of("b8"), Knight.createBlack());
+        set(Position.of("c8"), Bishop.createBlack());
+        set(Position.of("d8"), Queen.createBlack());
+        set(Position.of("e8"), King.createBlack());
+        set(Position.of("f8"), Bishop.createBlack());
+        set(Position.of("g8"), Knight.createBlack());
+        set(Position.of("h8"), Rook.createBlack());
     }
 
-    public Piece get(String fileRank) {
-        return cellAt(Position.of(fileRank)).getPiece();
+    public Piece get(Position position) {
+        return cellAt(position).getPiece();
     }
 
-    public void set(String fileRank, Piece piece) {
-        cellAt(Position.of(fileRank)).setPiece(piece);
+    public void set(Position position, Piece piece) {
+        cellAt(position).setPiece(piece);
     }
 
-    protected void set(char rank, int file, Piece piece) {
-        cellAt(Position.of(rank, file)).setPiece(piece);
-    }
-
-    protected void set(int r, int c, Piece piece) {
-        cellAt(Position.of(r, c)).setPiece(piece);
-    }
-
-    protected void clear() {
+    public void clear() {
         stream().forEach(cell -> cell.clear());
     }
 
-    protected Cell cellAt(Position position) {
-        return cells[position.r][position.c];
+    public void move(Position from, Position to) {
+        Cell fromCell = cellAt(from);
+        Cell toCell = cellAt(to);
+        Piece piece = fromCell.getPiece();
+        toCell.setPiece(piece);
+        fromCell.clear();
+        piece.setMoved();
     }
 
-    protected Cell cellAt(int r, int c) {
+    public Cell cellAt(Position position) {
+        return cellAt(position.rankIndex, position.fileIndex);
+    }
+
+    private Cell cellAt(int r, int c) {
         return cells[r][c];
     }
 
