@@ -1,7 +1,6 @@
 package chess.board;
 
 import chess.board.calculator.OrderBy;
-import chess.pieces.PieceFactory;
 import chess.pieces.type.Color;
 import chess.pieces.Piece;
 import chess.pieces.type.Representation;
@@ -26,28 +25,6 @@ public class Board {
 
     public List<Piece> sortByScore(Color color, OrderBy orderBy) {
         return calculator.sort(color, orderBy);
-    }
-
-    public void move(String sourcePosition, String targetPosition) {
-        Position source = Position.from(sourcePosition);
-        Position target = Position.from(targetPosition);
-
-        final Piece sourcePiece = findPiece(source);
-        final Piece targetPiece = findPiece(target);
-
-        // 움직일 수 있는지 검증
-        if (sourcePiece.isPieceOf(Representation.BLANK)) {
-            throw new IllegalArgumentException("빈칸을 움직일 수 없습니다");
-        }
-        if (!sourcePiece.canMove(targetPiece)) {
-            throw new IllegalArgumentException("이동 가능 범위 초과~");
-        }
-
-        // 이동
-        sourcePiece.moveTo(target);
-        setPiece(PieceFactory.createBlank(source));
-        setPiece(sourcePiece);
-//        setPiece(sourcePiece.copyWithPosition(target));
     }
 
     public void setPiece(Piece piece) {

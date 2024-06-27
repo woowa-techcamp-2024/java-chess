@@ -174,15 +174,4 @@ public class BoardTest {
         assertEquals(Type.PAWN, blackPiece2.getType());
         assertEquals(Color.BLACK, blackPiece2.getColor());
     }
-
-    @Test
-    @DisplayName("체스말을 이동시킨다")
-    public void moveTest() throws Exception {
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
-
-        assertEquals(PieceFactory.createBlank(Position.from(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(PieceFactory.createWhitePawn(Position.from(targetPosition)), board.findPiece(targetPosition));
-    }
 }

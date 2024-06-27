@@ -77,6 +77,10 @@ public enum Position {
         this.rank = rank;
     }
 
+    public Position next(int fileStep, int rankStep) {
+        return Position.from(file + fileStep, rank + rankStep);
+    }
+
     public static Position from(String position) {
         char x = position.charAt(0);
         int file = x - 'a';
