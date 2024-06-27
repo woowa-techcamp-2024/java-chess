@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class Rook extends Piece {
     private static final List<Direction> ROOK_DIRECTIONS = Direction.rookDirections();
-    private static final int ROOK_RANGE = 16;
+    private static final int ROOK_RANGE = 8;
 
     public Rook(PieceType pieceType, Color color) {
         super(pieceType, color);

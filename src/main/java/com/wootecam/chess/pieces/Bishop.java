@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class Bishop extends Piece {
     private static final List<Direction> BISHOP_DIRECTIONS = Direction.bishopDirections();
-    private static final int BISHOP_RANGE = 16;
+    private static final int BISHOP_RANGE = 8;
 
     public Bishop(PieceType pieceType, Color color) {
         super(pieceType, color);

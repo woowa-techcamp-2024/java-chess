@@ -16,7 +16,8 @@ public class ChessGame {
     private Board board;
 
     public ChessGame(BoardInitializer boardInitializer,
-                     ScoreCalculationRule scoreCalculationRule, PieceMovementManager pieceMovementManager,
+                     ScoreCalculationRule scoreCalculationRule,
+                     PieceMovementManager pieceMovementManager,
                      ChessView chessView) {
         this.boardInitializer = boardInitializer;
         this.scoreCalculationRule = scoreCalculationRule;
@@ -25,7 +26,7 @@ public class ChessGame {
     }
 
     public void start() {
-        board = new Board(scoreCalculationRule);
+        board = new Board();
         boardInitializer.initialize(board);
 
         chessView.printChessBoard(board);

@@ -120,10 +120,12 @@ class BoardTest {
 
     @Nested
     class 기물의_점수를_계산한다 {
+        private ScoreCalculationRule scoreCalculationRule;
 
         @BeforeEach
         void setUp() {
             board = createBoard();
+            scoreCalculationRule = new ScoreCalculationRule();
         }
 
         @Test
@@ -132,7 +134,7 @@ class BoardTest {
             board.add(Piece.createBlackPawn(), createPosition("b8"));
             board.add(Piece.createBlackPawn(), createPosition("f8"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(3);
         }
@@ -144,7 +146,7 @@ class BoardTest {
             board.add(Piece.createBlackPawn(), createPosition("e2"));
             board.add(Piece.createBlackPawn(), createPosition("e1"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(2);
         }
@@ -160,7 +162,7 @@ class BoardTest {
             board.add(Piece.createBlackKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(20.5);
         }

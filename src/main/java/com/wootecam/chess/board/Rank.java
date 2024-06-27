@@ -18,7 +18,6 @@ public class Rank {
 
     public void place(Piece piece, int index) {
         checkValidIndex(index);
-        checkEmptySquare(index);
 
         squares[index] = piece;
     }
@@ -32,12 +31,6 @@ public class Rank {
     private void checkValidIndex(int index) {
         if (index < 0 || index >= MAX_COL) {
             throw new IllegalArgumentException("The index is invalid: " + index);
-        }
-    }
-
-    private void checkEmptySquare(int index) {
-        if (squares[index].isPiece()) {
-            throw new IllegalArgumentException("The square is already occupied");
         }
     }
 

@@ -12,13 +12,10 @@ public class Board {
     public static final int MAX_ROW = 8;
 
     private final Rank[] ranks;
-    private final ScoreCalculationRule scoreCalculationRule;
 
     private int totalPieces;
 
-    public Board(ScoreCalculationRule scoreCalculationRule) {
-        this.scoreCalculationRule = scoreCalculationRule;
-
+    public Board() {
         this.ranks = new Rank[MAX_ROW];
         for (int i = 0; i < MAX_ROW; i++) {
             this.ranks[i] = new Rank();
@@ -80,8 +77,8 @@ public class Board {
                 .sum();
     }
 
-    public double calculateScore(Color color) {
-        return scoreCalculationRule.apply(ranks, color);
+    public double calculateScore(ScoreCalculationRule calculationRule, Color color) {
+        return calculationRule.apply(ranks, color);
     }
 
     public List<Piece> getPiecesSortedByScore(Color color, Order order) {

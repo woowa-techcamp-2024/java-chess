@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class Queen extends Piece {
     private static final List<Direction> QUEEN_DIRECTIONS = Direction.queenDirections();
-    private static final int QUEEN_RANGE = 16;
+    private static final int QUEEN_RANGE = 8;
 
     public Queen(PieceType pieceType, Color color) {
         super(pieceType, color);
