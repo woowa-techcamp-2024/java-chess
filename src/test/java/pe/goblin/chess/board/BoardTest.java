@@ -55,4 +55,28 @@ public class BoardTest {
         assertEquals(piece, board.findPiece(position));
         System.out.println(board.showBoard());
     }
+
+    @Test
+    public void calculatePoint() throws Exception {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("g2", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+    }
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
+    }
 }
