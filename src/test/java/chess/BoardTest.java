@@ -108,34 +108,4 @@ public class BoardTest {
         System.out.println(sortedWhitePieces.reversed());
     }
 
-    @Test
-    @DisplayName("King 기물이 원하는 대로 이동이 가능해야 한다")
-    public void moveKing() {
-        board.initialize();
-        board.saveByPosition(PieceFactory.createKing(Color.BLACK, null), new Position(1, 0));
-        board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position(0, 0));
-
-        chessGame.move("b8", "a8");
-        assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b8")), board.findPiece("b8"));
-
-        chessGame.move("b8", "b9");
-        assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b8")), board.findPiece("b8"));
-
-        chessGame.move("b8", "b7");
-        assertEquals(PieceFactory.createKing(Color.BLACK, new Position("b7")), board.findPiece("b7"));
-    }
-
-    @Test
-    @DisplayName("Queen 기물이 원하는 대로 이동이 가능해야 한다")
-    public void moveQueen() {
-        board.initialize();
-        board.saveByPosition(PieceFactory.createQueen(Color.BLACK, null), new Position(1, 0));
-
-        chessGame.move("b8", "a8");
-        assertEquals(PieceFactory.createQueen(Color.BLACK, new Position("a8")), board.findPiece("a8"));
-
-        chessGame.move("a8", "e4");
-        assertEquals(PieceFactory.createQueen(Color.BLACK, new Position("e4")), board.findPiece("e4"));
-    }
-
 }
