@@ -2,21 +2,21 @@ package com.woopaca.javachess.chess;
 
 public class MoveCommand {
 
-    private final String sourcePosition;
-    private final String targetPosition;
+    private final String sourceFileRank;
+    private final String targetFileRank;
 
     public MoveCommand(String command) {
         String[] commands = command.split(" ");
-        this.sourcePosition = commands[1];
-        this.targetPosition = commands[2];
+        this.sourceFileRank = commands[1];
+        this.targetFileRank = commands[2];
     }
 
-    public String getSourcePosition() {
-        return sourcePosition;
+    public Position getSourcePosition() {
+        return new Position(sourceFileRank);
     }
 
-    public String getTargetPosition() {
-        return targetPosition;
+    public Position getTargetPosition() {
+        return new Position(targetFileRank);
     }
 
 }

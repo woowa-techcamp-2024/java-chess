@@ -98,14 +98,12 @@ public class Board {
         return findPiece(position);
     }
 
-    private Piece findPiece(Position position) {
+    public Piece findPiece(Position position) {
         return ranks.get(position.getRankIndex())
                 .findPieceByFile(position.getFileIndex());
     }
 
-    public void move(String sourceFileRank, String targetFileRank) {
-        Position sourcePosition = new Position(sourceFileRank);
-        Position targetPosition = new Position(targetFileRank);
+    public void move(Position sourcePosition, Position targetPosition) {
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
         placePiece(sourcePosition, targetPiece);

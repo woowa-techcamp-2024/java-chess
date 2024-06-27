@@ -17,12 +17,14 @@ public class BoardTest {
     Board board;
     ChessView chessView;
     PointProcessor pointProcessor;
+    PieceHandler pieceHandler;
 
     @BeforeEach
     void setUp() {
         board = new Board();
         chessView = new ChessView(board);
         pointProcessor = new PointProcessor(board);
+        pieceHandler = new PieceHandler(board);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")
@@ -70,8 +72,7 @@ public class BoardTest {
         board.initialize();
 
         assertThat(board.findPiece("a8")).isEqualTo(PieceFactory.createBlackRook(new Position("a8")));
-        Piece findPiece = board.findPiece("h8");
-        assertThat(findPiece).isEqualTo(PieceFactory.createBlackRook(new Position("h8")));
+        assertThat(board.findPiece("h8")).isEqualTo(PieceFactory.createBlackRook(new Position("h8")));
         assertThat(board.findPiece("a1")).isEqualTo(PieceFactory.createWhiteRook(new Position("a1")));
         assertThat(board.findPiece("h1")).isEqualTo(PieceFactory.createWhiteRook(new Position("h1")));
     }
@@ -132,7 +133,7 @@ public class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
+        pieceHandler.movePiece(new MoveCommand(String.join(" ", "move", sourcePosition, targetPosition)));
 
         assertThat(board.findPiece(sourcePosition)).isEqualTo(PieceFactory.createBlank(new Position(sourcePosition)));
         assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn(new Position(targetPosition)));

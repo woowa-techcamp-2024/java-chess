@@ -22,20 +22,20 @@ public enum Direction {
     WWN(-2, 1),
     WWS(-2, -1);
 
-    private final int xDegree;
-    private final int yDegree;
+    private final int fileDegree;
+    private final int rankDegree;
 
-    Direction(int xDegree, int yDegree) {
-        this.xDegree = xDegree;
-        this.yDegree = yDegree;
+    Direction(int fileDegree, int rankDegree) {
+        this.fileDegree = fileDegree;
+        this.rankDegree = rankDegree;
     }
 
-    public int getXDegree() {
-        return xDegree;
+    public int getFileDegree() {
+        return fileDegree;
     }
 
-    public int getYDegree() {
-        return yDegree;
+    public int getRankDegree() {
+        return rankDegree;
     }
 
     public static List<Direction> linearDirection() {

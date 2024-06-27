@@ -3,6 +3,7 @@ package com.woopaca.javachess;
 import com.woopaca.javachess.chess.Board;
 import com.woopaca.javachess.chess.ChessView;
 import com.woopaca.javachess.chess.MoveCommand;
+import com.woopaca.javachess.chess.PieceHandler;
 
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class ChessGame {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Board board = new Board();
     private static final ChessView chessView = new ChessView(board);
+    private static final PieceHandler pieceHandler = new PieceHandler(board);
 
     private static boolean isStarted = false;
 
@@ -34,7 +36,12 @@ public class ChessGame {
 
             if (input.startsWith(MOVE_COMMAND) && isStarted) {
                 MoveCommand moveCommand = new MoveCommand(input);
-                board.move(moveCommand.getSourcePosition(), moveCommand.getTargetPosition());
+                try {
+                    pieceHandler.movePiece(moveCommand);
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    continue;
+                }
                 System.out.println(chessView.showBoard());
             }
         } while (!isEndGame(input));
