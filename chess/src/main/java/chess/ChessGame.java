@@ -8,6 +8,7 @@ import pieces.PieceType;
 public class ChessGame {
     private final Board board;
     private final PieceFactory pieceFactory;
+    private boolean isWhiteTurn = true;
 
     public ChessGame() {
         this.board = new Board();
@@ -68,9 +69,18 @@ public class ChessGame {
     }
 
     public void move(String sourcePositionStr, String targetPositionStr) {
+        if(sourcePositionStr.equals(targetPositionStr)){
+            throw new InvalidMoveException("현재 위치로 이동 불가합니다.");
+        }
         Position sourcePosition = makePosition(sourcePositionStr);
         Position targetPosition = makePosition(targetPositionStr);
         Piece piece = board.findPiece(sourcePosition);
+        if(isWhiteTurn && piece.isBlack()){
+            throw new InvalidMoveException("지금은 흰색 차례입니다.");
+        }
+        else if(!isWhiteTurn && piece.isWhite()){
+            throw new InvalidMoveException("지금은 검은색 차례입니다.");
+        }
         Piece targetPiece = board.findPiece(targetPosition);
 
         if(piece.canMove(targetPiece)){
@@ -80,6 +90,7 @@ public class ChessGame {
             board.setPiece(sourcePosition, pieceFactory.createBlank(sourcePosition));
             piece.move(targetPosition);
             board.setPiece(targetPosition, piece);
+            isWhiteTurn = !isWhiteTurn;
         }
         else{
             throw new InvalidMoveException("움직일 수 없는 위치입니다. piece: " +piece + " source: "+sourcePosition + " target: "+targetPosition);
