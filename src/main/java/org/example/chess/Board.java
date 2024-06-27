@@ -1,5 +1,6 @@
 package org.example.chess;
 
+import static org.example.pieces.PieceFactory.*;
 import static org.example.utils.StringUtils.*;
 
 import java.util.ArrayList;
@@ -7,39 +8,9 @@ import java.util.List;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
 import org.example.pieces.Piece.Type;
+import org.example.pieces.PieceFactory;
 
 public class Board {
-
-    private class Column {
-
-        // 자신의 col과 row길이를 생성시 받는다.
-        private final char colIndex;
-        private final int rowLen;
-        private final List<Piece> pieces;
-
-        public Column(char colIndex, int rowLen) {
-            this.colIndex = colIndex;
-            this.rowLen = rowLen;
-            this.pieces = createSizeList(rowLen);
-        }
-
-        private List<Piece> createSizeList(int boardSize) {
-            List<Piece> ret = new ArrayList<>();
-            for (int i = 0; i < boardSize; i++) {
-                ret.add(Piece.createNoColorPiece());
-            }
-            return ret;
-        }
-
-        public void modifyPiece(Piece piece, int rowNumber) {
-            pieces.set(rowNumber - 1, piece);
-        }
-
-        public Piece getPiece(int index) {
-            // 1 을 빼줘야한다.
-            return pieces.get(index - 1);
-        }
-    }
 
     private final List<Column> columns;
 
@@ -51,8 +22,46 @@ public class Board {
         columns = createSizeList(BOARD_SIZE);
     }
 
-    public void move(Position position, Piece piece) {
-        columns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
+    public void move(Position start, Position end, Color turn) {
+        if(start.equals(end)) {
+            throw new IllegalArgumentException("같은 지점으로 이동할 수 없습니다.");
+        }
+
+        Piece startPiece = findPiece(start);
+        Piece endPiece = findPiece(end);
+        Direction direction = Direction.determineDirection(start, end);
+        int depth = Direction.depth(start, end);
+
+        if(!startPiece.isSameColor(turn)) {
+            throw new IllegalArgumentException("자신의 말만 이동할 수 있습니다.");
+        }
+
+        if (startPiece.isNoColorPiece()) {
+            throw new IllegalArgumentException("이동할 말이 없습니다.");
+        }
+
+        if (!startPiece.verifyMove(start, end)) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+        }
+        Position now = start;
+        for(int i = 1; i < depth; i++) {
+            now = now.next(direction);
+            if(!findPiece(now).isNoColorPiece()) {
+                throw new IllegalArgumentException("이동 경로에 다른 말이 있습니다.");
+            }
+        }
+
+        //끝 점에 같은 색의 말이 있으면 에러
+        if(endPiece.isSameColor(startPiece.getColor())) {
+            throw new IllegalArgumentException("같은 색의 말이 있습니다.");
+        }
+
+        setPiece(end, startPiece);
+        setPiece(start, createNoColorPiece());
+    }
+
+    public void setPiece(Position position, Piece piece) {
+        columns.get(position.getColIdx()).setPiece(piece, position.getRow());
     }
 
     private List<Column> createSizeList(int boardSize) {
@@ -63,7 +72,8 @@ public class Board {
         return ret;
     }
 
-    public void initialize() {
+    //게임 설정
+    void initialize() {
         initColoredPiece();
     }
 
@@ -77,17 +87,17 @@ public class Board {
         final int whitePawnRow = 2;
 
         for (Column column : columns) {
-            column.modifyPiece(Piece.createWhitePawn(), whitePawnRow);
+            column.setPiece(createWhitePawn(), whitePawnRow);
         }
 
-        columns.get(0).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
-        columns.get(1).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(2).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(3).modifyPiece(Piece.createWhiteQueen(), whitePieceRow);
-        columns.get(4).modifyPiece(Piece.createWhiteKing(), whitePieceRow);
-        columns.get(5).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(6).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(7).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(0).setPiece(createWhiteRook(), whitePieceRow);
+        columns.get(1).setPiece(createWhiteKnight(), whitePieceRow);
+        columns.get(2).setPiece(createWhiteBishop(), whitePieceRow);
+        columns.get(3).setPiece(createWhiteQueen(), whitePieceRow);
+        columns.get(4).setPiece(createWhiteKing(), whitePieceRow);
+        columns.get(5).setPiece(createWhiteBishop(), whitePieceRow);
+        columns.get(6).setPiece(createWhiteKnight(), whitePieceRow);
+        columns.get(7).setPiece(createWhiteRook(), whitePieceRow);
     }
 
     private void placeBlackPiece() {
@@ -96,40 +106,23 @@ public class Board {
 
         // Place black pawns
         columns.forEach(
-            column -> column.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
+            column -> column.setPiece(createBlackPawn(), blackPawnRow));
 
         // Place other black pieces
-        columns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
-        columns.get(1).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(2).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(3).modifyPiece(Piece.createBlackQueen(), blackPieceRow);
-        columns.get(4).modifyPiece(Piece.createBlackKing(), blackPieceRow);
-        columns.get(5).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(6).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(0).setPiece(createBlackRook(), blackPieceRow);
+        columns.get(1).setPiece(createBlackKnight(), blackPieceRow);
+        columns.get(2).setPiece(createBlackBishop(), blackPieceRow);
+        columns.get(3).setPiece(createBlackQueen(), blackPieceRow);
+        columns.get(4).setPiece(createBlackKing(), blackPieceRow);
+        columns.get(5).setPiece(createBlackBishop(), blackPieceRow);
+        columns.get(6).setPiece(createBlackKnight(), blackPieceRow);
+        columns.get(7).setPiece(createBlackRook(), blackPieceRow);
     }
-
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-
-        // row를 구하면 각 col마다 해당 row의 piece를 가져와서 출력한다.
-        for (int i = BOARD_SIZE; i > 0; i--) {
-            sb.append(appendNewLine(getRow(i)));
-        }
-        return sb.toString();
-    }
-
-    private String getRow(int row) {
-        StringBuilder sb = new StringBuilder();
-        for (Column column : columns) {
-            sb.append(column.getPiece(row).getRepresentation());
-        }
-        return sb.toString();
-    }
+    // 게임 설정
 
     public int nonEmptyPiece() {
         return columns.stream()
-            .mapToInt(column -> (int) column.pieces.stream()
+            .mapToInt(column -> (int) column.getPieces().stream()
                 .filter(piece -> piece.isBlack() || piece.isWhite())
                 .count())
             .sum();
@@ -137,7 +130,7 @@ public class Board {
 
     public int countByQuery(Color color, Type type) {
         return columns.stream()
-            .mapToInt(column -> (int) column.pieces.stream()
+            .mapToInt(column -> (int) column.getPieces().stream()
                 .filter(piece -> piece.isSameColor(color) && piece.isSameType(type))
                 .count())
             .sum();
@@ -147,38 +140,17 @@ public class Board {
         return columns.get(position.getColIdx()).getPiece(position.getRow());
     }
 
-    public double caculcatePoint(Color color) {
-        return columns.stream()
-            .mapToDouble(column -> calculateColumnPoints(column, color))
-            .sum();
+    public Piece findPiece(String position) {
+        return findPiece(new Position(position));
     }
 
-
-    private double calculateColumnPoints(Column column, Color color) {
-        double pawnPoints = calculatePawnPoints(column, color);
-        double otherPoints = calculateOtherPoints(column, color);
-        return pawnPoints + otherPoints;
-    }
-
-
-    private double calculatePawnPoints(Column column, Color color) {
-        long pawnCount = column.pieces.stream()
-            .filter(piece -> piece.isSameColor(color) && piece.isPawn())
-            .count();
-
-        return pawnCount <= 1 ? pawnCount : pawnCount * 0.5;
-    }
-
-    private double calculateOtherPoints(Column column, Color color) {
-        return column.pieces.stream()
-            .filter(piece -> piece.isSameColor(color) && !piece.isPawn())
-            .mapToDouble(Piece::getPoint)
-            .sum();
+    public List<Column> getColumns() {
+        return columns;
     }
 
     public List<Piece> sortByPoint(Color color) {
         return columns.stream()
-            .flatMap(column -> column.pieces.stream())
+            .flatMap(column -> column.getPieces().stream())
             .filter(piece -> piece.isSameColor(color))
             .sorted((p1, p2) -> Double.compare(p2.getPoint(), p1.getPoint()))
             .toList();

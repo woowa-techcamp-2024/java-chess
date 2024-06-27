@@ -1,6 +1,19 @@
 package org.example.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.example.pieces.PieceFactory.createBlackBishop;
+import static org.example.pieces.PieceFactory.createBlackKing;
+import static org.example.pieces.PieceFactory.createBlackKnight;
+import static org.example.pieces.PieceFactory.createBlackPawn;
+import static org.example.pieces.PieceFactory.createBlackQueen;
+import static org.example.pieces.PieceFactory.createBlackRook;
+import static org.example.pieces.PieceFactory.createNoColorPiece;
+import static org.example.pieces.PieceFactory.createWhiteBishop;
+import static org.example.pieces.PieceFactory.createWhiteKing;
+import static org.example.pieces.PieceFactory.createWhiteKnight;
+import static org.example.pieces.PieceFactory.createWhitePawn;
+import static org.example.pieces.PieceFactory.createWhiteQueen;
+import static org.example.pieces.PieceFactory.createWhiteRook;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
@@ -52,67 +65,67 @@ public class PieceTest {
     private static Stream<Arguments> argumentsStream() {
         return Stream.of(
             Arguments.arguments(
-                Piece.createWhitePawn(),
+                createWhitePawn(),
                 Color.WHITE,
                 Type.PAWN.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackPawn(),
+                createBlackPawn(),
                 Color.BLACK,
                 Type.PAWN.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createWhiteKnight(),
+                createWhiteKnight(),
                 Color.WHITE,
                 Type.KNIGHT.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackKnight(),
+                createBlackKnight(),
                 Color.BLACK,
                 Type.KNIGHT.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createWhiteRook(),
+                createWhiteRook(),
                 Color.WHITE,
                 Type.ROOK.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackRook(),
+                createBlackRook(),
                 Color.BLACK,
                 Type.ROOK.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createWhiteBishop(),
+                createWhiteBishop(),
                 Color.WHITE,
                 Type.BISHOP.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackBishop(),
+                createBlackBishop(),
                 Color.BLACK,
                 Type.BISHOP.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createWhiteQueen(),
+                createWhiteQueen(),
                 Color.WHITE,
                 Type.QUEEN.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackQueen(),
+                createBlackQueen(),
                 Color.BLACK,
                 Type.QUEEN.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createWhiteKing(),
+                createWhiteKing(),
                 Color.WHITE,
                 Type.KING.getWhiteRepresentation()
             ),
             Arguments.arguments(
-                Piece.createBlackKing(),
+                createBlackKing(),
                 Color.BLACK,
                 Type.KING.getBlackRepresentation()
             ),
             Arguments.arguments(
-                Piece.createNoColorPiece(),
+                createNoColorPiece(),
                 Color.NO_COLOR,
                 Type.NO_PIECE.getWhiteRepresentation()
             )
