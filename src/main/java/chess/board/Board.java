@@ -13,8 +13,6 @@ public class Board {
 
     private final List<Rank> board;
     private final int BOARD_SIZE = 8;
-    private final int BLACK_PAWN_RANK = 1;
-    private final int WHITE_PAWN_RANK = 6;
     private int pieceNumber;
 
     public Board() {
@@ -27,8 +25,8 @@ public class Board {
 
     public void initialize() {
         pieceNumber = 32;
-        initializeBlackPiece();
         initializeEmpty();
+        initializeBlackPiece();
         initializeWhitePiece();
     }
 
@@ -43,17 +41,17 @@ public class Board {
         pieces.add(Piece.createBlackBishop());
         pieces.add(Piece.createBlackKnight());
         pieces.add(Piece.createBlackRook());
-        board.add(new Rank(pieces));
+        board.set(0, new Rank(pieces));
         pieces.clear();
 
         for(int i = 0; i < BOARD_SIZE; i++){
             pieces.add(Piece.createBlackPawn());
         }
-        board.add(new Rank(pieces));
+        board.set(1, new Rank(pieces));
     }
 
     public void initializeEmpty() {
-        for(int i = BLACK_PAWN_RANK + 1; i < WHITE_PAWN_RANK; i++) {
+        for(int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieces = new ArrayList<>();
             for(int j = 0; j < BOARD_SIZE; j++) {
                 pieces.add(Piece.createBlank());
@@ -68,7 +66,7 @@ public class Board {
         for(int i = 0; i < BOARD_SIZE; i++){
             pieces.add(Piece.createWhitePawn());
         }
-        board.add(new Rank(pieces));
+        board.set(6, new Rank(pieces));
         pieces.clear();
 
         pieces.add(Piece.createWhiteRook());
@@ -79,7 +77,7 @@ public class Board {
         pieces.add(Piece.createWhiteBishop());
         pieces.add(Piece.createWhiteKnight());
         pieces.add(Piece.createWhiteRook());
-        board.add(new Rank(pieces));
+        board.set(7, new Rank(pieces));
     }
 
     public String showBoard() {
@@ -99,6 +97,11 @@ public class Board {
     public Piece findPiece(String stringPosition) {
         Position position = new Position(stringPosition);
         return board.get(position.getRank()).getPiece(position.getFile());
+    }
+
+    public void move(String stringPosition, Piece piece) {
+        Position position = new Position(stringPosition);
+        board.get(position.getRank()).setPiece(position.getFile(), piece);
     }
 
 }
