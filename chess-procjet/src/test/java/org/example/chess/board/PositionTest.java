@@ -44,5 +44,10 @@ public class PositionTest {
         pos2 = new Position(5, 0);
         delta = pos1.delta(pos2);
         assertThat(delta).isEqualTo(new Position(-1, 0));
+
+        pos1 = new Position(0, 0);
+        pos2 = new Position(2, -1);
+        delta = pos1.delta(pos2);
+        assertThat(delta).isEqualTo(new Position(-2, 1));
     }
 }

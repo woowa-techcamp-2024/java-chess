@@ -1,5 +1,8 @@
 package org.example.chess.pieces;
 
+import java.util.List;
+import org.example.chess.pieces.enums.Direction;
+
 public class Blank extends Piece{
 
     public Blank() {
@@ -7,7 +10,7 @@ public class Blank extends Piece{
     }
 
     @Override
-    public boolean isValidMove(String source, String destination) {
-        return false;
+    protected List<Direction> getDirections() {
+        return List.of();
     }
 }

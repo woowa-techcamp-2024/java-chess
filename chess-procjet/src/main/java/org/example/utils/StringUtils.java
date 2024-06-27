@@ -1,6 +1,6 @@
 package org.example.utils;
 
-public class StringUtils {
+public abstract class StringUtils {
 
     private static final String NEWLINE = System.getProperty("line.separator");
 

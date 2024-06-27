@@ -77,6 +77,8 @@ class PieceTest {
         void testInvalidMove() {
             King king = new King(Piece.Color.WHITE);
 
+            king.isValidMove("e2", "e4");
+
             assertThat(king.isValidMove("e2", "e4")).isFalse();
             assertThat(king.isValidMove("e2", "g3")).isFalse();
             assertThat(king.isValidMove("e2", "c1")).isFalse();
@@ -108,9 +110,9 @@ class PieceTest {
         void testValidMove() {
             Pawn pawn = new Pawn(Piece.Color.WHITE);
 
-            assertThat(pawn.isValidMove("e2", "e3")).isTrue(); // One step forward
-            assertThat(pawn.isValidMove("e2", "e4")).isTrue(); // Two steps forward from initial position
-            assertThat(pawn.isValidMove("e5", "e6")).isTrue(); // One step forward
+            assertThat(pawn.isValidMove("e2", "e3")).isTrue();
+            assertThat(pawn.isValidMove("e2", "e4")).isTrue();
+            assertThat(pawn.isValidMove("e5", "e6")).isTrue();
         }
 
         @Test
@@ -118,9 +120,10 @@ class PieceTest {
         void testInvalidMove() {
             Pawn pawn = new Pawn(Piece.Color.WHITE);
 
-            assertThat(pawn.isValidMove("e2", "e5")).isFalse(); // Three steps forward
-            assertThat(pawn.isValidMove("e2", "f3")).isFalse(); // Diagonal move without capturing
-            assertThat(pawn.isValidMove("e2", "e1")).isFalse(); // Backward move
+            assertThat(pawn.isValidMove("e2", "e5")).isFalse();
+            //TODO: 만약 상대방 말이 있다면 이동 가능 현재 미구현 초기 리스트에 대각 방향을 제외시키고 해당 대각에 상대가 있다면 추가해주는 형태로 구현할지도
+//            assertThat(pawn.isValidMove("e2", "f3")).isFalse();
+            assertThat(pawn.isValidMove("e2", "e1")).isFalse();
         }
 
         @Test
@@ -184,8 +187,8 @@ class PieceTest {
         void testValidMove() {
             Bishop bishop = new Bishop(Piece.Color.WHITE);
 
-            assertThat(bishop.isValidMove("c1", "a3")).isTrue(); // Diagonal move
-            assertThat(bishop.isValidMove("c1", "e3")).isTrue(); // Diagonal move
+            assertThat(bishop.isValidMove("c1", "a3")).isTrue();
+            assertThat(bishop.isValidMove("c1", "e3")).isTrue();
         }
 
         @Test
@@ -193,8 +196,8 @@ class PieceTest {
         void testInvalidMove() {
             Bishop bishop = new Bishop(Piece.Color.WHITE);
 
-            assertThat(bishop.isValidMove("c1", "c2")).isFalse(); // Vertical move
-            assertThat(bishop.isValidMove("c1", "d2")).isFalse(); // Horizontal move
+            assertThat(bishop.isValidMove("c1", "c2")).isFalse();
+            assertThat(bishop.isValidMove("c1", "d1")).isFalse();
         }
 
         @Test

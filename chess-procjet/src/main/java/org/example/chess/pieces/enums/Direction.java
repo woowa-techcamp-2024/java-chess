@@ -60,7 +60,7 @@ public enum Direction {
         return Arrays.asList(NORTH, EAST, WEST, SOUTH);
     }
 
-    public static List<Direction> BishopDirection() {
+    public static List<Direction> bishopDirection() {
         return Arrays.asList(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
     }
 

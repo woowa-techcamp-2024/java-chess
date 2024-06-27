@@ -1,5 +1,10 @@
 package org.example.chess.pieces;
 
+import java.util.List;
+import org.example.chess.board.Position;
+import org.example.chess.pieces.enums.Direction;
+import org.example.utils.MathUtils;
+
 public abstract class Piece {
 
     private final Color color;
@@ -12,7 +17,28 @@ public abstract class Piece {
         this.representation = initializeRepresentation();
     }
 
-    public abstract boolean isValidMove(String source, String destination);
+    protected abstract List<Direction> getDirections();
+    protected double getMaxDistance() {
+        return Double.MAX_VALUE;
+    };
+
+    public boolean isValidMove(String source, String destination) {
+        Position from = new Position(source);
+        Position to = new Position(destination);
+
+        double distance = MathUtils.getDistance(from.getR(), from.getC(), to.getR(), to.getC());
+        if (distance > getMaxDistance()) {
+            return false;
+        }
+        Position delta = to.delta(from);
+        List<Direction> directions = getDirections();
+        for (Direction direction : directions) {
+            if (direction.isMovableDirection(delta)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private String initializeRepresentation() {
         if (this.color == Color.BLACK) {
