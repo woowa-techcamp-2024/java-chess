@@ -124,4 +124,18 @@ public class BoardTest {
         chessGame.move("b8", "b7");
         assertEquals(Piece.createBlackKing(new Position("b7")), board.findPiece("b7"));
     }
+
+    @Test
+    @DisplayName("Queen 기물이 원하는 대로 이동이 가능해야 한다")
+    public void moveQueen() {
+        board.initialize();
+        board.saveByPosition(Piece.createBlackQueen(null), new Position(1, 0));
+
+        chessGame.move("b8", "a8");
+        assertEquals(Piece.createBlackQueen(new Position("a8")), board.findPiece("a8"));
+
+        chessGame.move("a8", "e4");
+        assertEquals(Piece.createBlackQueen(new Position("e4")), board.findPiece("e4"));
+    }
+
 }
