@@ -20,7 +20,11 @@ public class Main {
                     String[] split = input.split(" ");
                     String sourcePosition = split[1];
                     String targetPosition = split[2];
-                    board.move(sourcePosition, targetPosition);
+                    try {
+                        board.move(sourcePosition, targetPosition);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
                     System.out.println(board.showBoard());
                 }
             }
