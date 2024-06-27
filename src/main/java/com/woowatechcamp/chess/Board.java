@@ -162,7 +162,18 @@ public class Board {
             }
             currentX += deltaX;
             currentY += deltaY;
+
+            // 목적지 직전에 도달하면 루프를 종료합니다.
+            if (currentX == to.getXPos() && currentY == to.getYPos()) {
+                break;
+            }
         }
         return true;
+    }
+
+    public boolean isKingAlive(Piece.Color color) {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .anyMatch(piece -> piece.getType() == Piece.Type.KING && piece.getColor() == color);
     }
 }
