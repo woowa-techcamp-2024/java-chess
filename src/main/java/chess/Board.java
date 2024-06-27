@@ -179,7 +179,7 @@ public class Board {
             for(int w=0;w<WIDTH;w++){
                 sb.append(board[h][w] == null ? '.' : board[h][w].getRepresentation());
             }
-            sb.append('\n');
+            sb.append(System.lineSeparator());
         }
         return sb.toString();
     }
