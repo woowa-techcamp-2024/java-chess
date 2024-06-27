@@ -19,10 +19,6 @@ public class ChessGame {
 
     private Board board;
 
-    public ChessGame() {
-        initializeCmdToPos();
-    }
-
     public void initialize() {
         board = new Board(CHESS_ROW_SIZE, CHESS_COLUMN_SIZE);
         whitePieces = new HashSet<>();
@@ -44,7 +40,7 @@ public class ChessGame {
 
     }
 
-    private void initializeCmdToPos() {
+    public static void initializeCmdToPos() {
         for (int i = '1'; i <= '9'; i++ ) {
             for (int j = 'a'; j <= 'h'; j++ ) {
                 // change int to char and concat them
@@ -96,8 +92,39 @@ public class ChessGame {
         blackPieces.add(piece);
     }
 
+    public boolean isAvailableToMove(Color color, String target) {
+        if (color == Color.WHITE) {
+            for (Piece whitePiece : whitePieces) {
+                if (Objects.equals(whitePiece.getPosition(), CommandChanger.getPosition(target))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        for (Piece blackPiece : blackPieces) {
+            if (Objects.equals(blackPiece.getPosition(), CommandChanger.getPosition(target))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void move(String source, String target) {
+        // validate target in Board
+        try {
+            CommandChanger.getPosition(target);
+        } catch (Exception e) {
+            System.out.println("Error: " + "범위를 초과합니다.");
+            return ;
+        }
+
+        Piece p = findPiece(source);
+        // validate available move
+        if (!isAvailableToMove(p.getColor(), target)) {
+            System.out.println("Error: " + "이미 같은 편 기물이 있습니다.");
+            return ;
+        }
+
         Piece sourcePiece = findPiece(source);
         sourcePiece.setPosition(CommandChanger.getPosition(target));
 
@@ -191,7 +218,7 @@ public class ChessGame {
     public void createBlackPawns(){
         List<Piece> p = new ArrayList<>();
         for (int j = 0; j < 8; j++) {
-            p.add(Piece.of(Pawn.class, Color.BLACK, CommandChanger.getPosition(Character.toString('a' + j)+"7")));
+            p.add(Piece.of(Pawn.class, Color.BLACK, CommandChanger.getPosition(Character.toString('a' + j) + "7")));
         }
         board.appendLine(p);
 
@@ -202,7 +229,7 @@ public class ChessGame {
         for (int i = 0; i < row; i++) {
             List<Piece> p = new ArrayList<>();
             for (int j = 0; j < CHESS_COLUMN_SIZE; j++) {
-                p.add(Piece.of(NoPiece.class, Color.NOCOLOR, CommandChanger.getPosition(Character.toString('a' + j ) + Character.toString(i))));
+                p.add(Piece.of(NoPiece.class, Color.NOCOLOR, CommandChanger.getPosition(Character.toString('a' + j ) + (i + 1))));
             }
             board.appendLine(p);
         }

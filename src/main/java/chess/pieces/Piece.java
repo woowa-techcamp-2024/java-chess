@@ -81,8 +81,8 @@ public abstract class Piece {
         }
     }
 
-    public String getColor() {
-        return color.name();
+    public Color getColor() {
+        return color;
     }
 
     public double getDefaultScore() {
@@ -101,6 +101,10 @@ public abstract class Piece {
         return Objects.equals(color, Color.WHITE);
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
     public void setPosition(Position position) {
         this.position = position;
     }
@@ -108,6 +112,8 @@ public abstract class Piece {
     public void setPosition(String position) {
         this.position = CommandChanger.getPosition(position);
     }
+
+    public void move(String source, String target) {}
 
     @Override
     public boolean equals(Object o) {

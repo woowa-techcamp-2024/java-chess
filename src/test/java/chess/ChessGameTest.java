@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static chess.ChessGame.initializeCmdToPos;
 import static chess.pieces.Piece.Color.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static utils.StringUtils.appendNewLine;
 
 class ChessGameTest {
@@ -38,6 +39,11 @@ class ChessGameTest {
                    pppppppp
                    ........
                    """;
+    }
+
+    @BeforeAll
+    static void setUpBoard() {
+        initializeCmdToPos();
     }
 
     @Test
@@ -142,6 +148,37 @@ class ChessGameTest {
         game.add(pos, piece);
 
         assertEquals(piece, game.findPiece(pos));
+    }
+
+    @Test
+    @DisplayName("이동하려는 위치에 같은 편의 기물이 있는지 확인")
+    void checkSameColor() {
+        game.initialize();
+
+        assertFalse(game.isAvailableToMove(WHITE, "e2"));
+    }
+
+    @Test
+    @DisplayName("king move")
+    void moveKing() {
+        game.initialize();
+
+        game.move("e1", "e2");
+
+        assertTrue(game.findPiece("e1") instanceof King);
+        assertTrue(game.findPiece("e2") instanceof Pawn);
+    }
+
+    @Test
+    @DisplayName("king이 체스판 밖으로 이동하는 경우 처리")
+    void checkInBoard() {
+        game.initialize();
+
+        Piece p = game.findPiece("a1");
+
+        game.move("a1", "a0");
+
+        assertEquals(game.findPiece("a1"), p);
     }
 
     static Stream<Arguments> providedParam() {

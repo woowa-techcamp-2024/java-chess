@@ -1,8 +1,11 @@
 
 import chess.ChessGame;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
+
+import static chess.ChessGame.initializeCmdToPos;
 
 public class Main {
     private enum GameCommand {
@@ -17,6 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         ChessGame chessGame = new ChessGame();
+        initializeCmdToPos();
         boolean isStarted = false;
         while(true) {
             Scanner scanner = new Scanner(System.in);
@@ -31,6 +35,7 @@ public class Main {
                     return ;
                 }
                 else if (isStarted && input.startsWith(GameCommand.MOVE.command)) {
+                    clearConsole();
                     String[] cmd = input.split(" ");
                     chessGame.move(cmd[1], cmd[2]);
                     System.out.println(chessGame.showBoard());
@@ -41,4 +46,17 @@ public class Main {
             }
         }
     }
+
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                Runtime.getRuntime().exec("cmd /c cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package chess.pieces;
 import chess.CommandChanger;
 import org.junit.jupiter.api.*;
 
+import static chess.ChessGame.initializeCmdToPos;
 import static chess.pieces.Piece.Color.BLACK;
 import static chess.pieces.Piece.Color.NOCOLOR;
 import static chess.pieces.Piece.Color.WHITE;
@@ -13,6 +14,11 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PieceTest {
+
+    @BeforeAll
+    static void setUp() {
+        initializeCmdToPos();
+    }
 
     @Test
     @DisplayName("해당하는 색 폰이 생성되어야 한다")
