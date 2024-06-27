@@ -3,7 +3,7 @@ package com.wootecam.chess;
 import static com.wootecam.chess.utils.StringUtils.NEW_LINE;
 import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 
-import com.wootecam.chess.pieces.Rank;
+import com.wootecam.chess.board.Rank;
 import java.util.List;
 import java.util.stream.Collectors;
 

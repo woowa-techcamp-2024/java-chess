@@ -1,7 +1,8 @@
 package com.wootecam.chess;
 
+import com.wootecam.chess.board.Board;
+import com.wootecam.chess.board.Rank;
 import com.wootecam.chess.pieces.Color;
-import com.wootecam.chess.pieces.Rank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

@@ -1,17 +1,25 @@
-package com.wootecam.chess;
+package com.wootecam.chess.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.CoordinatesExtractor;
 import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.Pawn;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.Rank;
+import com.wootecam.chess.pieces.Position;
+import com.wootecam.chess.pieces.Queen;
+import com.wootecam.chess.pieces.Rook;
 import com.wootecam.chess.pieces.Type;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class BoardTest {
 
@@ -90,10 +98,11 @@ public class BoardTest {
         void 주어진_위치의_기물을_조회한다() {
             // expect
             assertAll(
-                    () -> assertThat(board.findPiece(new Position(0, 0))).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece(new Position(0, 7))).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece(new Position(7, 0))).isEqualTo(Piece.createWhite(Type.ROOK)),
-                    () -> assertThat(board.findPiece(new Position(7, 7))).isEqualTo(Piece.createWhite(Type.ROOK))
+                    () -> assertThat(board.findPiece(new Position(0, 0))).isEqualTo(new Rook(Color.BLACK)),
+                    () -> assertThat(board.findPiece(new Position(0, 7))).isEqualTo(new Rook(Color.BLACK)),
+                    () -> assertThat(board.findPiece(new Position(7, 0))).isEqualTo(new Rook(Color.WHITE)),
+                    () -> assertThat(board.findPiece(new Position(7, 7))).isEqualTo(new Rook(Color.WHITE))
+
             );
         }
     }
@@ -130,10 +139,10 @@ public class BoardTest {
             Position position = new Position(0, 0);
 
             // when
-            board.updatePiece(position, Piece.createWhite(Type.PAWN));
+            board.updatePiece(position, new Pawn(Color.WHITE));
 
             // then
-            assertThat(board.findPiece(new Position(0, 0))).isEqualTo(Piece.createWhite(Type.PAWN));
+            assertThat(board.findPiece(new Position(0, 0))).isEqualTo(new Pawn(Color.WHITE));
         }
     }
 
@@ -143,9 +152,9 @@ public class BoardTest {
         @BeforeEach
         void setUp() {
             List<Rank> ranks = List.of(new Rank(List.of(
-                    Piece.createWhite(Type.ROOK), Piece.createBlack(Type.ROOK), Piece.createWhite(Type.QUEEN),
-                    Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK),
-                    Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK)))
+                    new Rook(Color.WHITE), new Rook(Color.BLACK), new Queen(Color.WHITE),
+                    new Rook(Color.BLACK), new Rook(Color.BLACK), new Rook(Color.BLACK),
+                    new Rook(Color.BLACK), new Rook(Color.BLACK)))
             );
             board = new Board(ranks);
         }
@@ -156,7 +165,47 @@ public class BoardTest {
             List<Piece> descOrderedPieces = board.findDescOrderedPieces(Color.WHITE);
 
             // then
-            assertThat(descOrderedPieces).containsExactly(Piece.createWhite(Type.QUEEN), Piece.createWhite(Type.ROOK));
+            assertThat(descOrderedPieces).containsExactly(new Queen(Color.WHITE), new Rook(Color.WHITE));
+        }
+    }
+
+    @Nested
+    class verifyMove_메소드는 {
+
+        @Nested
+        class 폰을_이동하려_할때 {
+
+            @ParameterizedTest
+            @CsvSource(textBlock = """
+                    b2, a3
+                    b2, b5
+                    b2, b1
+                    """)
+            void 잘못된_이동이라면_예외가_발생한다(String start, String target) {
+                // given
+                CoordinatesExtractor extractor = new CoordinatesExtractor();
+                Position startPosition = extractor.extractPosition(start);
+                Position targetPosition = extractor.extractPosition(target);
+
+                // expect
+                assertThatThrownBy(() -> board.verifyMove(new Pawn(Color.WHITE), startPosition, targetPosition));
+            }
+
+            @ParameterizedTest
+            @CsvSource(textBlock = """
+                    b7, b6
+                    b7, b5
+                    """)
+            void 정상적인_이동이라면_이동한다(String start, String target) {
+                // given
+                CoordinatesExtractor extractor = new CoordinatesExtractor();
+                Position startPosition = extractor.extractPosition(start);
+                Position targetPosition = extractor.extractPosition(target);
+
+                // expect
+                assertThatNoException().isThrownBy(
+                        () -> board.verifyMove(new Pawn(Color.BLACK), startPosition, targetPosition));
+            }
         }
     }
 }

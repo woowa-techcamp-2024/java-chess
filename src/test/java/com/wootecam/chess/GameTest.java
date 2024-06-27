@@ -4,10 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.board.Board;
+import com.wootecam.chess.board.Rank;
+import com.wootecam.chess.pieces.Blank;
 import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.King;
+import com.wootecam.chess.pieces.Pawn;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.Rank;
-import com.wootecam.chess.pieces.Type;
+import com.wootecam.chess.pieces.Position;
+import com.wootecam.chess.pieces.Queen;
+import com.wootecam.chess.pieces.Rook;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +25,8 @@ class GameTest {
     private Game game;
 
     private Board board;
+
+    private ChessView chessView = new ChessView();
 
     private CoordinatesExtractor extractor;
 
@@ -68,12 +76,13 @@ class GameTest {
             String targetCoordinates = "b3";
 
             // when
-            game.move(startCoordinates, targetCoordinates);
 
+            chessView.printBoard(board.getRanks());
+            game.move(startCoordinates, targetCoordinates);
             // then
             assertAll(
-                    () -> assertThat(board.findPiece(new Position(6, 1))).isEqualTo(Piece.createBlank()),
-                    () -> assertThat(board.findPiece(new Position(5, 1))).isEqualTo(Piece.createWhite(Type.PAWN))
+                    () -> assertThat(board.findPiece(new Position(6, 1))).isEqualTo(new Blank()),
+                    () -> assertThat(board.findPiece(new Position(5, 1))).isEqualTo(new Pawn(Color.WHITE))
             );
         }
 
@@ -106,14 +115,14 @@ class GameTest {
         @Test
         void 검정_혹은_흰색_기물의_점수를_계산한다() {
             // given
-            addPiece("b6", Piece.createBlack(Type.PAWN));
-            addPiece("e6", Piece.createBlack(Type.QUEEN));
-            addPiece("b8", Piece.createBlack(Type.KING));
-            addPiece("c8", Piece.createBlack(Type.ROOK));
-            addPiece("f2", Piece.createWhite(Type.PAWN));
-            addPiece("g2", Piece.createWhite(Type.PAWN));
-            addPiece("e1", Piece.createWhite(Type.ROOK));
-            addPiece("f1", Piece.createWhite(Type.KING));
+            addPiece("b6", new Pawn(Color.BLACK));
+            addPiece("e6", new Queen(Color.BLACK));
+            addPiece("b8", new King(Color.BLACK));
+            addPiece("c8", new Rook(Color.BLACK));
+            addPiece("f2", new Pawn(Color.WHITE));
+            addPiece("g2", new Pawn(Color.WHITE));
+            addPiece("e1", new Rook(Color.WHITE));
+            addPiece("f1", new King(Color.WHITE));
 
             // when
             double blackPoint = game.calculatePoint(Color.BLACK);

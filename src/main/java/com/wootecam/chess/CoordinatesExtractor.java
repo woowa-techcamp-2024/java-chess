@@ -1,11 +1,12 @@
 package com.wootecam.chess;
 
-import static com.wootecam.chess.Board.END_COLUMN_SYMBOL;
-import static com.wootecam.chess.Board.END_ROW_SYMBOL;
-import static com.wootecam.chess.Board.START_COLUMN_SYMBOL;
-import static com.wootecam.chess.Board.START_ROW_SYMBOL;
+import static com.wootecam.chess.board.Board.END_COLUMN_SYMBOL;
+import static com.wootecam.chess.board.Board.END_ROW_SYMBOL;
+import static com.wootecam.chess.board.Board.START_COLUMN_SYMBOL;
+import static com.wootecam.chess.board.Board.START_ROW_SYMBOL;
 
-import com.wootecam.chess.pieces.Rank;
+import com.wootecam.chess.board.Rank;
+import com.wootecam.chess.pieces.Position;
 
 public class CoordinatesExtractor {
 

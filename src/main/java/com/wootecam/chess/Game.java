@@ -1,12 +1,15 @@
 package com.wootecam.chess;
 
-import static com.wootecam.chess.Board.END_COLUMN_SYMBOL;
-import static com.wootecam.chess.Board.END_ROW_SYMBOL;
-import static com.wootecam.chess.Board.START_COLUMN_SYMBOL;
-import static com.wootecam.chess.Board.START_ROW_SYMBOL;
+import static com.wootecam.chess.board.Board.END_COLUMN_SYMBOL;
+import static com.wootecam.chess.board.Board.END_ROW_SYMBOL;
+import static com.wootecam.chess.board.Board.START_COLUMN_SYMBOL;
+import static com.wootecam.chess.board.Board.START_ROW_SYMBOL;
 
+import com.wootecam.chess.board.Board;
+import com.wootecam.chess.pieces.Blank;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.Position;
 import com.wootecam.chess.pieces.Type;
 import java.util.stream.IntStream;
 
@@ -25,20 +28,14 @@ public class Game {
         Position targetPosition = extractor.extractPosition(targetCoordinates);
 
         Piece piece = board.findPiece(startPosition);
+        validateMovePieces(piece);
 
-        validateMovePieces(piece, startPosition, targetPosition);
-
-        updatePiece(startCoordinates, Piece.createBlank());
-        updatePiece(targetCoordinates, piece);
+        board.verifyMove(piece, startPosition, targetPosition);
+        board.updatePiece(startPosition, new Blank());
+        board.updatePiece(targetPosition, piece);
     }
 
-    private void updatePiece(final String coordinates, final Piece piece) {
-        Position position = extractor.extractPosition(coordinates);
-
-        board.updatePiece(position, piece);
-    }
-
-    private void validateMovePieces(final Piece piece, final Position startPosition, final Position targetPosition) {
+    private void validateMovePieces(final Piece piece) {
         if (piece.isBlank()) {
             throw new IllegalArgumentException("빈칸은 이동시킬 수 없습니다.");
         }

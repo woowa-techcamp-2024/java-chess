@@ -1,8 +1,9 @@
 package com.wootecam.chess.pieces;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public class Piece {
+public abstract class Piece {
 
     private final Color color;
     private final Type type;
@@ -12,29 +13,7 @@ public class Piece {
         this.type = type;
     }
 
-    public static Piece createBlack(final Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
-    public static Piece createWhite(final Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NO_COLOR, Type.NO_PIECE);
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public String getRepresentation() {
-        return type.findRepresentation(color);
-    }
+    public abstract Optional<Direction> findDirection(final Position startPosition, final Position targetPosition);
 
     public boolean isWhite() {
         return color == Color.WHITE;
@@ -54,6 +33,18 @@ public class Piece {
 
     public boolean isApplicablePiece(final Color color) {
         return this.color == color && type.isPiece();
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public String getRepresentation() {
+        return type.findRepresentation(color);
     }
 
     @Override
@@ -82,5 +73,9 @@ public class Piece {
                 "color=" + color +
                 ", type=" + type +
                 '}';
+    }
+
+    public boolean isTypeOf(final Type type) {
+        return this.type == type;
     }
 }
