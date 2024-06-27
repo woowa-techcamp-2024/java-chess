@@ -50,18 +50,42 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN("pawn"),
-        ROOK("rook"),
-        KNIGHT("knight"),
-        BISHOP("bishop"),
-        QUEEN("queen"),
-        KING("king"),
-        NO_PIECE("noPiece");
+        PAWN("pawn", 1.0),
+        ROOK("rook", 5.0),
+        KNIGHT("knight", 2.5),
+        BISHOP("bishop", 3.0),
+        QUEEN("queen", 9.0),
+        KING("king", 0.0),
+        NO_PIECE("noPiece", 0.0);
 
         private final String name;
+        private final double defaultScore;
 
-        Type(String name) {
+        Type(String name, double defaultScore) {
             this.name = name;
+            this.defaultScore = defaultScore;
+        }
+
+        public static double calculateScore(final List<Piece> file) {
+            double score = 0.0;
+            int pawnCount = 0;
+            for (Piece piece : file) {
+                if (piece.isPieceOf(PAWN)) {
+                    pawnCount++;
+                    continue;
+                }
+                score += piece.type.defaultScore;
+            }
+            if (pawnCount > 1) {
+                score += pawnCount * (PAWN.defaultScore / 2);
+                return score;
+            }
+            score += pawnCount * PAWN.defaultScore;
+            return score;
+        }
+
+        public double getDefaultScore() {
+            return defaultScore;
         }
     }
 
