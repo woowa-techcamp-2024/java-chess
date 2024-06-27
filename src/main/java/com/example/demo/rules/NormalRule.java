@@ -49,7 +49,7 @@ public class NormalRule implements Rule {
 
         Piece piece = board.getPiece(from);
 
-        if (isApplyFirstMove && !piece.isLocatedAtInitLocation(from.rank(), from.file()))
+        if (isApplyFirstMove && !piece.hasMoveHistory())
             return false;
         if (piece.getType() != targetType || piece.getColor() != targetColor)
             return false;

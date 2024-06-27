@@ -72,8 +72,8 @@ public abstract class Piece implements Comparable<Piece> {
 
     public abstract Type getType();
 
-    public boolean isLocatedAtInitLocation(Rank rank, File file){
-        return this.rank == rank && this.file == file;
+    public boolean hasMoveHistory(){
+        return turn != 0;
     }
 
     public Location getLocation(){
