@@ -98,9 +98,9 @@ public class PawnTest {
         assertThat(canMove).isTrue();
     }
 
-    @DisplayName("폰이 움직이지 않고 한 칸 앞에 기물이 있을 경우 두 칸 앞으로 이동을 지원하지 않아야 한다")
+    @DisplayName("폰의 한 칸 앞에 기물이 있을 경우 앞으로 이동을 지원하지 않아야 한다")
     @ParameterizedTest
-    @CsvSource({"b2,b4", "g7,g5"})
+    @CsvSource({"b2,b3", "b2,b4", "g7,g5", "g7,g6"})
     public void canNotMove2Blocked(String fromStr, String toStr) {
         Board board = createBoard("""
                 ........
@@ -150,7 +150,7 @@ public class PawnTest {
         assertThat(canMove).isTrue();
     }
 
-    @DisplayName("폰이 옆에 있는 상대 말을 잡는 경우 대각선 이동을 지원해야 한다")
+    @DisplayName("폰이 옆에 있는 상대 말을 잡는 경우 대각선 이동을 지원하지 않아야 한다 (앙파상 미구현)")
     @ParameterizedTest
     @CsvSource({"b2,a3", "b2,c3", "g7,f6", "g7,h6"})
     public void canMoveSide(String fromStr, String toStr) {
@@ -173,6 +173,6 @@ public class PawnTest {
         boolean canMove = piece.canMove(offset, context);
 
         assertThat(piece).isInstanceOf(Pawn.class);
-        assertThat(canMove).isTrue();
+        assertThat(canMove).isFalse();
     }
 }

@@ -25,18 +25,17 @@ public class Pawn extends Piece {
     public boolean canMoveImpl(Offset offset, BoardContext context) {
         Offset forward = getForward();
         if (offset.equals(forward)) {
-            return true;
+            return context.isEmptyAt(offset);
         }
         if (offset.equals(forward.multiply(2))) {
-            return notMoved() && context.isEmptyAt(forward);
+            return notMoved() && context.isEmptyAt(forward) && context.isEmptyAt(offset);
         }
 
         List<Offset> diagonals = getDiagonal();
         for (Offset diagonal : diagonals) {
             if (offset.equals(diagonal)) {
-                Offset side = getSideFromDiagonal(diagonal);
                 Color opposite = getColor().opposite();
-                return context.isColorAt(diagonal, opposite) || context.isColorAt(side, opposite);
+                return context.isColorAt(diagonal, opposite);
             }
         }
 
