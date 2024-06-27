@@ -3,6 +3,9 @@ package com.wootecam.chess.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceRepresentation;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -42,7 +45,7 @@ class PieceTest {
 
         @Test
         void 타입과_색이_없는_기물도_존재할_수_있다() {
-            Piece blank = Piece.createBlank();
+            Piece blank = Piece.BLANK;
             assertAll(
                     () -> assertThat(blank.getType()).isEqualTo(PieceType.NO_PIECE),
                     () -> assertThat(blank.getColor()).isEqualTo(Color.NO_COLOR)

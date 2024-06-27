@@ -4,12 +4,15 @@ import static com.wootecam.chess.Fixture.createBoard;
 import static com.wootecam.chess.Fixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.Converter.ColorConverter;
+import com.wootecam.chess.Converter.PieceTypeConverter;
 import com.wootecam.chess.common.Order;
-import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.PieceType;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +21,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -28,26 +29,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("체스판 테스트")
 class BoardTest {
     private Board board;
-
-    public static class PieceTypeConverter extends SimpleArgumentConverter {
-        @Override
-        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            if (source instanceof String && PieceType.class.isAssignableFrom(targetType)) {
-                return PieceType.valueOf((String) source);
-            }
-            throw new ArgumentConversionException("Conversion failed.");
-        }
-    }
-
-    public static class ColorConverter extends SimpleArgumentConverter {
-        @Override
-        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            if (source instanceof String && Color.class.isAssignableFrom(targetType)) {
-                return Color.valueOf((String) source);
-            }
-            throw new ArgumentConversionException("Conversion failed.");
-        }
-    }
 
     @Nested
     class 체스판에_말을_배치할_수_있다 {
@@ -139,10 +120,12 @@ class BoardTest {
 
     @Nested
     class 기물의_점수를_계산한다 {
+        private ScoreCalculationRule scoreCalculationRule;
 
         @BeforeEach
         void setUp() {
             board = createBoard();
+            scoreCalculationRule = new ScoreCalculationRule();
         }
 
         @Test
@@ -151,7 +134,7 @@ class BoardTest {
             board.add(Piece.createBlackPawn(), createPosition("b8"));
             board.add(Piece.createBlackPawn(), createPosition("f8"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(3);
         }
@@ -163,7 +146,7 @@ class BoardTest {
             board.add(Piece.createBlackPawn(), createPosition("e2"));
             board.add(Piece.createBlackPawn(), createPosition("e1"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(2);
         }
@@ -179,7 +162,7 @@ class BoardTest {
             board.add(Piece.createBlackKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            double score = board.calculateScore(Color.BLACK);
+            double score = board.calculateScore(scoreCalculationRule, Color.BLACK);
 
             assertThat(score).isEqualTo(20.5);
         }
@@ -235,6 +218,37 @@ class BoardTest {
                     Piece.createWhitePawn(),
                     Piece.createWhiteKnight(),
                     Piece.createWhiteBishop());
+        }
+    }
+
+    @Nested
+    class 특정_위치의_기물을_주어진_위치로_움직인다 {
+
+        @BeforeEach
+        void setUp() {
+            board = createBoard();
+        }
+
+        @Test
+        void 특정_위치의_기물을_주어진_위치로_움직일_수_있다() {
+            board.add(Piece.createBlackPawn(), createPosition("a8"));
+
+            board.move(createPosition("a8"), createPosition("b8"));
+
+            assertAll(
+                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(Piece.BLANK),
+                    () -> assertThat(board.get(createPosition("b8"))).isEqualTo(Piece.createBlackPawn())
+            );
+        }
+
+        @Test
+        void 특정_위치에_기물이_없다면_예외가_발생한다() {
+            board.add(Piece.createBlackPawn(), createPosition("c8"));
+
+            Position source = createPosition("a8");
+            Position target = createPosition("b8");
+            assertThatThrownBy(() -> board.move(source, target))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }

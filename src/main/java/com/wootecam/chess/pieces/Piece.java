@@ -1,11 +1,22 @@
 package com.wootecam.chess.pieces;
 
+import static com.wootecam.chess.common.ChessConstraint.isValidIndex;
+
+import com.wootecam.chess.board.Position;
+import com.wootecam.chess.move.Direction;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceRepresentation;
+import com.wootecam.chess.pieces.property.PieceType;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Piece {
-    private final PieceType type;
-    private final Color color;
-    private final PieceRepresentation representation;
+    public static final Piece BLANK = new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+
+    protected final PieceType type;
+    protected final Color color;
+    protected final PieceRepresentation representation;
 
     protected Piece(PieceType pieceType, Color color) {
         this.type = pieceType;
@@ -61,10 +72,6 @@ public class Piece {
         return createBlack(PieceType.KING);
     }
 
-    public static Piece createBlank() {
-        return new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
-    }
-
     private static Piece createWhite(PieceType type) {
         return createPiece(type, Color.WHITE);
     }
@@ -81,7 +88,7 @@ public class Piece {
             case BISHOP -> new Bishop(type, color);
             case QUEEN -> new Queen(type, color);
             case KING -> new King(type, color);
-            default -> new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+            default -> BLANK;
         };
     }
 
@@ -101,8 +108,48 @@ public class Piece {
         return type != PieceType.NO_PIECE;
     }
 
+    public boolean isAlly(Piece piece) {
+        return isColor(piece.getColor());
+    }
+
+    public boolean isType(PieceType type) {
+        return this.type == type;
+    }
+
     public boolean isPawn() {
-        return type == PieceType.PAWN;
+        return isType(PieceType.PAWN);
+    }
+
+    public boolean isKnight() {
+        return isType(PieceType.KNIGHT);
+    }
+
+    public boolean hasTypeAndColor(PieceType type, Color color) {
+        return this.type == type && this.color == color;
+    }
+
+    public Optional<Direction> findCorrectDirection(Position from, Position to) {
+        return Optional.empty();
+    }
+
+    protected Optional<Direction> findCorrectDirectionInternal(Position from, Position to, List<Direction> directions,
+                                                               int range) {
+        for (Direction d : directions) {
+            int nx = from.x;
+            int ny = from.y;
+            for (int i = 0; i < range; ++i) {
+                nx += d.xDegree;
+                ny += d.yDegree;
+                if (!isValidIndex(nx, ny)) {
+                    break;
+                }
+                if (nx == to.x && ny == to.y) {
+                    return Optional.of(d);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     public PieceType getType() {
@@ -111,10 +158,6 @@ public class Piece {
 
     public Color getColor() {
         return color;
-    }
-
-    public boolean hasTypeAndColor(PieceType type, Color color) {
-        return this.type == type && this.color == color;
     }
 
     public PieceRepresentation getRepresentation() {

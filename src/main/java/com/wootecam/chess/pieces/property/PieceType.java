@@ -1,4 +1,4 @@
-package com.wootecam.chess.pieces;
+package com.wootecam.chess.pieces.property;
 
 public enum PieceType {
     PAWN(1),
