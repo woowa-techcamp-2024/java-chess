@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class BlankTest {
         Blank blank = Blank.createBlank();
 
         // when
-        boolean b = blank.verifyMoveCoordinate("a1", "a2");
+        boolean b = blank.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2"));
 
         // then
         assertFalse(b);

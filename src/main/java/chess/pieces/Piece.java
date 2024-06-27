@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public abstract class Piece {
 
     // verifyMovePosition은 Piece가 유효한 좌표를 이동할 수 있는 지 검증하는 책임만 가지고
     // 주변과의 상호작용은 ChessGame에서 담당하도록 변경
-    public abstract boolean verifyMoveCoordinate(String source, String dest);
+    public abstract boolean verifyMoveCoordinate(Coordinate from, Coordinate to);
 
     public final Color getColor() {
         return color;
@@ -23,7 +25,7 @@ public abstract class Piece {
         return type.getPoint();
     }
 
-    public Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
     }

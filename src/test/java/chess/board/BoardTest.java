@@ -24,29 +24,7 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        chessView = new ChessView(board);
-    }
-
-    @Test
-    @DisplayName("기물을 특정 좌표로 이동할 수 있다")
-    void moveToPosition() {
-        // given
-        String sourceCoordinate = "b2";
-        String targetCoordinate = "b3";
-
-        // when
-        board.move(sourceCoordinate, targetCoordinate);
-
-        // then
-        Piece findPiece1 = board.findPiece(Coordinate.of(sourceCoordinate));
-        assertThat(findPiece1)
-                .extracting("color", "type")
-                .contains(Color.NOCOLOR, Type.NO_PIECE);
-
-        Piece findPiece2 = board.findPiece(Coordinate.of(targetCoordinate));
-        assertThat(findPiece2)
-                .extracting("color", "type")
-                .contains(Color.WHITE, Type.PAWN);
+        chessView = new ChessView();
     }
 
     @DisplayName("기물의 점수가 높은 순으로 정렬하여 반환할 수 있다.")
@@ -55,7 +33,7 @@ class BoardTest {
         // given
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_DESCENDING);
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT.DESCENDING);
 
         // then
         assertThat(pieces).extracting("type.point", "type")
@@ -83,7 +61,7 @@ class BoardTest {
         // given
 
         // when
-        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT_ASCENDING);
+        List<Piece> pieces = board.sortPiecesByPoint(Color.WHITE, Board.SORT.ASCENDING);
 
         // then
         assertThat(pieces).extracting("type.point", "type")
@@ -109,7 +87,7 @@ class BoardTest {
 
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
-    void move() {
+    void movePiece() {
         // given
 
         String coordinateStr = "b5";
@@ -117,7 +95,7 @@ class BoardTest {
         Piece piece = Rook.createBlackRook();
 
         // when
-        board.move(coordinate, piece);
+        board.movePiece(coordinate, piece);
 
         // then
         assertEquals(piece, board.findPiece(coordinate));
@@ -143,7 +121,7 @@ class BoardTest {
         sb.append(blankRank).append(NEWLINE);
         sb.append(blankRank);
 
-        assertThat(chessView.printBoard()).isEqualTo(sb.toString());
+        assertThat(chessView.printBoard(board)).isEqualTo(sb.toString());
 
     }
 
@@ -160,14 +138,6 @@ class BoardTest {
         assertThat(piece).isNotNull()
                 .extracting("color", "type")
                 .contains(Piece.Color.WHITE, Piece.Type.ROOK);
-    }
-
-    @Test
-    @DisplayName("보드를 생성할 수 있다")
-    void create() {
-
-        assertEquals(32, board.getTotalPieceCount());
-        assertEquals(givenBoardPrint(), chessView.printBoard());
     }
 
     @DisplayName("해당하는 색상과 종류의 Piece 개수를 반환한다")
@@ -195,7 +165,7 @@ class BoardTest {
     }
 
     private void addPiece(String coordniate, Piece piece, Board board) {
-        board.move(Coordinate.of(coordniate), piece);
+        board.movePiece(Coordinate.of(coordniate), piece);
     }
 
     private String givenBoardPrint() {

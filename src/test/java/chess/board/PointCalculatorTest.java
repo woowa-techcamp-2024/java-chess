@@ -14,7 +14,7 @@ class PointCalculatorTest {
     @DisplayName("pawn이 세로로 2개 있는 경우 0.5점씩으로 계산한다.")
     void caculcatePointWhenPawnIsVerticallyAligned() {
         Board board = new Board();
-        ChessView chessView = new ChessView(board);
+        ChessView chessView = new ChessView();
         PointCalculator pointCalculator = new PointCalculator();
         board.initializeEmpty();
 
@@ -32,11 +32,11 @@ class PointCalculatorTest {
         assertEquals(15.0, pointCalculator.calculatePoint(board, Piece.Color.BLACK));
         assertEquals(6.5,  pointCalculator.calculatePoint(board, Piece.Color.WHITE));
 
-        System.out.println(chessView.printBoard());
+        System.out.println(chessView.printBoard(board));
     }
 
     private void addPiece(String coordniate, Piece piece, Board board) {
-        board.move(Coordinate.of(coordniate), piece);
+        board.movePiece(Coordinate.of(coordniate), piece);
     }
 
 }

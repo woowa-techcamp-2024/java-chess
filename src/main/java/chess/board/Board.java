@@ -11,18 +11,11 @@ import java.util.stream.IntStream;
 public class Board {
 
     private final List<Rank> ranks;
-    // TODO 이거 왜 있지,,
-    private int pieceCount;
 
     private static final int BOARD_WIDTH = 8;
     private static final int RANK_HEIGHT = 8;
-    private static final int INITIAL_PIECE_COUNT = 32;
     private static final int BLANK_ROW_START = 2;
     private static final int BLANK_ROW_END = 6;
-
-    // TODO 이건 차라리 Enum으로 하는 게 나을 듯,,,
-    public static final Comparator<Piece> SORT_ASCENDING = Comparator.comparingDouble(Piece::getDefaultPoint);
-    public static final Comparator<Piece> SORT_DESCENDING = (o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint());
 
 
     public List<Rank> getRanks() {
@@ -34,7 +27,6 @@ public class Board {
     protected void initializeEmpty() {
         ranks.clear();
         initializeEmtpyRows(0, RANK_HEIGHT);
-        pieceCount = 0;
     }
 
     public int getPieceCount(Piece.Color color, Piece.Type type) {
@@ -43,25 +35,18 @@ public class Board {
                 .sum();
     }
 
-    public int getTotalPieceCount() {
-        return pieceCount;
-    }
-
-    public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {
+    public List<Piece> sortPiecesByPoint(Piece.Color color, SORT sort) {
         return ranks.stream().map(rank -> rank.getAllPieces(color))
                 .flatMap(List::stream)
-                .sorted(comparator)
+                .sorted(sort.getComparator())
                 .toList();
     }
 
-    public void move(String sourceCoordinateStr, String targetCoordinateStr) {
-        Coordinate sourceCoordinate = Coordinate.of(sourceCoordinateStr);
-        Coordinate targetCoordinate = Coordinate.of(targetCoordinateStr);
+    public void movePiece(Coordinate from, Coordinate to) {
+        Piece sourcePiece = findPiece(from);
 
-        Piece sourcePiece = findPiece(sourceCoordinate);
-        Piece targetPiece = findPiece(targetCoordinate);
-        move(targetCoordinate, sourcePiece);
-        move(sourceCoordinate, targetPiece);
+        movePiece(to, sourcePiece);
+        movePiece(from, Blank.createBlank());
     }
 
     public Board() {
@@ -69,12 +54,12 @@ public class Board {
         initialize();
     }
 
-    protected Piece findPiece(Coordinate coordinate) {
+    public Piece findPiece(Coordinate coordinate) {
         return ranks.get(coordinate.getRankIndex())
                 .getPieceByIndex(coordinate.getWidthIndex());
     }
 
-    protected void move(Coordinate coordinate, Piece piece) {
+    protected void movePiece(Coordinate coordinate, Piece piece) {
         Rank targetRank = ranks.get(coordinate.getRankIndex());
         targetRank.setPiece(coordinate.getWidthIndex(), piece);
     }
@@ -94,7 +79,6 @@ public class Board {
     }
 
     private void initialize() {
-        pieceCount = INITIAL_PIECE_COUNT;
         initializeBlackFirstRow();
         initializeBlackPawns();
         initializeEmtpyRows(BLANK_ROW_START, BLANK_ROW_END);
@@ -145,5 +129,20 @@ public class Board {
                 Rook.createWhiteRook());
 
         ranks.add(Rank.initializeRank(lastRow));
+    }
+
+    public enum SORT {
+        ASCENDING(Comparator.comparingDouble(Piece::getDefaultPoint)),
+        DESCENDING((o1, o2) -> Double.compare(o2.getDefaultPoint(), o1.getDefaultPoint()));
+
+        private final Comparator<Piece> comparator;
+
+        SORT(Comparator<Piece> comparator) {
+            this.comparator = comparator;
+        }
+
+        public Comparator<Piece> getComparator() {
+            return comparator;
+        }
     }
 }
