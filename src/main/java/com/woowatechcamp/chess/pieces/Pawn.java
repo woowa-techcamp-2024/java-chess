@@ -1,6 +1,6 @@
 package com.woowatechcamp.chess.pieces;
 
-import com.woowatechcamp.chess.Board;
+import com.woowatechcamp.chess.game.Board;
 
 import java.util.List;
 

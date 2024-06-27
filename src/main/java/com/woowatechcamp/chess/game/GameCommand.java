@@ -1,4 +1,4 @@
-package com.woowatechcamp.chess;
+package com.woowatechcamp.chess.game;
 
 import java.util.Arrays;
 

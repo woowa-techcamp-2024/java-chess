@@ -1,4 +1,4 @@
-package com.woowatechcamp.chess;
+package com.woowatechcamp.chess.game;
 
 import com.woowatechcamp.chess.pieces.Piece;
 import com.woowatechcamp.chess.pieces.Position;
@@ -39,5 +39,9 @@ public class ChessGame {
 
     private void switchTurn() {
         currentTurn = (currentTurn == Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
+    }
+
+    public Piece getPieceAt(Position position) {
+        return board.findPiece(position);
     }
 }

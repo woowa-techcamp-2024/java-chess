@@ -1,4 +1,4 @@
-package com.woowatechcamp.chess;
+package com.woowatechcamp.chess.game;
 
 import com.woowatechcamp.chess.pieces.Piece;
 import com.woowatechcamp.chess.pieces.PieceFactory;

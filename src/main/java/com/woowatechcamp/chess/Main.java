@@ -1,13 +1,19 @@
 package com.woowatechcamp.chess;
 
+import com.woowatechcamp.chess.game.ChessGame;
+import com.woowatechcamp.chess.game.GameCommand;
+import com.woowatechcamp.chess.game.GameState;
 import com.woowatechcamp.chess.pieces.Position;
+import com.woowatechcamp.chess.view.ChessGUI;
+
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        playGame();
+        SwingUtilities.invokeLater(() -> new ChessGUI().setVisible(true));
     }
 
     private static void playGame() {

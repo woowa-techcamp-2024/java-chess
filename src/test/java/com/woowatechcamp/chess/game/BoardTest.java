@@ -1,4 +1,4 @@
-package com.woowatechcamp.chess;
+package com.woowatechcamp.chess.game;
 
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
