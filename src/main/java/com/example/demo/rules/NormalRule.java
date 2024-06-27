@@ -23,37 +23,13 @@ public class NormalRule implements Rule {
     private final boolean isApplyFirstMove;
     private final boolean isAttackRule;
 
-    // todo : 중복된 로직의 생성자 추후 빌더나 추상 팩토리로 리펙터링 예정
-    public NormalRule(int rankStep, int fileStep,
-                      Color targetColor,
-                      Type targetType,
-                      boolean isApplyFirstMove,
-                      boolean isAttackRule
-    ) {
-        this.rankStep = rankStep;
-        this.fileStep = fileStep;
-        this.targetColor = targetColor;
-        this.targetType = targetType;
-        this.isApplyFirstMove = isApplyFirstMove;
-        this.isAttackRule = isAttackRule;
-
-        if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
-        else this.minRankStep = 0;
-        if (fileStep != 0) this.minFileStep = fileStep / Math.abs(fileStep);
-        else this.minFileStep = 0;
-    }
-
-    public NormalRule(int rankStep, int fileStep,
-                      Color targetColor,
-                      Type targetType,
-                      boolean isApplyFirstMove
-    ) {
-        this.rankStep = rankStep;
-        this.fileStep = fileStep;
-        this.targetColor = targetColor;
-        this.targetType = targetType;
-        this.isApplyFirstMove = isApplyFirstMove;
-        this.isAttackRule = false;
+    public NormalRule(Builder builder){
+        this.rankStep = builder.rankStep;
+        this.fileStep = builder.fileStep;
+        this.targetColor = builder.targetColor;
+        this.targetType = builder.targetType;
+        this.isApplyFirstMove = builder.isApplyFirstMove;
+        this.isAttackRule = builder.isAttackRule;
 
         if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
         else this.minRankStep = 0;
@@ -98,5 +74,43 @@ public class NormalRule implements Rule {
         }
 
         return false;
+    }
+
+    /**
+     * Noraml rule builder 클래스
+     */
+    public static class Builder {
+
+        private final int rankStep;
+        private final int fileStep;
+        private final Color targetColor;
+        private final Type targetType;
+        private boolean isApplyFirstMove = false;
+        private boolean isAttackRule = false;
+
+        public Builder(int rankStep, int fileStep, Color targetColor, Type targetType) {
+            this.rankStep = rankStep;
+            this.fileStep = fileStep;
+            this.targetColor = targetColor;
+            this.targetType = targetType;
+        }
+
+        public static Builder create(Type targetType, Color targetColor, int rankStep, int fileStep) {
+            return new Builder(rankStep, fileStep, targetColor, targetType);
+        }
+
+        public Builder isApplyFirstMove() {
+            this.isApplyFirstMove = true;
+            return this;
+        }
+
+        public Builder isAttackRule() {
+            this.isAttackRule = true;
+            return this;
+        }
+
+        public NormalRule build() {
+            return new NormalRule(this);
+        }
     }
 }

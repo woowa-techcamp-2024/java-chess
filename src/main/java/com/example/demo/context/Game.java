@@ -6,12 +6,12 @@ import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
 import com.example.demo.rules.GlobalRules;
 import com.example.demo.rules.KnightRule;
-import com.example.demo.rules.NormalRule;
 import com.example.demo.rules.Rule;
 
 import java.util.*;
 
 import static com.example.demo.context.Board.Location;
+import static com.example.demo.rules.NormalRule.Builder;
 
 public class Game {
     private final Board board;
@@ -50,10 +50,16 @@ public class Game {
     //--------------init game start----------------
     private void initPawnRules() {
         List<Rule> pawnRules = new ArrayList<>();
-        pawnRules.add(new NormalRule(1, 0, Color.WHITE, Type.PAWN, false));
-        pawnRules.add(new NormalRule(2, 0, Color.WHITE, Type.PAWN, true));
-        pawnRules.add(new NormalRule(-1, 0, Color.BLACK, Type.PAWN, false));
-        pawnRules.add(new NormalRule(-2, 0, Color.BLACK, Type.PAWN, true));
+        Rule whiteRule = Builder.create(Type.PAWN, Color.WHITE, 1, 0).build();
+        Rule white2StepRule = Builder.create(Type.PAWN, Color.WHITE, 2, 0).isApplyFirstMove().build();
+
+        Rule blackRule = Builder.create(Type.PAWN, Color.BLACK, -1, 0).build();
+        Rule black2StepRule = Builder.create(Type.PAWN, Color.BLACK, -2, 0).isApplyFirstMove().build();
+
+        pawnRules.add(whiteRule);
+        pawnRules.add(white2StepRule);
+        pawnRules.add(blackRule);
+        pawnRules.add(black2StepRule);
         rules.put(Type.PAWN, pawnRules);
     }
 
@@ -67,8 +73,12 @@ public class Game {
         };
 
         for (int[] direction : directions) {
-            bishopRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.BISHOP, false, true));
-            bishopRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.BISHOP, false, true));
+            for (Color color : Color.values()) {
+                Rule rule = Builder.create(Type.BISHOP, color, direction[0], direction[1])
+                        .isAttackRule()
+                        .build();
+                bishopRules.add(rule);
+            }
         }
         rules.put(Type.BISHOP, bishopRules);
     }
@@ -82,8 +92,12 @@ public class Game {
                 {0, -7}
         };
         for (int[] direction : directions) {
-            rookRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.ROOK, false, true));
-            rookRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.ROOK, false, true));
+            for (Color color : Color.values()) {
+                Rule rule = Builder.create(Type.ROOK, color, direction[0], direction[1])
+                        .isAttackRule()
+                        .build();
+                rookRules.add(rule);
+            }
         }
         rules.put(Type.ROOK, rookRules);
     }
@@ -102,8 +116,12 @@ public class Game {
         };
 
         for (int[] direction : directions) {
-            queenRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.QUEEN, false, true));
-            queenRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.QUEEN, false, true));
+            for (Color color : Color.values()) {
+                Rule rule = Builder.create(Type.QUEEN, color, direction[0], direction[1])
+                        .isAttackRule()
+                        .build();
+                queenRules.add(rule);
+            }
         }
         rules.put(Type.QUEEN, queenRules);
     }
@@ -122,8 +140,12 @@ public class Game {
         };
 
         for (int[] direction : directions) {
-            kingRules.add(new NormalRule(direction[0], direction[1], Color.WHITE, Type.KING, false, true));
-            kingRules.add(new NormalRule(direction[0], direction[1], Color.BLACK, Type.KING, false, true));
+            for (Color color : Color.values()) {
+                Rule rule = Builder.create(Type.KING, color, direction[0], direction[1])
+                        .isAttackRule()
+                        .build();
+                kingRules.add(rule);
+            }
         }
         rules.put(Type.KING, kingRules);
     }
