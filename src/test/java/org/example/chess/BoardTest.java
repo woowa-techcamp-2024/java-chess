@@ -41,7 +41,7 @@ public class BoardTest {
                 blankRank + blankRank + blankRank + blankRank +
                 appendNewLine("♙♙♙♙♙♙♙♙") +
                 appendNewLine("♖♘♗♕♔♗♘♖"),
-            showBoard(board));
+            showBoard(chessGame.getBoard()));
 
     }
 
@@ -74,14 +74,14 @@ public class BoardTest {
     public void move() throws Exception {
         chessGame.initialize();
         System.out.println("Before");
-        System.out.println(showBoard(board));
+        System.out.println(showBoard(chessGame.getBoard()));
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
         chessGame.move(sourcePosition, targetPosition);
 
         System.out.println("After");
-        System.out.println(showBoard(board));
+        System.out.println(showBoard(chessGame.getBoard()));
         assertEquals(Piece.createNoColorPiece(), board.findPiece(sourcePosition));
         assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
@@ -121,7 +121,7 @@ public class BoardTest {
         assertEquals(15.0, calculatePoint(board, Color.BLACK), 0.01);
         assertEquals(7.0, calculatePoint(board, Color.WHITE), 0.01);
 
-        System.out.println(showBoard(board));
+        System.out.println(showBoard(chessGame.getBoard()));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class BoardTest {
         assertEquals(6.5, calculatePoint(board, Color.WHITE), 0.01);
 
         // 체스판 출력
-        System.out.println(showBoard(board));
+        System.out.println(showBoard(chessGame.getBoard()));
     }
 
     @Test

@@ -29,7 +29,7 @@ public class Main {
                     chessGame = new ChessGame(board);
                     isGameStarted = true;
                     System.out.println("Game started.");
-                    System.out.println(showBoard(board));
+                    System.out.println(showBoard(chessGame.getBoard()));
                     break;
                 case MOVE:
                     if (isGameStarted) {
@@ -37,9 +37,9 @@ public class Main {
                             System.out.println("Invalid command");
                             continue;
                         }
-                        board.move(new Position(cmds[1]), new Position(cmds[2]));
+                        chessGame.move(cmds[1], cmds[2]);
 
-                        System.out.println(showBoard(board));
+                        System.out.println(showBoard(chessGame.getBoard()));
                     } else {
                         System.out.println("Game has not started yet.");
                     }
