@@ -103,11 +103,11 @@ public class ChessGame {
         if (destinationPosition.isOutOfIndex()) throw new Exception("보드를 벗어났습니다");
 
         Piece destinationPiece = board.findByPosition(destinationPosition);
-        if (isColorSame(piece.getColor(), destinationPosition)) return;
-        if (!piece.verifyMovePosition(destinationPiece)) return;
+        if (isColorSame(piece.getColor(), destinationPosition)) throw new Exception("같은 편의 기물이 존재합니다");
+        if (!piece.verifyMovePosition(destinationPiece)) throw new Exception("이동하려는 위치가 기물의 이동 규칙과 다릅니다");
 
         Direction direction = piece.getDirection(destinationPosition);
-        if (!verifyMoveDirection(direction, sourcePosition, destinationPosition)) return;
+        if (!verifyMoveDirection(direction, sourcePosition, destinationPosition)) throw new Exception("해당 위치로 이동할 수 없습니다");
 
         board.saveByPosition(piece, destinationPosition);
         board.saveByPosition(PieceFactory.createBlank(sourcePosition), sourcePosition);
