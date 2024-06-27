@@ -9,6 +9,7 @@ public class Bishop extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        return false;
+        Direction direction = Direction.determineDirection(moveVector);
+        return Direction.diagonalDirection().contains(direction);
     }
 }
