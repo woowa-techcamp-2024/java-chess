@@ -19,14 +19,6 @@ public class Board {
         this.pieces = createEmptyBoard();
     }
 
-    /**
-     * 초기화시 piece의 위치
-     * RNBQKBNR
-     * PPPPPPPP
-     * blankRank * 4
-     * pppppppp
-     * rnbqkbnr
-     */
     public void initialize() {
         List<List<Piece>> initialPieces = createEmptyBoard();
         // 백색 말 배치
@@ -91,6 +83,45 @@ public class Board {
     public void move(String posStr, Piece piece) {
         Position position = new Position(posStr);
         pieces.get(position.row()).set(position.col(), piece);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        double score = getTotalScore(color);
+        score = evaluateSuccessivePawn(color, score);
+        return score;
+    }
+
+    private double getTotalScore(Piece.Color color) {
+        double score = 0.0;
+        for (int row = 0; row <= MAX_ROWS; row++) {
+            for (int col = 0; col <= MAX_COLS; col++) {
+                Piece piece = pieces.get(row).get(col);
+                if (piece.getColor() == color) {
+                    score += piece.getType().getDefaultPoint();
+                }
+            }
+        }
+        return score;
+    }
+
+    private double evaluateSuccessivePawn(Piece.Color color, double score) {
+        for (int col = 0; col <= MAX_COLS; col++) {
+            boolean isPawnBefore = false;
+            int pawnInCol = 1;
+            for (int row = 0; row <= MAX_ROWS; row++) {
+                Piece piece = pieces.get(row).get(col);
+                if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
+                    if (isPawnBefore) {
+                        pawnInCol++;
+                    }
+                    isPawnBefore = true;
+                }
+            }
+            if (pawnInCol != 1) {
+                score -= 0.5 * pawnInCol;
+            }
+        }
+        return score;
     }
 
     private record Position(int row, int col) {
