@@ -4,6 +4,7 @@ import static org.example.utils.BoardPrinter.showBoard;
 
 import java.util.Scanner;
 import org.example.chess.Board;
+import org.example.chess.ChessGame;
 import org.example.chess.Position;
 import org.example.utils.Command;
 
@@ -11,6 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         Board board = null;
+        ChessGame chessGame = null;
         boolean isGameStarted = false;
         boolean isGameEnded = false;
 
@@ -24,7 +26,7 @@ public class Main {
             switch (command) {
                 case START:
                     board = new Board();
-                    board.initialize();
+                    chessGame = new ChessGame(board);
                     isGameStarted = true;
                     System.out.println("Game started.");
                     System.out.println(showBoard(board));

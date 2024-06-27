@@ -29,10 +29,6 @@ public class Board {
         setPiece(start, Piece.createNoColorPiece());
     }
 
-    public void move(String start, String end) {
-        move(new Position(start), new Position(end));
-    }
-
     public void setPiece(Position position, Piece piece) {
         columns.get(position.getColIdx()).setPiece(piece, position.getRow());
     }
@@ -45,7 +41,8 @@ public class Board {
         return ret;
     }
 
-    public void initialize() {
+    //게임 설정
+    void initialize() {
         initColoredPiece();
     }
 
@@ -90,6 +87,7 @@ public class Board {
         columns.get(6).setPiece(Piece.createBlackKnight(), blackPieceRow);
         columns.get(7).setPiece(Piece.createBlackRook(), blackPieceRow);
     }
+    // 게임 설정
 
     public int nonEmptyPiece() {
         return columns.stream()

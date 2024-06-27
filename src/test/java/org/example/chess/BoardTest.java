@@ -20,16 +20,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class BoardTest {
 
     private Board board;
+    private ChessGame chessGame;
     private static final int boardSize = 8;
 
     @BeforeEach
     public void setUpBoard() {
         board = new Board();
+        chessGame = new ChessGame(board);
     }
 
     @Test
     public void create() throws Exception {
-        board.initialize();
+        chessGame.initialize();
 
         assertEquals(32, board.nonEmptyPiece());
         String blankRank = appendNewLine("........");
@@ -52,14 +54,14 @@ public class BoardTest {
         Type type,
         int count
     ) {
-        board.initialize();
+        chessGame.initialize();
         assertEquals(count, board.countByQuery(color, type));
     }
 
 
     @Test
     public void findPiece() throws Exception {
-        board.initialize();
+        chessGame.initialize();
 
         assertEquals(Piece.createBlackRook(), board.findPiece(new Position("a8")));
         assertEquals(Piece.createBlackRook(), board.findPiece(new Position("h8")));
@@ -70,13 +72,13 @@ public class BoardTest {
     @Test
     @DisplayName("기물을 이동한다")
     public void move() throws Exception {
-        board.initialize();
+        chessGame.initialize();
         System.out.println("Before");
         System.out.println(showBoard(board));
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
+        chessGame.move(sourcePosition, targetPosition);
 
         System.out.println("After");
         System.out.println(showBoard(board));
