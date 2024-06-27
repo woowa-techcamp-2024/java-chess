@@ -2,6 +2,9 @@ package javachess.chess;
 
 import javachess.chess.piece.Piece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Game {
 
     private Board board;
@@ -20,6 +23,21 @@ public class Game {
         validateMove(from, to);
         board.move(from, to);
         player = player.opposite();
+    }
+
+    public List<Position> getValidMoves(Position from) {
+        List<Position> validMoves = new ArrayList<>();
+        for (int r = 0; r < Board.LENGTH; r++) {
+            for (int c = 0; c < Board.LENGTH; c++) {
+                try {
+                    Position to = Position.of(r, c);
+                    validateMove(from, to);
+                    validMoves.add(to);
+                } catch (Exception e) {
+                }
+            }
+        }
+        return validMoves;
     }
 
     private void validateMove(Position from, Position to) {
@@ -42,6 +60,15 @@ public class Game {
             if (!targtPosition.isValid()) return null;
             return board.get(targtPosition);
         });
+    }
+
+    public String getPiece(Position position) {
+        Piece piece = board.get(position);
+        return piece == null ? "" : piece.toString();
+    }
+
+    public Piece.Color getPlayer() {
+        return player;
     }
 
     public void print() {
