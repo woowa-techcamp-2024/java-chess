@@ -142,8 +142,11 @@ public class Board {
     }
 
     public void move(String source, String destination) {
-        Position from = new Position(source);
-        Position to = new Position(destination);
+        //from 위치의 piece를 찾는다.
+        Piece piece = findPiece(source);
+
+        //해당 위치에 from 위치의 piece를 놓는다.
+        this.move(destination, piece);
     }
 
     public double calculatePoint(Color color) {

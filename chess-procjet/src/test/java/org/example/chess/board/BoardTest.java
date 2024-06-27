@@ -73,6 +73,8 @@ class BoardTest {
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
         Piece sourcePiece = board.findPiece("b2");
+        // 보드판 초기상탱
+        assertEquals(sourcePiece.getType(), Type.PAWN);
         assertEquals(sourcePiece, board.findPiece("b3"));
     }
 
