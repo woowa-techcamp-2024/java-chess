@@ -47,6 +47,16 @@ public class ChessGameTest {
             verifyPieceWithPosition(source,sourceType);
             verifyPieceWithPosition(target,targetType);
         }
+        
+        private boolean whiteMove(String source,String target){
+            chessGame.setWhiteTurn(true);
+            return chessGame.move(source,target);
+        }
+        
+        private boolean blackMove(String source,String target){
+            chessGame.setWhiteTurn(false);
+            return chessGame.move(source,target);
+        }
 
         @BeforeEach
         void setUp(){
@@ -71,9 +81,9 @@ public class ChessGameTest {
                 board.move(ws,pieceCreator.createPiece(originWhiteType));
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
-                assertTrue(chessGame.move(ws,we));
+                assertTrue(whiteMove(ws,we));
                 verifyPieceMoveSuccess(ws,we,originWhiteType);
-                assertTrue(chessGame.move(bs,be));
+                assertTrue(blackMove(bs,be));
                 verifyPieceMoveSuccess(bs,be,originBlackType);
             }
 
@@ -88,9 +98,9 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
-                assertFalse(chessGame.move(ws,we));
+                assertFalse(whiteMove(ws,we));
                 verifyPieceMoveFailure(ws,we,originWhiteType,PieceTypes.NO_PIECE);
-                assertFalse(chessGame.move(bs,be));
+                assertFalse(blackMove(bs,be));
                 verifyPieceMoveFailure(bs,be,originBlackType,targetWhiteType);
             }
 
@@ -109,8 +119,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(PieceTypes.BLACK_ROOK));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -132,8 +142,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -164,8 +174,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -189,8 +199,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);//대각선은 이동 불가
-                boolean moveBlack = chessGame.move(bs,be);//대각선은 이동 불가
+                boolean moveWhite = whiteMove(ws,we);//대각선은 이동 불가
+                boolean moveBlack = blackMove(bs,be);//대각선은 이동 불가
 
                 //then
                 assertFalse(moveWhite);
@@ -215,8 +225,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -238,8 +248,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -261,8 +271,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -291,9 +301,9 @@ public class ChessGameTest {
                 board.move(ws,pieceCreator.createPiece(originWhiteType));
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
-                assertTrue(chessGame.move(ws,we));
+                assertTrue(whiteMove(ws,we));
                 verifyPieceMoveSuccess(ws,we,originWhiteType);
-                assertTrue(chessGame.move(bs,be));
+                assertTrue(blackMove(bs,be));
                 verifyPieceMoveSuccess(bs,be,originBlackType);
             }
 
@@ -308,9 +318,9 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
-                assertFalse(chessGame.move(ws,we));
+                assertFalse(whiteMove(ws,we));
                 verifyPieceMoveFailure(ws,we,originWhiteType,PieceTypes.NO_PIECE);
-                assertFalse(chessGame.move(bs,be));
+                assertFalse(blackMove(bs,be));
                 verifyPieceMoveFailure(bs,be,originBlackType,targetWhiteType);
             }
 
@@ -329,8 +339,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(PieceTypes.BLACK_ROOK));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -352,8 +362,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -384,8 +394,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -409,8 +419,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);//직진 불가
-                boolean moveBlack = chessGame.move(bs,be);//말처럼 이동 불가
+                boolean moveWhite = whiteMove(ws,we);//직진 불가
+                boolean moveBlack = blackMove(bs,be);//말처럼 이동 불가
 
                 //then
                 assertFalse(moveWhite);
@@ -435,8 +445,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -458,8 +468,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -481,8 +491,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -513,8 +523,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -538,8 +548,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);//직진 불가
-                boolean moveBlack = chessGame.move(bs,be);//말처럼 이동 불가
+                boolean moveWhite = whiteMove(ws,we);//직진 불가
+                boolean moveBlack = blackMove(bs,be);//말처럼 이동 불가
 
                 //then
                 assertFalse(moveWhite);
@@ -564,8 +574,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(targetBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -587,8 +597,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(moveWhite);
@@ -610,8 +620,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean moveWhite = chessGame.move(ws,we);
-                boolean moveBlack = chessGame.move(bs,be);
+                boolean moveWhite = whiteMove(ws,we);
+                boolean moveBlack = blackMove(bs,be);
 
                 //then
                 assertTrue(moveWhite);
@@ -640,9 +650,9 @@ public class ChessGameTest {
                 board.move(ws,pieceCreator.createPiece(originWhiteType));
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
-                assertTrue(chessGame.move(ws,we));
+                assertTrue(whiteMove(ws,we));
                 verifyPieceMoveSuccess(ws,we,originWhiteType);
-                assertTrue(chessGame.move(bs,be));
+                assertTrue(blackMove(bs,be));
                 verifyPieceMoveSuccess(bs,be,originBlackType);
             }
 
@@ -657,9 +667,9 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
                 board.move(be,pieceCreator.createPiece(targetWhiteType));
 
-                assertFalse(chessGame.move(ws,we));
+                assertFalse(whiteMove(ws,we));
                 verifyPieceMoveFailure(ws,we,originWhiteType,PieceTypes.NO_PIECE);
-                assertFalse(chessGame.move(bs,be));
+                assertFalse(blackMove(bs,be));
                 verifyPieceMoveFailure(bs,be,originBlackType,targetWhiteType);
             }
 
@@ -678,8 +688,8 @@ public class ChessGameTest {
                 board.move(be,pieceCreator.createPiece(PieceTypes.BLACK_ROOK));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -701,8 +711,8 @@ public class ChessGameTest {
                 board.move(bs,pieceCreator.createPiece(originBlackType));
 
                 //when
-                boolean movedWhite = chessGame.move(ws,we);
-                boolean movedBlack = chessGame.move(bs,be);
+                boolean movedWhite = whiteMove(ws,we);
+                boolean movedBlack = blackMove(bs,be);
 
                 //then
                 assertFalse(movedWhite);
@@ -711,6 +721,36 @@ public class ChessGameTest {
                 assertFalse(movedBlack);
                 verifyPieceWithPosition(bs,originBlackType);
             }
+        }
+
+        @Test
+        void canNotMoveOtherPieceWithWhiteTurn(){
+            //given
+            board.move("a2",pieceCreator.createPiece(PieceTypes.BLACK_PAWN));
+            chessGame.setWhiteTurn(true);
+
+            //when
+            //then
+            //하얀색 턴에 검은 기물을 움직여보기
+            String message = assertThrows(IllegalArgumentException.class, () -> {
+                chessGame.move("a2","a1");
+            }).getMessage();
+            assertEquals(message,"다른사람의 기물을 움직일 수 없습니다.");
+        }
+
+        @Test
+        void canMoveOtherPieceWithBlackTurn(){
+            //given
+            board.move("a1",pieceCreator.createPiece(PieceTypes.WHITE_PAWN));
+            board.move("h8",pieceCreator.createPiece(PieceTypes.BLACK_PAWN));
+            chessGame.setWhiteTurn(false);
+
+            //when
+            //then
+            String message = assertThrows(IllegalArgumentException.class, () -> {
+                chessGame.move("a1", "a2");
+            }).getMessage();
+            assertEquals(message,"다른사람의 기물을 움직일 수 없습니다.");
         }
     }
 
