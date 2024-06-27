@@ -10,13 +10,9 @@ import java.util.stream.IntStream;
 
 public class Board {
     private final List<Rank> ranks;
-    private final List<Piece> whitePieces;
-    private final List<Piece> blackPieces;
 
     public Board() {
         ranks = new ArrayList<>();
-        whitePieces = new ArrayList<>();
-        blackPieces = new ArrayList<>();
     }
 
     public void initialize() {
@@ -45,11 +41,6 @@ public class Board {
                 PieceFactory.createWhiteQueen(new Position("d1")), PieceFactory.createWhiteKing(new Position("e1")), PieceFactory.createWhiteBishop(new Position("f1")),
                 PieceFactory.createWhiteKnight(new Position("g1")), PieceFactory.createWhiteRook(new Position("h1"))
         ));
-
-        ranks.stream()
-                .map(Rank::getPieces)
-                .flatMap(List::stream)
-                .forEach(this::addPiece);
     }
 
     public void initializeEmpty() {
@@ -83,7 +74,6 @@ public class Board {
     public void move(Piece piece) {
         ranks.get(piece.getPosition().getYPos())
                 .setPiece(piece);
-        addPiece(piece);
     }
 
     public void move(Position source, Position target) {
@@ -127,24 +117,6 @@ public class Board {
                 .count();
     }
 
-    private void addPiece(Piece piece) {
-        if (piece.isWhite()) {
-            addWhitePiece(piece);
-        } else if (piece.isBlack()) {
-            addWBlackPiece(piece);
-        }
-    }
-
-    private void addWhitePiece(Piece piece) {
-        whitePieces.add(piece);
-        whitePieces.sort((o1, o2) -> Double.compare(o1.getType().getPoint(), o2.getType().getPoint()));
-    }
-
-    private void addWBlackPiece(Piece piece) {
-        blackPieces.add(piece);
-        blackPieces.sort((o1, o2) -> Double.compare(o1.getType().getPoint(), o2.getType().getPoint()));
-    }
-
     public boolean isPathClear(Position from, Position to) {
         int deltaX = Integer.compare(to.getXPos() - from.getXPos(), 0);
         int deltaY = Integer.compare(to.getYPos() - from.getYPos(), 0);
@@ -175,5 +147,25 @@ public class Board {
         return ranks.stream()
                 .flatMap(rank -> rank.getPieces().stream())
                 .anyMatch(piece -> piece.getType() == Piece.Type.KING && piece.getColor() == color);
+    }
+
+    public Position findKingPosition(Piece.Color color) {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .filter(piece -> piece.getType() == Piece.Type.KING && piece.getColor() == color)
+                .map(Piece::getPosition)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Game Finish"));
+    }
+
+    public List<Piece> getAllPieces(Piece.Color color) {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .filter(piece -> piece.getColor() == color)
+                .toList();
+    }
+
+    public void undoMove(Position from, Position to) {
+        move(to, from);
     }
 }

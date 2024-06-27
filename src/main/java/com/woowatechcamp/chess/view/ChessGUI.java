@@ -200,7 +200,7 @@ public class ChessGUI extends JFrame {
                 Position targetPos = new Position(targetPosString);
 
                 try {
-                    game.move(dragSource, targetPos);
+                    move(dragSource, targetPos);
                     updateBoard();
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(ChessGUI.this, ex.getMessage(), "Invalid Move", JOptionPane.ERROR_MESSAGE);
@@ -211,6 +211,36 @@ public class ChessGUI extends JFrame {
                 draggedPieceLabel = null;
                 dragSource = null;
             }
+        }
+    }
+
+    private void move(Position from, Position to) {
+        try {
+            Piece.Color currentTurn = game.getCurrentTurn();
+            game.move(from, to);
+            updateBoard();
+
+            Piece.Color opponent = game.getOpponentColor(currentTurn);
+            if (game.isCheckmate(opponent)) {
+                endGame(currentTurn);
+            } else if (game.isInCheck(opponent)) {
+                JOptionPane.showMessageDialog(this, opponent + " is in check!", "Check", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Invalid Move", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void endGame(Piece.Color winner) {
+        gameTimer.stop();
+        JOptionPane.showMessageDialog(this, winner + " wins by checkmate! The game has ended.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        startButton.setEnabled(false);
+        disableAllSquares();
+    }
+
+    private void disableAllSquares() {
+        for (Component component : chessBoard.getComponents()) {
+            component.setEnabled(false);
         }
     }
 
