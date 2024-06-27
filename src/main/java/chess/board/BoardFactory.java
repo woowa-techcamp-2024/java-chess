@@ -6,6 +6,8 @@ import java.util.List;
 import static chess.board.RankFactory.*;
 
 public class BoardFactory {
+    private final static int RANK_SIZE = BoardSize.RANK.getSize();
+
     private BoardFactory() {}
 
     public static Board createStandard() {
@@ -34,7 +36,7 @@ public class BoardFactory {
     private static List<Rank> empty() {
         List<Rank> ranks = new ArrayList<>();
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < RANK_SIZE; i++) {
             ranks.add(initEmptyRank(i));
         }
         return ranks;

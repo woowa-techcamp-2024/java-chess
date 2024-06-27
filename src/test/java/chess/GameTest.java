@@ -25,6 +25,23 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("기물을 이동시킬 수 있다2")
+    public void test_successful_move_when_path_is_clear2() {
+        // Given
+        Game game = new Game();
+        game.newGame();
+        Position sourcePosition = Position.from("d7");
+        Position targetPosition = Position.from("d6");
+
+        // When
+        game.move(sourcePosition, targetPosition);
+
+        // Then
+        assertEquals(".", game.findPiece(sourcePosition).getSymbol());
+        assertEquals("♟", game.findPiece(targetPosition).getSymbol());
+    }
+
+    @Test
     @DisplayName("빈칸은 이동할 수 없다")
     public void test_move_from_blank_position_throws_exception() {
         // Given

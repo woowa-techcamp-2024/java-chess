@@ -32,7 +32,7 @@ public class Game {
         }
 
         // 현재 위치부터 목표방향까지 모든 경로를 탐색하며 중간에 장애물이 있는지 확인
-        if ((sourcePiece.getType() != Type.KNIGHT || sourcePiece.getType() != Type.KING) && isPathNotEmpty(source, target)) {
+        if ((sourcePiece.getType() != Type.KNIGHT && sourcePiece.getType() != Type.KING) && isPathNotEmpty(source, target)) {
             throw new IllegalArgumentException("이동할 경로에 장애물 발견!!");
         }
 

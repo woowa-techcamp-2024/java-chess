@@ -18,7 +18,6 @@ public abstract class Piece {
         this.position = position;
     }
 
-//    public abstract Piece copyWithPosition(Position position);
     public abstract boolean canMove(Piece target);
 
     public Color getColor() {
