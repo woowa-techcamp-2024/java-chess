@@ -37,6 +37,10 @@ public class Board {
         Piece piece = get(source);
         validPiece(source, piece);
 
+        if (!piece.canMove(this, source, target)) {
+            throw new IllegalArgumentException("Cannot move target position:" + target);
+        }
+
         ranks[target.x].place(piece, target.y);
         ranks[source.x].clearSquare(source.y);
     }
@@ -53,6 +57,19 @@ public class Board {
 
     public int size() {
         return totalPieces;
+    }
+
+    public boolean isAllyPieceAt(Position pos, Piece piece) {
+        if (isEmpty(pos)) {
+            return false;
+        }
+
+        Piece posPiece = ranks[pos.x].get(pos.y);
+        return posPiece.isAlly(piece);
+    }
+
+    public boolean isEmpty(Position pos) {
+        return !ranks[pos.x].get(pos.y).isPiece();
     }
 
     public List<List<Piece>> getCurrentState() {

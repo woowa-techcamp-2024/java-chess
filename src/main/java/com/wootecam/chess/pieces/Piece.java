@@ -1,5 +1,7 @@
 package com.wootecam.chess.pieces;
 
+import com.wootecam.chess.board.Board;
+import com.wootecam.chess.board.Position;
 import java.util.Objects;
 
 public class Piece {
@@ -102,8 +104,20 @@ public class Piece {
         return type != PieceType.NO_PIECE;
     }
 
+    public boolean isAlly(Piece piece) {
+        return isColor(piece.getColor());
+    }
+
     public boolean isPawn() {
         return type == PieceType.PAWN;
+    }
+
+    public boolean hasTypeAndColor(PieceType type, Color color) {
+        return this.type == type && this.color == color;
+    }
+
+    public boolean canMove(Board board, Position from, Position to) {
+        throw new UnsupportedOperationException();
     }
 
     public PieceType getType() {
@@ -112,10 +126,6 @@ public class Piece {
 
     public Color getColor() {
         return color;
-    }
-
-    public boolean hasTypeAndColor(PieceType type, Color color) {
-        return this.type == type && this.color == color;
     }
 
     public PieceRepresentation getRepresentation() {
