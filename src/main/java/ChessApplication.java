@@ -13,12 +13,17 @@ public class ChessApplication {
 		ChessGame chessGame = null;
 		do {
 			command = InputView.inputCommand();
-			if (command.getCommandType() == CommandType.START) {
-				chessGame = new ChessGame(new Board(new Ranks()));
-				OutputView.print(chessGame.board());
-			} else if (command.getCommandType() == CommandType.MOVE) {
-				chessGame.move(command.getArguments());
-			}
+			chessGame = executeChessGame(command, chessGame);
 		} while (command.getCommandType() != CommandType.END);
+	}
+
+	private static ChessGame executeChessGame(Command command, ChessGame chessGame) {
+		if (command.getCommandType() == CommandType.START) {
+			chessGame = new ChessGame(new Board(new Ranks()));
+			OutputView.print(chessGame.board());
+		} else if (command.getCommandType() == CommandType.MOVE) {
+			chessGame.move(command.getArguments());
+		}
+		return chessGame;
 	}
 }

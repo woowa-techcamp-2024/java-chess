@@ -48,9 +48,9 @@ public class Position {
 		return row;
 	}
 
-	public void addDirection(DirectionType directionType) {
-		this.row += directionType.getX();
-		this.column += directionType.getY();
+	public void addDirection(Direction direction) {
+		this.row += direction.getX();
+		this.column += direction.getY();
 	}
 
 	@Override

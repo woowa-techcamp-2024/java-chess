@@ -49,8 +49,4 @@ public enum PieceType {
 	public double getDefaultPoint() {
 		return defaultPoint;
 	}
-
-	public boolean canSingleMove() {
-		return this == KNIGHT || this == KING || this == PAWN;
-	}
 }

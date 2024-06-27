@@ -5,6 +5,7 @@ import static chess.Board.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.stream.IntStream;
 import pieces.Color;
 import pieces.Piece;
 import pieces.PieceType;
