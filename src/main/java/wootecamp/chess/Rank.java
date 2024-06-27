@@ -123,8 +123,4 @@ public class Rank {
         }
         return false;
     }
-
-    public boolean isPawn(Piece.Color color, int filePosition) {
-        return pieces.get(filePosition).isPawn(color);
-    }
 }

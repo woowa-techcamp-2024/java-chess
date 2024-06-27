@@ -119,7 +119,8 @@ public class Board {
     private int countPawnInFile(final int filePosition, final Piece.Color color) {
         int count = 0;
         for (Rank rank : board) {
-            if(rank.isPawn(color, filePosition)) {
+            Piece piece = rank.findPiece(filePosition);
+            if(piece.isPawn(color)) {
                 count++;
             }
         }
