@@ -4,6 +4,7 @@ import wootecamp.chess.board.MoveVector;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public enum Direction {
     NORTH(0, -1),
@@ -57,24 +58,25 @@ public enum Direction {
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
     }
 
-    public static Direction determineDirection(MoveVector moveVector) {
+    public static Optional<Direction> determineDirection(MoveVector moveVector) {
         if(moveVector.getDx() * moveVector.getDx() + moveVector.getDy() * moveVector.getDy() == 5) {
             return determineNightDirection(moveVector);
         }
         determineEveryDirection(moveVector);
-        throw new RuntimeException("잘못된 이동입니다.");
+
+        return Optional.empty();
     }
 
-    private static Direction determineNightDirection(MoveVector moveVector) {
+    private static Optional<Direction> determineNightDirection(MoveVector moveVector) {
         for (Direction direction : knightDirection()) {
             if(direction.x == moveVector.getDx() && direction.y == moveVector.getDy()) {
-                return direction;
+                return Optional.of(direction);
             }
         }
-        throw new RuntimeException("잘못된 이동입니다.");
+        return Optional.empty();
     }
 
-    public static Direction determineEveryDirection(MoveVector moveVector) {
+    private static Optional<Direction> determineEveryDirection(MoveVector moveVector) {
         int dx = moveVector.getDx();
         int dy = moveVector.getDy();
 
@@ -87,10 +89,10 @@ public enum Direction {
 
         for (Direction direction : everyDirection()) {
             if(direction.x == dx && direction.y == dy) {
-                return direction;
+                return Optional.of(direction);
             }
         }
 
-        throw new RuntimeException("잘못된 이동입니다.");
+        return Optional.empty();
     }
 }
