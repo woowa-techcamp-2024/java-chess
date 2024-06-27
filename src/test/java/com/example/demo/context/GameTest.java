@@ -357,7 +357,7 @@ class GameTest {
 
     @Test
     @DisplayName("승진 규칙 테스트")
-    public void promotionTest(){
+    public void promotionTest() {
         // given
         Piece pawn = new Pawn(Color.WHITE, Rank.SEVEN, File.A);
 
@@ -377,4 +377,64 @@ class GameTest {
         assertThat(board.getPiece(new Location(Rank.EIGHT, File.A))).isInstanceOf(Queen.class);
     }
 
+    @ParameterizedTest
+    @DisplayName("케슬링 동작 테스트")
+    @MethodSource("castlingCase")
+    public void castlingCase(
+            Piece king,
+            Piece rook,
+            Piece enemy,
+            Location kingTo,
+            Location rookTo
+    ) {
+        // given
+        Board board = new Board();
+        board.setPiece(king.getRank(), king.getFile(), king);
+        board.setPiece(rook.getRank(), rook.getFile(), rook);
+        board.setPiece(enemy.getRank(), enemy.getFile(), enemy);
+        Game game = new Game(board);
+        game.calculateCheckPoint();
+        synTurn(game, king.getColor());
+
+        // when
+        game.move(king.getLocation(), kingTo);
+        game.handle(EventPublisher.INSTANCE.consume());
+
+        // then
+        assertThat(board.getPiece(kingTo)).isEqualTo(king);
+        assertThat(board.getPiece(rookTo)).isEqualTo(rook);
+    }
+
+    public static Stream<Arguments> castlingCase() {
+        return Stream.of(
+                Arguments.of(
+                        new King(Color.WHITE, Rank.ONE, File.E),
+                        new Rook(Color.WHITE, Rank.ONE, File.H),
+                        new Knight(Color.BLACK, Rank.EIGHT, File.F),
+                        new Location(Rank.ONE, File.G),
+                        new Location(Rank.ONE, File.F)
+                ),
+                Arguments.of(
+                        new King(Color.BLACK, Rank.EIGHT, File.E),
+                        new Rook(Color.BLACK, Rank.EIGHT, File.A),
+                        new Knight(Color.WHITE, Rank.ONE, File.F),
+                        new Location(Rank.EIGHT, File.C),
+                        new Location(Rank.EIGHT, File.D)
+                ),
+                Arguments.of(
+                        new King(Color.BLACK, Rank.EIGHT, File.E),
+                        new Rook(Color.BLACK, Rank.EIGHT, File.H),
+                        new Knight(Color.WHITE, Rank.ONE, File.F),
+                        new Location(Rank.EIGHT, File.G),
+                        new Location(Rank.EIGHT, File.F)
+                ),
+                Arguments.of(
+                        new King(Color.WHITE, Rank.ONE, File.E),
+                        new Rook(Color.WHITE, Rank.ONE, File.A),
+                        new Knight(Color.BLACK, Rank.EIGHT, File.F),
+                        new Location(Rank.ONE, File.C),
+                        new Location(Rank.ONE, File.D)
+                )
+        );
+    }
 }

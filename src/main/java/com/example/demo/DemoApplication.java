@@ -26,6 +26,7 @@ public class DemoApplication {
             while (!eventPublisher.isEmpty()){
                 Event event = eventPublisher.consume();
             }
+            game.calculateCheckPoint();
         }
     }
 

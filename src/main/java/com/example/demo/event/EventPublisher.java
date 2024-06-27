@@ -19,4 +19,8 @@ public class EventPublisher {
     public Event consume(){
         return events.poll();
     }
+
+    public void clear(){
+        events.clear();
+    }
 }

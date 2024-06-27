@@ -1,9 +1,8 @@
 package com.example.demo.context;
 
-import com.example.demo.event.Event;
-import com.example.demo.event.Hook;
-import com.example.demo.event.PromotionEvent;
+import com.example.demo.event.*;
 import com.example.demo.piece.*;
+import com.example.demo.rules.CastlingRule;
 import com.example.demo.rules.GlobalRules;
 import com.example.demo.rules.KnightRule;
 import com.example.demo.rules.Rule;
@@ -19,6 +18,7 @@ public class Game {
     private final User whiteUser;
     private final User blackUser;
     private boolean isEnd = false;
+    private final Map<Type, List<Rule>> attackRules = new HashMap<>();
     private final Map<Type, List<Rule>> rules = new HashMap<>();
     private Location promotionPieceLocation = null;
 
@@ -84,6 +84,7 @@ public class Game {
                 bishopRules.add(rule);
             }
         }
+        attackRules.put(Type.BISHOP, bishopRules);
         rules.put(Type.BISHOP, bishopRules);
     }
 
@@ -103,6 +104,7 @@ public class Game {
                 rookRules.add(rule);
             }
         }
+        attackRules.put(Type.ROOK, rookRules);
         rules.put(Type.ROOK, rookRules);
     }
 
@@ -127,11 +129,14 @@ public class Game {
                 queenRules.add(rule);
             }
         }
+        attackRules.put(Type.QUEEN, queenRules);
         rules.put(Type.QUEEN, queenRules);
     }
 
     private void initKingRules() {
         List<Rule> kingRules = new ArrayList<>();
+        List<Rule> kingMoveRules = new ArrayList<>(kingRules);
+
         int[][] directions = {
                 {1, 0},
                 {-1, 0},
@@ -149,14 +154,21 @@ public class Game {
                         .isAttackRule()
                         .build();
                 kingRules.add(rule);
+                kingMoveRules.add(rule);
             }
         }
-        rules.put(Type.KING, kingRules);
+
+        // castling rule
+        kingMoveRules.addAll(Arrays.asList(CastlingRule.values()));
+
+        attackRules.put(Type.KING, kingRules);
+        rules.put(Type.KING, kingMoveRules);
     }
 
     private void initKnightRules() {
         List<Rule> knightRules = new ArrayList<>();
         knightRules.add(new KnightRule());
+        attackRules.put(Type.KNIGHT, knightRules);
         rules.put(Type.KNIGHT, knightRules);
     }
     //--------------init game end  ----------------
@@ -185,6 +197,13 @@ public class Game {
             Location location = promotionEvent.getLocation();
             setPromotionPawn(location);
             this.currentTurnColor = board.getPiece(location).getColor();
+        }
+
+        if (event instanceof MoveActionEvent) {
+            MoveActionEvent moveActionEvent = (MoveActionEvent) event;
+            var rook = board.getPiece(moveActionEvent.from());
+            board.setPiece(moveActionEvent.to(), rook);
+            board.setPiece(moveActionEvent.from(), null);
         }
     }
 
@@ -249,6 +268,30 @@ public class Game {
     }
 
     /**
+     * 각 지점의 공격 가능 포인트를 계산합니다.
+     */
+    public void calculateCheckPoint() {
+        Map<Location, Set<Color>> checkPoints = new HashMap<>();
+        for (Rank fromR : Rank.values()) {
+            for (File fromF : File.values()) {
+                if (board.getPiece(fromR, fromF) == null) continue;
+                for (Rank toR : Rank.values()) {
+                    for (File toF : File.values()) {
+                        Location from = new Location(fromR, fromF);
+                        Location to = new Location(toR, toF);
+                        checkPoints.putIfAbsent(to, new HashSet<>(Color.values().length));
+                        if (accept(from, to)) {
+                            checkPoints.get(to).add(board.getPiece(from).getColor());
+                        }
+                    }
+                }
+            }
+        }
+        EventPublisher.INSTANCE.clear();
+        board.setCheckPoints(checkPoints);
+    }
+
+    /**
      * 승진 이벤트가 발생하였을 때, 승진이 필요한 폰의 위치를 게임에 저장하는 메서드
      *
      * @param location 승진을 해야하는 폰의 위치를 나타냅니다.
@@ -261,6 +304,31 @@ public class Game {
         }
 
         promotionPieceLocation = location;
+    }
+
+    /**
+     * 공격 가능한지 여부를 확인할 때, 사용합니다.
+     */
+    public boolean canAttack(Location from, Location to) {
+        // check global rules
+        var notAllowedRules = Arrays.stream(GlobalRules.values())
+                .filter(rule -> !rule.allow(from, to, board))
+                .toList();
+
+        if (!notAllowedRules.isEmpty()) {
+            return false;
+        }
+
+        // check each piece rules
+        Piece piece = board.getPiece(from);
+
+        if (piece == null) {
+            return false;
+        }
+
+        return attackRules.getOrDefault(piece.getType(), new ArrayList<>())
+                .stream()
+                .anyMatch(rule -> rule.allow(from, to, board));
     }
 
     /**

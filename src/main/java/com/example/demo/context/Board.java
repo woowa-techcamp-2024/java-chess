@@ -2,19 +2,22 @@ package com.example.demo.context;
 
 import com.example.demo.piece.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.*;
 
 public class Board {
 
     Piece[][] pieceLocation = new Piece[8][8];
+    private Map<Location, Set<Color>> checkPoints = new HashMap<>();
+
+    public boolean isCheckPoint(Location targetLocation, Color color) {
+        return checkPoints.getOrDefault(targetLocation, new HashSet<>()).contains(color);
+    }
 
     public record Location(
             Rank rank,
             File file
     ) {
-        public boolean isValid(){
+        public boolean isValid() {
             return rank != null && file != null;
         }
     }
@@ -81,6 +84,7 @@ public class Board {
 
     /**
      * 보드에 새로운 말을 추가합니다. 위치 정보는 piece의 초기 위치 값을 통해서 조회합니다.
+     *
      * @param piece 추가할 말
      */
     public void addPiece(Piece piece) {
@@ -105,11 +109,22 @@ public class Board {
         return getPiece(location.rank(), location.file());
     }
 
+    public void setCheckPoints(Map<Location, Set<Color>> checkPoints) {
+        this.checkPoints = checkPoints;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Piece[] pieces : pieceLocation) {
-            for (Piece piece : pieces) {
+        sb.append("  ");
+        for (File file : File.values()) {
+            sb.append(file.name() + " ");
+        }
+        sb.append("\n");
+        for (Rank rank : Rank.values()) {
+            sb.append(rank.index()+1 + " ");
+            for (File file : File.values()) {
+                Piece piece = getPiece(rank, file);
                 if (piece != null) {
                     sb.append(piece);
                 } else {

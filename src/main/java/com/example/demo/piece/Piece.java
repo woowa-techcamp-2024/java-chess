@@ -1,5 +1,6 @@
 package com.example.demo.piece;
 
+import com.example.demo.context.Board;
 import com.example.demo.context.File;
 import com.example.demo.context.Rank;
 
@@ -29,6 +30,10 @@ public abstract class Piece implements Comparable<Piece> {
 
     public boolean isLocatedAtInitLocation(Rank rank, File file){
         return this.rank == rank && this.file == file;
+    }
+
+    public Board.Location getLocation(){
+        return new Board.Location(this.rank, this.file);
     }
 
     public File getFile() {
