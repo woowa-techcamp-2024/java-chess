@@ -10,7 +10,6 @@ public class Board {
 
     private final List<Rank> map = new ArrayList<>();
 
-
     public Board() {}
     public void initializeEmpty() {
         map.add(new Rank(Rank.Type.NO_PIECE));
@@ -35,32 +34,25 @@ public class Board {
     public void move(String sourcePosition, String targetPosition) {
         Position sourcePos = new Position(sourcePosition);
         Position targetPos = new Position(targetPosition);
-        Piece movePiece = map.get(sourcePos.getRow()).getPieces().get(sourcePos.getCol());
-        map.get(sourcePos.getRow()).getPieces().set(sourcePos.getCol(), Piece.createBlank());
-        map.get(targetPos.getRow()).getPieces().set(targetPos.getCol(), movePiece);
+        Piece movePiece = map.get(sourcePos.getRow()).findPiece(sourcePos.getCol());
+        map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), Piece.createBlank());
+        map.get(targetPos.getRow()).setPiece(targetPos.getCol(), movePiece);
     }
 
     public void addPiece(String position, Piece piece) {
         Position sourcePos = new Position(position);
-        map.get(sourcePos.getRow()).getPieces().set(sourcePos.getCol(), piece);
+        map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), piece);
     }
 
     public double calculatePoint(Piece.Color color) {
         double sum = 0;
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getColor() == color) {
-                    if (piece.getType() == Piece.Type.QUEEN) sum += 9;
-                    if (piece.getType() == Piece.Type.ROOK) sum += 5;
-                    if (piece.getType() == Piece.Type.BISHOP) sum += 3;
-                    if (piece.getType() == Piece.Type.KNIGHT) sum += 2.5;
-                }
-            }
+            sum += rank.calculatePointKnightToQueen(color);
         }
         for (int i=0; i<8; i++){
             int pawnCount = 0;
             for (Rank rank : map) {
-                Piece piece = rank.getPieces().get(i);
+                Piece piece = rank.findPiece(i);
                 if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
                     pawnCount++;
                 }
@@ -73,25 +65,13 @@ public class Board {
 
     public Piece findPiece(String position){
         Position pos = new Position(position);
-        return map.get(pos.getRow()).getPieces().get(pos.getCol());
-    }
-
-    public int pieceCount(Piece.Color color, Piece.Type type) {
-        int count = 0;
-        for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getColor() == color && piece.getType() == type) count++;
-            }
-        }
-        return count;
+        return map.get(pos.getRow()).findPiece(pos.getCol());
     }
 
     public int pieceCount() {
         int count = 0;
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getType() != Piece.Type.NO_PIECE) count++;
-            }
+            count += rank.getTotalCountNotNoPiece();
         }
         return count;
     }
@@ -99,11 +79,7 @@ public class Board {
     public String showBoard() {
         StringBuilder builder = new StringBuilder();
         for (Rank rank : map) {
-            for (Piece piece : rank.getPieces()) {
-                if (piece.getType() == Piece.Type.NO_PIECE) builder.append('.');
-                else builder.append(piece.getRepresentation().getSymbol());
-            }
-            builder.append(StringUtils.appendNewLine(""));
+            builder.append(StringUtils.appendNewLine(rank.showRank()));
         }
         return builder.toString();
     }
