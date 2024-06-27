@@ -29,6 +29,16 @@ public class King extends Piece {
     }
 
     @Override
+    protected Map<ChessPoint, MoveRule> getSpecialMovablePoints(ChessPoint source, Board board, boolean onlyAttackable) {
+        Map<ChessPoint, MoveRule> movablePoints = new HashMap<>();
+
+        // castling
+        MoveRule.Castling.adapt(movablePoints, board, source, this, onlyAttackable);
+
+        return movablePoints;
+    }
+
+    @Override
     public double getDefaultPoint() {
         return DEFAULT_POINT;
     }
