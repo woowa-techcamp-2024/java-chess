@@ -10,7 +10,7 @@ import org.example.pieces.Piece.Type;
 
 public class Board {
 
-    private class Column {
+    public class Column {
 
         // 자신의 col과 row길이를 생성시 받는다.
         private final char colIndex;
@@ -38,6 +38,10 @@ public class Board {
         public Piece getPiece(int index) {
             // 1 을 빼줘야한다.
             return pieces.get(index - 1);
+        }
+
+        public List<Piece> getPieces() {
+            return pieces;
         }
     }
 
@@ -164,33 +168,8 @@ public class Board {
         return findPiece(new Position(position));
     }
 
-    public double calculatePoint(Color color) {
-        return columns.stream()
-            .mapToDouble(column -> calculateColumnPoints(column, color))
-            .sum();
-    }
-
-
-    private double calculateColumnPoints(Column column, Color color) {
-        double pawnPoints = calculatePawnPoints(column, color);
-        double otherPoints = calculateOtherPoints(column, color);
-        return pawnPoints + otherPoints;
-    }
-
-
-    private double calculatePawnPoints(Column column, Color color) {
-        long pawnCount = column.pieces.stream()
-            .filter(piece -> piece.isSameColor(color) && piece.isPawn())
-            .count();
-
-        return pawnCount <= 1 ? pawnCount : pawnCount * 0.5;
-    }
-
-    private double calculateOtherPoints(Column column, Color color) {
-        return column.pieces.stream()
-            .filter(piece -> piece.isSameColor(color) && !piece.isPawn())
-            .mapToDouble(Piece::getPoint)
-            .sum();
+    public List<Column> getColumns() {
+        return columns;
     }
 
     public List<Piece> sortByPoint(Color color) {
