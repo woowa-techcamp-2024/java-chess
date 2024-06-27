@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,15 +13,15 @@ class KingTest {
     void verifyMoveCoordinate() {
         King king = King.createWhiteKing();
 
-        assertTrue(king.verifyMoveCoordinate("a1", "a2"));
-        assertTrue(king.verifyMoveCoordinate("a1", "b1"));
-        assertTrue(king.verifyMoveCoordinate("a1", "b2"));
-        assertTrue(king.verifyMoveCoordinate("h8", "h7"));
-        assertTrue(king.verifyMoveCoordinate("h8", "g8"));
-        assertTrue(king.verifyMoveCoordinate("h8", "g7"));
-        assertTrue(king.verifyMoveCoordinate("a8", "a7"));
-        assertTrue(king.verifyMoveCoordinate("a8", "b8"));
-        assertTrue(king.verifyMoveCoordinate("a8", "b7"));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b1")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b2")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("h7")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g8")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g7")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("a7")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b8")));
+        assertTrue(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b7")));
     }
 
     @DisplayName("킹이 상하좌우 대각선 이동이 아닌 경우 확인")
@@ -28,14 +29,14 @@ class KingTest {
     void verifyMoveCoordinateFalse() {
         King king = King.createWhiteKing();
 
-        assertFalse(king.verifyMoveCoordinate("a1", "a3"));
-        assertFalse(king.verifyMoveCoordinate("a1", "c1"));
-        assertFalse(king.verifyMoveCoordinate("a1", "c3"));
-        assertFalse(king.verifyMoveCoordinate("h8", "h6"));
-        assertFalse(king.verifyMoveCoordinate("h8", "g6"));
-        assertFalse(king.verifyMoveCoordinate("h8", "g6"));
-        assertFalse(king.verifyMoveCoordinate("a8", "a6"));
-        assertFalse(king.verifyMoveCoordinate("a8", "b6"));
-        assertFalse(king.verifyMoveCoordinate("a8", "b5"));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a3")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("c1")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("c3")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("h6")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g6")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g6")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("a6")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b6")));
+        assertFalse(king.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b5")));
     }
 }

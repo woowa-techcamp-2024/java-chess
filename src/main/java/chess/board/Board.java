@@ -69,7 +69,7 @@ public class Board {
         initialize();
     }
 
-    protected Piece findPiece(Coordinate coordinate) {
+    public Piece findPiece(Coordinate coordinate) {
         return ranks.get(coordinate.getRankIndex())
                 .getPieceByIndex(coordinate.getWidthIndex());
     }

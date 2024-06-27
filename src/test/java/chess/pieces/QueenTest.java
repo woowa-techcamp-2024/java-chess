@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,23 +13,23 @@ class QueenTest {
     void verifyMoveCoordinate() {
         Queen queen = Queen.createWhiteQueen();
 
-        assertTrue(queen.verifyMoveCoordinate("a1", "a2"));
-        assertTrue(queen.verifyMoveCoordinate("a1", "b1"));
-        assertTrue(queen.verifyMoveCoordinate("a1", "b2"));
-        assertTrue(queen.verifyMoveCoordinate("h8", "h7"));
-        assertTrue(queen.verifyMoveCoordinate("h8", "g8"));
-        assertTrue(queen.verifyMoveCoordinate("h8", "g7"));
-        assertTrue(queen.verifyMoveCoordinate("a8", "a7"));
-        assertTrue(queen.verifyMoveCoordinate("a8", "b8"));
-        assertTrue(queen.verifyMoveCoordinate("a8", "b7"));
-        assertTrue(queen.verifyMoveCoordinate("a1", "h8"));
-        assertTrue(queen.verifyMoveCoordinate("a1", "h8"));
-        assertTrue(queen.verifyMoveCoordinate("h8", "a1"));
-        assertTrue(queen.verifyMoveCoordinate("h8", "a1"));
-        assertTrue(queen.verifyMoveCoordinate("a8", "h1"));
-        assertTrue(queen.verifyMoveCoordinate("a8", "h1"));
-        assertTrue(queen.verifyMoveCoordinate("h1", "a8"));
-        assertTrue(queen.verifyMoveCoordinate("h1", "a8"));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b1")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b2")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("h7")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g8")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g7")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("a7")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b8")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b7")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("h8")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("h8")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("a1")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("a1")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("h1")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("h1")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h1"), Coordinate.of("a8")));
+        assertTrue(queen.verifyMoveCoordinate(Coordinate.of("h1"), Coordinate.of("a8")));
     }
 
     @DisplayName("퀸이 상하좌우 대각선 이동이 아닌 경우 확인")
@@ -36,12 +37,12 @@ class QueenTest {
     void verifyMoveCoordinateFalse() {
         Queen queen = Queen.createWhiteQueen();
 
-        assertFalse(queen.verifyMoveCoordinate("a1", "b3"));
-        assertFalse(queen.verifyMoveCoordinate("a2", "b4"));
-        assertFalse(queen.verifyMoveCoordinate("a1", "c2"));
-        assertFalse(queen.verifyMoveCoordinate("h8", "g6"));
-        assertFalse(queen.verifyMoveCoordinate("h8", "f7"));
-        assertFalse(queen.verifyMoveCoordinate("a8", "b6"));
-        assertFalse(queen.verifyMoveCoordinate("a8", "c7"));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b3")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("b4")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("c2")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g6")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("f7")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b6")));
+        assertFalse(queen.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("c7")));
     }
 }

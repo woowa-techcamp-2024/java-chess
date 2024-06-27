@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +13,12 @@ class RookTest {
     void verifyMoveCoordinate() {
         Rook rook = Rook.createWhiteRook();
 
-        assertTrue(rook.verifyMoveCoordinate("a1", "a2"));
-        assertTrue(rook.verifyMoveCoordinate("a1", "b1"));
-        assertTrue(rook.verifyMoveCoordinate("h8", "h7"));
-        assertTrue(rook.verifyMoveCoordinate("h8", "g8"));
-        assertTrue(rook.verifyMoveCoordinate("a8", "a7"));
-        assertTrue(rook.verifyMoveCoordinate("a8", "b8"));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2")));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b1")));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("h7")));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g8")));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("a7")));
+        assertTrue(rook.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b8")));
     }
 
     @DisplayName("룩이 상하좌우 이동이 아닌 경우 확인")
@@ -25,13 +26,13 @@ class RookTest {
     void verifyMoveCoordinateFalse() {
         Rook rook = Rook.createWhiteRook();
 
-        assertFalse(rook.verifyMoveCoordinate("a1", "b3"));
-        assertFalse(rook.verifyMoveCoordinate("a2", "b4"));
-        assertFalse(rook.verifyMoveCoordinate("a1", "c2"));
-        assertFalse(rook.verifyMoveCoordinate("h8", "g6"));
-        assertFalse(rook.verifyMoveCoordinate("h8", "f7"));
-        assertFalse(rook.verifyMoveCoordinate("a8", "b6"));
-        assertFalse(rook.verifyMoveCoordinate("a8", "c7"));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b3")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("b4")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("c2")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g6")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("f7")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b6")));
+        assertFalse(rook.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("c7")));
     }
 
 

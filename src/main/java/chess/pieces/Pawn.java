@@ -7,10 +7,7 @@ import java.util.List;
 public class Pawn extends Piece {
 
     @Override
-    public boolean verifyMoveCoordinate(String source, String dest) {
-        Coordinate from = Coordinate.of(source);
-        Coordinate to = Coordinate.of(dest);
-
+    public boolean verifyMoveCoordinate(Coordinate from, Coordinate to) {
         int dy = to.getRankIndex() - from.getRankIndex();
         int dx = to.getWidthIndex() - from.getWidthIndex();
 

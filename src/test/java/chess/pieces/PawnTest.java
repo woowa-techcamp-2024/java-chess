@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,8 @@ class PawnTest {
     void verifyMoveCoordinate() {
         Pawn pawn = Pawn.createWhitePawn();
 
-        assertTrue(pawn.verifyMoveCoordinate("a2", "a3"));
-        assertTrue(pawn.verifyMoveCoordinate("a3", "a4"));
+        assertTrue(pawn.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("a3")));
+        assertTrue(pawn.verifyMoveCoordinate(Coordinate.of("a3"), Coordinate.of("a4")));
     }
 
     @DisplayName("흰색 폰이 한 칸 이동이 아닌 경우 확인")
@@ -21,9 +22,9 @@ class PawnTest {
     void verifyMoveCoordinateFalse() {
         Pawn pawn = Pawn.createWhitePawn();
 
-        assertFalse(pawn.verifyMoveCoordinate("a2", "a2"));
-        assertFalse(pawn.verifyMoveCoordinate("a2", "a1"));
-        assertFalse(pawn.verifyMoveCoordinate("a2", "b1"));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("a2")));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("a1")));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a2"), Coordinate.of("b1")));
     }
 
     @DisplayName("검은색 폰이 한 칸 이동하는지 확인")
@@ -31,8 +32,8 @@ class PawnTest {
     void verifyMoveCoordinateBlack() {
         Pawn pawn = Pawn.createBlackPawn();
 
-        assertTrue(pawn.verifyMoveCoordinate("a7", "a6"));
-        assertTrue(pawn.verifyMoveCoordinate("a6", "a5"));
+        assertTrue(pawn.verifyMoveCoordinate(Coordinate.of("a7"), Coordinate.of("a6")));
+        assertTrue(pawn.verifyMoveCoordinate(Coordinate.of("a6"), Coordinate.of("a5")));
     }
 
     @DisplayName("검은색 폰이 한 칸 이동이 아닌 경우 확인")
@@ -40,9 +41,9 @@ class PawnTest {
     void verifyMoveCoordinateFalseBlack() {
         Pawn pawn = Pawn.createBlackPawn();
 
-        assertFalse(pawn.verifyMoveCoordinate("a7", "a7"));
-        assertFalse(pawn.verifyMoveCoordinate("a7", "a8"));
-        assertFalse(pawn.verifyMoveCoordinate("a7", "c6"));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a7"), Coordinate.of("a7")));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a7"), Coordinate.of("a8")));
+        assertFalse(pawn.verifyMoveCoordinate(Coordinate.of("a7"), Coordinate.of("c6")));
     }
 
 

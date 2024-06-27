@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,14 +13,15 @@ class BishopTest {
     void verifyMoveCoordinate() {
         Bishop bishop = Bishop.createWhiteBishop();
 
-        assertTrue(bishop.verifyMoveCoordinate("a1", "h8"));
-        assertTrue(bishop.verifyMoveCoordinate("a1", "h8"));
-        assertTrue(bishop.verifyMoveCoordinate("h8", "a1"));
-        assertTrue(bishop.verifyMoveCoordinate("h8", "a1"));
-        assertTrue(bishop.verifyMoveCoordinate("a8", "h1"));
-        assertTrue(bishop.verifyMoveCoordinate("a8", "h1"));
-        assertTrue(bishop.verifyMoveCoordinate("h1", "a8"));
-        assertTrue(bishop.verifyMoveCoordinate("h1", "a8"));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("h8")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("a1")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("h1")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("h1"), Coordinate.of("a8")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("d4"), Coordinate.of("g1")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("g1"), Coordinate.of("d4")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("d4"), Coordinate.of("a7")));
+        assertTrue(bishop.verifyMoveCoordinate(Coordinate.of("a7"), Coordinate.of("d4")));
+
     }
 
     @DisplayName("비숍이 대각선 이동이 아닌 경우 확인")
@@ -27,8 +29,8 @@ class BishopTest {
     void verifyMoveCoordinateFalse() {
         Bishop bishop = Bishop.createWhiteBishop();
 
-        assertFalse(bishop.verifyMoveCoordinate("a1", "a2"));
-        assertFalse(bishop.verifyMoveCoordinate("a1", "b1"));
+        assertFalse(bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2")));
+        assertFalse(bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b1")));
     }
 
     @DisplayName("적절하지 않은 좌표값을 입력한 경우 예외 발생")
@@ -36,9 +38,9 @@ class BishopTest {
     void verifyMoveCoordinateException() {
         Bishop bishop = Bishop.createWhiteBishop();
 
-        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate("a1", "a9"));
-        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate("a1", "i1"));
-        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate("a1", "i9"));
+        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a9")));
+        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("i1")));
+        assertThrows(IllegalArgumentException.class, () -> bishop.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("i9")));
     }
 
 }

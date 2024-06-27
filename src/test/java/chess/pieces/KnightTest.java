@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,15 +13,14 @@ class KnightTest {
     void verifyMoveCoordinate() {
         Knight knight = Knight.createWhiteKnight();
 
-        assertTrue(knight.verifyMoveCoordinate("a1", "b3"));
-        assertTrue(knight.verifyMoveCoordinate("a1", "c2"));
-        assertTrue(knight.verifyMoveCoordinate("a1", "c3"));
-        assertTrue(knight.verifyMoveCoordinate("h8", "g6"));
-        assertTrue(knight.verifyMoveCoordinate("h8", "f7"));
-        assertTrue(knight.verifyMoveCoordinate("h8", "f6"));
-        assertTrue(knight.verifyMoveCoordinate("a8", "b6"));
-        assertTrue(knight.verifyMoveCoordinate("a8", "c7"));
-        assertTrue(knight.verifyMoveCoordinate("a8", "c6"));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b3")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("c2")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g6")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("f7")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("g8"), Coordinate.of("f6")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b6")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("c7")));
+        assertTrue(knight.verifyMoveCoordinate(Coordinate.of("b8"), Coordinate.of("c6")));
     }
 
     @DisplayName("나이트가 L자로 이동이 아닌 경우 확인")
@@ -28,15 +28,15 @@ class KnightTest {
     void verifyMoveCoordinateFalse() {
         Knight knight = Knight.createWhiteKnight();
 
-        assertFalse(knight.verifyMoveCoordinate("a1", "a2"));
-        assertFalse(knight.verifyMoveCoordinate("a1", "b1"));
-        assertFalse(knight.verifyMoveCoordinate("a1", "b2"));
-        assertFalse(knight.verifyMoveCoordinate("h8", "h7"));
-        assertFalse(knight.verifyMoveCoordinate("h8", "g8"));
-        assertFalse(knight.verifyMoveCoordinate("h8", "g7"));
-        assertFalse(knight.verifyMoveCoordinate("a8", "a7"));
-        assertFalse(knight.verifyMoveCoordinate("a8", "b8"));
-        assertFalse(knight.verifyMoveCoordinate("a8", "b7"));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("a2")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b1")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a1"), Coordinate.of("b2")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("h7")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g8")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("h8"), Coordinate.of("g7")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("a7")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b8")));
+        assertFalse(knight.verifyMoveCoordinate(Coordinate.of("a8"), Coordinate.of("b7")));
     }
 
 

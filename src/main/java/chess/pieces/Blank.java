@@ -1,9 +1,11 @@
 package chess.pieces;
 
+import chess.board.Coordinate;
+
 public class Blank extends Piece {
 
     @Override
-    public boolean verifyMoveCoordinate(String source, String dest) {
+    public boolean verifyMoveCoordinate(Coordinate from, Coordinate to) {
         return false;
     }
 
