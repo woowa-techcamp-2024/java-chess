@@ -7,6 +7,7 @@ import static utils.StringUtils.appendNewLine;
 import chess.board.Board;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import chess.pieces.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -261,5 +262,37 @@ class BoardTest {
         assertEquals(16, sortedBlackPieces.size());
         assertTrue(sortedBlackPieces.get(0).getDefaultPoint() <
                 sortedBlackPieces.get(sortedBlackPieces.size() - 1).getDefaultPoint());
+    }
+
+    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환한다.")
+    @Test
+    void countPiece() {
+        board.initializeEmpty();
+
+        addPiece(Position.b8, blackKing);
+        addPiece(Position.c8, blackRook);
+        addPiece(Position.a7, blackPawn);
+        addPiece(Position.c7, blackPawn);
+        addPiece(Position.d7, blackBishop);
+        addPiece(Position.b6, blackPawn);
+        addPiece(Position.e6, blackQueen);
+
+        addPiece(Position.f4, whiteKnight);
+        addPiece(Position.g4, whiteQueen);
+        addPiece(Position.f3, whitePawn);
+        addPiece(Position.g2, whitePawn);
+        addPiece(Position.e1, whiteRook);
+        addPiece(Position.f1, whiteKing);
+
+        assertEquals(3, board.pieceCount(Type.PAWN, Color.BLACK));
+        assertEquals(1, board.pieceCount(Type.ROOK, Color.BLACK));
+        assertEquals(1, board.pieceCount(Type.BISHOP, Color.BLACK));
+        assertEquals(1, board.pieceCount(Type.QUEEN, Color.BLACK));
+
+        assertEquals(2, board.pieceCount(Type.PAWN, Color.WHITE));
+        assertEquals(1, board.pieceCount(Type.KNIGHT, Color.WHITE));
+        assertEquals(1, board.pieceCount(Type.QUEEN, Color.WHITE));
+        assertEquals(1, board.pieceCount(Type.KING, Color.WHITE));
+        assertEquals(1, board.pieceCount(Type.ROOK, Color.WHITE));
     }
 }
