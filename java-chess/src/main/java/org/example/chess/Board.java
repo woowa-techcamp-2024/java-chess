@@ -10,13 +10,14 @@ import static java.util.stream.Collectors.joining;
 
 public class Board {
     private List<Rank> pieces;
+
     public Board() {
         initializeEmpty();
     }
 
     public void moveTo(Position from, Position to) throws RuntimeException{
-        Rank fromRow = pieces.get(from.getRow());
-        Rank toRow = pieces.get(to.getRow());
+        Board.Rank fromRow = pieces.get(from.getRow());
+        Board.Rank toRow = pieces.get(to.getRow());
 
         Piece piece = fromRow.getPiece(from.getCol());
         Piece dest = toRow.getPiece(to.getCol());
@@ -41,12 +42,15 @@ public class Board {
         }
     }
 
-    public void place(Piece piece, Position position) {
-        Rank rank = pieces.get(position.getRow());
-        rank.placePiece(position.getCol(), piece);
+    public Rank getUnmodifiableRank(int idx) {
+        return pieces.get(idx);
     }
 
-    public int pieceCount() {
+    public void setPiece(Position position, Piece piece) {
+        pieces.get(position.getRow()).setPiece(position.getCol(), piece);
+    }
+
+    public int countPieces() {
         return (int) pieces.stream().mapToLong(Rank::countPieces).sum();
     }
 
@@ -122,17 +126,17 @@ public class Board {
         return sb.toString();
     }
 
-    public String showScore() {
-        StringBuilder sb = new StringBuilder();
-
-        this.pieces.forEach(rank -> {
-            sb.append(rank.showScore()).append(System.lineSeparator());
-        });
-
-        System.out.println(sb);
-
-        return sb.toString();
-    }
+//    public String showScore() {
+//        StringBuilder sb = new StringBuilder();
+//
+//        this.pieces.forEach(rank -> {
+//            sb.append(rank.showScore()).append(System.lineSeparator());
+//        });
+//
+//        System.out.println(sb);
+//
+//        return sb.toString();
+//    }
 
     public double calculatePoint(Piece.Color color) {
         revisePawnScore();
@@ -207,7 +211,7 @@ public class Board {
             this.pieceRow = pieceRow;
         }
 
-        public void placePiece(int idx, Piece piece) {
+        public void setPiece(int idx, Piece piece) {
             this.pieceRow.set(idx, piece);
         }
 
