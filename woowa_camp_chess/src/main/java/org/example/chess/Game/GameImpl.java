@@ -15,7 +15,7 @@ public class GameImpl extends Game {
 
     private Color turnColor = Color.WHITE;
 
-    GameImpl(Board board) {
+    public GameImpl(Board board) {
         super(board);
     }
 
@@ -26,7 +26,7 @@ public class GameImpl extends Game {
     }
 
     @Override
-    void move(String src, String des) {
+    public void move(String src, String des) {
 
         // 판 크기를 벗어나는 위치로 이동을 하지 못 한다.
         Position srcPos = Position.fromStr(src);
@@ -43,11 +43,17 @@ public class GameImpl extends Game {
         // 도착할 수 있는 리스트안에 dest 가 있어야 한다.
         List<Position> possibleMovePosition = getPossibleMovePosition(srcPos, board);
 
-        boolean isPossibleDes = possibleMovePosition.stream().anyMatch((position) -> position.getRow() == desPos.getRow() && position.getColumn() == desPos.getColumn());
+        System.out.println(possibleMovePosition.size());
+
+        boolean isPossibleDes = possibleMovePosition.stream()
+                .peek(System.out::println)
+        .anyMatch((position) -> position.getRow() == desPos.getRow() && position.getColumn() == desPos.getColumn());
+
         if(!isPossibleDes) throw new IllegalArgumentException("잘못된 도착지 입니다.");
 
         board.move(src,des);
 
+        srcPiece.increaseMoveCount();
         //todo : 상대 말을 먹는 행위를 하면 점수를 높여주어야 한다.
 
         changeTurn();
@@ -55,6 +61,7 @@ public class GameImpl extends Game {
 
     public static List<Position> getPossibleMovePosition(Position srcPosition, Board board) {
         Piece piece = board.findPiece(srcPosition);
+
         if (piece == null) {
             throw new IllegalArgumentException("Source position does not contain a piece.");
         }
@@ -64,24 +71,29 @@ public class GameImpl extends Game {
         List<Direction> directions = Direction.getDirectionsByTypeAndColor(pieceType, color);
 
         List<Position> possiblePositions = new ArrayList<>();
+        System.out.println(directions.size());
 
         for (Direction direction : directions) {
             Position currentPosition = srcPosition.move(direction);
-
+            System.out.println(currentPosition.getRow()+" "+currentPosition.getColumn());
             while (Position.validPosition(currentPosition.getRow(), currentPosition.getColumn())) {
                 Piece targetPiece = board.findPiece(currentPosition);
 
                 //아무것도 없으면
                 if (targetPiece.getPieceType().equals(PieceType.NO_PIECE)) {
                     possiblePositions.add(currentPosition);
+                    System.out.println(currentPosition.getRow() + " " + currentPosition.getColumn());
                 } else { // 도착지에 상대말이 있으면 추가하고 break , 없으면 그냥 break
                     if (targetPiece.getColor() != color) {
                         possiblePositions.add(currentPosition);
+                        System.out.println(currentPosition.getRow() + " " + currentPosition.getColumn());
                     }
+                    System.out.println("도착지에 말이 있다.");
                     break;
                 }
                 currentPosition = currentPosition.move(direction);
-                if (pieceType == PieceType.KING || pieceType == PieceType.KNIGHT || pieceType == PieceType.PAWN) {
+
+                if (pieceType == PieceType.KING || pieceType == PieceType.KNIGHT || (pieceType == PieceType.PAWN && piece.getMoveCount() !=0)) {
                     break;
                 }
             }

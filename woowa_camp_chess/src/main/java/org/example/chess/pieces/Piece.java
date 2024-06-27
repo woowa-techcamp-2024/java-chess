@@ -1,7 +1,5 @@
 package org.example.chess.pieces;
 
-import org.example.chess.board.Position;
-
 import java.util.Objects;
 
 import static org.example.chess.pieces.Piece.Color.BLACK;
@@ -10,6 +8,14 @@ import static org.example.chess.pieces.Piece.Color.WHITE;
 
 public abstract class Piece {
 
+    public int getMoveCount() {
+        return moveCount;
+    }
+
+    public void setMoveCount(int moveCount) {
+        this.moveCount = moveCount;
+    }
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
@@ -17,7 +23,12 @@ public abstract class Piece {
     private final Color color;
     private final char representation;
     private final PieceType pieceType;
-    //todo : 현재는 임의로 아무것도 없는 List로 초기화 시킴
+    private int moveCount = 0;
+
+    public void increaseMoveCount() {
+        moveCount++;
+    }
+
 
     protected Piece(Color color, PieceType pieceType) {
         this.color = color;

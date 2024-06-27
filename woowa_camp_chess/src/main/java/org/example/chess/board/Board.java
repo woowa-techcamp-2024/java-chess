@@ -90,22 +90,6 @@ public class Board {
     }
 
 
-    public String getWhitePieceList() {
-        return getPawnResult(whitePieceList);
-    }
-
-    public String getBlackPieceList() {
-        return getPawnResult(blackPieceList);
-    }
-
-    private static String getPawnResult(List<Piece> pieceList) {
-        StringBuilder sb = new StringBuilder();
-        for (Piece piece : pieceList) {
-            sb.append(piece.getRepresentation());
-        }
-        return sb.toString();
-    }
-
     public Piece findPiece(String position) {
         //todo : position 유효값 검사
         Position pos = Position.fromStr(position);
