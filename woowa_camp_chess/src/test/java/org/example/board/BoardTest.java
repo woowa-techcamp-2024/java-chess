@@ -2,11 +2,12 @@ package org.example.board;
 
 
 import org.example.chess.board.Board;
-import org.example.chess.board.Position;
 import org.example.chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.example.chess.pieces.Piece.*;
+import static org.example.chess.pieces.Piece.createBlank;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,7 +21,7 @@ public class BoardTest {
 
     @Test
     public void create() {
-        board.initializeV2();
+        board.initialize();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
@@ -35,7 +36,7 @@ public class BoardTest {
 
     @Test
     public void initialize() {
-        board.initializeV2();
+        board.initialize();
         assertEquals("PPPPPPPPNNBBRRQK", board.getBlackPawnsResult());
         assertEquals("ppppppppnnbbrrqk", board.getWhitePawnsResult());
         System.out.println(board.showBoard());
@@ -43,20 +44,20 @@ public class BoardTest {
 
     @Test
     public void findPiece() {
-        board.initializeV2();
+        board.initialize();
 
-        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+        assertEquals(createBlackRook(), board.findPiece("a8"));
+        assertEquals(createBlackRook(), board.findPiece("h8"));
+        assertEquals(createWhiteRook(), board.findPiece("a1"));
+        assertEquals(createWhiteRook(), board.findPiece("h1"));
     }
 
     @Test
     public void move() {
-        board.initializeV2();
+        board.initialize();
 
         String position = "b5";
-        Piece piece = Piece.createBlackRook();
+        Piece piece = createBlackRook();
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -67,31 +68,33 @@ public class BoardTest {
     public void calculatePoint() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", createBlackPawn());
+        addPiece("e6", createBlackQueen());
+        addPiece("b8", createBlackKing());
+        addPiece("c8", createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", createWhitePawn());
+        addPiece("g2", createWhitePawn());
+        addPiece("e1", createWhiteRook());
+        addPiece("f1", createWhiteKing());
 
-        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
     }
 
+
     @Test
-    public void move() throws Exception {
+    public void move_V2() throws Exception {
         board.initialize();
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
+        // Piece 에 Position 필드가 있어야 하는가 ?
+        assertEquals(createBlank(), board.findPiece(sourcePosition));
+        assertEquals(createWhitePawn(), board.findPiece(targetPosition));
     }
 
     private void addPiece(String position, Piece piece) {
