@@ -3,8 +3,9 @@ package org.example.pieces;
 import static org.example.pieces.Piece.Color.*;
 
 import java.util.Objects;
+import org.example.chess.Position;
 
-public class Piece {
+public abstract class Piece {
 
     public boolean isSameColor(Color color) {
         return this.color == color;
@@ -66,61 +67,9 @@ public class Piece {
     private final Color color;
     private final Type representation;
 
-    private Piece(Color color, Type representation) {
+    Piece(Color color, Type representation) {
         this.color = color;
         this.representation = representation;
-    }
-
-    public static Piece createWhitePawn() {
-        return new Piece(WHITE, Type.PAWN);
-    }
-
-    public static Piece createBlackPawn() {
-        return new Piece(BLACK, Type.PAWN);
-    }
-
-    public static Piece createWhiteKnight() {
-        return new Piece(WHITE, Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return new Piece(BLACK, Type.KNIGHT);
-    }
-
-    public static Piece createWhiteRook() {
-        return new Piece(WHITE, Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return new Piece(BLACK, Type.ROOK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return new Piece(WHITE, Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return new Piece(BLACK, Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return new Piece(WHITE, Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return new Piece(BLACK, Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return new Piece(WHITE, Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return new Piece(BLACK, Type.KING);
-    }
-
-    public static Piece createNoColorPiece() {
-        return new Piece(NO_COLOR, Type.NO_PIECE);
     }
 
     public Color getColor() {
@@ -156,4 +105,11 @@ public class Piece {
     public int hashCode() {
         return Objects.hash(color, representation);
     }
+
+    abstract boolean verifyMove(Position start, Position end);
+
+    boolean verifyMove(String start, String end){
+        return verifyMove(new Position(start), new Position(end));
+    }
+
 }

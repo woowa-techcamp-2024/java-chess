@@ -1,5 +1,6 @@
 package org.example.chess;
 
+import static org.example.pieces.PieceFactory.*;
 import static org.example.utils.StringUtils.*;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
 import org.example.pieces.Piece.Type;
+import org.example.pieces.PieceFactory;
 
 public class Board {
 
@@ -26,7 +28,7 @@ public class Board {
         Piece startPiece = findPiece(start);
 
         setPiece(end, startPiece);
-        setPiece(start, Piece.createNoColorPiece());
+        setPiece(start, createNoColorPiece());
     }
 
     public void setPiece(Position position, Piece piece) {
@@ -56,17 +58,17 @@ public class Board {
         final int whitePawnRow = 2;
 
         for (Column column : columns) {
-            column.setPiece(Piece.createWhitePawn(), whitePawnRow);
+            column.setPiece(createWhitePawn(), whitePawnRow);
         }
 
-        columns.get(0).setPiece(Piece.createWhiteRook(), whitePieceRow);
-        columns.get(1).setPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(2).setPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(3).setPiece(Piece.createWhiteQueen(), whitePieceRow);
-        columns.get(4).setPiece(Piece.createWhiteKing(), whitePieceRow);
-        columns.get(5).setPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(6).setPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(7).setPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(0).setPiece(createWhiteRook(), whitePieceRow);
+        columns.get(1).setPiece(createWhiteKnight(), whitePieceRow);
+        columns.get(2).setPiece(createWhiteBishop(), whitePieceRow);
+        columns.get(3).setPiece(createWhiteQueen(), whitePieceRow);
+        columns.get(4).setPiece(createWhiteKing(), whitePieceRow);
+        columns.get(5).setPiece(createWhiteBishop(), whitePieceRow);
+        columns.get(6).setPiece(createWhiteKnight(), whitePieceRow);
+        columns.get(7).setPiece(createWhiteRook(), whitePieceRow);
     }
 
     private void placeBlackPiece() {
@@ -75,17 +77,17 @@ public class Board {
 
         // Place black pawns
         columns.forEach(
-            column -> column.setPiece(Piece.createBlackPawn(), blackPawnRow));
+            column -> column.setPiece(createBlackPawn(), blackPawnRow));
 
         // Place other black pieces
-        columns.get(0).setPiece(Piece.createBlackRook(), blackPieceRow);
-        columns.get(1).setPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(2).setPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(3).setPiece(Piece.createBlackQueen(), blackPieceRow);
-        columns.get(4).setPiece(Piece.createBlackKing(), blackPieceRow);
-        columns.get(5).setPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(6).setPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(7).setPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(0).setPiece(createBlackRook(), blackPieceRow);
+        columns.get(1).setPiece(createBlackKnight(), blackPieceRow);
+        columns.get(2).setPiece(createBlackBishop(), blackPieceRow);
+        columns.get(3).setPiece(createBlackQueen(), blackPieceRow);
+        columns.get(4).setPiece(createBlackKing(), blackPieceRow);
+        columns.get(5).setPiece(createBlackBishop(), blackPieceRow);
+        columns.get(6).setPiece(createBlackKnight(), blackPieceRow);
+        columns.get(7).setPiece(createBlackRook(), blackPieceRow);
     }
     // 게임 설정
 

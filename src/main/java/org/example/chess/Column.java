@@ -1,5 +1,7 @@
 package org.example.chess;
 
+import static org.example.pieces.PieceFactory.createNoColorPiece;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.example.pieces.Piece;
@@ -20,7 +22,7 @@ public class Column {
     private List<Piece> createSizeList(int boardSize) {
         List<Piece> ret = new ArrayList<>();
         for (int i = 0; i < boardSize; i++) {
-            ret.add(Piece.createNoColorPiece());
+            ret.add(createNoColorPiece());
         }
         return ret;
     }
