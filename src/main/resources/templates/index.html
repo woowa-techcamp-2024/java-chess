@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess</title>
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            width: min-content;
+            height: min-content;
+            border: 5px solid brown;
+        }
+
+        #board > div {
+            width: 80px;
+            height: 80px;
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80px;
+            box-sizing: border-box;
+            user-select: none;
+            cursor: default;
+        }
+
+        .can:hover,
+        .selected:hover,
+        #board > div:hover:not(:empty) {
+            filter: brightness(0.8);
+        }
+
+        .black {
+            background: gray;
+        }
+
+        .white {
+            background: white;
+        }
+
+        .selected {
+            border: 3px solid green !important;
+        }
+        .black.selected {
+            background: darkgreen;
+        }
+        .white.selected {
+            background: lightgreen;
+        }
+
+        .can {
+            border: 3px solid goldenrod !important;
+        }
+        .black.can {
+            background: darkgoldenrod;
+        }
+        .white.can {
+            background: gold;
+        }
+
+        .checked {
+            border: 3px solid red !important;
+            background: indianred;
+        }
+
+        #state {
+            font-size: 100px;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="board">
+    <div id="a8" class="white"></div>
+    <div id="b8" class="black"></div>
+    <div id="c8" class="white"></div>
+    <div id="d8" class="black"></div>
+    <div id="e8" class="white"></div>
+    <div id="f8" class="black"></div>
+    <div id="g8" class="white"></div>
+    <div id="h8" class="black"></div>
+
+    <div id="a7" class="black"></div>
+    <div id="b7" class="white"></div>
+    <div id="c7" class="black"></div>
+    <div id="d7" class="white"></div>
+    <div id="e7" class="black"></div>
+    <div id="f7" class="white"></div>
+    <div id="g7" class="black"></div>
+    <div id="h7" class="white"></div>
+
+    <div id="a6" class="white"></div>
+    <div id="b6" class="black"></div>
+    <div id="c6" class="white"></div>
+    <div id="d6" class="black"></div>
+    <div id="e6" class="white"></div>
+    <div id="f6" class="black"></div>
+    <div id="g6" class="white"></div>
+    <div id="h6" class="black"></div>
+
+    <div id="a5" class="black"></div>
+    <div id="b5" class="white"></div>
+    <div id="c5" class="black"></div>
+    <div id="d5" class="white"></div>
+    <div id="e5" class="black"></div>
+    <div id="f5" class="white"></div>
+    <div id="g5" class="black"></div>
+    <div id="h5" class="white"></div>
+
+    <div id="a4" class="white"></div>
+    <div id="b4" class="black"></div>
+    <div id="c4" class="white"></div>
+    <div id="d4" class="black"></div>
+    <div id="e4" class="white"></div>
+    <div id="f4" class="black"></div>
+    <div id="g4" class="white"></div>
+    <div id="h4" class="black"></div>
+
+    <div id="a3" class="black"></div>
+    <div id="b3" class="white"></div>
+    <div id="c3" class="black"></div>
+    <div id="d3" class="white"></div>
+    <div id="e3" class="black"></div>
+    <div id="f3" class="white"></div>
+    <div id="g3" class="black"></div>
+    <div id="h3" class="white"></div>
+
+    <div id="a2" class="white"></div>
+    <div id="b2" class="black"></div>
+    <div id="c2" class="white"></div>
+    <div id="d2" class="black"></div>
+    <div id="e2" class="white"></div>
+    <div id="f2" class="black"></div>
+    <div id="g2" class="white"></div>
+    <div id="h2" class="black"></div>
+
+    <div id="a1" class="black"></div>
+    <div id="b1" class="white"></div>
+    <div id="c1" class="black"></div>
+    <div id="d1" class="white"></div>
+    <div id="e1" class="black"></div>
+    <div id="f1" class="white"></div>
+    <div id="g1" class="black"></div>
+    <div id="h1" class="white"></div>
+</div>
+<div id="state"></div>
+<button onclick="reset()">처음부터 다시하기</button>
+<script>
+    const board = document.querySelector("#board");
+    const cells = document.querySelectorAll("#board > div");
+
+    let selected = null;
+    let canMoves = [];
+    let checked = null;
+
+    function reset() {
+        fetch("/init", {method: "POST"})
+            .then(() => updateBoard());
+    }
+
+    function updateBoard() {
+        if (checked) {
+            document.getElementById(checked).classList.remove("checked");
+            checked = null;
+        }
+        fetch("/board")
+            .then(res => res.json())
+            .then(boardMap => {
+                for (const [pos, repr] of Object.entries(boardMap)) {
+                    document.getElementById(pos).innerHTML = repr;
+                }
+            });
+        fetch("/state")
+            .then(res => res.json())
+            .then(json => {
+                document.getElementById("state").innerText = json.message
+                if (json.checkPosition) {
+                    checked = json.checkPosition;
+                    document.getElementById(checked).classList.add("checked");
+                }
+                if (json.checkmate) {
+                    setTimeout(() => {
+                        alert(json.message);
+                        alert("확인을 누르면 게임을 다시 시작합니다");
+                        reset();
+                    }, 1);
+                }
+            })
+    }
+
+    updateBoard();
+
+    function canMoveTo(pos) {
+        return canMoves.find(m => m === pos)
+    }
+
+    function setMoves(list) {
+        clearMoves()
+        canMoves = list
+        for (const pos of canMoves) {
+            document.getElementById(pos).classList.add("can")
+        }
+    }
+
+    function clearMoves() {
+        for (const pos of canMoves) {
+            document.getElementById(pos).classList.remove("can")
+        }
+        canMoves = []
+    }
+
+    function select(id) {
+        if (selected) {
+            document.getElementById(selected).classList.remove("selected")
+        }
+        selected = id
+        document.getElementById(selected).classList.add("selected")
+        fetch("/moves/" + selected)
+            .then(res => res.json())
+            .then(json => setMoves(json))
+    }
+
+    function deselect() {
+        if (selected) {
+            document.getElementById(selected).classList.remove("selected")
+            selected = null
+            clearMoves()
+        }
+    }
+
+    cells.forEach(cell => {
+        cell.addEventListener("click", (ev) => {
+            let id = ev.target.id
+            let isPieceCell = !!ev.target.innerHTML
+
+            if (canMoveTo(id)) {
+                fetch("/move/" + selected + "/" + id, {method: "POST"})
+                    .then(() => {
+                        updateBoard();
+                    })
+                    .catch(() => {
+                        updateBoard();
+                    })
+                deselect()
+            } else if (!isPieceCell || id === selected) {
+                deselect()
+            } else {
+                select(id)
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
