@@ -4,6 +4,7 @@ import static org.example.pieces.Piece.Color.BLACK;
 import static org.example.pieces.Piece.Color.WHITE;
 
 import java.util.Objects;
+import org.example.chess.Direction;
 import org.example.chess.Position;
 
 public abstract class Piece {
@@ -22,6 +23,10 @@ public abstract class Piece {
 
     public boolean isPawn() {
         return representation == Type.PAWN;
+    }
+
+    public boolean isNoColorPiece() {
+        return color == Color.NO_COLOR;
     }
 
     public enum Color {
@@ -112,15 +117,11 @@ public abstract class Piece {
         return Objects.hash(color, representation);
     }
 
-    abstract boolean verifyMove(Position start, Position end);
+    abstract public boolean verifyMove(Position start, Position end);
+    abstract public boolean verifyRecursive(Position now, Position dest, Direction direction);
 
     boolean verifyMove(String start, String end) {
-        boolean ret = verifyMove(new Position(start), new Position(end));
-
-        if (ret) {
-            moveCount++;
-        }
-        return ret;
+        return verifyMove(new Position(start), new Position(end));
     }
 
 }

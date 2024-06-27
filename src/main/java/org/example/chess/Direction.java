@@ -42,6 +42,21 @@ public enum Direction {
         return yDegree;
     }
 
+    public static int depth(Position start, Position end) {
+        int deltaX = end.getCol() - start.getCol();
+        int deltaY = end.getRow() - start.getRow();
+
+        if (deltaX == 0) {
+            return Math.abs(deltaY);
+        }
+
+        if (deltaY == 0) {
+            return Math.abs(deltaX);
+        }
+
+        return Math.abs(deltaX) == Math.abs(deltaY) ? Math.abs(deltaX) : 1;
+    }
+
     public static List<Direction> linearDirection() {
         return Arrays.asList(NORTH, EAST, SOUTH, WEST);
     }

@@ -1,6 +1,7 @@
 package org.example.chess;
 
 import org.example.pieces.Piece;
+import org.example.pieces.Piece.Color;
 
 public class ChessGame {
 
@@ -19,12 +20,11 @@ public class ChessGame {
         board.initialize();
     }
 
-    public void move(Position start, Position end) {
-        board.move(start, end);
+    public void move(Position start, Position end, Color turn) {
+        board.move(start, end, turn);
     }
 
-    public void move(String start, String end) {
-        this.move(new Position(start), new Position(end));
+    public void move(String start, String end, Color turn) {
+        this.move(new Position(start), new Position(end), turn);
     }
-
 }

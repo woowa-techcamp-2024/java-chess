@@ -1,5 +1,6 @@
 package org.example.pieces;
 
+import org.example.chess.Direction;
 import org.example.chess.Position;
 
 public class NoPiece extends Piece {
@@ -9,7 +10,12 @@ public class NoPiece extends Piece {
     }
 
     @Override
-    boolean verifyMove(Position start, Position end) {
+    public boolean verifyMove(Position start, Position end) {
+        return false;
+    }
+
+    @Override
+    public boolean verifyRecursive(Position now, Position dest, Direction direction) {
         return false;
     }
 }

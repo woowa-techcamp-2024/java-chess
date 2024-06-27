@@ -56,4 +56,15 @@ public class Position {
     public int hashCode() {
         return Objects.hash(col, row);
     }
+
+    public Position next(Direction direction) {
+        int nextCol = col + direction.getXDegree();
+        int nextRow = row + direction.getYDegree();
+
+        if (nextCol < 'a' || nextCol > 'h' || nextRow < 1 || nextRow > 8) {
+            return null;
+        }
+
+        return new Position(String.valueOf((char) nextCol) + nextRow);
+    }
 }

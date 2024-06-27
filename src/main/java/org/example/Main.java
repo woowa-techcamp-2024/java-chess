@@ -7,12 +7,14 @@ import java.util.Scanner;
 import org.example.chess.Board;
 import org.example.chess.ChessGame;
 import org.example.chess.Position;
+import org.example.pieces.Piece.Color;
 import org.example.utils.Command;
 
 public class Main {
 
     public static void main(String[] args) {
         Board board = null;
+        Color turn = Color.WHITE;
         ChessGame chessGame = null;
         boolean isGameStarted = false;
 
@@ -39,7 +41,8 @@ public class Main {
                         }
 
                         try {
-                            chessGame.move(cmds[1], cmds[2]);
+                            chessGame.move(cmds[1], cmds[2], turn);
+                            turn = turn == Color.WHITE ? Color.BLACK : Color.WHITE;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             continue;

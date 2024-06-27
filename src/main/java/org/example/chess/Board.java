@@ -22,12 +22,39 @@ public class Board {
         columns = createSizeList(BOARD_SIZE);
     }
 
-    public void move(Position start, Position end) {
+    public void move(Position start, Position end, Color turn) {
         if(start.equals(end)) {
             throw new IllegalArgumentException("같은 지점으로 이동할 수 없습니다.");
         }
 
         Piece startPiece = findPiece(start);
+        Piece endPiece = findPiece(end);
+        Direction direction = Direction.determineDirection(start, end);
+        int depth = Direction.depth(start, end);
+
+        if(!startPiece.isSameColor(turn)) {
+            throw new IllegalArgumentException("자신의 말만 이동할 수 있습니다.");
+        }
+
+        if (startPiece.isNoColorPiece()) {
+            throw new IllegalArgumentException("이동할 말이 없습니다.");
+        }
+
+        if (!startPiece.verifyMove(start, end)) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+        }
+        Position now = start;
+        for(int i = 1; i < depth; i++) {
+            now = now.next(direction);
+            if(!findPiece(now).isNoColorPiece()) {
+                throw new IllegalArgumentException("이동 경로에 다른 말이 있습니다.");
+            }
+        }
+
+        //끝 점에 같은 색의 말이 있으면 에러
+        if(endPiece.isSameColor(startPiece.getColor())) {
+            throw new IllegalArgumentException("같은 색의 말이 있습니다.");
+        }
 
         setPiece(end, startPiece);
         setPiece(start, createNoColorPiece());

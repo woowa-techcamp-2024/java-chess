@@ -88,7 +88,7 @@ public class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        chessGame.move(sourcePosition, targetPosition);
+        chessGame.move(sourcePosition, targetPosition, Color.WHITE);
 
         System.out.println("After");
         System.out.println(showBoard(chessGame.getBoard()));
@@ -196,7 +196,7 @@ public class BoardTest {
         String targetPosition = "b2";
         assertThrows(
             IllegalArgumentException.class,
-            () -> chessGame.move(sourcePosition, targetPosition),
+            () -> chessGame.move(sourcePosition, targetPosition, Color.WHITE),
             "같은 지점으로 이동할 수 없습니다.");
     }
 }
