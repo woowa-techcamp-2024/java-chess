@@ -7,6 +7,7 @@ import chess.calculator.PointCalculator;
 import chess.calculator.SameFilePawnPointCalculateStrategy;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import chess.pieces.Position;
 import chess.sorter.PointSorter;
 import chess.sorter.Sorter;
@@ -50,7 +51,7 @@ public class Board {
     }
 
     public List<Rank> getRanks() {
-        return ranks;
+        return Collections.unmodifiableList(ranks);
     }
 
     private Rank getRank(Position position) {
@@ -70,6 +71,12 @@ public class Board {
 
     public int pieceCount() {
         return pieceCount;
+    }
+
+    public int pieceCount(Type type, Color color) {
+        return ranks.stream()
+                .mapToInt(rank -> rank.count(type, color))
+                .sum();
     }
 
     public void initialize() {

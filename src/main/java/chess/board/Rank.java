@@ -1,6 +1,8 @@
 package chess.board;
 
 import chess.pieces.Piece;
+import chess.pieces.Piece.Color;
+import chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,5 +51,12 @@ public class Rank {
             pieces.add(Piece.createBlank());
         }
         return new Rank(size, pieces);
+    }
+
+    public int count(Type type, Color color) {
+        return (int) pieces.stream()
+                .filter(piece -> piece.hasType(type))
+                .filter(piece -> piece.hasColor(color))
+                .count();
     }
 }
