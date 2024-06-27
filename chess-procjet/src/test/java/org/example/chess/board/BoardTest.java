@@ -18,7 +18,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
+        board = new Board(new BoardInitializeManger());
     }
 
     @Test
@@ -71,8 +71,8 @@ class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
         Piece sourcePiece = board.findPiece("b2");
+        board.move(sourcePosition, targetPosition);
         // 보드판 초기상탱
         assertEquals(sourcePiece.getType(), Type.PAWN);
         assertEquals(sourcePiece, board.findPiece("b3"));

@@ -2,11 +2,13 @@ package org.example;
 
 import java.util.Scanner;
 import org.example.chess.board.Board;
+import org.example.chess.board.BoardInitializeManger;
 
 public class Game {
 
     private static final String START = "start";
     private static final String END = "end";
+    private static final String MOVE = "move";
 
     public static void main(String[] args) {
         boolean onPlaying = true;
@@ -18,9 +20,19 @@ public class Game {
             String command = scanner.nextLine().toLowerCase();
 
             if (command.equals(START)) {
-                Board board = new Board();
+                Board board = new Board(new BoardInitializeManger());
                 board.initialize();
                 board.print();
+
+                // move 명령을 받는다.
+                String moveCommand = scanner.nextLine().toLowerCase();
+                if (moveCommand.startsWith(MOVE)) {
+                    String[] m = moveCommand.split(" ");
+                    String source = m[1];
+                    String destination = m[2];
+                    board.move(source, destination);
+                    board.print();
+                }
                 continue;
             }
 

@@ -8,4 +8,6 @@ public class DescendingPieceComparator implements PieceComparator {
     public Comparator<Piece> getComparator() {
         return Comparator.comparingDouble((Piece p) -> p.getType().getDefaultPoint()).reversed();
     }
+
+    protected DescendingPieceComparator(){};
 }

@@ -3,6 +3,7 @@ package org.example.chess.pieces;
 import java.util.Objects;
 
 public class Piece {
+    //TODO: 이동 룰 추가
 
     private final Color color;
     private final Type type;
