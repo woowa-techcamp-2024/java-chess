@@ -20,23 +20,28 @@ public class Board {
         Rank toRank = pieces.get(to.getRow());
 
         List<MoveSeq> moveSeqs = piece.getMoveSeqs();
-
         validateNotEmpty(piece);
 
         for(MoveSeq moveSeq: moveSeqs) {
             if (isReachable(from, moveSeq, to)) {
                 fromRank.emptyPiece(from.getCol());
-                toRank.setPiece(from.getCol(), piece);
+                toRank.setPiece(to.getCol(), piece);
+
+                System.out.println("move success");
+                return;
             }
         }
+
+        throw new RuntimeException("move fail");
     }
 
-    public boolean isReachable(Position from, MoveSeq moveSeq, Position to) {
+    private boolean isReachable(Position from, MoveSeq moveSeq, Position to) {
         Position cur = from.copy();
         for (Move move : moveSeq.getMoves()) {
-            if (!isOnceMovable(cur, move)) {
+            if (!cur.movable(move.getDir()) || !isOnceMovable(cur, move)) {
                 return false;
             }
+
             cur = cur.move(move.getDir());
             if (cur.equals(to)) {
                 return true;

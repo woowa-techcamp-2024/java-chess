@@ -18,26 +18,26 @@ public class PieceTest {
 
     @Test
     public void create_piece() {
-        verifyPiece(Pawn.of(Piece.Color.WHITE), "p");
-        verifyPiece(Pawn.of(Piece.Color.BLACK), "P");
+        verifyPiece(Pawn.of(Piece.Color.WHITE), 'p');
+        verifyPiece(Pawn.of(Piece.Color.BLACK), 'P');
 
-        verifyPiece(Knight.of(Piece.Color.WHITE), "n");
-        verifyPiece(Knight.of(Piece.Color.BLACK), "N");
+        verifyPiece(Knight.of(Piece.Color.WHITE), 'n');
+        verifyPiece(Knight.of(Piece.Color.BLACK), 'N');
 
-        verifyPiece(Rook.of(Piece.Color.WHITE), "r");
-        verifyPiece(Rook.of(Piece.Color.BLACK), "R");
+        verifyPiece(Rook.of(Piece.Color.WHITE), 'r');
+        verifyPiece(Rook.of(Piece.Color.BLACK), 'R');
 
-        verifyPiece(Bishop.of(Piece.Color.WHITE), "b");
-        verifyPiece(Bishop.of(Piece.Color.BLACK), "B");
+        verifyPiece(Bishop.of(Piece.Color.WHITE), 'b');
+        verifyPiece(Bishop.of(Piece.Color.BLACK), 'B');
 
-        verifyPiece(Queen.of(Piece.Color.WHITE), "q");
-        verifyPiece(Queen.of(Piece.Color.BLACK), "Q");
+        verifyPiece(Queen.of(Piece.Color.WHITE), 'q');
+        verifyPiece(Queen.of(Piece.Color.BLACK), 'Q');
 
-        verifyPiece(King.of(Piece.Color.WHITE), "k");
-        verifyPiece(King.of(Piece.Color.BLACK), "K");
+        verifyPiece(King.of(Piece.Color.WHITE), 'k');
+        verifyPiece(King.of(Piece.Color.BLACK), 'K');
     }
 
-    private void verifyPiece(final Piece piece, String representation) {
+    private void verifyPiece(final Piece piece, char representation) {
         assertEquals(representation, piece.getRepresentation());
     }
 }

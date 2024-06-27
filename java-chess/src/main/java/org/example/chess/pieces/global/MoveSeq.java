@@ -16,4 +16,8 @@ public class MoveSeq {
     public List<Move> getMoves() {
         return moves;
     }
+
+    public void add(Move move) {
+        moves.add(move);
+    }
 }

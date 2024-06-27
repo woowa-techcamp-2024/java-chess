@@ -146,10 +146,12 @@ public class BoardTest {
 
     @Test
     public void moveTo_목적지에_이미_같은팀_말이_존재해서_실패한다() throws Exception {
-        board.initialize();
+        board.initializeEmpty();
 
         Position sourcePosition = Position.of("b2");
         Position targetPosition = Position.of("c2");
+        board.setPiece(sourcePosition, Pawn.of(Piece.Color.WHITE));
+        board.setPiece(targetPosition, Pawn.of(Piece.Color.WHITE));
 
         assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
     }
@@ -165,11 +167,11 @@ public class BoardTest {
     }
 
     @Test
-    public void moveTo_성공_테스트_목적지에_다른팀이_존재한다() throws Exception {
+    public void moveTo_pawn_이동_성공_테스트() throws Exception {
         board.initialize();
 
         Position sourcePosition = Position.of("b2");
-        Position targetPosition = Position.of("b7");
+        Position targetPosition = Position.of("b3");
 
         board.moveTo(sourcePosition, targetPosition);
 
