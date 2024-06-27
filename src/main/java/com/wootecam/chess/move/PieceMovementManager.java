@@ -2,11 +2,20 @@ package com.wootecam.chess.move;
 
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.Position;
+import com.wootecam.chess.pieces.Pawn;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.property.PieceType;
 import java.util.Optional;
 
 public class PieceMovementManager {
+    private static final int INITIAL_BLACK_PAWN_ROW_INDEX = 1;
+    private static final int INITIAL_WHITE_PAWN_ROW_INDEX = 6;
+
+    private static boolean canPawnMoveFirst(Pawn pawn, Position from, Position to) {
+        Direction directionFirstMove = pawn.getColor().isBlack() ? Direction.EE : Direction.WW;
+        int rowFirstMove = pawn.getColor().isBlack() ? INITIAL_BLACK_PAWN_ROW_INDEX : INITIAL_WHITE_PAWN_ROW_INDEX;
+
+        return from.x == rowFirstMove && from.moveBy(directionFirstMove).equals(to);
+    }
 
     public void move(Board board, Position from, Position to) {
         if (board.isEmpty(from)) {
@@ -14,14 +23,15 @@ public class PieceMovementManager {
         }
 
         Piece piece = board.get(from);
-        if (!canMove(board, piece, from, to)) {
+        if ((piece.isPawn() && canPawnMove(board, (Pawn) piece, from, to))
+                || (!piece.isPawn() && canMoveExceptPawn(board, piece, from, to))) {
             throw new IllegalArgumentException("Cannot move " + from + " to " + to);
         }
 
         board.move(from, to);
     }
 
-    private boolean canMove(Board board, Piece piece, Position from, Position to) {
+    private boolean canMoveExceptPawn(Board board, Piece piece, Position from, Position to) {
         if (isAllyPieceAtTarget(board, piece, to)) {
             return false;
         }
@@ -41,9 +51,6 @@ public class PieceMovementManager {
             if (!board.isEmpty(nextPos)) {
                 return false;
             }
-            if (piece.isType(PieceType.KING)) {
-                break;
-            }
             nextPos = nextPos.moveBy(direction);
         }
 
@@ -52,5 +59,29 @@ public class PieceMovementManager {
 
     private boolean isAllyPieceAtTarget(Board board, Piece piece, Position target) {
         return board.isAllyPieceAt(target, piece);
+    }
+
+    private boolean canPawnMove(Board board, Pawn pawn, Position from, Position to) {
+        if (isAllyPieceAtTarget(board, pawn, to)) {
+            return false;
+        }
+        boolean isTargetEmpty = board.isEmpty(to);
+
+        Optional<Direction> correctDirection = pawn.findCorrectDirection(from, to);
+        if (correctDirection.isEmpty()) {
+            return canPawnMoveFirst(pawn, from, to) && isTargetEmpty;
+        }
+        Direction direction = correctDirection.get();
+
+        Position nextPos = from.moveBy(direction);
+        if (!nextPos.equals(to)) {
+            return false;
+        }
+
+        if (direction.isDiagonal() && !isTargetEmpty) {
+            return true;
+        }
+
+        return !isTargetEmpty;
     }
 }

@@ -14,9 +14,9 @@ import java.util.Optional;
 public class Piece {
     public static final Piece BLANK = new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
 
-    private final PieceType type;
-    private final Color color;
-    private final PieceRepresentation representation;
+    protected final PieceType type;
+    protected final Color color;
+    protected final PieceRepresentation representation;
 
     protected Piece(PieceType pieceType, Color color) {
         this.type = pieceType;
@@ -132,11 +132,12 @@ public class Piece {
         return Optional.empty();
     }
 
-    protected Optional<Direction> findCorrectDirectionInternal(Position from, Position to, List<Direction> directions) {
+    protected Optional<Direction> findCorrectDirectionInternal(Position from, Position to, List<Direction> directions,
+                                                               int range) {
         for (Direction d : directions) {
             int nx = from.x;
             int ny = from.y;
-            while (true) {
+            for (int i = 0; i < range; ++i) {
                 nx += d.xDegree;
                 ny += d.yDegree;
                 if (!isValidIndex(nx, ny)) {

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class King extends Piece {
     private static final List<Direction> KING_DIRECTIONS = Direction.kingDirections();
+    private static final int KING_RANGE = 1;
 
     public King(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -16,17 +17,6 @@ public class King extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        int xOffset = to.x - from.x;
-        int yOffset = to.y - from.y;
-
-        Optional<Direction> directionOpt = Direction.findByDegree(xOffset, yOffset);
-        if (directionOpt.isEmpty()) {
-            return Optional.empty();
-        }
-        Direction direction = directionOpt.get();
-
-        return KING_DIRECTIONS.stream()
-                .filter(d -> d == direction)
-                .findFirst();
+        return findCorrectDirectionInternal(from, to, KING_DIRECTIONS, KING_RANGE);
     }
 }

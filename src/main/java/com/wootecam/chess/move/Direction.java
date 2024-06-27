@@ -2,9 +2,6 @@ package com.wootecam.chess.move;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public enum Direction {
     NORTH(0, 1),
@@ -16,6 +13,9 @@ public enum Direction {
     WEST(-1, 0),
     NORTHWEST(-1, 1),
 
+    EE(2, 0),
+    WW(-2, 0),
+
     NNE(1, 2),
     NNW(-1, 2),
     SSE(1, -2),
@@ -25,16 +25,16 @@ public enum Direction {
     WWN(-2, 1),
     WWS(-2, -1);
 
-    private static final Map<Degree, Direction> CONVERTOR = Arrays.stream(values())
-            .collect(Collectors.toMap(
-                    d -> new Degree(d.xDegree, d.yDegree),
-                    d -> d));
     public final int xDegree;
     public final int yDegree;
 
     Direction(int xDegree, int yDegree) {
         this.xDegree = xDegree;
         this.yDegree = yDegree;
+    }
+
+    public static List<Direction> whitePawnDirection() {
+        return Arrays.asList(WEST, SOUTHWEST, NORTHWEST);
     }
 
     public static List<Direction> linearDirection() {
@@ -53,12 +53,12 @@ public enum Direction {
         return Arrays.asList(NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS);
     }
 
-    public static List<Direction> whitePawnDirection() {
-        return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
+    public static List<Direction> blackPawnDirection() {
+        return Arrays.asList(EAST, SOUTHEAST, NORTHEAST);
     }
 
-    public static List<Direction> blackPawnDirection() {
-        return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
+    public boolean isDiagonal() {
+        return this.equals(NORTHEAST) || this.equals(NORTHWEST) || this.equals(SOUTHEAST) || this.equals(SOUTHWEST);
     }
 
     public static List<Direction> kingDirections() {
@@ -73,14 +73,7 @@ public enum Direction {
         return diagonalDirection();
     }
 
-    public static Optional<Direction> findByDegree(int xDegree, int yDegree) {
-        return Optional.ofNullable(CONVERTOR.get(new Degree(xDegree, yDegree)));
-    }
-
     public static List<Direction> queenDirections() {
         return everyDirection();
-    }
-
-    private record Degree(int x, int y) {
     }
 }

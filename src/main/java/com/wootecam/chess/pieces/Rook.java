@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class Rook extends Piece {
     private static final List<Direction> ROOK_DIRECTIONS = Direction.rookDirections();
+    private static final int ROOK_RANGE = 16;
 
     public Rook(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -16,6 +17,6 @@ public class Rook extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        return findCorrectDirectionInternal(from, to, ROOK_DIRECTIONS);
+        return findCorrectDirectionInternal(from, to, ROOK_DIRECTIONS, ROOK_RANGE);
     }
 }

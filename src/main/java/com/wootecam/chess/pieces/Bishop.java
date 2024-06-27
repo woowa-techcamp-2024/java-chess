@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class Bishop extends Piece {
     private static final List<Direction> BISHOP_DIRECTIONS = Direction.bishopDirections();
+    private static final int BISHOP_RANGE = 16;
 
     public Bishop(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -16,6 +17,6 @@ public class Bishop extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        return findCorrectDirectionInternal(from, to, BISHOP_DIRECTIONS);
+        return findCorrectDirectionInternal(from, to, BISHOP_DIRECTIONS, BISHOP_RANGE);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class Knight extends Piece {
     private static final List<Direction> KNIGHT_DIRECTIONS = Direction.knightDirection();
+    private static final int KNIGHT_RANGE = 1;
 
     public Knight(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -16,6 +17,6 @@ public class Knight extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        return findCorrectDirectionInternal(from, to, KNIGHT_DIRECTIONS);
+        return findCorrectDirectionInternal(from, to, KNIGHT_DIRECTIONS, KNIGHT_RANGE);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public class Queen extends Piece {
     private static final List<Direction> QUEEN_DIRECTIONS = Direction.queenDirections();
+    private static final int QUEEN_RANGE = 16;
 
     public Queen(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -16,6 +17,6 @@ public class Queen extends Piece {
 
     @Override
     public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        return findCorrectDirectionInternal(from, to, QUEEN_DIRECTIONS);
+        return findCorrectDirectionInternal(from, to, QUEEN_DIRECTIONS, QUEEN_RANGE);
     }
 }
