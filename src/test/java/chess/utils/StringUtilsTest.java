@@ -9,7 +9,7 @@ class StringUtilsTest {
     @Test
     public void appendNewLineTest(){
         String str = "helloworld";
-        assertEquals("helloworld\n", StringUtils.appendNewLine(str));
+        assertEquals("helloworld".concat(System.lineSeparator()), StringUtils.appendNewLine(str));
     }
 
     @Test
