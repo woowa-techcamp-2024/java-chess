@@ -28,4 +28,16 @@ abstract class PawnTest {
         assertFalse(pawn.canMove(board.findPiece(Position.from("c4")))); // 대각선으로 이동 (상대 말이 없음)
         assertFalse(pawn.canMove(board.findPiece(Position.from("e4")))); // 대각선으로 이동 (상대 말이 없음)
     }
+
+    @Test
+    void testInitPawn() {
+        Board board = BoardFactory.createStandard();
+        Pawn pawn = (Pawn) board.findPiece(Position.D7);
+
+        assertTrue(pawn.canMove(board.findPiece(Position.D5)));
+        assertTrue(pawn.canMove(board.findPiece(Position.D6)));
+
+        assertFalse(pawn.canMove(board.findPiece(Position.E5)));
+        assertFalse(pawn.canMove(board.findPiece(Position.E4)));
+    }
 }

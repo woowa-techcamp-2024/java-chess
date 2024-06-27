@@ -5,6 +5,8 @@ import chess.pieces.type.Color;
 import chess.pieces.type.Type;
 
 public class Pawn extends Piece {
+    private static final int BLACK_DIRECTION = 1;
+    private static final int WHITE_DIRECTION = -1;
     private boolean isFirstMove = true;  // 이걸 사용하려면 이동시에 새로운 객체를 만들면 안됨
 
     private Pawn(Color color, Position position) {
@@ -22,11 +24,11 @@ public class Pawn extends Piece {
         Position targetPosition = target.getPosition();
         Position currentPosition = getPosition();
 
-        int rankDiff = Math.abs(targetPosition.getRank() - currentPosition.getRank());
+        int rankDiff = targetPosition.getRank() - currentPosition.getRank();
         int fileDiff = Math.abs(targetPosition.getFile() - currentPosition.getFile());
 
         // 백색 폰은 위로, 흑색 폰은 아래로 움직인다.
-        int forwardDirection = (getColor() == Color.WHITE) ? 1 : -1;
+        int forwardDirection = (getColor() == Color.WHITE) ? WHITE_DIRECTION : BLACK_DIRECTION;
 
         // 1칸 전진
         if (fileDiff == 0 && rankDiff == forwardDirection) {
