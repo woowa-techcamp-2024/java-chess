@@ -10,7 +10,7 @@ import java.util.Objects;
 public abstract class Piece {
     private final Color color;
     private final Type type;
-    private final Position position;
+    private Position position;
 
     protected Piece(Color color, Type type, Position position) {
         this.color = color;
@@ -18,7 +18,7 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public abstract Piece copyWithPosition(Position position);
+//    public abstract Piece copyWithPosition(Position position);
     public abstract boolean canMove(Piece target);
 
     public Color getColor() {
@@ -37,12 +37,21 @@ public abstract class Piece {
         return position;
     }
 
+    public void moveTo(Position position) {
+        // 본인이 알아서 움직이기는 힘들겠지..?
+        this.position = position;
+    }
+
     public boolean isPieceOf(Representation representation) {
         return isPieceOf(representation.getType(), representation.getColor());
     }
 
     public boolean isPieceOf(Type type, Color color) {
         return this.type == type && this.color == color;
+    }
+
+    public boolean isSameColor(Piece target) {
+        return this.color == target.color;
     }
 
     @Override

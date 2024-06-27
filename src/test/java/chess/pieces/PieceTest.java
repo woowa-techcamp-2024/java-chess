@@ -8,6 +8,19 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
+    @Nested
+    class TestBishop extends BishopTest {}
+    @Nested
+    class TestKing extends KingTest {}
+    @Nested
+    class TestKnight extends KnightTest {}
+    @Nested
+    class TestPawn extends PawnTest {}
+    @Nested
+    class TestQueen extends QueenTest {}
+    @Nested
+    class TestRook extends RookTest {}
+
     @Test
     @DisplayName("모든 종류의 기물이 생성되어야 한다")
     public void create_piece() {

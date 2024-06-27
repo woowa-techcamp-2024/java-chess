@@ -14,12 +14,7 @@ public class Blank extends Piece {
     }
 
     @Override
-    public Piece copyWithPosition(Position position) {
-        return copyWithPosition(position);
-    }
-
-    @Override
     public boolean canMove(Piece target) {
-        return false;
+        throw new UnsupportedOperationException("빈칸이 움직이나요??");
     }
 }

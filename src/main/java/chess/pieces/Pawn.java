@@ -5,6 +5,8 @@ import chess.pieces.type.Color;
 import chess.pieces.type.Type;
 
 public class Pawn extends Piece {
+    private boolean isFirstMove = true;  // 이걸 사용하려면 이동시에 새로운 객체를 만들면 안됨
+
     private Pawn(Color color, Position position) {
         super(color, Type.PAWN, position);
     }
@@ -14,18 +16,36 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Piece copyWithPosition(Position position) {
-        return create(this.getColor(), position);
-    }
-
-    @Override
     public boolean canMove(Piece target) {
-        // TODO Pawn에 맞게 구현
+        if (isSameColor(target)) return false;
+
         Position targetPosition = target.getPosition();
+        Position currentPosition = getPosition();
 
-        int ty = Math.abs(this.getPosition().getFile() - targetPosition.getFile());
-        int tx = Math.abs(this.getPosition().getRank() - targetPosition.getRank());
+        int rankDiff = Math.abs(targetPosition.getRank() - currentPosition.getRank());
+        int fileDiff = Math.abs(targetPosition.getFile() - currentPosition.getFile());
 
-        return ty <= 1 && tx <= 1 && (tx + ty) == 1;
+        // 백색 폰은 위로, 흑색 폰은 아래로 움직인다.
+        int forwardDirection = (getColor() == Color.WHITE) ? 1 : -1;
+
+        // 1칸 전진
+        if (fileDiff == 0 && rankDiff == forwardDirection) {
+            isFirstMove = false;
+            return target.getType() == Type.NO_PIECE;
+        }
+
+        // 처음에 2칸 전진
+        if (isFirstMove && fileDiff == 0 && rankDiff == 2 * forwardDirection) {
+            isFirstMove = false;
+            return target.getType() == Type.NO_PIECE;
+        }
+
+        // 대각선으로 적을 잡는 경우
+        if (fileDiff == 1 && rankDiff == forwardDirection) {
+            isFirstMove = false;
+            return target.getType() != Type.NO_PIECE;
+        }
+
+        return false;
     }
 }

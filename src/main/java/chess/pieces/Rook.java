@@ -14,12 +14,12 @@ public class Rook extends Piece {
     }
 
     @Override
-    public Piece copyWithPosition(Position position) {
-        return create(this.getColor(), position);
-    }
-
-    @Override
     public boolean canMove(Piece target) {
-        return false;
+        if (isSameColor(target)) return false;
+
+        Position targetPosition = target.getPosition();
+        int tx = Math.abs(this.getPosition().getFile() - targetPosition.getFile());
+        int ty = Math.abs(this.getPosition().getRank() - targetPosition.getRank());
+        return tx == 0 || ty == 0;
     }
 }

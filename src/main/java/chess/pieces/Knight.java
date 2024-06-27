@@ -14,12 +14,13 @@ public class Knight extends Piece {
     }
 
     @Override
-    public Piece copyWithPosition(Position position) {
-        return create(this.getColor(), position);
-    }
-
-    @Override
     public boolean canMove(Piece target) {
-        return false;
+        if (isSameColor(target)) return false;
+
+        Position targetPosition = target.getPosition();
+        int ty = Math.abs(this.getPosition().getFile() - targetPosition.getFile());
+        int tx = Math.abs(this.getPosition().getRank() - targetPosition.getRank());
+
+        return (tx == 1 && ty == 2) || (tx == 2 && ty == 1);
     }
 }

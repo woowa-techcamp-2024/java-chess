@@ -14,17 +14,13 @@ public class King extends Piece {
     }
 
     @Override
-    public Piece copyWithPosition(Position position) {
-        return new King(this.getColor(), position);
-    }
-
-    @Override
     public boolean canMove(Piece target) {
-        Position targetPosition = target.getPosition();
+        if (isSameColor(target)) return false;
 
+        Position targetPosition = target.getPosition();
         int ty = Math.abs(this.getPosition().getFile() - targetPosition.getFile());
         int tx = Math.abs(this.getPosition().getRank() - targetPosition.getRank());
 
-        return ty <= 1 && tx <= 1 && (tx + ty) == 1;
+        return ty <= 1 && tx <= 1;
     }
 }

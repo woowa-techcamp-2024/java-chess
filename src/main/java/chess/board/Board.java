@@ -44,8 +44,10 @@ public class Board {
         }
 
         // 이동
+        sourcePiece.moveTo(target);
         setPiece(PieceFactory.createBlank(source));
-        setPiece(sourcePiece.copyWithPosition(target));
+        setPiece(sourcePiece);
+//        setPiece(sourcePiece.copyWithPosition(target));
     }
 
     public void setPiece(Piece piece) {
