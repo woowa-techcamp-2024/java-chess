@@ -118,11 +118,14 @@ public class Board {
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL.getCount()).forEach(col -> {
             final Piece piece = Piece.createPiece(PAWN, color);
-            addPawn(initRow, col, piece);
+            final Position position = new Position(initRow, col);
+            addPiece(piece, position);
         });
     }
 
-    private void addPawn(final int row, final int col, final Piece piece) {
+    public void addPiece(final Piece piece, final Position position) {
+        final int row = position.getRow();
+        final int col = position.getCol();
         board.get(row).replace(col, piece);
     }
 
