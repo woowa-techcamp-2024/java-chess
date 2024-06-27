@@ -1,5 +1,7 @@
 package wootecamp.chess.board;
 
+import wootecamp.chess.pieces.Direction;
+
 public class BoardPosition {
     private final int rankPosition;
     private final int filePosition;
@@ -11,6 +13,13 @@ public class BoardPosition {
         this.rankPosition = parseRankToIndex(rankPosition);
         this.filePosition = parseFileToIndex(filePosition);
     }
+
+    private BoardPosition(int filePosition, int rankPosition) {
+        this.rankPosition = rankPosition;
+        this.filePosition = filePosition;
+    }
+
+    //TODO : validation
 
     private int parseRankToIndex(final char rankPosition) {
         final char standardChar = '1';
@@ -28,5 +37,9 @@ public class BoardPosition {
 
     public int getFilePosition() {
         return filePosition;
+    }
+
+    public BoardPosition createNextPosition(Direction direction) {
+        return new BoardPosition(this.filePosition + direction.getX(), this.rankPosition + direction.getY());
     }
 }

@@ -62,8 +62,7 @@ public class Board {
         return builder.toString();
     }
 
-    public Piece findPiece(final String position) {
-        final BoardPosition boardPosition = new BoardPosition(position);
+    public Piece findPiece(final BoardPosition boardPosition) {
         final Rank rank = board.get(boardPosition.getRankPosition());
         return rank.findPiece(boardPosition.getFilePosition());
     }
@@ -76,17 +75,15 @@ public class Board {
     }
 
 
-    public void move(String source, String target) {
+    public void move(BoardPosition source, BoardPosition target) {
         Piece piece = findPiece(source);
         setPiece(source, PieceFactory.createEmptyPiece());
         setPiece(target, piece);
     }
 
-    private void setPiece(final String position, final Piece piece) {
-        BoardPosition boardPosition = new BoardPosition(position);
-
-        Rank rank = board.get(boardPosition.getRankPosition());
-        rank.setPiece(boardPosition.getFilePosition(), piece);
+    private void setPiece(final BoardPosition position, final Piece piece) {
+        Rank rank = board.get(position.getRankPosition());
+        rank.setPiece(position.getFilePosition(), piece);
     }
 
     public double calculatePoint(final Piece.Color color) {

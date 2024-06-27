@@ -1,46 +1,43 @@
 package wootecamp.chess;
 
-import wootecamp.chess.board.Board;
+import wootecamp.chess.board.BoardPosition;
 
 import java.util.Scanner;
 
 public class Main {
-    private static Board board = new Board();
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        Game game = new Game();
         while(true) {
-            String command = sc.nextLine();
+            try {
+                String command = sc.nextLine();
 
-            if(command.equals("start")) {
-                start();
-                continue;
+                if (command.equals("start")) {
+                    game.start();
+                    continue;
+                }
+
+                if (command.startsWith("move")) {
+                    move(game, command);
+                    continue;
+                }
+
+                if (command.equals("end")) {
+                    break;
+                }
+
+                throw new IllegalArgumentException("잘못된 입력입니다.");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-
-            if(command.startsWith("move")) {
-                move(command);
-                continue;
-            }
-
-            if(command.equals("end")) {
-                break;
-            }
-
-            throw new IllegalArgumentException("잘못된 입력입니다.");
         }
     }
 
-    private static void start() {
-        board.initialize();
-        System.out.println(board.showBoard());
-    }
-
-    private static void move(String command) {
+    private static void move(Game game, String command) {
         String[] commands = command.split(" ");
-        final String source = commands[1];
-        final String target = commands[2];
-        board.move(source, target);
-
-        System.out.println(board.showBoard());
+        BoardPosition source = new BoardPosition(commands[1]);
+        BoardPosition target = new BoardPosition(commands[2]);
+        game.move(source, target);
     }
 }

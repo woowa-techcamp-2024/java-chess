@@ -117,4 +117,12 @@ public enum Direction {
 
         return Optional.empty();
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
