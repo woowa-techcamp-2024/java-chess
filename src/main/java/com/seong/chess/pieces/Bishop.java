@@ -26,12 +26,4 @@ public class Bishop extends Piece {
     protected boolean isPiecesDirection(Direction direction) {
         return direction.isDiagonal();
     }
-
-    @Override
-    public void checkPieceCanMove(Direction direction) {
-        if (isPiecesDirection(direction)) {
-            return;
-        }
-        throw new IllegalArgumentException("비숍은 정방향으로 이동할 수 없습니다.");
-    }
 }

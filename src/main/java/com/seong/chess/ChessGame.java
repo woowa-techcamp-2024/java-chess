@@ -1,7 +1,6 @@
 package com.seong.chess;
 
 import com.seong.chess.pieces.Blank;
-import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
@@ -21,12 +20,6 @@ public class ChessGame {
         sourcePositionPiece.checkSameColor(targetPositionPiece);
         board.move(sourcePosition, Blank.create());
         board.move(targetPosition, sourcePositionPiece);
-    }
-
-    public void move(String sourcePosition, Direction direction, int moveCount) {
-        Piece piece = board.findPiece(sourcePosition);
-        Position targetPosition = piece.nextPosition(sourcePosition, direction, moveCount);
-        board.move(targetPosition.convert(), piece);
     }
 
     public void initialize() {

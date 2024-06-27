@@ -26,12 +26,4 @@ public class Rook extends Piece {
     protected boolean isPiecesDirection(Direction direction) {
         return direction.isRight();
     }
-
-    @Override
-    public void checkPieceCanMove(Direction direction) {
-        if (isPiecesDirection(direction)) {
-            return;
-        }
-        throw new IllegalArgumentException("룩은 정방향으로만 움직일 수 있습니다.");
-    }
 }

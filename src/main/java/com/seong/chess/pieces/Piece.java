@@ -72,18 +72,6 @@ public abstract class Piece {
         findNextPositions(nextPosition, direction, positions);
     }
 
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        checkPieceCanMove(direction);
-        Position position = Position.convert(sourcePosition);
-        if (moveCount == 0) {
-            return position;
-        }
-        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
-        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
-    }
-
-    public abstract void checkPieceCanMove(Direction direction);
-
     public void checkSameColor(Piece targetPositionPiece) {
         if (color != targetPositionPiece.color) {
             return;
@@ -94,7 +82,7 @@ public abstract class Piece {
     public boolean isPawn(Color color) {
         return this instanceof Pawn pawn && pawn.color == color;
     }
-    
+
     public double getDefaultPoint() {
         return defaultPoint;
     }

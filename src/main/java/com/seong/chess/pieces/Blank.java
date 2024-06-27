@@ -22,9 +22,4 @@ public class Blank extends Piece {
     protected boolean isPiecesDirection(Direction direction) {
         return false;
     }
-
-    @Override
-    public void checkPieceCanMove(Direction direction) {
-
-    }
 }

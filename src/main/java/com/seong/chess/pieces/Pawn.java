@@ -47,33 +47,4 @@ public class Pawn extends Piece {
             findNextPositions(nextPosition, direction, positions);
         }
     }
-
-    @Override
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        checkPieceCanMove(direction);
-        Position position = Position.convert(sourcePosition);
-        checkMoveCount(position, moveCount);
-        return new Position(position.col() + direction.col * moveCount, position.row() + direction.row * moveCount);
-    }
-
-    @Override
-    public void checkPieceCanMove(Direction direction) {
-        if (isPiecesDirection(direction)) {
-            return;
-        }
-        throw new IllegalArgumentException("폰은 전진만 할 수 있습니다.");
-    }
-
-    private void checkMoveCount(Position position, int moveCount) {
-        if (moveCount > 2) {
-            throw new IllegalArgumentException("폰은 2칸 이하로만 움직일 수 있습니다.");
-        }
-        if (moveCount == 2) {
-            if (position.isPawnRow()) {
-                return;
-            }
-            throw new IllegalArgumentException("초기상태의 폰만 2칸 이상으로 움직일 수 있습니다.");
-        }
-
-    }
 }

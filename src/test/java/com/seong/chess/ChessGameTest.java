@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.seong.chess.pieces.Blank;
-import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.King;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
@@ -118,21 +117,5 @@ class ChessGameTest {
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
-    }
-
-    @Test
-    @DisplayName("체스 게임의 기물을 움직일 수 있다.")
-    public void moveChessPieces() {
-        //given
-        Board onlyKing = new Board();
-        ChessGame kingChessGame = new ChessGame(onlyKing);
-        onlyKing.initializeEmpty();
-        onlyKing.move("a2", King.createBlack());
-
-        //when
-        kingChessGame.move("a2", Direction.NORTH, 1);
-
-        //then
-        assertThat(onlyKing.findPiece("a3")).isEqualTo(King.createBlack());
     }
 }

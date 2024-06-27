@@ -38,18 +38,4 @@ public class Knight extends Piece {
         Position nextPosition = new Position(prevPosition.col() + direction.col, prevPosition.row() + direction.row);
         positions.add(nextPosition);
     }
-
-    @Override
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        checkPieceCanMove(direction);
-        Position position = Position.convert(sourcePosition);
-        return new Position(position.col() + direction.col, position.row() + direction.row);
-    }
-
-    @Override
-    public void checkPieceCanMove(Direction direction) {
-        if (!isPiecesDirection(direction)) {
-            throw new IllegalArgumentException("킹은 정방향, 대각선으로 움직일 수 없습니다.");
-        }
-    }
 }
