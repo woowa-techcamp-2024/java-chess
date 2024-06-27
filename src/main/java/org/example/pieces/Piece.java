@@ -1,6 +1,7 @@
 package org.example.pieces;
 
-import static org.example.pieces.Piece.Color.*;
+import static org.example.pieces.Piece.Color.BLACK;
+import static org.example.pieces.Piece.Color.WHITE;
 
 import java.util.Objects;
 import org.example.chess.Position;
@@ -66,6 +67,7 @@ public abstract class Piece {
 
     private final Color color;
     private final Type representation;
+    private int moveCount = 0;
 
     Piece(Color color, Type representation) {
         this.color = color;
@@ -79,6 +81,10 @@ public abstract class Piece {
     public char getRepresentation() {
         return isWhite() ?
             representation.getWhiteRepresentation() : representation.getBlackRepresentation();
+    }
+
+    public int getMoveCount() {
+        return moveCount;
     }
 
     public boolean isWhite() {
@@ -108,8 +114,13 @@ public abstract class Piece {
 
     abstract boolean verifyMove(Position start, Position end);
 
-    boolean verifyMove(String start, String end){
-        return verifyMove(new Position(start), new Position(end));
+    boolean verifyMove(String start, String end) {
+        boolean ret = verifyMove(new Position(start), new Position(end));
+
+        if (ret) {
+            moveCount++;
+        }
+        return ret;
     }
 
 }
