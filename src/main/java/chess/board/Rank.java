@@ -3,6 +3,7 @@ package chess.board;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
+import chess.pieces.PieceFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,15 +32,15 @@ public class Rank {
     }
 
     public static Rank createWhitePawnRank(int size) {
-        return createRank(size, Piece::createWhitePawn);
+        return createRank(size, PieceFactory::createWhitePawn);
     }
 
     public static Rank createBlackPawnRank(int size) {
-        return createRank(size, Piece::createBlackPawn);
+        return createRank(size, PieceFactory::createBlackPawn);
     }
 
     public static Rank createBlankRank(int size) {
-        return createRank(size, Piece::createBlank);
+        return createRank(size, PieceFactory::createBlankPiece);
     }
 
     public Piece findPiece(int fileNum) {
@@ -77,11 +78,5 @@ public class Rank {
             throw new IllegalArgumentException();
         }
         pieces.set(fileNum, piece);
-    }
-
-    public Piece removePiece(int fileNum) {
-        Piece piece = findPiece(fileNum);
-        set(fileNum, Piece.createBlank());
-        return piece;
     }
 }

@@ -4,12 +4,10 @@ import static chess.board.Rank.createBlackPawnRank;
 import static chess.board.Rank.createBlankRank;
 import static chess.board.Rank.createWhitePawnRank;
 
-import chess.calculator.DefaultPointCalculateStrategy;
-import chess.calculator.PointCalculator;
-import chess.calculator.SameFilePawnPointCalculateStrategy;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
+import chess.pieces.PieceFactory;
 import chess.pieces.Position;
 import chess.sorter.Direction;
 import chess.sorter.Sorter;
@@ -26,16 +24,9 @@ public class Board {
 
     private final List<Rank> ranks;
 
-    private final PointCalculator pointCalculator;
-
     public Board() {
         this.ranks = new ArrayList<>(Collections.nCopies(RANK_COUNT, null));
-        pointCalculator = new PointCalculator(List.of(
-                new DefaultPointCalculateStrategy(),
-                new SameFilePawnPointCalculateStrategy()
-        ));
     }
-
 
     public Piece findPiece(Position position) {
         return getRank(position).findPiece(position.getFileNumber());
@@ -68,15 +59,9 @@ public class Board {
 
     public void initialize() {
         initializeRank(0, new Rank(FILE_COUNT, Arrays.asList(
-                Piece.createWhiteRook(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteQueen(),
-                Piece.createWhiteKing(),
-                Piece.createWhiteBishop(),
-                Piece.createWhiteKnight(),
-                Piece.createWhiteRook()
-        )));
+                PieceFactory.createWhiteRook(), PieceFactory.createWhiteKnight(), PieceFactory.createWhiteBishop(),
+                PieceFactory.createWhiteQueen(), PieceFactory.createWhiteKing(),
+                PieceFactory.createWhiteBishop(), PieceFactory.createWhiteKnight(), PieceFactory.createWhiteRook())));
         initializeRank(1, createWhitePawnRank(FILE_COUNT));
         initializeRank(2, createBlankRank(FILE_COUNT));
         initializeRank(3, createBlankRank(FILE_COUNT));
@@ -84,15 +69,9 @@ public class Board {
         initializeRank(5, createBlankRank(FILE_COUNT));
         initializeRank(6, createBlackPawnRank(FILE_COUNT));
         initializeRank(7, new Rank(FILE_COUNT, Arrays.asList(
-                Piece.createBlackRook(),
-                Piece.createBlackKnight(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen(),
-                Piece.createBlackKing(),
-                Piece.createBlackBishop(),
-                Piece.createBlackKnight(),
-                Piece.createBlackRook()
-        )));
+                PieceFactory.createBlackRook(), PieceFactory.createBlackKnight(), PieceFactory.createBlackBishop(),
+                PieceFactory.createBlackQueen(), PieceFactory.createBlackKing(),
+                PieceFactory.createBlackBishop(), PieceFactory.createBlackKnight(), PieceFactory.createBlackRook())));
     }
 
     private void initializeRank(int rankNum, Rank rank) {
@@ -109,22 +88,35 @@ public class Board {
         }
     }
 
-    public void move(Position position, Piece piece) {
+    public void move(Position source, Position target) {
+        if (source == target) {
+            throw new IllegalArgumentException();
+        }
+        Piece current = findPiece(source);
+        List<Position> path = current.getPath(source, target);
+        verifySameTeamOnPath(path, current);
+        replacePiece(source, PieceFactory.createBlankPiece());
+        replacePiece(target, current);
+    }
+
+    public void move(Position source, Piece piece) {
+        replacePiece(source, piece);
+    }
+
+    private void verifySameTeamOnPath(List<Position> path, Piece current) {
+        path.forEach(position -> {
+            Piece other = findPiece(position);
+            if (current.isSameTeam(other)) {
+                throw new IllegalArgumentException();
+            }
+        });
+    }
+
+    private void replacePiece(Position position, Piece piece) {
         Rank rank = getRank(position);
         rank.set(position.getFileNumber(), piece);
     }
 
-    public void move(Position source, Position target) {
-        Rank sourceRank = getRank(source);
-        Piece piece = sourceRank.removePiece(source.getFileNumber());
-
-        Rank targetRank = getRank(target);
-        targetRank.set(target.getFileNumber(), piece);
-    }
-
-    public double calculatePoint(Color color) {
-        return pointCalculator.calculate(this, color);
-    }
 
     public List<Piece> sort(Color color, Sorter sorter, Direction direction) {
         List<Piece> sorted = sorter.sort(getPieces(color), direction);
