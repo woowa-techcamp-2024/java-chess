@@ -32,6 +32,7 @@ public class AppConsole {
         this.gameCreationUseCase = gameCreationUseCase;
         this.gamePlayUseCase = gamePlayUseCase;
         output = new TextOutput();
+        processor = getGameStartProcessor();
     }
 
     private Processor getGameStartProcessor() {
