@@ -22,7 +22,7 @@ public class Game {
 
             if (command.equals(START)) {
                 Board board = new Board();
-                board.print();
+//                board.print();
 
                 // move 명령을 받는다.
                 String moveCommand = scanner.nextLine().toLowerCase();
@@ -31,7 +31,7 @@ public class Game {
                     String source = m[1];
                     String destination = m[2];
 //                    board.move(source, destination);
-                    board.print();
+//                    board.print();
                 }
                 continue;
             }

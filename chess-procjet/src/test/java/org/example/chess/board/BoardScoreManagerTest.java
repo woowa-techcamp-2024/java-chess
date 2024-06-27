@@ -1,6 +1,5 @@
 package org.example.chess.board;
 
-import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -18,10 +17,12 @@ class BoardScoreManagerTest {
     private BoardScoreManager boardScoreManager;
     private BoardInitializeManger boardInitializeManger;
     private BoardMoveManger boardMoveManger;
+    private BoardView boardView;
 
     @BeforeEach
     void setUp() {
         board = new Board();
+        boardView = new BoardView(board);
         boardScoreManager = new BoardScoreManager(board);
         boardInitializeManger = new BoardInitializeManger(board);
         boardMoveManger = new BoardMoveManger(board);
@@ -29,7 +30,7 @@ class BoardScoreManagerTest {
 
     @Test
     void calculatePoint() throws Exception {
-        boardInitializeManger.initializeEmpty(board);
+        boardInitializeManger.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());
@@ -42,25 +43,25 @@ class BoardScoreManagerTest {
         addPiece("e1", PieceFactory.createWhiteRook());
         addPiece("f1", PieceFactory.createWhiteKing());
 
-        board.print();
-        assertEquals(15.0, boardScoreManager.calculatePoint(board, Color.BLACK), 0.01);
-        assertEquals(7.0, boardScoreManager.calculatePoint(board, Color.WHITE), 0.01);
+        boardView.print();
+        assertEquals(15.0, boardScoreManager.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, boardScoreManager.calculatePoint(Color.WHITE), 0.01);
     }
 
     private void addPiece(String position, Piece piece) {
-        boardMoveManger.move(board, position, piece);
+        boardMoveManger.move(position, piece);
     }
 
     @Test
     void sortPiecesByScoreDescendingOrder() {
-        boardInitializeManger.initializeEmpty(board);
+        boardInitializeManger.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());
         addPiece("b8", PieceFactory.createBlackKing());
         addPiece("c8", PieceFactory.createBlackRook());
 
-        List<Piece> allPiecesSortByPoint = boardScoreManager.findAllPiecesSortByPoint(board, Color.BLACK,
+        List<Piece> allPiecesSortByPoint = boardScoreManager.findAllPiecesSortByPoint(Color.BLACK,
                 PieceComparatorFactory.DESCENDING);
 
         assertEquals(Type.QUEEN, allPiecesSortByPoint.get(0).getType());
@@ -71,14 +72,14 @@ class BoardScoreManagerTest {
 
     @Test
     void sortPiecesByScoreAscendigOrder() {
-        boardInitializeManger.initializeEmpty(board);
+        boardInitializeManger.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());
         addPiece("b8", PieceFactory.createBlackKing());
         addPiece("c8", PieceFactory.createBlackRook());
 
-        List<Piece> allPiecesSortByPoint = boardScoreManager.findAllPiecesSortByPoint(board, Color.BLACK,
+        List<Piece> allPiecesSortByPoint = boardScoreManager.findAllPiecesSortByPoint(Color.BLACK,
                 PieceComparatorFactory.ASCENDING);
 
         assertEquals(Type.KING, allPiecesSortByPoint.get(0).getType());

@@ -21,13 +21,13 @@ public class BoardInitializeManger {
         this.board = board;
     }
 
-    public void initialize(Board board) {
-        initializeEmpty(board);
-        initBlackPiece(board);
-        initWhitePiece(board);
+    public void initialize() {
+        initializeEmpty();
+        initBlackPiece();
+        initWhitePiece();
     }
 
-    private void initBlackPiece(Board board) {
+    private void initBlackPiece() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
             board.getBoard().get(BLACK_PAWN_INIT_ROW).changePiece(i, blackPawn);
@@ -46,7 +46,7 @@ public class BoardInitializeManger {
         board.getBoard().set(BLACK_INIT_ROW, blackPiecesExceptPawn);
     }
 
-    private void initWhitePiece(Board board) {
+    private void initWhitePiece() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece whitePawn = PieceFactory.createWhitePawn();
             board.getBoard().get(WHITE_PAWN_INIT_ROW).changePiece(i, whitePawn);
@@ -65,7 +65,7 @@ public class BoardInitializeManger {
         board.getBoard().set(WHITE_INIT_ROW, whitePieceExceptPawn);
     }
 
-    public void initializeEmpty(Board board) {
+    public void initializeEmpty() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Rank rank = new Rank();
             for (int j = 0; j < BOARD_SIZE; j++) {

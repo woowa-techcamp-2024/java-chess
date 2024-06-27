@@ -15,17 +15,19 @@ import org.junit.jupiter.api.Test;
 class BoardInitializeManagerTest {
 
     private Board board;
+    private BoardView boardView;
     private BoardInitializeManger boardInitializeManger;
 
     @BeforeEach
     void setUp() {
         board = new Board();
+        boardView = new BoardView(board);
         boardInitializeManger = new BoardInitializeManger(board);
     }
 
     @Test
     void create() throws Exception {
-        boardInitializeManger.initialize(board);
+        boardInitializeManger.initialize();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
@@ -34,13 +36,13 @@ class BoardInitializeManagerTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                board.showBoard()
+                boardView.showBoard()
         );
     }
 
     @Test
     void testCountPiecesByColorAndType() {
-        boardInitializeManger.initialize(board);
+        boardInitializeManger.initialize();
         assertEquals(8, board.countPiecesByColorAndType(Color.BLACK, Type.PAWN));
         assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.BISHOP));
         assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.KNIGHT));

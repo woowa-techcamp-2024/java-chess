@@ -23,24 +23,24 @@ class BoardMoveManagerTest {
 
     @Test
     void findPiece() throws Exception {
-        boardInitializeManger.initialize(board);
+        boardInitializeManger.initialize();
 
-        assertEquals(PieceFactory.createBlackRook(), boardMoveManger.findPiece(board, "a8"));
-        assertEquals(PieceFactory.createBlackRook(), boardMoveManger.findPiece(board, "h8"));
-        assertEquals(PieceFactory.createWhiteRook(), boardMoveManger.findPiece(board, "a1"));
-        assertEquals(PieceFactory.createWhiteRook(), boardMoveManger.findPiece(board, "h1"));
+        assertEquals(PieceFactory.createBlackRook(), boardMoveManger.findPiece("a8"));
+        assertEquals(PieceFactory.createBlackRook(), boardMoveManger.findPiece("h8"));
+        assertEquals(PieceFactory.createWhiteRook(), boardMoveManger.findPiece("a1"));
+        assertEquals(PieceFactory.createWhiteRook(), boardMoveManger.findPiece("h1"));
     }
 
     @Test
     void move() throws Exception {
-        boardInitializeManger.initialize(board);
+        boardInitializeManger.initialize();
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        Piece sourcePiece = boardMoveManger.findPiece(board, "b2");
-        boardMoveManger.move(board, sourcePosition, targetPosition);
+        Piece sourcePiece = boardMoveManger.findPiece("b2");
+        boardMoveManger.move(sourcePosition, targetPosition);
         // 보드판 초기상탱
         assertEquals(sourcePiece.getType(), Type.PAWN);
-        assertEquals(sourcePiece, boardMoveManger.findPiece(board, "b3"));
+        assertEquals(sourcePiece, boardMoveManger.findPiece("b3"));
     }
 }

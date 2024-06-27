@@ -1,15 +1,9 @@
 package org.example.chess.board;
 
-import static org.example.utils.StringUtils.appendNewLine;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.example.chess.board.sort.PieceComparator;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Color;
-import org.example.chess.pieces.Piece.PieceFactory;
 import org.example.chess.pieces.Piece.Type;
 
 public class Board {
@@ -18,9 +12,6 @@ public class Board {
 
     private final List<Rank> board = new ArrayList<>();
 
-    public void print() {
-        System.out.println(showBoard());
-    }
 
     public int pieceCount() {
         return (int) board.stream()
@@ -29,15 +20,6 @@ public class Board {
                 .count();
     }
 
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-        for (Rank row : board) {
-            sb.append(appendNewLine(row.getPieces().stream()
-                    .map(Piece::getRepresentation)
-                    .collect(Collectors.joining())));
-        }
-        return sb.toString();
-    }
 
     public int countPiecesByColorAndType(Color color, Type type) {
         int count = 0;
@@ -58,6 +40,10 @@ public class Board {
 
     protected List<Rank> getBoard() {
         return board;
+    }
+
+    public List<Rank> getBoardOnlyRead() {
+        return board.stream().toList();
     }
 
     public static class Rank {

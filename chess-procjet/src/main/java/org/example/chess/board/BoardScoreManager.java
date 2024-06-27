@@ -19,17 +19,17 @@ public class BoardScoreManager {
         this.board = board;
     }
 
-    public double calculatePoint(Board board, Color color) {
+    public double calculatePoint(Color color) {
         double points = 0.0;
         for (Rank rank : board.getBoard()) {
             points += rank.calculateRankPoint(color);
         }
 
-        int totalInColumnPawnCount = countPawnsInColumnsByColor(board, color);
+        int totalInColumnPawnCount = countPawnsInColumnsByColor(color);
         return points - PAWN_SCORE_DECREMENT * totalInColumnPawnCount;
     }
 
-    private int countPawnsInColumnsByColor(Board board, Color color) {
+    private int countPawnsInColumnsByColor(Color color) {
         int totalInColumnPawnCount = 0;
         for (int c = 0; c < BOARD_SIZE; c++) {
             int columnCount = 0;
@@ -46,7 +46,7 @@ public class BoardScoreManager {
         return totalInColumnPawnCount;
     }
 
-    public List<Piece> findAllPiecesSortByPoint(Board board, Color color, PieceComparator comparator) {
+    public List<Piece> findAllPiecesSortByPoint(Color color, PieceComparator comparator) {
         List<Piece> pieces = new ArrayList<>();
 
         for (Rank rank : board.getBoard()) {
