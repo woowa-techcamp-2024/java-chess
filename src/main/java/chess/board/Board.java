@@ -85,10 +85,6 @@ public class Board {
         targetRank.setPiece(coordinate.getWidthIndex(), piece);
     }
 
-    private Coordinate convertCoordinate(String coordinateStr) {
-        return Coordinate.of(coordinateStr);
-    }
-
     private void initializeWhitePawns() {
         ArrayList<Piece> initializedPieces = IntStream.range(0, BOARD_WIDTH)
                 .mapToObj(i -> Piece.createWhitePawn())
