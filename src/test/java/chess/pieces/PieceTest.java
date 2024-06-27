@@ -48,7 +48,7 @@ class PieceTest {
         Piece blank = Piece.createBlank();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
-        assertEquals(blank.getType(), Type.NO_PIECE);
+        assertEquals(Type.NO_PIECE, blank.getType());
     }
 
 
