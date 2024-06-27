@@ -13,14 +13,14 @@ public class PieceTest {
     @Test
     @DisplayName("색과 이름에 따른 체스말 기물이 생성된다.")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+        verifyPiece(Pawn.createWhite(), Pawn.createBlack(), Type.PAWN);
+        verifyPiece(Knight.createWhite(), Knight.createBlack(), Type.KNIGHT);
+        verifyPiece(Rook.createWhite(), Rook.createBlack(), Type.ROOK);
+        verifyPiece(Bishop.createWhite(), Bishop.createBlack(), Type.BISHOP);
+        verifyPiece(Queen.createWhite(), Queen.createBlack(), Type.QUEEN);
+        verifyPiece(King.createWhite(), King.createBlack(), Type.KING);
 
-        Piece blank = Piece.createBlank();
+        Piece blank = Blank.create();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
@@ -37,19 +37,19 @@ public class PieceTest {
     @Test
     @DisplayName("검은색 말과 흰색 말은 구분할 수 있다.")
     public void verifyPieceColor() {
-        verifyBlackPiece(Piece.createBlackBishop());
-        verifyBlackPiece(Piece.createBlackKnight());
-        verifyBlackPiece(Piece.createBlackRook());
-        verifyBlackPiece(Piece.createBlackQueen());
-        verifyBlackPiece(Piece.createBlackKing());
-        verifyBlackPiece(Piece.createBlackPawn());
+        verifyBlackPiece(Bishop.createBlack());
+        verifyBlackPiece(Knight.createBlack());
+        verifyBlackPiece(Rook.createBlack());
+        verifyBlackPiece(Queen.createBlack());
+        verifyBlackPiece(King.createBlack());
+        verifyBlackPiece(Pawn.createBlack());
 
-        verifyWhitePiece(Piece.createWhiteBishop());
-        verifyWhitePiece(Piece.createWhiteKing());
-        verifyWhitePiece(Piece.createWhiteQueen());
-        verifyWhitePiece(Piece.createWhiteRook());
-        verifyWhitePiece(Piece.createWhiteKnight());
-        verifyWhitePiece(Piece.createWhiteKnight());
+        verifyWhitePiece(Bishop.createWhite());
+        verifyWhitePiece(King.createWhite());
+        verifyWhitePiece(Queen.createWhite());
+        verifyWhitePiece(Rook.createWhite());
+        verifyWhitePiece(Knight.createWhite());
+        verifyWhitePiece(Knight.createWhite());
     }
 
     private void verifyBlackPiece(Piece piece) {

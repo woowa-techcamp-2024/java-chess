@@ -4,10 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.King;
+import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
+import com.seong.chess.pieces.Queen;
+import com.seong.chess.pieces.Rook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,8 +48,8 @@ class ChessGameTest {
             chessGame.move(sourcePosition, targetPosition);
 
             //then
-            assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
-            assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
+            assertEquals(Blank.create(), board.findPiece(sourcePosition));
+            assertEquals(Pawn.createWhite(), board.findPiece(targetPosition));
         }
 
         @Test
@@ -96,15 +100,15 @@ class ChessGameTest {
     public void calculatePoint() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", Pawn.createBlack());
+        addPiece("e6", Queen.createBlack());
+        addPiece("b8", King.createBlack());
+        addPiece("c8", Rook.createBlack());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Pawn.createWhite());
+        addPiece("g2", Pawn.createWhite());
+        addPiece("e1", Rook.createWhite());
+        addPiece("f1", King.createWhite());
 
         assertEquals(15.0, chessGame.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);

@@ -53,66 +53,6 @@ public abstract class Piece {
         this.defaultPoint = defaultPoint;
     }
 
-    public static Piece createBlank(Position position) {
-        return Blank.create();
-    }
-
-    public static Piece createBlank() {
-        return Blank.create();
-    }
-
-    public static Piece createWhitePawn(Position position) {
-        return Pawn.createWhite();
-    }
-
-    public static Piece createWhitePawn() {
-        return Pawn.createWhite();
-    }
-
-    public static Piece createBlackPawn() {
-        return Pawn.createBlack();
-    }
-
-    public static Piece createWhiteKing() {
-        return King.createWhite();
-    }
-
-    public static Piece createBlackKing() {
-        return King.createBlack();
-    }
-
-    public static Piece createWhiteQueen() {
-        return Queen.createWhite();
-    }
-
-    public static Piece createBlackQueen() {
-        return Queen.createBlack();
-    }
-
-    public static Piece createWhiteRook() {
-        return Rook.createWhite();
-    }
-
-    public static Piece createBlackRook() {
-        return Rook.createBlack();
-    }
-
-    public static Piece createWhiteBishop() {
-        return Bishop.createWhite();
-    }
-
-    public static Piece createBlackBishop() {
-        return Bishop.createBlack();
-    }
-
-    public static Piece createWhiteKnight() {
-        return Knight.createWhite();
-    }
-
-    public static Piece createBlackKnight() {
-        return Knight.createBlack();
-    }
-
     public char getRepresentation() {
         return isWhite() ? representation : Character.toUpperCase(representation);
     }

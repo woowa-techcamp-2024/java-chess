@@ -4,9 +4,15 @@ import static com.seong.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.seong.chess.pieces.Bishop;
+import com.seong.chess.pieces.King;
+import com.seong.chess.pieces.Knight;
+import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Piece.Type;
+import com.seong.chess.pieces.Queen;
+import com.seong.chess.pieces.Rook;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,10 +74,10 @@ public class BoardTest {
     public void findPiece() throws Exception {
         board.initialize();
 
-        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+        assertEquals(Rook.createBlack(), board.findPiece("a8"));
+        assertEquals(Rook.createBlack(), board.findPiece("h8"));
+        assertEquals(Rook.createWhite(), board.findPiece("a1"));
+        assertEquals(Rook.createWhite(), board.findPiece("h1"));
     }
 
     @Test
@@ -80,7 +86,7 @@ public class BoardTest {
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createBlackRook();
+        Piece piece = Rook.createBlack();
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -95,15 +101,15 @@ public class BoardTest {
         List<Piece> whitePiecesOrderByDesc = board.getPiecesOrderByHighestScore(Color.WHITE);
         assertThat(whitePiecesOrderByDesc)
                 .containsExactly(
-                        Piece.createWhiteQueen(),
-                        Piece.createWhiteRook(), Piece.createWhiteRook(),
-                        Piece.createWhiteBishop(), Piece.createWhiteBishop(),
-                        Piece.createWhiteKnight(), Piece.createWhiteKnight(),
-                        Piece.createWhitePawn(), Piece.createWhitePawn(),
-                        Piece.createWhitePawn(), Piece.createWhitePawn(),
-                        Piece.createWhitePawn(), Piece.createWhitePawn(),
-                        Piece.createWhitePawn(), Piece.createWhitePawn(),
-                        Piece.createWhiteKing()
+                        Queen.createWhite(),
+                        Rook.createWhite(), Rook.createWhite(),
+                        Bishop.createWhite(), Bishop.createWhite(),
+                        Knight.createWhite(), Knight.createWhite(),
+                        Pawn.createWhite(), Pawn.createWhite(),
+                        Pawn.createWhite(), Pawn.createWhite(),
+                        Pawn.createWhite(), Pawn.createWhite(),
+                        Pawn.createWhite(), Pawn.createWhite(),
+                        King.createWhite()
                 );
     }
 
@@ -115,15 +121,15 @@ public class BoardTest {
         List<Piece> blackPiecesOrderByAsc = board.getPiecesOrderByLowest(Color.BLACK);
         assertThat(blackPiecesOrderByAsc)
                 .containsExactly(
-                        Piece.createBlackKing(),
-                        Piece.createBlackPawn(), Piece.createBlackPawn(),
-                        Piece.createBlackPawn(), Piece.createBlackPawn(),
-                        Piece.createBlackPawn(), Piece.createBlackPawn(),
-                        Piece.createBlackPawn(), Piece.createBlackPawn(),
-                        Piece.createBlackKnight(), Piece.createBlackKnight(),
-                        Piece.createBlackBishop(), Piece.createBlackBishop(),
-                        Piece.createBlackRook(), Piece.createBlackRook(),
-                        Piece.createBlackQueen()
+                        King.createBlack(),
+                        Pawn.createBlack(), Pawn.createBlack(),
+                        Pawn.createBlack(), Pawn.createBlack(),
+                        Pawn.createBlack(), Pawn.createBlack(),
+                        Pawn.createBlack(), Pawn.createBlack(),
+                        Knight.createBlack(), Knight.createBlack(),
+                        Bishop.createBlack(), Bishop.createBlack(),
+                        Rook.createBlack(), Rook.createBlack(),
+                        Queen.createBlack()
                 );
     }
 }
