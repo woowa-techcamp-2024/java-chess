@@ -17,4 +17,10 @@ public enum Direction {
         this.row = row;
         this.col = col;
     }
+
+    public void checkBishop() {
+        if (this == NORTH || this == SOUTH || this == EAST || this == WEST) {
+            throw new IllegalArgumentException("비숍은 정방향으로 이동할 수 없습니다.");
+        }
+    }
 }

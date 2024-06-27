@@ -26,6 +26,12 @@ public class Bishop extends Piece {
 
     @Override
     public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        return null;
+        direction.checkBishop();
+        Position position = Position.convert(sourcePosition);
+        if (moveCount == 0) {
+            return position;
+        }
+        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
+        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
     }
 }
