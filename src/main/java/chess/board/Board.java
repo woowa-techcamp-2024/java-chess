@@ -69,6 +69,13 @@ public class Board {
                 .collect(Collectors.toList());
     }
 
+    public List<Position> findPosition(final PieceColor color) {
+        return this.board.entrySet().stream()
+                .filter(entry -> entry.getValue().getColor().equals(color))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
     public long getPieceResult(final PieceColor color, final Type type) {
         return board.values().stream()
                 .filter(pawn -> pawn.getColor().equals(color))
@@ -128,5 +135,14 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
         }
         return piece;
+    }
+
+    public Position findKingPosition(final PieceColor turn) {
+        return this.board.entrySet().stream()
+                .filter(entry -> entry.getValue().getType().equals(Type.KING))
+                .filter(entry -> entry.getValue().getColor().equals(turn))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .get();
     }
 }

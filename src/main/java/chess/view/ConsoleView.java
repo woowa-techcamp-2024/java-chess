@@ -16,6 +16,9 @@ public class ConsoleView {
     private static final String MOVE_FAIL_MESSAGE = "잘못 입력하셨습니다. 다시 입력해주세요.";
     private static final String CHESS_BOARD_MESSAGE = "체스판의 상태입니다.";
     private static final String TURN_MESSAGE = " 차례입니다.";
+    private static final String PROMOTION_MESSAGE = "프로모션할 기물을 선택해주세요. ex) queen, rook, bishop, knight";
+    private static final String CHECKMATE_MESSAGE = "체크메이트입니다.";
+    private static final String VICTORY_MESSAGE = "의 승리입니다.";
     private static final Scanner scanner = new Scanner(System.in);
 
     private ConsoleView() {
@@ -53,6 +56,11 @@ public class ConsoleView {
         System.out.println(message);
     }
 
+    public static String promotion() {
+        System.out.println(PROMOTION_MESSAGE);
+        return scanner.nextLine().trim();
+    }
+
     private static String[] splitCommand() {
         while (true) {
             String command = scanner.nextLine().trim();
@@ -74,4 +82,8 @@ public class ConsoleView {
         }
     }
 
+    public static void checkmate(final PieceColor turn) {
+        System.out.println(CHECKMATE_MESSAGE);
+        System.out.println(turn + VICTORY_MESSAGE);
+    }
 }

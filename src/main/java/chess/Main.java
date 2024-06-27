@@ -1,7 +1,6 @@
 package chess;
 
 import chess.config.AppConfig;
-import chess.exception.InvalidMoveException;
 import chess.piece.PieceColor;
 import chess.view.ConsoleView;
 
@@ -23,19 +22,26 @@ public class Main {
 
             try {
                 chessBoard = chessGame.play(commands[0], commands[1], turn);
-            } catch (InvalidMoveException e) {
+
+                if (chessGame.isPromotion(commands[1])) {
+                    String promotionPiece = ConsoleView.promotion();
+                    chessGame.promotion(commands[1], promotionPiece);
+                }
+            } catch (RuntimeException e) {
                 ConsoleView.printErrorMessage(e.getMessage());
                 continue;
             }
 
             ConsoleView.printChessBoard(chessBoard);
 
-            if (chessGame.isCheckmate()) {
+            if (chessGame.isCheckmate(turn)) {
                 break;
             }
 
             turn = turn.flip();
         }
+
+        ConsoleView.checkmate(turn);
     }
 
 }

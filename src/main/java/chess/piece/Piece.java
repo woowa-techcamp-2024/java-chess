@@ -14,8 +14,6 @@ public abstract class Piece {
 
     public abstract PieceMove getMoveable();
 
-//    public abstract int movableDistance();
-
     public PieceColor getColor() {
         return color;
     }
