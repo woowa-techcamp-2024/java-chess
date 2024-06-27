@@ -1,11 +1,16 @@
 package com.wootecam.chess.pieces;
 
-import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.Position;
+import com.wootecam.chess.move.Direction;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceRepresentation;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Piece {
     public static final Piece BLANK = new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+
     private final PieceType type;
     private final Color color;
     private final PieceRepresentation representation;
@@ -64,10 +69,6 @@ public class Piece {
         return createBlack(PieceType.KING);
     }
 
-    public static Piece createBlank() {
-        return new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
-    }
-
     private static Piece createWhite(PieceType type) {
         return createPiece(type, Color.WHITE);
     }
@@ -84,7 +85,7 @@ public class Piece {
             case BISHOP -> new Bishop(type, color);
             case QUEEN -> new Queen(type, color);
             case KING -> new King(type, color);
-            default -> new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+            default -> BLANK;
         };
     }
 
@@ -108,16 +109,24 @@ public class Piece {
         return isColor(piece.getColor());
     }
 
+    public boolean isType(PieceType type) {
+        return this.type == type;
+    }
+
     public boolean isPawn() {
-        return type == PieceType.PAWN;
+        return isType(PieceType.PAWN);
+    }
+
+    public boolean isKnight() {
+        return isType(PieceType.KNIGHT);
     }
 
     public boolean hasTypeAndColor(PieceType type, Color color) {
         return this.type == type && this.color == color;
     }
 
-    public boolean canMove(Board board, Position from, Position to) {
-        throw new UnsupportedOperationException();
+    public Optional<Direction> findCorrectDirection(Position from, Position to) {
+        return Optional.empty();
     }
 
     public PieceType getType() {

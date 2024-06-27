@@ -2,8 +2,8 @@ package com.wootecam.chess.board;
 
 import static com.wootecam.chess.board.Board.MAX_COL;
 
-import com.wootecam.chess.pieces.Color;
-import com.wootecam.chess.pieces.PieceType;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.Arrays;
 
 public class ScoreCalculationRule {

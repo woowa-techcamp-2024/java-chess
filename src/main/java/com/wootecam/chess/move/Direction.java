@@ -1,4 +1,4 @@
-package com.wootecam.chess.pieces;
+package com.wootecam.chess.move;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,8 +61,12 @@ public enum Direction {
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
     }
 
-    public static List<Direction> kingDirection() {
+    public static List<Direction> kingDirections() {
         return everyDirection();
+    }
+
+    public static List<Direction> rookDirections() {
+        return linearDirection();
     }
 
     public static Optional<Direction> findByDegree(int xDegree, int yDegree) {

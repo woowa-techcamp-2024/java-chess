@@ -1,7 +1,10 @@
 package com.wootecam.chess.board;
 
-import static com.wootecam.chess.board.Board.MAX_COL;
 import static com.wootecam.chess.board.Board.MAX_ROW;
+import static com.wootecam.chess.common.ChessConstraint.validIndex;
+
+import com.wootecam.chess.move.Direction;
+import java.util.Objects;
 
 public class Position {
     public final int x;
@@ -15,7 +18,7 @@ public class Position {
     }
 
     private Position(int x, int y) {
-        validPositionRange(x, y);
+        validIndex(x, y);
         this.x = x;
         this.y = y;
     }
@@ -36,14 +39,25 @@ public class Position {
         }
     }
 
-    private void validPositionRange(int x, int y) {
-        if (x < 0 || y < 0 || x >= MAX_ROW || y >= MAX_COL) {
-            throw new IllegalArgumentException("Invalid position: " + x);
-        }
+    public Position moveBy(Direction direction) {
+        return new Position(this.x + direction.xDegree, this.y + direction.yDegree);
     }
 
-    public Position moveBy(int x, int y) {
-        return new Position(this.x + x, this.y + y);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override

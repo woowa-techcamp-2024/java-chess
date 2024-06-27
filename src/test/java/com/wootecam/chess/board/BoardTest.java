@@ -7,10 +7,12 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.Converter.ColorConverter;
+import com.wootecam.chess.Converter.PieceTypeConverter;
 import com.wootecam.chess.common.Order;
-import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.PieceType;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,9 +21,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -29,26 +29,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("체스판 테스트")
 class BoardTest {
     private Board board;
-
-    public static class PieceTypeConverter extends SimpleArgumentConverter {
-        @Override
-        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            if (source instanceof String && PieceType.class.isAssignableFrom(targetType)) {
-                return PieceType.valueOf((String) source);
-            }
-            throw new ArgumentConversionException("Conversion failed.");
-        }
-    }
-
-    public static class ColorConverter extends SimpleArgumentConverter {
-        @Override
-        protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            if (source instanceof String && Color.class.isAssignableFrom(targetType)) {
-                return Color.valueOf((String) source);
-            }
-            throw new ArgumentConversionException("Conversion failed.");
-        }
-    }
 
     @Nested
     class 체스판에_말을_배치할_수_있다 {

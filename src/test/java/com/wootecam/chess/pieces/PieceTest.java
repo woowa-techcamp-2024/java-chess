@@ -3,6 +3,9 @@ package com.wootecam.chess.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceRepresentation;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

@@ -4,6 +4,7 @@ import com.wootecam.chess.ChessView;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.ScoreCalculationRule;
 import com.wootecam.chess.common.Reader;
+import com.wootecam.chess.move.PieceMovementManager;
 
 public class ChessGameManager {
     private static final String CMD_START = "start";
@@ -12,6 +13,7 @@ public class ChessGameManager {
 
     private static final BoardInitializer boardInitializer = new BoardInitializer();
     private static final ScoreCalculationRule scoreCalculationRule = new ScoreCalculationRule();
+    private static final PieceMovementManager pieceMovementManager = new PieceMovementManager();
     private static final ChessView chessView = new ChessView();
 
     private final Reader reader;
@@ -59,7 +61,7 @@ public class ChessGameManager {
     }
 
     private ChessGame startGame() {
-        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule, chessView);
+        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule, pieceMovementManager, chessView);
         chessGame.start();
 
         return chessGame;

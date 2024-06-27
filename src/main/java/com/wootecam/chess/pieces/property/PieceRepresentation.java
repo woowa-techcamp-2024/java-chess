@@ -1,12 +1,12 @@
-package com.wootecam.chess.pieces;
+package com.wootecam.chess.pieces.property;
 
-import static com.wootecam.chess.pieces.PieceType.BISHOP;
-import static com.wootecam.chess.pieces.PieceType.KING;
-import static com.wootecam.chess.pieces.PieceType.KNIGHT;
-import static com.wootecam.chess.pieces.PieceType.NO_PIECE;
-import static com.wootecam.chess.pieces.PieceType.PAWN;
-import static com.wootecam.chess.pieces.PieceType.QUEEN;
-import static com.wootecam.chess.pieces.PieceType.ROOK;
+import static com.wootecam.chess.pieces.property.PieceType.BISHOP;
+import static com.wootecam.chess.pieces.property.PieceType.KING;
+import static com.wootecam.chess.pieces.property.PieceType.KNIGHT;
+import static com.wootecam.chess.pieces.property.PieceType.NO_PIECE;
+import static com.wootecam.chess.pieces.property.PieceType.PAWN;
+import static com.wootecam.chess.pieces.property.PieceType.QUEEN;
+import static com.wootecam.chess.pieces.property.PieceType.ROOK;
 
 import java.util.Arrays;
 import java.util.Map;

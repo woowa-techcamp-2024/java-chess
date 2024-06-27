@@ -1,9 +1,9 @@
 package com.wootecam.chess.board;
 
 import com.wootecam.chess.common.Order;
-import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
-import com.wootecam.chess.pieces.PieceType;
+import com.wootecam.chess.pieces.property.Color;
+import com.wootecam.chess.pieces.property.PieceType;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,10 +36,6 @@ public class Board {
     public void move(Position source, Position target) {
         Piece piece = get(source);
         validPiece(source, piece);
-
-        if (!piece.canMove(this, source, target)) {
-            throw new IllegalArgumentException("Cannot move target position:" + target);
-        }
 
         ranks[target.x].place(piece, target.y);
         ranks[source.x].clearSquare(source.y);
