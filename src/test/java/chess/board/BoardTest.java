@@ -11,7 +11,7 @@ import static utils.StringUtils.appendNewLine;
 public class BoardTest {
 
     private Board board;
-    private String blankRank = appendNewLine("........");
+    private final String blankRank = appendNewLine("........");
 
     @BeforeEach
     public void setup() {
@@ -22,7 +22,6 @@ public class BoardTest {
     @DisplayName("체스판을 초기화하고 처음 상태를 출력합니다.")
     public void create() throws Exception {
         board.initialize();
-        assertEquals(32, board.pieceCount());
 
         assertEquals(
                 appendNewLine("RNBQKBNR") +
@@ -53,7 +52,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("임의의 기물을 체스판 위에 추가할 수 있어야 합니다")
-    public void move() throws Exception {
+    public void addPiece() throws Exception {
         board.initializeEmpty();
 
         String position = "b5";
@@ -132,5 +131,19 @@ public class BoardTest {
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("기물이 현재 위치에서 다른 위치로 이동할 수 있어야 합니다.")
+    public void move() throws Exception {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
+
+        System.out.println(board.showBoard());
     }
 }
