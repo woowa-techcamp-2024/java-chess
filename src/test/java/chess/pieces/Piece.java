@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public class Piece implements Comparable<Piece> {
+public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece o) {
@@ -53,7 +53,7 @@ public class Piece implements Comparable<Piece> {
         }
     }
 
-    private Piece(Type type, Color color, Representation representation) {
+    protected Piece(Type type, Color color, Representation representation) {
         this.type = type;
         this.color = color;
         this.representation = representation;
@@ -61,13 +61,13 @@ public class Piece implements Comparable<Piece> {
 
     private static Piece create(Type type, Color color) {
         return switch (type) {
-            case PAWN -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_PAWN : Representation.BLACK_PAWN);
-            case KNIGHT -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KNIGHT : Representation.BLACK_KNIGHT);
-            case BISHOP -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_BISHOP : Representation.BLACK_BISHOP);
-            case ROOK -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
-            case QUEEN -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
-            case KING -> new Piece(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
-            case NO_PIECE -> new Piece(type, color, Representation.NO_PIECE);
+            case PAWN -> new Pawn(type, color, (color == Color.WHITE) ? Representation.WHITE_PAWN : Representation.BLACK_PAWN);
+            case KNIGHT -> new Knight(type, color, (color == Color.WHITE) ? Representation.WHITE_KNIGHT : Representation.BLACK_KNIGHT);
+            case BISHOP -> new Bishop(type, color, (color == Color.WHITE) ? Representation.WHITE_BISHOP : Representation.BLACK_BISHOP);
+            case ROOK -> new Rook(type, color, (color == Color.WHITE) ? Representation.WHITE_ROOK : Representation.BLACK_ROOK);
+            case QUEEN -> new Queen(type, color, (color == Color.WHITE) ? Representation.WHITE_QUEEN : Representation.BLACK_QUEEN);
+            case KING -> new King(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
+            case NO_PIECE -> new NoPiece(type, color, Representation.NO_PIECE);
         };
     }
 
