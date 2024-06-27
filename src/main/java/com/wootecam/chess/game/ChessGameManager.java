@@ -1,5 +1,6 @@
 package com.wootecam.chess.game;
 
+import com.wootecam.chess.ChessView;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.ScoreCalculationRule;
 import com.wootecam.chess.common.Reader;
@@ -11,6 +12,7 @@ public class ChessGameManager {
 
     private static final BoardInitializer boardInitializer = new BoardInitializer();
     private static final ScoreCalculationRule scoreCalculationRule = new ScoreCalculationRule();
+    private static final ChessView chessView = new ChessView();
 
     private final Reader reader;
 
@@ -57,7 +59,7 @@ public class ChessGameManager {
     }
 
     private ChessGame startGame() {
-        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule);
+        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule, chessView);
         chessGame.start();
 
         return chessGame;

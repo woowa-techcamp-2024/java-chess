@@ -4,10 +4,8 @@ import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
-import com.wootecam.chess.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Board {
     public static final int MAX_COL = 8;
@@ -57,10 +55,10 @@ public class Board {
         return totalPieces;
     }
 
-    public String print() {
+    public List<List<Piece>> getCurrentState() {
         return Arrays.stream(ranks)
-                .map(Rank::print)
-                .collect(Collectors.joining(StringUtils.NEW_LINE, "", StringUtils.NEW_LINE));
+                .map(Rank::getPieces)
+                .toList();
     }
 
     public int countPiece(PieceType type, Color color) {

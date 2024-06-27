@@ -7,7 +7,6 @@ import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.PieceType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Rank {
     private final Piece[] squares;
@@ -42,28 +41,25 @@ public class Rank {
         }
     }
 
-    public String print() {
-        return Arrays.stream(squares)
-                .map(Piece::getRepresentation)
-                .map(r -> r.value)
-                .collect(Collectors.joining());
-    }
-
     public Piece get(int index) {
         checkValidIndex(index);
 
         return squares[index];
     }
 
-    public int countPiece(PieceType type, Color color) {
-        return (int) Arrays.stream(squares)
-                .filter(piece -> piece.hasTypeAndColor(type, color))
-                .count();
+    public List<Piece> getPieces() {
+        return Arrays.stream(squares).toList();
     }
 
     public List<Piece> getPieces(Color color) {
         return Arrays.stream(squares)
                 .filter(p -> p.isColor(color))
                 .toList();
+    }
+
+    public int countPiece(PieceType type, Color color) {
+        return (int) Arrays.stream(squares)
+                .filter(piece -> piece.hasTypeAndColor(type, color))
+                .count();
     }
 }
