@@ -10,26 +10,11 @@ import java.util.List;
 
 public class DefaultScoreEvaluator implements ScoreEvaluator {
     @Override
-    public double evaluate(Color color, List<List<Piece>> pieces) {
-        double score = getTotalScore(color, pieces);
-        score = evaluateSuccessivePawn(color, score, pieces);
+    public double evaluate(Color color, Board board) {
+        double score = getTotalScore(color, board.getPieces());
+        score = evaluateSuccessivePawn(color, score, board.getPieces());
         return score;
     }
-
-    @Override
-    public List<Piece> orderPiecesByScore(Color color, boolean naturalOrder, List<List<Piece>> pieces) {
-        List<Piece> result = new ArrayList<>();
-        for (List<Piece> pieceList : pieces) {
-            for (Piece piece : pieceList) {
-                if (piece.getColor() == color) {
-                    result.add(piece);
-                }
-            }
-        }
-        result.sort(Comparator.comparing(p -> p.getType().getDefaultPoint()));
-        return naturalOrder ? result : result.reversed();
-    }
-
 
     private double getTotalScore(Color color, List<List<Piece>> pieces) {
         double score = 0.0;
@@ -61,5 +46,19 @@ public class DefaultScoreEvaluator implements ScoreEvaluator {
             }
         }
         return score;
+    }
+
+    @Override
+    public List<Piece> orderPiecesByScore(Color color, boolean naturalOrder, List<List<Piece>> pieces) {
+        List<Piece> result = new ArrayList<>();
+        for (List<Piece> pieceList : pieces) {
+            for (Piece piece : pieceList) {
+                if (piece.getColor() == color) {
+                    result.add(piece);
+                }
+            }
+        }
+        result.sort(Comparator.comparing(p -> p.getType().getDefaultPoint()));
+        return naturalOrder ? result : result.reversed();
     }
 }

@@ -1,6 +1,7 @@
 package pe.goblin.chess.application;
 
 import pe.goblin.chess.application.usecase.GameCreationUseCase;
+import pe.goblin.chess.domain.board.DefaultScoreEvaluator;
 import pe.goblin.chess.domain.board.type.BoardType;
 import pe.goblin.chess.domain.game.Game;
 import pe.goblin.chess.exception.ApplicationException;
@@ -21,6 +22,6 @@ public class GameCreationService implements GameCreationUseCase {
         } catch (IndexOutOfBoundsException exception) {
             throw new ApplicationException("invalid board type");
         }
-        gameStorage.store(new Game(boardType));
+        gameStorage.store(new Game(boardType, new DefaultScoreEvaluator()));
     }
 }
