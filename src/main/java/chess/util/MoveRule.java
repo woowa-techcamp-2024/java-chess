@@ -50,7 +50,7 @@ public enum MoveRule{
             Rook rook = (Rook) board.findPiece(rookPoint);
             rook.setMoved();
             board.removePieceIfExist(rookPoint);
-            board.putPiece(rookPoint.move(kingPoint.file() < target.charAt(0) ? Direction.WEST : Direction.EAST, 1), rook);
+            board.putPiece(ChessPoint.of(target).move(kingPoint.file() < target.charAt(0) ? Direction.WEST : Direction.EAST, 1), rook);
         }
 
         @Override
@@ -70,7 +70,7 @@ public enum MoveRule{
 
                 // 캐슬링 가능 여부를 체크하고, 가능하면 캐슬링 포인트를 추가
                 if (canCastle(board, king, rook, kingPoint, rookPoint)) {
-                    castlingPoints.put(getRookTargetPoint(kingPoint, rookPoint), this);
+                    castlingPoints.put(getKingTargetPoint(kingPoint, rookPoint), this);
                 }
             }
 
@@ -105,9 +105,9 @@ public enum MoveRule{
 
 
         // 룩의 목표 지점을 계산하는 메서드
-        private ChessPoint getRookTargetPoint(ChessPoint kingPoint, ChessPoint rookPoint) {
-            Direction rookTargetDirection = kingPoint.file() < rookPoint.file() ? Direction.WEST : Direction.EAST;
-            return kingPoint.move(rookTargetDirection, 1);
+        private ChessPoint getKingTargetPoint(ChessPoint kingPoint, ChessPoint rookPoint) {
+            Direction rookTargetDirection = kingPoint.file() < rookPoint.file() ? Direction.EAST : Direction.WEST;
+            return kingPoint.move(rookTargetDirection, 2);
         }
 
 
