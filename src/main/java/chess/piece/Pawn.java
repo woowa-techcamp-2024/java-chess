@@ -28,4 +28,9 @@ public class Pawn extends Piece {
 
         return PieceMove.of(SpecialDirection.getPawnDirection(), 1);
     }
+
+    public void completeFirstMove() {
+        isFirstMove = false;
+    }
+
 }

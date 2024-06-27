@@ -22,12 +22,12 @@ public enum SpecialDirection implements Moveable {
     }
 
     @Override
-    public int getXDegree() {
+    public int getRankDegree() {
         return xDegree;
     }
 
     @Override
-    public int getYDegree() {
+    public int getFileDegree() {
         return yDegree;
     }
 

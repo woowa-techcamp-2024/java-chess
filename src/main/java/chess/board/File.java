@@ -1,5 +1,7 @@
 package chess.board;
 
+import chess.exception.InvalidMoveException;
+
 import java.util.Arrays;
 
 public enum File {
@@ -16,12 +18,16 @@ public enum File {
     public static File of(final int index) {
         return Arrays.stream(File.values()).filter(file -> file.index == index)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("범위 밖의 값입니다."));
+                .orElseThrow(InvalidMoveException::new);
     }
 
     public static File of(final char index) {
         return Arrays.stream(File.values()).filter(file -> file.name().toLowerCase().charAt(0) == index)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("범위 밖의 값입니다."));
+                .orElseThrow(InvalidMoveException::new);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

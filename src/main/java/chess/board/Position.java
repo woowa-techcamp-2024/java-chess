@@ -1,5 +1,8 @@
 package chess.board;
 
+import chess.exception.InvalidMoveException;
+import chess.piece.rule.Moveable;
+
 public record Position(Rank rank, File file) {
 
     public static Position of(final int row, final int col) {
@@ -12,7 +15,20 @@ public record Position(Rank rank, File file) {
 
     public static Position of(final String input) {
         File file = File.of(input.charAt(0));
-        Rank rank = Rank.of(Character.getNumericValue(input.charAt(1)));
+        int rankValue = Character.getNumericValue(input.charAt(1));
+
+        if (rankValue < 0) {
+            throw new InvalidMoveException();
+        }
+
+        Rank rank = Rank.of(rankValue);
+        return Position.of(rank, file);
+    }
+
+    public static Position of(final Position source, final Moveable direction, final int distance) {
+        int rank = source.rank().getIndex() + direction.getRankDegree() * distance;
+        int file = source.file().getIndex() + direction.getFileDegree() * distance;
+
         return Position.of(rank, file);
     }
 }

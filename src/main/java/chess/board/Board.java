@@ -1,9 +1,6 @@
 package chess.board;
 
-import chess.piece.Blank;
-import chess.piece.Piece;
-import chess.piece.PieceColor;
-import chess.piece.Type;
+import chess.piece.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +32,10 @@ public class Board {
     }
 
     public void move(final Position target, final Piece piece) {
+        if (piece.getType().equals(Type.PAWN)) {
+            ((Pawn) piece).completeFirstMove();
+        }
+
         this.board.put(target, piece);
     }
 

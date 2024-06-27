@@ -1,10 +1,12 @@
 package chess;
 
 import chess.config.AppConfig;
+import chess.exception.InvalidMoveException;
 import chess.view.ConsoleView;
 
 public class Main {
 
+    //TODO: 공격자 턴 관리
     public static void main(String[] args) {
         ChessGame chessGame = AppConfig.chessGame();
 
@@ -17,7 +19,12 @@ public class Main {
         while (true) {
             String[] commands = ConsoleView.play();
 
-            chessBoard = chessGame.play(commands[0], commands[1]);
+            try {
+                chessBoard = chessGame.play(commands[0], commands[1]);
+            } catch (InvalidMoveException e) {
+                ConsoleView.printErrorMessage(e.getMessage());
+                continue;
+            }
 
             ConsoleView.printChessBoard(chessBoard);
 

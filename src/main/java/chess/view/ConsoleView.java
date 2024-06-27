@@ -46,6 +46,10 @@ public class ConsoleView {
         System.out.println(chessBoard);
     }
 
+    public static void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
     private static String[] splitCommand() {
         while (true) {
             String command = scanner.nextLine().trim();
