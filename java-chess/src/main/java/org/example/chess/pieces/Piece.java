@@ -1,12 +1,16 @@
 package org.example.chess.pieces;
 
-public class Piece {
-    private final Color color;
-    private final Name name;
+import java.util.Objects;
 
-    private Piece(Color color, Name name) {
+public class Piece{
+    private final Color color;
+    private final Type type;
+    private double point;
+
+    private Piece(Color color, Type type) {
         this.color = color;
-        this.name = name;
+        this.type = type;
+        this.point = type.defaultPoint;
     }
 
     public boolean isWhite() {
@@ -17,85 +21,141 @@ public class Piece {
         return this.color == Color.BLACK;
     }
 
+    public boolean isBlank() { return this.type == Type.NO_PIECE; }
+
+    public boolean isExist() { return this.type != Type.NO_PIECE; }
+
+    public boolean isPawn() { return this.type == Type.PAWN; }
+
     public Color getColor() {
         return color;
     }
 
-    public Name getName() {
-        return name;
+    public Type getName() {
+        return type;
     }
 
-    public String getRepresentation() {
+    public char getRepresentation() {
         if (isWhite()) {
-            return this.name.symbol.toLowerCase();
+            return Character.toLowerCase(this.type.representation);
         }
 
-        return this.name.symbol.toUpperCase();
+        return Character.toUpperCase(this.type.representation);
+    }
+
+    public double getPoint() {
+        return this.point;
+    }
+
+    public void setPoint(double point) {
+        this.point = point;
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(Color.WHITE, Name.PAWN);
+        return createWhite(Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(Color.BLACK, Name.PAWN);
+        return createBlack(Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(Color.WHITE, Name.KNIGHT);
+        return createWhite(Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(Color.BLACK, Name.KNIGHT);
+        return createBlack(Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(Color.WHITE, Name.ROOK);
+        return createWhite(Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(Color.BLACK, Name.ROOK);
+        return createBlack(Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(Color.WHITE, Name.BISHOP);
+        return createWhite(Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(Color.BLACK, Name.BISHOP);
+        return createBlack(Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(Color.WHITE, Name.QUEEN);
+        return createWhite(Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(Color.BLACK, Name.QUEEN);
+        return createBlack(Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(Color.WHITE, Name.KING);
+        return createWhite(Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(Color.BLACK, Name.KING);
+        return createBlack(Type.KING);
     }
+
+    private static Piece createWhite(Type type) {
+        return new Piece(Color.WHITE, type);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(Color.BLACK, type);
+    }
+
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece piece)) return false;
+        return color == piece.color && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Color: %s, Type: %s \n", color, type);
+    }
+
 
     public enum Color {
-        WHITE, BLACK
+        WHITE, BLACK, NOCOLOR
     }
 
-    public enum Name {
-        PAWN("P"), KNIGHT("N"), ROOK("R"), BISHOP("B"), QUEEN("Q"), KING("K");
+    public enum Type {
+        PAWN('P', 1.0),
+        KNIGHT('N', 2.5),
+        ROOK('R', 5.0),
+        BISHOP('B', 3.0),
+        QUEEN('Q', 9.0),
+        KING('K', 0.0),
+        NO_PIECE('.', 0.0);
 
-        private final String symbol;
+        private final char representation;
+        private final double defaultPoint;
 
-        Name(String symbol) {
-            this.symbol = symbol;
+        Type(char representation, double defaultPoint) {
+            this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
 
-        public String getSymbol() {
-            return this.symbol;
+        public char getSymbol() {
+            return this.representation;
+        }
+
+        public double getDefaultPoint() {
+            return this.defaultPoint;
         }
     }
 }
