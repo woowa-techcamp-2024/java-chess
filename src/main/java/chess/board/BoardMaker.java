@@ -1,12 +1,9 @@
 package chess.board;
 
-import static chess.board.RankMaker.getEmptyRank;
-import static chess.board.RankMaker.getGoodPiecesRank;
-import static chess.board.RankMaker.getPawnsRank;
-
-import chess.pieces.type.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import static chess.board.RankMaker.*;
 
 public class BoardMaker {
     private BoardMaker() {}
@@ -14,14 +11,15 @@ public class BoardMaker {
     public static List<Rank> standard() {
         List<Rank> ranks = new ArrayList<>();
 
-        ranks.add(getGoodPiecesRank(Color.BLACK));
-        ranks.add(getPawnsRank(Color.BLACK));
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getEmptyRank());
-        ranks.add(getPawnsRank(Color.WHITE));
-        ranks.add(getGoodPiecesRank(Color.WHITE));
+        ranks.add(initBlackGoodPieces());
+        ranks.add(initBlackPawns());
+        ranks.add(initEmptyRank(2));
+        ranks.add(initEmptyRank(3));
+        ranks.add(initEmptyRank(4));
+        ranks.add(initEmptyRank(5));
+        ranks.add(initWhitePawns());
+        ranks.add(initWhiteGoodPieces());
+
         return ranks;
     }
 
@@ -29,7 +27,7 @@ public class BoardMaker {
         List<Rank> ranks = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
-            ranks.add(getEmptyRank());
+            ranks.add(initEmptyRank(i));
         }
         return ranks;
     }

@@ -37,18 +37,13 @@ public class Board {
         if (sourcePiece.isPieceOf(Representation.BLANK)) {
             throw new IllegalArgumentException("빈칸을 움직일 수 없습니다");
         }
-        setPiece(source, Piece.create(Type.NO_PIECE, Color.NOCOLOR));
-        setPiece(target, sourcePiece);
+        setPiece(Piece.create(Type.NO_PIECE, Color.NOCOLOR, source));
+        setPiece(sourcePiece.copyWithPosition(target));
     }
 
-    public void setPiece(Position position, Piece piece) {
-        ranks.get(position.getRank())
-                .set(position.getFile(), piece);
-    }
-
-    public void setPiece(String position, Piece piece) {
-        Position p = Position.from(position);
-        setPiece(p, piece);
+    public void setPiece(Piece piece) {
+        ranks.get(piece.getPosition().getRank())
+                .set(piece.getPosition().getFile(), piece);
     }
 
     public String print() {

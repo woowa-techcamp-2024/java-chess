@@ -3,6 +3,7 @@ package chess.board;
 import java.util.Arrays;
 
 public enum Position {
+    NO_POSITION(-1, -1),
     A8(0, 0),
     A7(0, 1),
     A6(0, 2),
