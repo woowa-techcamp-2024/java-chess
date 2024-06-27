@@ -18,6 +18,7 @@ public class Main {
                 try {
                     String[] operands = operator.split(" ");
                     chessGame.move(operands[1], operands[2]);
+                    chessGame.convertNextTurn();
                     System.out.println(chessView.showBoard());
                 }
                 catch (Exception e) {

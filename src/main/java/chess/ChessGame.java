@@ -12,10 +12,9 @@ import static chess.Board.BOARD_SIZE;
 
 public class ChessGame {
     private final Board board;
+    private Color turn;
 
-    public ChessGame(Board board) {
-        this.board = board;
-    }
+    public ChessGame(Board board) { this.board = board; }
 
     public int pieceCount() {
         List<Rank> ranks = board.findAll();
@@ -31,6 +30,7 @@ public class ChessGame {
         board.initialize();
         initializeWhitePiece();
         initializeBlackPiece();
+        turn = Color.WHITE;
     }
 
     private void initializeWhitePiece() {
@@ -100,6 +100,7 @@ public class ChessGame {
         Position destinationPosition = new Position(destination);
 
         Piece piece = board.findByPosition(sourcePosition);
+        if (!Objects.equals(turn, piece.getColor())) throw new Exception("해당 기물은 다른 편의 기물입니다");
         if (destinationPosition.isOutOfIndex()) throw new Exception("보드를 벗어났습니다");
 
         Piece destinationPiece = board.findByPosition(destinationPosition);
@@ -127,5 +128,10 @@ public class ChessGame {
             position = new Position(position.getX() + direction.getXDegree(), position.getY() + direction.getYDegree());
         }
         return true;
+    }
+
+    public void convertNextTurn() {
+        if (Objects.equals(turn, Color.WHITE)) turn = Color.BLACK;
+        else turn = Color.WHITE;
     }
 }
