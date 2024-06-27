@@ -8,7 +8,6 @@ import static woowa.camp.pieces.Piece.Type.QUEEN;
 import static woowa.camp.pieces.Piece.Type.ROOK;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -23,7 +22,7 @@ public class Board {
     public static final int MAX_ROW = 8;
     public static final int MAX_COL = 8;
 
-    private final List<List<Piece>> board = new ArrayList<>(new ArrayList<>());
+    private final List<Rank> board = new ArrayList<>();
     private final List<Piece> pieces = new ArrayList<>();
 
     /* ----- biz logic -----*/
@@ -45,24 +44,14 @@ public class Board {
 
     public void initialize() {
         initBoard();
-        initBlankPieces();
         initBlackPieces();
         initWhitePieces();
     }
 
     private void initBoard() {
-        for (int row = 0; row < MAX_ROW; row++) {
-            List<Piece> rows = new ArrayList<>(Collections.nCopies(8, null));
-            board.add(rows);
-        }
-    }
-
-    private void initBlankPieces() {
-        for (int row = 0; row < MAX_ROW; row++) {
-            for (int col = 0; col < MAX_COL; col++) {
-                board.get(row).set(col, Piece.createBlank());
-            }
-        }
+        IntStream.range(0, MAX_ROW).forEach(count -> {
+            board.add(new Rank());
+        });
     }
 
     private void initBlackPieces() {
@@ -77,8 +66,8 @@ public class Board {
     private void initBlackRook() {
         final Piece leftBlackRook = Piece.createBlackPieceOf(ROOK);
         final Piece rightBlackRook = Piece.createBlackPieceOf(ROOK);
-        board.get(0).set(0, leftBlackRook);
-        board.get(0).set(7, rightBlackRook);
+        board.get(0).replace(0, leftBlackRook);
+        board.get(0).replace(7, rightBlackRook);
         pieces.add(leftBlackRook);
         pieces.add(rightBlackRook);
     }
@@ -86,8 +75,8 @@ public class Board {
     private void initBlackKnight() {
         final Piece leftBlackKnight = Piece.createBlackPieceOf(KNIGHT);
         final Piece rightBlackKnight = Piece.createBlackPieceOf(KNIGHT);
-        board.get(0).set(1, leftBlackKnight);
-        board.get(0).set(6, rightBlackKnight);
+        board.get(0).replace(1, leftBlackKnight);
+        board.get(0).replace(6, rightBlackKnight);
         pieces.add(leftBlackKnight);
         pieces.add(rightBlackKnight);
     }
@@ -95,21 +84,21 @@ public class Board {
     private void initBlackBishop() {
         final Piece leftBlackBishop = Piece.createBlackPieceOf(BISHOP);
         final Piece rightBlackBishop = Piece.createBlackPieceOf(BISHOP);
-        board.get(0).set(2, leftBlackBishop);
-        board.get(0).set(5, rightBlackBishop);
+        board.get(0).replace(2, leftBlackBishop);
+        board.get(0).replace(5, rightBlackBishop);
         pieces.add(leftBlackBishop);
         pieces.add(rightBlackBishop);
     }
 
     private void initBlackQueen() {
         final Piece blackQueen = Piece.createBlackPieceOf(QUEEN);
-        board.get(0).set(3, blackQueen);
+        board.get(0).replace(3, blackQueen);
         pieces.add(blackQueen);
     }
 
     private void initBlackKing() {
         final Piece blackKing = Piece.createBlackPieceOf(KING);
-        board.get(0).set(4, blackKing);
+        board.get(0).replace(4, blackKing);
         pieces.add(blackKing);
     }
 
@@ -125,8 +114,8 @@ public class Board {
     private void initWhiteRook() {
         final Piece leftWhiteRook = Piece.createWhitePieceOf(ROOK);
         final Piece rightWhiteRook = Piece.createWhitePieceOf(ROOK);
-        board.get(7).set(0, leftWhiteRook);
-        board.get(7).set(7, rightWhiteRook);
+        board.get(7).replace(0, leftWhiteRook);
+        board.get(7).replace(7, rightWhiteRook);
         pieces.add(leftWhiteRook);
         pieces.add(rightWhiteRook);
     }
@@ -134,8 +123,8 @@ public class Board {
     private void initWhiteKnight() {
         final Piece leftWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
         final Piece rightWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
-        board.get(7).set(1, leftWhiteKnight);
-        board.get(7).set(6, rightWhiteKnight);
+        board.get(7).replace(1, leftWhiteKnight);
+        board.get(7).replace(6, rightWhiteKnight);
         pieces.add(leftWhiteKnight);
         pieces.add(rightWhiteKnight);
     }
@@ -143,21 +132,21 @@ public class Board {
     private void initWhiteBishop() {
         final Piece leftWhiteBishop = Piece.createWhitePieceOf(BISHOP);
         final Piece rightWhiteBishop = Piece.createWhitePieceOf(BISHOP);
-        board.get(7).set(2, leftWhiteBishop);
-        board.get(7).set(5, rightWhiteBishop);
+        board.get(7).replace(2, leftWhiteBishop);
+        board.get(7).replace(5, rightWhiteBishop);
         pieces.add(leftWhiteBishop);
         pieces.add(rightWhiteBishop);
     }
 
     private void initWhiteQueen() {
         final Piece whiteQueen = Piece.createWhitePieceOf(QUEEN);
-        board.get(7).set(3, whiteQueen);
+        board.get(7).replace(3, whiteQueen);
         pieces.add(whiteQueen);
     }
 
     private void initWhiteKing() {
         final Piece whiteKing = Piece.createWhitePieceOf(KING);
-        board.get(7).set(4, whiteKing);
+        board.get(7).replace(4, whiteKing);
         pieces.add(whiteKing);
     }
 
@@ -169,7 +158,7 @@ public class Board {
     }
 
     private void addPawn(final int row, final int col, final Piece piece) {
-        board.get(row).set(col, piece);
+        board.get(row).replace(col, piece);
         pieces.add(piece);
     }
 
