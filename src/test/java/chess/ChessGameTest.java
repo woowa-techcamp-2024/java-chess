@@ -789,4 +789,30 @@ public class ChessGameTest {
             assertEquals(success,board.print());
         }
     }
+
+    @Nested
+    @DisplayName("[FinishGame]")
+    class FinishGameTest{
+        @Test
+        public void finishGameTest() throws Exception {
+            //given
+            board.initialize();
+            String success = """
+                ........
+                ........
+                ........
+                ........
+                ........
+                ........
+                ........
+                ........
+                """;
+
+            //when
+            chessGame.finishGame();
+
+            //then
+            assertEquals(success,board.print());
+        }
+    }
 }
