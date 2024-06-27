@@ -2,6 +2,7 @@ package chess;
 
 import chess.constant.Type;
 import chess.pieces.Piece;
+import chess.pieces.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Rank {
 
     public Rank move(final int x, final Piece piece, final Position position) {
         List<Piece> newRank = new ArrayList<>(rank);
-        newRank.set(x, Piece.createMovedPiece(piece, position));
+        newRank.set(x, PieceFactory.createMovedPiece(piece, position));
         return new Rank(newRank);
     }
 }

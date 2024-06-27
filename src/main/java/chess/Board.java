@@ -16,7 +16,7 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieceList = new ArrayList<>();
             for (int j = 0; j < BOARD_SIZE; j++) {
-                pieceList.add(Piece.createBlank(new Position(j, i)));
+                pieceList.add(PieceFactory.createBlank(new Position(j, i)));
             }
             board.add(new Rank(pieceList));
         }

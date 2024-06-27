@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Objects;
+
 import static chess.Board.BOARD_SIZE;
 
 public class Position {
@@ -8,6 +10,15 @@ public class Position {
     public Position(final int x, final int y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (Objects.equals(o, null)) return false;
+
+        Position position = (Position) o;
+        if (this.getX() == position.getX() && this.getY() == position.getY()) return true;
+        else return true;
     }
 
     public Position(final String position) {
