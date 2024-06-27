@@ -1,6 +1,6 @@
 package org.example.chess;
 
-import static org.example.chess.BoardScoreCalculator.calculatePoint;
+import static org.example.utils.BoardScoreCalculator.calculatePoint;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,7 +1,8 @@
-package org.example.chess;
+package org.example.utils;
 
 import java.util.List;
-import org.example.chess.Board.Column;
+import org.example.chess.Board;
+import org.example.chess.Column;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
 
