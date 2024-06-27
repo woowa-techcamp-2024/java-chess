@@ -8,7 +8,7 @@ public class Piece {
 
     private final Color color;
     private final Type type;
-    private final Position position;
+    private Position position;
 
     private Piece(final Color color, final Type type, Position position) {
         this.color = color;
@@ -99,6 +99,14 @@ public class Piece {
         return color == Color.BLACK;
     }
 
+    public double getPoint() {
+        return type.getPoint();
+    }
+
+    public void updatePosition(Position newPosition) {
+        this.position = newPosition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -108,10 +116,6 @@ public class Piece {
 
         Piece piece = (Piece) o;
         return color == piece.color && type == piece.type && Objects.equals(position, piece.position);
-    }
-
-    public double getPoint() {
-        return type.getPoint();
     }
 
 }
