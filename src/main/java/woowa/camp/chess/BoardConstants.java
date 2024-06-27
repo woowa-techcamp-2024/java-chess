@@ -2,6 +2,8 @@ package woowa.camp.chess;
 
 public enum BoardConstants {
 
+    INIT_PIECE_COUNT(32),
+
     MAX_KING(1),
     MAX_QUEEN(1),
     MAX_ROOK(2),
