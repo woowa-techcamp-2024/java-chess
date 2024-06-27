@@ -57,7 +57,7 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("좌표로 기물을 찾는 기능을 검증한다.")
+    @DisplayName("좌표로 기물을 찾는다.")
     void findPiece() {
         board.initialize();
 
@@ -68,20 +68,7 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("특정 좌표에 기물을 옮기는 기능을 검증한다.")
-    void move() {
-        board.initializeEmpty();
-
-        String position = "b5";
-        Piece piece = Piece.createBlackRook();
-        board.move(position, piece);
-
-        assertThat(board.findPiece(position)).isEqualTo(piece);
-        System.out.println(board.showBoard());
-    }
-
-    @Test
-    @DisplayName("현재 보드의 점수를 계산하는 기능을 검증한다.")
+    @DisplayName("현재 보드의 점수를 계산한다.")
     void calculatePoint() {
         board.initializeEmpty();
 
@@ -123,5 +110,19 @@ public class BoardTest {
 
     private void addPiece(final String position, final Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("기물을 이동한다.")
+    void move() {
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+
+        board.move(sourcePosition, targetPosition);
+
+        assertThat(board.findPiece(sourcePosition)).isEqualTo(Piece.getEmptyPiece());
+        assertThat(board.findPiece(targetPosition)).isEqualTo(Piece.createWhitePawn());
     }
 }
