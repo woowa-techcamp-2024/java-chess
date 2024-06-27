@@ -4,7 +4,8 @@ public enum CommandType {
 
 	START("start"),
 	END("end"),
-	MOVE("move");
+	MOVE("move"),
+	PROMOTION("promotion");
 
 	private final String value;
 
