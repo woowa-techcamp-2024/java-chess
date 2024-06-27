@@ -12,29 +12,29 @@ public class PieceTest {
 
     @Test
     public void createWhitePawn() throws Exception {
-        Piece piece = Piece.createWhitePawn();
+        Piece piece = Pawn.of(Piece.Color.WHITE);
         assertTrue(piece.isWhite());
     }
 
     @Test
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), "p");
-        verifyPiece(Piece.createBlackPawn(), "P");
+        verifyPiece(Pawn.of(Piece.Color.WHITE), "p");
+        verifyPiece(Pawn.of(Piece.Color.BLACK), "P");
 
-        verifyPiece(Piece.createWhiteKnight(), "n");
-        verifyPiece(Piece.createBlackKnight(), "N");
+        verifyPiece(Knight.of(Piece.Color.WHITE), "n");
+        verifyPiece(Knight.of(Piece.Color.BLACK), "N");
 
-        verifyPiece(Piece.createWhiteRook(), "r");
-        verifyPiece(Piece.createBlackRook(), "R");
+        verifyPiece(Rook.of(Piece.Color.WHITE), "r");
+        verifyPiece(Rook.of(Piece.Color.BLACK), "R");
 
-        verifyPiece(Piece.createWhiteBishop(), "b");
-        verifyPiece(Piece.createBlackBishop(), "B");
+        verifyPiece(Bishop.of(Piece.Color.WHITE), "b");
+        verifyPiece(Bishop.of(Piece.Color.BLACK), "B");
 
-        verifyPiece(Piece.createWhiteQueen(), "q");
-        verifyPiece(Piece.createBlackQueen(), "Q");
+        verifyPiece(Queen.of(Piece.Color.WHITE), "q");
+        verifyPiece(Queen.of(Piece.Color.BLACK), "Q");
 
-        verifyPiece(Piece.createWhiteKing(), "k");
-        verifyPiece(Piece.createBlackKing(), "K");
+        verifyPiece(King.of(Piece.Color.WHITE), "k");
+        verifyPiece(King.of(Piece.Color.BLACK), "K");
     }
 
     private void verifyPiece(final Piece piece, String representation) {

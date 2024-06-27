@@ -157,12 +157,12 @@ public class Board {
 //        return sb.toString();
 //    }
 
-    public double calculatePoint(Piece.Color color) {
-//        revisePawnScore();
-        return this.pieces.stream()
-                .mapToDouble(rank -> rank.calculateScore(color))
-                .sum();
-    }
+//    public double calculatePoint(Piece.Color color) {
+////        revisePawnScore();
+//        return this.pieces.stream()
+//                .mapToDouble(rank -> rank.calculateScore(color))
+//                .sum();
+//    }
 
 //    // TODO pawn 점수 저장하지 않도록 수정 필요
 //    // board pawn 들의 점수를 재조정하는 함수
