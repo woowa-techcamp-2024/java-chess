@@ -5,6 +5,7 @@ import chess.pieces.Piece.Type;
 import chess.pieces.Piece.Color;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static utils.StringUtils.appendNewLine;
@@ -128,4 +129,23 @@ public class Board {
 
         return totalPoint;
     }
+
+    public List<Piece> sortPiece(Color color, Order order) {
+        List<Piece> sortedPieces = new ArrayList<>();
+        for (Rank rank : board) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                if(color != rank.getPiece(i).getColor() || rank.getPiece(i).getType() == Type.NO_PIECE) {
+                    continue;
+                }
+                sortedPieces.add(rank.getPiece(i));
+            }
+        }
+
+        if(order == Order.ASC) {
+            sortedPieces.sort(Comparator.comparingDouble(p -> p.getType().getDefaultPoint()));
+        } else sortedPieces.sort((p1, p2) -> Double.compare(p2.getType().getDefaultPoint(), p1.getType().getDefaultPoint()));
+
+        return sortedPieces;
+    }
+
 }
