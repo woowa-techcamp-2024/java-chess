@@ -15,11 +15,15 @@ public class Board {
     private final int WHITE_PAWN_START_LINE = WHITE_START_LINE+1;
     private final int BLACK_START_LINE = HEIGHT-1;
     private final int BLACK_PAWN_START_LINE = BLACK_START_LINE-1;
+    private final PieceCreator pieceCreator;
+
+
     private List<ChessPiece> chessPieces;
     private ChessPiece[][] board;
-    public Board(){
+    public Board(PieceCreator pieceCreator){
         chessPieces = new ArrayList<>();
         board = new ChessPiece[HEIGHT][WIDTH];
+        this.pieceCreator = pieceCreator;
     }
 
     public int size(){

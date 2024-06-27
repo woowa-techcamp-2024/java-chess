@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("시작하고 싶으시다면 start를 입력해주세요 : ");
-        Board board = new Board();
+        Board board = new Board(new PieceCreatorWithFactory());
         ChessGame game = new ChessGame(board);
 
         while(true){
