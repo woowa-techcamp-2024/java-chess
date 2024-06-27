@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Board;
-import chess.board.BoardMaker;
+import chess.board.BoardFactory;
 import chess.board.Position;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract class BishopTest {
     @Test
     void testBishopCanMove() {
-        Board board = new Board(BoardMaker.empty());
+        Board board = BoardFactory.createEmpty();
         Bishop bishop = PieceFactory.createWhiteBishop(Position.from("d4"));
         board.setPiece(bishop);
 

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.StringUtils.appendNewLine;
 
 import chess.board.Board;
-import chess.board.BoardMaker;
+import chess.board.BoardFactory;
 import chess.board.Position;
 import chess.board.calculator.OrderBy;
 import chess.pieces.PieceFactory;
@@ -23,7 +23,7 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(BoardMaker.standard());
+        board = BoardFactory.createStandard();
     }
 
     @Test
@@ -70,19 +70,19 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에서 특정 위치에 어떤 기물이 있는지 확인한다")
     public void findPiece() throws Exception {
-        assertTrue(board.findPiece("a8").isPieceOf(Type.ROOK, Color.BLACK));
-        assertTrue(board.findPiece("h8").isPieceOf(Type.ROOK, Color.BLACK));
-        assertTrue(board.findPiece("a1").isPieceOf(Type.ROOK, Color.WHITE));
-        assertTrue(board.findPiece("h1").isPieceOf(Type.ROOK, Color.WHITE));
+        assertTrue(board.findPiece(Position.from("a8")).isPieceOf(Type.ROOK, Color.BLACK));
+        assertTrue(board.findPiece(Position.from("h8")).isPieceOf(Type.ROOK, Color.BLACK));
+        assertTrue(board.findPiece(Position.from("a1")).isPieceOf(Type.ROOK, Color.WHITE));
+        assertTrue(board.findPiece(Position.from("h1")).isPieceOf(Type.ROOK, Color.WHITE));
     }
 
     @Test
     @DisplayName("임의의 기물을 체스판에 추가한다")
     public void move() throws Exception {
-        board = new Board(BoardMaker.empty());
+        board = BoardFactory.createEmpty();
 
-        String position = "b5";
-        Piece piece = PieceFactory.createBlackRook(Position.from(position));
+        Position position = Position.from("b5");
+        Piece piece = PieceFactory.createBlackRook(position);
         board.setPiece(piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -92,7 +92,7 @@ public class BoardTest {
     @Test
     @DisplayName("일부 점수를 계산한다")
     public void getScore() throws Exception {
-        board = new Board(BoardMaker.empty());
+        board = BoardFactory.createEmpty();
 
         board.setPiece(PieceFactory.createBlackRook(Position.from("b5")));
         board.setPiece(PieceFactory.createWhiteKnight(Position.from("a4")));
@@ -117,7 +117,7 @@ public class BoardTest {
     @Test
     @DisplayName("같은 열에 폰이 2개일 때 점수를 계산한다")
     public void getScoreCase() throws Exception {
-        board = new Board(BoardMaker.empty());
+        board = BoardFactory.createEmpty();
 
         board.setPiece(PieceFactory.createBlackPawn(Position.from("a1")));
         board.setPiece(PieceFactory.createBlackPawn(Position.from("a2")));
@@ -133,7 +133,7 @@ public class BoardTest {
     @Test
     @DisplayName("특정상황에서 체스판에 점수를 계산한다")
     public void caculcatePoint() throws Exception {
-        board = new Board(BoardMaker.empty());
+        board = BoardFactory.createEmpty();
 
         board.setPiece(PieceFactory.createBlackPawn(Position.from("b6")));
         board.setPiece(PieceFactory.createBlackQueen(Position.from("e6")));

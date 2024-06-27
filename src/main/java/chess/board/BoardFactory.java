@@ -3,12 +3,20 @@ package chess.board;
 import java.util.ArrayList;
 import java.util.List;
 
-import static chess.board.RankMaker.*;
+import static chess.board.RankFactory.*;
 
-public class BoardMaker {
-    private BoardMaker() {}
+public class BoardFactory {
+    private BoardFactory() {}
 
-    public static List<Rank> standard() {
+    public static Board createStandard() {
+        return new Board(standard());
+    }
+
+    public static Board createEmpty() {
+        return new Board(empty());
+    }
+
+    private static List<Rank> standard() {
         List<Rank> ranks = new ArrayList<>();
 
         ranks.add(initBlackGoodPieces());
@@ -23,7 +31,7 @@ public class BoardMaker {
         return ranks;
     }
 
-    public static List<Rank> empty() {
+    private static List<Rank> empty() {
         List<Rank> ranks = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {

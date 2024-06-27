@@ -1,11 +1,10 @@
 package chess.board;
 
 import chess.pieces.PieceFactory;
-import chess.pieces.type.Color;
 import chess.pieces.Piece;
 
-public final class RankMaker {
-    private RankMaker() {}
+public final class RankFactory {
+    private RankFactory() {}
 
     public static Rank initWhitePawns() {
         Rank rank = new Rank();

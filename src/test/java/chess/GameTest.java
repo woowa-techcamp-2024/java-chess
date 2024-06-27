@@ -13,8 +13,8 @@ class GameTest {
         // Given
         Game game = new Game();
         game.newGame();
-        String sourcePosition = "e2";
-        String targetPosition = "e4";
+        Position sourcePosition = Position.from("e2");
+        Position targetPosition = Position.from("e4");
 
         // When
         game.move(sourcePosition, targetPosition);
@@ -30,8 +30,8 @@ class GameTest {
         // Given
         Game game = new Game();
         game.newGame();
-        String sourcePosition = "e3";
-        String targetPosition = "e4";
+        Position sourcePosition = Position.from("e3");
+        Position targetPosition = Position.from("e4");
 
         // When
         assertThrows(IllegalArgumentException.class, () -> {
@@ -45,8 +45,8 @@ class GameTest {
         // Given
         Game game = new Game();
         game.newGame();
-        String sourcePosition = "e2";
-        String targetPosition = "e1";
+        Position sourcePosition = Position.from("e2");
+        Position targetPosition = Position.from("e1");
 
         // When
         assertThrows(IllegalArgumentException.class, () -> {

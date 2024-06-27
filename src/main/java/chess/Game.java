@@ -1,7 +1,7 @@
 package chess;
 
 import chess.board.Board;
-import chess.board.BoardMaker;
+import chess.board.BoardFactory;
 import chess.board.Position;
 import chess.pieces.Piece;
 import chess.pieces.PieceFactory;
@@ -12,19 +12,16 @@ public class Game {
     private Board board;
 
     public void newGame() {
-        board = new Board(BoardMaker.standard());
+        board = BoardFactory.createStandard();
     }
 
-    public Piece findPiece(String position) {
+    public Piece findPiece(Position position) {
         return board.findPiece(position);
     }
 
-    public void move(String sourcePosition, String targetPosition) {
-        Position source = Position.from(sourcePosition);
-        Position target = Position.from(targetPosition);
-
-        final Piece sourcePiece = board.findPiece(source);
-        final Piece targetPiece = board.findPiece(target);
+    public void move(Position source, Position target) {
+        final Piece sourcePiece = findPiece(source);
+        final Piece targetPiece = findPiece(target);
 
         // 움직일 수 있는지 검증
         if (sourcePiece.isPieceOf(Representation.BLANK)) {

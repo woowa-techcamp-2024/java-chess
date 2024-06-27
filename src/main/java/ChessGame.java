@@ -1,8 +1,6 @@
 import chess.Game;
-import chess.board.Board;
 
-import chess.board.BoardMaker;
-import java.io.IOException;
+import chess.board.Position;
 import java.util.Scanner;
 
 public class ChessGame {
@@ -23,14 +21,14 @@ public class ChessGame {
                 break;
             }
             if (command == Command.MOVE) {
-                String source = scanner.next();
-                String target = scanner.next();
+                Position source = Position.from(scanner.next());
+                Position target = Position.from(scanner.next());
 
                 game.move(source, target);
             }
 
             // Board 상황 출력
-            chessView.print(game.print());
+            chessView.showBoard(game.print());
         }
     }
 }

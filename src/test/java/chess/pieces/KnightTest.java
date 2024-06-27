@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Board;
-import chess.board.BoardMaker;
+import chess.board.BoardFactory;
 import chess.board.Position;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ abstract class KnightTest {
 
     @Test
     void testKnightCanMove() {
-        Board board = new Board(BoardMaker.empty());
+        Board board = BoardFactory.createEmpty();
         Knight knight = PieceFactory.createWhiteKnight(Position.from("e4"));
         board.setPiece(knight);
 

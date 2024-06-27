@@ -19,26 +19,16 @@ public class Board {
         calculator = new ScoreCalculator(ranks);
     }
 
-    public double getScore(Color color) {
-        return calculator.calc(color);
-    }
-
-    public List<Piece> sortByScore(Color color, OrderBy orderBy) {
-        return calculator.sort(color, orderBy);
+    public Piece findPiece(Position position) {
+        int rank = position.getRank();
+        int file = position.getFile();
+        return ranks.get(rank).get(file);
     }
 
     public void setPiece(Piece piece) {
-        ranks.get(piece.getPosition().getRank())
-                .set(piece.getPosition().getFile(), piece);
-    }
-
-    public String print() {
-        StringBuilder sb = new StringBuilder();
-        for (Rank rank : ranks) {
-            sb.append(appendNewLine(rank.toString()));
-        }
-
-        return sb.toString();
+        int rank = piece.getPosition().getRank();
+        int file = piece.getPosition().getFile();
+        ranks.get(rank).set(file, piece);
     }
 
     public long pieceCount() {
@@ -53,13 +43,19 @@ public class Board {
                 .sum();
     }
 
-    public Piece findPiece(Position position) {
-        Rank rank = ranks.get(position.getRank());
-        return rank.get(position.getFile());
+    public double getScore(Color color) {
+        return calculator.calc(color);
     }
 
-    public Piece findPiece(String rankFile) {
-        Position position = Position.from(rankFile);
-        return findPiece(position);
+    public List<Piece> sortByScore(Color color, OrderBy orderBy) {
+        return calculator.sort(color, orderBy);
+    }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+        for (Rank rank : ranks) {
+            sb.append(appendNewLine(rank.toString()));
+        }
+        return sb.toString();
     }
 }

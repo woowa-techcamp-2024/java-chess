@@ -36,7 +36,7 @@ public class ScoreCalculator {
                     filePawnCount[i] += 1;
                     continue;
                 }
-                sum += pointOfPiece(piece);
+                sum += piece.getType().getPoint();
             }
         }
 
@@ -54,6 +54,7 @@ public class ScoreCalculator {
     /**
      * 체스판의 기물들을 점수 기준으로 정렬합니다
      * @param color 색상 (흰색, 검은색)
+     * @param orderBy 정렬기준 (OrderBy.ASC, OrderBy.DESC)
      * @return 정렬된 기물 리스트
      */
     public List<Piece> sort(Color color, OrderBy orderBy) {
@@ -68,37 +69,7 @@ public class ScoreCalculator {
             }
         }
 
-        // 정렬
-        list.sort((p1, p2) -> {
-            if (p1.getType() == p2.getType()) return 0;
-            if (OrderBy.ASC == orderBy) {
-                return pointOfPiece(p1) < pointOfPiece(p2) ? -1 : 1;
-            }
-            return pointOfPiece(p1) < pointOfPiece(p2) ? 1 : -1;
-        });
+        list.sort(orderBy.getComparator());
         return list;
-    }
-
-    public List<Piece> sort(Color color) {
-        return sort(color, OrderBy.DESC);
-    }
-
-    private static double pointOfPiece(Piece piece) {
-        switch (piece.getType()) {
-            case PAWN:
-                return 1.0;
-            case KNIGHT:
-                return 2.5;
-            case BISHOP:
-                return 3.0;
-            case ROOK:
-                return 5.0;
-            case QUEEN:
-                return 9.0;
-            case KING:
-                return 0.0;
-            default:
-                return 0.0;
-        }
     }
 }

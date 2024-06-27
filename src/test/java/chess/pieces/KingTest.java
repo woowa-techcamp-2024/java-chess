@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Board;
-import chess.board.BoardMaker;
+import chess.board.BoardFactory;
 import chess.board.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ abstract class KingTest {
     @Test
     @DisplayName("King이 이동합니다")
     void testKingCanMove() {
-        Board board = new Board(BoardMaker.standard());
+        Board board = BoardFactory.createStandard();
         King king = PieceFactory.createWhiteKing(Position.from("e4"));
         board.setPiece(king);
 

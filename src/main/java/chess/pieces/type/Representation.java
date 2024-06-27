@@ -27,7 +27,7 @@ public enum Representation {
         this.color = color;
     }
 
-    static public Representation from(Type type, Color color) {
+    public static Representation from(Type type, Color color) {
         return Arrays.stream(Representation.values())
                 .filter(rep -> rep.getColor() == color)
                 .filter(rep -> rep.getType() == type)
