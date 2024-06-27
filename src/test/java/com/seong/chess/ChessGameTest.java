@@ -69,7 +69,7 @@ class ChessGameTest {
         onlyKing.move("a2", King.createBlack());
 
         //when
-        kingChessGame.move("a2", Direction.NORTH);
+        kingChessGame.move("a2", Direction.NORTH, 1);
 
         //then
         assertThat(onlyKing.findPiece("a3")).isEqualTo(King.createBlack());

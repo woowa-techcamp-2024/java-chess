@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 
 import com.seong.chess.Position;
+import java.util.Arrays;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,9 +37,9 @@ class BishopTest {
     }
 
     @ParameterizedTest
-    @MethodSource(value = "bishopCanNotMoveRightDirection")
+    @MethodSource(value = "bishopOnlyMoveDiagonalDirection")
     @DisplayName("비숍이 정방향으로 움직이려고 하면 예외가 발생한다.")
-    void bishopCanNotMoveRightDirection(Direction direction) {
+    void bishopOnlyMoveDiagonalDirection(Direction direction) {
         //given
         Bishop black = Bishop.createBlack();
         String sourcePosition = "d4";
@@ -50,36 +51,30 @@ class BishopTest {
         assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static Stream<Arguments> bishopCanNotMoveRightDirection() {
-        return Stream.of(
-                Arguments.arguments(Direction.NORTH),
-                Arguments.arguments(Direction.SOUTH),
-                Arguments.arguments(Direction.WEST),
-                Arguments.arguments(Direction.EAST)
-        );
+    private static Stream<Arguments> bishopOnlyMoveDiagonalDirection() {
+        return Arrays.stream(Direction.values())
+                .filter(direction -> !direction.isDiagonal())
+                .map(Arguments::arguments);
     }
 
     @ParameterizedTest
     @MethodSource(value = "bishopMoveOverChessBoardThenException")
     @DisplayName("체스판 밖으로 움직이려고 시도하면 예외가 발생한다.")
-    void bishopMoveOverChessBoardThenException(Direction direction, int moveCount) {
+    void bishopMoveOverChessBoardThenException(Direction direction) {
         //given
         Bishop black = Bishop.createBlack();
         String sourcePosition = "d4";
 
         //when
-        Exception exception = catchException(() -> black.nextPosition(sourcePosition, direction, moveCount));
+        Exception exception = catchException(() -> black.nextPosition(sourcePosition, direction, 100));
 
         //then
         assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     private static Stream<Arguments> bishopMoveOverChessBoardThenException() {
-        return Stream.of(
-                Arguments.arguments(Direction.NORTHEAST, 100),
-                Arguments.arguments(Direction.NORTHWEST, 100),
-                Arguments.arguments(Direction.SOUTHEAST, 100),
-                Arguments.arguments(Direction.SOUTHWEST, 100)
-        );
+        return Arrays.stream(Direction.values())
+                .filter(Direction::isDiagonal)
+                .map(Arguments::arguments);
     }
 }

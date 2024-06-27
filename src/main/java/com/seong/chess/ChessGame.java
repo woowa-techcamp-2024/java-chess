@@ -20,9 +20,9 @@ public class ChessGame {
         board.move(targetPosition, piece);
     }
 
-    public void move(String sourcePosition, Direction direction) {
+    public void move(String sourcePosition, Direction direction, int moveCount) {
         Piece piece = board.findPiece(sourcePosition);
-        Position targetPosition = piece.nextPosition(sourcePosition, direction, 7);
+        Position targetPosition = piece.nextPosition(sourcePosition, direction, moveCount);
         board.move(targetPosition.convert(), piece);
     }
 

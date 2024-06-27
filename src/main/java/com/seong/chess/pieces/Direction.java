@@ -27,16 +27,11 @@ public enum Direction {
         this.col = col;
     }
 
-    public void checkBishop() {
-        if (this == NORTH || this == SOUTH || this == EAST || this == WEST) {
-            throw new IllegalArgumentException("비숍은 정방향으로 이동할 수 없습니다.");
-        }
+    public boolean isRight() {
+        return this == NORTH || this == SOUTH || this == EAST || this == WEST;
     }
 
-    public void checkKnight() {
-        if (this == NORTH || this == SOUTH || this == EAST || this == WEST ||
-                this == NORTHEAST || this == SOUTHEAST || this == NORTHWEST || this == SOUTHWEST) {
-            throw new IllegalArgumentException("나이트는 정방향, 대각선으로 이동할 수 없습니다.");
-        }
+    public boolean isDiagonal() {
+        return this == NORTHEAST || this == SOUTHEAST || this == NORTHWEST || this == SOUTHWEST;
     }
 }
