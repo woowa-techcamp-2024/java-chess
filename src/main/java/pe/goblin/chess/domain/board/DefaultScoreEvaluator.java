@@ -1,13 +1,13 @@
-package pe.goblin.chess.board;
+package pe.goblin.chess.domain.board;
 
-import pe.goblin.chess.piece.Piece;
+import pe.goblin.chess.domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static pe.goblin.chess.board.Board.MAX_COLS;
-import static pe.goblin.chess.board.Board.MAX_ROWS;
+import static pe.goblin.chess.domain.board.Board.MAX_COLS;
+import static pe.goblin.chess.domain.board.Board.MAX_ROWS;
 
 public class DefaultScoreEvaluator implements ScoreEvaluator {
     @Override

@@ -1,4 +1,4 @@
-package pe.goblin.chess.piece;
+package pe.goblin.chess.domain.piece;
 
 import java.util.Objects;
 
