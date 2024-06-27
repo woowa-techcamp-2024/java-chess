@@ -21,4 +21,12 @@ public class King extends Piece {
     public boolean isNotBlank() {
         return false;
     }
+
+    @Override
+    public void checkPieceCanMove(Direction direction) {
+        if (direction.isRight() || direction.isDiagonal()) {
+            return;
+        }
+        throw new IllegalArgumentException("킹은 정방향, 대각선으로만 움직일 수 있습니다.");
+    }
 }

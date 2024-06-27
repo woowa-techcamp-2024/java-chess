@@ -1,5 +1,6 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Position;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -50,8 +51,16 @@ public abstract class Piece {
         this.defaultPoint = defaultPoint;
     }
 
+    public static Piece createBlank(Position position) {
+        return Blank.create();
+    }
+
     public static Piece createBlank() {
         return Blank.create();
+    }
+
+    public static Piece createWhitePawn(Position position) {
+        return Pawn.createWhite();
     }
 
     public static Piece createWhitePawn() {
@@ -123,6 +132,18 @@ public abstract class Piece {
     public boolean isEqual(Color color) {
         return this.color == color;
     }
+
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
+        checkPieceCanMove(direction);
+        Position position = Position.convert(sourcePosition);
+        if (moveCount == 0) {
+            return position;
+        }
+        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
+        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
+    }
+
+    public abstract void checkPieceCanMove(Direction direction);
 
     public double getDefaultPoint() {
         return defaultPoint;

@@ -21,4 +21,12 @@ public class Queen extends Piece {
     public boolean isNotBlank() {
         return false;
     }
+
+    @Override
+    public void checkPieceCanMove(Direction direction) {
+        if (direction.isDiagonal() || direction.isRight()) {
+            return;
+        }
+        throw new IllegalArgumentException("퀸은 정방향, 대각선으로만 움직일 수 있습니다.");
+    }
 }

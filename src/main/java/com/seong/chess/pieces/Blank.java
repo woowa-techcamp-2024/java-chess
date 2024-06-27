@@ -17,4 +17,9 @@ public class Blank extends Piece {
     public boolean isNotBlank() {
         return true;
     }
+
+    @Override
+    public void checkPieceCanMove(Direction direction) {
+
+    }
 }

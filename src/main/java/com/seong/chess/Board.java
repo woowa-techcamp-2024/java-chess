@@ -11,32 +11,6 @@ import java.util.List;
 
 public class Board {
 
-    private record Position(int col, int row) {
-
-        private Position {
-            validateRow(row);
-            validateCol(col);
-        }
-
-        private static Position convert(String rawPosition) {
-            int col = rawPosition.charAt(0) - 'a';
-            int row = 8 - Character.getNumericValue(rawPosition.charAt(1));
-            return new Position(col, row);
-        }
-
-        private void validateRow(int row) {
-            if (row < 0 || row >= 8) {
-                throw new IllegalArgumentException("체스 보드 행은 1이상, 8 이하입니다.");
-            }
-        }
-
-        private void validateCol(int col) {
-            if (col < 0 || col >= 8) {
-                throw new IllegalArgumentException("체스 보드 열은 a이상, h 이하입니다.");
-            }
-        }
-    }
-
     private static final int EMPTY_ROW_BEGIN = 2;
     private static final int EMPTY_ROW_END = 6;
     static final int BOARD_LENGTH = 8;
@@ -85,37 +59,21 @@ public class Board {
 
     public void move(String rawPosition, Piece piece) {
         Position position = Position.convert(rawPosition);
-        ranks.get(position.row).move(position.col, piece);
+        ranks.get(position.row()).move(position.col(), piece);
     }
 
     public Piece findPiece(String rawPosition) {
         Position position = Position.convert(rawPosition);
-        return ranks.get(position.row).get(position.col);
+        return ranks.get(position.row()).get(position.col());
     }
 
-    public double calculatePoint(Color color) {
-        Double result = ranks.stream()
-                .flatMap(rank -> rank.getSameColorPieces(color).stream())
-                .filter(piece -> !piece.isEqual(Type.PAWN, color))
-                .reduce(0D, (point, piece) -> point + piece.getDefaultPoint(), Double::sum);
-
-        for (int i = 0; i < BOARD_LENGTH; i++) {
-            double pawnCount = getColumnPawnCount(color, i);
-            result += pawnCount * Type.PAWN.getDefaultPoint();
-        }
-        return result;
-    }
-
-    private double getColumnPawnCount(Color color, int row) {
+    public double getColumnPawnCount(Color color, int row) {
         double pawnCount = 0;
         for (int col = 0; col < BOARD_LENGTH; col++) {
             Piece piece = ranks.get(col).get(row);
             if (piece.isEqual(Type.PAWN, color)) {
                 pawnCount++;
             }
-        }
-        if (pawnCount > 1) {
-            pawnCount *= 0.5;
         }
         return pawnCount;
     }
