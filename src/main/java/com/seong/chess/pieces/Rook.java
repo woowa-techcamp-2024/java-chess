@@ -9,11 +9,11 @@ public class Rook extends Piece {
         super(Type.ROOK, color, REPRESENTATION, DEFAULT_POINT);
     }
 
-    public static Piece createWhite() {
+    public static Rook createWhite() {
         return new Rook(Color.WHITE);
     }
 
-    public static Piece createBlack() {
+    public static Rook createBlack() {
         return new Rook(Color.BLACK);
     }
 
@@ -24,6 +24,9 @@ public class Rook extends Piece {
 
     @Override
     public void checkPieceCanMove(Direction direction) {
-
+        if (direction.isRight()) {
+            return;
+        }
+        throw new IllegalArgumentException("룩은 정방향으로만 움직일 수 있습니다.");
     }
 }
