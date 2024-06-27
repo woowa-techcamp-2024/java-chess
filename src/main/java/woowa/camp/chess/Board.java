@@ -29,6 +29,10 @@ public class Board {
         initWhitePieces();
     }
 
+    public void initializeEmpty() {
+        initBoard();
+    }
+
     private void initBoard() {
         IntStream.range(0, MAX_ROW.getCount()).forEach(count -> {
             board.add(new Rank());
@@ -119,11 +123,19 @@ public class Board {
         IntStream.range(0, MAX_COL.getCount()).forEach(col -> {
             final Piece piece = Piece.createPiece(PAWN, color);
             final Position position = new Position(initRow, col);
-            addPiece(piece, position);
+            move(piece, position);
         });
     }
 
-    public void addPiece(final Piece piece, final Position position) {
+    // TODO: step1-6 움직임 요구사항 반영
+    public void move(final Piece piece, final String position) {
+        final Position chessPosition = Position.mapBy(position);
+        final int row = chessPosition.getRow();
+        final int col = chessPosition.getCol();
+        board.get(row).replace(col, piece);
+    }
+
+    public void move(final Piece piece, final Position position) {
         final int row = position.getRow();
         final int col = position.getCol();
         board.get(row).replace(col, piece);
