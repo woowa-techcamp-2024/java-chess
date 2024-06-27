@@ -184,9 +184,9 @@ public class Board {
         return pieces.size();
     }
 
-    public Piece getPawn(final int pawnIndex) {
-        validateFindPawn(pawnIndex);
-        return pieces.get(pawnIndex);
+    public Piece getPieceBy(final String position) {
+        final Position chessPosition = Position.mapBy(position);
+        return board.get(chessPosition.getRow()).get(chessPosition.getCol());
     }
 
     public String getPiecesResult(final Type type, final Color color) {
