@@ -9,6 +9,35 @@ public class Pawn extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
+        return Direction.determineDirection(moveVector).filter(it -> {
+                    if (color == Color.WHITE) {
+                        return verifyWhiteMovePosition(moveVector, it);
+                    }
+                    if (color == Color.BLACK) {
+                        return verifyBlackMovePosition(moveVector, it);
+                    }
+                    return false;
+                }
+        ).isPresent();
+    }
+
+    private boolean verifyWhiteMovePosition(MoveVector moveVector, Direction direction) {
+        if (direction == Direction.NORTH && moveVector.getSquareDistance() <= 4) {
+            return true;
+        }
+        if (direction == Direction.NORTHWEST || direction == Direction.NORTHEAST && moveVector.getSquareDistance() == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean verifyBlackMovePosition(MoveVector moveVector, Direction direction) {
+        if (direction == Direction.SOUTH && moveVector.getSquareDistance() <= 4) {
+            return true;
+        }
+        if (direction == Direction.SOUTHWEST || direction == Direction.SOUTHEAST && moveVector.getSquareDistance() == 2) {
+            return true;
+        }
         return false;
     }
 }
