@@ -1,10 +1,11 @@
 package pe.goblin.chess.piece;
 
 import org.junit.jupiter.api.Test;
-import pe.goblin.chess.piece.Piece.Type;
+import pe.goblin.chess.domain.piece.Piece;
+import pe.goblin.chess.domain.piece.Piece.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pe.goblin.chess.piece.Piece.Type.*;
+import static pe.goblin.chess.domain.piece.Piece.Type.*;
 
 class PieceTest {
     @Test

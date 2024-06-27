@@ -3,7 +3,8 @@ package pe.goblin.chess.board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pe.goblin.chess.piece.Piece;
+import pe.goblin.chess.domain.board.Board;
+import pe.goblin.chess.domain.piece.Piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pe.goblin.chess.utils.StringUtils.appendNewLine;
