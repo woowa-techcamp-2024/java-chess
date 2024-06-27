@@ -147,7 +147,7 @@ public class Board {
         return columns.get(position.getColIdx()).getPiece(position.getRow());
     }
 
-    public double caculcatePoint(Color color) {
+    public double calculatePoint(Color color) {
         return columns.stream()
             .mapToDouble(column -> calculateColumnPoints(column, color))
             .sum();

@@ -4,7 +4,6 @@ import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
@@ -96,7 +95,7 @@ public class BoardTest {
     }
 
     @Test
-    public void caculcatePoint() throws Exception {
+    public void calculatePoint() throws Exception {
 
         addPiece("b6", Piece.createBlackPawn());
         addPiece("e6", Piece.createBlackQueen());
@@ -108,15 +107,15 @@ public class BoardTest {
         addPiece("e1", Piece.createWhiteRook());
         addPiece("f1", Piece.createWhiteKing());
 
-        assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
     }
 
     @Test
     @DisplayName("새로로 폰이 있을 때 테스트")
-    public void caculatePoint2() throws Exception {
+    public void calculatePoint2() throws Exception {
         addPiece("b6", Piece.createBlackPawn());
         addPiece("e6", Piece.createBlackQueen());
         addPiece("b8", Piece.createBlackKing());
@@ -129,8 +128,8 @@ public class BoardTest {
         addPiece("f1", Piece.createWhiteKing());
 
         // 점수 계산 확인
-        assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
-        assertEquals(6.5, board.caculcatePoint(Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(6.5, board.calculatePoint(Color.WHITE), 0.01);
 
         // 체스판 출력
         System.out.println(board.showBoard());
