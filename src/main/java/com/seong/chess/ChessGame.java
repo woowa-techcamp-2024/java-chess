@@ -4,6 +4,7 @@ import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
+import java.util.List;
 
 public class ChessGame {
 
@@ -14,12 +15,29 @@ public class ChessGame {
     }
 
     public void move(String sourcePosition, String targetPosition) {
-        Piece sourcePositionPiece = board.findPiece(sourcePosition);
-        Piece targetPositionPiece = board.findPiece(targetPosition);
-        sourcePositionPiece.checkMoveTargetPosition(sourcePosition, targetPosition);
-        sourcePositionPiece.checkSameColor(targetPositionPiece);
+        Piece sourcePiece = board.findPiece(sourcePosition);
+        Piece targetPiece = board.findPiece(targetPosition);
+        sourcePiece.checkSameColor(targetPiece);
+        checkIsSamePosition(sourcePosition, targetPosition);
+
+        List<Position> movablePosition = sourcePiece.findMovablePosition(sourcePosition);
+        checkIsMovable(movablePosition, targetPosition);
+
         board.move(sourcePosition, Blank.create());
-        board.move(targetPosition, sourcePositionPiece);
+        board.move(targetPosition, sourcePiece);
+    }
+
+    private void checkIsSamePosition(String sourcePosition, String targetPosition) {
+        if (sourcePosition.equals(targetPosition)) {
+            throw new IllegalArgumentException("이동 위치와 현재 위치가 동일합니다.");
+        }
+    }
+
+    private void checkIsMovable(List<Position> movablePosition, String targetPosition) {
+        if (movablePosition.contains(Position.convert(targetPosition))) {
+            return;
+        }
+        throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
     }
 
     public void initialize() {

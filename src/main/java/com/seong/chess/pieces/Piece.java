@@ -38,17 +38,6 @@ public abstract class Piece {
         return this.color == color;
     }
 
-    public void checkMoveTargetPosition(String sourcePosition, String targetPosition) {
-        if (sourcePosition.equals(targetPosition)) {
-            throw new IllegalArgumentException("이동 위치와 현재 위치가 동일합니다.");
-        }
-        List<Position> movablePosition = findMovablePosition(sourcePosition);
-        if (movablePosition.contains(Position.convert(targetPosition))) {
-            return;
-        }
-        throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-    }
-
     public List<Position> findMovablePosition(String sourcePosition) {
         Position position = Position.convert(sourcePosition);
         List<Position> positions = new ArrayList<>();
