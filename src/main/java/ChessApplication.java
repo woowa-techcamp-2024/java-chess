@@ -1,25 +1,29 @@
-import static chess.CommandType.END;
-import static chess.CommandType.START;
-
 import chess.Board;
-import java.util.Scanner;
+import chess.ChessGame;
+import chess.Command;
+import chess.CommandType;
+import chess.Ranks;
+import view.InputView;
+import view.OutputView;
 
 public class ChessApplication {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+		Command command;
+		ChessGame chessGame = null;
+		do {
+			command = InputView.inputCommand();
+			chessGame = executeChessGame(command, chessGame);
+		} while (command.getCommandType() != CommandType.END);
+	}
 
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            String command = scanner.nextLine();
-
-            if (START.getValue().equals(command)) {
-                Board board = new Board();
-                board.initialize();
-                board.print();
-            }
-            if (END.getValue().equals(command)) {
-                break;
-            }
-        }
-    }
+	private static ChessGame executeChessGame(Command command, ChessGame chessGame) {
+		if (command.getCommandType() == CommandType.START) {
+			chessGame = new ChessGame(new Board(new Ranks()));
+			OutputView.print(chessGame.board());
+		} else if (command.getCommandType() == CommandType.MOVE) {
+			chessGame.move(command.getArguments());
+		}
+		return chessGame;
+	}
 }

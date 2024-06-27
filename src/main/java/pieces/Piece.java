@@ -1,108 +1,67 @@
 package pieces;
 
-import static pieces.Piece.Color.BLACK;
-import static pieces.Piece.Color.WHITE;
+import static java.lang.Math.abs;
 
-import java.util.Objects;
+import chess.Direction;
+import chess.Position;
+import java.util.List;
+import utils.MathUtils;
 
-public class Piece {
+public record Piece(Color color, PieceType pieceType) {
 
-    private final Color color;
-    private final PieceType pieceType;
+	public static Piece of(Color color, PieceType pieceType) {
+		return new Piece(color, pieceType);
+	}
 
-    private Piece(Color color, PieceType pieceType) {
-        this.color = color;
-        this.pieceType = pieceType;
-    }
+	public boolean isSameColor(Color color) {
+		return this.color == color;
+	}
 
-    public static Piece createPiece(Color color, PieceType pieceType) {
-        return new Piece(color, pieceType);
-    }
+	public boolean isSamePieceType(PieceType pieceType) {
+		return this.pieceType == pieceType;
+	}
 
-    public Color getColor() {
-        return color;
-    }
+	public char getRepresentation() {
+		return pieceType.getRepresentation(color);
+	}
 
-    public PieceType getPieceType() {
-        return pieceType;
-    }
+	public Direction getFinalDirection(List<Direction> directions, Position source, Position target,
+									   PieceType pieceType) {
+		return directions.stream()
+			.filter(direction -> isSameDirection(pieceType, direction,
+				target.getRow() - source.getRow(), target.getColumn() - source.getColumn()))
+			.findFirst()
+			.orElseThrow(IllegalArgumentException::new);
+	}
 
-    public char getRepresentation() {
-        return WHITE.equals(color) ? Character.toLowerCase(pieceType.getRepresentation())
-            : pieceType.getRepresentation();
-    }
+	private boolean isSameDirection(PieceType pieceType, Direction direction, int rowDiff, int columnDiff) {
+		if (isMultipleMovePieceType(pieceType)) {
+			int gcd = MathUtils.gcd(abs(rowDiff), abs(columnDiff));
+			if (gcd != 0) {
+				rowDiff /= gcd;
+				columnDiff /= gcd;
+			}
+		}
+		return direction.getX() == rowDiff && direction.getY() == columnDiff;
+	}
 
-    public boolean isBlack() {
-        return BLACK.equals(color);
-    }
+	/**
+	 * 하나의 Direction으로 끝까지 갈 수 있는 pieceType BISHOP, QUEEN, ROOK
+	 */
+	private boolean isMultipleMovePieceType(PieceType pieceType) {
+		return pieceType == PieceType.BISHOP || pieceType == PieceType.QUEEN || pieceType == PieceType.ROOK;
+	}
 
-    public boolean isWhite() {
-        return WHITE.equals(color);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Piece piece = (Piece) o;
+		return color == piece.color && pieceType == piece.pieceType;
+	}
 
-    public boolean isBlank() {
-        return pieceType == PieceType.BLANK;
-    }
-
-    public boolean isPawn() {
-        return pieceType == PieceType.PAWN;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return color == piece.color && pieceType == piece.pieceType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(color, pieceType);
-    }
-
-    public enum Color {
-        WHITE,
-        BLACK,
-        BLANK;
-    }
-
-    public enum PieceType {
-
-        PAWN('P', 1.0),
-        KNIGHT('N', 2.5),
-        ROOK('R', 5.0),
-        BISHOP('B', 3.0),
-        QUEEN('Q', 9.0),
-        KING('K', 0.0),
-        BLANK('.', 0.0);
-
-        private final char representation;
-        private final double defaultPoint;
-
-        PieceType(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public char getRepresentation() {
-            return representation;
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-
-        public char getWhiteRepresentation() {
-            return Character.toLowerCase(representation);
-        }
-
-        public char getBlackRepresentation() {
-            return representation;
-        }
-    }
 }
