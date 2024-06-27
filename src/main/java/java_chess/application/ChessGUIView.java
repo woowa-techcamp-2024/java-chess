@@ -1,11 +1,14 @@
 package java_chess.application;
 
+import static java_chess.application.properties.GUIProperties.BUTTON_FONT;
+import static java_chess.application.properties.GUIProperties.DARK_SQUARE_COLOR;
+import static java_chess.application.properties.GUIProperties.LABEL_FONT;
+import static java_chess.application.properties.GUIProperties.LIGHT_SQUARE_COLOR;
+import static java_chess.application.properties.GUIProperties.SELECTED_BORDER;
 import static java_chess.chess.pieces.enums.Color.BLACK;
 import static java_chess.chess.pieces.enums.Color.WHITE;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,21 +21,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import javax.swing.border.LineBorder;
 
 public class ChessGUIView extends JFrame {
 
     private static final int BOARD_SIZE = 8;
-    private static final String DEFAULT_FONT = "Arial";
 
     private final JButton[][] buttons = new JButton[BOARD_SIZE][BOARD_SIZE];
-    private final JPanel boardPanel;
-    private final JPanel infoPanel;
-    private final JLabel turnLabel;
-    private final JLabel scoreLabel;
+    private final JPanel boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
+    private final JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+    private final JLabel turnLabel = new JLabel();
+    private final JLabel scoreLabel = new JLabel();
+
     private final Board board;
     private final ChessGame chessGame;
-
     private Location selectedLocation = null;
 
     public ChessGUIView(Board board) {
@@ -41,14 +42,7 @@ public class ChessGUIView extends JFrame {
         chessGame.startGame();
 
         initFrame();
-
-        infoPanel = new JPanel(new GridLayout(2, 1));
-        boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
-        turnLabel = new JLabel();
-        turnLabel.setFont(new Font(DEFAULT_FONT, Font.BOLD, 24));
-        scoreLabel = new JLabel();
-        scoreLabel.setFont(new Font(DEFAULT_FONT, Font.BOLD, 24));
-
+        initComponents();
         initializeBoard();
         initializeInfo();
 
@@ -67,10 +61,15 @@ public class ChessGUIView extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    private void initComponents() {
+        turnLabel.setFont(LABEL_FONT);
+        scoreLabel.setFont(LABEL_FONT);
+    }
+
     private void initializeBoard() {
         for (int i = BOARD_SIZE - 1; i >= 0; i--) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                buttons[i][j] = generateButton(i, j);
+                buttons[i][j] = createButton(i, j);
                 boardPanel.add(buttons[i][j]);
             }
         }
@@ -83,57 +82,70 @@ public class ChessGUIView extends JFrame {
         updateScoreLabel();
     }
 
-    private JButton generateButton(int x, int y) {
-        var btn = new JButton();
-        btn.setBackground((x + y) % 2 == 0 ? Color.lightGray : Color.getHSBColor(1.25f, 1, .46f));
+    private JButton createButton(int x, int y) {
+        JButton btn = new JButton();
+        btn.setBackground((x + y) % 2 == 0 ? LIGHT_SQUARE_COLOR : DARK_SQUARE_COLOR);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
-        var piece = board.getPiece(Location.of(x + 1, (char) ('a' + y)));
-        btn.setText(piece.isBlank() ? "" : piece.getSymbol().getValue());
-        btn.setFont(new Font(DEFAULT_FONT, Font.BOLD, 44));
-        btn.setBorder(new LineBorder(Color.RED, 3));
-        btn.addMouseListener(new MouseAdapter() {
-                                 @Override
-                                 public void mousePressed(MouseEvent e) {
-                                     selectedLocation = Location.of(x + 1, (char) ('a' + y));
-                                     highlightMoveLocations(selectedLocation);
-                                 }
+        btn.setFont(BUTTON_FONT);
+        btn.setBorder(SELECTED_BORDER);
+        updateButtonLabel(btn, x, y);
 
-                                 @Override
-                                 public void mouseReleased(MouseEvent e) {
-                                     var point = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), boardPanel);
-                                     var targetRow = Math.abs(
-                                         (point.y / (boardPanel.getHeight() / BOARD_SIZE) - BOARD_SIZE)) - 1;
-                                     var targetCol = point.x / (boardPanel.getWidth() / BOARD_SIZE);
-                                     var endLocation = Location.of(targetRow + 1, (char) ('a' + targetCol));
-                                     handlePieceMove(selectedLocation, endLocation);
-                                     selectedLocation = null;
-                                 }
-                             }
-        );
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                handleMousePress(x, y);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                handleMouseRelease(e);
+            }
+        });
         return btn;
     }
 
-    private void updateTurnLabel() {
-        turnLabel.setText("Turn: " + chessGame.getTurn());
+    private void updateButtonLabel(JButton btn, int x, int y) {
+        var piece = board.getPiece(Location.of(x + 1, (char) ('a' + y)));
+        btn.setText(piece.isBlank() ? "" : piece.getSymbol().getValue());
+    }
 
+    private void updateTurnLabel() {
+        turnLabel.setText("Turn: " + chessGame.getTurn().name());
     }
 
     private void updateScoreLabel() {
-        scoreLabel.setText("Score: " + chessGame.calculateScoreByColor(WHITE) + " : "
-            + chessGame.calculateScoreByColor(BLACK));
+        scoreLabel.setText("Score: (W) " + chessGame.calculateScoreByColor(WHITE) + " : "
+            + chessGame.calculateScoreByColor(BLACK) + " (B)");
+    }
+
+    private void handleMousePress(int x, int y) {
+        selectedLocation = Location.of(x + 1, (char) ('a' + y));
+        highlightMoveLocations(selectedLocation);
+    }
+
+    private void handleMouseRelease(MouseEvent e) {
+        var point = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), boardPanel);
+        var targetRow =
+            Math.abs((point.y / (boardPanel.getHeight() / BOARD_SIZE)) - BOARD_SIZE) - 1;
+        var targetCol = point.x / (boardPanel.getWidth() / BOARD_SIZE);
+        var endLocation = Location.of(targetRow + 1, (char) ('a' + targetCol));
+        handlePieceMove(selectedLocation, endLocation);
+        selectedLocation = null;
     }
 
     private void highlightMoveLocations(Location location) {
+        if (!board.getPiece(location).verifySameColor(chessGame.getTurn())) {
+            return;
+        }
         var moveableLocations = board.getLocationsThatPieceCanMoveByLocation(location);
         if (moveableLocations.isEmpty()) {
             selectedLocation = null;
             return;
         }
-        resetAllBtn();
+        resetAllButtonBorders();
         for (var loc : moveableLocations) {
-            var btn = buttons[loc.getX() - 1][loc.getY() - 1];
-            btn.setBorderPainted(true);
+            buttons[loc.getX() - 1][loc.getY() - 1].setBorderPainted(true);
         }
     }
 
@@ -141,34 +153,36 @@ public class ChessGUIView extends JFrame {
         if (start != null && board.getLocationsThatPieceCanMoveByLocation(start).contains(end)) {
             try {
                 chessGame.movePiece(start, end);
-                updateBtnText();
+                updateAllButtons();
                 updateTurnLabel();
                 updateScoreLabel();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Check",
-                    JOptionPane.INFORMATION_MESSAGE);
+                showErrorDialog(e.getMessage());
             } finally {
-                resetAllBtn();
+                resetAllButtonBorders();
             }
+        } else {
+            resetAllButtonBorders();
         }
-        resetAllBtn();
     }
 
-    private void updateBtnText() {
+    private void updateAllButtons() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                var piece = board.getPiece(Location.of(i + 1, (char) ('a' + j)));
-                buttons[i][j].setText(piece.isBlank() ? "" : piece.getSymbol().getValue());
+                updateButtonLabel(buttons[i][j], i, j);
             }
         }
     }
 
-    private void resetAllBtn() {
-        for (JButton[] jButtons : buttons) {
-            for (JButton jButton : jButtons) {
-                jButton.setBorderPainted(false);
+    private void resetAllButtonBorders() {
+        for (JButton[] row : buttons) {
+            for (JButton btn : row) {
+                btn.setBorderPainted(false);
             }
         }
     }
 
+    private void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(this, message, "Check", JOptionPane.INFORMATION_MESSAGE);
+    }
 }

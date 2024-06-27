@@ -29,8 +29,8 @@ public class ChessGame {
      *
      * @return 현재 순서
      */
-    public String getTurn() {
-        return current.toString();
+    public Color getTurn() {
+        return current;
     }
 
     /**

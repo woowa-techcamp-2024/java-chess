@@ -216,7 +216,7 @@ public class Board {
             return;
         }
         result.add(nextLocation);
-        if (flag) {
+        if (flag && nextPiece.isBlank()) {
             verifyMoveable(nextLocation, direction, color, result, true);
         }
     }
