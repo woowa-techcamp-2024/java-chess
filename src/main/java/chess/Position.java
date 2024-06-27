@@ -18,7 +18,7 @@ public class Position {
 
         Position position = (Position) o;
         if (this.getX() == position.getX() && this.getY() == position.getY()) return true;
-        else return true;
+        else return false;
     }
 
     public Position(final String position) {
