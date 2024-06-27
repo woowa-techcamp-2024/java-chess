@@ -9,6 +9,7 @@ public class Knight extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        return false;
+        Direction direction = Direction.determineDirection(moveVector);
+        return Direction.knightDirection().contains(direction);
     }
 }
