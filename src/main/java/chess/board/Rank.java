@@ -26,6 +26,10 @@ public class Rank {
         return pieces;
     }
 
+    public Piece getPiece(int i) {
+        return pieces.get(i);
+    }
+
     public int countPiece(Color color, Type type) {
         return (int) pieces.stream().filter(piece -> piece.getColor() == color && piece.getType() == type).count();
     }

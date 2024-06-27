@@ -15,7 +15,6 @@ public class Board {
     private final int BOARD_SIZE = 8;
     private final int BLACK_PAWN_RANK = 1;
     private final int WHITE_PAWN_RANK = 6;
-
     private int pieceNumber;
 
     public Board() {
@@ -96,4 +95,10 @@ public class Board {
                 .mapToInt(rank -> rank.countPiece(color, type))
                 .sum();
     }
+
+    public Piece findPiece(String stringPosition) {
+        Position position = new Position(stringPosition);
+        return board.get(position.getRank()).getPiece(position.getFile());
+    }
+
 }
