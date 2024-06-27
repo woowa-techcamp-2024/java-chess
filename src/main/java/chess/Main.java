@@ -13,10 +13,14 @@ public class Main {
 
         while(true){
             String operation = br.readLine();
-            boolean isFinish = game.operation(operation);
-            if(isFinish){
-                game.finishGame();
-                break;
+            try {
+                boolean isFinish = game.operation(operation);
+                if (isFinish) {
+                    game.finishGame();
+                    break;
+                }
+            }catch(Exception e){
+                System.err.println("[ERROR] " + e.getMessage());
             }
             game.showBoard();
         }
