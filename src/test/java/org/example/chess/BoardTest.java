@@ -66,12 +66,18 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("기물을 이동한다")
     public void move() throws Exception {
         board.initialize();
+        System.out.println("Before");
+        System.out.println(board.showBoard());
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
+
+        System.out.println("After");
+        System.out.println(board.showBoard());
         assertEquals(Piece.createNoColorPiece(), board.findPiece(sourcePosition));
         assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
@@ -98,15 +104,15 @@ public class BoardTest {
     @Test
     public void calculatePoint() throws Exception {
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        setPiece("b6", Piece.createBlackPawn());
+        setPiece("e6", Piece.createBlackQueen());
+        setPiece("b8", Piece.createBlackKing());
+        setPiece("c8", Piece.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        setPiece("f2", Piece.createWhitePawn());
+        setPiece("g2", Piece.createWhitePawn());
+        setPiece("e1", Piece.createWhiteRook());
+        setPiece("f1", Piece.createWhiteKing());
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
@@ -117,16 +123,16 @@ public class BoardTest {
     @Test
     @DisplayName("새로로 폰이 있을 때 테스트")
     public void calculatePoint2() throws Exception {
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        setPiece("b6", Piece.createBlackPawn());
+        setPiece("e6", Piece.createBlackQueen());
+        setPiece("b8", Piece.createBlackKing());
+        setPiece("c8", Piece.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("f3", Piece.createWhitePawn());
-        addPiece("f4", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        setPiece("f2", Piece.createWhitePawn());
+        setPiece("f3", Piece.createWhitePawn());
+        setPiece("f4", Piece.createWhitePawn());
+        setPiece("e1", Piece.createWhiteRook());
+        setPiece("f1", Piece.createWhiteKing());
 
         // 점수 계산 확인
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
@@ -139,17 +145,17 @@ public class BoardTest {
     @Test
     @DisplayName("점수 높은 순서대로 정렬")
     public void sort() throws Exception {
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        setPiece("b6", Piece.createBlackPawn());
+        setPiece("e6", Piece.createBlackQueen());
+        setPiece("b8", Piece.createBlackKing());
+        setPiece("c8", Piece.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("f3", Piece.createWhitePawn());
-        addPiece("f4", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
-        addPiece("f5", Piece.createWhiteQueen());
+        setPiece("f2", Piece.createWhitePawn());
+        setPiece("f3", Piece.createWhitePawn());
+        setPiece("f4", Piece.createWhitePawn());
+        setPiece("e1", Piece.createWhiteRook());
+        setPiece("f1", Piece.createWhiteKing());
+        setPiece("f5", Piece.createWhiteQueen());
 
         // 기대 점수
         Double[] expectedBlackPoints = {9.0, 5.0, 1.0, 0.0};
@@ -164,7 +170,7 @@ public class BoardTest {
             board.sortByPoint(Color.WHITE).stream().map(Piece::getPoint).toArray());
     }
 
-    private void addPiece(String position, Piece piece) {
-        board.move(new Position(position), piece);
+    private void setPiece(String position, Piece piece) {
+        board.setPiece(new Position(position), piece);
     }
 }

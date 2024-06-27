@@ -31,7 +31,7 @@ public class Board {
             return ret;
         }
 
-        public void modifyPiece(Piece piece, int rowNumber) {
+        private void setPiece(Piece piece, int rowNumber) {
             pieces.set(rowNumber - 1, piece);
         }
 
@@ -51,8 +51,21 @@ public class Board {
         columns = createSizeList(BOARD_SIZE);
     }
 
-    public void move(Position position, Piece piece) {
-        columns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
+    public void move(Position start, Position end) {
+        //columns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
+        // start를 end로 보내고 start는 빈칸처리
+        Piece startPiece = findPiece(start);
+
+        setPiece(end, startPiece);
+        setPiece(start, Piece.createNoColorPiece());
+    }
+
+    public void move(String start, String end) {
+        move(new Position(start), new Position(end));
+    }
+
+    public void setPiece(Position position, Piece piece) {
+        columns.get(position.getColIdx()).setPiece(piece, position.getRow());
     }
 
     private List<Column> createSizeList(int boardSize) {
@@ -77,17 +90,17 @@ public class Board {
         final int whitePawnRow = 2;
 
         for (Column column : columns) {
-            column.modifyPiece(Piece.createWhitePawn(), whitePawnRow);
+            column.setPiece(Piece.createWhitePawn(), whitePawnRow);
         }
 
-        columns.get(0).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
-        columns.get(1).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(2).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(3).modifyPiece(Piece.createWhiteQueen(), whitePieceRow);
-        columns.get(4).modifyPiece(Piece.createWhiteKing(), whitePieceRow);
-        columns.get(5).modifyPiece(Piece.createWhiteBishop(), whitePieceRow);
-        columns.get(6).modifyPiece(Piece.createWhiteKnight(), whitePieceRow);
-        columns.get(7).modifyPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(0).setPiece(Piece.createWhiteRook(), whitePieceRow);
+        columns.get(1).setPiece(Piece.createWhiteKnight(), whitePieceRow);
+        columns.get(2).setPiece(Piece.createWhiteBishop(), whitePieceRow);
+        columns.get(3).setPiece(Piece.createWhiteQueen(), whitePieceRow);
+        columns.get(4).setPiece(Piece.createWhiteKing(), whitePieceRow);
+        columns.get(5).setPiece(Piece.createWhiteBishop(), whitePieceRow);
+        columns.get(6).setPiece(Piece.createWhiteKnight(), whitePieceRow);
+        columns.get(7).setPiece(Piece.createWhiteRook(), whitePieceRow);
     }
 
     private void placeBlackPiece() {
@@ -96,17 +109,17 @@ public class Board {
 
         // Place black pawns
         columns.forEach(
-            column -> column.modifyPiece(Piece.createBlackPawn(), blackPawnRow));
+            column -> column.setPiece(Piece.createBlackPawn(), blackPawnRow));
 
         // Place other black pieces
-        columns.get(0).modifyPiece(Piece.createBlackRook(), blackPieceRow);
-        columns.get(1).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(2).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(3).modifyPiece(Piece.createBlackQueen(), blackPieceRow);
-        columns.get(4).modifyPiece(Piece.createBlackKing(), blackPieceRow);
-        columns.get(5).modifyPiece(Piece.createBlackBishop(), blackPieceRow);
-        columns.get(6).modifyPiece(Piece.createBlackKnight(), blackPieceRow);
-        columns.get(7).modifyPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(0).setPiece(Piece.createBlackRook(), blackPieceRow);
+        columns.get(1).setPiece(Piece.createBlackKnight(), blackPieceRow);
+        columns.get(2).setPiece(Piece.createBlackBishop(), blackPieceRow);
+        columns.get(3).setPiece(Piece.createBlackQueen(), blackPieceRow);
+        columns.get(4).setPiece(Piece.createBlackKing(), blackPieceRow);
+        columns.get(5).setPiece(Piece.createBlackBishop(), blackPieceRow);
+        columns.get(6).setPiece(Piece.createBlackKnight(), blackPieceRow);
+        columns.get(7).setPiece(Piece.createBlackRook(), blackPieceRow);
     }
 
     public String showBoard() {
@@ -145,6 +158,10 @@ public class Board {
 
     public Piece findPiece(Position position) {
         return columns.get(position.getColIdx()).getPiece(position.getRow());
+    }
+
+    public Piece findPiece(String position) {
+        return findPiece(new Position(position));
     }
 
     public double calculatePoint(Color color) {
