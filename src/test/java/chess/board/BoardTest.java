@@ -65,11 +65,11 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("")
-    public void calculatePoint() throws Exception {
+    @DisplayName("현재 남아있는 기물에 따라 점수를 계산해야합니다.")
+    public void calculatePoint1() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackRook());
+        addPiece("b6", Piece.createBlackPawn());
         addPiece("e6", Piece.createBlackQueen());
         addPiece("b8", Piece.createBlackKing());
         addPiece("c8", Piece.createBlackRook());
@@ -83,7 +83,26 @@ public class BoardTest {
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
+    }
 
+    @Test
+    @DisplayName("현재 남아있는 기물에 따라 점수를 계산해야합니다.")
+    public void calculatePoint2() throws Exception {
+        board.initializeEmpty();
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("h3", Piece.createWhitePawn());
+        addPiece("h3", Piece.createWhitePawn());
+        addPiece("f3", Piece.createWhitePawn());
+        addPiece("g4", Piece.createWhiteQueen());
+        addPiece("f4", Piece.createWhiteKnight());
+        addPiece("g2", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertEquals(19.5, board.calculatePoint(Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
     }
 
     private void addPiece(String position, Piece piece) {
