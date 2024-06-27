@@ -142,4 +142,17 @@ class BoardMoveManagerTest {
 
         boardMoveManager.move(from, to);
     }
+
+    @Test
+    void move_WrongTurn_ThrowsException() {
+        String from = "b2";
+        String to = "b4";
+
+        Piece whitePawn = PieceFactory.createWhitePawn();
+        boardMoveManager.move("b2", whitePawn);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            boardMoveManager.move("b4", "b5");
+        });
+    }
 }

@@ -6,15 +6,18 @@ import java.util.List;
 import org.example.chess.board.Board.Rank;
 import org.example.chess.pieces.Pawn;
 import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.Piece.Color;
 import org.example.chess.pieces.Piece.Type;
 import org.example.chess.pieces.PieceFactory;
 
 public class BoardMoveManager {
 
     private final Board board;
+    private Color currentTurn;
 
     public BoardMoveManager(Board board) {
         this.board = board;
+        this.currentTurn = Color.WHITE;
     }
 
     public Piece findPiece(String pos) {
@@ -71,15 +74,29 @@ public class BoardMoveManager {
 
         move(source, PieceFactory.createBlank());
         move(destination, piece);
+
+        switchTurn();
+    }
+
+    private void switchTurn() {
+        currentTurn = (currentTurn == Color.WHITE) ? Color.BLACK : Color.WHITE;
     }
 
     private void validateMoveCommand(Position from, Position to) {
+        validateTurn(findPiece(from));
         if (from.equals(to)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
         if (findPiece(from).getColor() == findPiece(to).getColor()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+    }
+
+    private void validateTurn(Piece piece) {
+        if (piece.getColor() != currentTurn) {
+            throw new IllegalArgumentException("현재 턴이 아닌 기물은 이동할 수 없습니다.");
         }
     }
 
