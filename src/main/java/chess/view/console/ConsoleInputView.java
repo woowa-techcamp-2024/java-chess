@@ -1,10 +1,12 @@
-package chess.view;
+package chess.view.console;
+
+import chess.view.GameInputView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConsoleInputView implements GameInputView{
+public class ConsoleInputView implements GameInputView {
     private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     @Override

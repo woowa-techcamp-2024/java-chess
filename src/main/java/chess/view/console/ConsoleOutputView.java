@@ -1,6 +1,8 @@
-package chess.view;
+package chess.view.console;
 
-public class ConsoleOutputView implements GameOutputView{
+import chess.view.GameOutputView;
+
+public class ConsoleOutputView implements GameOutputView {
     @Override
     public void showMessage(String message) {
         System.out.println(message);

@@ -1,12 +1,9 @@
 package chess;
 
 import chess.view.*;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
+import chess.view.console.ConsoleGameView;
+import chess.view.console.ConsoleInputView;
+import chess.view.console.ConsoleOutputView;
 
 public class Main {
     private final GameInputView gameInputView;
