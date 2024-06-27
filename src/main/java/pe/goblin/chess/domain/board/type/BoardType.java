@@ -22,11 +22,18 @@ public enum BoardType {
         this.initialState = initialState;
     }
 
+    public static BoardType of(int ordinal) {
+        if(ordinal < 0 || ordinal >= values().length){
+            throw new IndexOutOfBoundsException();
+        }
+        return BoardType.values()[ordinal];
+    }
+
     public int getRowSize() {
         return rowSize;
     }
 
-    public int getColSize() {
+    public int getColumnSize() {
         return colSize;
     }
 
