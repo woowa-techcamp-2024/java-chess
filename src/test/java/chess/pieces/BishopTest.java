@@ -25,7 +25,7 @@ public class BishopTest {
 
     @Test
     @DisplayName("Bishop 기물이 원하는 대로 이동이 가능해야 한다")
-    public void moveBishop() {
+    public void moveBishop() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createBishop(Color.BLACK, null), new Position(1, 0));
         board.saveByPosition(PieceFactory.createBishop(Color.WHITE, null), new Position(0, 1));

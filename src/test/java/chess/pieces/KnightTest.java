@@ -25,7 +25,7 @@ public class KnightTest {
 
     @Test
     @DisplayName("Knight 기물이 원하는 대로 이동이 가능해야 한다")
-    public void moveKnight() {
+    public void moveKnight() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position(1, 0));
         board.saveByPosition(PieceFactory.createKnight(Color.WHITE, null), new Position(1, 4));
@@ -50,7 +50,7 @@ public class KnightTest {
 
     @Test
     @DisplayName("Knight 기물은 중간의 다른 기물을 뛰어 넘을 수 있어야 한다")
-    public void jumpKnight() {
+    public void jumpKnight() throws Exception {
         board.initialize();
         board.saveByPosition(PieceFactory.createKnight(Color.BLACK, null), new Position(1, 0));
         board.saveByPosition(PieceFactory.createKnight(Color.WHITE, null), new Position(1, 1));

@@ -15,9 +15,15 @@ public class Main {
             if (operator.equals("start")) System.out.println(chessView.showBoard());
             if (operator.equals("end")) return;
             if (operator.startsWith("move")) {
-                String[] operands = operator.split(" ");
-                chessGame.move(operands[1], operands[2]);
-                System.out.println(chessView.showBoard());
+                try {
+                    String[] operands = operator.split(" ");
+                    chessGame.move(operands[1], operands[2]);
+                    chessGame.convertNextTurn();
+                    System.out.println(chessView.showBoard());
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
