@@ -13,19 +13,29 @@ public class ChessView {
         this.board = board;
     }
 
-    public String printBoard() {
-        var sb = new StringBuilder();
+    public void printBoard() {
         for (int i = Board.ROWS.length - 1; i >= 0; i--) {
-            sb.append(printRank(board.getPiecesWithRow(Board.ROWS[i])));
+            printRank(Board.ROWS[i], board.getPiecesWithRow(Board.ROWS[i]));
         }
-        return sb.toString();
+        printColumn();
     }
 
-    private String printRank(List<Piece> pieces) {
+    private void printRank(int row, List<Piece> pieces) {
         var sb = new StringBuilder();
+        sb.append(row).append(" ");
         for (var piece : pieces) {
-            sb.append(piece.getSymbol().getValue());
+            sb.append(piece.getSymbol().getValue()).append(" ");
         }
-        return StringUtils.appendNewLine(sb.toString());
+        System.out.print(StringUtils.appendNewLine(sb.toString()));
     }
+
+    private void printColumn() {
+        var sb = new StringBuilder();
+        sb.append("  ");
+        for (char c : Board.COLS) {
+            sb.append(c).append(" ");
+        }
+        System.out.print(StringUtils.appendNewLine(sb.toString()));
+    }
+
 }

@@ -10,9 +10,11 @@ import java_chess.chess.pieces.values.Location;
 public class ChessGame {
 
     private final Board board;
+    private Color current;
 
     public ChessGame(Board board) {
         this.board = board;
+        this.current = Color.WHITE;
     }
 
     /**
@@ -42,14 +44,17 @@ public class ChessGame {
      * @param from 이동할 말의 위치
      * @param to   이동할 위치
      * @throws IllegalArgumentException 이동할 수 없는 위치일 경우
+     * @throws IllegalArgumentException 상대의 말을 옮기려고 하는 경우
      */
     public void movePiece(Location from, Location to) {
         var possibleMoves = board.getLocationsThatPieceCanMoveByLocation(from);
+        validateCurrentTurn(from);
         if (!possibleMoves.contains(to)) {
             throw new IllegalArgumentException("This piece cannot move to the location.");
         }
         board.addPiece(to, board.getPiece(from));
         board.removePiece(from);
+        swapTurn();
     }
 
     private double calculatePawnScore(Color color) {
@@ -63,4 +68,13 @@ public class ChessGame {
             .sum();
     }
 
+    private void validateCurrentTurn(Location location) {
+        if (!board.getPiece(location).verifySameColor(current)) {
+            throw new IllegalArgumentException("This piece is not yours.");
+        }
+    }
+
+    private void swapTurn() {
+        current = current.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
 }

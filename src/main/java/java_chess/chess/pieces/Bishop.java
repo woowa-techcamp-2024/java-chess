@@ -23,4 +23,5 @@ public class Bishop extends Piece {
     public boolean canMoveMultipleTimes() {
         return true;
     }
+
 }

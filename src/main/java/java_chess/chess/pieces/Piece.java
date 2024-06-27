@@ -58,4 +58,5 @@ public abstract class Piece {
     public String toString() {
         return symbol.getValue();
     }
+
 }
