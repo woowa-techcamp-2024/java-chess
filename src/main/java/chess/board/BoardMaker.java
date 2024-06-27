@@ -4,7 +4,7 @@ import static chess.board.RankMaker.getEmptyRank;
 import static chess.board.RankMaker.getGoodPiecesRank;
 import static chess.board.RankMaker.getPawnsRank;
 
-import chess.pieces.Color;
+import chess.pieces.type.Color;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package chess.pieces;
+package chess.pieces.type;
 
 public enum Color {
     WHITE, BLACK, NOCOLOR;

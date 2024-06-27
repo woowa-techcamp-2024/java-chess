@@ -1,3 +1,4 @@
+import chess.Game;
 import chess.board.Board;
 
 import chess.board.BoardMaker;
@@ -5,18 +6,18 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ChessGame {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         ChessView chessView = new ChessView();
         Scanner scanner = new Scanner(System.in);
         chessView.startMessage();
 
-        Board board = new Board(BoardMaker.standard());
+        Game game = new Game();
         while (true) {
             chessView.pressKeyMessage();
             Command command = Command.from(scanner.next());
 
             if (command == Command.START) {
-                board = new Board(BoardMaker.standard());
+                game.newGame();
             }
             if (command == Command.END) {
                 break;
@@ -25,11 +26,11 @@ public class ChessGame {
                 String source = scanner.next();
                 String target = scanner.next();
 
-                board.move(source, target);
+                game.move(source, target);
             }
 
             // Board 상황 출력
-            chessView.print(board.print());
+            chessView.print(game.print());
         }
     }
 }

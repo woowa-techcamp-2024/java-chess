@@ -1,13 +1,12 @@
 package chess.board;
 
 import chess.board.calculator.OrderBy;
-import chess.pieces.Color;
+import chess.pieces.type.Color;
 import chess.pieces.Piece;
-import chess.pieces.Representation;
+import chess.pieces.type.Representation;
 import chess.board.calculator.ScoreCalculator;
 
-import chess.pieces.Representation.Type;
-import java.util.ArrayList;
+import chess.pieces.type.Type;
 import java.util.List;
 
 import static utils.StringUtils.*;

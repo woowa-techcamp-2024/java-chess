@@ -1,8 +1,9 @@
 package chess.pieces;
 
+import chess.pieces.type.Color;
+import chess.pieces.type.Type;
 import org.junit.jupiter.api.*;
 
-import static chess.pieces.Representation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {

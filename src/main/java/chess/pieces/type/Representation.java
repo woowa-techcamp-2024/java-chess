@@ -1,4 +1,4 @@
-package chess.pieces;
+package chess.pieces.type;
 
 import java.util.Arrays;
 
@@ -45,15 +45,5 @@ public enum Representation {
 
     public Type getType() {
         return type;
-    }
-
-    public enum Type {
-        PAWN,
-        KING,
-        QUEEN,
-        BISHOP,
-        KNIGHT,
-        ROOK,
-        NO_PIECE;
     }
 }

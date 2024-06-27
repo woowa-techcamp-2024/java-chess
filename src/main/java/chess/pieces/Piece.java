@@ -1,8 +1,12 @@
 package chess.pieces;
 
+import chess.board.Position;
+import chess.pieces.type.Color;
+import chess.pieces.type.Representation;
+import chess.pieces.type.Type;
+
 import java.util.Objects;
 
-// VO
 public class Piece {
     private final Representation representation;
 
@@ -10,9 +14,19 @@ public class Piece {
         this.representation = representation;
     }
 
-    public static Piece create(Representation.Type type, Color color) {
+    public static Piece create(Type type, Color color) {
         return new Piece(Representation.from(type, color));
     }
+
+//    // King이라고 일단 가정
+//    public boolean canMove(Piece target) {
+//        Position targetPosition = target.position;
+//
+//        int ty = Math.abs(this.position.getFile() - targetPosition.getFile());
+//        int tx = Math.abs(this.position.getRank() - targetPosition.getRank());
+//
+//        return ty <= 1 && tx <= 1;
+//    }
 
     public String getName() {
         return representation.name();
@@ -26,7 +40,7 @@ public class Piece {
         return representation.getSymbol();
     }
 
-    public Representation.Type getType() {
+    public Type getType() {
         return representation.getType();
     }
 

@@ -7,10 +7,10 @@ import static utils.StringUtils.appendNewLine;
 import chess.board.Board;
 import chess.board.BoardMaker;
 import chess.board.calculator.OrderBy;
-import chess.pieces.Color;
+import chess.pieces.type.Color;
 import chess.pieces.Piece;
-import chess.pieces.Representation;
-import chess.pieces.Representation.Type;
+import chess.pieces.type.Representation;
+import chess.pieces.type.Type;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -67,10 +67,10 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에서 특정 위치에 어떤 기물이 있는지 확인한다")
     public void findPiece() throws Exception {
-        assertEquals(Piece.create(Representation.Type.ROOK, Color.BLACK), board.findPiece("a8"));
-        assertEquals(Piece.create(Representation.Type.ROOK, Color.BLACK), board.findPiece("h8"));
-        assertEquals(Piece.create(Representation.Type.ROOK, Color.WHITE), board.findPiece("a1"));
-        assertEquals(Piece.create(Representation.Type.ROOK, Color.WHITE), board.findPiece("h1"));
+        assertEquals(Piece.create(Type.ROOK, Color.BLACK), board.findPiece("a8"));
+        assertEquals(Piece.create(Type.ROOK, Color.BLACK), board.findPiece("h8"));
+        assertEquals(Piece.create(Type.ROOK, Color.WHITE), board.findPiece("a1"));
+        assertEquals(Piece.create(Type.ROOK, Color.WHITE), board.findPiece("h1"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class BoardTest {
         board = new Board(BoardMaker.empty());
 
         String position = "b5";
-        Piece piece = Piece.create(Representation.Type.ROOK, Color.BLACK);
+        Piece piece = Piece.create(Type.ROOK, Color.BLACK);
         board.setPiece(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -91,8 +91,8 @@ public class BoardTest {
     public void getScore() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        board.setPiece("b5", Piece.create(Representation.Type.ROOK, Color.BLACK));
-        board.setPiece("a4", Piece.create(Representation.Type.KNIGHT, Color.WHITE));
+        board.setPiece("b5", Piece.create(Type.ROOK, Color.BLACK));
+        board.setPiece("a4", Piece.create(Type.KNIGHT, Color.WHITE));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -116,9 +116,9 @@ public class BoardTest {
     public void getScoreCase() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        board.setPiece("a1", Piece.create(Representation.Type.PAWN, Color.BLACK));
-        board.setPiece("a2", Piece.create(Representation.Type.PAWN, Color.BLACK));
-        board.setPiece("a3", Piece.create(Representation.Type.PAWN, Color.BLACK));
+        board.setPiece("a1", Piece.create(Type.PAWN, Color.BLACK));
+        board.setPiece("a2", Piece.create(Type.PAWN, Color.BLACK));
+        board.setPiece("a3", Piece.create(Type.PAWN, Color.BLACK));
 
         double b = board.getScore(Color.BLACK);
         double w = board.getScore(Color.WHITE);
@@ -132,15 +132,15 @@ public class BoardTest {
     public void caculcatePoint() throws Exception {
         board = new Board(BoardMaker.empty());
 
-        addPiece("b6", Piece.create(Representation.Type.PAWN, Color.BLACK));
-        addPiece("e6", Piece.create(Representation.Type.QUEEN, Color.BLACK));
-        addPiece("b8", Piece.create(Representation.Type.KING, Color.BLACK));
-        addPiece("c8", Piece.create(Representation.Type.ROOK, Color.BLACK));
+        addPiece("b6", Piece.create(Type.PAWN, Color.BLACK));
+        addPiece("e6", Piece.create(Type.QUEEN, Color.BLACK));
+        addPiece("b8", Piece.create(Type.KING, Color.BLACK));
+        addPiece("c8", Piece.create(Type.ROOK, Color.BLACK));
 
-        addPiece("f2", Piece.create(Representation.Type.PAWN, Color.WHITE));
-        addPiece("g2", Piece.create(Representation.Type.PAWN, Color.WHITE));
-        addPiece("e1", Piece.create(Representation.Type.ROOK, Color.WHITE));
-        addPiece("f1", Piece.create(Representation.Type.KING, Color.WHITE));
+        addPiece("f2", Piece.create(Type.PAWN, Color.WHITE));
+        addPiece("g2", Piece.create(Type.PAWN, Color.WHITE));
+        addPiece("e1", Piece.create(Type.ROOK, Color.WHITE));
+        addPiece("f1", Piece.create(Type.KING, Color.WHITE));
 
         assertEquals(15.0, board.getScore(Color.BLACK), 0.01);
         assertEquals(7.0, board.getScore(Color.WHITE), 0.01);
@@ -161,18 +161,18 @@ public class BoardTest {
         Piece whitePiece1 = whites.get(0);
         Piece whitePiece2 = whites.get(1);
 
-        assertEquals(Representation.Type.QUEEN, whitePiece1.getType());
+        assertEquals(Type.QUEEN, whitePiece1.getType());
         assertEquals(Color.WHITE, whitePiece1.getColor());
-        assertEquals(Representation.Type.ROOK, whitePiece2.getType());
+        assertEquals(Type.ROOK, whitePiece2.getType());
         assertEquals(Color.WHITE, whitePiece2.getColor());
 
 
         Piece blackPiece1 = blacks.get(0);
         Piece blackPiece2 = blacks.get(1);
 
-        assertEquals(Representation.Type.KING, blackPiece1.getType());
+        assertEquals(Type.KING, blackPiece1.getType());
         assertEquals(Color.BLACK, blackPiece1.getColor());
-        assertEquals(Representation.Type.PAWN, blackPiece2.getType());
+        assertEquals(Type.PAWN, blackPiece2.getType());
         assertEquals(Color.BLACK, blackPiece2.getColor());
     }
 
