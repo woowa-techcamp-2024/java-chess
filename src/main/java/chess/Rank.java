@@ -1,5 +1,10 @@
-package chess.pieces;
+package chess;
 
+import chess.constant.Type;
+import chess.pieces.Piece;
+import chess.pieces.PieceFactory;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,11 +21,6 @@ public class Rank {
         return (int) rank.stream().filter(piece -> !Objects.equals(piece.getType(), Type.NO_PIECE)).count();
     }
 
-    public int getCount(final Color color, final Type type) {
-        return (int) rank.stream().filter(
-                piece -> Objects.equals(color, piece.getColor()) && Objects.equals(type, piece.getType())).count();
-    }
-
     public String showRank() {
         StringBuilder stringBuilder = new StringBuilder();
         rank.forEach(piece -> {
@@ -31,7 +31,9 @@ public class Rank {
         return stringBuilder.toString();
     }
 
-    public void move(final int x, final Piece piece) {
-        rank.set(x, piece);
+    public Rank move(final int x, final Piece piece, final Position position) {
+        List<Piece> newRank = new ArrayList<>(rank);
+        newRank.set(x, PieceFactory.createMovedPiece(piece, position));
+        return new Rank(newRank);
     }
 }

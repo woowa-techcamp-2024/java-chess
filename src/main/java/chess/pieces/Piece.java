@@ -1,8 +1,57 @@
 package chess.pieces;
 
+import chess.Board;
+import chess.Position;
+import chess.constant.Color;
+import chess.constant.Direction;
+import chess.constant.Type;
+
+import java.util.List;
 import java.util.Objects;
 
-public record Piece (Color color, Type type) implements Comparable<Piece> {
+public abstract class Piece implements Comparable<Piece> {
+
+    private final Color color;
+    private final Type type;
+    private final Position position;
+
+    protected Piece(final Color color, final Type type, final Position position) {
+        this.color = color;
+        this.type = type;
+        this.position = position;
+    }
+
+    public abstract boolean verifyMovePosition(final Piece piece);
+    public abstract Direction getDirection(final Position position);
+
+    public Direction getDirection(Position position, List<Direction> directions) {
+        Position sourcePosition = this.getPosition();
+
+        int distance = Board.BOARD_SIZE;
+        Direction result = null;
+        for (Direction direction: directions) {
+            int y = sourcePosition.getY() + direction.getYDegree();
+            int x = sourcePosition.getX() + direction.getXDegree();
+
+            int directionDistance = Math.abs(position.getX() - x) + Math.abs(position.getY() - y);
+            if (distance > directionDistance) {
+                distance = directionDistance;
+                result = direction;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (Objects.equals(o, null)) return false;
+        if (this.getClass() != o.getClass()) return false;
+
+        Piece piece = (Piece) o;
+        if (!Objects.equals(this.color, piece.getColor())) return false;
+        if (!Objects.equals(this.type, piece.getType())) return false;
+        return Objects.equals(this.position, piece.getPosition());
+    }
 
     public Color getColor() {
         return this.color;
@@ -12,56 +61,9 @@ public record Piece (Color color, Type type) implements Comparable<Piece> {
         return this.type;
     }
 
-    private static Piece createWhite(final Type type) { return new Piece(Color.WHITE, type); }
-    private static Piece createBlack(final Type type) { return new Piece(Color.BLACK, type); }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
+    public Position getPosition() {
+        return this.position;
     }
-
-    public static Piece createBlackPawn() { return createBlack(Type.PAWN); }
-
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE); }
 
     public boolean isWhite() { return Objects.equals(this.color, Color.WHITE); }
 
@@ -70,26 +72,5 @@ public record Piece (Color color, Type type) implements Comparable<Piece> {
     @Override
     public int compareTo(Piece piece) {
         return Double.compare(piece.getType().getDefaultPoint(), this.getType().getDefaultPoint());
-    }
-
-    // test를 위한 메서드
-    private static Type getTypeOfRepresentation(final char representation) {
-        char lowerRepresentation = Character.toLowerCase(representation);
-        return switch (lowerRepresentation) {
-            case 'p' -> Type.PAWN;
-            case 'r' -> Type.ROOK;
-            case 'n' -> Type.KNIGHT;
-            case 'b' -> Type.BISHOP;
-            case 'q' -> Type.QUEEN;
-            case 'k' -> Type.KING;
-            default -> Type.NO_PIECE;
-        };
-    }
-
-    // test를 위한 메서드
-    public static Piece create(final char representation) {
-        if (representation == '.') return createBlank();
-        if ('a' <= representation && representation <= 'z') return createWhite(getTypeOfRepresentation(representation));
-        return createBlack(getTypeOfRepresentation(representation));
     }
 }
