@@ -28,18 +28,12 @@ public class Board {
 
     private final PointCalculator pointCalculator;
 
-    private final List<Piece> blackPieces;
-
-    private final List<Piece> whitePieces;
-
     public Board() {
         this.ranks = new ArrayList<>(Collections.nCopies(RANK_COUNT, null));
         pointCalculator = new PointCalculator(List.of(
                 new DefaultPointCalculateStrategy(),
                 new SameFilePawnPointCalculateStrategy()
         ));
-        blackPieces = new ArrayList<>();
-        whitePieces = new ArrayList<>();
     }
 
 
@@ -129,18 +123,9 @@ public class Board {
                 .forEach(piece -> {
                     if (!piece.isBlank()) {
                         pieceCount += 1;
-                        addPieces(piece);
                     }
                 });
         ranks.set(rankNum, rank);
-    }
-
-    private void addPieces(Piece piece) {
-        if (piece.isBlack()) {
-            blackPieces.add(piece);
-        } else if (piece.isWhite()) {
-            whitePieces.add(piece);
-        }
     }
 
 
@@ -173,18 +158,15 @@ public class Board {
     }
 
     public List<Piece> sort(Color color, Sorter sorter, Direction direction) {
-        List<Piece> sorted;
-        if (direction.equals(Direction.ASC)) {
-            sorted = sorter.sortAsc(this, color);
-        } else {
-            sorted = sorter.sortDesc(this, color);
-        }
+        List<Piece> sorted = sorter.sort(getPieces(color), direction);
         return Collections.unmodifiableList(sorted);
     }
 
     public List<Piece> getPieces(Color color) {
-        List<Piece> pieces = color.equals(Color.WHITE) ? whitePieces : blackPieces;
-        return Collections.unmodifiableList(pieces);
+        return ranks.stream()
+                .map(rank -> rank.getPieces(color))
+                .flatMap(List::stream)
+                .toList();
     }
 
 }
