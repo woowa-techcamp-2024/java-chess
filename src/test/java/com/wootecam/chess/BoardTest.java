@@ -1,8 +1,6 @@
 package com.wootecam.chess;
 
-import static com.wootecam.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.pieces.Color;
@@ -14,8 +12,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class BoardTest {
 
@@ -36,9 +32,8 @@ public class BoardTest {
         ranks.add(Rank.createBlanks());
         ranks.add(Rank.createPawns(Color.WHITE));
         ranks.add(Rank.createWhiteOtherPieces());
-        CoordinatesExtractor extractor = new CoordinatesExtractor();
 
-        return new Board(ranks, extractor);
+        return new Board(ranks);
     }
 
     private Board initializeEmpty() {
@@ -51,44 +46,11 @@ public class BoardTest {
         ranks.add(Rank.createBlanks());
         ranks.add(Rank.createBlanks());
         ranks.add(Rank.createBlanks());
-        CoordinatesExtractor extractor = new CoordinatesExtractor();
-
-        return new Board(ranks, extractor);
+        return new Board(ranks);
     }
 
     @Nested
-    class showBoard_메소드는 {
-
-        @Nested
-        class 보드를_생성하고_호출하면 {
-
-            @Test
-            void 현재_보드의_상태를_문자열로_반환한다() {
-                // given
-                String expectedResults = generateDefaultBoardResults();
-
-                // when
-                String currentBoardResults = board.showBoard();
-
-                // then
-                assertThat(currentBoardResults).isEqualTo(expectedResults);
-            }
-
-            private String generateDefaultBoardResults() {
-                String blankRank = appendNewLine("........");
-
-                return appendNewLine("RNBQKBNR") +
-                        appendNewLine("PPPPPPPP") +
-                        blankRank + blankRank + blankRank + blankRank +
-                        appendNewLine("pppppppp") +
-                        appendNewLine("rnbqkbnr");
-            }
-        }
-
-    }
-
-    @Nested
-    class pieceCount_메소드는 {
+    class countBoardPieces_메소드는 {
 
         @Nested
         class 보드를_생성하고_호출하면 {
@@ -128,24 +90,11 @@ public class BoardTest {
         void 주어진_위치의_기물을_조회한다() {
             // expect
             assertAll(
-                    () -> assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlack(Type.ROOK)),
-                    () -> assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhite(Type.ROOK)),
-                    () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhite(Type.ROOK))
+                    () -> assertThat(board.findPiece(0, 0)).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece(0, 7)).isEqualTo(Piece.createBlack(Type.ROOK)),
+                    () -> assertThat(board.findPiece(7, 0)).isEqualTo(Piece.createWhite(Type.ROOK)),
+                    () -> assertThat(board.findPiece(7, 7)).isEqualTo(Piece.createWhite(Type.ROOK))
             );
-        }
-
-        @Nested
-        class 만약_8x8_크기의_체스판을_벗어나는_좌표를_입력하면 {
-
-            @ParameterizedTest
-            @ValueSource(strings = {"a9", "a0", "i5"})
-            void 예외가_발생한다(String invalidCoordinate) {
-                // expect
-                assertThatThrownBy(() -> board.findPiece(invalidCoordinate))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("8 x 8 크기의 체스판의 범위를 벗어나는 좌표입니다. coordinate = " + invalidCoordinate);
-            }
         }
     }
 
@@ -168,7 +117,7 @@ public class BoardTest {
     }
 
     @Nested
-    class move_메소드는 {
+    class updatePiece_메소드는 {
 
         @BeforeEach
         void setUp() {
@@ -176,71 +125,16 @@ public class BoardTest {
         }
 
         @Test
-        void 시작좌표에서_도착좌표로_기물을_이동한다() {
+        void 해당_좌표에_기물을_세운다() {
             // given
-            String startCoordinates = "b2";
-            String targetCoordinates = "b3";
+            int rowIndex = 0;
+            int columnIndex = 0;
 
             // when
-            board.move(startCoordinates, targetCoordinates);
+            board.updatePiece(0, 0, Piece.createWhite(Type.PAWN));
 
             // then
-            assertAll(
-                    () -> assertThat(board.findPiece(startCoordinates)).isEqualTo(Piece.createBlank()),
-                    () -> assertThat(board.findPiece(targetCoordinates)).isEqualTo(Piece.createWhite(Type.PAWN))
-            );
-        }
-
-        @Nested
-        class 빈칸을_이동시키려_하면 {
-
-            @Test
-            void 예외가_발생한다() {
-                // given
-                String startCoordinates = "b3";
-                String targetCoordinates = "b2";
-
-                // expect
-                assertThatThrownBy(() -> board.move(startCoordinates, targetCoordinates))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("빈칸은 이동시킬 수 없습니다.");
-            }
-        }
-    }
-
-    @Nested
-    class calculatePoint_메소드는 {
-
-        @BeforeEach
-        void setUp() {
-            board = initializeEmpty();
-        }
-
-        @Test
-        void 검정_혹은_흰색_기물의_점수를_계산한다() {
-            // given
-            addPiece("b6", Piece.createBlack(Type.PAWN));
-            addPiece("e6", Piece.createBlack(Type.QUEEN));
-            addPiece("b8", Piece.createBlack(Type.KING));
-            addPiece("c8", Piece.createBlack(Type.ROOK));
-            addPiece("f2", Piece.createWhite(Type.PAWN));
-            addPiece("g2", Piece.createWhite(Type.PAWN));
-            addPiece("e1", Piece.createWhite(Type.ROOK));
-            addPiece("f1", Piece.createWhite(Type.KING));
-
-            // when
-            double blackPoint = board.calculatePoint(Color.BLACK);
-            double whitePoint = board.calculatePoint(Color.WHITE);
-
-            // then
-            assertAll(
-                    () -> assertThat(blackPoint).isEqualTo(15.0),
-                    () -> assertThat(whitePoint).isEqualTo(7.0)
-            );
-        }
-
-        private void addPiece(String position, Piece piece) {
-            board.move(position, piece);
+            assertThat(board.findPiece(0, 0)).isEqualTo(Piece.createWhite(Type.PAWN));
         }
     }
 
@@ -254,7 +148,7 @@ public class BoardTest {
                     Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK),
                     Piece.createBlack(Type.ROOK), Piece.createBlack(Type.ROOK)))
             );
-            board = new Board(ranks, new CoordinatesExtractor());
+            board = new Board(ranks);
         }
 
         @Test

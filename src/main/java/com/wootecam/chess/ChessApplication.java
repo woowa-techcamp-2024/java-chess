@@ -16,18 +16,22 @@ public class ChessApplication {
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
         Board board = initialize();
+        CoordinatesExtractor extractor = new CoordinatesExtractor();
+        Game game = new Game(board, extractor);
+
+        ChessView chessView = new ChessView();
 
         printStartMessage();
         while (isContinue(inputReader.nextLine())) {
-            board.print();
+            chessView.printBoard(board.getRanks());
             System.out.println("명령을 입력하세요.");
             String command = inputReader.nextLine();
 
             if (command.startsWith(MOVE_COMMAND)) {
-                moveCommand(command, board);
+                moveCommand(command, game);
             }
 
-            board.print();
+            chessView.printBoard(board.getRanks());
             printStartMessage();
         }
     }
@@ -42,9 +46,8 @@ public class ChessApplication {
         ranks.add(Rank.createBlanks());
         ranks.add(Rank.createPawns(Color.WHITE));
         ranks.add(Rank.createWhiteOtherPieces());
-        CoordinatesExtractor extractor = new CoordinatesExtractor();
 
-        return new Board(ranks, extractor);
+        return new Board(ranks);
     }
 
     private static void printStartMessage() {
@@ -62,11 +65,11 @@ public class ChessApplication {
         throw new IllegalArgumentException(message);
     }
 
-    private static void moveCommand(final String command, final Board board) {
+    private static void moveCommand(final String command, final Game game) {
         StringTokenizer moveToken = new StringTokenizer(command.substring(MOVE_COMMAND.length()));
         String startCoordinates = moveToken.nextToken();
         String targetCoordinates = moveToken.nextToken();
 
-        board.move(startCoordinates, targetCoordinates);
+        game.move(startCoordinates, targetCoordinates);
     }
 }

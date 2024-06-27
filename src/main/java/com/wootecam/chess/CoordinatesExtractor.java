@@ -13,18 +13,20 @@ public class CoordinatesExtractor {
     private static final int COLUMN_COORDINATES_INDEX = 0;
 
     public int extractRowIndex(String coordinate) {
+        validateCoordinates(coordinate);
         int rawRow = Character.getNumericValue(coordinate.charAt(ROW_COORDINATE_INDEX));
 
         return Math.abs(rawRow - Rank.PIECE_COUNT);
     }
 
     public int extractColumnIndex(String coordinate) {
+        validateCoordinates(coordinate);
         return coordinate.charAt(COLUMN_COORDINATES_INDEX) - START_COLUMN_SYMBOL;
     }
 
     public void validateCoordinates(String coordinate) {
-        char columnSymbol = coordinate.charAt(0);
-        char rowSymbol = coordinate.charAt(1);
+        char columnSymbol = coordinate.charAt(COLUMN_COORDINATES_INDEX);
+        char rowSymbol = coordinate.charAt(ROW_COORDINATE_INDEX);
 
         if (isOutOfCoordinates(columnSymbol, rowSymbol)) {
             String message = String.format("%d x %d 크기의 체스판의 범위를 벗어나는 좌표입니다. coordinate = %s",
