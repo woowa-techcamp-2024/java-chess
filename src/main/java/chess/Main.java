@@ -1,6 +1,7 @@
 package chess;
 
 import chess.board.Board;
+import chess.board.PointCalculator;
 import chess.view.ChessView;
 
 import java.util.Scanner;
@@ -15,20 +16,22 @@ public class Main {
     private static final int MOVE_TO_INDEX = 2;
 
     public static void main(String[] args) {
+        PointCalculator pointCalculator = new PointCalculator();
         Board board = new Board();
         ChessView chessView = new ChessView(board);
+        ChessGame chessGame = new ChessGame(board, pointCalculator, chessView);
 
         Scanner sc = new Scanner(System.in);
         String input;
 
         while (!(input = sc.nextLine()).equals(QUIT)) {
             if(isPrintCommand(input)) {
-                System.out.println(chessView.printBoard());
+                System.out.println(chessGame.printBoard());
             }
             if(isMoveCommand(input)) {
                 String[] split = input.split(" ");
                 // TODO : 입력 시 validation도 필요하지 않을까?
-                board.move(split[MOVE_FROM_INDEX], split[MOVE_TO_INDEX]);
+                chessGame.move(split[MOVE_FROM_INDEX], split[MOVE_TO_INDEX]);
             }
         }
         System.out.println("종료");

@@ -12,10 +12,10 @@ public class ChessGame {
     private final PointCalculator pointCalculator;
     private final ChessView chessView;
 
-    public ChessGame(Board board, PointCalculator pointCalculator) {
+    public ChessGame(Board board, PointCalculator pointCalculator, ChessView chessView) {
         this.board = board;
         this.pointCalculator = pointCalculator;
-        this.chessView = new ChessView(board);
+        this.chessView = chessView;
     }
 
     public double calculatePoint(Piece.Color color) {
