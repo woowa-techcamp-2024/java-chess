@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
 
     private final Color color;
@@ -11,18 +13,21 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN('p'),
-        KNIGHT('n'),
-        ROOK('r'),
-        BISHOP('b'),
-        QUEEN('q'),
-        KING('k'),
-        NO_PIECE('.');
+        PAWN('p', 1),
+        KNIGHT('n', 2.5),
+        ROOK('r', 5),
+        BISHOP('b', 3),
+        QUEEN('q', 9),
+        KING('k', 0),
+        NO_PIECE('.', 0);
 
         private char representation;
 
-        Type(char representation) {
+        private double defaultPoint;
+
+        Type(char representation, double defaultPoint) {
             this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
 
         public char getWhiteRepresentation() {
@@ -43,53 +48,60 @@ public class Piece {
         return new Piece(Color.NO_COLOR, Type.NO_PIECE);
     }
 
-
     public static Piece createWhitePawn() {
-        return new Piece(Color.WHITE, Type.PAWN);
+        return createWhite(Type.PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(Color.BLACK, Type.PAWN);
+        return createBlack(Type.PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(Color.WHITE, Type.KNIGHT);
+        return createWhite(Type.KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(Color.BLACK, Type.KNIGHT);
+        return createBlack(Type.KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(Color.WHITE, Type.ROOK);
+        return createWhite(Type.ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(Color.BLACK, Type.ROOK);
+        return createBlack(Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(Color.WHITE, Type.BISHOP);
+        return createWhite(Type.BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(Color.BLACK, Type.BISHOP);
+        return createBlack(Type.BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(Color.WHITE, Type.QUEEN);
+        return createWhite(Type.QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(Color.BLACK, Type.QUEEN);
+        return createBlack(Type.QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(Color.WHITE, Type.KING);
+        return createWhite(Type.KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(Color.BLACK, Type.KING);
+        return createBlack(Type.KING);
+    }
+
+    private static Piece createWhite(Type type) {
+        return new Piece(Color.WHITE, type);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(Color.BLACK, type);
     }
 
     public char getRepresentation() {
@@ -108,4 +120,37 @@ public class Piece {
         return this.color.equals(Color.WHITE);
     }
 
+    public boolean isBlank() {
+        return this.color.equals(Color.NO_COLOR) &&
+                this.type.equals(Type.NO_PIECE);
+    }
+
+    public boolean hasColor(Color color) {
+        return this.color.equals(color);
+    }
+
+    public boolean hasType(Type type) {
+        return this.type.equals(type);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return color == piece.color && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
+    public double getDefaultPoint() {
+        return this.type.defaultPoint;
+    }
 }
