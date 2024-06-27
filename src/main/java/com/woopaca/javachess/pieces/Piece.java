@@ -2,6 +2,8 @@ package com.woopaca.javachess.pieces;
 
 import com.woopaca.javachess.chess.Position;
 
+import java.util.Objects;
+
 public class Piece {
 
     private final Color color;
@@ -105,7 +107,7 @@ public class Piece {
             return false;
 
         Piece piece = (Piece) o;
-        return color == piece.color && type == piece.type;
+        return color == piece.color && type == piece.type && Objects.equals(position, piece.position);
     }
 
     public double getPoint() {
