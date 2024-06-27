@@ -71,4 +71,17 @@ public class Rank {
                 .filter(piece -> piece.hasColor(color))
                 .count();
     }
+
+    public void set(int fileNum, Piece piece) {
+        if (fileNum >= size || piece == null) {
+            throw new IllegalArgumentException();
+        }
+        pieces.set(fileNum, piece);
+    }
+
+    public Piece removePiece(int fileNum) {
+        Piece piece = findPiece(fileNum);
+        set(fileNum, Piece.createBlank());
+        return piece;
+    }
 }

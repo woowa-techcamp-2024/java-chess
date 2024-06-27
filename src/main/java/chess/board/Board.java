@@ -1,8 +1,8 @@
 package chess.board;
 
-import static chess.board.Rank.getBlackPawnRank;
-import static chess.board.Rank.getBlankRank;
-import static chess.board.Rank.getWhitePawnRank;
+import static chess.board.Rank.createBlackPawnRank;
+import static chess.board.Rank.createBlankRank;
+import static chess.board.Rank.createWhitePawnRank;
 
 import chess.calculator.DefaultPointCalculateStrategy;
 import chess.calculator.PointCalculator;
@@ -78,12 +78,12 @@ public class Board {
                 Piece.createWhiteKnight(),
                 Piece.createWhiteRook()
         )));
-        initializeRank(1, getWhitePawnRank(FILE_COUNT));
-        initializeRank(2, getBlankRank(FILE_COUNT));
-        initializeRank(3, getBlankRank(FILE_COUNT));
-        initializeRank(4, getBlankRank(FILE_COUNT));
-        initializeRank(5, getBlankRank(FILE_COUNT));
-        initializeRank(6, getBlackPawnRank(FILE_COUNT));
+        initializeRank(1, createWhitePawnRank(FILE_COUNT));
+        initializeRank(2, createBlankRank(FILE_COUNT));
+        initializeRank(3, createBlankRank(FILE_COUNT));
+        initializeRank(4, createBlankRank(FILE_COUNT));
+        initializeRank(5, createBlankRank(FILE_COUNT));
+        initializeRank(6, createBlackPawnRank(FILE_COUNT));
         initializeRank(7, new Rank(FILE_COUNT, Arrays.asList(
                 Piece.createBlackRook(),
                 Piece.createBlackKnight(),
@@ -106,7 +106,7 @@ public class Board {
 
     public void initializeEmpty() {
         for (int rankNum = 0; rankNum < RANK_COUNT; rankNum++) {
-            ranks.set(rankNum, getBlankRank(FILE_COUNT));
+            ranks.set(rankNum, createBlankRank(FILE_COUNT));
         }
     }
 
@@ -126,6 +126,14 @@ public class Board {
     public void move(Position position, Piece piece) {
         Rank rank = getRank(position);
         rank.set(position.getFileNumber(), piece);
+    }
+
+    public void move(Position source, Position target) {
+        Rank sourceRank = getRank(source);
+        Piece piece = sourceRank.removePiece(source.getFileNumber());
+
+        Rank targetRank = getRank(target);
+        targetRank.set(target.getFileNumber(), piece);
     }
 
     public double calculatePoint(Color color) {
