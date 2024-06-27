@@ -1,6 +1,6 @@
 package chess;
 
-import view.OutputView;
+import pieces.Piece;
 
 /**
  * turn 0부터 toggle되며, 0인 경우 Color.WHITE, 1인 경우 Color.BLACK
@@ -11,20 +11,24 @@ public record ChessGame(Board board) {
 
 	public void move(String[] arguments) {
 		board.move(Position.of(arguments[0]), Position.of(arguments[1]), turn);
-		OutputView.print(board);
 		toggleTurn();
 	}
 
 	public boolean isGameEnd() {
-		boolean gameEnd = board.isGameEnd(turn);
-		if (gameEnd) {
-			OutputView.printEnd(turn);
-		}
-		return gameEnd;
+		return board.isGameEnd(turn);
 	}
 
-	private void toggleTurn() {
+	public void toggleTurn() {
 		turn = 1 - turn;
 	}
 
+	public int getTurn() {
+		return turn;
+	}
+
+	public Piece[][] getPiecesArray() {
+		return board.ranks().getRanks().stream()
+			.map(rank -> rank.pieces().toArray(Piece[]::new))
+			.toArray(Piece[][]::new);
+	}
 }

@@ -78,7 +78,7 @@ public record Board(Ranks ranks) {
 		Position temp = Position.of(source.getRow(), source.getColumn());
 		temp.addDirection(direction);
 		while (!temp.equals(target)) {
-			if (getPieceByPosition(temp).isSamePieceType(BLANK)) {
+			if (!getPieceByPosition(temp).isSamePieceType(BLANK)) {
 				throw new IllegalArgumentException("The piece cannot jump over other pieces.");
 			}
 			temp.addDirection(direction);
@@ -121,18 +121,14 @@ public record Board(Ranks ranks) {
 	}
 
 	private void addEnemyDirections(Piece sourcePiece, Position sourcePosition, List<Direction> directions) {
-		List<Direction> forwardDiagonalDirections = getForwardDiagonalDirections(sourcePiece.getColor());
-		for (Direction direction : forwardDiagonalDirections) {
-			int nx = sourcePosition.getRow() + direction.getX();
-			int ny = sourcePosition.getColumn() + direction.getY();
-			if (isInvalidRange(nx, ny)) {
-				continue;
-			}
-			Piece enemyPiece = getPieceByPosition(nx, ny);
-			if (!enemyPiece.isSameColor(sourcePiece.getColor())) {
-				directions.add(direction);
-			}
-		}
+		directions.addAll(getForwardDiagonalDirections(sourcePiece.getColor()).stream()
+			.filter(direction -> !isInvalidRange(sourcePosition, direction))
+			.filter(direction -> {
+				Piece enemyPiece = getPieceByPosition(
+					sourcePosition.getRow() + direction.getX(), sourcePosition.getColumn() + direction.getY());
+				return !enemyPiece.isSamePieceType(BLANK) && !enemyPiece.isSameColor(sourcePiece.getColor());
+			})
+			.toList());
 	}
 
 	private boolean cantPawnMoveForward(Piece sourcePiece, int sourceRow, int sourceColumn) {
@@ -150,7 +146,9 @@ public record Board(Ranks ranks) {
 		ranks.getRanks().get(row).pieces().set(column, piece);
 	}
 
-	private boolean isInvalidRange(int x, int y) {
+	private boolean isInvalidRange(Position position, Direction direction) {
+		int x = position.getRow() + direction.getX();
+		int y = position.getColumn() + direction.getY();
 		return !(x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE);
 	}
 

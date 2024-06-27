@@ -2,19 +2,20 @@ package pieces;
 
 import static pieces.Color.WHITE;
 
-import java.util.List;
+import java.util.Arrays;
 import utils.StringUtils;
 
 public enum PieceType {
 
-	PAWN('P', 1.0),
-	KNIGHT('N', 2.5),
-	ROOK('R', 5.0),
-	BISHOP('B', 3.0),
-	QUEEN('Q', 9.0),
-	KING('K', 0.0),
-	BLANK('.', 0.0);
+	PAWN('♙', 1.0),
+	KNIGHT('♘', 2.5),
+	ROOK('♖', 5.0),
+	BISHOP('♗', 3.0),
+	QUEEN('♕', 9.0),
+	KING('♔', 0.0),
+	BLANK(' ', 0.0);
 
+	private static final int UNICODE_OFFSET = 6;
 	private final char representation;
 	private final double defaultPoint;
 
@@ -45,19 +46,23 @@ public enum PieceType {
 		return KING;
 	}
 
-	private static List<PieceType> getPromotionPieceTypes() {
-		return List.of(KNIGHT, ROOK, QUEEN, BISHOP);
+	public static String[] getPromotionPieceTypes() {
+		return new String[]{KNIGHT.name(), ROOK.name(), QUEEN.name(), BISHOP.name()};
 	}
 
 	public static PieceType from(String input) {
-		return getPromotionPieceTypes().stream()
-			.filter(pieceType -> StringUtils.equalsIgnoreCase(pieceType.name(), input))
+		return Arrays.stream(getPromotionPieceTypes())
+			.filter(pieceType -> StringUtils.equalsIgnoreCase(pieceType, input))
+			.map(PieceType::valueOf)
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException("invalid PieceType."));
 	}
 
 	public char getRepresentation(Color color) {
-		return color == WHITE ? Character.toLowerCase(representation) : representation;
+		if (this == BLANK) {
+			return representation;
+		}
+		return color == WHITE ? representation : (char) (representation + UNICODE_OFFSET);
 	}
 
 	public double getDefaultPoint() {
