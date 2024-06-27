@@ -1,7 +1,5 @@
 package com.seong.chess.pieces;
 
-import com.seong.chess.Position;
-
 public class Pawn extends Piece {
 
     private static final char REPRESENTATION = 'p';
@@ -25,7 +23,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        return null;
+    public void checkPieceCanMove(Direction direction) {
+
     }
 }

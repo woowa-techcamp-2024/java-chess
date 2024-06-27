@@ -1,7 +1,5 @@
 package com.seong.chess.pieces;
 
-import com.seong.chess.Position;
-
 public class King extends Piece {
 
     private static final char REPRESENTATION = 'k';
@@ -25,8 +23,10 @@ public class King extends Piece {
     }
 
     @Override
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        Position position = Position.convert(sourcePosition);
-        return new Position(position.col() + direction.col, position.row() + direction.row);
+    public void checkPieceCanMove(Direction direction) {
+        if (direction.isRight() || direction.isDiagonal()) {
+            return;
+        }
+        throw new IllegalArgumentException("킹은 정방향, 대각선으로만 움직일 수 있습니다.");
     }
 }

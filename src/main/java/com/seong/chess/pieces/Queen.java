@@ -1,7 +1,5 @@
 package com.seong.chess.pieces;
 
-import com.seong.chess.Position;
-
 public class Queen extends Piece {
 
     private static final char REPRESENTATION = 'q';
@@ -25,12 +23,10 @@ public class Queen extends Piece {
     }
 
     @Override
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        Position position = Position.convert(sourcePosition);
-        if (moveCount == 0) {
-            return position;
+    public void checkPieceCanMove(Direction direction) {
+        if (direction.isDiagonal() || direction.isRight()) {
+            return;
         }
-        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
-        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
+        throw new IllegalArgumentException("퀸은 정방향, 대각선으로만 움직일 수 있습니다.");
     }
 }

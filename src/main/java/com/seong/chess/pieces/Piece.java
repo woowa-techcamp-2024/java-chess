@@ -133,7 +133,17 @@ public abstract class Piece {
         return this.color == color;
     }
 
-    public abstract Position nextPosition(String sourcePosition, Direction direction, int moveCount);
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
+        checkPieceCanMove(direction);
+        Position position = Position.convert(sourcePosition);
+        if (moveCount == 0) {
+            return position;
+        }
+        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
+        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
+    }
+
+    public abstract void checkPieceCanMove(Direction direction);
 
     public double getDefaultPoint() {
         return defaultPoint;
