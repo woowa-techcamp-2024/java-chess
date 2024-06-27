@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.Board;
 import chess.Position;
 import chess.constant.Color;
 import chess.constant.Direction;
@@ -20,13 +21,13 @@ public abstract class Piece implements Comparable<Piece> {
         this.position = position;
     }
 
-    public abstract boolean verifyMovePosition(final Position position);
+    public abstract boolean verifyMovePosition(final Piece piece);
     public abstract Direction getDirection(final Position position);
 
     public Direction getDirection(Position position, List<Direction> directions) {
         Position sourcePosition = this.getPosition();
 
-        int distance = 64;
+        int distance = Board.BOARD_SIZE;
         Direction result = null;
         for (Direction direction: directions) {
             int y = sourcePosition.getY() + direction.getYDegree();
