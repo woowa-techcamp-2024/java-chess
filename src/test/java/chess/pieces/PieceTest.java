@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import chess.Position;
+import chess.constant.Type;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 

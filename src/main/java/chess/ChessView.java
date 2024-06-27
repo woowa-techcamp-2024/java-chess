@@ -1,7 +1,5 @@
 package chess;
 
-import chess.pieces.Rank;
-
 import java.util.List;
 
 import static chess.Board.BOARD_SIZE;
