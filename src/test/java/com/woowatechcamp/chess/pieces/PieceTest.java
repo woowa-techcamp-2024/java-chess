@@ -1,10 +1,11 @@
 package com.woowatechcamp.chess.pieces;
 
+import com.woowatechcamp.chess.Board;
+import org.junit.Before;
 import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PieceTest {
-
     @Test
     @DisplayName("모든 흰색, 검은색 기물이 생성되어야 한다")
     public void create() {

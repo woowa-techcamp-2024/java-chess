@@ -1,16 +1,19 @@
 package com.woowatechcamp.chess.pieces;
 
+import com.woowatechcamp.chess.Board;
+
 public class King extends Piece {
     public King(Color color, Position position) {
         super(color, Type.KING, position);
     }
 
     @Override
-    protected void validateMove(Position position) {
-        int deltaX = getPosition().deltaX(position);
-        int deltaY = getPosition().deltaY(position);
-
-        if (deltaX > 1 || deltaY > 1) {
+    protected void validateMove(Position position, Board board) {
+        if (board.isOccupiedBySameColor(position, getColor())) {
+            throw new IllegalArgumentException("Position occupied by same color");
+        }
+        Direction direction = Direction.fromPositions(getPosition(), position);
+        if (!Direction.everyDirection().contains(direction)) {
             throw new IllegalArgumentException("King can only move one square in any direction.");
         }
     }

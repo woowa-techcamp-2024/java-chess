@@ -88,11 +88,19 @@ public class Board {
 
     public void move(Position source, Position target) {
         Piece sourcePiece = findPiece(source);
-        sourcePiece.move(target);
+        sourcePiece.move(target, this);
         ranks.get(target.getYPos())
                 .setPiece(sourcePiece);
         ranks.get(source.getYPos())
                 .setPiece(PieceFactory.createBlank(source));
+    }
+
+    public boolean isOccupiedBySameColor(Position piecePosition, Piece.Color color) {
+        return findPiece(piecePosition).getColor() == color;
+    }
+
+    public boolean isOccupied(Position position) {
+        return findPiece(position).isNotBlank();
     }
 
     public Piece findPiece(Position position) {
@@ -135,5 +143,37 @@ public class Board {
     private void addWBlackPiece(Piece piece) {
         blackPieces.add(piece);
         blackPieces.sort((o1, o2) -> Double.compare(o1.getType().getPoint(), o2.getType().getPoint()));
+    }
+
+    public boolean isPathClear(Position from, Position to) {
+        int deltaX = Integer.compare(to.getXPos() - from.getXPos(), 0);
+        int deltaY = Integer.compare(to.getYPos() - from.getYPos(), 0);
+
+        if (deltaX == 0 && deltaY == 0) {
+            return true;
+        }
+
+        int currentX = from.getXPos() + deltaX;
+        int currentY = from.getYPos() + deltaY;
+
+        while (currentX != to.getXPos() || currentY != to.getYPos()) {
+            if (ranks.get(currentY).getPiece(currentX).isNotBlank()) {
+                return false;
+            }
+            currentX += deltaX;
+            currentY += deltaY;
+
+            // 목적지 직전에 도달하면 루프를 종료합니다.
+            if (currentX == to.getXPos() && currentY == to.getYPos()) {
+                break;
+            }
+        }
+        return true;
+    }
+
+    public boolean isKingAlive(Piece.Color color) {
+        return ranks.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .anyMatch(piece -> piece.getType() == Piece.Type.KING && piece.getColor() == color);
     }
 }

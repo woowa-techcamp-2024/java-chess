@@ -1,17 +1,24 @@
 package com.woowatechcamp.chess.pieces;
 
+import com.woowatechcamp.chess.Board;
+
 public class Rook extends Piece {
     public Rook(Color color, Position position) {
         super(color, Type.ROOK, position);
     }
 
     @Override
-    protected void validateMove(Position newPosition) {
-        int deltaX = getPosition().deltaX(newPosition);
-        int deltaY = getPosition().deltaY(newPosition);
-
+    protected void validateMove(Position newPosition, Board board) {
+        if (board.isOccupiedBySameColor(newPosition, getColor())) {
+            throw new IllegalArgumentException("Position occupied by same color");
+        }
+        int deltaX = Math.abs(newPosition.getXPos() - getPosition().getXPos());
+        int deltaY = Math.abs(newPosition.getYPos() - getPosition().getYPos());
         if (deltaX != 0 && deltaY != 0) {
             throw new IllegalArgumentException("Rook can only move in straight lines.");
+        }
+        if (!board.isPathClear(getPosition(), newPosition)) {
+            throw new IllegalArgumentException("Path is not clear.");
         }
     }
 }
