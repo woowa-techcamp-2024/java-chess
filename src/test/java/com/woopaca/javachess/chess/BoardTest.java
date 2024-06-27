@@ -14,20 +14,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BoardTest {
 
     Board board;
+    ChessView chessView;
+    PointProcessor pointProcessor;
 
     @BeforeEach
     void setUp() {
         board = new Board();
+        chessView = new ChessView(board);
+        pointProcessor = new PointProcessor(board);
     }
 
     @DisplayName("체스판을 초기화하면 흰색 폰과 검은색 폰이 추가된다.")
     @Test
     void initialize() {
         board.initialize();
-        assertThat(board.getWhitePawnsResult()).isEqualTo("♙♙♙♙♙♙♙♙");
-        assertThat(board.getBlackPawnsResult()).isEqualTo("♟♟♟♟♟♟♟♟");
+        assertThat(chessView.getWhitePawnsResult()).isEqualTo("♙♙♙♙♙♙♙♙");
+        assertThat(chessView.getBlackPawnsResult()).isEqualTo("♟♟♟♟♟♟♟♟");
 
-        System.out.println(board.print());
+        System.out.println(chessView.showBoard());
     }
 
     @DisplayName("체스판의 모든 기물의 상태를 볼 수 있다.")
@@ -37,7 +41,7 @@ public class BoardTest {
         assertThat(board.pieceCount()).isEqualTo(32);
 
         String blankRow = appendNewLine("........");
-        assertThat(board.showBoard()).isEqualTo(
+        assertThat(chessView.showBoard()).isEqualTo(
                 appendNewLine("♜♞♝♛♚♝♞♜") +
                         appendNewLine("♟♟♟♟♟♟♟♟") +
                         blankRow + blankRow + blankRow + blankRow +
@@ -65,7 +69,8 @@ public class BoardTest {
         board.initialize();
 
         assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook(new Position("a8")));
-        assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook(new Position("h8")));
+        Piece findPiece = board.findPiece("h8");
+        assertThat(findPiece).isEqualTo(Piece.createBlackRook(new Position("h8")));
         assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook(new Position("a1")));
         assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook(new Position("h1")));
     }
@@ -85,8 +90,8 @@ public class BoardTest {
         addPiece("e1", Piece.createWhiteRook(new Position("e1")));
         addPiece("f1", Piece.createWhiteKing(new Position("f1")));
 
-        assertThat(board.calculatePoint(Color.BLACK)).isEqualTo(15.0);
-        assertThat(board.calculatePoint(Color.WHITE)).isEqualTo(7.0);
+        assertThat(pointProcessor.calculatePoint(Color.BLACK)).isEqualTo(15.0);
+        assertThat(pointProcessor.calculatePoint(Color.WHITE)).isEqualTo(7.0);
     }
 
     @DisplayName("체스판에 존재하는 특정 색상 기물들을 점수를 기준으로 정렬할 수 있다.")
@@ -104,15 +109,15 @@ public class BoardTest {
         addPiece("e1", Piece.createWhiteRook(new Position("e1")));
         addPiece("f1", Piece.createWhiteKing(new Position("f1")));
 
-        assertThat(board.sortPiecesByPoint(Color.BLACK).get(0)).isEqualTo(Piece.createBlackKing(new Position("b6")));
-        assertThat(board.sortPiecesByPoint(Color.BLACK).get(1)).isEqualTo(Piece.createBlackPawn(new Position("e6")));
-        assertThat(board.sortPiecesByPointDescending(Color.BLACK).get(0)).isEqualTo(Piece.createBlackQueen(new Position("b8")));
-        assertThat(board.sortPiecesByPointDescending(Color.BLACK).get(1)).isEqualTo(Piece.createBlackRook(new Position("c8")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(0)).isEqualTo(Piece.createBlackKing(new Position("b8")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.BLACK).get(1)).isEqualTo(Piece.createBlackPawn(new Position("b6")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(0)).isEqualTo(Piece.createBlackQueen(new Position("e6")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.BLACK).get(1)).isEqualTo(Piece.createBlackRook(new Position("c8")));
 
-        assertThat(board.sortPiecesByPoint(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteKing(new Position("f2")));
-        assertThat(board.sortPiecesByPoint(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("g2")));
-        assertThat(board.sortPiecesByPointDescending(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteRook(new Position("e1")));
-        assertThat(board.sortPiecesByPointDescending(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("f1")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteKing(new Position("f1")));
+        assertThat(pointProcessor.sortPiecesByPoint(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("f2")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(0)).isEqualTo(Piece.createWhiteRook(new Position("e1")));
+        assertThat(pointProcessor.sortPiecesByPointDescending(Color.WHITE).get(1)).isEqualTo(Piece.createWhitePawn(new Position("f2")));
     }
 
     private void addPiece(String fileRank, Piece piece) {
@@ -129,6 +134,7 @@ public class BoardTest {
         board.move(sourcePosition, targetPosition);
 
         assertThat(board.findPiece(sourcePosition)).isEqualTo(Piece.createBlank(new Position(sourcePosition)));
+        assertThat(board.findPiece(targetPosition)).isEqualTo(Piece.createWhitePawn(new Position(targetPosition)));
     }
 
 }

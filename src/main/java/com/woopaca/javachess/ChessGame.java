@@ -1,6 +1,7 @@
 package com.woopaca.javachess;
 
 import com.woopaca.javachess.chess.Board;
+import com.woopaca.javachess.chess.ChessView;
 import com.woopaca.javachess.chess.MoveCommand;
 
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class ChessGame {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final Board board = new Board();
+    private static final ChessView chessView = new ChessView(board);
 
     private static boolean isStarted = false;
 
@@ -26,14 +28,14 @@ public class ChessGame {
             if (input.equalsIgnoreCase(START_COMMAND)) {
                 System.out.println("게임을 시작합니다.");
                 board.initialize();
-                System.out.println(board.showBoard());
+                System.out.println(chessView.showBoard());
                 isStarted = true;
             }
 
             if (input.startsWith(MOVE_COMMAND) && isStarted) {
                 MoveCommand moveCommand = new MoveCommand(input);
                 board.move(moveCommand.getSourcePosition(), moveCommand.getTargetPosition());
-                System.out.println(board.showBoard());
+                System.out.println(chessView.showBoard());
             }
         } while (!isEndGame(input));
         System.out.println("게임을 종료합니다.");
