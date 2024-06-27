@@ -25,6 +25,15 @@ public class ChessGame {
     }
 
     /**
+     * 현재 순서를 반환합니다.
+     *
+     * @return 현재 순서
+     */
+    public String getTurn() {
+        return current.toString();
+    }
+
+    /**
      * 현재 게임의 점수를 계산합니다.
      *
      * @param color 색상

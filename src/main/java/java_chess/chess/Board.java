@@ -128,7 +128,7 @@ public class Board {
     public List<Location> getLocationsThatPieceCanMoveByLocation(Location location) {
         var piece = getPiece(location);
         if (piece.isBlank()) {
-            throw new IllegalArgumentException("location: " + location + " does not have a piece.");
+            return List.of();
         }
         var color = piece.getColor();
         if (PAWN.isInstance(piece)) {
