@@ -14,7 +14,7 @@ public class Board {
     public static final int MAX_COLS = 7;
 
     private List<List<Piece>> pieces = Collections.emptyList();
-    private ScoreEvaluator scoreEvaluator;
+    private ScoreEvaluator scoreEvaluator = new DefaultScoreEvaluator();
 
     public void initializeEmpty() {
         this.pieces = createEmptyBoard();
@@ -86,17 +86,19 @@ public class Board {
         pieces.get(position.row()).set(position.col(), piece);
     }
 
+    public void move(String sourcePosition, String targetPosition) {
+        Position from = new Position(sourcePosition);
+        Position to = new Position(targetPosition);
+        Piece pieceAtFrom = pieces.get(from.row()).get(from.col());
+        pieces.get(to.row()).set(to.col(), pieceAtFrom);
+        pieces.get(from.row()).set(from.col(), Piece.createBlank());
+    }
+
     public double calculatePoint(Piece.Color color) {
         return scoreEvaluator.evaluate(color, this.pieces);
     }
 
     public List<Piece> orderByScore(Piece.Color color, boolean naturalOrder) {
         return scoreEvaluator.orderPiecesByScore(color, naturalOrder, this.pieces);
-    }
-
-    private record Position(int row, int col) {
-        Position(String posStr) {
-            this(MAX_COLS - (posStr.charAt(1) - '1'), posStr.charAt(0) - 'a');
-        }
     }
 }
