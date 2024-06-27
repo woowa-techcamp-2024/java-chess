@@ -5,8 +5,9 @@ import chess.pieces.type.Color;
 import chess.pieces.Piece;
 import chess.pieces.type.Type;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ScoreCalculator {
     private final List<Rank> ranks;
@@ -40,15 +41,13 @@ public class ScoreCalculator {
             }
         }
 
-        // pawn 점수 계산
-        for (int i = 0; i < 8; i++) {
-            if (filePawnCount[i] == 1) {
-                sum += 1.0;
-                continue;
-            }
-            sum += 0.5 * filePawnCount[i];
-        }
-        return sum;
+        return sum + calculatePawnScores(filePawnCount);
+    }
+
+    private static double calculatePawnScores(final int[] filePawnCount) {
+        return Arrays.stream(filePawnCount)
+            .mapToDouble(pawnCount -> pawnCount == 1 ? 1 : pawnCount * 0.5)
+            .sum();
     }
 
     /**
@@ -58,18 +57,11 @@ public class ScoreCalculator {
      * @return 정렬된 기물 리스트
      */
     public List<Piece> sort(Color color, OrderBy orderBy) {
-        List<Piece> list = new ArrayList<>();
-        for (Rank rank : ranks) {
-            for (int i = 0; i < 8; i++) {
-                Piece piece = rank.get(i);
-                if (piece.getColor() != color) {
-                    continue;
-                }
-                list.add(piece);
-            }
-        }
-
-        list.sort(orderBy.getComparator());
-        return list;
+        return ranks.stream()
+            .flatMap(rank -> IntStream.range(0, 8)
+                .mapToObj(rank::get)
+                .filter(piece -> piece.getColor() == color))
+            .sorted(orderBy.getComparator())
+            .toList();
     }
 }
