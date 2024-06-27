@@ -25,7 +25,7 @@ public class PieceHandler {
             throw new IllegalArgumentException("[ERROR] 기물을 이동할 수 없습니다!");
         }
 
-        if (!targetPositionPiece.isBlank() && targetPositionPiece.getColor() != piece.getColor()) {
+        if (isCapturing(targetPositionPiece, piece)) {
             capturing(targetPosition, piece, sourcePosition);
             return;
         }
@@ -34,9 +34,13 @@ public class PieceHandler {
         board.placePiece(targetPosition, piece);
     }
 
+    private static boolean isCapturing(Piece targetPositionPiece, Piece piece) {
+        return !targetPositionPiece.isBlank() && targetPositionPiece.getColor() != piece.getColor();
+    }
+
     private void capturing(Position targetPosition, Piece piece, Position sourcePosition) {
         board.placePiece(targetPosition, piece);
-        board.placePiece(sourcePosition, PieceFactory.createBlank(null));
+        board.placePiece(sourcePosition, PieceFactory.createBlank());
     }
 
     public boolean isPossibleMovePosition(Piece piece, Position sourcePosition, Position targetPosition) {
