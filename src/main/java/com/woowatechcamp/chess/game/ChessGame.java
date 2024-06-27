@@ -44,4 +44,8 @@ public class ChessGame {
     public Piece getPieceAt(Position position) {
         return board.findPiece(position);
     }
+
+    public double calculateScore(Piece.Color color) {
+        return board.calculatePoint(color);
+    }
 }

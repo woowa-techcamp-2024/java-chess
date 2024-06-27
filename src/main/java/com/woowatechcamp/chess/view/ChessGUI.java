@@ -17,8 +17,15 @@ public class ChessGUI extends JFrame {
     private JLabel draggedPieceLabel;
     private Position dragSource;
     private JPanel glassPane;
-
+    private JLabel whiteScoreLabel;
+    private JLabel blackScoreLabel;
+    private JLabel timerLabel;
+    private Timer gameTimer;
+    private int secondsElapsed;
+    private JButton startButton;
+    private JButton restartButton;
     private static final Map<String, String> PIECE_SYMBOLS = new HashMap<>();
+
     static {
         PIECE_SYMBOLS.put("WHITE_KING", "♔");
         PIECE_SYMBOLS.put("WHITE_QUEEN", "♕");
@@ -37,7 +44,7 @@ public class ChessGUI extends JFrame {
     public ChessGUI() {
         game = new ChessGame();
         setTitle("Chess Game");
-        setSize(500, 500);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         pieceLabels = new JLabel[8][8];
@@ -58,6 +65,25 @@ public class ChessGUI extends JFrame {
                 chessBoard.add(square);
             }
         }
+
+        // 점수 및 타이머 패널
+        JPanel infoPanel = new JPanel(new FlowLayout());
+        whiteScoreLabel = new JLabel("White: 0");
+        blackScoreLabel = new JLabel("Black: 0");
+        timerLabel = new JLabel("Time: 00:00");
+        startButton = new JButton("Start Game");
+        restartButton = new JButton("Restart Game");
+
+        startButton.addActionListener(e -> startGame());
+        restartButton.addActionListener(e -> restartGame());
+
+        infoPanel.add(whiteScoreLabel);
+        infoPanel.add(blackScoreLabel);
+        infoPanel.add(timerLabel);
+        infoPanel.add(startButton);
+        infoPanel.add(restartButton);
+
+        mainPanel.add(infoPanel, BorderLayout.NORTH);
 
         // 왼쪽 좌표 패널
         JPanel leftCoordinates = new JPanel(new GridLayout(8, 1));
@@ -83,7 +109,38 @@ public class ChessGUI extends JFrame {
         glassPane.setLayout(null);
         setGlassPane(glassPane);
 
+        gameTimer = new Timer(1000, e -> updateTimer());
+
         updateBoard();
+    }
+
+    private void startGame() {
+        gameTimer.start();
+        startButton.setEnabled(false);
+    }
+
+    private void restartGame() {
+        game = new ChessGame();
+        updateBoard();
+        resetTimer();
+        startButton.setEnabled(true);
+        gameTimer.stop();
+    }
+
+    private void resetTimer() {
+        secondsElapsed = 0;
+        updateTimerLabel();
+    }
+
+    private void updateTimer() {
+        secondsElapsed++;
+        updateTimerLabel();
+    }
+
+    private void updateTimerLabel() {
+        int minutes = secondsElapsed / 60;
+        int seconds = secondsElapsed % 60;
+        timerLabel.setText(String.format("Time: %02d:%02d", minutes, seconds));
     }
 
     private void updateBoard() {
@@ -100,6 +157,14 @@ public class ChessGUI extends JFrame {
                 }
             }
         }
+        updateScores();
+    }
+
+    private void updateScores() {
+        double whiteScore = game.calculateScore(Piece.Color.WHITE);
+        double blackScore = game.calculateScore(Piece.Color.BLACK);
+        whiteScoreLabel.setText(String.format("White: %.1f", whiteScore));
+        blackScoreLabel.setText(String.format("Black: %.1f", blackScore));
     }
 
     private class PieceListener extends MouseAdapter {
