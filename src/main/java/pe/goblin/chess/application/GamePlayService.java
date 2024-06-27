@@ -10,7 +10,7 @@ import pe.goblin.chess.storage.GameStorage;
 import java.util.regex.Pattern;
 
 public class GamePlayService implements GamePlayUseCase {
-    private static final Pattern commandPattern = Pattern.compile("^move\\\\s+\\\\w+\\\\s+\\\\w+$");
+    private static final Pattern commandPattern = Pattern.compile("^move\\s+\\w+\\s+\\w+$");
 
     private final GameStorage gameStorage;
 
@@ -30,7 +30,7 @@ public class GamePlayService implements GamePlayUseCase {
         }
         GameStatus status = game.getStatus();
         String board = getBoard(game);
-        GameScore result = game.showResult();
+        GameScore result = game.showScore();
         return new MoveResult(status, result.whiteScore(), result.blackScore(), board);
     }
 
@@ -43,11 +43,7 @@ public class GamePlayService implements GamePlayUseCase {
     }
 
     private String getBoard(Game game) {
-        StringBuilder sb = new StringBuilder();
-        for (String row : game.showBoard()) {
-            sb.append(row).append(System.lineSeparator());
-        }
-        return sb.toString();
+        return game.showBoard();
     }
 
     private static void validateInput(String input) throws ApplicationException {

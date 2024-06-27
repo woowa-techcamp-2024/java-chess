@@ -6,6 +6,6 @@ import pe.goblin.chess.exception.ApplicationException;
 public interface GamePlayUseCase {
     MoveResult move(String input) throws ApplicationException;
 
-    record MoveResult(GameStatus gameStatus, Integer whiteScore, Integer blackScore, String board) {
+    record MoveResult(GameStatus gameStatus, double whiteScore, double blackScore, String board) {
     }
 }

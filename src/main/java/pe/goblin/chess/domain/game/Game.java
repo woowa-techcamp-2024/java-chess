@@ -6,8 +6,6 @@ import pe.goblin.chess.domain.game.vo.GameStatus;
 import pe.goblin.chess.domain.piece.Piece;
 import pe.goblin.chess.domain.piece.vo.Color;
 
-import java.util.List;
-
 public class Game {
     private final Board board;
 
@@ -16,23 +14,22 @@ public class Game {
 
     public Game(BoardType boardType) {
         board = new Board(boardType);
-        turn = Color.BLACK;
+        turn = Color.WHITE;
         status = GameStatus.IN_PROGRESS;
     }
 
     public void move(String departure, String destination) {
-        Piece piece = board.findPieceAt(departure);
-        if (piece == null || !piece.isColor(turn)) {
-            throw new RuntimeException("not your turn");
-        }
+        validateAuthority(departure);
         board.move(departure, destination);
         switchTurn();
+        // TODO: 게임이 끝났을 때 status 변경
+    }
 
-//        if (board.isDone()) {
-//            board.getScoreOf(Color.WHITE);
-//            board.getScoreOf(Color.BLACK);
-//            status = GameStatus.WHITE_WINS;
-//        }
+    private void validateAuthority(String departure) {
+        Piece piece = board.findPieceAt(departure);
+        if (piece == null || !piece.isColor(turn)) {
+            throw new RuntimeException("not your piece!");
+        }
     }
 
     private void switchTurn() {
@@ -43,14 +40,14 @@ public class Game {
         return status;
     }
 
-    public List<String> showBoard() {
-        return null;
+    public String showBoard() {
+        return board.showBoard();
     }
 
-    public GameScore showResult() {
-        return null;
+    public GameScore showScore() {
+        return new GameScore(board.getScoreOf(Color.WHITE), board.getScoreOf(Color.BLACK));
     }
 
-    public record GameScore(int whiteScore, int blackScore) {
+    public record GameScore(double whiteScore, double blackScore) {
     }
 }
