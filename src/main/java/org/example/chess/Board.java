@@ -23,8 +23,10 @@ public class Board {
     }
 
     public void move(Position start, Position end) {
-        //columns.get(position.getColIdx()).modifyPiece(piece, position.getRow());
-        // start를 end로 보내고 start는 빈칸처리
+        if(start.equals(end)) {
+            throw new IllegalArgumentException("같은 지점으로 이동할 수 없습니다.");
+        }
+
         Piece startPiece = findPiece(start);
 
         setPiece(end, startPiece);

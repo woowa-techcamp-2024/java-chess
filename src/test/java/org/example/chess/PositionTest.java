@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class PositionTest {
@@ -28,11 +29,11 @@ class PositionTest {
             );
         }
 
-        static Stream<org.junit.jupiter.params.provider.Arguments> validPositionProvider() {
+        static Stream<Arguments> validPositionProvider() {
             return Stream.of(
-                org.junit.jupiter.params.provider.Arguments.of("a1", 'a', 1, 0),
-                org.junit.jupiter.params.provider.Arguments.of("h8", 'h', 8, 7),
-                org.junit.jupiter.params.provider.Arguments.of("d5", 'd', 5, 3)
+                Arguments.of("a1", 'a', 1, 0),
+                Arguments.of("h8", 'h', 8, 7),
+                Arguments.of("d5", 'd', 5, 3)
             );
         }
     }

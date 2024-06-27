@@ -14,6 +14,7 @@ import static org.example.utils.BoardScoreCalculator.calculatePoint;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.stream.Stream;
 import org.example.pieces.Piece;
@@ -185,5 +186,17 @@ public class BoardTest {
 
     private void setPiece(String position, Piece piece) {
         board.setPiece(new Position(position), piece);
+    }
+
+    @Test
+    @DisplayName("같은 지점을 이동하게 하면 에러가 발생")
+    public void moveSamePosition() {
+        chessGame.initialize();
+        String sourcePosition = "b2";
+        String targetPosition = "b2";
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> chessGame.move(sourcePosition, targetPosition),
+            "같은 지점으로 이동할 수 없습니다.");
     }
 }

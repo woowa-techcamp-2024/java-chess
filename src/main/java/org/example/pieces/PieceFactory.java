@@ -4,8 +4,6 @@ import static org.example.pieces.Piece.Color.BLACK;
 import static org.example.pieces.Piece.Color.NO_COLOR;
 import static org.example.pieces.Piece.Color.WHITE;
 
-import org.example.pieces.Piece.Type;
-
 public class PieceFactory {
     private PieceFactory() {
     }
