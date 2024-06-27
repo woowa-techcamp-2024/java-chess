@@ -1,9 +1,12 @@
 package com.seong.chess;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.seong.chess.pieces.King;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
+import com.seong.chess.pieces.Piece.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,5 +57,21 @@ class ChessGameTest {
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
+    }
+
+    @Test
+    @DisplayName("체스 게임의 기물을 움직일 수 있다.")
+    public void moveChessPieces() {
+        //given
+        Board onlyKing = new Board();
+        ChessGame kingChessGame = new ChessGame(onlyKing);
+        onlyKing.initializeEmpty();
+        onlyKing.move("a2", King.createBlack());
+
+        //when
+        kingChessGame.move("a2", Direction.NORTH);
+
+        //then
+        assertThat(onlyKing.findPiece("a3")).isEqualTo(King.createBlack());
     }
 }

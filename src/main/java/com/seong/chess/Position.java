@@ -24,4 +24,10 @@ public record Position(int col, int row) {
             throw new IllegalArgumentException("체스 보드 열은 a이상, h 이하입니다.");
         }
     }
+
+    public String convert() {
+        char rawCol = (char) (col + 'a');
+        char rawRow = (char) (7 - row + '1');
+        return String.valueOf(rawCol) + rawRow;
+    }
 }

@@ -39,6 +39,25 @@ public abstract class Piece {
         }
     }
 
+    public enum Direction {
+        NORTH(-1, 0),
+        SOUTH(1, 0),
+        EAST(0, 1),
+        WEST(0, -1),
+        NORTHEAST(-1, 1),
+        SOUTHEAST(1, 1),
+        SOUTHWEST(1, -1),
+        NORTHWEST(-1, -1);
+
+        private final int row;
+        private final int col;
+
+        Direction(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+
     private final Type type;  // 추후 제거
     protected final Color color;
     protected final char representation;
@@ -131,6 +150,11 @@ public abstract class Piece {
 
     public boolean isEqual(Color color) {
         return this.color == color;
+    }
+
+    public Position nextPosition(String sourcePosition, Direction direction) {
+        Position position = Position.convert(sourcePosition);
+        return new Position(position.col() + direction.col, position.row() + direction.row);
     }
 
     public double getDefaultPoint() {

@@ -3,6 +3,7 @@ package com.seong.chess;
 import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
+import com.seong.chess.pieces.Piece.Direction;
 import com.seong.chess.pieces.Piece.Type;
 
 public class ChessGame {
@@ -17,6 +18,12 @@ public class ChessGame {
         Piece piece = board.findPiece(sourcePosition);
         board.move(sourcePosition, Blank.create());
         board.move(targetPosition, piece);
+    }
+
+    public void move(String sourcePosition, Direction direction) {
+        Piece piece = board.findPiece(sourcePosition);
+        Position targetPosition = piece.nextPosition(sourcePosition, direction);
+        board.move(targetPosition.convert(), piece);
     }
 
     public void initialize() {
