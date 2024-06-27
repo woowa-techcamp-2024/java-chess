@@ -30,7 +30,7 @@ public class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewline("pppppppp") +
                         appendNewline("rnbqkbnr")
-                );
+        );
     }
 
     @Test
@@ -55,7 +55,8 @@ public class BoardTest {
     }
 
     @Test
-    public void findPiece() throws Exception {
+    @DisplayName("좌표로 기물을 찾는 기능을 검증한다.")
+    void findPiece() {
         board.initialize();
 
         assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook());
@@ -65,7 +66,8 @@ public class BoardTest {
     }
 
     @Test
-    public void move() throws Exception {
+    @DisplayName("특정 좌표에 기물을 옮기는 기능을 검증한다.")
+    void move() {
         board.initializeEmpty();
 
         String position = "b5";
@@ -74,5 +76,30 @@ public class BoardTest {
 
         assertThat(board.findPiece(position)).isEqualTo(piece);
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("현재 보드의 점수를 계산하는 기능을 검증한다.")
+    void calculatePoint() {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("f3", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertThat(board.calculatePoint(Piece.Color.BLACK)).isEqualTo(15.0);
+        assertThat(board.calculatePoint(Piece.Color.WHITE)).isEqualTo(6.5);
+
+
+    }
+
+    private void addPiece(final String position, final Piece piece) {
+        board.move(position, piece);
     }
 }
