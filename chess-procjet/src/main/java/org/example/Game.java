@@ -3,6 +3,7 @@ package org.example;
 import java.util.Scanner;
 import org.example.chess.board.Board;
 import org.example.chess.board.BoardInitializeManger;
+import org.example.chess.board.BoardScoreManager;
 
 public class Game {
 
@@ -20,7 +21,7 @@ public class Game {
             String command = scanner.nextLine().toLowerCase();
 
             if (command.equals(START)) {
-                Board board = new Board(new BoardInitializeManger());
+                Board board = new Board(new BoardInitializeManger(), new BoardScoreManager());
                 board.initialize();
                 board.print();
 

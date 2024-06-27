@@ -15,13 +15,14 @@ import org.example.chess.pieces.Piece.Type;
 public class Board {
 
     protected static final int BOARD_SIZE = 8;
-    private static final double PAWN_SCORE_DECREMENT = 0.5;
 
     private final List<Rank> board = new ArrayList<>();
     private final BoardInitializeManger boardInitializeManger;
+    private final BoardScoreManager boardScoreManager;
 
-    public Board(BoardInitializeManger boardInitializeManger) {
+    public Board(BoardInitializeManger boardInitializeManger, BoardScoreManager boardScoreManager) {
         this.boardInitializeManger = boardInitializeManger;
+        this.boardScoreManager = boardScoreManager;
     }
 
     public void initialize() {
@@ -100,42 +101,11 @@ public class Board {
     }
 
     public double calculatePoint(Color color) {
-        double points = 0.0;
-        for (Rank rank : board) {
-            points += rank.calculateRankPoint(color);
-        }
-
-        int totalInColumnPawnCount = countPawnsInColumnsByColor(color);
-        return points - PAWN_SCORE_DECREMENT * totalInColumnPawnCount;
-    }
-
-    private int countPawnsInColumnsByColor(Color color) {
-        int totalInColumnPawnCount = 0;
-        for (int c = 0; c < BOARD_SIZE; c++) {
-            int columnCount = 0;
-            for (int r = 0; r < BOARD_SIZE; r++) {
-                Piece piece = board.get(r).getPieces().get(c);
-                if (piece.isPawn() && piece.getColor() == color) {
-                    columnCount++;
-                }
-            }
-            if (columnCount > 1) {
-                totalInColumnPawnCount += columnCount;
-            }
-        }
-        return totalInColumnPawnCount;
+        return boardScoreManager.calculatePoint(board, color);
     }
 
     public List<Piece> findAllPiecesSortByPoint(Color color, PieceComparator comparator) {
-        List<Piece> pieces = new ArrayList<>();
-
-        for (Rank rank : board) {
-            pieces.addAll(rank.findPieces(color));
-        }
-
-        pieces.sort(comparator.getComparator());
-
-        return pieces;
+        return boardScoreManager.findAllPiecesSortByPoint(board, color, comparator);
     }
 
     public static class Rank {

@@ -18,7 +18,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(new BoardInitializeManger());
+        board = new Board(new BoardInitializeManger(), new BoardScoreManager());
     }
 
     @Test
