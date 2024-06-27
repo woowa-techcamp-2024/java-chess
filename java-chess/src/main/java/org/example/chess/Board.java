@@ -15,7 +15,7 @@ public class Board {
         initializeEmpty();
     }
 
-    public void move(Piece piece, Position position) {
+    public void place(Piece piece, Position position) {
         Rank rank = pieces.get(position.getRow());
         rank.placePiece(position.getCol(), piece);
     }
@@ -25,6 +25,7 @@ public class Board {
     }
 
     public Piece findPiece(Position position) {
+        //TODO rank 객체와의 협력 필요
         return pieces.get(position.getRow()).pieceRow.get(position.getCol());
     }
 
@@ -58,27 +59,27 @@ public class Board {
 
     public void initialize() {
         for(int i = 0; i < 8; i++) {
-            this.move(Piece.createBlackPawn(), new Position(1, i));
-            this.move(Piece.createWhitePawn(), new Position(6, i));
+            this.place(Piece.createBlackPawn(), new Position(1, i));
+            this.place(Piece.createWhitePawn(), new Position(6, i));
         }
 
-        this.move(Piece.createBlackRook(), new Position(0, 0));
-        this.move(Piece.createBlackKnight(), new Position(0, 1));
-        this.move(Piece.createBlackBishop(), new Position(0, 2));
-        this.move(Piece.createBlackQueen(), new Position(0, 3));
-        this.move(Piece.createBlackKing(), new Position(0, 4));
-        this.move(Piece.createBlackBishop(), new Position(0, 5));
-        this.move(Piece.createBlackKnight(), new Position(0, 6));
-        this.move(Piece.createBlackRook(), new Position(0, 7));
+        this.place(Piece.createBlackRook(), new Position(0, 0));
+        this.place(Piece.createBlackKnight(), new Position(0, 1));
+        this.place(Piece.createBlackBishop(), new Position(0, 2));
+        this.place(Piece.createBlackQueen(), new Position(0, 3));
+        this.place(Piece.createBlackKing(), new Position(0, 4));
+        this.place(Piece.createBlackBishop(), new Position(0, 5));
+        this.place(Piece.createBlackKnight(), new Position(0, 6));
+        this.place(Piece.createBlackRook(), new Position(0, 7));
 
-        this.move(Piece.createWhiteRook(), new Position(7, 0));
-        this.move(Piece.createWhiteKnight(), new Position(7, 1));
-        this.move(Piece.createWhiteBishop(), new Position(7, 2));
-        this.move(Piece.createWhiteQueen(), new Position(7, 3));
-        this.move(Piece.createWhiteKing(), new Position(7, 4));
-        this.move(Piece.createWhiteBishop(), new Position(7, 5));
-        this.move(Piece.createWhiteKnight(), new Position(7, 6));
-        this.move(Piece.createWhiteRook(), new Position(7, 7));
+        this.place(Piece.createWhiteRook(), new Position(7, 0));
+        this.place(Piece.createWhiteKnight(), new Position(7, 1));
+        this.place(Piece.createWhiteBishop(), new Position(7, 2));
+        this.place(Piece.createWhiteQueen(), new Position(7, 3));
+        this.place(Piece.createWhiteKing(), new Position(7, 4));
+        this.place(Piece.createWhiteBishop(), new Position(7, 5));
+        this.place(Piece.createWhiteKnight(), new Position(7, 6));
+        this.place(Piece.createWhiteRook(), new Position(7, 7));
 
         this.showBoard();
     }
@@ -114,6 +115,7 @@ public class Board {
                 .sum();
     }
 
+    // TODO pawn 점수 저장하지 않도록 수정 필요
     // board pawn 들의 점수를 재조정하는 함수
     private void revisePawnScore() {
         for(int colIdx= 0; colIdx < 8; colIdx++) {

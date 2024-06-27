@@ -18,7 +18,7 @@ public class BoardTest {
     public void board_add_then_findPawn() {
         Board board = new Board();
         Position pos1 = Position.of(0, 0);
-        board.move(white, pos1);
+        board.place(white, pos1);
         assertEquals(1, board.pieceCount());
         assertEquals(white, board.findPiece(pos1));
     }
@@ -57,12 +57,12 @@ public class BoardTest {
     }
 
     @Test
-    public void move() throws Exception {
+    public void place() throws Exception {
         board.initializeEmpty();
 
         String position = "b5";
         Piece piece = Piece.createBlackRook();
-        board.move(piece, Position.of(position));
+        board.place(piece, Position.of(position));
 
         assertEquals(piece, board.findPiece(Position.of(position)));
         System.out.println(board.showBoard());
@@ -72,15 +72,15 @@ public class BoardTest {
     public void calculatePoint_같은_열에_Pawn_중복_X() throws Exception {
         board.initializeEmpty();
 
-        board.move( Piece.createBlackPawn(), Position.of("b6"));
-        board.move( Piece.createBlackQueen(), Position.of("e6"));
-        board.move( Piece.createBlackKing(), Position.of("b8"));
-        board.move( Piece.createBlackRook(), Position.of("c8"));
+        board.place( Piece.createBlackPawn(), Position.of("b6"));
+        board.place( Piece.createBlackQueen(), Position.of("e6"));
+        board.place( Piece.createBlackKing(), Position.of("b8"));
+        board.place( Piece.createBlackRook(), Position.of("c8"));
 
-        board.move( Piece.createWhitePawn(), Position.of("f2"));
-        board.move( Piece.createWhitePawn(), Position.of("g2"));
-        board.move( Piece.createWhiteRook(), Position.of("e1"));
-        board.move( Piece.createWhiteKing(), Position.of("f1"));
+        board.place( Piece.createWhitePawn(), Position.of("f2"));
+        board.place( Piece.createWhitePawn(), Position.of("g2"));
+        board.place( Piece.createWhiteRook(), Position.of("e1"));
+        board.place( Piece.createWhiteKing(), Position.of("f1"));
 
         assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
@@ -90,22 +90,22 @@ public class BoardTest {
     public void calculatePoint_같은_열에_Pawn_중복_O() throws Exception {
         board.initializeEmpty();
 
-        board.move(Piece.createBlackKing(), Position.of("b8"));
-        board.move(Piece.createBlackRook(), Position.of("c8"));
-        board.move(Piece.createBlackPawn(), Position.of("a7"));
-        board.move(Piece.createBlackPawn(), Position.of("c7"));
-        board.move(Piece.createBlackBishop(), Position.of("d7"));
-        board.move(Piece.createBlackPawn(), Position.of("b6"));
-        board.move(Piece.createBlackQueen(), Position.of("e6"));
+        board.place(Piece.createBlackKing(), Position.of("b8"));
+        board.place(Piece.createBlackRook(), Position.of("c8"));
+        board.place(Piece.createBlackPawn(), Position.of("a7"));
+        board.place(Piece.createBlackPawn(), Position.of("c7"));
+        board.place(Piece.createBlackBishop(), Position.of("d7"));
+        board.place(Piece.createBlackPawn(), Position.of("b6"));
+        board.place(Piece.createBlackQueen(), Position.of("e6"));
 
-        board.move( Piece.createWhiteKnight(), Position.of("f4"));
-        board.move( Piece.createWhiteQueen(), Position.of("g4"));
-        board.move( Piece.createWhitePawn(), Position.of("f3"));
-        board.move( Piece.createWhitePawn(), Position.of("h3"));
-        board.move( Piece.createWhitePawn(), Position.of("f2"));
-        board.move( Piece.createWhitePawn(), Position.of("g2"));
-        board.move( Piece.createWhiteRook(), Position.of("e1"));
-        board.move( Piece.createWhiteKing(), Position.of("f1"));
+        board.place( Piece.createWhiteKnight(), Position.of("f4"));
+        board.place( Piece.createWhiteQueen(), Position.of("g4"));
+        board.place( Piece.createWhitePawn(), Position.of("f3"));
+        board.place( Piece.createWhitePawn(), Position.of("h3"));
+        board.place( Piece.createWhitePawn(), Position.of("f2"));
+        board.place( Piece.createWhitePawn(), Position.of("g2"));
+        board.place( Piece.createWhiteRook(), Position.of("e1"));
+        board.place( Piece.createWhiteKing(), Position.of("f1"));
 
         board.showScore();
 
@@ -117,15 +117,15 @@ public class BoardTest {
     public void board_sort_by_ascending() {
         board.initializeEmpty();
 
-        board.move( Piece.createBlackPawn(), Position.of("b6"));
-        board.move( Piece.createBlackQueen(), Position.of("e6"));
-        board.move( Piece.createBlackKing(), Position.of("b8"));
-        board.move( Piece.createBlackRook(), Position.of("c8"));
+        board.place( Piece.createBlackPawn(), Position.of("b6"));
+        board.place( Piece.createBlackQueen(), Position.of("e6"));
+        board.place( Piece.createBlackKing(), Position.of("b8"));
+        board.place( Piece.createBlackRook(), Position.of("c8"));
 
-        board.move( Piece.createWhitePawn(), Position.of("f2"));
-        board.move( Piece.createWhitePawn(), Position.of("g2"));
-        board.move( Piece.createWhiteRook(), Position.of("e1"));
-        board.move( Piece.createWhiteKing(), Position.of("f1"));
+        board.place( Piece.createWhitePawn(), Position.of("f2"));
+        board.place( Piece.createWhitePawn(), Position.of("g2"));
+        board.place( Piece.createWhiteRook(), Position.of("e1"));
+        board.place( Piece.createWhiteKing(), Position.of("f1"));
 
         System.out.println(board.sort(Order.ASC));
     }
