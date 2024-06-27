@@ -23,18 +23,18 @@ public class PieceTest {
         Piece pieceWhite = Piece.createWhitePieceOf(PAWN);
         Piece pieceBlack = Piece.createBlackPieceOf(PAWN);
 
-        verifyPawnColor(pieceWhite, WHITE, Representation.p);
-        verifyPawnColor(pieceBlack, BLACK, Representation.P);
+        verifyPawnColor(pieceWhite, WHITE, "p");
+        verifyPawnColor(pieceBlack, BLACK, "P");
     }
 
     @Test
     @DisplayName("[Success] 색이 없는 Pawn을 생성하는 경우 기본 색상이 흰색(white)이다")
     void default_create_is_white() {
         Piece piece = Piece.createWhitePieceOf(PAWN);
-        verifyPawnColor(piece, WHITE, Representation.p);
+        verifyPawnColor(piece, WHITE, "p");
     }
 
-    private void verifyPawnColor(Piece piece, Color expectedColor, Representation expectedRepresentation) {
+    private void verifyPawnColor(Piece piece, Color expectedColor, String expectedRepresentation) {
         assertThat(piece.isSameColor(expectedColor)).isTrue();
         assertThat(piece.getRepresentation()).isEqualTo(expectedRepresentation);
     }
@@ -56,22 +56,22 @@ public class PieceTest {
         Piece whiteKnight = Piece.createWhitePieceOf(KNIGHT);
         Piece whitePawn = Piece.createWhitePieceOf(PAWN);
 
-        verifyPiece(blackKing, KING, BLACK, Representation.K);
-        verifyPiece(blackQueen, QUEEN, BLACK, Representation.Q);
-        verifyPiece(blackRook, ROOK, BLACK, Representation.R);
-        verifyPiece(blackBishop, BISHOP, BLACK, Representation.B);
-        verifyPiece(blackKnight, KNIGHT, BLACK, Representation.N);
-        verifyPiece(blackPawn, PAWN, BLACK, Representation.P);
+        verifyPiece(blackKing, KING, BLACK, "K");
+        verifyPiece(blackQueen, QUEEN, BLACK, "Q");
+        verifyPiece(blackRook, ROOK, BLACK, "R");
+        verifyPiece(blackBishop, BISHOP, BLACK, "B");
+        verifyPiece(blackKnight, KNIGHT, BLACK, "N");
+        verifyPiece(blackPawn, PAWN, BLACK, "P");
 
-        verifyPiece(whiteKing, KING, WHITE, Representation.k);
-        verifyPiece(whiteQueen, QUEEN, WHITE, Representation.q);
-        verifyPiece(whiteRook, ROOK, WHITE, Representation.r);
-        verifyPiece(whiteBishop, BISHOP, WHITE, Representation.b);
-        verifyPiece(whiteKnight, KNIGHT, WHITE, Representation.n);
-        verifyPiece(whitePawn, PAWN, WHITE, Representation.p);
+        verifyPiece(whiteKing, KING, WHITE, "k");
+        verifyPiece(whiteQueen, QUEEN, WHITE, "q");
+        verifyPiece(whiteRook, ROOK, WHITE, "r");
+        verifyPiece(whiteBishop, BISHOP, WHITE, "b");
+        verifyPiece(whiteKnight, KNIGHT, WHITE, "n");
+        verifyPiece(whitePawn, PAWN, WHITE, "p");
     }
 
-    private void verifyPiece(Piece piece, Type type, Color color, Representation representation) {
+    private void verifyPiece(Piece piece, Type type, Color color, String representation) {
         assertThat(piece.getType()).isEqualTo(type);
         assertThat(piece.isSameColor(color)).isTrue();
         assertThat(piece.getRepresentation()).isEqualTo(representation);

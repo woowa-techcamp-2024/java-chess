@@ -34,8 +34,8 @@ public class Piece {
         return new Piece(NO_PIECE, NONE);
     }
 
-    public Representation getRepresentation() {
-        return Representation.findMatchedRepresentation(type, color);
+    public String getRepresentation() {
+        return type.getRepresentation(color);
     }
 
     public Type getType() {
@@ -55,19 +55,19 @@ public class Piece {
     }
 
     public enum Type {
-        PAWN("pawn", 1.0),
-        ROOK("rook", 5.0),
-        KNIGHT("knight", 2.5),
-        BISHOP("bishop", 3.0),
-        QUEEN("queen", 9.0),
-        KING("king", 0.0),
-        NO_PIECE("noPiece", 0.0);
+        PAWN("p", 1.0),
+        ROOK("r", 5.0),
+        KNIGHT("n", 2.5),
+        BISHOP("b", 3.0),
+        QUEEN("q", 9.0),
+        KING("k", 0.0),
+        NO_PIECE(".", 0.0);
 
-        private final String name;
+        private final String representation;
         private final double defaultScore;
 
-        Type(String name, double defaultScore) {
-            this.name = name;
+        Type(String representation, double defaultScore) {
+            this.representation = representation;
             this.defaultScore = defaultScore;
         }
 
@@ -92,23 +92,17 @@ public class Piece {
         public double getDefaultScore() {
             return defaultScore;
         }
+
+        public String getRepresentation(final Color color) {
+            if (color == BLACK) {
+                return representation.toUpperCase();
+            }
+            return representation;
+        }
     }
 
     public enum Color {
-        BLACK("black"),
-        WHITE("white"),
-        NONE("none");
-
-        private final String name;
-
-        Color(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
+        BLACK, WHITE, NONE
     }
 
     @Override

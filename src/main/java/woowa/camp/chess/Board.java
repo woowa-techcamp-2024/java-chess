@@ -179,7 +179,7 @@ public class Board {
     private void appendRowRepresentation(final int row, final StringBuilder sb) {
         for (int col = 0; col < MAX_COL.getCount(); col++) {
             final Piece piece = getPieceBy(row, col);
-            sb.append(piece.getRepresentation().getName());
+            sb.append(piece.getRepresentation());
         }
     }
 
