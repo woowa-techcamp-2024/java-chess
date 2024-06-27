@@ -22,7 +22,7 @@ public class Knight extends Piece {
 
     @Override
     public boolean isNotBlank() {
-        return false;
+        return true;
     }
 
     @Override

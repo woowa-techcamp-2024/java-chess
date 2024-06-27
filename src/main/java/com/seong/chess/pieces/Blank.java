@@ -15,7 +15,7 @@ public class Blank extends Piece {
 
     @Override
     public boolean isNotBlank() {
-        return true;
+        return false;
     }
 
     @Override

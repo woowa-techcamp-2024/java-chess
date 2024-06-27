@@ -19,7 +19,7 @@ public class Rook extends Piece {
 
     @Override
     public boolean isNotBlank() {
-        return false;
+        return true;
     }
 
     @Override
