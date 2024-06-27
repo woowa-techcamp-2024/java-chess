@@ -1,17 +1,23 @@
 package chess;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.StringUtils.appendNewLine;
 
 import chess.board.Board;
+import chess.calculator.DefaultPointCalculateStrategy;
+import chess.calculator.PointCalculator;
+import chess.calculator.SameFilePawnPointCalculateStrategy;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
+import chess.pieces.PieceFactory;
 import chess.pieces.Position;
 import chess.sorter.Direction;
 import chess.sorter.PointSorter;
 import chess.sorter.Sorter;
+import chess.view.ChessView;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,23 +56,33 @@ class BoardTest {
 
     private static Piece blankPiece;
 
+    private static ChessView chessView;
+
+    private static PointCalculator calculator;
+
     private Board board;
+
 
     @BeforeAll
     static void beforeAll() {
-        whitePawn = Piece.createWhitePawn();
-        blackPawn = Piece.createBlackPawn();
-        whiteRook = Piece.createWhiteRook();
-        blackRook = Piece.createBlackRook();
-        whiteKnight = Piece.createWhiteKnight();
-        blackKnight = Piece.createBlackKnight();
-        whiteBishop = Piece.createWhiteBishop();
-        blackBishop = Piece.createBlackBishop();
-        whiteQueen = Piece.createWhiteQueen();
-        blackQueen = Piece.createBlackQueen();
-        whiteKing = Piece.createWhiteKing();
-        blackKing = Piece.createBlackKing();
-        blankPiece = Piece.createBlank();
+        whitePawn = PieceFactory.createWhitePawn();
+        blackPawn = PieceFactory.createBlackPawn();
+        whiteRook = PieceFactory.createWhiteRook();
+        blackRook = PieceFactory.createBlackRook();
+        whiteKnight = PieceFactory.createWhiteKnight();
+        blackKnight = PieceFactory.createBlackKnight();
+        whiteBishop = PieceFactory.createWhiteBishop();
+        blackBishop = PieceFactory.createBlackBishop();
+        whiteQueen = PieceFactory.createWhiteQueen();
+        blackQueen = PieceFactory.createBlackQueen();
+        whiteKing = PieceFactory.createWhiteKing();
+        blackKing = PieceFactory.createBlackKing();
+        blankPiece = PieceFactory.createBlankPiece();
+        chessView = new ChessView();
+        calculator = new PointCalculator(List.of(
+                new DefaultPointCalculateStrategy(),
+                new SameFilePawnPointCalculateStrategy()
+        ));
     }
 
     @BeforeEach
@@ -78,7 +94,6 @@ class BoardTest {
     @Test
     void initialize() {
         board.initialize();
-        assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                 appendNewLine("RNBQKBNR") +
@@ -86,7 +101,7 @@ class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                board.showBoard()
+                chessView.showBoard(board)
         );
     }
 
@@ -155,19 +170,6 @@ class BoardTest {
         );
     }
 
-    @DisplayName("임의의 기물을 빈 체스판 위에 추가한다.")
-    @Test
-    void move() {
-        board.initializeEmpty();
-
-        Piece piece = blackRook;
-        Position position = Position.b5;
-        board.move(position, piece);
-
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
-    }
-
     @DisplayName("체스 프로그램 점수를 계산한다. - whitePawn 같은 열 존재")
     @Test
     void givenWhitePawnOnSameFile_calculatePoint() {
@@ -182,8 +184,8 @@ class BoardTest {
         addPiece(Position.e1, whiteRook);
         addPiece(Position.f1, whiteKing);
 
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.1);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.1);
+        assertEquals(15.0, calculator.calculate(board, Color.BLACK), 0.1);
+        assertEquals(7.0, calculator.calculate(board, Color.WHITE), 0.1);
     }
 
     @DisplayName("체스 프로그램 점수를 계산한다. - 루카스 예시")
@@ -207,9 +209,9 @@ class BoardTest {
         addPiece(Position.e1, whiteRook);
         addPiece(Position.f1, whiteKing);
 
-        board.print();
-        assertEquals(20.0, board.calculatePoint(Color.BLACK), 0.1);
-        assertEquals(19.5, board.calculatePoint(Color.WHITE), 0.1);
+        chessView.showBoard(board);
+        assertEquals(20.0, calculator.calculate(board, Color.BLACK), 0.1);
+        assertEquals(19.5, calculator.calculate(board, Color.WHITE), 0.1);
     }
 
     @DisplayName("체스 프로그램 점수를 계산한다.-모든 기물 세팅")
@@ -217,8 +219,8 @@ class BoardTest {
     void givenAllPieces_calculatePoint() {
         board.initialize();
 
-        assertEquals(38, board.calculatePoint(Color.BLACK), 0.1);
-        assertEquals(38, board.calculatePoint(Color.WHITE), 0.1);
+        assertEquals(38, calculator.calculate(board, Color.BLACK), 0.1);
+        assertEquals(38, calculator.calculate(board, Color.WHITE), 0.1);
     }
 
     @DisplayName("체스 프로그램 점수를 계산한다.- 기물 없음")
@@ -226,8 +228,8 @@ class BoardTest {
     void givenNoPiece_calculatePoint() {
         board.initializeEmpty();
 
-        assertEquals(0.0, board.calculatePoint(Color.BLACK), 0.1);
-        assertEquals(0.0, board.calculatePoint(Color.WHITE), 0.1);
+        assertEquals(0.0, calculator.calculate(board, Color.BLACK), 0.1);
+        assertEquals(0.0, calculator.calculate(board, Color.WHITE), 0.1);
     }
 
 
@@ -299,5 +301,29 @@ class BoardTest {
         assertEquals(1, board.pieceCount(Type.QUEEN, Color.WHITE));
         assertEquals(1, board.pieceCount(Type.KING, Color.WHITE));
         assertEquals(1, board.pieceCount(Type.ROOK, Color.WHITE));
+    }
+
+    @DisplayName("기물을 현재 위치에서 다른 위치로 이동한다.")
+    @Test
+    void move() {
+        board.initialize();
+
+        Position sourcePosition = Position.b2;
+        Position targetPosition = Position.b3;
+
+        board.move(sourcePosition, targetPosition);
+
+        assertEquals(blankPiece, board.findPiece(sourcePosition));
+        assertEquals(whitePawn, board.findPiece(targetPosition));
+    }
+
+    @DisplayName("기물을 현재 위치에서 현재 위치로 이동할 수 없다.")
+    @Test
+    void whenMoveToCurrentPosition_thenFail() {
+        board.initialize();
+
+        Position sourcePosition = Position.b2;
+
+        assertThrows(IllegalArgumentException.class, () -> board.move(sourcePosition, sourcePosition));
     }
 }

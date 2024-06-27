@@ -33,19 +33,19 @@ class PieceTest {
 
     private static Stream<Arguments> create_piece() {
         return Stream.of(
-                Arguments.of(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN),
-                Arguments.of(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT),
-                Arguments.of(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK),
-                Arguments.of(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP),
-                Arguments.of(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN),
-                Arguments.of(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING)
+                Arguments.of(PieceFactory.createWhitePawn(), PieceFactory.createBlackPawn(), Type.PAWN),
+                Arguments.of(PieceFactory.createWhiteKnight(), PieceFactory.createBlackKnight(), Type.KNIGHT),
+                Arguments.of(PieceFactory.createWhiteBishop(), PieceFactory.createBlackBishop(), Type.BISHOP),
+                Arguments.of(PieceFactory.createWhiteRook(), PieceFactory.createBlackRook(), Type.ROOK),
+                Arguments.of(PieceFactory.createWhiteQueen(), PieceFactory.createBlackQueen(), Type.QUEEN),
+                Arguments.of(PieceFactory.createWhiteKing(), PieceFactory.createBlackKing(), Type.KING)
         );
     }
 
     @DisplayName("기물이 없는 공간을 나타내는 Blank 피스를 테스트한다.")
     @Test
     void create_blank() {
-        Piece blank = Piece.createBlank();
+        Piece blank = PieceFactory.createBlankPiece();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
@@ -55,8 +55,8 @@ class PieceTest {
     @DisplayName("검은색 말과 흰색 말을 구분한다")
     @Test
     void checkColor() {
-        Piece blackPawn = Piece.createBlackPawn();
-        Piece whiteQueen = Piece.createWhiteQueen();
+        Piece blackPawn = PieceFactory.createBlackPawn();
+        Piece whiteQueen = PieceFactory.createWhitePawn();
         assertTrue(blackPawn.isBlack());
         assertFalse(blackPawn.isWhite());
         assertTrue(whiteQueen.isWhite());

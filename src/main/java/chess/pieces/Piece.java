@@ -1,12 +1,22 @@
 package chess.pieces;
 
+import chess.pieces.Position.Degree;
+import java.util.List;
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
 
     private final Color color;
 
     private final Type type;
+
+    private final List<Direction> directionList;
+
+    protected Piece(Color color, Type type, List<Direction> directionList) {
+        this.color = color;
+        this.type = type;
+        this.directionList = directionList;
+    }
 
     public enum Color {
         BLACK, WHITE, NO_COLOR;
@@ -39,71 +49,6 @@ public class Piece {
         }
     }
 
-    private Piece(Color color, Type type) {
-        this.color = color;
-        this.type = type;
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NO_COLOR, Type.NO_PIECE);
-    }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
-
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
-
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
-    }
-
     public char getRepresentation() {
         return isBlack() ? type.getBlackRepresentation() : type.getWhiteRepresentation();
     }
@@ -133,6 +78,38 @@ public class Piece {
         return this.type.equals(type);
     }
 
+    public double getDefaultPoint() {
+        return this.type.defaultPoint;
+    }
+
+    public List<Position> getPath(Position src, Position target) {
+        additionalCheck(src, target);
+
+        Direction direction = direction(src, target);
+
+        if (!directionList.contains(direction)) {
+            throw new IllegalArgumentException();
+        }
+
+        return src.getPath(direction, target);
+    }
+
+    protected void additionalCheck(Position src, Position target) {
+        return;
+    }
+
+
+    abstract Direction direction(Position src, Position target);
+
+    protected Degree degree(Position src, Position target) {
+        return src.degree(target);
+    }
+
+    public boolean isSameTeam(Piece other) {
+        return (this.isWhite() && other.isWhite()) ||
+                (this.isBlack() && other.isBlack());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -150,7 +127,4 @@ public class Piece {
         return Objects.hash(color, type);
     }
 
-    public double getDefaultPoint() {
-        return this.type.defaultPoint;
-    }
 }
