@@ -3,12 +3,14 @@ package chess;
 import chess.pieces.ChessPiece;
 import chess.pieces.Course;
 import chess.pieces.Direction;
+import chess.pieces.PieceTypes;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ChessGame {
-    private Board board;
+    private final Board board;
+    private boolean whiteTurn;
 
     public ChessGame(Board board) {
         this.board = board;
@@ -16,6 +18,7 @@ public class ChessGame {
 
     public void init() {
         board.initialize();
+        setWhiteTurn(true);
     }
 
     public String showBoard() {
@@ -26,10 +29,16 @@ public class ChessGame {
         init();
     }
 
+    private boolean isOwner(ChessPiece piece){
+        return whiteTurn && PieceTypes.Color.WHITE.equals(piece.getColor())
+                || !whiteTurn && PieceTypes.Color.BLACK.equals(piece.getColor());
+    }
+
     public boolean move(String source, String target) {
         Optional<ChessPiece> sourcePiece = board.findPiece(source);
 
         return sourcePiece.map(sp -> {
+            if(!isOwner(sp)) throw new IllegalArgumentException("다른사람의 기물을 움직일 수 없습니다.");
             if (isPossibleMove(sp, source, target)) {
                 board.move(source, target);
                 return true;
@@ -109,5 +118,13 @@ public class ChessGame {
 
     public void finishGame() {
         board.initializeEmpty();
+    }
+
+    protected boolean isWhiteTurn() {
+        return whiteTurn;
+    }
+
+    protected void setWhiteTurn(boolean whiteTurn) {
+        this.whiteTurn = whiteTurn;
     }
 }
