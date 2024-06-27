@@ -64,47 +64,65 @@ public class ChessGame {
         board.setPiece(makePosition(positionStr), piece);
     }
 
-    public Piece findPiece(String positionStr){
+    public Piece findPiece(String positionStr) {
         return board.findPiece(makePosition(positionStr));
     }
 
     public void move(String sourcePositionStr, String targetPositionStr) {
-        if(sourcePositionStr.equals(targetPositionStr)){
-            throw new InvalidMoveException("현재 위치로 이동 불가합니다.");
-        }
         Position sourcePosition = makePosition(sourcePositionStr);
         Position targetPosition = makePosition(targetPositionStr);
+        checkMoveOnSpot(sourcePosition, targetPosition);
         Piece piece = board.findPiece(sourcePosition);
-        if(isWhiteTurn && piece.isBlack()){
-            throw new InvalidMoveException("지금은 흰색 차례입니다.");
-        }
-        else if(!isWhiteTurn && piece.isWhite()){
-            throw new InvalidMoveException("지금은 검은색 차례입니다.");
-        }
+        isCorrectTurn(piece);
         Piece targetPiece = board.findPiece(targetPosition);
 
-        if(piece.canMove(targetPiece)){
-            if(!piece.getType().equals(PieceType.KNIGHT) && !isPathClear(sourcePosition, targetPosition)){
-                throw new InvalidMoveException("경로상에 장애물이 있습니다." + " piece: " +piece + " source: "+sourcePosition + " target: "+targetPosition);
-            }
-            board.setPiece(sourcePosition, pieceFactory.createBlank(sourcePosition));
-            piece.move(targetPosition);
-            board.setPiece(targetPosition, piece);
-            isWhiteTurn = !isWhiteTurn;
+        if (piece.canMove(targetPiece)) {
+            checkPath(piece, sourcePosition, targetPosition);
+            moveOnBoard(piece, sourcePosition, targetPosition);
+            switchTurn();
+        } else {
+            throw new InvalidMoveException("움직일 수 없는 위치입니다. piece: " + piece + " source: " + sourcePosition + " target: " + targetPosition);
         }
-        else{
-            throw new InvalidMoveException("움직일 수 없는 위치입니다. piece: " +piece + " source: "+sourcePosition + " target: "+targetPosition);
+    }
+
+    private void moveOnBoard(Piece piece, Position sourcePosition, Position targetPosition) {
+        board.setPiece(sourcePosition, pieceFactory.createBlank(sourcePosition));
+        piece.move(targetPosition);
+        board.setPiece(targetPosition, piece);
+    }
+
+    private void switchTurn() {
+        isWhiteTurn = !isWhiteTurn;
+    }
+
+    private void checkMoveOnSpot(Position sourcePosition, Position targetPosition) {
+        if (sourcePosition.equals(targetPosition)) {
+            throw new InvalidMoveException("현재 위치로 이동 불가합니다.");
+        }
+    }
+
+    private void checkPath(Piece piece, Position sourcePosition, Position targetPosition) {
+        if (!piece.getType().equals(PieceType.KNIGHT) && !isPathClear(sourcePosition, targetPosition)) {
+            throw new InvalidMoveException("경로상에 장애물이 있습니다." + " piece: " + piece + " source: " + sourcePosition + " target: " + targetPosition);
+        }
+    }
+
+    private void isCorrectTurn(Piece piece) {
+        if (isWhiteTurn && piece.isBlack()) {
+            throw new InvalidMoveException("지금은 흰색 차례입니다.");
+        } else if (!isWhiteTurn && piece.isWhite()) {
+            throw new InvalidMoveException("지금은 검은색 차례입니다.");
         }
     }
 
     // 퀸, 비숍, 룩
-    private boolean isPathClear(Position sourcePosition, Position targetPosition){
+    private boolean isPathClear(Position sourcePosition, Position targetPosition) {
         int ux = Integer.signum(targetPosition.getX() - sourcePosition.getX());
         int uy = Integer.signum(targetPosition.getY() - sourcePosition.getY());
         int x = sourcePosition.getX() + ux;
         int y = sourcePosition.getY() + uy;
-        while(x != targetPosition.getX() || y != targetPosition.getY()){
-            if(!board.findPiece(new Position(x, y)).getType().equals(PieceType.NO_PIECE)){
+        while (x != targetPosition.getX() || y != targetPosition.getY()) {
+            if (!board.findPiece(new Position(x, y)).getType().equals(PieceType.NO_PIECE)) {
                 return false;
             }
             x += ux;
