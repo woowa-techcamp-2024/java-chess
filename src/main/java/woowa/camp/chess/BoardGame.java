@@ -1,12 +1,14 @@
 package woowa.camp.chess;
 
 import static woowa.camp.chess.BoardConstants.MAX_COL;
+import static woowa.camp.chess.BoardConstants.MAX_ROW;
 import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
 import java.util.List;
 import woowa.camp.pieces.Piece;
 import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
+import woowa.camp.utils.StringUtils;
 
 public class BoardGame {
 
@@ -56,6 +58,22 @@ public class BoardGame {
         // TODO: move validation 추가
         if (sourcePiece.isPieceOf(NO_PIECE)) {
             throw new IllegalArgumentException(sourcePosition + "에 움직일 수 있는 기물이 없습니다.");
+        }
+    }
+
+    public String showBoard() {
+        final StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < MAX_ROW.getCount(); row++) {
+            appendRowRepresentation(row, sb);
+            sb.append(StringUtils.appendNewLine(""));
+        }
+        return sb.toString();
+    }
+
+    private void appendRowRepresentation(final int row, final StringBuilder sb) {
+        for (int col = 0; col < MAX_COL.getCount(); col++) {
+            final Piece piece = board.getPieceBy(row, col);
+            sb.append(piece.getRepresentation());
         }
     }
 

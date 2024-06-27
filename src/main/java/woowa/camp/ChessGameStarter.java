@@ -2,6 +2,7 @@ package woowa.camp;
 
 import java.util.Scanner;
 import woowa.camp.chess.Board;
+import woowa.camp.chess.BoardGame;
 import woowa.camp.chess.Command;
 
 public class ChessGameStarter {
@@ -12,18 +13,16 @@ public class ChessGameStarter {
     }
 
     private static void gameStart(final Scanner sc) {
-        Board board = new Board();
-        board.initialize();
-
+        BoardGame boardGame = BoardGame.createWithInitialize(new Board());
         while (inputCommand(sc) == Command.START) {
-            String print = board.showBoard();
+            String print = boardGame.showBoard();
             System.out.println(print);
 
-            move(sc, board);
+            move(sc, boardGame);
         }
     }
 
-    private static void move(final Scanner sc, final Board board) {
+    private static void move(final Scanner sc, final BoardGame boardGame) {
         while (true) {
             String moveCommand = sc.nextLine();
 
@@ -38,7 +37,7 @@ public class ChessGameStarter {
             String destPosition = s[2];
             System.out.println("destPosition = " + destPosition);
 //            board.move(sourcePosition, destPosition);
-            System.out.println(board.showBoard());
+            System.out.println(boardGame.showBoard());
         }
     }
 

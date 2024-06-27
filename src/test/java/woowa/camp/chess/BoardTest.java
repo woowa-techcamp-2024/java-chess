@@ -158,8 +158,8 @@ public class BoardTest {
         @Test
         @DisplayName("[Success] 초기화한 Board의 기물 위치 확인")
         void initialBoardStatus() {
-            board.initialize();
-            String result = board.showBoard();
+            BoardGame boardGame = BoardGame.createWithInitialize(board);
+            String result = boardGame.showBoard();
             String expectedInitialBoardState = """
                     RNBQKBNR
                     PPPPPPPP
@@ -224,7 +224,7 @@ public class BoardTest {
             Assertions.assertEquals(15.0, boardGame.calculateScore(Color.BLACK), 0.01);
             Assertions.assertEquals(7.0, boardGame.calculateScore(Color.WHITE), 0.01);
 
-            System.out.println(board.showBoard());
+            System.out.println(boardGame.showBoard());
         }
 
         private void addPiece(String position, Piece piece) {

@@ -17,7 +17,6 @@ import java.util.stream.IntStream;
 import woowa.camp.pieces.Piece;
 import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
-import woowa.camp.utils.StringUtils;
 
 public class Board {
 
@@ -153,22 +152,6 @@ public class Board {
             }
         }
         return piecesByFile;
-    }
-
-    public String showBoard() {
-        final StringBuilder sb = new StringBuilder();
-        for (int row = 0; row < MAX_ROW.getCount(); row++) {
-            appendRowRepresentation(row, sb);
-            sb.append(StringUtils.appendNewLine(""));
-        }
-        return sb.toString();
-    }
-
-    private void appendRowRepresentation(final int row, final StringBuilder sb) {
-        for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final Piece piece = getPieceBy(row, col);
-            sb.append(piece.getRepresentation());
-        }
     }
 
     /* ----- getter ----- */
