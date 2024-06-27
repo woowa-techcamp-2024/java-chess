@@ -20,10 +20,12 @@ public class DemoApplication {
         ChessHandler cliHandler = new ChessHandler();
         EventPublisher eventPublisher = EventPublisher.INSTANCE;
 
-        Game game = new Game(new Board());
-        while(!game.isEnd()){
+        Board board = new Board();
+        Game game = Game.builder(board).build();
+
+        while (!game.isEnd()) {
             cliHandler.handle(input.next(), game);
-            while (!eventPublisher.isEmpty()){
+            while (!eventPublisher.isEmpty()) {
                 Event event = eventPublisher.consume();
             }
             game.calculateCheckPoint();

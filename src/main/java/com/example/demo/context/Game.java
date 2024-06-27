@@ -22,29 +22,47 @@ public class Game {
     private final Map<Type, List<Rule>> rules = new HashMap<>();
     private Location promotionPieceLocation = null;
 
-    // todo : 추후 빌더나 추상 팩토리로 리펙터링 예정
-    public Game(Board board, User whiteUser, User blackUser) {
-        this.board = board;
-        this.whiteUser = whiteUser;
-        this.blackUser = blackUser;
-        initPawnRules();
-        initBishopRules();
-        initRookRules();
-        initQueenRules();
-        initKingRules();
-        initKnightRules();
+    // builder class
+    public static GameBuilder builder(Board board) {
+        return new GameBuilder(board);
     }
 
-    public Game(Board board) {
-        this.board = board;
+    public static class GameBuilder {
+        private User whiteUser;
+        private User blackUser;
+        private Board board;
+
+        private GameBuilder(Board board) {
+            this.whiteUser = new User("user1", Color.WHITE);
+            this.blackUser = new User("user2", Color.BLACK);
+            this.board = board;
+        }
+
+        public GameBuilder whiteUser(User whiteUser) {
+            this.whiteUser = whiteUser;
+            return this;
+        }
+
+        public GameBuilder blackUser(User blackUser) {
+            this.blackUser = blackUser;
+            return this;
+        }
+
+        public Game build() {
+            return new Game(this);
+        }
+    }
+
+    public Game(GameBuilder builder) {
+        this.board = builder.board;
+        this.whiteUser = builder.whiteUser;
+        this.blackUser = builder.blackUser;
         initPawnRules();
         initBishopRules();
         initRookRules();
         initQueenRules();
         initKingRules();
         initKnightRules();
-        this.whiteUser = new User("user1", Color.WHITE);
-        this.blackUser = new User("user2", Color.BLACK);
     }
 
     //--------------init game start----------------

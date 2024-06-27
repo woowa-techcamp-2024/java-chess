@@ -37,7 +37,7 @@ class GameTest {
             // given
             Board board = createBoard();
             Piece target = board.getPiece(from);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
             synTurn(game, target.getColor());
 
             // when
@@ -64,7 +64,7 @@ class GameTest {
             // given
             Board board = createBoard();
             board.addPiece(new Pawn(Rank.THREE, File.A));
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
             synTurn(game, board.getPiece(from).getColor());
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
@@ -85,7 +85,7 @@ class GameTest {
         public void movePawnFailWhenExceed(Location from, Location to) {
             // given
             Board board = createBoard();
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
             synTurn(game, board.getPiece(from).getColor());
 
             // then
@@ -107,7 +107,7 @@ class GameTest {
         public void movePawnFailWhenNotFirstMove(Location first, Location from, Location to) {
             // given
             Board board = createBoard();
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
             synTurn(game, board.getPiece(first).getColor());
             game.move(first, from);
 
@@ -138,7 +138,7 @@ class GameTest {
             Piece bishop = new Bishop(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(bishop);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when
             game.move(from, to);
@@ -167,7 +167,7 @@ class GameTest {
             Board board = new Board();
             board.addPiece(bishop);
             board.addPiece(target);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when
             game.move(from, to);
@@ -191,7 +191,7 @@ class GameTest {
             Piece bishop = new Bishop(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(bishop);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -221,7 +221,7 @@ class GameTest {
             Piece rook = new Rook(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(rook);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when
             game.move(from, to);
@@ -254,7 +254,7 @@ class GameTest {
             Piece rook = new Rook(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(rook);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -288,7 +288,7 @@ class GameTest {
             Piece knight = new Knight(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(knight);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when
             game.move(from, to);
@@ -315,7 +315,7 @@ class GameTest {
             Piece knight = new Knight(from.rank(), from.file());
             Board board = new Board();
             board.addPiece(knight);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when & then
             assertThatThrownBy(() -> game.move(from, to))
@@ -346,7 +346,7 @@ class GameTest {
             Board board = new Board();
             board.addPiece(bishop);
             board.addPiece(target);
-            Game game = new Game(board);
+            Game game = Game.builder(board).build();
 
             // when & then
             assertThatThrownBy(() -> game.move(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E)))
@@ -364,7 +364,7 @@ class GameTest {
         Board board = new Board();
         board.setPiece(new Location(pawn.getRank(), pawn.getFile()), pawn);
 
-        Game game = new Game(board);
+        Game game = Game.builder(board).build();
 
         // when
         game.move(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
@@ -392,7 +392,7 @@ class GameTest {
         board.setPiece(king.getRank(), king.getFile(), king);
         board.setPiece(rook.getRank(), rook.getFile(), rook);
         board.setPiece(enemy.getRank(), enemy.getFile(), enemy);
-        Game game = new Game(board);
+        Game game = Game.builder(board).build();
         game.calculateCheckPoint();
         synTurn(game, king.getColor());
 
