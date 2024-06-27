@@ -45,6 +45,12 @@ public class Rank {
         return Collections.unmodifiableList(pieces);
     }
 
+    public List<Piece> getPieces(Color color) {
+        return pieces.stream()
+                .filter(p -> p.hasColor(color))
+                .toList();
+    }
+
     public static Rank getBlankRank(int size) {
         List<Piece> pieces = new ArrayList<>();
         for (int count = 0; count < size; count++) {
