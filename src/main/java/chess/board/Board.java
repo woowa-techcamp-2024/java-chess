@@ -2,6 +2,7 @@ package chess.board;
 
 import chess.pieces.Piece;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -47,10 +48,8 @@ public class Board {
         return pieceCount;
     }
 
-    public double caculcatePoint(Piece.Color color) {
-        return ranks.stream()
-                .mapToDouble(rank -> rank.calculateRankPoint(color))
-                .sum();
+    public double caculcatePoint(Piece.Color color, PointCalculator pointCalculator) {
+        return pointCalculator.calculatePoint(this, color);
     }
 
     public List<Piece> sortPiecesByPoint(Piece.Color color, Comparator<Piece> comparator) {

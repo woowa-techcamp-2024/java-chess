@@ -5,6 +5,7 @@ import chess.view.ChessView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.util.List;
 
 import static chess.pieces.Piece.Color;
@@ -103,6 +104,7 @@ class BoardTest {
     @DisplayName("포인트를 계산할 수 있다")
     void caculcatePoint() {
         Board board = new Board();
+        PointCalculator pointCalculator = new PointCalculator();
         board.initializeEmpty();
 
         addPiece("b6", Piece.createBlackPawn(), board);
@@ -115,8 +117,8 @@ class BoardTest {
         addPiece("e1", Piece.createWhiteRook(), board);
         addPiece("f1", Piece.createWhiteKing(), board);
 
-        assertEquals(15.0, board.caculcatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.caculcatePoint(Color.WHITE), 0.01);
+        assertEquals(15.0, board.caculcatePoint(Color.BLACK, pointCalculator), 0.01);
+        assertEquals(7.0, board.caculcatePoint(Color.WHITE, pointCalculator), 0.01);
 
         System.out.println(ChessView.printBoard(board));
     }

@@ -41,24 +41,6 @@ class RankTest {
                 .containsExactlyElementsOf(pieceList);
     }
 
-    @DisplayName("해당 랭크의 색깔별 포인트를 계산할 수 있다.")
-    @Test
-    void calculateRankPoint() {
-        // given
-        List<Piece> pieces = IntStream.range(0, 8)
-                .mapToObj(i -> Piece.createBlank())
-                .toList();
-        Rank rank = Rank.initializeRank(pieces);
-        rank.setPiece(0, Piece.createWhitePawn());
-        rank.setPiece(1, Piece.createWhiteKnight());
-
-        // when
-        double rankPoint = rank.calculateRankPoint(Piece.Color.WHITE);
-
-        // then
-        assertEquals(3.5, rankPoint);
-    }
-
     @DisplayName("랭크를 생성할 수 있다")
     @Test
     void createRank() {

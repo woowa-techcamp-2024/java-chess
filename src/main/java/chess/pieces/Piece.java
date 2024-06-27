@@ -90,6 +90,10 @@ public class Piece {
         this.type = type;
     }
 
+    public boolean isSameType(Type type) {
+        return this.type.equals(type);
+    }
+
     public boolean isBlack() {
         return this.color.equals(Color.BLACK);
     }
