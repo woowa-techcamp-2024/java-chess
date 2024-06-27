@@ -1,101 +1,132 @@
 package woowa.camp.pieces;
 
+import static woowa.camp.pieces.Piece.Color.BLACK;
+import static woowa.camp.pieces.Piece.Color.NONE;
+import static woowa.camp.pieces.Piece.Color.WHITE;
+import static woowa.camp.pieces.Piece.Type.NO_PIECE;
+
+import java.util.List;
+import java.util.Objects;
+
 public class Piece {
 
-    public static final String PAWN = "pawn";
-    public static final String KNIGHT = "knight";
-    public static final String BISHOP = "bishop";
-    public static final String ROOK = "rook";
-    public static final String QUEEN = "queen";
-    public static final String KING = "king";
-
-    private final String name;
+    private final Type type;
     private final Color color;
 
-    private Piece(String name, Color color) {
-        this.name = name;
+    private Piece(final Type type, final Color color) {
+        this.type = type;
         this.color = color;
     }
 
-    public static Piece createPiece(final String name, final Color color) {
-        return new Piece(name, color);
+    public static Piece createPiece(final Type type, final Color color) {
+        return new Piece(type, color);
     }
 
-    public static Piece createWhitePawn() {
-        return new Piece(PAWN, Color.PAWN_WHITE);
+    public static Piece createWhitePieceOf(final Type type) {
+        return new Piece(type, WHITE);
     }
 
-    public static Piece createBlackPawn() {
-        return new Piece(PAWN, Color.PAWN_BLACK);
+    public static Piece createBlackPieceOf(final Type type) {
+        return new Piece(type, BLACK);
     }
 
-    public static Piece createWhiteKnight() {
-        return new Piece(KNIGHT, Color.KNIGHT_WHITE);
-    }
-
-    public static Piece createBlackKnight() {
-        return new Piece(KNIGHT, Color.KNIGHT_BLACK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return new Piece(BISHOP, Color.BISHOP_WHITE);
-    }
-
-    public static Piece createBlackBishop() {
-        return new Piece(BISHOP, Color.BISHOP_BLACK);
-    }
-
-    public static Piece createWhiteRook() {
-        return new Piece(ROOK, Color.ROOK_WHITE);
-    }
-
-    public static Piece createBlackRook() {
-        return new Piece(ROOK, Color.ROOK_BLACK);
-    }
-
-    public static Piece createWhiteQueen() {
-        return new Piece(QUEEN, Color.QUEEN_WHITE);
-    }
-
-    public static Piece createBlackQueen() {
-        return new Piece(QUEEN, Color.QUEEN_BLACK);
-    }
-
-    public static Piece createWhiteKing() {
-        return new Piece(KING, Color.KING_WHITE);
-    }
-
-    public static Piece createBlackKing() {
-        return new Piece(KING, Color.KING_BLACK);
-    }
-
-    public String getColor() {
-        return color.getName();
+    public static Piece createBlank() {
+        return new Piece(NO_PIECE, NONE);
     }
 
     public String getRepresentation() {
-        return color.getRepresentation();
+        return type.getRepresentation(color);
     }
 
-    public String getName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 
-    public boolean isPieceOf(final String name) {
-        return this.name.equals(name);
+    public boolean isPieceOf(final Type type) {
+        return this.type == type;
     }
 
     public boolean isSameColor(final Color color) {
-        return this.color.equals(color);
+        return this.color == color;
     }
 
-    public boolean isBlack() {
-        return "black".equals(color.getName());
+    public double getDefaultScore() {
+        return this.type.getDefaultScore();
     }
 
-    public boolean isWhite() {
-        return "white".equals(color.getName());
+    public enum Type {
+        PAWN("p", 1.0),
+        ROOK("r", 5.0),
+        KNIGHT("n", 2.5),
+        BISHOP("b", 3.0),
+        QUEEN("q", 9.0),
+        KING("k", 0.0),
+        NO_PIECE(".", 0.0);
+
+        private final String representation;
+        private final double defaultScore;
+
+        Type(String representation, double defaultScore) {
+            this.representation = representation;
+            this.defaultScore = defaultScore;
+        }
+
+        public static double calculateScore(final List<Piece> file) {
+            double score = 0.0;
+            int pawnCount = 0;
+            for (Piece piece : file) {
+                if (piece.isPieceOf(PAWN)) {
+                    pawnCount++;
+                    continue;
+                }
+                score += piece.type.defaultScore;
+            }
+            if (pawnCount > 1) {
+                score += pawnCount * (PAWN.defaultScore / 2);
+                return score;
+            }
+            score += pawnCount * PAWN.defaultScore;
+            return score;
+        }
+
+        public double getDefaultScore() {
+            return defaultScore;
+        }
+
+        public String getRepresentation(final Color color) {
+            if (color == BLACK) {
+                return representation.toUpperCase();
+            }
+            return representation;
+        }
     }
 
+    public enum Color {
+        BLACK, WHITE, NONE
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                ", color=" + color +
+                '}';
+    }
 }
