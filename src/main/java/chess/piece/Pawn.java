@@ -7,6 +7,7 @@ public class Pawn extends Piece {
 
     private Pawn(Color color, char representation) {
         super(color, representation);
+
     }
 
     public static Pawn createWhite() {

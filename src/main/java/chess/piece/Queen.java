@@ -1,12 +1,24 @@
 package chess.piece;
 
+import chess.Board;
+import chess.util.ChessPoint;
+import chess.util.Direction;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Queen extends Piece {
     public static final char WHITE_REPRESENTATION = '♕';
     public static final char BLACK_REPRESENTATION = '♛';
     public static final double DEFAULT_POINT = 9;
 
     private Queen(Color color, char representation) {
-        super(color, representation);
+        super(color, representation,Direction.everyDirection(), MAX_MOVE_DISTANCE);
+    }
+
+    public static Queen create(Color color) {
+        return color == Color.WHITE ? createWhite() : createBlack();
     }
 
     public static Queen createWhite() {
