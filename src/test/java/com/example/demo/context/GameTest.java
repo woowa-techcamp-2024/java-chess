@@ -42,7 +42,7 @@ class GameTest {
             synTurn(game, target.getColor());
 
             // when
-            game.move(from, to);
+            game.handleMoveCommand(from, to);
 
             // then
             assertThat(game.getPiece(to)).isEqualTo(target);
@@ -75,7 +75,7 @@ class GameTest {
             }
 
             // then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -90,7 +90,7 @@ class GameTest {
             synTurn(game, game.getPiece(from).getColor());
 
             // then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -110,10 +110,10 @@ class GameTest {
             Game game = Game.builder().build();
             game.initBoard();
             synTurn(game, game.getPiece(first).getColor());
-            game.move(first, from);
+            game.handleMoveCommand(first, from);
 
             // then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -144,7 +144,7 @@ class GameTest {
             game.addPiece(bishop);
 
             // when
-            game.move(from, to);
+            game.handleMoveCommand(from, to);
 
             // then
             assertThat(game.getPiece(from)).isNull();
@@ -181,7 +181,7 @@ class GameTest {
             game.addPiece(target);
 
             // when
-            game.move(from, to);
+            game.handleMoveCommand(from, to);
 
             // then
             assertThat(game.getPiece(from)).isNull();
@@ -207,7 +207,7 @@ class GameTest {
             game.addPiece(bishop);
 
             // when & then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -239,7 +239,7 @@ class GameTest {
             game.addPiece(rook);
 
             // when
-            game.move(from, to);
+            game.handleMoveCommand(from, to);
 
             // then
             assertThat(game.getPiece(from)).isNull();
@@ -274,7 +274,7 @@ class GameTest {
             game.addPiece(rook);
 
             // when & then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -310,7 +310,7 @@ class GameTest {
             game.addPiece(knight);
 
             // when
-            game.move(from, to);
+            game.handleMoveCommand(from, to);
 
             // then
             assertThat(game.getPiece(from)).isNull();
@@ -339,7 +339,7 @@ class GameTest {
             game.addPiece(knight);
 
             // when & then
-            assertThatThrownBy(() -> game.move(from, to))
+            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -375,7 +375,7 @@ class GameTest {
             game.addPiece(target);
 
             // when & then
-            assertThatThrownBy(() -> game.move(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E)))
+            assertThatThrownBy(() -> game.handleMoveCommand(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E)))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -396,7 +396,7 @@ class GameTest {
 
 
         // when
-        game.move(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
+        game.handleMoveCommand(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
         var e = EventPublisher.INSTANCE.consume();
         game.handle(e);
         game.promotion(Type.QUEEN);
@@ -425,7 +425,7 @@ class GameTest {
         synTurn(game, king.getColor());
 
         // when
-        game.move(king.getLocation(), kingTo);
+        game.handleMoveCommand(king.getLocation(), kingTo);
         game.handle(EventPublisher.INSTANCE.consume());
 
         // then

@@ -87,4 +87,9 @@ public abstract class Piece implements Comparable<Piece> {
     public Rank getRank() {
         return this.rank;
     }
+
+    public void setTurn(int turn) {
+        if(turn < 0) throw new IllegalArgumentException("턴은 0 이상이어야 합니다.");
+        this.turn = turn;
+    }
 }

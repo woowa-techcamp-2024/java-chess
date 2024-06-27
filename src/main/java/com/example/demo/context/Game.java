@@ -21,7 +21,7 @@ public class Game extends Board {
     private final User blackUser;
     private boolean isEnd = false;
     private Location promotionPieceLocation = null;
-    private int turn = 0;
+    private int turn = 1;
 
     // builder class
     public static GameBuilder builder() {
@@ -85,9 +85,7 @@ public class Game extends Board {
 
         if (event instanceof MoveActionEvent) {
             MoveActionEvent moveActionEvent = (MoveActionEvent) event;
-            var rook = this.getPiece(moveActionEvent.from());
-            this.setPiece(moveActionEvent.to(), rook);
-            this.setPiece(moveActionEvent.from(), null);
+            move(moveActionEvent.from(), moveActionEvent.to());
         }
     }
 
@@ -98,7 +96,7 @@ public class Game extends Board {
      * @param to   이동할 목표 좌표
      * @throws RuntimeException 이동할 수 없는 경우
      */
-    public void move(Location from, Location to) {
+    public void handleMoveCommand(Location from, Location to) {
 
         // check user color
         checkTurn(from);
@@ -108,14 +106,20 @@ public class Game extends Board {
             throw new RuntimeException("먼저 폰의 승진이 필요합니다.");
         }
 
-        Piece piece = this.getPiece(from.rank(), from.file());
 
         if (!ruleManager.accept(this, from, to)) {
             throw new RuntimeException("이동할 수 없습니다.");
         }
 
+        move(from, to);
+        turn++;
+    }
+
+    private void move(Location from, Location to){
+        var piece = this.getPiece(from);
         this.setPiece(from, null);
         this.setPiece(to, piece);
+        piece.setTurn(turn);
     }
 
     public Color getTurn() {
