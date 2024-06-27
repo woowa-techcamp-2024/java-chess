@@ -20,6 +20,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class GameTest {
 
+    private void synTurn(Game game, Color color) {
+        if (game.getTurn() == color) return;
+        game.nextTurn();
+    }
+
     @Nested
     @DisplayName("폰 규칙 테스트")
     class PawnRule {
@@ -32,6 +37,7 @@ class GameTest {
             Board board = createBoard();
             Piece target = board.getPiece(from);
             Game game = new Game(board);
+            synTurn(game, target.getColor());
 
             // when
             game.move(from, to);
@@ -58,6 +64,7 @@ class GameTest {
             Board board = createBoard();
             board.addPiece(new Pawn(Rank.THREE, File.A));
             Game game = new Game(board);
+            synTurn(game, board.getPiece(from).getColor());
 
             // when : 모든 폰 경로 방향에 동일한 색상의 폰을 배치
             for (File file : File.values()) {
@@ -78,6 +85,7 @@ class GameTest {
             // given
             Board board = createBoard();
             Game game = new Game(board);
+            synTurn(game, board.getPiece(from).getColor());
 
             // then
             assertThatThrownBy(() -> game.move(from, to))
@@ -99,6 +107,7 @@ class GameTest {
             // given
             Board board = createBoard();
             Game game = new Game(board);
+            synTurn(game, board.getPiece(first).getColor());
             game.move(first, from);
 
             // then

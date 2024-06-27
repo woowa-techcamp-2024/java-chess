@@ -14,8 +14,24 @@ import static com.example.demo.context.Board.Location;
 
 public class Game {
     private final Board board;
+    private Color currentTurnColor = Color.WHITE;
+    private final User whiteUser;
+    private final User blackUser;
     private boolean isEnd = false;
     private final Map<Type, List<Rule>> rules = new HashMap<>();
+
+    // todo : 추후 빌더나 추상 팩토리로 리펙터링 예정
+    public Game(Board board, User whiteUser, User blackUser) {
+        this.board = board;
+        this.whiteUser = whiteUser;
+        this.blackUser = blackUser;
+        initPawnRules();
+        initBishopRules();
+        initRookRules();
+        initQueenRules();
+        initKingRules();
+        initKnightRules();
+    }
 
     public Game(Board board) {
         this.board = board;
@@ -25,6 +41,8 @@ public class Game {
         initQueenRules();
         initKingRules();
         initKnightRules();
+        this.whiteUser = new User("user1", Color.WHITE);
+        this.blackUser = new User("user2", Color.BLACK);
     }
 
     //--------------init game start----------------
@@ -139,6 +157,11 @@ public class Game {
      */
     public void move(Location from, Location to) {
 
+        // check user color
+        if(board.getPiece(from).getColor() != currentTurnColor) {
+            throw new RuntimeException("현재 턴의 말을 이동해야 합니다.");
+        }
+
         Piece piece = board.getPiece(from.rank(), from.file());
 
         if (!accept(from, to)) {
@@ -147,6 +170,14 @@ public class Game {
 
         board.setPiece(from, null);
         board.setPiece(to, piece);
+    }
+
+    public Color getTurn(){
+        return currentTurnColor;
+    }
+
+    public void nextTurn(){
+        currentTurnColor = currentTurnColor == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 
     /**
@@ -163,7 +194,7 @@ public class Game {
                 .filter(rule -> !rule.allow(from, to, board))
                 .toList();
 
-        if(!notAllowedRules.isEmpty()){
+        if (!notAllowedRules.isEmpty()) {
             return false;
         }
 
