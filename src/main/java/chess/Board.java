@@ -163,7 +163,7 @@ public class Board {
         }
     }
 
-    public boolean move(String position, ChessPiece chessPiece){
+    protected boolean move(String position, ChessPiece chessPiece){
         if(!isIn(position)) return false;
         removePiece(chessPiece);
         int row = getRow(position);
@@ -235,7 +235,6 @@ public class Board {
             return false;
         }
         removePiece(t);
-        System.out.println("targetPosition = " + targetPosition);
         boolean moved = move(targetPosition,s);
         if(moved) {
             setPiece(sourcePosition, pieceCreator.createPiece(NO_PIECE));
