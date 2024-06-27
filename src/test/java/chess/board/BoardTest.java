@@ -29,13 +29,13 @@ class BoardTest {
 
     @Test
     @DisplayName("기물을 특정 좌표로 이동할 수 있다")
-    void moveToPosition() {
+    void movePieceToPosition() {
         // given
         String sourceCoordinate = "b2";
         String targetCoordinate = "b3";
 
         // when
-        board.move(sourceCoordinate, targetCoordinate);
+        board.switchPiece(Coordinate.of(sourceCoordinate), Coordinate.of(targetCoordinate));
 
         // then
         Piece findPiece1 = board.findPiece(Coordinate.of(sourceCoordinate));
@@ -109,7 +109,7 @@ class BoardTest {
 
     @DisplayName("임의의 좌표에 Piece를 놓을 수 있다")
     @Test
-    void move() {
+    void movePiece() {
         // given
 
         String coordinateStr = "b5";
@@ -117,7 +117,7 @@ class BoardTest {
         Piece piece = Rook.createBlackRook();
 
         // when
-        board.move(coordinate, piece);
+        board.movePiece(coordinate, piece);
 
         // then
         assertEquals(piece, board.findPiece(coordinate));
@@ -195,7 +195,7 @@ class BoardTest {
     }
 
     private void addPiece(String coordniate, Piece piece, Board board) {
-        board.move(Coordinate.of(coordniate), piece);
+        board.movePiece(Coordinate.of(coordniate), piece);
     }
 
     private String givenBoardPrint() {

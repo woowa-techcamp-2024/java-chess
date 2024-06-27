@@ -28,10 +28,21 @@ public class Main {
             if(isPrintCommand(input)) {
                 System.out.println(chessGame.printBoard());
             }
-            if(isMoveCommand(input)) {
+            else if(isMoveCommand(input)) {
                 String[] split = input.split(" ");
-                // TODO : 입력 시 validation도 필요하지 않을까?
-                chessGame.move(split[MOVE_FROM_INDEX], split[MOVE_TO_INDEX]);
+                try {
+                    if(split.length != 3) {
+                        throw new IllegalArgumentException("명령어 형식이 잘못되었습니다.");
+                    }
+                    chessGame.move(split[MOVE_FROM_INDEX], split[MOVE_TO_INDEX]);
+                    System.out.println(chessGame.printBoard());
+                }
+                catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+            else {
+                System.err.println("잘못된 명령어입니다.");
             }
         }
         System.out.println("종료");

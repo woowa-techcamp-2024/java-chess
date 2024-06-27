@@ -54,14 +54,18 @@ public class Board {
                 .toList();
     }
 
-    public void move(String sourceCoordinateStr, String targetCoordinateStr) {
-        Coordinate sourceCoordinate = Coordinate.of(sourceCoordinateStr);
-        Coordinate targetCoordinate = Coordinate.of(targetCoordinateStr);
+    public void movePiece(Coordinate from, Coordinate to) {
+        Piece sourcePiece = findPiece(from);
 
-        Piece sourcePiece = findPiece(sourceCoordinate);
-        Piece targetPiece = findPiece(targetCoordinate);
-        move(targetCoordinate, sourcePiece);
-        move(sourceCoordinate, targetPiece);
+        movePiece(to, sourcePiece);
+        movePiece(from, Blank.createBlank());
+    }
+
+    protected void switchPiece(Coordinate from, Coordinate to) {
+        Piece sourcePiece = findPiece(from);
+        Piece targetPiece = findPiece(to);
+        movePiece(from, targetPiece);
+        movePiece(to, sourcePiece);
     }
 
     public Board() {
@@ -74,7 +78,7 @@ public class Board {
                 .getPieceByIndex(coordinate.getWidthIndex());
     }
 
-    protected void move(Coordinate coordinate, Piece piece) {
+    protected void movePiece(Coordinate coordinate, Piece piece) {
         Rank targetRank = ranks.get(coordinate.getRankIndex());
         targetRank.setPiece(coordinate.getWidthIndex(), piece);
     }

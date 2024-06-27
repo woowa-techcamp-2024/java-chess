@@ -36,7 +36,7 @@ class PointCalculatorTest {
     }
 
     private void addPiece(String coordniate, Piece piece, Board board) {
-        board.move(Coordinate.of(coordniate), piece);
+        board.movePiece(Coordinate.of(coordniate), piece);
     }
 
 }
