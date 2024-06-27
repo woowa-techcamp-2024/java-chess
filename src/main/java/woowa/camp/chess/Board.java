@@ -144,16 +144,7 @@ public class Board {
         board.get(targetRow).replace(targetCol, Piece.createBlank());
     }
 
-    public double calculateScore(final Color color) {
-        double score = 0.0;
-        for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final List<Piece> file = extractPiecesByFile(col, color);
-            score += Type.calculateScore(file);
-        }
-        return score;
-    }
-
-    private List<Piece> extractPiecesByFile(final int col, final Color color) {
+    public List<Piece> extractPiecesByFile(final int col, final Color color) {
         final List<Piece> piecesByFile = new ArrayList<>();
         for (int row = 0; row < MAX_ROW.getCount(); row++) {
             final Piece piece = getPieceBy(row, col);

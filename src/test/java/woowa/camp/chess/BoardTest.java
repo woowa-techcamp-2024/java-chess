@@ -68,7 +68,7 @@ public class BoardTest {
         @Test
         @DisplayName("[Success] 임의의 위치에 기물을 이동할 수 있어야 한다.")
         void move() {
-            BoardGame boardGame = new BoardGame(board);
+            BoardGame boardGame = BoardGame.createWithInitialize(board);
 
             String sourcePosition = "b2";
             String targetPosition = "b3";
@@ -209,7 +209,7 @@ public class BoardTest {
         @Test
         @DisplayName("색상을 기준으로 현재 남아 있는 기물에 따라 점수를 계산한다.")
         void calculate() {
-            board.initializeEmpty();
+            BoardGame boardGame = BoardGame.createWithEmptyInitialize(board);
 
             addPiece("b6", Piece.createBlackPieceOf(Type.PAWN));
             addPiece("e6", Piece.createBlackPieceOf(Type.QUEEN));
@@ -221,8 +221,8 @@ public class BoardTest {
             addPiece("e1", Piece.createWhitePieceOf(Type.ROOK));
             addPiece("f1", Piece.createWhitePieceOf(Type.KING));
 
-            Assertions.assertEquals(15.0, board.calculateScore(Color.BLACK), 0.01);
-            Assertions.assertEquals(7.0, board.calculateScore(Color.WHITE), 0.01);
+            Assertions.assertEquals(15.0, boardGame.calculateScore(Color.BLACK), 0.01);
+            Assertions.assertEquals(7.0, boardGame.calculateScore(Color.WHITE), 0.01);
 
             System.out.println(board.showBoard());
         }
