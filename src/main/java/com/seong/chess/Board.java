@@ -4,7 +4,6 @@ import static com.seong.chess.utils.StringUtils.appendNewLine;
 
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -51,9 +50,9 @@ public class Board {
                 .reduce(0, Integer::sum);
     }
 
-    public int pieceCount(Type type, Color color) {
+    public int pieceCount(Piece piece, Color color) {
         return ranks.stream()
-                .map(rank -> rank.pieceCount(type, color))
+                .map(rank -> rank.pieceCount(piece, color))
                 .reduce(0, Integer::sum);
     }
 
@@ -71,7 +70,7 @@ public class Board {
         double pawnCount = 0;
         for (int col = 0; col < BOARD_LENGTH; col++) {
             Piece piece = ranks.get(col).get(row);
-            if (piece.isEqual(Type.PAWN, color)) {
+            if (piece.isPawn(color)) {
                 pawnCount++;
             }
         }

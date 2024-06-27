@@ -6,7 +6,7 @@ public class Rook extends Piece {
     private static final double DEFAULT_POINT = 5.0;
 
     private Rook(Color color) {
-        super(Type.ROOK, color, REPRESENTATION, DEFAULT_POINT);
+        super(color, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Rook createWhite() {

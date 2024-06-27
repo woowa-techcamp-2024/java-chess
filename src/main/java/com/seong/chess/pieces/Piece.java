@@ -6,48 +6,15 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
-
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
 
-    public enum Type {
-        PAWN('p', 1.0),
-        KNIGHT('n', 2.5),
-        BISHOP('b', 3.0),
-        ROOK('r', 5.0),
-        QUEEN('q', 9.0),
-        KING('k', 0.0),
-        NO_PIECE('.', 0.0);
-
-        private final char representation;
-        private final double defaultPoint;
-
-        Type(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public char getWhiteRepresentation() {
-            return representation;
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(representation);
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-    }
-
-    private final Type type;  // 추후 제거
     protected final Color color;
     protected final char representation;
     protected final double defaultPoint;
 
-    public Piece(Type type, Color color, char representation, double defaultPoint) {
-        this.type = type;
+    public Piece(Color color, char representation, double defaultPoint) {
         this.color = color;
         this.representation = representation;
         this.defaultPoint = defaultPoint;
@@ -66,10 +33,6 @@ public abstract class Piece {
     }
 
     public abstract boolean isNotBlank();
-
-    public boolean isEqual(Type type, Color color) {
-        return this.type == type && this.color == color;
-    }
 
     public boolean isEqual(Color color) {
         return this.color == color;
@@ -128,16 +91,16 @@ public abstract class Piece {
         throw new IllegalArgumentException("현재 위치와 이동 위치의 기물이 같은 편입니다.");
     }
 
+    public boolean isPawn(Color color) {
+        return this instanceof Pawn pawn && pawn.color == color;
+    }
+    
     public double getDefaultPoint() {
         return defaultPoint;
     }
 
     public String getColor() {
         return color.toString();
-    }
-
-    public Type getType() {
-        return type;
     }
 
     @Override

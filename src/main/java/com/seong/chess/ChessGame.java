@@ -2,9 +2,9 @@ package com.seong.chess;
 
 import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.Direction;
+import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Type;
 
 public class ChessGame {
 
@@ -35,7 +35,7 @@ public class ChessGame {
 
     public double calculatePoint(Color color) {
         Double result = board.getPiecesOrderByHighestScore(color).stream()
-                .filter(piece -> !piece.isEqual(Type.PAWN, color))
+                .filter(piece -> !piece.isPawn(color))
                 .reduce(0D, (point, piece) -> point + piece.getDefaultPoint(), Double::sum);
 
         for (int i = 0; i < Board.BOARD_LENGTH; i++) {
@@ -43,7 +43,7 @@ public class ChessGame {
             if (pawnCount > 1) {
                 pawnCount *= 0.5;
             }
-            result += pawnCount * Type.PAWN.getDefaultPoint();
+            result += pawnCount * Pawn.DEFAULT_POINT;
         }
         return result;
     }

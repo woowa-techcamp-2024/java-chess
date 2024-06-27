@@ -1,10 +1,9 @@
 package com.seong.chess.pieces;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.seong.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,25 +12,24 @@ public class PieceTest {
     @Test
     @DisplayName("색과 이름에 따른 체스말 기물이 생성된다.")
     public void create_piece() {
-        verifyPiece(Pawn.createWhite(), Pawn.createBlack(), Type.PAWN);
-        verifyPiece(Knight.createWhite(), Knight.createBlack(), Type.KNIGHT);
-        verifyPiece(Rook.createWhite(), Rook.createBlack(), Type.ROOK);
-        verifyPiece(Bishop.createWhite(), Bishop.createBlack(), Type.BISHOP);
-        verifyPiece(Queen.createWhite(), Queen.createBlack(), Type.QUEEN);
-        verifyPiece(King.createWhite(), King.createBlack(), Type.KING);
+        verifyPiece(Pawn.createWhite(), Pawn.createBlack(), Pawn.class);
+        verifyPiece(Knight.createWhite(), Knight.createBlack(), Knight.class);
+        verifyPiece(Rook.createWhite(), Rook.createBlack(), Rook.class);
+        verifyPiece(Bishop.createWhite(), Bishop.createBlack(), Bishop.class);
+        verifyPiece(Queen.createWhite(), Queen.createBlack(), Queen.class);
+        verifyPiece(King.createWhite(), King.createBlack(), King.class);
 
         Piece blank = Blank.create();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
-        assertEquals(Type.NO_PIECE, blank.getType());
     }
 
-    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Class<?> clazz) {
         assertTrue(whitePiece.isWhite());
-        assertEquals(type, whitePiece.getType());
+        assertThat(whitePiece).isInstanceOf(clazz);
 
         assertTrue(blackPiece.isBlack());
-        assertEquals(type, blackPiece.getType());
+        assertThat(blackPiece).isInstanceOf(clazz);
     }
 
     @Test

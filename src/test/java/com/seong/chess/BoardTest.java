@@ -10,7 +10,6 @@ import com.seong.chess.pieces.Knight;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Type;
 import com.seong.chess.pieces.Queen;
 import com.seong.chess.pieces.Rook;
 import java.util.List;
@@ -46,27 +45,23 @@ public class BoardTest {
     public void findPieceCount() {
         board.initialize();
 
-        verifyWhitePieceCount(Type.PAWN, 8);
-        verifyWhitePieceCount(Type.ROOK, 2);
-        verifyWhitePieceCount(Type.KNIGHT, 2);
-        verifyWhitePieceCount(Type.BISHOP, 2);
-        verifyWhitePieceCount(Type.QUEEN, 1);
-        verifyWhitePieceCount(Type.KING, 1);
+        verifyPieceCount(Pawn.createWhite(), 8);
+        verifyPieceCount(Rook.createWhite(), 2);
+        verifyPieceCount(Knight.createWhite(), 2);
+        verifyPieceCount(Bishop.createWhite(), 2);
+        verifyPieceCount(Queen.createWhite(), 1);
+        verifyPieceCount(King.createWhite(), 1);
 
-        verifyBlackPieceCount(Type.PAWN, 8);
-        verifyBlackPieceCount(Type.ROOK, 2);
-        verifyBlackPieceCount(Type.KNIGHT, 2);
-        verifyBlackPieceCount(Type.BISHOP, 2);
-        verifyBlackPieceCount(Type.QUEEN, 1);
-        verifyBlackPieceCount(Type.KING, 1);
+        verifyPieceCount(Pawn.createBlack(), 8);
+        verifyPieceCount(Rook.createBlack(), 2);
+        verifyPieceCount(Knight.createBlack(), 2);
+        verifyPieceCount(Bishop.createBlack(), 2);
+        verifyPieceCount(Queen.createBlack(), 1);
+        verifyPieceCount(King.createBlack(), 1);
     }
 
-    private void verifyWhitePieceCount(Type type, int count) {
-        assertThat(board.pieceCount(type, Color.WHITE)).isEqualTo(count);
-    }
-
-    private void verifyBlackPieceCount(Type type, int count) {
-        assertThat(board.pieceCount(type, Color.BLACK)).isEqualTo(count);
+    private void verifyPieceCount(Piece piece, int count) {
+        assertThat(board.pieceCount(piece, Color.BLACK)).isEqualTo(count);
     }
 
     @Test

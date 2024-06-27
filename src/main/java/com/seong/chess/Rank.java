@@ -7,7 +7,6 @@ import com.seong.chess.pieces.Knight;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Type;
 import com.seong.chess.pieces.Queen;
 import com.seong.chess.pieces.Rook;
 import java.util.ArrayList;
@@ -108,9 +107,9 @@ public class Rank {
                 .count();
     }
 
-    public int pieceCount(Type type, Color color) {
+    public int pieceCount(Piece inputPiece, Color color) {
         return (int) pieces.stream()
-                .filter(piece -> piece.isEqual(type, color))
+                .filter(piece -> piece.equals(inputPiece))
                 .count();
     }
 

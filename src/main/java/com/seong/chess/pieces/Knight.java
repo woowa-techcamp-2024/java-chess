@@ -9,7 +9,7 @@ public class Knight extends Piece {
     private static final double DEFAULT_POINT = 2.5;
 
     private Knight(Color color) {
-        super(Type.KNIGHT, color, REPRESENTATION, DEFAULT_POINT);
+        super(color, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Knight createWhite() {

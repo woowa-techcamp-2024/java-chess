@@ -6,10 +6,10 @@ import java.util.List;
 public class Pawn extends Piece {
 
     private static final char REPRESENTATION = 'p';
-    private static final double DEFAULT_POINT = 1.0;
+    public static final double DEFAULT_POINT = 1.0;
 
     private Pawn(Color color) {
-        super(Type.PAWN, color, REPRESENTATION, DEFAULT_POINT);
+        super(color, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Pawn createWhite() {

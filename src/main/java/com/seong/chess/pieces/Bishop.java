@@ -6,7 +6,7 @@ public class Bishop extends Piece {
     private static final double DEFAULT_POINT = 3.0;
 
     private Bishop(Color color) {
-        super(Type.BISHOP, color, REPRESENTATION, DEFAULT_POINT);
+        super(color, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Bishop createBlack() {

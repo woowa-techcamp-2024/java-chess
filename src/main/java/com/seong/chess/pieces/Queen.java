@@ -6,7 +6,7 @@ public class Queen extends Piece {
     private static final double DEFAULT_POINT = 9.0;
 
     private Queen(Color color) {
-        super(Type.QUEEN, color, REPRESENTATION, DEFAULT_POINT);
+        super(color, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Queen createBlack() {
