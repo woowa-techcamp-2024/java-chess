@@ -9,10 +9,7 @@ import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
 import com.example.demo.rules.RuleManager;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Game extends Board {
     private Color currentTurnColor = Color.WHITE;
@@ -204,4 +201,10 @@ public class Game extends Board {
             throw new RuntimeException("현재 턴의 말을 이동해야 합니다.");
         }
     }
+
+    //todo
+    public List<Location> candidateLocations(Location of) {
+        return null;
+    }
+
 }

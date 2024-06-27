@@ -29,4 +29,19 @@ public enum Rank {
             return null;
         }
     }
+
+    public static Rank of(char rank) {
+        return switch (rank) {
+            case '1' -> ONE;
+            case '2' -> TWO;
+            case '3' -> THREE;
+            case '4' -> FOUR;
+            case '5' -> FIVE;
+            case '6' -> SIX;
+            case '7' -> SEVEN;
+            case '8' -> EIGHT;
+            default -> throw new IllegalArgumentException("Invalid rank: " + rank);
+        };
+    }
+
 }
