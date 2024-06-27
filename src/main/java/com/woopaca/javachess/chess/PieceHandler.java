@@ -30,17 +30,13 @@ public class PieceHandler {
             return;
         }
 
-        swap(sourcePosition, targetPositionPiece, targetPosition, piece);
+        board.placePiece(sourcePosition, targetPositionPiece);
+        board.placePiece(targetPosition, piece);
     }
 
     private void capturing(Position targetPosition, Piece piece, Position sourcePosition) {
         board.placePiece(targetPosition, piece);
         board.placePiece(sourcePosition, PieceFactory.createBlank(null));
-    }
-
-    private void swap(Position sourcePosition, Piece targetPositionPiece, Position targetPosition, Piece piece) {
-        board.placePiece(sourcePosition, targetPositionPiece);
-        board.placePiece(targetPosition, piece);
     }
 
     public boolean isPossibleMovePosition(Piece piece, Position sourcePosition, Position targetPosition) {
