@@ -15,8 +15,8 @@ class BoardScoreManagerTest {
 
     private Board board;
     private BoardScoreManager boardScoreManager;
-    private BoardInitializeManger boardInitializeManger;
-    private BoardMoveManger boardMoveManger;
+    private BoardInitializeManager boardInitializeManager;
+    private BoardMoveManager boardMoveManager;
     private BoardView boardView;
 
     @BeforeEach
@@ -24,13 +24,13 @@ class BoardScoreManagerTest {
         board = new Board();
         boardView = new BoardView(board);
         boardScoreManager = new BoardScoreManager(board);
-        boardInitializeManger = new BoardInitializeManger(board);
-        boardMoveManger = new BoardMoveManger(board);
+        boardInitializeManager = new BoardInitializeManager(board);
+        boardMoveManager = new BoardMoveManager(board);
     }
 
     @Test
     void calculatePoint() throws Exception {
-        boardInitializeManger.initializeEmpty();
+        boardInitializeManager.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());
@@ -49,12 +49,12 @@ class BoardScoreManagerTest {
     }
 
     private void addPiece(String position, Piece piece) {
-        boardMoveManger.move(position, piece);
+        boardMoveManager.move(position, piece);
     }
 
     @Test
     void sortPiecesByScoreDescendingOrder() {
-        boardInitializeManger.initializeEmpty();
+        boardInitializeManager.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());
@@ -72,7 +72,7 @@ class BoardScoreManagerTest {
 
     @Test
     void sortPiecesByScoreAscendigOrder() {
-        boardInitializeManger.initializeEmpty();
+        boardInitializeManager.initializeEmpty();
 
         addPiece("b6", PieceFactory.createBlackPawn());
         addPiece("e6", PieceFactory.createBlackQueen());

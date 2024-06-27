@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.example.chess.board.Board.Rank;
+import org.example.chess.pieces.Pawn;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.Piece.Type;
 import org.example.chess.pieces.PieceFactory;
 
-public class BoardMoveManger {
+public class BoardMoveManager {
 
     private final Board board;
 
-    public BoardMoveManger(Board board) {
+    public BoardMoveManager(Board board) {
         this.board = board;
     }
 
@@ -41,7 +42,6 @@ public class BoardMoveManger {
     }
 
     public void move(String source, String destination) {
-        //source 위치의 piece를 찾는다.
         Position from = new Position(source);
         Position to = new Position(destination);
         List<Position> positionInPath = Collections.emptyList();
@@ -51,18 +51,23 @@ public class BoardMoveManger {
             positionInPath = getPositionInPath(from, to);
         }
 
-        if (!piece.isValidMove(source, destination, positionInPath)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        boolean isEnemyAtDestination = !findPiece(to).equals(PieceFactory.createBlank()) && findPiece(to).getColor() != piece.getColor();
+
+        if (piece.isPawn()) {
+            if (!((Pawn) piece).isValidMove(from, to, positionInPath, isEnemyAtDestination)) {
+                throw new IllegalArgumentException("폰은 해당 위치로 이동할 수 없습니다.");
+            }
+        } else {
+            if (!piece.isValidMove(source, destination, positionInPath)) {
+                throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+            }
         }
 
-        if (isPathBlocked(positionInPath)) {
-            throw new IllegalArgumentException("이동 경로에 다른 기물이 있습니다.");
+        if (piece.isPawn()) {
+            ((Pawn) piece).switchFlagToFalse();
         }
 
-        //source 위치를 빈 공간으로 변경
         move(source, PieceFactory.createBlank());
-
-        //해당 위치에 from 위치의 piece를 놓는다.
         move(destination, piece);
     }
 
@@ -86,7 +91,10 @@ public class BoardMoveManger {
         int c = from.getC() + deltaC;
 
         while (r != to.getR() || c != to.getC()) {
-            positions.add(new Position(r,c));
+            Position position = new Position(r, c);
+            if (findPiece(position).isWhite() || findPiece(position).isBlack()) {
+                positions.add(new Position(r,c));
+            }
             r += deltaR;
             c += deltaC;
         }

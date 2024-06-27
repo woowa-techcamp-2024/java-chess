@@ -12,18 +12,18 @@ class BoardInitializeManagerTest {
 
     private Board board;
     private BoardView boardView;
-    private BoardInitializeManger boardInitializeManger;
+    private BoardInitializeManager boardInitializeManager;
 
     @BeforeEach
     void setUp() {
         board = new Board();
         boardView = new BoardView(board);
-        boardInitializeManger = new BoardInitializeManger(board);
+        boardInitializeManager = new BoardInitializeManager(board);
     }
 
     @Test
     void create() throws Exception {
-        boardInitializeManger.initialize();
+        boardInitializeManager.initialize();
         assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
@@ -38,7 +38,7 @@ class BoardInitializeManagerTest {
 
     @Test
     void testCountPiecesByColorAndType() {
-        boardInitializeManger.initialize();
+        boardInitializeManager.initialize();
         assertEquals(8, board.countPiecesByColorAndType(Color.BLACK, Type.PAWN));
         assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.BISHOP));
         assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.KNIGHT));

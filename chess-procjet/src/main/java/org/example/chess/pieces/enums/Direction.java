@@ -71,4 +71,8 @@ public enum Direction {
     public boolean isMovableDirection(Position delta) {
         return this.getDeltaR() == delta.getR() && this.getDeltaC() == delta.getC();
     }
+
+    public boolean isDiagonal() {
+        return (Math.abs(this.deltaR) == 1 && Math.abs(this.deltaC) == 1);
+    }
 }

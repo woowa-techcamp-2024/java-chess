@@ -13,7 +13,7 @@ public class Board {
 
     private final List<Rank> board = new ArrayList<>();
 
-
+    //initializeManager로 이동 예정
     public int pieceCount() {
         return (int) board.stream()
                 .flatMap(rank -> rank.getPieces().stream())
@@ -38,7 +38,7 @@ public class Board {
 
         return count;
     }
-
+    //-------------------------
     protected List<Rank> getBoard() {
         return board;
     }

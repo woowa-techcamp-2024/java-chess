@@ -6,7 +6,7 @@ import org.example.chess.board.Board.Rank;
 import org.example.chess.pieces.Piece;
 import org.example.chess.pieces.PieceFactory;
 
-public class BoardInitializeManger {
+public class BoardInitializeManager {
 
     // 하나만 존재하면 되고 생성할 필요 없음 -> 싱글톤 고려
     private static final int BLACK_INIT_ROW = 0;
@@ -16,7 +16,7 @@ public class BoardInitializeManger {
 
     private final Board board;
 
-    public BoardInitializeManger(Board board) {
+    public BoardInitializeManager(Board board) {
         this.board = board;
     }
 

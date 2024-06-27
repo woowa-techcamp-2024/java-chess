@@ -2,11 +2,10 @@ package org.example;
 
 import java.util.Scanner;
 import org.example.chess.board.Board;
-import org.example.chess.board.BoardInitializeManger;
-import org.example.chess.board.BoardMoveManger;
+import org.example.chess.board.BoardInitializeManager;
+import org.example.chess.board.BoardMoveManager;
 import org.example.chess.board.BoardScoreManager;
 import org.example.chess.board.BoardView;
-import org.example.chess.pieces.Piece;
 
 public class Game {
 
@@ -14,8 +13,8 @@ public class Game {
     private static final String END = "end";
     private static final String MOVE = "move";
 
-    private static BoardMoveManger boardMoveManger;
-    private static BoardInitializeManger boardInitializeManger;
+    private static BoardMoveManager boardMoveManager;
+    private static BoardInitializeManager boardInitializeManager;
     private static BoardScoreManager boardScoreManager;
     private static BoardView boardView;
     private static Scanner scanner;
@@ -72,7 +71,7 @@ public class Game {
 
             String source = parts[1];
             String destination = parts[2];
-            boardMoveManger.move(source, destination);
+            boardMoveManager.move(source, destination);
             boardView.print();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -81,13 +80,13 @@ public class Game {
     }
 
     private static void init(Board board) {
-        boardInitializeManger = new BoardInitializeManger(board);
-        boardMoveManger = new BoardMoveManger(board);
+        boardInitializeManager = new BoardInitializeManager(board);
+        boardMoveManager = new BoardMoveManager(board);
         boardScoreManager = new BoardScoreManager(board);
         boardView = new BoardView(board);
     }
 
     private static void initializeBoard(Board board) {
-        boardInitializeManger.initialize();
+        boardInitializeManager.initialize();
     }
 }
