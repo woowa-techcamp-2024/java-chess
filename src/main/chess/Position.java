@@ -19,6 +19,14 @@ public class Position {
         return (char) ('a' + fileIndex);
     }
 
+    public Position add(Offset offset) {
+        return new Position(rankIndex + offset.getRank(), fileIndex + offset.getFile());
+    }
+
+    public boolean isValid() {
+        return 0 <= rankIndex && rankIndex < Board.LENGTH && 0 <= fileIndex && fileIndex < Board.LENGTH;
+    }
+
     @Override
     public String toString() {
         return file() + "" + rank();
