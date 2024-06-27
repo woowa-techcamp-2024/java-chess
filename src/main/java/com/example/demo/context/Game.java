@@ -3,14 +3,12 @@ package com.example.demo.context;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
+import com.example.demo.rules.GlobalRules;
 import com.example.demo.rules.KnightRule;
 import com.example.demo.rules.NormalRule;
 import com.example.demo.rules.Rule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.demo.context.Board.Location;
 
@@ -110,7 +108,7 @@ public class Game {
         rules.put(Type.KING, kingRules);
     }
 
-    private void initKnightRules(){
+    private void initKnightRules() {
         List<Rule> knightRules = new ArrayList<>();
         knightRules.add(new KnightRule());
         rules.put(Type.KNIGHT, knightRules);
@@ -160,6 +158,16 @@ public class Game {
      */
     public boolean accept(Location from, Location to) {
 
+        // check global rules
+        var notAllowedRules = Arrays.stream(GlobalRules.values())
+                .filter(rule -> !rule.allow(from, to, board))
+                .toList();
+
+        if(!notAllowedRules.isEmpty()){
+            return false;
+        }
+
+        // check each piece rules
         Piece piece = board.getPiece(from);
 
         if (piece == null) {

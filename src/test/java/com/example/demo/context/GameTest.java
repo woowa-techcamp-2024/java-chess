@@ -3,6 +3,7 @@ package com.example.demo.context;
 import com.example.demo.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -152,7 +153,7 @@ class GameTest {
         public void attackBishop(Location from, Location to) {
             // given
             Piece bishop = new Bishop(from.rank(), from.file());
-            Piece target = new Pawn(to.rank(), to.file());
+            Piece target = new Pawn(Color.BLACK, to.rank(), to.file());
             Board board = new Board();
             board.addPiece(bishop);
             board.addPiece(target);
@@ -319,6 +320,28 @@ class GameTest {
                     Arguments.of(new Location(Rank.EIGHT, File.B), new Location(Rank.SIX, File.D)),
                     Arguments.of(new Location(Rank.EIGHT, File.G), new Location(Rank.FIVE, File.F))
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("같은 편은 공격할 수 없는 규칙 테스트")
+    public class DoNotAttackSameColorPiece {
+
+        @Test
+        @DisplayName("비숍이 같은 편을 공격하면 실패한다.")
+        public void bishopAttackSameColorPiece() {
+            // given
+            Piece bishop = new Bishop(Rank.FIVE, File.C);
+            Piece target = new Pawn(Rank.THREE, File.E);
+            Board board = new Board();
+            board.addPiece(bishop);
+            board.addPiece(target);
+            Game game = new Game(board);
+
+            // when & then
+            assertThatThrownBy(() -> game.move(new Location(Rank.FIVE, File.C), new Location(Rank.THREE, File.E)))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("이동할 수 없습니다.");
         }
     }
 }
