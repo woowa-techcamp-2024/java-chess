@@ -1,6 +1,6 @@
 package chess;
 
-import static chess.Board.*;
+import static chess.Board.BOARD_SIZE;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class Position {
 
 	public static boolean isInvalidRange(int row, int col) {
 		return row < MINIMUM_POSITION_BOUND || row > MAXIMUM_POSITION_BOUND
-			   || col < MINIMUM_POSITION_BOUND || col > MAXIMUM_POSITION_BOUND;
+			|| col < MINIMUM_POSITION_BOUND || col > MAXIMUM_POSITION_BOUND;
 	}
 
 	public int getColumn() {
@@ -61,7 +61,7 @@ public class Position {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Position position = (Position)o;
+		Position position = (Position) o;
 		return row == position.row && column == position.column;
 	}
 

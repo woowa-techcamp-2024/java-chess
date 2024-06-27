@@ -1,8 +1,7 @@
 package view;
 
-import java.util.Scanner;
-
 import chess.Command;
+import java.util.Scanner;
 
 public class InputView {
 

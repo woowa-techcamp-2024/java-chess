@@ -46,8 +46,7 @@ public record Piece(Color color, PieceType pieceType) {
 	}
 
 	/**
-	 * 하나의 Direction으로 끝까지 갈 수 있는 pieceType
-	 * BISHOP, QUEEN, ROOK
+	 * 하나의 Direction으로 끝까지 갈 수 있는 pieceType BISHOP, QUEEN, ROOK
 	 */
 	private boolean isMultipleMovePieceType(PieceType pieceType) {
 		return pieceType == PieceType.BISHOP || pieceType == PieceType.QUEEN || pieceType == PieceType.ROOK;

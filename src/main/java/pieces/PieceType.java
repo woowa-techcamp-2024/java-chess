@@ -1,6 +1,6 @@
 package pieces;
 
-import static pieces.Color.*;
+import static pieces.Color.WHITE;
 
 public enum PieceType {
 

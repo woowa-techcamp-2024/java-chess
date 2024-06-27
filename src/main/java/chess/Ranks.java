@@ -1,11 +1,9 @@
 package chess;
 
-import static chess.Board.*;
+import static chess.Board.BOARD_SIZE;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.stream.IntStream;
 import pieces.Color;
 import pieces.Piece;
 import pieces.PieceType;
