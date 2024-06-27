@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Rank {
     public static final int RANK_SIZE = 8;
-    private List<Piece> pieces = new ArrayList<>();
+
+    private final List<Piece> pieces = new ArrayList<>();
 
     private Rank() {
     }
@@ -15,7 +16,7 @@ public class Rank {
     public static Rank createEmptyRank() {
         Rank rank = new Rank();
         for (int i = 0; i < RANK_SIZE; i++) {
-            rank.addPiece(Piece.EMPTY_PIECE);
+            rank.addPiece(Piece.getEmptyPiece());
         }
         return rank;
     }
@@ -77,11 +78,59 @@ public class Rank {
         return pieceCount;
     }
 
+    public int pieceCount(Piece.Color color, Piece.Type type) {
+        int pieceCount = 0;
+        for (Piece piece : pieces) {
+            if(piece.isSamePiece(color, type)) {
+                pieceCount++;
+            }
+        }
+        return pieceCount;
+    }
+
     public String showRank() {
         StringBuilder builder = new StringBuilder();
         for (Piece piece : pieces) {
             builder.append(piece.getRepresentation());
         }
         return builder.toString();
+    }
+
+    public Piece findPiece(int fileIndex) {
+        return pieces.get(fileIndex);
+    }
+
+    public void setPiece(int filePosition, Piece piece) {
+        pieces.set(filePosition, piece);
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        double point = 0;
+        for (Piece piece : pieces) {
+            if(piece.getColor() == color) {
+                point += piece.getType().getPoint();
+            }
+        }
+
+        return point;
+    }
+
+    public boolean hasKing(final Piece.Color color) {
+        for (Piece piece : pieces) {
+            if(piece.isKing(color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Piece> collectPieces(final Piece.Color color) {
+        final List<Piece> pieces = new ArrayList<>();
+        for (Piece piece : this.pieces) {
+            if(!piece.isEmptyPiece() && piece.getColor() == color) {
+                pieces.add(piece);
+            }
+        }
+        return pieces;
     }
 }
