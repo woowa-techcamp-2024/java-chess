@@ -1,5 +1,7 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Position;
+
 public class Blank extends Piece {
 
     private static final char REPRESENTATION = '.';
@@ -16,5 +18,10 @@ public class Blank extends Piece {
     @Override
     public boolean isNotBlank() {
         return true;
+    }
+
+    @Override
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
+        return null;
     }
 }

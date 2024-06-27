@@ -39,25 +39,6 @@ public abstract class Piece {
         }
     }
 
-    public enum Direction {
-        NORTH(-1, 0),
-        SOUTH(1, 0),
-        EAST(0, 1),
-        WEST(0, -1),
-        NORTHEAST(-1, 1),
-        SOUTHEAST(1, 1),
-        SOUTHWEST(1, -1),
-        NORTHWEST(-1, -1);
-
-        private final int row;
-        private final int col;
-
-        Direction(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
-
     private final Type type;  // 추후 제거
     protected final Color color;
     protected final char representation;
@@ -152,25 +133,7 @@ public abstract class Piece {
         return this.color == color;
     }
 
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        Position position = Position.convert(sourcePosition);
-        if (moveCount == 0) {
-            return Position.convert(sourcePosition);
-        }
-
-        try {
-            Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
-            if (this instanceof King) {
-                return nextPosition(nextPosition.convert(), direction, 0);
-            } else if (this instanceof Queen) {
-                return nextPosition(nextPosition.convert(), direction, moveCount - 1);
-            } else {
-                throw new IllegalStateException("체스 기물이 아닙니다.");
-            }
-        } catch (IllegalArgumentException e) {
-            return nextPosition(sourcePosition, direction, 0);
-        }
-    }
+    public abstract Position nextPosition(String sourcePosition, Direction direction, int moveCount);
 
     public double getDefaultPoint() {
         return defaultPoint;

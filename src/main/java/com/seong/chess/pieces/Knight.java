@@ -1,5 +1,7 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Position;
+
 public class Knight extends Piece {
 
     private static final char REPRESENTATION = 'n';
@@ -20,5 +22,10 @@ public class Knight extends Piece {
     @Override
     public boolean isNotBlank() {
         return false;
+    }
+
+    @Override
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
+        return null;
     }
 }

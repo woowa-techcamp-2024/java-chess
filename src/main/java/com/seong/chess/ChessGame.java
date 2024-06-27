@@ -1,9 +1,9 @@
 package com.seong.chess;
 
 import com.seong.chess.pieces.Blank;
+import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Direction;
 import com.seong.chess.pieces.Piece.Type;
 
 public class ChessGame {

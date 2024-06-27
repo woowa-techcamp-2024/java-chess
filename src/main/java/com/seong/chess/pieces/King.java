@@ -1,5 +1,7 @@
 package com.seong.chess.pieces;
 
+import com.seong.chess.Position;
+
 public class King extends Piece {
 
     private static final char REPRESENTATION = 'k';
@@ -20,5 +22,11 @@ public class King extends Piece {
     @Override
     public boolean isNotBlank() {
         return false;
+    }
+
+    @Override
+    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
+        Position position = Position.convert(sourcePosition);
+        return new Position(position.col() + direction.col, position.row() + direction.row);
     }
 }
