@@ -85,9 +85,12 @@ public class Board {
     // print
     public String show() {
         StringBuilder sb = new StringBuilder();
+        int y = BoardArea.Y.getMax();
         for (Rank rank : ranks) {
-            sb.append(rank.toString()).append("\n");
+            sb.append(rank.toString()).append(" ").append(y).append("\n");
+            y -= 1;
         }
+        sb.append("abcdefgh");
         return sb.toString().strip();
     }
 }
