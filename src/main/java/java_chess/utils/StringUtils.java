@@ -1,4 +1,4 @@
-package utils;
+package java_chess.utils;
 
 public class StringUtils {
 
