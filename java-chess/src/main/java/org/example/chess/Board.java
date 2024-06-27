@@ -1,10 +1,10 @@
 package org.example.chess;
 
 import org.example.chess.pieces.Piece;
+import org.example.chess.pieces.global.Order;
 import org.example.chess.pieces.global.Position;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.joining;
 
@@ -12,11 +12,7 @@ public class Board {
     private List<Rank> pieces;
 
     public Board() {
-        List<Rank> board = new ArrayList<>();
-        for(int i = 0; i < 8; i++) {
-            board.add(new Rank());
-        }
-        pieces = board;
+        initializeEmpty();
     }
 
     public void move(Piece piece, Position position) {
@@ -25,10 +21,10 @@ public class Board {
     }
 
     public int pieceCount() {
-        return pieces.stream().filter().size();
+        return (int) pieces.stream().mapToLong(Rank::countPieces).sum();
     }
 
-    public Piece findPawn(Position position) {
+    public Piece findPiece(Position position) {
         return pieces.get(position.getRow()).pieceRow.get(position.getCol());
     }
 
@@ -50,6 +46,14 @@ public class Board {
                 .map(Piece::getRepresentation)
                 .map(String::valueOf)
                 .collect(joining());
+    }
+
+    public void initializeEmpty() {
+        List<Rank> board = new ArrayList<>();
+        for(int i = 0; i < 8; i++) {
+            board.add(new Rank());
+        }
+        pieces = board;
     }
 
     public void initialize() {
@@ -83,16 +87,85 @@ public class Board {
         StringBuilder sb = new StringBuilder();
 
         this.pieces.forEach(rank -> {
-            sb.append(rank.pieceRow.stream()
-                    .map(Piece::getRepresentation)
-                    .map(String::valueOf)
-                    .collect(joining())
-            ).append(System.lineSeparator());
+            sb.append(rank.getRepresentation()).append(System.lineSeparator());
         });
 
         System.out.println(sb);
 
         return sb.toString();
+    }
+
+    public String showScore() {
+        StringBuilder sb = new StringBuilder();
+
+        this.pieces.forEach(rank -> {
+            sb.append(rank.showScore()).append(System.lineSeparator());
+        });
+
+        System.out.println(sb);
+
+        return sb.toString();
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        revisePawnScore();
+        return this.pieces.stream()
+                .mapToDouble(rank -> rank.calculateScore(color))
+                .sum();
+    }
+
+    // board pawn 들의 점수를 재조정하는 함수
+    private void revisePawnScore() {
+        for(int colIdx= 0; colIdx < 8; colIdx++) {
+            int finalColIdx = colIdx;
+            long blackPawnCount = this.pieces.stream()
+                    .map(rank -> rank.getPiece(finalColIdx))
+                    .filter(Piece::isPawn)
+                    .filter(Piece::isBlack)
+                    .count();
+
+            long whitePawnCount = this.pieces.stream()
+                    .map(rank -> rank.getPiece(finalColIdx))
+                    .filter(Piece::isPawn)
+                    .filter(Piece::isWhite)
+                    .count();
+            
+            if (blackPawnCount >= 2) {
+                this.pieces.stream()
+                        .map(rank -> rank.getPiece(finalColIdx))
+                        .filter(Piece::isPawn)
+                        .filter(Piece::isBlack)
+                        .forEach(piece -> piece.setPoint(0.5));
+            }
+
+            if (whitePawnCount >= 2) {
+                this.pieces.stream()
+                        .map(rank -> rank.getPiece(finalColIdx))
+                        .filter(Piece::isPawn)
+                        .filter(Piece::isWhite)
+                        .forEach(piece -> piece.setPoint(0.5));
+            }
+        }
+    }
+
+    public List<Piece> sort(Order order) {
+        Comparator<Piece> asc = Comparator.comparingDouble(piece -> piece.getName().getDefaultPoint());
+        Comparator<Piece> desc = (p1, p2) -> Double.compare(p2.getName().getDefaultPoint(), p1.getName().getDefaultPoint());
+
+        if (order == Order.DESC) {
+            return this.pieces.stream()
+                    .map(Rank::getPieces)
+                    .flatMap(List::stream)
+                    .filter(Piece::isExist)
+                    .sorted(desc)
+                    .toList();
+        }
+        return this.pieces.stream()
+                .map(Rank::getPieces)
+                .flatMap(List::stream)
+                .filter(Piece::isExist)
+                .sorted(asc)
+                .toList();
     }
 
     private static class Rank {
@@ -110,8 +183,33 @@ public class Board {
             this.pieceRow.set(idx, piece);
         }
 
+        public Piece getPiece(int idx) {
+            return pieceRow.get(idx);
+        }
+
+        public List<Piece> getPieces() {
+            return Collections.unmodifiableList(pieceRow);
+        }
+
+        public String getRepresentation() {
+            return this.pieceRow.stream().map(Piece::getRepresentation).map(String::valueOf).collect(joining());
+        }
+
         public long countPieces() {
             return this.pieceRow.stream().filter(Piece::isExist).count();
+        }
+
+        public double calculateScore(Piece.Color color) {
+            return this.pieceRow.stream()
+                    .filter(piece -> piece.getColor() == color)
+                    .mapToDouble(Piece::getPoint)
+                    .sum();
+        }
+
+        public String showScore() {
+            return Arrays.toString(this.pieceRow.stream()
+                    .mapToDouble(Piece::getPoint)
+                    .toArray());
         }
     }
 }
