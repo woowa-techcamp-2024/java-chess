@@ -100,6 +100,12 @@ public class Board {
         board.get(position.getRank()).setPiece(position.getFile(), piece);
     }
 
+    public void move(String sourcePosition, String targetPosition) {
+        Piece piece = findPiece(sourcePosition);
+        move(sourcePosition, Piece.createBlank());
+        move(targetPosition, piece);
+    }
+
     public double calculatePoint(Color color) {
         int[] pawnCount = new int[8];
         double totalPoint = 0.0;
