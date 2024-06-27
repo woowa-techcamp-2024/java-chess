@@ -16,7 +16,7 @@ public class Piece {
         BISHOP('b'),
         QUEEN('q'),
         KING('k'),
-        NO_PIECE('e');
+        NO_PIECE('.');
 
         private char representation;
 
@@ -34,8 +34,8 @@ public class Piece {
 
     }
 
-    private Color color;
-    private Type type;
+    private final Color color;
+    private final Type type;
 
     public static Piece createWhitePawn() {
         return createWhite(Type.PAWN);
@@ -124,6 +124,13 @@ public class Piece {
 
     public Type getType() {
         return this.type;
+    }
+
+    public char getRepresentation() {
+        if(isBlack()) {
+            return Character.toUpperCase(this.type.representation);
+        }
+        return this.type.representation;
     }
 
     public boolean isBlack() {

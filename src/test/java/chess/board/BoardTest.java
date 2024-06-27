@@ -1,4 +1,4 @@
-package chess;
+package chess.board;
 
 import org.junit.jupiter.api.*;
 
@@ -12,14 +12,6 @@ public class BoardTest {
     @BeforeEach
     public void setup() {
         board = new Board();
-    }
-
-    @Test
-    @DisplayName("보드판 초기화 후 흰 폰과 검은 폰이 출력되어야 한다.")
-    public void initialize() throws Exception {
-        board.initialize();
-        assertEquals("pppppppp", board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
     @Test
