@@ -27,28 +27,6 @@ class BoardTest {
         chessView = new ChessView();
     }
 
-    @Test
-    @DisplayName("기물을 특정 좌표로 이동할 수 있다")
-    void movePieceToPosition() {
-        // given
-        String sourceCoordinate = "b2";
-        String targetCoordinate = "b3";
-
-        // when
-        board.switchPiece(Coordinate.of(sourceCoordinate), Coordinate.of(targetCoordinate));
-
-        // then
-        Piece findPiece1 = board.findPiece(Coordinate.of(sourceCoordinate));
-        assertThat(findPiece1)
-                .extracting("color", "type")
-                .contains(Color.NOCOLOR, Type.NO_PIECE);
-
-        Piece findPiece2 = board.findPiece(Coordinate.of(targetCoordinate));
-        assertThat(findPiece2)
-                .extracting("color", "type")
-                .contains(Color.WHITE, Type.PAWN);
-    }
-
     @DisplayName("기물의 점수가 높은 순으로 정렬하여 반환할 수 있다.")
     @Test
     void sortPiecesByPoint() {

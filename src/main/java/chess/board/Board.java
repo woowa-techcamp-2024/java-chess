@@ -49,13 +49,6 @@ public class Board {
         movePiece(from, Blank.createBlank());
     }
 
-    protected void switchPiece(Coordinate from, Coordinate to) {
-        Piece sourcePiece = findPiece(from);
-        Piece targetPiece = findPiece(to);
-        movePiece(from, targetPiece);
-        movePiece(to, sourcePiece);
-    }
-
     public Board() {
         ranks = new ArrayList<>();
         initialize();
