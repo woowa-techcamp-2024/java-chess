@@ -78,7 +78,6 @@ class BoardTest {
     @Test
     void initialize() {
         board.initialize();
-        assertEquals(32, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                 appendNewLine("RNBQKBNR") +
@@ -153,19 +152,6 @@ class BoardTest {
                 Arguments.of(Position.e6), Arguments.of(Position.f6), Arguments.of(Position.g6),
                 Arguments.of(Position.h6)
         );
-    }
-
-    @DisplayName("임의의 기물을 빈 체스판 위에 추가한다.")
-    @Test
-    void move() {
-        board.initializeEmpty();
-
-        Piece piece = blackRook;
-        Position position = Position.b5;
-        board.move(position, piece);
-
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
     }
 
     @DisplayName("체스 프로그램 점수를 계산한다. - whitePawn 같은 열 존재")
@@ -299,5 +285,19 @@ class BoardTest {
         assertEquals(1, board.pieceCount(Type.QUEEN, Color.WHITE));
         assertEquals(1, board.pieceCount(Type.KING, Color.WHITE));
         assertEquals(1, board.pieceCount(Type.ROOK, Color.WHITE));
+    }
+
+    @DisplayName("기물을 현재 위치에서 다른 위치로 이동한다.")
+    @Test
+    void move() {
+        board.initialize();
+
+        Position sourcePosition = Position.b2;
+        Position targetPosition = Position.b3;
+
+        board.move(sourcePosition, targetPosition);
+
+        assertEquals(blankPiece, board.findPiece(sourcePosition));
+        assertEquals(whitePawn, board.findPiece(targetPosition));
     }
 }
