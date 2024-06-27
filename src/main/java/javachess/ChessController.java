@@ -23,6 +23,12 @@ public class ChessController {
         return "index";
     }
 
+    @PostMapping("/init")
+    @ResponseBody
+    public void init() {
+        game.initialize();
+    }
+
     @GetMapping("/board")
     @ResponseBody
     public Map<String, String> board() {
@@ -36,13 +42,26 @@ public class ChessController {
         return board;
     }
 
-    @GetMapping("/turn")
+    @GetMapping("/state")
     @ResponseBody
-    public String turn() {
-        return game.getPlayer() == Piece.Color.WHITE ? "흰색의 차례입니다." : "검은색의 차례입니다";
+    public StateDto state() {
+        if (game.getState() == Game.State.BLACK_WIN) {
+            return StateDto.win("흑 승리");
+        } else if (game.getState() == Game.State.WHITE_WIN) {
+            return StateDto.win("백 승리");
+        } else {
+            String message = game.getPlayer() == Piece.Color.WHITE ? "백 차례" : "흑 차례";
+            if (game.isCheck(game.getPlayer())) {
+                Position kingPosition = game.getKingPosition(game.getPlayer());
+                return StateDto.playing(message, kingPosition.toString());
+            } else {
+                return StateDto.playing(message, null);
+            }
+        }
     }
 
     @PostMapping("/move/{from}/{to}")
+    @ResponseBody
     public void move(@PathVariable String from, @PathVariable String to) {
         Position fromPos = Position.of(from);
         Position toPos = Position.of(to);

@@ -60,16 +60,18 @@ public class Board {
         stream().forEach(cell -> cell.clear());
     }
 
-    public void move(Position from, Position to) {
+    public Piece move(Position from, Position to) {
         if (!from.isValid()) throw new IllegalArgumentException("Invalid position from: " + from);
         if (!to.isValid()) throw new IllegalArgumentException("Invalid position to: " + to);
 
         Cell fromCell = cellAt(from);
         Cell toCell = cellAt(to);
+        Piece originalPiece = toCell.getPiece();
         Piece piece = fromCell.getPiece();
         toCell.setPiece(piece);
         fromCell.clear();
         piece.setMoved();
+        return originalPiece;
     }
 
     public Cell cellAt(Position position) {
@@ -99,6 +101,16 @@ public class Board {
         return value;
     }
 
+    public Cell findKing(Piece.Color color) {
+        return stream().filter(cell -> !cell.isEmpty() && cell.getPiece().isColor(color) && cell.getPiece() instanceof King)
+            .findFirst()
+            .orElse(null);
+    }
+
+    public List<Cell> findAll(Piece.Color color) {
+        return stream().filter(cell -> !cell.isEmpty() && cell.getPiece().isColor(color)).toList();
+    }
+
     protected Stream<Cell> stream() {
         return Arrays.stream(cells).flatMap(Arrays::stream);
     }
@@ -110,6 +122,10 @@ public class Board {
 
         public Cell(int r, int c) {
             this.position = Position.of(r, c);
+        }
+
+        public Position getPosition() {
+            return position;
         }
 
         public boolean isEmpty() {

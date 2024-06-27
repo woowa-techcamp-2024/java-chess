@@ -19,13 +19,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 100px;
+            font-size: 80px;
             box-sizing: border-box;
             user-select: none;
             cursor: default;
         }
 
-        #board > div:hover {
+        .can:hover,
+        .selected:hover,
+        #board > div:hover:not(:empty) {
             filter: brightness(0.8);
         }
 
@@ -38,23 +40,31 @@
         }
 
         .selected {
-            border: 3px solid red !important;
-            background: lightpink;
-        }
-
-        .can {
             border: 3px solid green !important;
         }
-
-        .black.can {
+        .black.selected {
             background: darkgreen;
         }
-
-        .white.can {
+        .white.selected {
             background: lightgreen;
         }
 
-        #turn {
+        .can {
+            border: 3px solid goldenrod !important;
+        }
+        .black.can {
+            background: darkgoldenrod;
+        }
+        .white.can {
+            background: gold;
+        }
+
+        .checked {
+            border: 3px solid red !important;
+            background: indianred;
+        }
+
+        #state {
             font-size: 100px;
             margin-top: 20px;
         }
@@ -135,28 +145,52 @@
     <div id="g1" class="black"></div>
     <div id="h1" class="white"></div>
 </div>
-<div id="turn"></div>
+<div id="state"></div>
+<button onclick="reset()">처음부터 다시하기</button>
 <script>
     const board = document.querySelector("#board");
     const cells = document.querySelectorAll("#board > div");
 
+    let selected = null;
+    let canMoves = [];
+    let checked = null;
+
+    function reset() {
+        fetch("/init", {method: "POST"})
+            .then(() => updateBoard());
+    }
+
     function updateBoard() {
+        if (checked) {
+            document.getElementById(checked).classList.remove("checked");
+            checked = null;
+        }
         fetch("/board")
             .then(res => res.json())
             .then(boardMap => {
                 for (const [pos, repr] of Object.entries(boardMap)) {
                     document.getElementById(pos).innerHTML = repr;
                 }
+            });
+        fetch("/state")
+            .then(res => res.json())
+            .then(json => {
+                document.getElementById("state").innerText = json.message
+                if (json.checkPosition) {
+                    checked = json.checkPosition;
+                    document.getElementById(checked).classList.add("checked");
+                }
+                if (json.checkmate) {
+                    setTimeout(() => {
+                        alert(json.message);
+                        alert("확인을 누르면 게임을 다시 시작합니다");
+                        reset();
+                    }, 1);
+                }
             })
-        fetch("/turn")
-            .then(res => res.text())
-            .then(text => document.getElementById("turn").innerText = text)
     }
 
     updateBoard();
-
-    let selected = null;
-    let canMoves = [];
 
     function canMoveTo(pos) {
         return canMoves.find(m => m === pos)
