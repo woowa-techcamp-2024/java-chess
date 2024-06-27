@@ -7,7 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BoardUtils {
 
     public static BoardContext createBoardContext(Board board, Position position) {
-        return board.context(position);
+        return new BoardContextImpl((offset) -> {
+            Position targtPosition = position.add(offset);
+            if (!targtPosition.isValid()) return null;
+            return board.get(targtPosition);
+        });
     }
 
     /**
