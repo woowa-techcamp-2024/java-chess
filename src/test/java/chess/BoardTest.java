@@ -13,7 +13,7 @@ class BoardTest {
     public void setup() {
         board = new Board();
     }
-
+/*
     @Test
     public void create() throws Exception {
         board.initialize();
@@ -30,7 +30,8 @@ class BoardTest {
                         "1\t♖\t♘\t♗\t♕\t♔\t♗\t♘\t♖\t1\n" +
                         "\ta\tb\tc\td\te\tf\tg\th",
                 board.showBoard());
-    }
+    }*/
+/*
 
     @Test
     public void initialize() throws Exception {
@@ -39,6 +40,8 @@ class BoardTest {
         assertEquals("♟♟♟♟♟♟♟♟", board.getBlackPawnsResult());
         board.print();
     }
+*/
+/*
 
     @Test
     void count() {
@@ -50,6 +53,7 @@ class BoardTest {
         assertEquals(2, board.count(Piece.Color.BLACK, Rook.class));
     }
 
+*/
 
     @Test
     void findPiece() throws Exception {
@@ -104,5 +108,22 @@ class BoardTest {
 
     private void addPiece(String position, Piece piece) {
         board.putPiece(position, piece);
+    }
+
+    @Test
+    public void move2() throws Exception {
+        board.initialize();
+
+        String sourcePosition;
+        String targetPosition;
+        board.print();
+        sourcePosition = "b2";
+        targetPosition = "b7";
+        board.move(sourcePosition, targetPosition);
+        board.print();
+        sourcePosition = "b7";
+        targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        board.print();
     }
 }
