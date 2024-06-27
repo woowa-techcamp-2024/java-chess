@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTest {
     private static Piece black;
@@ -128,6 +129,52 @@ public class BoardTest {
         board.place( Piece.createWhiteKing(), Position.of("f1"));
 
         System.out.println(board.sort(Order.ASC));
+    }
+
+    @Test
+    public void moveTo_성공() throws Exception {
+        board.initialize();
+
+        Position sourcePosition = Position.of("b2");
+        Position targetPosition = Position.of("b3");
+
+        board.moveTo(sourcePosition, targetPosition);
+
+        assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
+    }
+
+    @Test
+    public void moveTo_목적지에_이미_같은팀_말이_존재해서_실패한다() throws Exception {
+        board.initialize();
+
+        Position sourcePosition = Position.of("b2");
+        Position targetPosition = Position.of("c2");
+
+        assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
+    }
+
+    @Test
+    public void moveTo_테스트_출발지_자리에_말이_없어서_실패한다() throws Exception {
+        board.initializeEmpty();
+
+        Position sourcePosition = Position.of("b2");
+        Position targetPosition = Position.of("b3");
+
+        assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
+    }
+
+    @Test
+    public void moveTo_성공_테스트_목적지에_다른팀이_존재한다() throws Exception {
+        board.initialize();
+
+        Position sourcePosition = Position.of("b2");
+        Position targetPosition = Position.of("b7");
+
+        board.moveTo(sourcePosition, targetPosition);
+
+        assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
     }
 
     @BeforeEach

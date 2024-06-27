@@ -10,9 +10,35 @@ import static java.util.stream.Collectors.joining;
 
 public class Board {
     private List<Rank> pieces;
-
     public Board() {
         initializeEmpty();
+    }
+
+    public void moveTo(Position from, Position to) throws RuntimeException{
+        Rank fromRow = pieces.get(from.getRow());
+        Rank toRow = pieces.get(to.getRow());
+
+        Piece piece = fromRow.getPiece(from.getCol());
+        Piece dest = toRow.getPiece(to.getCol());
+
+        validateNotEmpty(piece);
+
+        if (dest.getName() == Piece.Type.NO_PIECE) {
+            fromRow.emptyPiece(from.getCol());
+            toRow.placePiece(to.getCol(), piece);
+        } else if (dest.getColor() == piece.getColor()) {
+            throw new RuntimeException("자리에 이미 우리팀 말이 존재합니다.");
+        } else {
+            fromRow.emptyPiece(from.getCol());
+            toRow.placePiece(to.getCol(), piece);
+            System.out.printf("%s 말이 잡아 먹혔습니다%n", to);
+        }
+    }
+
+    private void validateNotEmpty(Piece piece) {
+        if (piece.isBlank()) {
+            throw new RuntimeException("시작 자리에 말이 존재하지 않습니다.");
+        }
     }
 
     public void place(Piece piece, Position position) {
@@ -183,6 +209,10 @@ public class Board {
 
         public void placePiece(int idx, Piece piece) {
             this.pieceRow.set(idx, piece);
+        }
+
+        public void emptyPiece(int idx) {
+            this.pieceRow.set(idx, Piece.createBlank());
         }
 
         public Piece getPiece(int idx) {

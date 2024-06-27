@@ -33,4 +33,9 @@ public class Position {
             throw new IllegalArgumentException(String.format("%s %s 잘못된 위치 인자입니다.", row, col));
         }
     }
+
+    @Override
+    public String toString() {
+        return "(" + row + "," + col + ")";
+    }
 }
