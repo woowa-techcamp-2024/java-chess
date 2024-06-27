@@ -9,6 +9,10 @@ public class MoveVector {
         this.dy = Math.abs(destination.getRankPosition() - source.getRankPosition());
     }
 
+    public int getSquareDistance() {
+        return dx * dx + dy + dy;
+    }
+
     public int getDx() {
         return dx;
     }
