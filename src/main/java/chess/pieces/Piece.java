@@ -25,7 +25,7 @@ public abstract class Piece {
         return type.getPoint();
     }
 
-    public Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
     }
