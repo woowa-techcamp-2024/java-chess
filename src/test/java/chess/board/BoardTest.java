@@ -3,6 +3,7 @@ package chess.board;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Type;
 import chess.pieces.Piece.Color;
+import chess.view.ChessView;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,11 +12,14 @@ import static utils.StringUtils.appendNewLine;
 public class BoardTest {
 
     private Board board;
+    private ChessView chessView;
+
     private final String blankRank = appendNewLine("........");
 
     @BeforeEach
     public void setup() {
         board = new Board();
+        chessView = new ChessView();
     }
 
     @Test
@@ -29,7 +33,7 @@ public class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                board.showBoard());
+                chessView.showBoard(board));
     }
 
     @Test
@@ -60,7 +64,7 @@ public class BoardTest {
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard(this.board));
     }
 
     @Test
@@ -81,7 +85,7 @@ public class BoardTest {
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard(board));
     }
 
     @Test
@@ -101,7 +105,7 @@ public class BoardTest {
 
         assertEquals(19.5, board.calculatePoint(Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard(board));
     }
 
     @Test
@@ -126,7 +130,7 @@ public class BoardTest {
         assertEquals("KPRQ", new Rank(board.sortPiece(Color.BLACK, Order.ASC)).toString());
         assertEquals("kppppnrq", new Rank(board.sortPiece(Color.WHITE, Order.ASC)).toString());
 
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard(board));
     }
 
     private void addPiece(String position, Piece piece) {
@@ -144,6 +148,6 @@ public class BoardTest {
         assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
         assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
 
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard(board));
     }
 }

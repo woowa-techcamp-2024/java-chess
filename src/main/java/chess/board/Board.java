@@ -5,19 +5,19 @@ import chess.pieces.Piece.Type;
 import chess.pieces.Piece.Color;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static utils.StringUtils.appendNewLine;
 
 public class Board {
 
-    private final List<Rank> board;
+    private final List<Rank> ranks;
     private static final int BOARD_SIZE = 8;
 
     public Board() {
-        board = new ArrayList<>();
+        ranks = new ArrayList<>();
+    }
+
+    public List<Rank> getRanks() {
+        return ranks;
     }
 
     public void initialize() {
@@ -37,13 +37,13 @@ public class Board {
         pieces.add(Piece.createBlackBishop());
         pieces.add(Piece.createBlackKnight());
         pieces.add(Piece.createBlackRook());
-        board.set(0, new Rank(pieces));
+        ranks.set(0, new Rank(pieces));
         pieces.clear();
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             pieces.add(Piece.createBlackPawn());
         }
-        board.set(1, new Rank(pieces));
+        ranks.set(1, new Rank(pieces));
     }
 
     public void initializeEmpty() {
@@ -52,7 +52,7 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 pieces.add(Piece.createBlank());
             }
-            board.add(new Rank(pieces));
+            ranks.add(new Rank(pieces));
         }
     }
 
@@ -62,7 +62,7 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             pieces.add(Piece.createWhitePawn());
         }
-        board.set(6, new Rank(pieces));
+        ranks.set(6, new Rank(pieces));
         pieces.clear();
 
         pieces.add(Piece.createWhiteRook());
@@ -73,31 +73,23 @@ public class Board {
         pieces.add(Piece.createWhiteBishop());
         pieces.add(Piece.createWhiteKnight());
         pieces.add(Piece.createWhiteRook());
-        board.set(7, new Rank(pieces));
-    }
-
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            sb.append(appendNewLine(board.get(i).toString()));
-        }
-        return sb.toString();
+        ranks.set(7, new Rank(pieces));
     }
 
     public int countPiece(Color color, Type type) {
-        return board.stream()
+        return ranks.stream()
                 .mapToInt(rank -> rank.countPiece(color, type))
                 .sum();
     }
 
     public Piece findPiece(String stringPosition) {
         Position position = new Position(stringPosition);
-        return board.get(position.getRank()).getPiece(position.getFile());
+        return ranks.get(position.getRank()).getPiece(position.getFile());
     }
 
     public void move(String stringPosition, Piece piece) {
         Position position = new Position(stringPosition);
-        board.get(position.getRank()).setPiece(position.getFile(), piece);
+        ranks.get(position.getRank()).setPiece(position.getFile(), piece);
     }
 
     public void move(String sourcePosition, String targetPosition) {
@@ -112,7 +104,7 @@ public class Board {
 
         // board에서 rank 단위로 점수 계산이 필요한 기물들을 Rank class에서 점수 계산하는 방법은 어떤지?
         // 그렇게 하는 경우 폰이 세로줄에 겹치는 경우를 어떻게 처리해야할지 고민
-        for (Rank rank : board) {
+        for (Rank rank : ranks) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 Piece piece = rank.getPiece(i);
                 if (piece.getColor() != color) {
@@ -136,7 +128,7 @@ public class Board {
 
     public List<Piece> sortPiece(Color color, Order order) {
         List<Piece> sortedPieces = new ArrayList<>();
-        for (Rank rank : board) {
+        for (Rank rank : ranks) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 if(color != rank.getPiece(i).getColor() || rank.getPiece(i).getType() == Type.NO_PIECE) {
                     continue;

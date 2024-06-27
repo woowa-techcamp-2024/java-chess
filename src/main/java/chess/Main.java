@@ -1,11 +1,12 @@
 package chess;
 
 import chess.board.Board;
+import chess.game.ChessGame;
+import chess.view.ChessView;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class ChessGameManager {
+public class Main {
 
     public enum Command {
         START("start"),
@@ -24,7 +25,9 @@ public class ChessGameManager {
     }
 
     public static void main(String[] args) {
-        Board board = new Board();
+        ChessView chessView = new ChessView();
+        ChessGame chessGame = new ChessGame(new Board());
+
         Scanner scanner = new Scanner(System.in);
         String command;
         System.out.println("Input start or end!");
@@ -32,7 +35,7 @@ public class ChessGameManager {
         while (true) {
             command = scanner.nextLine();
             if (Command.START.getCommand().equalsIgnoreCase(command)) {
-                board.initialize();
+                chessGame.getBoard().initialize();
             } else if (Command.END.getCommand().equalsIgnoreCase(command)) {
                 System.out.println("Game end!");
                 break;
@@ -41,12 +44,12 @@ public class ChessGameManager {
                 if(commands.length != 3) {
                     throw new IllegalArgumentException("move command requires 2 arguments");
                 }
-                board.move(commands[1], commands[2]);
+                chessGame.move(commands[1], commands[2]);
             } else {
                 System.out.println("Invalid input! input again!");
                 continue;
             }
-            System.out.println(board.showBoard());
+            System.out.println(chessView.showBoard(chessGame.getBoard()));
         }
     }
 
