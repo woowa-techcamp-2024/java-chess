@@ -26,7 +26,7 @@ public class ChessGame {
     }
 
     public String printBoard() {
-        return chessView.printBoard();
+        return chessView.printBoard(board);
     }
 
     public void move(String fromStr, String toStr) {

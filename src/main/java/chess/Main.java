@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         PointCalculator pointCalculator = new PointCalculator();
         Board board = new Board();
-        ChessView chessView = new ChessView(board);
+        ChessView chessView = new ChessView();
         ChessGame chessGame = new ChessGame(board, pointCalculator, chessView);
 
         Scanner sc = new Scanner(System.in);

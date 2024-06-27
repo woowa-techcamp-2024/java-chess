@@ -10,13 +10,7 @@ import static chess.utils.StringUtils.NEWLINE;
 
 public class ChessView {
 
-    private final Board board;
-
-    public ChessView(Board board) {
-        this.board = board;
-    }
-
-    public String printBoard() {
+    public String printBoard(Board board) {
         return board.getRanks().stream()
                 .map(this::printRank)
                 .collect(Collectors.joining(NEWLINE));
@@ -27,5 +21,8 @@ public class ChessView {
                 .map(Piece::getRepresentation)
                 .map(String::valueOf)
                 .collect(Collectors.joining());
+    }
+
+    public ChessView() {
     }
 }
