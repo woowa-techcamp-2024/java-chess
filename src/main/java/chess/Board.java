@@ -86,47 +86,47 @@ public class Board {
     public void initialize(){
         //pawn 셋팅
         for(int w=0;w<WIDTH;w++){
-            ChessPiece whitePawn = PieceFactory.createPiece(WHITE_PAWN);
-            ChessPiece blackPawn = PieceFactory.createPiece(BLACK_PAWN);
+            ChessPiece whitePawn = pieceCreator.createPiece(WHITE_PAWN);
+            ChessPiece blackPawn = pieceCreator.createPiece(BLACK_PAWN);
             setPiece(WHITE_PAWN_START_LINE,w,whitePawn);
             setPiece(BLACK_PAWN_START_LINE,w,blackPawn);
         }
 
         //rook 셋팅
-        ChessPiece whiteRookLeft = PieceFactory.createPiece(WHITE_ROOK);
-        ChessPiece whiteRookRight = PieceFactory.createPiece(WHITE_ROOK);
-        ChessPiece blackRookLeft = PieceFactory.createPiece(BLACK_ROOK);
-        ChessPiece blackRookRight = PieceFactory.createPiece(BLACK_ROOK);
+        ChessPiece whiteRookLeft = pieceCreator.createPiece(WHITE_ROOK);
+        ChessPiece whiteRookRight = pieceCreator.createPiece(WHITE_ROOK);
+        ChessPiece blackRookLeft = pieceCreator.createPiece(BLACK_ROOK);
+        ChessPiece blackRookRight = pieceCreator.createPiece(BLACK_ROOK);
         setPiece(BLACK_START_LINE,0,blackRookLeft);
         setPiece(BLACK_START_LINE,WIDTH-1,blackRookRight);
         setPiece(WHITE_START_LINE,0,whiteRookLeft);
         setPiece(WHITE_START_LINE,WIDTH-1,whiteRookRight);
 
         //night 셋팅
-        ChessPiece whiteNightLeft = PieceFactory.createPiece(WHITE_KNIGHT);
-        ChessPiece whiteNightRight = PieceFactory.createPiece(WHITE_KNIGHT);
-        ChessPiece blackNightLeft = PieceFactory.createPiece(BLACK_KNIGHT);
-        ChessPiece blackNightRight = PieceFactory.createPiece(BLACK_KNIGHT);
+        ChessPiece whiteNightLeft = pieceCreator.createPiece(WHITE_KNIGHT);
+        ChessPiece whiteNightRight = pieceCreator.createPiece(WHITE_KNIGHT);
+        ChessPiece blackNightLeft = pieceCreator.createPiece(BLACK_KNIGHT);
+        ChessPiece blackNightRight = pieceCreator.createPiece(BLACK_KNIGHT);
         setPiece(BLACK_START_LINE,1,blackNightLeft);
         setPiece(BLACK_START_LINE,WIDTH-2,blackNightRight);
         setPiece(WHITE_START_LINE,1,whiteNightLeft);
         setPiece(WHITE_START_LINE,WIDTH-2,whiteNightRight);
 
         //bishop 셋팅
-        ChessPiece whiteBishopLeft = PieceFactory.createPiece(WHITE_BISHOP);
-        ChessPiece whiteBishopRight = PieceFactory.createPiece(WHITE_BISHOP);
-        ChessPiece blackBishopLeft = PieceFactory.createPiece(BLACK_BISHOP);
-        ChessPiece blackBishopRight = PieceFactory.createPiece(BLACK_BISHOP);
+        ChessPiece whiteBishopLeft = pieceCreator.createPiece(WHITE_BISHOP);
+        ChessPiece whiteBishopRight = pieceCreator.createPiece(WHITE_BISHOP);
+        ChessPiece blackBishopLeft = pieceCreator.createPiece(BLACK_BISHOP);
+        ChessPiece blackBishopRight = pieceCreator.createPiece(BLACK_BISHOP);
         setPiece(BLACK_START_LINE,2,blackBishopLeft);
         setPiece(BLACK_START_LINE,WIDTH-3,blackBishopRight);
         setPiece(WHITE_START_LINE,2,whiteBishopLeft);
         setPiece(WHITE_START_LINE,WIDTH-3,whiteBishopRight);
 
         //queen & king setting
-        ChessPiece whiteQueen = PieceFactory.createPiece(WHITE_QUEEN);
-        ChessPiece whiteKing = PieceFactory.createPiece(WHITE_KING);
-        ChessPiece blackQueen = PieceFactory.createPiece(BLACK_QUEEN);
-        ChessPiece blackKing = PieceFactory.createPiece(BLACK_KING);
+        ChessPiece whiteQueen = pieceCreator.createPiece(WHITE_QUEEN);
+        ChessPiece whiteKing = pieceCreator.createPiece(WHITE_KING);
+        ChessPiece blackQueen = pieceCreator.createPiece(BLACK_QUEEN);
+        ChessPiece blackKing = pieceCreator.createPiece(BLACK_KING);
         setPiece(BLACK_START_LINE,3,blackQueen);
         setPiece(BLACK_START_LINE,WIDTH-4,blackKing);
         setPiece(WHITE_START_LINE,3,whiteQueen);
@@ -136,7 +136,7 @@ public class Board {
         for(int x=0;x<HEIGHT;x++){
             for(int y=0;y<WIDTH;y++){
                 if(board[x][y] == null){
-                    board[x][y] = PieceFactory.createPiece(NO_PIECE);
+                    board[x][y] = pieceCreator.createPiece(NO_PIECE);
                 }
             }
         }
@@ -145,7 +145,7 @@ public class Board {
     public void initializeEmpty(){
         for(int h=0;h<HEIGHT;h++){
             for(int w=0;w<WIDTH;w++){
-                board[h][w] = PieceFactory.createPiece(NO_PIECE);
+                board[h][w] = pieceCreator.createPiece(NO_PIECE);
             }
         }
     }
@@ -154,7 +154,7 @@ public class Board {
         for(int h=0;h<HEIGHT;h++){
             for(int w=0;w<WIDTH;w++){
                 if(board[h][w].equals(chessPiece)){
-                    board[h][w] = PieceFactory.createPiece(NO_PIECE);
+                    board[h][w] = pieceCreator.createPiece(NO_PIECE);
                     return;
                 }
             }
@@ -228,6 +228,6 @@ public class Board {
 
         removePiece(target);
         move(targetPosition,source);
-        setPiece(sourcePosition, PieceFactory.createPiece(NO_PIECE));
+        setPiece(sourcePosition, pieceCreator.createPiece(NO_PIECE));
     }
 }
