@@ -3,9 +3,13 @@ package com.example.demo.rules;
 import com.example.demo.context.Board;
 import com.example.demo.context.File;
 import com.example.demo.context.Rank;
+import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 일반 규칙을 나타내는 클래스입니다.
@@ -22,6 +26,7 @@ public class NormalRule implements Rule {
     private final Type targetType;
     private final boolean isApplyFirstMove;
     private final boolean isAttackRule;
+    private final List<Hook> hooks = new ArrayList<>();
 
     public NormalRule(Builder builder){
         this.rankStep = builder.rankStep;
@@ -30,6 +35,7 @@ public class NormalRule implements Rule {
         this.targetType = builder.targetType;
         this.isApplyFirstMove = builder.isApplyFirstMove;
         this.isAttackRule = builder.isAttackRule;
+        this.hooks.addAll(builder.hooks);
 
         if (rankStep != 0) this.minRankStep = rankStep / Math.abs(rankStep);
         else this.minRankStep = 0;
@@ -54,18 +60,26 @@ public class NormalRule implements Rule {
         Rank nextRank = from.rank().move(minRankStep);
         File nextFile = from.file().move(minFileStep);
 
+        boolean isAccept = false;
         while (nextRank != null && nextFile != null) {
 
-            if (Math.abs(moveRank) > Math.abs(rankStep) || Math.abs(moveFile) > Math.abs(fileStep))
-                return false;
+            if (Math.abs(moveRank) > Math.abs(rankStep) || Math.abs(moveFile) > Math.abs(fileStep)) {
+                isAccept = false;
+                break;
+            }
 
             if (board.getPiece(nextRank, nextFile) != null) {
-                if (attackChanceCount == 0) return false;
+                if (attackChanceCount == 0){
+                    isAccept = false;
+                    break;
+                }
                 else attackChanceCount--;
             }
 
-            if (nextRank == to.rank() && nextFile == to.file())
-                return true;
+            if (nextRank == to.rank() && nextFile == to.file()) {
+                isAccept = true;
+                break;
+            }
 
             nextRank = nextRank.move(minRankStep);
             nextFile = nextFile.move(minFileStep);
@@ -73,7 +87,16 @@ public class NormalRule implements Rule {
             moveFile += minFileStep;
         }
 
-        return false;
+        // run hook
+        for (Hook hook : hooks) {
+            hook.run(to.rank(), to.file());
+        }
+
+        return isAccept;
+    }
+
+    public void addHook(Hook hook){
+        hooks.add(hook);
     }
 
     /**
@@ -87,6 +110,7 @@ public class NormalRule implements Rule {
         private final Type targetType;
         private boolean isApplyFirstMove = false;
         private boolean isAttackRule = false;
+        private List<Hook> hooks = new ArrayList<>();
 
         public Builder(int rankStep, int fileStep, Color targetColor, Type targetType) {
             this.rankStep = rankStep;
@@ -106,6 +130,11 @@ public class NormalRule implements Rule {
 
         public Builder isAttackRule() {
             this.isAttackRule = true;
+            return this;
+        }
+
+        public Builder addHook(Hook hook){
+            hooks.add(hook);
             return this;
         }
 

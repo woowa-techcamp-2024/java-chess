@@ -1,5 +1,6 @@
 package com.example.demo.context;
 
+import com.example.demo.event.EventPublisher;
 import com.example.demo.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -353,4 +354,27 @@ class GameTest {
                     .hasMessage("이동할 수 없습니다.");
         }
     }
+
+    @Test
+    @DisplayName("승진 규칙 테스트")
+    public void promotionTest(){
+        // given
+        Piece pawn = new Pawn(Color.WHITE, Rank.SEVEN, File.A);
+
+        Board board = new Board();
+        board.setPiece(new Location(pawn.getRank(), pawn.getFile()), pawn);
+
+        Game game = new Game(board);
+
+        // when
+        game.move(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
+        var e = EventPublisher.INSTANCE.consume();
+        game.handle(e);
+        game.promotion(Type.QUEEN);
+
+        // then
+        assertThat(e).isNotNull();
+        assertThat(board.getPiece(new Location(Rank.EIGHT, File.A))).isInstanceOf(Queen.class);
+    }
+
 }
