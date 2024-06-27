@@ -3,17 +3,23 @@ package wootecamp.chess;
 import java.util.Scanner;
 
 public class Main {
+    private static Board board = new Board();
     public static void main(String[] args) {
-        Board board = new Board();
         Scanner sc = new Scanner(System.in);
 
         while(true) {
-            String command = sc.next();
+            String command = sc.nextLine();
 
             if(command.equals("start")) {
-                start(board);
+                start();
                 continue;
             }
+
+            if(command.startsWith("move")) {
+                move(command);
+                continue;
+            }
+
             if(command.equals("end")) {
                 break;
             }
@@ -22,9 +28,17 @@ public class Main {
         }
     }
 
-    private static void start(Board board) {
+    private static void start() {
         board.initialize();
         System.out.println(board.showBoard());
     }
 
+    private static void move(String command) {
+        String[] commands = command.split(" ");
+        final String source = commands[1];
+        final String target = commands[2];
+        board.move(source, target);
+
+        System.out.println(board.showBoard());
+    }
 }
