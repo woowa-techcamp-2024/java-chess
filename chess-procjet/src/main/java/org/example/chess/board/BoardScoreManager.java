@@ -13,9 +13,15 @@ public class BoardScoreManager {
 
     private static final double PAWN_SCORE_DECREMENT = 0.5;
 
-    public double calculatePoint(List<Rank> board, Color color) {
+    private final Board board;
+
+    public BoardScoreManager(Board board) {
+        this.board = board;
+    }
+
+    public double calculatePoint(Board board, Color color) {
         double points = 0.0;
-        for (Rank rank : board) {
+        for (Rank rank : board.getBoard()) {
             points += rank.calculateRankPoint(color);
         }
 
@@ -23,12 +29,12 @@ public class BoardScoreManager {
         return points - PAWN_SCORE_DECREMENT * totalInColumnPawnCount;
     }
 
-    private int countPawnsInColumnsByColor(List<Rank> board, Color color) {
+    private int countPawnsInColumnsByColor(Board board, Color color) {
         int totalInColumnPawnCount = 0;
         for (int c = 0; c < BOARD_SIZE; c++) {
             int columnCount = 0;
             for (int r = 0; r < BOARD_SIZE; r++) {
-                Piece piece = board.get(r).getPieces().get(c);
+                Piece piece = board.getBoard().get(r).getPieces().get(c);
                 if (piece.isPawn() && piece.getColor() == color) {
                     columnCount++;
                 }
@@ -40,10 +46,10 @@ public class BoardScoreManager {
         return totalInColumnPawnCount;
     }
 
-    public List<Piece> findAllPiecesSortByPoint(List<Rank> board, Color color, PieceComparator comparator) {
+    public List<Piece> findAllPiecesSortByPoint(Board board, Color color, PieceComparator comparator) {
         List<Piece> pieces = new ArrayList<>();
 
-        for (Rank rank : board) {
+        for (Rank rank : board.getBoard()) {
             pieces.addAll(rank.findPieces(color));
         }
 

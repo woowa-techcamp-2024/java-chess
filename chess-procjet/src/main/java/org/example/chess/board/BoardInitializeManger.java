@@ -15,16 +15,22 @@ public class BoardInitializeManger {
     private static final int WHITE_INIT_ROW = 7;
     private static final int WHITE_PAWN_INIT_ROW = 6;
 
-    public void initialize(List<Rank> board) {
+    private final Board board;
+
+    public BoardInitializeManger(Board board) {
+        this.board = board;
+    }
+
+    public void initialize(Board board) {
         initializeEmpty(board);
         initBlackPiece(board);
         initWhitePiece(board);
     }
 
-    private void initBlackPiece(List<Rank> board) {
+    private void initBlackPiece(Board board) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece blackPawn = PieceFactory.createBlackPawn();
-            board.get(BLACK_PAWN_INIT_ROW).changePiece(i, blackPawn);
+            board.getBoard().get(BLACK_PAWN_INIT_ROW).changePiece(i, blackPawn);
         }
 
         Rank blackPiecesExceptPawn = new Rank();
@@ -37,13 +43,13 @@ public class BoardInitializeManger {
         blackPiecesExceptPawn.addPiece(PieceFactory.createBlackKnight());
         blackPiecesExceptPawn.addPiece(PieceFactory.createBlackRook());
 
-        board.set(BLACK_INIT_ROW, blackPiecesExceptPawn);
+        board.getBoard().set(BLACK_INIT_ROW, blackPiecesExceptPawn);
     }
 
-    private void initWhitePiece(List<Rank> board) {
+    private void initWhitePiece(Board board) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Piece whitePawn = PieceFactory.createWhitePawn();
-            board.get(WHITE_PAWN_INIT_ROW).changePiece(i, whitePawn);
+            board.getBoard().get(WHITE_PAWN_INIT_ROW).changePiece(i, whitePawn);
         }
 
         Rank whitePieceExceptPawn = new Rank();
@@ -56,16 +62,16 @@ public class BoardInitializeManger {
         whitePieceExceptPawn.addPiece(PieceFactory.createWhiteKnight());
         whitePieceExceptPawn.addPiece(PieceFactory.createWhiteRook());
 
-        board.set(WHITE_INIT_ROW, whitePieceExceptPawn);
+        board.getBoard().set(WHITE_INIT_ROW, whitePieceExceptPawn);
     }
 
-    public void initializeEmpty(List<Rank> board) {
+    public void initializeEmpty(Board board) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             Rank rank = new Rank();
             for (int j = 0; j < BOARD_SIZE; j++) {
                 rank.addPiece(PieceFactory.createBlank());
             }
-            board.add(rank);
+            board.getBoard().add(rank);
         }
     }
 }

@@ -19,10 +19,12 @@ public class Board {
     private final List<Rank> board = new ArrayList<>();
     private final BoardInitializeManger boardInitializeManger;
     private final BoardScoreManager boardScoreManager;
+    private final BoardMoveManger boardMoveManger;
 
-    public Board(BoardInitializeManger boardInitializeManger, BoardScoreManager boardScoreManager) {
+    public Board(BoardInitializeManger boardInitializeManger, BoardScoreManager boardScoreManager, BoardMoveManger boardMoveManger) {
         this.boardInitializeManger = boardInitializeManger;
         this.boardScoreManager = boardScoreManager;
+        this.boardMoveManger = boardMoveManger;
     }
 
     public void initialize() {
@@ -70,34 +72,17 @@ public class Board {
 
         return count;
     }
-
+//------------todo: 테스트코드떄문에 남겨둔것. 추후 테스트코드도 분리하면 제거 예정
     public Piece findPiece(String pos) {
-        Position position = new Position(pos);
-        int r = position.getR();
-        int c = position.getC();
-
-        return board.get(r).getPieces().get(c);
+        return boardMoveManger.findPiece(board, pos);
     }
 
     public void move(String position, Piece piece) {
-        //TODO: 해당 말이 해당 위치로 이동이 가능한 말인지 확인하는 로직 필요.
-        Position pos = new Position(position);
-        int r = pos.getR();
-        int c = pos.getC();
-
-        Rank row = board.get(r);
-        row.changePiece(c, piece);
+        boardMoveManger.move(board, position, piece);
     }
 
     public void move(String source, String destination) {
-        //source 위치의 piece를 찾는다.
-        Piece piece = findPiece(source);
-
-        //source 위치를 빈 공간으로 변경
-        move(source, PieceFactory.createBlank());
-
-        //해당 위치에 from 위치의 piece를 놓는다.
-        move(destination, piece);
+        boardMoveManger.move(board, source, destination);
     }
 
     public double calculatePoint(Color color) {
@@ -106,6 +91,12 @@ public class Board {
 
     public List<Piece> findAllPiecesSortByPoint(Color color, PieceComparator comparator) {
         return boardScoreManager.findAllPiecesSortByPoint(board, color, comparator);
+    }
+    //---------------------
+
+
+    protected List<Rank> getBoard() {
+        return board;
     }
 
     public static class Rank {
