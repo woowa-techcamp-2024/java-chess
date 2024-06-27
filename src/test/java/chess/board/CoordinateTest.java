@@ -8,6 +8,30 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CoordinateTest {
 
+    @DisplayName("적절하지 않은 좌표를 입력한 경우 예외가 발생한다.")
+    @Test
+    void createCoordinateWithInvalidCoordinate() {
+        // given
+        String coordinate = "a0";
+
+        // when & then
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("범위를 넘어선 좌표입니다.");
+    }
+
+    @DisplayName("적절하지 않은 좌표를 입력한 경우 예외가 발생한다.")
+    @Test
+    void createCoordinateWithInvalidCoordinate2() {
+        // given
+        String coordinate = "z1";
+
+        // when & then
+        assertThatThrownBy(() -> Coordinate.of(coordinate))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("범위를 넘어선 좌표입니다.");
+    }
+
     @DisplayName("좌표를 반대로 입력한 경우 예외가 발생한다.")
     @Test
     void createCoordinateWithReversedOrder() {
