@@ -1,14 +1,14 @@
-package chess;
+package chess.chess;
 
-import chess.piece.Pawn;
-import chess.piece.Piece;
-import chess.piece.Rook;
+import chess.chess.piece.Pawn;
+import chess.chess.piece.Piece;
+import chess.chess.piece.Rook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static chess.BoardUtils.createBoard;
+import static chess.chess.BoardUtils.createBoard;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {

@@ -1,17 +1,17 @@
-package chess.piece;
+package chess.chess.piece;
 
-import chess.Board;
-import chess.BoardContext;
-import chess.Offset;
-import chess.Position;
+import chess.chess.Board;
+import chess.chess.BoardContext;
+import chess.chess.Offset;
+import chess.chess.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static chess.BoardUtils.createBoard;
-import static chess.BoardUtils.createBoardContext;
-import static chess.piece.PieceUtils.*;
+import static chess.chess.BoardUtils.createBoard;
+import static chess.chess.BoardUtils.createBoardContext;
+import static chess.chess.piece.PieceUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BishopTest {

@@ -1,6 +1,6 @@
-package chess;
+package chess.chess;
 
-import chess.piece.*;
+import chess.chess.piece.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

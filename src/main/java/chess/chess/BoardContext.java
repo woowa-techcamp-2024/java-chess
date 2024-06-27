@@ -1,6 +1,6 @@
 package chess.chess;
 
-import chess.piece.Piece;
+import chess.chess.piece.Piece;
 
 public interface BoardContext {
 

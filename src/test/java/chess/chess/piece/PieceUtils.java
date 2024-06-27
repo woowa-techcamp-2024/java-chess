@@ -1,4 +1,6 @@
-package chess.piece;
+package chess.chess.piece;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class PieceUtils {
 

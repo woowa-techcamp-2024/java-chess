@@ -1,8 +1,8 @@
-package chess.piece;
+package chess.chess.piece;
 
-import chess.BoardContext;
-import chess.ChessStrings;
-import chess.Offset;
+import chess.chess.BoardContext;
+import chess.chess.ChessStrings;
+import chess.chess.Offset;
 
 public class Bishop extends Piece {
 

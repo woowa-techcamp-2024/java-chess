@@ -1,7 +1,7 @@
-package chess.piece;
+package chess.chess.piece;
 
-import chess.BoardContext;
-import chess.Offset;
+import chess.chess.BoardContext;
+import chess.chess.Offset;
 
 public abstract class Piece {
 
