@@ -1,11 +1,12 @@
 package chess;
 
+import chess.board.Board;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Application {
 
-    public enum GameControlCommand {
+    enum GameControlCommand {
         START, END;
 
 
