@@ -15,7 +15,6 @@ public class RankTest {
         verifyInitialRank(Rank.createEmptyRank(), "........");
         verifyInitialRank(Rank.createInitialRank7(), "PPPPPPPP");
         verifyInitialRank(Rank.createInitialRank8(), "RNBQKBNR");
-
     }
 
     private void verifyInitialRank(final Rank rank, final String shownRank) {

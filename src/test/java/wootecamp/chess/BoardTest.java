@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import wootecamp.chess.pieces.Piece;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static wootecamp.chess.util.StringUtils.appendNewline;
 
@@ -94,9 +96,29 @@ public class BoardTest {
         addPiece("f1", Piece.createWhiteKing());
 
         assertThat(board.calculatePoint(Piece.Color.BLACK)).isEqualTo(15.0);
-        assertThat(board.calculatePoint(Piece.Color.WHITE)).isEqualTo(6.5);
+        assertThat(board.calculatePoint(Piece.Color.WHITE)).isEqualTo(6.0);
+    }
 
+    @Test
+    @DisplayName("보드에 있는 기물을 점수순으로 정렬한다.")
+    void getSortedPiecesPiece() {
+        board.initializeEmpty();
 
+        Piece blackPawn = Piece.createBlackPawn();
+        Piece blackQueen = Piece.createBlackQueen();
+        Piece blackKing = Piece.createBlackKing();
+        Piece blackRook = Piece.createBlackRook();
+
+        addPiece("b6", blackPawn);
+        addPiece("e6", blackQueen);
+        addPiece("b8", blackKing);
+        addPiece("c8", blackRook);
+
+        assertThat(board.collectPieces(Piece.Color.BLACK, PieceComparator.ASC))
+                .isEqualTo(List.of(blackKing, blackPawn, blackRook, blackQueen));
+        assertThat(board.collectPieces(Piece.Color.BLACK, PieceComparator.DESC))
+                .isEqualTo(List.of(blackQueen, blackRook, blackPawn, blackKing));
+        assertThat(board.collectPieces(Piece.Color.WHITE, PieceComparator.DESC)).isEqualTo(List.of());
     }
 
     private void addPiece(final String position, final Piece piece) {
