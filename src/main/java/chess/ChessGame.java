@@ -6,7 +6,6 @@ import chess.pieces.Direction;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
 
 public class ChessGame {
     private Board board;
@@ -30,40 +29,14 @@ public class ChessGame {
         System.out.println("게임을 시작하지");
     }
 
-    public boolean operation(String line) {
-        StringTokenizer st = new StringTokenizer(line);
-        String op = st.nextToken();
-        boolean isFinish = false;
-
-        switch (op) {
-            case "start" -> startGame();
-            case "move" -> {
-                if (st.countTokens() != 2) {
-                    throw new IllegalArgumentException("명령어를 잘못입력했다. `move a1 b1` 형식으로 입력해라.");
-                }
-                String source = st.nextToken();
-                String target = st.nextToken();
-                if (move(source, target)) {
-                    return true;
-                } else {
-                    throw new IllegalStateException(new StringBuilder().append(source).append(" -> ").append(target).append(" 로 이동할 수 없습니다.")
-                            .toString());
-                }
-            }
-            case "end" -> isFinish = true;
-        }
-        return isFinish;
-    }
-
-    private boolean move(String source, String target) {
+    public boolean move(String source, String target) {
         Optional<ChessPiece> sourcePiece = board.findPiece(source);
 
-        return sourcePiece.map(sp->{
-            if(isPossibleMove(sp,source,target)){
-                board.move(source,target);
+        return sourcePiece.map(sp -> {
+            if (isPossibleMove(sp, source, target)) {
+                board.move(source, target);
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
         }).orElse(false);
@@ -74,27 +47,35 @@ public class ChessGame {
     }
 
     private boolean isPossibleMove(ChessPiece piece, String source, String target) {
-        Course pieceCourse = piece.getCourse();
-        boolean recursive = pieceCourse.isRecursive();
-        List<Direction> directions = pieceCourse.getDirections();
         Optional<ChessPiece> sourcePiece = board.findPiece(source);
+        return sourcePiece.map(p -> innerIsPossibleMove(piece, source, target)).orElse(false);
+    }
 
-        return sourcePiece.map(p->{
-            for (Direction direction : directions) {
-                int multiple = 1;
-                boolean flag = recursive;
-                do {
-                    String nextPosition = getNextPosition(source, direction, multiple++);
-                    if (!board.isIn(nextPosition)) {
-                        flag = false;
-                    }
-                    Optional<ChessPiece> nextPieceOptional = board.findPiece(nextPosition);
-                    ChessPiece nextPiece = nextPieceOptional.get();
-                    if (nextPosition.equals(target) && !isSameTeam(p, nextPiece)) return true;
-                } while (flag);
-            }
+    private boolean innerIsPossibleMove(ChessPiece piece, String source, String target) {
+        Course pieceCourse = piece.getCourse();
+        List<Direction> directions = pieceCourse.getDirections();
+        boolean result = false;
+        for (Direction direction : directions) {
+            result = result || isFind(piece, direction, getNextPosition(source, direction), target);
+        }
+        return result;
+    }
+
+    private boolean isFind(ChessPiece piece, Direction direction, String source, String target) {
+        //범위 밖으로 나가면 false
+        if (!board.isIn(source)) {
             return false;
-        }).orElse(false);
+        }
+        //해당 위치에 색이 같으면 false, 아니면 true
+        if (source.equals(target)) {
+            return board.findPiece(target)
+                    .map(tp -> !isSameTeam(piece,tp))
+                    .orElse(false);
+        }
+        //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
+        if (!piece.getCourse().isRecursive()) return false;
+
+        return isFind(piece, direction, getNextPosition(source, direction), target);
     }
 
     private String getNextPosition(String sourcePosition, Direction direction) {
