@@ -2,9 +2,9 @@ package org.example.chess.Game;
 
 import org.example.chess.board.Board;
 
-public class RuleIns extends Rule {
+public class RuleImpl extends Rule {
 
-    RuleIns(Board board) {
+    RuleImpl(Board board) {
         super(board);
     }
 

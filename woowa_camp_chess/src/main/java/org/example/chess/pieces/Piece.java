@@ -12,15 +12,14 @@ public class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
-
     }
+
     private Position position;
     private final Color color;
-
     private final char representation;
-
     private final PieceType pieceType;
-    private Piece(Color color, PieceType pieceType) {
+
+    protected Piece(Color color, PieceType pieceType) {
         this.color = color;
         this.representation = color.equals(WHITE) ? pieceType.getWhiteRepresentation() : pieceType.getBlackRepresentation();
         this.pieceType = pieceType;
@@ -46,14 +45,6 @@ public class Piece {
 
     public static Piece createBlank() {
         return new Piece(NOCOLOR, PieceType.NO_PIECE);
-    }
-
-    private static Piece createWhite(PieceType pieceType) {
-        return new Piece(WHITE, pieceType);
-    }
-
-    private static Piece createBlack(PieceType pieceType) {
-        return new Piece(BLACK, pieceType);
     }
 
     public static Piece createBlackPawn() {
@@ -102,6 +93,14 @@ public class Piece {
 
     public static Piece createWhiteKing() {
         return createWhite(PieceType.KING);
+    }
+
+    private static Piece createWhite(PieceType pieceType) {
+        return new Piece(WHITE, pieceType);
+    }
+
+    private static Piece createBlack(PieceType pieceType) {
+        return new Piece(BLACK, pieceType);
     }
 
     public boolean isWhite() {
