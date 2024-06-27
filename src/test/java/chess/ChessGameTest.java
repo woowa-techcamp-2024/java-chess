@@ -738,4 +738,31 @@ public class ChessGameTest {
             assertEquals(success,board.print());
         }
     }
+
+    @Nested
+    @DisplayName("[ShowBoard]")
+    class ShowBoardTest{
+        @Test
+        public void showSuccess() throws Exception {
+            //given
+            String success = """
+                RNBQKBNR
+                PPPPPPPP
+                ........
+                ..p.....
+                ........
+                ........
+                .ppppppp
+                rnbqkbnr
+                """;
+            board.initialize();
+            board.move("a2","c5");
+
+            //when
+
+            //then
+            assertEquals(success,chessGame.showBoard());
+        }
+    }
+
 }
