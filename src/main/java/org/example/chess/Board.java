@@ -154,18 +154,6 @@ public class Board {
         return sb.toString();
     }
 
-//    public String showScore() {
-//        StringBuilder sb = new StringBuilder();
-//
-//        this.pieces.forEach(rank -> {
-//            sb.append(rank.showScore()).append(System.lineSeparator());
-//        });
-//
-//        System.out.println(sb);
-//
-//        return sb.toString();
-//    }
-
     public double calculatePoint(Piece.Color color) {
 
         double score = this.pieces.stream()
@@ -189,42 +177,7 @@ public class Board {
 
         return score;
     }
-
-//    // TODO pawn 점수 저장하지 않도록 수정 필요
-//    // board pawn 들의 점수를 재조정하는 함수
-//    private void revisePawnScore() {
-//        for(int colIdx= 0; colIdx < 8; colIdx++) {
-//            int finalColIdx = colIdx;
-//            long blackPawnCount = this.pieces.stream()
-//                    .map(rank -> rank.getPiece(finalColIdx))
-//                    .filter(Piece::isPawn)
-//                    .filter(Piece::isBlack)
-//                    .count();
-//
-//            long whitePawnCount = this.pieces.stream()
-//                    .map(rank -> rank.getPiece(finalColIdx))
-//                    .filter(Piece::isPawn)
-//                    .filter(Piece::isWhite)
-//                    .count();
-//
-//            if (blackPawnCount >= 2) {
-//                this.pieces.stream()
-//                        .map(rank -> rank.getPiece(finalColIdx))
-//                        .filter(Piece::isPawn)
-//                        .filter(Piece::isBlack)
-//                        .forEach(piece -> piece.setPoint(0.5));
-//            }
-//
-//            if (whitePawnCount >= 2) {
-//                this.pieces.stream()
-//                        .map(rank -> rank.getPiece(finalColIdx))
-//                        .filter(Piece::isPawn)
-//                        .filter(Piece::isWhite)
-//                        .forEach(piece -> piece.setPoint(0.5));
-//            }
-//        }
-//    }
-
+    
     public List<Piece> sort(Order order) {
         Comparator<Piece> asc = Comparator.comparingDouble(piece -> piece.getName().getDefaultPoint());
         Comparator<Piece> desc = (p1, p2) -> Double.compare(p2.getName().getDefaultPoint(), p1.getName().getDefaultPoint());
