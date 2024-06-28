@@ -1,23 +1,26 @@
 package pe.goblin.chess;
 
-import pe.goblin.chess.board.Board;
+import pe.goblin.chess.application.BoardQueryImpl;
+import pe.goblin.chess.application.GameCreationService;
+import pe.goblin.chess.application.GamePlayService;
+import pe.goblin.chess.console.AppConsole;
+import pe.goblin.chess.storage.GameStorage;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        GameStorage gameStorage = new GameStorage();
+        AppConsole appConsole = new AppConsole(new BoardQueryImpl(), new GameCreationService(gameStorage), new GamePlayService(gameStorage));
+        run(appConsole);
+    }
+
+    private static void run(AppConsole appConsole) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Goblin Chess");
-        System.out.println("press start or end");
-        String input;
-        while (!"end".equalsIgnoreCase(input = scanner.nextLine())) {
-            if ("start".equalsIgnoreCase(input)) {
-                Board board = new Board();
-                board.initialize();
-                System.out.println(board.showBoard());
-            } else {
-                System.out.println("Invalid input");
-            }
+
+        while (!appConsole.isShutDown()) {
+            System.out.println(appConsole.flush());
+            appConsole.processInput(scanner.nextLine());
         }
     }
 }
