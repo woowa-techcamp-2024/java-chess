@@ -47,9 +47,9 @@ public class Rule {
         PieceColor color = piece.getColor();
         int rankIndex = target.rank().getIndex();
 
-        if (color.equals(PieceColor.WHITE) && rankIndex == 0) {
+        if (color.equals(PieceColor.WHITE) && rankIndex == 8) {
             return true;
-        } else if (color.equals(PieceColor.BLACK) && rankIndex == 7) {
+        } else if (color.equals(PieceColor.BLACK) && rankIndex == 1) {
             return true;
         }
 
@@ -76,13 +76,32 @@ public class Rule {
     //TODO: 앙파상(상대편 폰이 두 칸 이동해서 옆에 있는 폰을 먹을 수 있는 경우)
     public void anPassant(final Position source, final Position target, final PieceColor turn) {
 
+
     }
 
     public boolean isCheckmate(final PieceColor turn) {
         Position kingPosition = board.findKingPosition(turn.flip());
 
         List<Position> checkmatePositions = getEnablePositionList(kingPosition, board.findPiece(kingPosition));
-        checkmatePositions.add(kingPosition);
+
+        List<Position> positions = board.findPosition(turn);
+
+        List<Position> attackPositions = positions.stream()
+                .map(position -> getAttackCheckPostionsList(position, board.findPiece(position)))
+                .flatMap(List::stream)
+                .toList();
+
+        boolean attackKing = new HashSet<>(attackPositions).containsAll(checkmatePositions);
+
+        if (attackKing && attackPositions.contains(kingPosition)) {
+            return !findProtectKingPiece(turn.flip(), kingPosition, checkmatePositions, attackPositions);
+        }
+
+        return false;
+    }
+
+    public boolean isCheck(final PieceColor turn) {
+        Position kingPosition = board.findKingPosition(turn.flip());
 
         List<Position> positions = board.findPosition(turn);
 
@@ -91,22 +110,28 @@ public class Rule {
                 .flatMap(List::stream)
                 .toList();
 
-        boolean attackKing = new HashSet<>(enablePositions).containsAll(checkmatePositions);
-
-        if (attackKing) {
-            checkmatePositions.remove(kingPosition);
-            return !findProtectKingPiece(turn.flip(), checkmatePositions, enablePositions);
-        }
-
-        return false;
+        return enablePositions.contains(kingPosition);
     }
 
-    private boolean findProtectKingPiece(final PieceColor turn, final List<Position> checkmatePositions, final List<Position> enablePositions) {
-        return board.findPosition(turn).stream()
+    private boolean findProtectKingPiece(final PieceColor turn,
+                                         final Position kingPosition,
+                                         final List<Position> checkmatePositions,
+                                         final List<Position> attackPositions) {
+        List<Position> protectPositions = board.findPosition(turn).stream()
                 .map(position -> getEnablePositionList(position, board.findPiece(position)))
                 .flatMap(List::stream)
-                .anyMatch(checkmatePositions::contains);
+                .toList();
+
+        List<Position> mutableAttackPositions = new ArrayList<>(attackPositions);
+
+        for (Position protectPosition : protectPositions) {
+            mutableAttackPositions.remove(protectPosition);
+        }
+
+        return new HashSet<>(mutableAttackPositions).containsAll(checkmatePositions)
+                && mutableAttackPositions.contains(kingPosition);
     }
+
 
     private void validateTurn(final Position source, final PieceColor turn) {
         if (!board.findPiece(source).getColor().equals(turn)) {
@@ -144,6 +169,24 @@ public class Rule {
                     }
                     break;
                 }
+
+                validatePositions.add(targetPosition.get());
+            }
+        }
+        return validatePositions;
+    }
+
+    private List<Position> getAttackCheckPostionsList(final Position position, final Piece sourcePiece) {
+        PieceMove moveable = sourcePiece.getMoveable();
+
+        List<Position> validatePositions = new ArrayList<>();
+
+        for (Moveable direction : moveable.directions()) {
+            for (int distance = 1; distance <= moveable.distance(); distance++) {
+                Optional<Position> targetPosition = getPosition(position, direction, distance);
+                if (targetPosition.isEmpty()) break;
+
+                Piece targetPiece = board.findPiece(targetPosition.get());
 
                 validatePositions.add(targetPosition.get());
             }

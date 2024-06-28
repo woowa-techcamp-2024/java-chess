@@ -36,7 +36,7 @@ public class Board {
             ((Pawn) piece).completeFirstMove();
         }
 
-        this.board.put(target, piece);
+        add(target, piece);
     }
 
     public void move(final Position source, final Position target) {

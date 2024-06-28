@@ -40,4 +40,8 @@ public class ChessGame {
     public void promotion(final String target, final String piece) {
         rule.promotion(Position.of(target), piece);
     }
+
+    public boolean isCheck(final PieceColor turn) {
+        return rule.isCheck(turn);
+    }
 }

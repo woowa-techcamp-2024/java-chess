@@ -19,6 +19,7 @@ public class ConsoleView {
     private static final String PROMOTION_MESSAGE = "프로모션할 기물을 선택해주세요. ex) queen, rook, bishop, knight";
     private static final String CHECKMATE_MESSAGE = "체크메이트입니다.";
     private static final String VICTORY_MESSAGE = "의 승리입니다.";
+    private static final String CHECK_MESSAGE = "체크입니다.";
     private static final Scanner scanner = new Scanner(System.in);
 
     private ConsoleView() {
@@ -85,5 +86,9 @@ public class ConsoleView {
     public static void checkmate(final PieceColor turn) {
         System.out.println(CHECKMATE_MESSAGE);
         System.out.println(turn + VICTORY_MESSAGE);
+    }
+
+    public static void check(final PieceColor turn) {
+        System.out.println(turn + CHECK_MESSAGE);
     }
 }

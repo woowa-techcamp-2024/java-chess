@@ -32,6 +32,10 @@ public class Main {
                 continue;
             }
 
+            if(chessGame.isCheck(turn)) {
+                ConsoleView.check(turn.flip());
+            }
+
             ConsoleView.printChessBoard(chessBoard);
 
             if (chessGame.isCheckmate(turn)) {
