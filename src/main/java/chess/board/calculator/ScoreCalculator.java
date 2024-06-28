@@ -33,10 +33,12 @@ public class ScoreCalculator {
                 if (piece.getColor() != color) {
                     continue;
                 }
+
                 if (piece.getType() == Type.PAWN) {
                     filePawnCount[i] += 1;
                     continue;
                 }
+
                 sum += piece.getType().getPoint();
             }
         }

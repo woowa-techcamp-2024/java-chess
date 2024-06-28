@@ -25,6 +25,12 @@ public class Board {
         return ranks.get(rank).get(file);
     }
 
+    public boolean existsPiece(Representation representation) {
+        return ranks.stream()
+                .map(rank -> rank.count(representation))
+                .anyMatch(count -> count > 0);
+    }
+
     public void setPiece(Piece piece) {
         int rank = piece.getPosition().getRank();
         int file = piece.getPosition().getFile();

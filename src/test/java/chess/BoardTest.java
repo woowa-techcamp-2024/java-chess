@@ -1,8 +1,7 @@
 package chess;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static utils.StringUtils.appendNewLine;
 
 import chess.board.Board;
@@ -42,10 +41,10 @@ public class BoardTest {
         assertEquals(32, board.pieceCount());
         assertEquals(
                 appendNewLine("♜♞♝♛♚♝♞♜") +
-                appendNewLine("♟♟♟♟♟♟♟♟") +
-                blankRank + blankRank + blankRank + blankRank +
-                appendNewLine("♙♙♙♙♙♙♙♙") +
-                appendNewLine("♖♘♗♕♔♗♘♖"),
+                        appendNewLine("♟♟♟♟♟♟♟♟") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("♙♙♙♙♙♙♙♙") +
+                        appendNewLine("♖♘♗♕♔♗♘♖"),
                 board.print());
     }
 
@@ -115,6 +114,18 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("세팅된 체스판에서 점수를 계산한다")
+    public void getScoreAll2() throws Exception {
+        board.setPiece(PieceFactory.createBlank(Position.C2));
+
+        double b = board.getScore(Color.BLACK);
+        double w = board.getScore(Color.WHITE);
+
+        assertThat(b).isEqualTo(38.0);
+        assertThat(w).isEqualTo(37.0);
+    }
+
+    @Test
     @DisplayName("같은 열에 폰이 2개일 때 점수를 계산한다")
     public void getScoreCase() throws Exception {
         board = BoardFactory.createEmpty();
@@ -173,5 +184,18 @@ public class BoardTest {
         assertEquals(Color.BLACK, blackPiece1.getColor());
         assertEquals(Type.PAWN, blackPiece2.getType());
         assertEquals(Color.BLACK, blackPiece2.getColor());
+    }
+
+    @Test
+    @DisplayName("특정 기물이 존재하는지 확인한다")
+    public void test_exists_piece() {
+        board = BoardFactory.createEmpty();
+
+        board.setPiece(PieceFactory.createBlackKing(Position.A8));
+        boolean bk = board.existsPiece(Representation.BLACK_KING);
+        boolean wk = board.existsPiece(Representation.WHITE_KING);
+
+        assertTrue(bk);
+        assertFalse(wk);
     }
 }

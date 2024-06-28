@@ -37,7 +37,6 @@ public abstract class Piece {
     }
 
     public void moveTo(Position position) {
-        // 본인이 알아서 움직이기는 힘들겠지..?
         this.position = position;
     }
 
