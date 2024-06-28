@@ -30,7 +30,7 @@ public class ChessGame {
         checkIsMovable(movablePosition, targetPosition);
 
         // 블락되어 있는지 확인.
-        board.checkIsBlocked(Position.convert(sourcePosition), Position.convert(targetPosition));
+        board.checkIsBlocked(sourcePosition, targetPosition);
 
         board.move(sourcePosition, Blank.create());
         board.move(targetPosition, sourcePiece);

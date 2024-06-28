@@ -2,6 +2,7 @@ package com.seong.chess;
 
 import static com.seong.chess.utils.StringUtils.appendNewLine;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.seong.chess.pieces.Bishop;
@@ -15,6 +16,7 @@ import com.seong.chess.pieces.Rook;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -126,5 +128,46 @@ public class BoardTest {
                         Rook.createBlack(), Rook.createBlack(),
                         Queen.createBlack()
                 );
+    }
+
+    @Nested
+    @DisplayName("checkIsBlocked 호출 시")
+    class CheckIsBlocked {
+
+        @Test
+        @DisplayName("현재 위치와 이동 위치 사이 가로 막는 기물이 없다면 무시한다.")
+        void checkIsBlocked() {
+            //given
+            board.initializeEmpty();
+            String sourcePosition = "a1";
+            String targetPosition = "a3";
+            board.move(sourcePosition, Rook.createWhite());
+            board.move(targetPosition, Pawn.createBlack());
+
+            //when
+            Exception exception = catchException(() -> board.checkIsBlocked(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("예외(IllegalArgument): 경로 상에 기물이 존재한다면")
+        void exceptionWhenBlocked() {
+            //given
+            board.initializeEmpty();
+            String sourcePosition = "a1";
+            String targetPosition = "a4";
+            String blockedPosition = "a3";
+            board.move(sourcePosition, Rook.createWhite());
+            board.move(targetPosition, Pawn.createBlack());
+            board.move(blockedPosition, Pawn.createBlack());
+
+            //when
+            Exception exception = catchException(() -> board.checkIsBlocked(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }

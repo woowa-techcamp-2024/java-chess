@@ -124,7 +124,9 @@ public class Board {
         return movablePositions;
     }
 
-    public void checkIsBlocked(Position sourcePosition, Position targetPosition) {
+    public void checkIsBlocked(String rawSourcePosition, String rawTargetPosition) {
+        Position sourcePosition = Position.convert(rawSourcePosition);
+        Position targetPosition = Position.convert(rawTargetPosition);
         Piece sourcePiece = findPiece(sourcePosition.convert());
         if (sourcePiece.isPawn() || sourcePiece.isKnight()) {
             return;
@@ -134,21 +136,19 @@ public class Board {
         }
 
         Direction direction = Direction.getDirection(sourcePosition, targetPosition);
-        Position nextPosition = new Position(sourcePosition.col() + direction.getCol(),
-                sourcePosition.row() + direction.getRow());
-        checkIsBlocked(nextPosition, targetPosition, direction);
+        checkIsBlocked(sourcePosition, targetPosition, direction);
     }
 
     private void checkIsBlocked(Position sourcePosition, Position targetPosition, Direction direction) {
-        if (sourcePosition.equals(targetPosition)) {
-            return;
-        }
         Position nextPosition = new Position(sourcePosition.col() + direction.getCol(),
                 sourcePosition.row() + direction.getRow());
-        if (!findPiece(nextPosition.convert()).isNotBlank()) {
+        if (nextPosition.equals(targetPosition)) {
+            return;
+        }
+        if (findPiece(nextPosition.convert()).isNotBlank()) {
             throw new IllegalArgumentException("경로상 기물이 존재하여 이동할 수 없습니다.");
         }
-        checkIsBlocked(sourcePosition, nextPosition, direction);
+        checkIsBlocked(nextPosition, targetPosition, direction);
     }
 
     public List<Position> getPawnCanNotMovable(String sourcePosition, String targetPosition) {
