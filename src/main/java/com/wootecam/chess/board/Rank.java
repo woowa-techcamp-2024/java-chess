@@ -2,6 +2,7 @@ package com.wootecam.chess.board;
 
 import static com.wootecam.chess.board.Board.MAX_COL;
 import static com.wootecam.chess.constraint.ChessConstraint.validFileIndex;
+import static com.wootecam.chess.pieces.NoPiece.BLANK;
 
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
@@ -14,7 +15,7 @@ public class Rank {
 
     public Rank() {
         this.squares = new Piece[MAX_COL];
-        Arrays.fill(squares, Piece.BLANK);
+        Arrays.fill(squares, BLANK);
     }
 
     public void place(Piece piece, int index) {
@@ -26,7 +27,7 @@ public class Rank {
     public void clearSquare(int index) {
         validFileIndex(index);
 
-        squares[index] = Piece.BLANK;
+        squares[index] = BLANK;
     }
 
     public Piece get(int index) {

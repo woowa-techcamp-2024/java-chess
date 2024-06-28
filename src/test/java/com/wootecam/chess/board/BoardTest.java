@@ -2,6 +2,7 @@ package com.wootecam.chess.board;
 
 import static com.wootecam.chess.Fixture.createBoard;
 import static com.wootecam.chess.Fixture.createPosition;
+import static com.wootecam.chess.pieces.NoPiece.BLANK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -235,7 +236,7 @@ class BoardTest {
             board.move(createPosition("a8"), createPosition("b8"));
 
             assertAll(
-                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(Piece.BLANK),
+                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(BLANK),
                     () -> assertThat(board.get(createPosition("b8"))).isEqualTo(Piece.createBlackPawn())
             );
         }
