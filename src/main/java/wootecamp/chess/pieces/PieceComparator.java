@@ -1,6 +1,4 @@
-package wootecamp.chess;
-
-import wootecamp.chess.pieces.Piece;
+package wootecamp.chess.pieces;
 
 import java.util.Comparator;
 

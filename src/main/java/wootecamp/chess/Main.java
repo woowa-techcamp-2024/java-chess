@@ -1,30 +1,16 @@
 package wootecamp.chess;
 
-import java.util.Scanner;
+import wootecamp.chess.game.ConsoleGameFactory;
+import wootecamp.chess.game.Game;
+import wootecamp.chess.game.GameFactory;
 
 public class Main {
     public static void main(String[] args) {
-        Board board = new Board();
-        Scanner sc = new Scanner(System.in);
+        GameFactory gameFactory = new ConsoleGameFactory();
+        Game game = gameFactory.createGame();
 
-        while(true) {
-            String command = sc.next();
-
-            if(command.equals("start")) {
-                start(board);
-                continue;
-            }
-            if(command.equals("end")) {
-                break;
-            }
-
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+        while(!game.isEnd()) {
+            game.receiveRequest();
         }
     }
-
-    private static void start(Board board) {
-        board.initialize();
-        System.out.println(board.showBoard());
-    }
-
 }

@@ -1,6 +1,8 @@
-package wootecamp.chess;
+package wootecamp.chess.board;
 
+import wootecamp.chess.pieces.PieceComparator;
 import wootecamp.chess.pieces.Piece;
+import wootecamp.chess.pieces.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,17 +62,28 @@ public class Board {
         return builder.toString();
     }
 
-    public Piece findPiece(final String position) {
-        final BoardPosition boardPosition = new BoardPosition(position);
+    public Piece findPiece(final BoardPosition boardPosition) {
         final Rank rank = board.get(boardPosition.getRankPosition());
         return rank.findPiece(boardPosition.getFilePosition());
     }
 
     public void move(final String position, final Piece piece) {
         final BoardPosition boardPosition = new BoardPosition(position);
-        Rank rank = board.get(boardPosition.getRankPosition());
 
+        Rank rank = board.get(boardPosition.getRankPosition());
         rank.setPiece(boardPosition.getFilePosition(), piece);
+    }
+
+
+    public void move(BoardPosition source, BoardPosition target) {
+        Piece piece = findPiece(source);
+        setPiece(source, PieceFactory.createEmptyPiece());
+        setPiece(target, piece);
+    }
+
+    private void setPiece(final BoardPosition position, final Piece piece) {
+        Rank rank = board.get(position.getRankPosition());
+        rank.setPiece(position.getFilePosition(), piece);
     }
 
     public double calculatePoint(final Piece.Color color) {
