@@ -85,10 +85,7 @@ public class Board {
     public List<Piece> getPiecesSortedByScore(Color color, Order order) {
         return Arrays.stream(ranks)
                 .flatMap(r -> r.getPieces(color).stream())
-                .sorted((p1, p2) -> {
-                    int compare = Double.compare(p1.getType().point, p2.getType().point);
-                    return order.isAsc() ? compare : -compare;
-                })
+                .sorted(order::compare)
                 .toList();
     }
 }
