@@ -30,3 +30,4 @@ java-chess/build/
 java-chess/.idea/
 
 .DS_Store
+.idea
