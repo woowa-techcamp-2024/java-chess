@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import static chess.pieces.PieceTestUtil.assertImpossibleMove;
 import static chess.pieces.PieceTestUtil.assertMove;
 
 import chess.board.Board;
@@ -32,31 +33,48 @@ class KingTest {
     @DisplayName("킹의 이동가능한 곳들을 확인한다")
     @ParameterizedTest
     @MethodSource
-    void possiblePositionsFromStartPosition(Position src, Position target, Piece king) {
+    void possiblePositions(Position src, Position target, Piece king) {
         board.move(src, king);
         board.move(src, target);
         assertMove(board, src, target, king);
     }
 
-    @MethodSource
-    public static Stream<Arguments> possiblePositionsFromStartPosition() {
+    public static Stream<Arguments> possiblePositions() {
         return Stream.of(
-                Arguments.of(Position.d2, Position.c1, whiteKing),
-                Arguments.of(Position.d2, Position.c2, whiteKing),
-                Arguments.of(Position.d2, Position.c3, whiteKing),
-                Arguments.of(Position.d2, Position.d3, whiteKing),
-                Arguments.of(Position.d2, Position.d1, whiteKing),
-                Arguments.of(Position.d2, Position.e1, whiteKing),
-                Arguments.of(Position.d2, Position.e2, whiteKing),
-                Arguments.of(Position.d2, Position.e3, whiteKing),
-                Arguments.of(Position.d6, Position.c5, blackKing),
-                Arguments.of(Position.d6, Position.c6, blackKing),
-                Arguments.of(Position.d6, Position.c7, blackKing),
-                Arguments.of(Position.d6, Position.d5, blackKing),
-                Arguments.of(Position.d6, Position.d7, blackKing),
-                Arguments.of(Position.d6, Position.e5, blackKing),
-                Arguments.of(Position.d6, Position.e6, blackKing),
-                Arguments.of(Position.d6, Position.e7, blackKing)
+                Arguments.of(Position.d4, Position.d3, whiteKing),
+                Arguments.of(Position.d4, Position.d5, whiteKing),
+                Arguments.of(Position.d4, Position.c4, whiteKing),
+                Arguments.of(Position.d4, Position.e4, whiteKing),
+                Arguments.of(Position.d4, Position.c5, whiteKing),
+                Arguments.of(Position.d4, Position.e5, whiteKing),
+                Arguments.of(Position.d4, Position.c3, whiteKing),
+                Arguments.of(Position.d4, Position.e3, whiteKing),
+                Arguments.of(Position.d4, Position.d3, blackKing),
+                Arguments.of(Position.d4, Position.d5, blackKing),
+                Arguments.of(Position.d4, Position.c4, blackKing),
+                Arguments.of(Position.d4, Position.e4, blackKing),
+                Arguments.of(Position.d4, Position.c5, blackKing),
+                Arguments.of(Position.d4, Position.e5, blackKing),
+                Arguments.of(Position.d4, Position.c3, blackKing),
+                Arguments.of(Position.d4, Position.e3, blackKing)
+        );
+    }
+
+    @DisplayName("킹의 이동 불가능한 곳들을 확인한다")
+    @ParameterizedTest
+    @MethodSource
+    void impossiblePositions(Position src, Position target, Piece king) {
+        board.move(src, king);
+        assertImpossibleMove(board, src, target);
+    }
+
+    @MethodSource
+    public static Stream<Arguments> impossiblePositions() {
+        return Stream.of(
+                Arguments.of(Position.c2, Position.a4, whiteKing),
+                Arguments.of(Position.c2, Position.c2, whiteKing),
+                Arguments.of(Position.c2, Position.d4, whiteKing),
+                Arguments.of(Position.c2, Position.e2, whiteKing)
         );
     }
 }
