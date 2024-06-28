@@ -2,6 +2,6 @@ package com.woopaca.javachess.pieces;
 
 public enum Range {
 
-    INFINITY, ONE
+    INFINITY, ZERO, ONE
 
 }

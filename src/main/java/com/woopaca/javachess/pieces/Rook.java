@@ -5,7 +5,7 @@ import java.util.List;
 public class Rook extends Piece {
 
     protected Rook(Color color) {
-        super(color, Type.ROOK);
+        super(color, Type.ROOK, Range.INFINITY);
     }
 
     @Override

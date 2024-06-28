@@ -5,7 +5,7 @@ import java.util.List;
 public class Knight extends Piece {
 
     protected Knight(Color color) {
-        super(color, Type.KNIGHT);
+        super(color, Type.KNIGHT, Range.ONE);
     }
 
     @Override

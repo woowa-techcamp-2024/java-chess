@@ -5,7 +5,7 @@ import java.util.List;
 public class Pawn extends Piece {
 
     protected Pawn(Color color) {
-        super(color, Type.PAWN);
+        super(color, Type.PAWN, Range.ONE);
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.util.List;
 public class King extends Piece {
 
     protected King(Color color) {
-        super(color, Type.KING);
+        super(color, Type.KING, Range.ONE);
     }
 
     @Override

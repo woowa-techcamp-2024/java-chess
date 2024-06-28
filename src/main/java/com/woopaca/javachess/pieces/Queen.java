@@ -5,7 +5,7 @@ import java.util.List;
 public class Queen extends Piece {
 
     protected Queen(Color color) {
-        super(color, Type.QUEEN);
+        super(color, Type.QUEEN, Range.INFINITY);
     }
 
     @Override

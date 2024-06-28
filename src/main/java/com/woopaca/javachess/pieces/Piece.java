@@ -7,10 +7,12 @@ public abstract class Piece {
 
     private final Color color;
     private final Type type;
+    private final Range range;
 
-    protected Piece(Color color, Type type) {
+    protected Piece(Color color, Type type, Range range) {
         this.color = color;
         this.type = type;
+        this.range = range;
     }
 
     public Color getColor() {

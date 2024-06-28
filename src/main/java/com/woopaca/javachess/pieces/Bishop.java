@@ -5,7 +5,7 @@ import java.util.List;
 public class Bishop extends Piece {
 
     protected Bishop(Color color) {
-        super(color, Type.BISHOP);
+        super(color, Type.BISHOP, Range.INFINITY);
     }
 
     @Override
