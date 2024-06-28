@@ -1,6 +1,5 @@
 package org.example.chess;
 
-import org.example.pieces.Piece;
 import org.example.pieces.Piece.Color;
 
 public class ChessGame {
