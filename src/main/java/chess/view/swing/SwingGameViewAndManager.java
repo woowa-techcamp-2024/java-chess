@@ -8,8 +8,6 @@ import chess.view.GameView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Stack;
 
@@ -36,7 +34,6 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 tiles[row][col].setRepresentation(board.charAt((row) * BOARD_SIZE + (col)));
-                tiles[row][col].reDraw();
             }
         }
     }
@@ -68,52 +65,8 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
                     int px = row - 1;
                     int py = col - 1;
                     tiles[px][py] = new PieceTileComponent(TILE_SIZE, (row + col) % 2 == 0 ? Color.WHITE : Color.GRAY, px, py, board.charAt(px * BOARD_SIZE + py));
-                    tiles[px][py].addActionListener(e -> {
-                        try {
-                            if(!start){
-                                showMessage("게임을 시작하지 않으셨습니다.");
-                                return;
-                            }
-                            PieceTileComponent target = (PieceTileComponent) e.getSource();
-                            if (selectedPieces.contains(target)) {//같은걸 클릭함.
-                                selectedPieces.remove(target);
-                                target.unSelectTile();
-                                turnOffPossiblePosition();
-                                return;
-                            }
+                    tiles[px][py].addActionListener(e -> tileClickAction((PieceTileComponent) e.getSource()));
 
-                            selectedPieces.add(target);
-                            target.selectTile();
-
-                            if(selectedPieces.size() == 1){
-                                List<String> possibleMovePositions = chessGame.possibleMovePositions(target.getPosition());
-                                turnOnPossiblePosition(possibleMovePositions);
-                            }
-
-                            if (selectedPieces.size() == 2) {
-                                PieceTileComponent targetComponent = selectedPieces.pop();
-                                PieceTileComponent sourceComponent = selectedPieces.pop();
-
-                                String sourcePosition = sourceComponent.getPosition();
-                                String targetPosition = targetComponent.getPosition();
-                                boolean move = chessGame.move(sourcePosition, targetPosition);
-                                if (move) {
-                                    boardRepresentationSetting(chessGame.showBoard());
-                                    turnChange();
-                                } else {
-                                    showError("이동할 수 없습니다.");
-                                }
-                                turnOffPossiblePosition();
-                                if(chessGame.isEnd()){
-                                    stopGame();
-                                }
-                            }
-                        } catch (Exception ee) {
-                            showError(ee.getMessage());
-                            turnOffPossiblePosition();
-                            selectedPieces.clear();
-                        }
-                    });
                     boardPanel.add(tiles[px][py]);
                 }
             }
@@ -214,4 +167,50 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
         super.endGame();
         showMessage("게임이 종료되었습니다.");
     }
-}
+
+    private void tileClickAction(PieceTileComponent target){
+            try {
+                if(!start){
+                    showMessage("게임을 시작하지 않으셨습니다.");
+                    return;
+                }
+                if (selectedPieces.contains(target)) {//같은걸 클릭함.
+                    selectedPieces.remove(target);
+                    target.unSelectTile();
+                    turnOffPossiblePosition();
+                    return;
+                }
+
+                selectedPieces.add(target);
+                target.selectTile();
+
+                if(selectedPieces.size() == 1){
+                    List<String> possibleMovePositions = chessGame.possibleMovePositions(target.getPosition());
+                    turnOnPossiblePosition(possibleMovePositions);
+                }
+
+                if (selectedPieces.size() == 2) {
+                    PieceTileComponent targetComponent = selectedPieces.pop();
+                    PieceTileComponent sourceComponent = selectedPieces.pop();
+
+                    String sourcePosition = sourceComponent.getPosition();
+                    String targetPosition = targetComponent.getPosition();
+                    boolean move = chessGame.move(sourcePosition, targetPosition);
+                    if (move) {
+                        boardRepresentationSetting(chessGame.showBoard());
+                        turnChange();
+                    } else {
+                        showError("이동할 수 없습니다.");
+                    }
+                    turnOffPossiblePosition();
+                    if(chessGame.isEnd()){
+                        stopGame();
+                    }
+                }
+            } catch (Exception ee) {
+                showError(ee.getMessage());
+                turnOffPossiblePosition();
+                selectedPieces.clear();
+            }
+        }
+    }

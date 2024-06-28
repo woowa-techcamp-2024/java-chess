@@ -49,6 +49,7 @@ public class PieceTileComponent extends JButton {
 
     public void setRepresentation(char representation) {
         this.representation = representation;
+        reDraw();
     }
 
     public void reDraw() {

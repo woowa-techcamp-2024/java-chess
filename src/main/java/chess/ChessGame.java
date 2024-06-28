@@ -6,6 +6,7 @@ import chess.pieces.Direction;
 import chess.pieces.PieceTypes;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,61 +23,12 @@ public class ChessGame {
         setWhiteTurn(true);
     }
 
-    public String showBoard() {
-        return this.board.print();
-    }
-
     public void startGame() {
         init();
     }
 
-    //king이 둘중 하나라도 없으면 끝남
-    public boolean isEnd() {
-        return board.findPieceWithColorAndType(PieceTypes.Color.BLACK, PieceTypes.Type.KING) == 0
-                || board.findPieceWithColorAndType(PieceTypes.Color.WHITE, PieceTypes.Type.KING) == 0;
-    }
-
-    private boolean isOwner(ChessPiece piece) {
-        return whiteTurn && PieceTypes.Color.WHITE.equals(piece.getColor())
-                || !whiteTurn && PieceTypes.Color.BLACK.equals(piece.getColor());
-    }
-
-    private void findPossibleDirection(List<String> result, Direction direction, ChessPiece piece, String source) {
-        //범위 밖으로 나가면 false
-        if (!board.isIn(source)) {
-            return;
-        }
-        //해당 위치에 색이 같으면 false, 아니면 true
-        boolean isPiece = board.findPiece(source)
-                .map(p -> {
-                    if (!isSameTeam(piece, p)) {
-                        result.add(source);
-                    }
-                    return !PieceTypes.Type.NO_PIECE.equals(p.getType());
-                }).orElse(false);
-        //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
-        if (!piece.getCourse().isRecursive()) return;
-
-        if (!piece.getType().isJumpable() && isPiece) return;
-        findPossibleDirection(result, direction, piece, getNextPosition(source, direction));
-    }
-
-    private void dfs(List<String> result, ChessPiece piece, String source) {
-        Course course = piece.getCourse();
-        List<Direction> directions = course.getDirections();
-
-        for (Direction direction : directions) {
-            findPossibleDirection(result, direction, piece, getNextPosition(source, direction));
-        }
-    }
-
-    public List<String> possibleMovePositions(String position) {
-        List<String> result = new ArrayList<>();
-        Optional<ChessPiece> piece = board.findPiece(position);
-        piece.ifPresent(p -> {
-            dfs(result, p, position);
-        });
-        return result;
+    public String showBoard() {
+        return board.print();
     }
 
     public boolean move(String source, String target) {
@@ -93,6 +45,71 @@ public class ChessGame {
         }).orElse(false);
     }
 
+    public List<String> possibleMovePositions(String position) {
+        List<String> result = new LinkedList<>();
+        Optional<ChessPiece> piece = board.findPiece(position);
+        piece.ifPresent(p -> {
+            if(!PieceTypes.Type.NO_PIECE.equals(p.getType())) {
+                findPossiblePositions(result, p, position);
+            }
+        });
+        return result;
+    }
+
+    public boolean isEnd() {
+        return board.findPieceWithColorAndType(PieceTypes.Color.BLACK, PieceTypes.Type.KING) == 0
+                || board.findPieceWithColorAndType(PieceTypes.Color.WHITE, PieceTypes.Type.KING) == 0;
+    }
+
+    public void finishGame() {
+        board.initializeEmpty();
+    }
+
+    public boolean isWhiteTurn() {
+        return whiteTurn;
+    }
+
+    protected void setWhiteTurn(boolean whiteTurn) {
+        this.whiteTurn = whiteTurn;
+    }
+
+    public void turnChange() {
+        setWhiteTurn(!isWhiteTurn());
+    }
+
+    private boolean isOwner(ChessPiece piece) {
+        return whiteTurn && PieceTypes.Color.WHITE.equals(piece.getColor())
+                || !whiteTurn && PieceTypes.Color.BLACK.equals(piece.getColor());
+    }
+
+    private void findPossiblePositions(List<String> result, ChessPiece piece, String source) {
+        Course course = piece.getCourse();
+        List<Direction> directions = course.getDirections();
+
+        for (Direction direction : directions) {
+            findPossiblePositionsWithDirection(result, direction, piece, getNextPosition(source, direction));
+        }
+    }
+
+    private void findPossiblePositionsWithDirection(List<String> result, Direction direction, ChessPiece piece, String source) {
+        if (!board.isIn(source)) {
+            return;
+        }
+
+        boolean isPiece = board.findPiece(source)
+                .map(p -> {
+                    if (!isSameTeam(piece, p)) {
+                        result.add(source);
+                    }
+                    return !PieceTypes.Type.NO_PIECE.equals(p.getType());
+                }).orElse(false);
+
+        if (!piece.getCourse().isRecursive()) return;
+        if (!piece.getType().isJumpable() && isPiece) return;
+
+        findPossiblePositionsWithDirection(result, direction, piece, getNextPosition(source, direction));
+    }
+
     private boolean isSameTeam(ChessPiece p1, ChessPiece p2) {
         return p1 != null && p2 != null && p1.getColor().equals(p2.getColor());
     }
@@ -105,31 +122,11 @@ public class ChessGame {
     private boolean innerIsPossibleMove(ChessPiece piece, String source, String target) {
         Course pieceCourse = piece.getCourse();
         List<Direction> directions = pieceCourse.getDirections();
-        boolean result = false;
+        List<String> possiblePositions = new LinkedList<>();
         for (Direction direction : directions) {
-            result = result || isFind(piece, direction, getNextPosition(source, direction), target);
+            findPossiblePositionsWithDirection(possiblePositions,direction,piece,getNextPosition(source, direction));
         }
-        return result;
-    }
-
-    private boolean isFind(ChessPiece piece, Direction direction, String source, String target) {
-        //범위 밖으로 나가면 false
-        if (!board.isIn(source)) {
-            return false;
-        }
-        //해당 위치에 색이 같으면 false, 아니면 true
-        if (source.equals(target)) {
-            return board.findPiece(target)
-                    .map(tp -> !isSameTeam(piece, tp))
-                    .orElse(false);
-        }
-        //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
-        if (!piece.getCourse().isRecursive()) return false;
-        boolean isPiece = board.findPiece(target)
-                .map(p -> !PieceTypes.Type.NO_PIECE.equals(p.getType()) && isSameTeam(piece, p))
-                .orElse(false);
-        if (!piece.getType().isJumpable() && isPiece) return false;
-        return isFind(piece, direction, getNextPosition(source, direction), target);
+        return possiblePositions.contains(target);
     }
 
     private String getNextPosition(String sourcePosition, Direction direction) {
@@ -161,22 +158,5 @@ public class ChessGame {
 
         if (!('1' <= row && row <= '8')) throw new IllegalArgumentException("position은 a1 ~ h8 까지 입력해주세요");
         return row - '1';
-    }
-
-
-    public void finishGame() {
-        board.initializeEmpty();
-    }
-
-    public boolean isWhiteTurn() {
-        return whiteTurn;
-    }
-
-    protected void setWhiteTurn(boolean whiteTurn) {
-        this.whiteTurn = whiteTurn;
-    }
-
-    public void turnChange() {
-        setWhiteTurn(!isWhiteTurn());
     }
 }
