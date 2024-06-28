@@ -1,6 +1,6 @@
 package chess.board;
 
-import chess.pieces.Piece;
+import chess.pieces.*;
 import chess.pieces.Piece.Type;
 import chess.pieces.Piece.Color;
 import chess.view.ChessView;
@@ -47,11 +47,11 @@ public class BoardTest {
     @DisplayName("주어진 위치의 기물을 조회해야합니다.")
     public void findPiece() throws Exception {
         board.initialize();
-        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
-        assertEquals(Piece.createWhiteKing(), board.findPiece("e1"));
+        assertEquals(Rook.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Rook.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Rook.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Rook.createWhiteRook(), board.findPiece("h1"));
+        assertEquals(King.createWhiteKing(), board.findPiece("e1"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class BoardTest {
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createBlackRook();
+        Piece piece = Rook.createBlackRook();
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -72,15 +72,15 @@ public class BoardTest {
     public void calculatePoint1() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", Pawn.createBlackPawn());
+        addPiece("e6", Queen.createBlackQueen());
+        addPiece("b8", King.createBlackKing());
+        addPiece("c8", Rook.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Pawn.createWhitePawn());
+        addPiece("g2", Pawn.createWhitePawn());
+        addPiece("e1", Rook.createWhiteRook());
+        addPiece("f1", King.createWhiteKing());
 
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
@@ -93,15 +93,15 @@ public class BoardTest {
     public void calculatePoint2() throws Exception {
         board.initializeEmpty();
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("h3", Piece.createWhitePawn());
-        addPiece("h3", Piece.createWhitePawn());
-        addPiece("f3", Piece.createWhitePawn());
-        addPiece("g4", Piece.createWhiteQueen());
-        addPiece("f4", Piece.createWhiteKnight());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Pawn.createWhitePawn());
+        addPiece("h3", Pawn.createWhitePawn());
+        addPiece("h3", Pawn.createWhitePawn());
+        addPiece("f3", Pawn.createWhitePawn());
+        addPiece("g4", Queen.createWhiteQueen());
+        addPiece("f4", Knight.createWhiteKnight());
+        addPiece("g2", Pawn.createWhitePawn());
+        addPiece("e1", Rook.createWhiteRook());
+        addPiece("f1", King.createWhiteKing());
 
         assertEquals(19.5, board.calculatePoint(Color.WHITE), 0.01);
 
@@ -113,19 +113,19 @@ public class BoardTest {
     public void sortPieces() throws Exception {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", Pawn.createBlackPawn());
+        addPiece("e6", Queen.createBlackQueen());
+        addPiece("b8", King.createBlackKing());
+        addPiece("c8", Rook.createBlackRook());
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("h3", Piece.createWhitePawn());
-        addPiece("f3", Piece.createWhitePawn());
-        addPiece("g4", Piece.createWhiteQueen());
-        addPiece("f4", Piece.createWhiteKnight());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Pawn.createWhitePawn());
+        addPiece("h3", Pawn.createWhitePawn());
+        addPiece("f3", Pawn.createWhitePawn());
+        addPiece("g4", Queen.createWhiteQueen());
+        addPiece("f4", Knight.createWhiteKnight());
+        addPiece("g2", Pawn.createWhitePawn());
+        addPiece("e1", Rook.createWhiteRook());
+        addPiece("f1", King.createWhiteKing());
 
         assertEquals("KPRQ", new Rank(board.sortPiece(Color.BLACK, Order.ASC)).toString());
         assertEquals("kppppnrq", new Rank(board.sortPiece(Color.WHITE, Order.ASC)).toString());
@@ -145,8 +145,8 @@ public class BoardTest {
         String sourcePosition = "b2";
         String targetPosition = "b3";
         board.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(), board.findPiece(targetPosition));
+        assertEquals(Blank.createBlank(), board.findPiece(sourcePosition));
+        assertEquals(Pawn.createWhitePawn(), board.findPiece(targetPosition));
 
         System.out.println(chessView.showBoard(board));
     }
