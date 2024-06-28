@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Knight Tests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-06-28T02:04:50" hostname="woowatech24ui-MacBookPro.local" time="0.003">
+  <properties/>
+  <testcase name="유효하지 않은 규칙" classname="org.example.chess.pieces.PieceTest$KnightTest" time="0.0"/>
+  <testcase name="유효한 규칙" classname="org.example.chess.pieces.PieceTest$KnightTest" time="0.0"/>
+  <testcase name="범위를 벗어난 이동" classname="org.example.chess.pieces.PieceTest$KnightTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
