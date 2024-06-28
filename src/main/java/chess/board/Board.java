@@ -1,8 +1,7 @@
 package chess.board;
 
-import chess.pieces.Piece;
-import chess.pieces.Piece.Type;
-import chess.pieces.Piece.Color;
+import chess.pieces.*;
+import chess.pieces.Piece.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +28,19 @@ public class Board {
     public void initializeBlackPiece() {
         List<Piece> pieces = new ArrayList<>();
 
-        pieces.add(Piece.createBlackRook());
-        pieces.add(Piece.createBlackKnight());
-        pieces.add(Piece.createBlackBishop());
-        pieces.add(Piece.createBlackQueen());
-        pieces.add(Piece.createBlackKing());
-        pieces.add(Piece.createBlackBishop());
-        pieces.add(Piece.createBlackKnight());
-        pieces.add(Piece.createBlackRook());
+        pieces.add(Rook.createBlackRook());
+        pieces.add(Knight.createBlackKnight());
+        pieces.add(Bishop.createBlackBishop());
+        pieces.add(Queen.createBlackQueen());
+        pieces.add(King.createBlackKing());
+        pieces.add(Bishop.createBlackBishop());
+        pieces.add(Knight.createBlackKnight());
+        pieces.add(Rook.createBlackRook());
         ranks.set(0, new Rank(pieces));
         pieces.clear();
 
         for (int i = 0; i < BOARD_SIZE; i++) {
-            pieces.add(Piece.createBlackPawn());
+            pieces.add(Pawn.createBlackPawn());
         }
         ranks.set(1, new Rank(pieces));
     }
@@ -50,7 +49,7 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++) {
             List<Piece> pieces = new ArrayList<>();
             for (int j = 0; j < BOARD_SIZE; j++) {
-                pieces.add(Piece.createBlank());
+                pieces.add(Blank.createBlank());
             }
             ranks.add(new Rank(pieces));
         }
@@ -60,19 +59,19 @@ public class Board {
         List<Piece> pieces = new ArrayList<>();
 
         for (int i = 0; i < BOARD_SIZE; i++) {
-            pieces.add(Piece.createWhitePawn());
+            pieces.add(Pawn.createWhitePawn());
         }
         ranks.set(6, new Rank(pieces));
         pieces.clear();
 
-        pieces.add(Piece.createWhiteRook());
-        pieces.add(Piece.createWhiteKnight());
-        pieces.add(Piece.createWhiteBishop());
-        pieces.add(Piece.createWhiteQueen());
-        pieces.add(Piece.createWhiteKing());
-        pieces.add(Piece.createWhiteBishop());
-        pieces.add(Piece.createWhiteKnight());
-        pieces.add(Piece.createWhiteRook());
+        pieces.add(Rook.createWhiteRook());
+        pieces.add(Knight.createWhiteKnight());
+        pieces.add(Bishop.createWhiteBishop());
+        pieces.add(Queen.createWhiteQueen());
+        pieces.add(King.createWhiteKing());
+        pieces.add(Bishop.createWhiteBishop());
+        pieces.add(Knight.createWhiteKnight());
+        pieces.add(Rook.createWhiteRook());
         ranks.set(7, new Rank(pieces));
     }
 
@@ -94,7 +93,7 @@ public class Board {
 
     public void move(String sourcePosition, String targetPosition) {
         Piece piece = findPiece(sourcePosition);
-        move(sourcePosition, Piece.createBlank());
+        move(sourcePosition, Blank.createBlank());
         move(targetPosition, piece);
     }
 

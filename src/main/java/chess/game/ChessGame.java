@@ -1,6 +1,7 @@
 package chess.game;
 
 import chess.board.Board;
+import chess.pieces.Piece;
 
 public class ChessGame {
 
@@ -15,7 +16,10 @@ public class ChessGame {
     }
 
     public void move(String sourcePosition, String targetPosition) {
-        board.move(sourcePosition, targetPosition);
+        Piece piece = board.findPiece(sourcePosition);
+        if(piece.verifyMovePosition(sourcePosition, targetPosition)) {
+            board.move(sourcePosition, targetPosition);
+        } else throw new IllegalMoveException("Illegal move!\n");
     }
 
 }
