@@ -17,6 +17,8 @@ public class ChessGame {
     private Set<Piece> whitePieces;
     private Set<Piece> blackPieces;
 
+    private Color turn = Color.WHITE;
+
     private Board board;
 
     public void initialize() {
@@ -113,11 +115,14 @@ public class ChessGame {
         // validate source and target in Board
         validateInBoard(source);
         validateInBoard(target);
+        validateSamePos(source, target);
 
         Position sourcePos = CommandChanger.getPosition(source);
         Position targetPos = CommandChanger.getPosition(target);
 
         Piece p = findPiece(source);
+
+        validateTurn(p.getColor());
 
 
         if (p instanceof King || p instanceof Knight) {
@@ -145,7 +150,6 @@ public class ChessGame {
 
                 p.move(newSourcePos.toString(), nextPos.toString());
                 newSourcePos = nextPos;
-
             }
 
 
@@ -157,28 +161,47 @@ public class ChessGame {
                 p.move(source, target);
                 board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
                 board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
-                return ;
-            }
 
-            var newSourcePos = sourcePos.clone();
-            Position dir = p.findDir(newSourcePos, targetPos);
-            int moveCnt = 0;
-            while (!Objects.equals(newSourcePos, targetPos) && moveCnt < 2) {
-                var nextPos = newSourcePos.add(dir);
-                try {
-                    validateInBoard(nextPos.toString());
-                    validateAvailableToMove(p, nextPos.toString());
-                } catch (IllegalArgumentException e) {
-                    break;
+            } else {
+
+                var newSourcePos = sourcePos.clone();
+                Position dir = p.findDir(newSourcePos, targetPos);
+                int moveCnt = 0;
+                while (!Objects.equals(newSourcePos, targetPos) && moveCnt < 2) {
+                    var nextPos = newSourcePos.add(dir);
+                    try {
+                        validateInBoard(nextPos.toString());
+                        validateAvailableToMove(p, nextPos.toString());
+                    } catch (IllegalArgumentException e) {
+                        break;
+                    }
+
+                    p.move(newSourcePos.toString(), nextPos.toString());
+                    newSourcePos = nextPos;
+                    moveCnt++;
                 }
-
-                p.move(newSourcePos.toString(), nextPos.toString());
-                newSourcePos = nextPos;
-                moveCnt++;
+                p.setMoved();
+                board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
+                board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
             }
-            p.setMoved();
-            board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
-            board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
+        }
+
+        toggleTurn();
+    }
+
+    private void toggleTurn() {
+        turn = turn != Color.WHITE ? Color.WHITE : Color.BLACK;
+    }
+
+    private void validateTurn(Color color) {
+        if (!Objects.equals(turn, color)) {
+            throw new IllegalArgumentException("Error: 지금은 상대 턴입니다.");
+        }
+    }
+
+    private void validateSamePos(String source, String target) {
+        if (Objects.equals(source, target)) {
+            throw new IllegalArgumentException("Error: 같은 좌표로 이동할 수 없습니다.");
         }
     }
 
