@@ -3,10 +3,10 @@ package chess.pieces;
 import chess.CommandChanger;
 import chess.Position;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public abstract class Piece {
-
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
@@ -113,7 +113,35 @@ public abstract class Piece {
         this.position = CommandChanger.getPosition(position);
     }
 
-    public void move(String source, String target) {}
+    public void move(String source, String target) {
+        Position sourcePos = CommandChanger.getPosition(source);
+        Position targetPos = CommandChanger.getPosition(target);
+        if (!getDirs().contains(Position.calculateDistance(sourcePos, targetPos))) {
+            throw new IllegalArgumentException("Error: 움직일 수 없는 명령입니다.");
+        }
+
+        setPosition(target);
+    }
+
+    protected Set<Position> getDirs() {
+        return Set.of();
+    }
+
+
+    public Position findDir(Position source, Position target) {
+        List<Position> dirs = getDirs().stream().toList();
+        List<Double> distances = new ArrayList<>();
+
+        for (Position dir : dirs) {
+            distances.add(source.add(dir).calcDistance(target));
+        }
+
+        // find min in distance
+        return dirs.get(IntStream.range(0, distances.size())
+                .boxed()
+                .min(Comparator.comparing(distances::get))
+                .orElse(-1));
+    }
 
     @Override
     public boolean equals(Object o) {

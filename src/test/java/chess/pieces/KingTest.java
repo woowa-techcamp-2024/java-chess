@@ -17,7 +17,7 @@ class KingTest {
     @Test
     @DisplayName("king 움직임")
     void moveKing() {
-        King king = (King) Piece.of(King.class, WHITE, "a1");
+        Piece king =  Piece.of(King.class, WHITE, "a1");
         king.move("a1", "a2");
         assertEquals(king.getPosition().toString(), "a2");
     }

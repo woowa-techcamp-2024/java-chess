@@ -1,6 +1,5 @@
 package chess.pieces;
 
-import chess.CommandChanger;
 import chess.Position;
 
 import java.util.Set;
@@ -13,14 +12,8 @@ public class King extends Piece {
     }
 
     @Override
-    public void move(String source, String target) {
-        Position sourcePos = CommandChanger.getPosition(source);
-        Position targetPos = CommandChanger.getPosition(target);
-        if (!dirs.contains(Position.calculateDistance(sourcePos, targetPos))) {
-            throw new IllegalArgumentException();
-        }
-
-        setPosition(target);
+    public Set<Position> getDirs() {
+        return dirs;
     }
 
     @Override

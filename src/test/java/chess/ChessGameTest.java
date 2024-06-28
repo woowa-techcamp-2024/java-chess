@@ -121,7 +121,11 @@ class ChessGameTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
+
         game.move(sourcePosition, targetPosition);
+
+        System.out.println(game.showBoard());
+
         assertEquals(Piece.of(NoPiece.class, NOCOLOR, new Position(sourcePosition)), game.findPiece(sourcePosition));
         assertEquals(Piece.of(Pawn.class, WHITE, new Position(targetPosition)), game.findPiece(targetPosition));
     }
@@ -150,6 +154,13 @@ class ChessGameTest {
         assertEquals(piece, game.findPiece(pos));
     }
 
+    static Stream<Arguments> providedParam() {
+        return Stream.of(
+                Arguments.arguments(Piece.of(Knight.class, WHITE, "a1"), "a1"),
+                Arguments.arguments(Piece.of(Knight.class, WHITE, "b1"), "b1")
+        );
+    }
+
     @Test
     @DisplayName("이동하려는 위치에 같은 편의 기물이 있는지 확인")
     void checkSameColor() {
@@ -163,7 +174,7 @@ class ChessGameTest {
     void moveKing() {
         game.initialize();
 
-        game.move("e1", "e2");
+        assertThrows(IllegalArgumentException.class, () -> game.move("e1", "e2"));
 
         assertTrue(game.findPiece("e1") instanceof King);
         assertTrue(game.findPiece("e2") instanceof Pawn);
@@ -176,15 +187,22 @@ class ChessGameTest {
 
         Piece p = game.findPiece("a1");
 
-        game.move("a1", "a0");
+        assertThrows(IllegalArgumentException.class, () -> game.move("a1", "a0"));
 
         assertEquals(game.findPiece("a1"), p);
     }
 
-    static Stream<Arguments> providedParam() {
-        return Stream.of(
-                Arguments.arguments(Piece.of(Knight.class, WHITE, "a1"), "a1"),
-                Arguments.arguments(Piece.of(Knight.class, WHITE, "b1"), "b1")
-        );
+    @ParameterizedTest
+    @MethodSource("queenMove")
+    @DisplayName("Queen 이동 구현")
+    void moveQueen(String s, String t) {
+        game.initializeEmpty();
+        game.add(s, Piece.of(Queen.class, BLACK));
+
+        game.move(s, t);
+
+        game.showBoard();
+
+        assertEquals(game.findPiece(t).getClass(), Queen.class);
     }
 }

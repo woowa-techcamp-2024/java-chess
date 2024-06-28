@@ -31,7 +31,15 @@ public class Position {
     }
 
     public static Position calculateDistance(final Position source, final Position destination) {
-        return new Position(source.getRow() - destination.getRow(), destination.getColumn() - source.getColumn());
+        return new Position(destination.getRow() - source.getRow(), destination.getColumn() - source.getColumn());
+    }
+
+    public double calcDistance(final Position target) {
+        return Math.sqrt(Math.pow(row - target.row, 2) + Math.pow(column - target.getColumn(), 2));
+    }
+
+    public Position clone() {
+        return new Position(this.row, this.column);
     }
 
     @Override
@@ -45,5 +53,9 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    public Position add(Position dir) {
+        return new Position(row + dir.getRow(), column + dir.getColumn());
     }
 }

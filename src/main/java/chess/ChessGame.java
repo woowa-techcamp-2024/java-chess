@@ -109,32 +109,69 @@ public class ChessGame {
         return true;
     }
 
-    public void move(String source, String target) {
-        // validate target in Board
-        try {
-            CommandChanger.getPosition(target);
-        } catch (Exception e) {
-            System.out.println("Error: " + "범위를 초과합니다.");
-            return ;
-        }
-
-        Piece p = findPiece(source);
-        // validate available move
-        if (!isAvailableToMove(p.getColor(), target)) {
-            System.out.println("Error: " + "이미 같은 편 기물이 있습니다.");
-            return ;
-        }
-
-        Piece sourcePiece = findPiece(source);
-        sourcePiece.setPosition(CommandChanger.getPosition(target));
+    public void move(final String source, final String target) {
+        // validate source and target in Board
+        validateInBoard(source);
+        validateInBoard(target);
 
         Position sourcePos = CommandChanger.getPosition(source);
         Position targetPos = CommandChanger.getPosition(target);
-        // boardMap 수정
-        board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
-        board.replacePiece(targetPos.getRow(), targetPos.getColumn(), sourcePiece);
+
+        Piece p = findPiece(source);
+
+
+        if (p instanceof King || p instanceof Knight) {
+            validateAvailableToMove(p, target);
+
+            p.setPosition(CommandChanger.getPosition(target));
+
+            p.move(source, target);
+
+            // boardMap 수정
+            board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
+            board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
+        } else if (p instanceof Queen) {
+            var newSourcePos = sourcePos.clone();
+            Position dir = p.findDir(newSourcePos, targetPos);
+
+            while (!Objects.equals(newSourcePos, targetPos)) {
+                var nextPos = newSourcePos.add(dir);
+                try {
+                    validateInBoard(nextPos.toString());
+                    validateAvailableToMove(p, nextPos.toString());
+                } catch (IllegalArgumentException e) {
+                    break;
+                }
+
+                p.move(newSourcePos.toString(), nextPos.toString());
+                newSourcePos = nextPos;
+
+            }
+
+
+            board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
+            board.replacePiece(newSourcePos.getRow(), newSourcePos.getColumn(), p);
+        } else {
+            p.move(source, target);
+            board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
+            board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
+        }
     }
 
+    private void validateAvailableToMove(Piece p, String pos) {
+        // 같은 편 기물이 있는가?
+        if (!isAvailableToMove(p.getColor(), pos)) {
+            throw new IllegalArgumentException("Error: " + "이미 같은 편 기물이 있습니다.");
+        }
+    }
+
+    private void validateInBoard(String pos) {
+        try {
+            CommandChanger.getPosition(pos);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error: " + "범위를 초과합니다.");
+        }
+    }
 
     public double calculatePoint(Color color) {
         double score = 0.0;

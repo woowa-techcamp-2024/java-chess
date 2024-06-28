@@ -37,7 +37,11 @@ public class Main {
                 else if (isStarted && input.startsWith(GameCommand.MOVE.command)) {
                     clearConsole();
                     String[] cmd = input.split(" ");
-                    chessGame.move(cmd[1], cmd[2]);
+                    try {
+                        chessGame.move(cmd[1], cmd[2]);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
                     System.out.println(chessGame.showBoard());
                 }
                 else {
