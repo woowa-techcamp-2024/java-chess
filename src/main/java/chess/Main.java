@@ -29,6 +29,7 @@ public class Main {
                 }
             }
             System.out.println(chessGame.showBoard());
+            System.out.println();
             if(chessGame.isWhiteWin() || chessGame.isBlackWin()){
                 fireFlowerBoom(chessGame.isWhiteWin());
                 break;
