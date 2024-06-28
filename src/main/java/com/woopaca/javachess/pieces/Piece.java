@@ -1,73 +1,18 @@
 package com.woopaca.javachess.pieces;
 
-public class Piece {
+import java.util.List;
+import java.util.Objects;
+
+public abstract class Piece {
 
     private final Color color;
     private final Type type;
+    private final Range range;
 
-    private Piece(final Color color, final Type type) {
+    protected Piece(Color color, Type type, Range range) {
         this.color = color;
         this.type = type;
-    }
-
-    public static Piece createWhitePawn() {
-        return createWhite(Type.PAWN);
-    }
-
-    public static Piece createBlackPawn() {
-        return createBlack(Type.PAWN);
-    }
-
-    public static Piece createWhiteKnight() {
-        return createWhite(Type.KNIGHT);
-    }
-
-    public static Piece createBlackKnight() {
-        return createBlack(Type.KNIGHT);
-    }
-
-    public static Piece createWhiteRook() {
-        return createWhite(Type.ROOK);
-    }
-
-    public static Piece createBlackRook() {
-        return createBlack(Type.ROOK);
-    }
-
-    public static Piece createWhiteBishop() {
-        return createWhite(Type.BISHOP);
-    }
-
-    public static Piece createBlackBishop() {
-        return createBlack(Type.BISHOP);
-    }
-
-    public static Piece createWhiteQueen() {
-        return createWhite(Type.QUEEN);
-    }
-
-    public static Piece createBlackQueen() {
-        return createBlack(Type.QUEEN);
-    }
-
-    public static Piece createWhiteKing() {
-        return createWhite(Type.KING);
-    }
-
-    public static Piece createBlackKing() {
-        return createBlack(Type.KING);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(Color.BLACK, type);
+        this.range = range;
     }
 
     public Color getColor() {
@@ -76,6 +21,10 @@ public class Piece {
 
     public Type getType() {
         return type;
+    }
+
+    public Range getRange() {
+        return range;
     }
 
     public char getRepresentation() {
@@ -93,6 +42,16 @@ public class Piece {
         return color == Color.BLACK;
     }
 
+    public double getPoint() {
+        return type.getPoint();
+    }
+
+    public boolean isBlank() {
+        return type == Type.NO_PIECE;
+    }
+
+    public abstract List<Direction> getDirections();
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -104,8 +63,10 @@ public class Piece {
         return color == piece.color && type == piece.type;
     }
 
-    public double getPoint() {
-        return type.getPoint();
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(color);
+        result = 31 * result + Objects.hashCode(type);
+        return result;
     }
-
 }
