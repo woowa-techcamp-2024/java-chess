@@ -54,14 +54,14 @@ public class Board {
 		if (sourcePiece.getType() == Piece.Type.PAWN) {
 			if (sourcePosition.getCol() != destinationPosition.getCol()
 				&& destinationPiece.getType() == Piece.Type.NO_PIECE) {
-				return false;
+				return true;
 			}
 			if (sourcePosition.getCol() == destinationPosition.getCol()
 				&& destinationPiece.getType() != Piece.Type.NO_PIECE) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private boolean colorCheck(Piece sourcePiece, Piece destinationPiece) {
