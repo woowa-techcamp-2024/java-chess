@@ -44,6 +44,7 @@ public class Game {
 
         if (verifyMove(source, target, piece)) {
             board.move(source, target);
+            curTurnColor = curTurnColor == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
             gameOutputManager.showBoard(board);
             return;
         }
@@ -65,7 +66,7 @@ public class Game {
             if (!board.findPiece(curPosition).isEmptyPiece()) {
                 return false;
             }
-            curPosition = source.createNextPosition(direction);
+            curPosition = curPosition.createNextPosition(direction);
         }
 
         return true;
