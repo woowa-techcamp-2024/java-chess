@@ -6,7 +6,7 @@ public class Blank extends Piece {
     private static final double DEFAULT_POINT = 0.0;
 
     private Blank() {
-        super(Type.NO_PIECE, Color.NOCOLOR, REPRESENTATION, DEFAULT_POINT);
+        super(Color.NOCOLOR, REPRESENTATION, DEFAULT_POINT);
     }
 
     public static Blank create() {
@@ -15,11 +15,11 @@ public class Blank extends Piece {
 
     @Override
     public boolean isNotBlank() {
-        return true;
+        return false;
     }
 
     @Override
-    public void checkPieceCanMove(Direction direction) {
-
+    public boolean isPiecesDirection(Direction direction) {
+        return false;
     }
 }

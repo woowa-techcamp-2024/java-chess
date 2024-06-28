@@ -1,10 +1,9 @@
 package com.seong.chess.pieces;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.seong.chess.pieces.Piece.Type;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,43 +12,42 @@ public class PieceTest {
     @Test
     @DisplayName("색과 이름에 따른 체스말 기물이 생성된다.")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+        verifyPiece(Pawn.createWhite(), Pawn.createBlack(), Pawn.class);
+        verifyPiece(Knight.createWhite(), Knight.createBlack(), Knight.class);
+        verifyPiece(Rook.createWhite(), Rook.createBlack(), Rook.class);
+        verifyPiece(Bishop.createWhite(), Bishop.createBlack(), Bishop.class);
+        verifyPiece(Queen.createWhite(), Queen.createBlack(), Queen.class);
+        verifyPiece(King.createWhite(), King.createBlack(), King.class);
 
-        Piece blank = Piece.createBlank();
+        Piece blank = Blank.create();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
-        assertEquals(Type.NO_PIECE, blank.getType());
     }
 
-    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Class<?> clazz) {
         assertTrue(whitePiece.isWhite());
-        assertEquals(type, whitePiece.getType());
+        assertThat(whitePiece).isInstanceOf(clazz);
 
         assertTrue(blackPiece.isBlack());
-        assertEquals(type, blackPiece.getType());
+        assertThat(blackPiece).isInstanceOf(clazz);
     }
 
     @Test
     @DisplayName("검은색 말과 흰색 말은 구분할 수 있다.")
     public void verifyPieceColor() {
-        verifyBlackPiece(Piece.createBlackBishop());
-        verifyBlackPiece(Piece.createBlackKnight());
-        verifyBlackPiece(Piece.createBlackRook());
-        verifyBlackPiece(Piece.createBlackQueen());
-        verifyBlackPiece(Piece.createBlackKing());
-        verifyBlackPiece(Piece.createBlackPawn());
+        verifyBlackPiece(Bishop.createBlack());
+        verifyBlackPiece(Knight.createBlack());
+        verifyBlackPiece(Rook.createBlack());
+        verifyBlackPiece(Queen.createBlack());
+        verifyBlackPiece(King.createBlack());
+        verifyBlackPiece(Pawn.createBlack());
 
-        verifyWhitePiece(Piece.createWhiteBishop());
-        verifyWhitePiece(Piece.createWhiteKing());
-        verifyWhitePiece(Piece.createWhiteQueen());
-        verifyWhitePiece(Piece.createWhiteRook());
-        verifyWhitePiece(Piece.createWhiteKnight());
-        verifyWhitePiece(Piece.createWhiteKnight());
+        verifyWhitePiece(Bishop.createWhite());
+        verifyWhitePiece(King.createWhite());
+        verifyWhitePiece(Queen.createWhite());
+        verifyWhitePiece(Rook.createWhite());
+        verifyWhitePiece(Knight.createWhite());
+        verifyWhitePiece(Knight.createWhite());
     }
 
     private void verifyBlackPiece(Piece piece) {

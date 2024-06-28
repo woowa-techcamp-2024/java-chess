@@ -1,6 +1,8 @@
 package com.seong.chess.pieces;
 
 import com.seong.chess.Position;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -9,106 +11,14 @@ public abstract class Piece {
         WHITE, BLACK, NOCOLOR;
     }
 
-    public enum Type {
-        PAWN('p', 1.0),
-        KNIGHT('n', 2.5),
-        BISHOP('b', 3.0),
-        ROOK('r', 5.0),
-        QUEEN('q', 9.0),
-        KING('k', 0.0),
-        NO_PIECE('.', 0.0);
-
-        private final char representation;
-        private final double defaultPoint;
-
-        Type(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public char getWhiteRepresentation() {
-            return representation;
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(representation);
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-    }
-
-    private final Type type;  // 추후 제거
     protected final Color color;
     protected final char representation;
     protected final double defaultPoint;
 
-    public Piece(Type type, Color color, char representation, double defaultPoint) {
-        this.type = type;
+    public Piece(Color color, char representation, double defaultPoint) {
         this.color = color;
         this.representation = representation;
         this.defaultPoint = defaultPoint;
-    }
-
-    public static Piece createBlank(Position position) {
-        return Blank.create();
-    }
-
-    public static Piece createBlank() {
-        return Blank.create();
-    }
-
-    public static Piece createWhitePawn(Position position) {
-        return Pawn.createWhite();
-    }
-
-    public static Piece createWhitePawn() {
-        return Pawn.createWhite();
-    }
-
-    public static Piece createBlackPawn() {
-        return Pawn.createBlack();
-    }
-
-    public static Piece createWhiteKing() {
-        return King.createWhite();
-    }
-
-    public static Piece createBlackKing() {
-        return King.createBlack();
-    }
-
-    public static Piece createWhiteQueen() {
-        return Queen.createWhite();
-    }
-
-    public static Piece createBlackQueen() {
-        return Queen.createBlack();
-    }
-
-    public static Piece createWhiteRook() {
-        return Rook.createWhite();
-    }
-
-    public static Piece createBlackRook() {
-        return Rook.createBlack();
-    }
-
-    public static Piece createWhiteBishop() {
-        return Bishop.createWhite();
-    }
-
-    public static Piece createBlackBishop() {
-        return Bishop.createBlack();
-    }
-
-    public static Piece createWhiteKnight() {
-        return Knight.createWhite();
-    }
-
-    public static Piece createBlackKnight() {
-        return Knight.createBlack();
     }
 
     public char getRepresentation() {
@@ -125,25 +35,51 @@ public abstract class Piece {
 
     public abstract boolean isNotBlank();
 
-    public boolean isEqual(Type type, Color color) {
-        return this.type == type && this.color == color;
-    }
-
     public boolean isEqual(Color color) {
         return this.color == color;
     }
 
-    public Position nextPosition(String sourcePosition, Direction direction, int moveCount) {
-        checkPieceCanMove(direction);
+    public List<Position> findMovablePosition(String sourcePosition) {
         Position position = Position.convert(sourcePosition);
-        if (moveCount == 0) {
-            return position;
+        List<Position> positions = new ArrayList<>();
+        for (Direction direction : Direction.values()) {
+            if (!isPiecesDirection(direction)) {
+                continue;
+            }
+            findNextPositions(position, direction, positions);
         }
-        Position nextPosition = new Position(position.col() + direction.col, position.row() + direction.row);
-        return nextPosition(nextPosition.convert(), direction, moveCount - 1);
+        return positions;
     }
 
-    public abstract void checkPieceCanMove(Direction direction);
+    public abstract boolean isPiecesDirection(Direction direction);
+
+    protected void findNextPositions(Position prevPosition, Direction direction, List<Position> positions) {
+        if (Position.canNotMove(prevPosition.col() + direction.col, prevPosition.row() + direction.row)) {
+            return;
+        }
+        Position nextPosition = new Position(prevPosition.col() + direction.col, prevPosition.row() + direction.row);
+        positions.add(nextPosition);
+        findNextPositions(nextPosition, direction, positions);
+    }
+
+    public void checkSameColor(Piece targetPositionPiece) {
+        if (color != targetPositionPiece.color) {
+            return;
+        }
+        throw new IllegalArgumentException("현재 위치와 이동 위치의 기물이 같은 편입니다.");
+    }
+
+    public final boolean isPawn(Color color) {
+        return isPawn() && this.color == color;
+    }
+
+    public final boolean isPawn() {
+        return this instanceof Pawn;
+    }
+
+    public final boolean isKnight() {
+        return this instanceof Knight;
+    }
 
     public double getDefaultPoint() {
         return defaultPoint;
@@ -151,10 +87,6 @@ public abstract class Piece {
 
     public String getColor() {
         return color.toString();
-    }
-
-    public Type getType() {
-        return type;
     }
 
     @Override

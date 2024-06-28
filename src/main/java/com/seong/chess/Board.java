@@ -2,9 +2,9 @@ package com.seong.chess;
 
 import static com.seong.chess.utils.StringUtils.appendNewLine;
 
+import com.seong.chess.pieces.Direction;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
-import com.seong.chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -51,9 +51,9 @@ public class Board {
                 .reduce(0, Integer::sum);
     }
 
-    public int pieceCount(Type type, Color color) {
+    public int pieceCount(Piece piece, Color color) {
         return ranks.stream()
-                .map(rank -> rank.pieceCount(type, color))
+                .map(rank -> rank.pieceCount(piece, color))
                 .reduce(0, Integer::sum);
     }
 
@@ -71,7 +71,7 @@ public class Board {
         double pawnCount = 0;
         for (int col = 0; col < BOARD_LENGTH; col++) {
             Piece piece = ranks.get(col).get(row);
-            if (piece.isEqual(Type.PAWN, color)) {
+            if (piece.isPawn(color)) {
                 pawnCount++;
             }
         }
@@ -101,5 +101,73 @@ public class Board {
                 .flatMap(rank -> rank.getSameColorPieces(color).stream())
                 .sorted(order)
                 .toList();
+    }
+
+    public List<Position> getPawnMovable(String rawSourcePosition, String rawTargetPosition) {
+        List<Position> movablePositions = new ArrayList<>();
+        if (!findPiece(rawTargetPosition).isNotBlank()) {
+            return movablePositions;
+        }
+        Piece sourcePiece = findPiece(rawSourcePosition);
+        if (!sourcePiece.isPawn()) {
+            return movablePositions;
+        }
+        Position sourcePosition = Position.convert(rawSourcePosition);
+        Position targetPosition = Position.convert(rawTargetPosition);
+
+        if (sourcePiece.isWhite() && Direction.isNorthDiagonal(sourcePosition, targetPosition)) {
+            movablePositions.add(targetPosition);
+        }
+        if (sourcePiece.isBlack() && Direction.isSouthDiagonal(sourcePosition, targetPosition)) {
+            movablePositions.add(targetPosition);
+        }
+        return movablePositions;
+    }
+
+    public void checkIsBlocked(String rawSourcePosition, String rawTargetPosition) {
+        Position sourcePosition = Position.convert(rawSourcePosition);
+        Position targetPosition = Position.convert(rawTargetPosition);
+        Piece sourcePiece = findPiece(sourcePosition.convert());
+        if (sourcePiece.isPawn() || sourcePiece.isKnight()) {
+            return;
+        }
+        if (sourcePosition.equals(targetPosition)) {
+            return;
+        }
+
+        Direction direction = Direction.getDirection(sourcePosition, targetPosition);
+        checkIsBlocked(sourcePosition, targetPosition, direction);
+    }
+
+    private void checkIsBlocked(Position sourcePosition, Position targetPosition, Direction direction) {
+        Position nextPosition = new Position(sourcePosition.col() + direction.getCol(),
+                sourcePosition.row() + direction.getRow());
+        if (nextPosition.equals(targetPosition)) {
+            return;
+        }
+        if (findPiece(nextPosition.convert()).isNotBlank()) {
+            throw new IllegalArgumentException("경로상 기물이 존재하여 이동할 수 없습니다.");
+        }
+        checkIsBlocked(nextPosition, targetPosition, direction);
+    }
+
+    public List<Position> getPawnCanNotMovable(String sourcePosition, String targetPosition) {
+        List<Position> positions = new ArrayList<>();
+        Piece sourcePiece = findPiece(sourcePosition);
+        if (!sourcePiece.isPawn()) {
+            return positions;
+        }
+        for (Direction direction : Direction.values()) {
+            if (!sourcePiece.isPiecesDirection(direction)) {
+                continue;
+            }
+            Position position = Position.convert(sourcePosition);
+            Position rightPosition = new Position(
+                    position.col() + direction.getCol(), position.row() + direction.getRow());
+            if (rightPosition.equals(Position.convert(targetPosition))) {
+                positions.add(rightPosition);
+            }
+        }
+        return positions;
     }
 }
