@@ -13,6 +13,7 @@ import java_chess.chess.pieces.enums.Color;
 import java_chess.chess.pieces.enums.Direction;
 import java_chess.chess.pieces.enums.Type;
 import java_chess.chess.pieces.values.Location;
+import java_chess.chess.pieces.values.Move;
 
 public class Board {
 
@@ -179,6 +180,36 @@ public class Board {
         return table.values().size();
     }
 
+
+    /**
+     * 해당 색상의 킹이 체크 상태인지 확인합니다.
+     *
+     * @param color 색상
+     * @return 체크 상태 여부
+     * @throws IllegalArgumentException 킹을 찾을 수 없을 경우
+     */
+    public boolean verifyKingInCheck(Color color) {
+        var kingLocation = getKingLocation(color);
+        var oppositeColor = color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+
+        return table.entrySet().stream()
+            .filter(entry -> entry.getValue().verifySameColor(oppositeColor))
+            .anyMatch(entry -> getLocationsThatPieceCanMoveByLocation(entry.getKey()).contains(
+                kingLocation));
+
+    }
+
+    private boolean verifyKingInCheck(Map<Location, Piece> map, Color color) {
+        var kingLocation = getKingLocation(color);
+        var oppositeColor = color.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+
+        return map.entrySet().stream()
+            .filter(entry -> entry.getValue().verifySameColor(oppositeColor))
+            .anyMatch(entry -> getLocationsThatPieceCanMoveByLocation(entry.getKey()).contains(
+                kingLocation));
+
+    }
+
     private void setupPieces(int row, Color color) {
         for (char col : COLS) {
             var location = Location.of(row, col);
@@ -241,6 +272,45 @@ public class Board {
             }
             default -> !nextPiece.isBlank() && !nextPiece.verifySameColor(color);
         };
+
+    }
+
+    private Location getKingLocation(Color color) {
+        return table.entrySet().stream()
+            .filter(entry -> Type.KING.isInstance(entry.getValue()))
+            .filter(entry -> entry.getValue().verifySameColor(color))
+            .map(Entry::getKey)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("King not found"));
+    }
+
+    public boolean verifyCheckMate(Color color) {
+        if (!verifyKingInCheck(color)) {
+            return false;
+        }
+
+        return table.entrySet().stream()
+            .filter(entry -> entry.getValue().verifySameColor(color))
+            .flatMap(entry -> {
+                Location from = entry.getKey();
+                Piece piece = entry.getValue();
+                return getLocationsThatPieceCanMoveByLocation(from).stream()
+                    .map(to -> new Move(from, to, piece));
+            }).filter(this::canPreventCheck)
+            .findAny().isEmpty();
+    }
+
+    private boolean canPreventCheck(Move move) {
+        // 현재 보드의 복사본을 생성합니다.
+        var testMap = new HashMap<>(table);
+        var from = move.getFrom();
+        var to = move.getTo();
+        var piece = move.getPiece();
+
+        // 가상의 움직임을 통한 메이트 판별
+        testMap.put(to, piece);
+        testMap.remove(from);
+        return !verifyKingInCheck(testMap, piece.getColor());
 
     }
 

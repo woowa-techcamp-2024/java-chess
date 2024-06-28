@@ -22,6 +22,7 @@ public class ChessGame {
      */
     public void startGame() {
         board.initialize();
+        this.current = Color.WHITE;
     }
 
     /**
@@ -63,7 +64,19 @@ public class ChessGame {
         }
         board.addPiece(to, board.getPiece(from));
         board.removePiece(from);
+        //verifyCheck();
         swapTurn();
+    }
+
+    /**
+     * 체크 메이트 상태인지 확인합니다.
+     *
+     * @throws IllegalStateException 체크 메이트 상태일 경우
+     */
+    public void verifyCheckMate() {
+        if (board.verifyCheckMate(current.oppositeColor())) {
+            throw new IllegalStateException("Checkmate!");
+        }
     }
 
     private double calculatePawnScore(Color color) {
@@ -84,6 +97,7 @@ public class ChessGame {
     }
 
     private void swapTurn() {
-        current = current.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+        current = current.oppositeColor();
     }
+
 }

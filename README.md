@@ -10,26 +10,32 @@
 
 ## 구현
 
+- 사용 자바 버전: 17
+- 실행 방법: Gradle 빌드 후 `java -jar ./java-chess/build/libs/java-chess-1.0-SNAPSHOT.jar` 실행!
+
 ### 📸 구현 사진
 
 - 시작 상태
 
-<img width="456" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/d7b5afc9-425f-4501-9522-5d3ab0a21971">
+<img width="456" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/5f5b6904-5abb-45a6-a8ac-5fc353217620">
 
 - 기물 선택 및 이동 (드래그)
 
-<img width="228" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/4dbdfe04-f827-43a5-a89f-80285c8d70d4">
-<img width="228" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/88d742d9-7a97-46cd-aa92-a20e6e3fdea6">
+<img width="228" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/53c18be3-d129-49fa-9959-813f11d1da56">
+<img width="228" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/80ef7fcb-d55d-4f94-a183-f5180b08e797">
 
 - 자신의 턴이 아닌 경우 예외가 발생합니다!
 
-<img width="456" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/a5ef60c0-3a94-49af-a7b1-87b18ce8855f">
+<img width="456" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/f5fc9bb5-d874-499b-bdd1-d2eb6febe9a6">
+
+- 체크 메이트시 게임이 종료됩니다.
+
+<img width="456" alt="image" src="https://github.com/tidavid1/java-chess/assets/85854384/7d405786-0370-42a3-a1af-440e67fb5e97">
 
 ### 📢 구현과 관련된 재잘재잘
 
 - 😭아쉽게 구현하지 못한 것들
 
-    - 체크 상황에 대한 처리
     - 앙파상, 캐슬링, 프로모션 등의 특수한 규칙들
 
 

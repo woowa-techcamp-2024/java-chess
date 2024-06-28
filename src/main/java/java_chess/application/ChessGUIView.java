@@ -28,7 +28,7 @@ public class ChessGUIView extends JFrame {
 
     private final JButton[][] buttons = new JButton[BOARD_SIZE][BOARD_SIZE];
     private final JPanel boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
-    private final JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+    private final JPanel infoPanel = new JPanel(new GridLayout(1, 3));
     private final JLabel turnLabel = new JLabel();
     private final JLabel scoreLabel = new JLabel();
 
@@ -76,15 +76,16 @@ public class ChessGUIView extends JFrame {
     }
 
     private void initializeInfo() {
-        infoPanel.add(turnLabel);
         infoPanel.add(scoreLabel);
+        infoPanel.add(turnLabel);
+        infoPanel.add(generateResetButton());
         updateTurnLabel();
         updateScoreLabel();
     }
 
     private JButton createButton(int x, int y) {
         JButton btn = new JButton();
-        btn.setBackground((x + y) % 2 == 0 ? LIGHT_SQUARE_COLOR : DARK_SQUARE_COLOR);
+        btn.setBackground((x + y) % 2 == 0 ? DARK_SQUARE_COLOR : LIGHT_SQUARE_COLOR);
         btn.setOpaque(true);
         btn.setBorderPainted(false);
         btn.setFont(BUTTON_FONT);
@@ -115,7 +116,7 @@ public class ChessGUIView extends JFrame {
     }
 
     private void updateScoreLabel() {
-        scoreLabel.setText("Score: (W) " + chessGame.calculateScoreByColor(WHITE) + " : "
+        scoreLabel.setText("(W) " + chessGame.calculateScoreByColor(WHITE) + " : "
             + chessGame.calculateScoreByColor(BLACK) + " (B)");
     }
 
@@ -156,14 +157,26 @@ public class ChessGUIView extends JFrame {
                 updateAllButtons();
                 updateTurnLabel();
                 updateScoreLabel();
-            } catch (Exception e) {
+                chessGame.verifyCheckMate();
+            } catch (IllegalArgumentException e) {
                 showErrorDialog(e.getMessage());
-            } finally {
+            } catch (IllegalStateException e) {
                 resetAllButtonBorders();
+                showEndGameDialog();
             }
-        } else {
-            resetAllButtonBorders();
         }
+        resetAllButtonBorders();
+    }
+
+    private JButton generateResetButton() {
+        var btn = new JButton("Restart Game");
+        btn.addActionListener(e -> {
+            chessGame.startGame();
+            updateAllButtons();
+            updateTurnLabel();
+            updateScoreLabel();
+        });
+        return btn;
     }
 
     private void updateAllButtons() {
@@ -183,6 +196,24 @@ public class ChessGUIView extends JFrame {
     }
 
     private void showErrorDialog(String message) {
-        JOptionPane.showMessageDialog(this, message, "Check", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, "Wrong Choice",
+            JOptionPane.INFORMATION_MESSAGE);
     }
+
+    private void showEndGameDialog() {
+        var winner = chessGame.getTurn();
+        var option = JOptionPane.showOptionDialog(this, "Game Over: " + winner.name() + " win!",
+            "Game Over",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Restart"}, "Restart");
+        if (option == 0) {
+            chessGame.startGame();
+            updateAllButtons();
+            updateTurnLabel();
+            updateScoreLabel();
+        } else {
+            System.exit(0);
+        }
+    }
+
 }
