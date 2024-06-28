@@ -30,12 +30,12 @@ public class Board {
                 fromRank.emptyPiece(from.getCol());
                 toRank.setPiece(to.getCol(), piece);
 
-                System.out.println("move success");
+                System.out.println("move success with "+ from + " -> " + to);
                 return;
             }
         }
 
-        throw new RuntimeException("move fail");
+        throw new RuntimeException("move fail with "+ from + " -> " + to);
     }
 
     private boolean isReachable(Position from, MoveSeq moveSeq, Position to) {
