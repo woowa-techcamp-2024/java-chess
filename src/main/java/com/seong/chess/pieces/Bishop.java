@@ -23,7 +23,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    protected boolean isPiecesDirection(Direction direction) {
+    public boolean isPiecesDirection(Direction direction) {
         return direction.isDiagonal();
     }
 }

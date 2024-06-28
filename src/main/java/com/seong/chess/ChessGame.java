@@ -21,10 +21,11 @@ public class ChessGame {
         sourcePiece.checkSameColor(targetPiece);
         checkIsSamePosition(sourcePosition, targetPosition);
 
-        // 움직일 수 있는 경로인지 확인. 폰의 경우 추가 규칙 확인
+        // 움직일 수 있는 경로인지 확인. 폰의 경우 추가 규칙에 따른 경로 수정
         List<Position> movablePosition = sourcePiece.findMovablePosition(sourcePosition);
         if (targetPiece.isNotBlank()) {
             movablePosition.addAll(board.getPawnMovable(sourcePosition, targetPosition));
+            movablePosition.removeAll(board.getPawnCanNotMovable(sourcePosition, targetPosition));
         }
         checkIsMovable(movablePosition, targetPosition);
 

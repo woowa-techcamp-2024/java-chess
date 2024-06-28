@@ -26,7 +26,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    protected boolean isPiecesDirection(Direction direction) {
+    public boolean isPiecesDirection(Direction direction) {
         return !(direction.isRight() || direction.isDiagonal());
     }
 

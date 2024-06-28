@@ -26,7 +26,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected boolean isPiecesDirection(Direction direction) {
+    public boolean isPiecesDirection(Direction direction) {
         if (color == Color.WHITE && direction == Direction.NORTH) {
             return true;
         }

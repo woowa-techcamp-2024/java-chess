@@ -23,7 +23,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    protected boolean isPiecesDirection(Direction direction) {
+    public boolean isPiecesDirection(Direction direction) {
         return direction.isRight();
     }
 }

@@ -150,4 +150,24 @@ public class Board {
         }
         checkIsBlocked(sourcePosition, nextPosition, direction);
     }
+
+    public List<Position> getPawnCanNotMovable(String sourcePosition, String targetPosition) {
+        List<Position> positions = new ArrayList<>();
+        Piece sourcePiece = findPiece(sourcePosition);
+        if (!sourcePiece.isPawn()) {
+            return positions;
+        }
+        for (Direction direction : Direction.values()) {
+            if (!sourcePiece.isPiecesDirection(direction)) {
+                continue;
+            }
+            Position position = Position.convert(sourcePosition);
+            Position rightPosition = new Position(
+                    position.col() + direction.getCol(), position.row() + direction.getRow());
+            if (rightPosition.equals(Position.convert(targetPosition))) {
+                positions.add(rightPosition);
+            }
+        }
+        return positions;
+    }
 }

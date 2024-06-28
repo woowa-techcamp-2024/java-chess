@@ -181,6 +181,30 @@ class ChessGameTest {
             //then
             assertThat(board.findPiece(targetPosition)).isEqualTo(Knight.createWhite());
         }
+
+        @ParameterizedTest
+        @MethodSource("pawnCanNotForward")
+        @DisplayName("예외(IllegalArgument): 폰의 전진 위치에 기물이 존재한다면")
+        void pawnCanNotMoveIfSomethingInForwardPosition(String sourcePosition, String targetPosition, Pawn sourcePawn,
+                                                        Pawn targetPawn) {
+            //given
+            board.initializeEmpty();
+            board.move(sourcePosition, sourcePawn);
+            board.move(targetPosition, targetPawn);
+
+            //when
+            Exception exception = catchException(() -> chessGame.move(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> pawnCanNotForward() {
+            return Stream.of(
+                    Arguments.arguments("a3", "a4", Pawn.createWhite(), Pawn.createBlack()),
+                    Arguments.arguments("a5", "a4", Pawn.createBlack(), Pawn.createWhite())
+            );
+        }
     }
 
     @Test

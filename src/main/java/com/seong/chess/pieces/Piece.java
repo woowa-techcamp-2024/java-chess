@@ -51,7 +51,7 @@ public abstract class Piece {
         return positions;
     }
 
-    protected abstract boolean isPiecesDirection(Direction direction);
+    public abstract boolean isPiecesDirection(Direction direction);
 
     protected void findNextPositions(Position prevPosition, Direction direction, List<Position> positions) {
         if (Position.canNotMove(prevPosition.col() + direction.col, prevPosition.row() + direction.row)) {
