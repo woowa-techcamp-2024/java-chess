@@ -10,3 +10,14 @@
 
 # 사용 software
 - java 17.0.11
+
+# 사용법
+- java/chess/Main.class 실생
+- 게임 시작
+  - 터미널에 start 입력
+- 말 이동
+  - 터미널에 move 현재위치 이동할위치
+    - ex) move a2 a4
+    - 체스판 아래의 white 부터 이동
+- 왕을 잡을 수 있는 상황이면 check 를 알려줍니다
+- 왕을 잡으면 게임이 끝납니다.
