@@ -11,7 +11,11 @@ public class Chess {
         this.chessView = chessView;
     }
 
-    public void move(Position from, Position to) throws RuntimeException {
-        chessGame
+    public void move(String from, String to) throws RuntimeException {
+        chessGame.moveTo(Position.of(from), Position.of(to));
+    }
+
+    public void show() {
+        chessView.showBoard();
     }
 }

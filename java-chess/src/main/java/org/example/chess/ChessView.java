@@ -21,18 +21,18 @@ public class ChessView {
         return board.findPiece(position);
     }
 
-    //TODO representation 리팩토링
-    public String getRepresentation() {
-        return board.getRepresentation();
-    }
+//    //TODO representation 리팩토링
+//    public String getRepresentation() {
+//        return board.g();
+//    }
 
     public String showBoard() {
         return board.showBoard();
     }
 
-    public double calculatePoint(Piece.Color color) {
-        return board.calculatePoint(color);
-    }
+//    public double calculatePoint(Piece.Color color) {
+//        return board.calculatePoint(color);
+//    }
 
     public List<Piece> showSortedOrder(Order order) {
         return board.sort(order);

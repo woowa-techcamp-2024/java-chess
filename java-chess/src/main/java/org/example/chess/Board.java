@@ -52,13 +52,14 @@ public class Board {
     }
 
     private boolean isOnceMovable(Position from, Move move) throws RuntimeException {
-        Piece dest = findPiece(from.move(move.getDir()));
+        Piece startPiece = findPiece(from);
+        Piece destPiece = findPiece(from.move(move.getDir()));
 
-        if (dest.getName() == Piece.Type.NO_PIECE) {
+        if (destPiece.getName() == Piece.Type.NO_PIECE) {
             return true;
         }
 
-        return move.isJumpable();
+        return move.isJumpable() || startPiece.getColor() != destPiece.getColor();
     }
 
     private void validateNotEmpty(Piece piece) {

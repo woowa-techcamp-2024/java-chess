@@ -11,18 +11,7 @@ public class ChessGame {
     }
 
     public void moveTo(Position from, Position to) throws RuntimeException{
-        // board.getPiece()
-        Piece piece = board.findPiece(from);
-//        if (piece.isBlank()) {
-//            throw new RuntimeException("시작 칸에 piece 가 없습니다." + from.toString());
-//        }
-
-        // 해당 Piece 의 Strategy 는 무엇?
-        // 기본전략 = piece.getStrategy()
-
-        // 전략에 맞게 움직일 수 있는지 검증
-
-        // board 의 move 는 정말 순수하게 move 만, move
+        board.moveTo(from, to);
     }
 
     private void validateNotEmpty(Piece piece) {
