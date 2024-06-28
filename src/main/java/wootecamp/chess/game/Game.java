@@ -4,6 +4,7 @@ import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.board.MoveVector;
 import wootecamp.chess.game.state.EndState;
+import wootecamp.chess.game.state.PlayingState;
 import wootecamp.chess.game.state.ReadyState;
 import wootecamp.chess.game.state.State;
 import wootecamp.chess.pieces.Direction;
@@ -112,7 +113,14 @@ public class Game {
 
     public void receiveRequest() {
         //TODO : input을 어떻게 처리할 지 구조 개선해야함
-        String request = gameInputManager.receiveRequest();
-        state.handleRequest(request);
+        try {
+            String request = gameInputManager.receiveRequest();
+            state.handleRequest(request);
+        } catch (RuntimeException e) {
+            gameOutputManager.showError(e.getMessage());
+            if(state instanceof PlayingState) {
+                gameOutputManager.showBoard(board);
+            }
+        }
     }
 }
