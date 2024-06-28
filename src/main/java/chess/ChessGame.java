@@ -45,12 +45,12 @@ public class ChessGame {
                         if(!isSameTeam(piece,p)){
                             result.add(source);
                         }
-                        return PieceTypes.Type.NO_PIECE.equals(p.getType());
+                        return !PieceTypes.Type.NO_PIECE.equals(p.getType());
                     }).orElse(false);
         //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
         if (!piece.getCourse().isRecursive()) return;
 
-        if(!piece.getType().isJumpable()) return;
+        if(!piece.getType().isJumpable() && isPiece) return;
         findPossibleDirection(result,direction,piece,getNextPosition(source,direction));
     }
 
@@ -118,7 +118,10 @@ public class ChessGame {
         }
         //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
         if (!piece.getCourse().isRecursive()) return false;
-        if(!piece.getType().isJumpable() && board.findPiece(target).isPresent()) return false;
+        boolean isPiece = board.findPiece(target)
+                .map(p->!PieceTypes.Type.NO_PIECE.equals(p.getType()) && isSameTeam(piece,p))
+                .orElse(false);
+        if(!piece.getType().isJumpable() && isPiece) return false;
         return isFind(piece, direction, getNextPosition(source, direction), target);
     }
 
