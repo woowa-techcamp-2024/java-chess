@@ -8,13 +8,13 @@ public class PieceFactory {
     public static Piece createMovedPiece(final Piece piece, final Position position) {
         Piece result = null;
         switch (piece.getType()) {
-            case Type.PAWN -> result = createPawn(piece.getColor(), position);
-            case Type.KNIGHT -> result = createKnight(piece.getColor(), position);
-            case Type.ROOK -> result = createRook(piece.getColor(), position);
-            case Type.BISHOP -> result = createBishop(piece.getColor(), position);
-            case Type.QUEEN -> result = createQueen(piece.getColor(), position);
-            case Type.KING -> result = createKing(piece.getColor(), position);
-            case Type.NO_PIECE -> result = createBlank(position);
+            case PAWN -> result = createPawn(piece.getColor(), position);
+            case KNIGHT -> result = createKnight(piece.getColor(), position);
+            case ROOK -> result = createRook(piece.getColor(), position);
+            case BISHOP -> result = createBishop(piece.getColor(), position);
+            case QUEEN -> result = createQueen(piece.getColor(), position);
+            case KING -> result = createKing(piece.getColor(), position);
+            case NO_PIECE -> result = createBlank(position);
         }
         return result;
     }
