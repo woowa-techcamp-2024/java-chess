@@ -14,14 +14,17 @@ public class BoardPosition {
         char rankPosition = position.charAt(1);
         char filePosition = position.charAt(0);
 
-//        validation(rankPosition, filePosition);
+        int rankIndex = parseRankToIndex(rankPosition);
+        int fileIndex = parseFileToIndex(filePosition);
 
-        this.rankPosition = parseRankToIndex(rankPosition);
-        this.filePosition = parseFileToIndex(filePosition);
+        validation(rankIndex, fileIndex);
+
+        this.rankPosition = rankIndex;
+        this.filePosition = fileIndex;
     }
 
     private BoardPosition(int filePosition, int rankPosition) {
-//        validation(rankPosition, filePosition);
+        validation(rankPosition, filePosition);
         this.rankPosition = rankPosition;
         this.filePosition = filePosition;
     }
@@ -33,8 +36,8 @@ public class BoardPosition {
     }
 
     private int parseRankToIndex(final char rankPosition) {
-        final char standardChar = '8';
-        return standardChar - rankPosition;
+        final char standardChar = '1';
+        return rankPosition - standardChar;
     }
 
     private int parseFileToIndex(final char filePosition) {

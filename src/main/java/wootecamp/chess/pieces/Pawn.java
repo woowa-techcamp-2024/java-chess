@@ -27,20 +27,20 @@ public class Pawn extends Piece {
     }
 
     private boolean verifyWhiteMovePosition(MoveVector moveVector, Direction direction) {
-        if (direction == Direction.NORTH && moveVector.getSquareDistance() <= 4) {
+        if (direction == Direction.SOUTH && moveVector.getSquareDistance() <= 4) {
             return true;
         }
-        if (direction == Direction.NORTHWEST || direction == Direction.NORTHEAST && moveVector.getSquareDistance() == 2) {
+        if (direction == Direction.SOUTHWEST || direction == Direction.SOUTHEAST && moveVector.getSquareDistance() == 2) {
             return true;
         }
         return false;
     }
 
     private boolean verifyBlackMovePosition(MoveVector moveVector, Direction direction) {
-        if (direction == Direction.SOUTH && moveVector.getSquareDistance() <= 4) {
+        if (direction == Direction.NORTH && moveVector.getSquareDistance() <= 4) {
             return true;
         }
-        if (direction == Direction.SOUTHWEST || direction == Direction.SOUTHEAST && moveVector.getSquareDistance() == 2) {
+        if (direction == Direction.NORTHWEST || direction == Direction.NORTHEAST && moveVector.getSquareDistance() == 2) {
             return true;
         }
         return false;
