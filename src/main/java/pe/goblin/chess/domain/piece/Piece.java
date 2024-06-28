@@ -1,25 +1,19 @@
 package pe.goblin.chess.domain.piece;
 
+import pe.goblin.chess.domain.board.Direction;
 import pe.goblin.chess.domain.piece.vo.Color;
 import pe.goblin.chess.domain.piece.vo.PieceType;
 
+import java.util.List;
 import java.util.Objects;
 
-public class Piece {
-    private final Color color;
-    private final PieceType pieceType;
+public abstract class Piece {
+    protected final Color color;
+    protected final PieceType pieceType;
 
-    public Piece(Color color, PieceType pieceType) {
+    protected Piece(Color color, PieceType pieceType) {
         this.color = color;
         this.pieceType = pieceType;
-    }
-
-    public static Piece of(char ch) {
-        return new Piece(Character.isUpperCase(ch) ? Color.BLACK : Color.WHITE, PieceType.of(ch));
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, PieceType.NO_PIECE);
     }
 
     public Color getColor() {
@@ -34,12 +28,22 @@ public class Piece {
         return this.color == Color.BLACK ? pieceType.getBlackRepresentation() : pieceType.getWhiteRepresentation();
     }
 
+    abstract public List<Direction> getMovableDirections();
+
+    abstract public int getMovableDistance();
+
+    abstract public List<Direction> getAttackableDirections();
+
     public boolean isBlack() {
         return isColor(Color.BLACK);
     }
 
     public boolean isWhite() {
         return isColor(Color.WHITE);
+    }
+
+    public boolean isBlank() {
+        return pieceType == PieceType.NO_PIECE;
     }
 
     public boolean isColor(Color color) {
