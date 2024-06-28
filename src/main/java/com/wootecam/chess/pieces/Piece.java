@@ -2,6 +2,7 @@ package com.wootecam.chess.pieces;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public abstract class Piece {
 
@@ -14,6 +15,15 @@ public abstract class Piece {
     }
 
     public abstract Optional<Direction> findDirection(final Position startPosition, final Position targetPosition);
+
+    protected boolean findAnyMatchDirection(final Position startPosition,
+                                            final Position targetPosition,
+                                            final Direction direction,
+                                            final int moveCount) {
+        return IntStream.rangeClosed(1, moveCount)
+                .mapToObj(count -> startPosition.addPosition(direction.getRow() * count, direction.getColumn() * count))
+                .anyMatch(nextPosition -> nextPosition.equals(targetPosition));
+    }
 
     public boolean isWhite() {
         return color == Color.WHITE;

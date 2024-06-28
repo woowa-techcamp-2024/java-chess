@@ -60,11 +60,18 @@ public enum Direction {
         return List.of(NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS);
     }
 
-    public static List<Direction> whitePawnDirection() {
+    public static List<Direction> pawnDirectionByColor(final Color color) {
+        if (color == Color.BLACK) {
+            return blackPawnDirection();
+        }
+        return whitePawnDirection();
+    }
+
+    private static List<Direction> whitePawnDirection() {
         return List.of(NORTH, NORTHEAST, NORTHWEST);
     }
 
-    public static List<Direction> blackPawnDirection() {
+    private static List<Direction> blackPawnDirection() {
         return List.of(SOUTH, SOUTHEAST, SOUTHWEST);
     }
 
