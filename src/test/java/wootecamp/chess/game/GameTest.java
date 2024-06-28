@@ -9,8 +9,6 @@ import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.pieces.Piece;
 import wootecamp.chess.pieces.PieceFactory;
-import wootecamp.game.*;
-
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -70,7 +68,8 @@ public class GameTest {
         return Stream.of(
                 Arguments.of("e2", "e5"), // Invalid Pawn move
                 Arguments.of("b1", "b3"), // Invalid Knight move
-                Arguments.of("e1", "e2")  // Invalid King move at start
+                Arguments.of("e1", "e2")  ,// 다른 아군 기물이 있는 위치로의 이동 테스트
+                Arguments.of("a1", "a6")  // 점프 불가능한 기물의 점프 테스트
         );
     }
 
