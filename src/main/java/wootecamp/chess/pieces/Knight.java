@@ -14,4 +14,9 @@ public class Knight extends Piece {
         Optional<Direction> direction = Direction.determineDirection(moveVector);
         return direction.filter(it -> Direction.knightDirection().contains(it)).isPresent();
     }
+
+    @Override
+    public boolean canJump() {
+        return true;
+    }
 }

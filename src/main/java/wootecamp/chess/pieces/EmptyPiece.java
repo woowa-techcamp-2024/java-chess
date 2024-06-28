@@ -11,4 +11,9 @@ public class EmptyPiece extends Piece {
     public boolean verifyMovePosition(MoveVector moveVector) {
         throw new RuntimeException("비어있는 위치입니다.");
     }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
 }

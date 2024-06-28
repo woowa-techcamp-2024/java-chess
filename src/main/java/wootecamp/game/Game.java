@@ -4,7 +4,6 @@ import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.board.MoveVector;
 import wootecamp.chess.pieces.Direction;
-import wootecamp.chess.pieces.Knight;
 import wootecamp.chess.pieces.Piece;
 import wootecamp.game.state.EndState;
 import wootecamp.game.state.ReadyState;
@@ -14,9 +13,11 @@ public class Game {
     private final GameInputManager gameInputManager;
     private final GameOutputManager gameOutputManager;
     private final Board board;
+    
 
     private State state = new ReadyState(this);
-
+    private Piece.Color curTurnColor = Piece.Color.WHITE;
+    
     public Game(GameInputManager gameInputManager, GameOutputManager gameOutputManager, Board board) {
         this.gameInputManager = gameInputManager;
         this.gameOutputManager = gameOutputManager;
@@ -34,8 +35,13 @@ public class Game {
 
     public void move(BoardPosition source, BoardPosition target) {
         Piece piece = board.findPiece(source);
+        if(piece.getColor() != curTurnColor) {
+            gameOutputManager.showError("차례가 아닙니다.");
+            gameOutputManager.showBoard(board);
+            return;
+        }
 
-        verifyCrossMove(source, target, piece);
+        verifyJumpMove(source, target, piece);
 
         if (verifyMove(source, target, piece)) {
             board.move(source, target);
@@ -47,9 +53,8 @@ public class Game {
         gameOutputManager.showBoard(board);
     }
 
-    private boolean verifyCrossMove(BoardPosition source, BoardPosition target, Piece piece) {
-        //TODO : isCrossable 메서드로 관리
-        if (piece.getClass() == Knight.class) {
+    private boolean verifyJumpMove(BoardPosition source, BoardPosition target, Piece piece) {
+        if (piece.canJump()) {
             return true;
         }
         MoveVector moveVector = new MoveVector(source, target);
@@ -69,7 +74,7 @@ public class Game {
 
     private boolean verifyMove(BoardPosition source, BoardPosition target, Piece piece) {
         return verifyPieceMove(source, target, piece)
-                && verifyCrossMove(source, target, piece)
+                && verifyJumpMove(source, target, piece)
                 && verifyTargetPosition(target, piece)
                 && verifyPawnMovement(source, target, piece);
     }

@@ -14,4 +14,9 @@ public class Queen extends Piece {
         Optional<Direction> direction = Direction.determineDirection(moveVector);
         return direction.filter(it -> Direction.everyDirection().contains(it)).isPresent();
     }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
 }

@@ -21,6 +21,11 @@ public class Pawn extends Piece {
         ).isPresent();
     }
 
+    @Override
+    public boolean canJump() {
+        return false;
+    }
+
     private boolean verifyWhiteMovePosition(MoveVector moveVector, Direction direction) {
         if (direction == Direction.NORTH && moveVector.getSquareDistance() <= 4) {
             return true;

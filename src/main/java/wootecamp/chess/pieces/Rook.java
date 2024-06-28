@@ -14,4 +14,9 @@ public class Rook extends Piece {
         Optional<Direction> direction = Direction.determineDirection(moveVector);
         return direction.filter(it -> Direction.linearDirection().contains(it)).isPresent();
     }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
 }

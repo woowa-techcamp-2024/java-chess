@@ -44,7 +44,7 @@ public abstract class Piece {
     }
 
     public abstract boolean verifyMovePosition(MoveVector moveVector);
-
+    public abstract boolean canJump();
 
 
     public boolean isSamePiece(Color color, Type type) {

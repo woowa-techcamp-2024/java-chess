@@ -14,4 +14,9 @@ public class Bishop extends Piece {
         Optional<Direction> direction = Direction.determineDirection(moveVector);
         return direction.filter(it -> Direction.diagonalDirection().contains(it)).isPresent();
     }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
 }
