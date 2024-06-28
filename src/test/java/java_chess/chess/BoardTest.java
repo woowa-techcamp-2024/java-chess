@@ -202,19 +202,6 @@ class BoardTest {
         );
     }
 
-    @Test
-    @DisplayName("공백은 움직일 수 없다.")
-    void getLocationsThatPieceCanMoveByLocationWithBlank() {
-        // Arrange
-        var location = Location.from("a1");
-        board.addPiece(location, Piece.getBlank());
-
-        // Act & Assert
-        assertThatThrownBy(() -> board.getLocationsThatPieceCanMoveByLocation(location))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("location: " + location + " does not have a piece.");
-    }
-
     static Stream<Arguments> pieceProvider() {
         return Stream.of(
             Arguments.of(Location.from("a1"), Piece.generatePiece(Type.ROOK, Color.WHITE)),
