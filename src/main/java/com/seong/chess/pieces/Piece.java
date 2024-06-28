@@ -69,12 +69,16 @@ public abstract class Piece {
         throw new IllegalArgumentException("현재 위치와 이동 위치의 기물이 같은 편입니다.");
     }
 
-    public boolean isPawn(Color color) {
-        return this instanceof Pawn pawn && pawn.color == color;
+    public final boolean isPawn(Color color) {
+        return isPawn() && this.color == color;
     }
 
-    public boolean isPawn() {
+    public final boolean isPawn() {
         return this instanceof Pawn;
+    }
+
+    public final boolean isKnight() {
+        return this instanceof Knight;
     }
 
     public double getDefaultPoint() {

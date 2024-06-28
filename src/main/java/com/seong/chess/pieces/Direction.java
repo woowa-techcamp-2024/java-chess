@@ -65,4 +65,40 @@ public enum Direction {
     private boolean isSouthDiagonal() {
         return this == SOUTHEAST || this == SOUTHWEST;
     }
+
+    public static Direction getDirection(Position source, Position target) {
+        if (target.row() < source.row()) {  // north
+            if (target.col() > source.col()) {  // east
+                return Direction.NORTHEAST;
+            } else if (target.col() == source.col()) { // north, east
+                return Direction.NORTH;
+            } else {  // west
+                return Direction.NORTHWEST;
+            }
+        } else if (target.row() == source.row()) {  // east, west
+            if (target.col() > source.col()) {  // east
+                return Direction.EAST;
+            } else if (target.col() == source.col()) {  // north, south
+                throw new IllegalArgumentException("현재 위치와 이동 위치가 동일합니다.");
+            } else {  // west
+                return Direction.WEST;
+            }
+        } else {  // south
+            if (target.col() > source.col()) {  // east
+                return Direction.SOUTHEAST;
+            } else if (target.col() == source.col()) {  // north, east
+                return Direction.SOUTH;
+            } else {  // west
+                return Direction.SOUTHWEST;
+            }
+        }
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
 }

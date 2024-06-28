@@ -15,16 +15,21 @@ public class ChessGame {
     }
 
     public void move(String sourcePosition, String targetPosition) {
+        // 동일한 색인지, 동일한 위치인지 검사
         Piece sourcePiece = board.findPiece(sourcePosition);
         Piece targetPiece = board.findPiece(targetPosition);
         sourcePiece.checkSameColor(targetPiece);
         checkIsSamePosition(sourcePosition, targetPosition);
 
+        // 움직일 수 있는 경로인지 확인. 폰의 경우 추가 규칙 확인
         List<Position> movablePosition = sourcePiece.findMovablePosition(sourcePosition);
         if (targetPiece.isNotBlank()) {
             movablePosition.addAll(board.getPawnMovable(sourcePosition, targetPosition));
         }
         checkIsMovable(movablePosition, targetPosition);
+
+        // 블락되어 있는지 확인.
+        board.checkIsBlocked(Position.convert(sourcePosition), Position.convert(targetPosition));
 
         board.move(sourcePosition, Blank.create());
         board.move(targetPosition, sourcePiece);

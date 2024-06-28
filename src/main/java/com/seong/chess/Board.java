@@ -123,4 +123,31 @@ public class Board {
         }
         return movablePositions;
     }
+
+    public void checkIsBlocked(Position sourcePosition, Position targetPosition) {
+        Piece sourcePiece = findPiece(sourcePosition.convert());
+        if (sourcePiece.isPawn() || sourcePiece.isKnight()) {
+            return;
+        }
+        if (sourcePosition.equals(targetPosition)) {
+            return;
+        }
+
+        Direction direction = Direction.getDirection(sourcePosition, targetPosition);
+        Position nextPosition = new Position(sourcePosition.col() + direction.getCol(),
+                sourcePosition.row() + direction.getRow());
+        checkIsBlocked(nextPosition, targetPosition, direction);
+    }
+
+    private void checkIsBlocked(Position sourcePosition, Position targetPosition, Direction direction) {
+        if (sourcePosition.equals(targetPosition)) {
+            return;
+        }
+        Position nextPosition = new Position(sourcePosition.col() + direction.getCol(),
+                sourcePosition.row() + direction.getRow());
+        if (!findPiece(nextPosition.convert()).isNotBlank()) {
+            throw new IllegalArgumentException("경로상 기물이 존재하여 이동할 수 없습니다.");
+        }
+        checkIsBlocked(sourcePosition, nextPosition, direction);
+    }
 }

@@ -4,17 +4,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.seong.chess.pieces.Bishop;
 import com.seong.chess.pieces.Blank;
 import com.seong.chess.pieces.King;
+import com.seong.chess.pieces.Knight;
 import com.seong.chess.pieces.Pawn;
 import com.seong.chess.pieces.Piece;
 import com.seong.chess.pieces.Piece.Color;
 import com.seong.chess.pieces.Queen;
 import com.seong.chess.pieces.Rook;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ChessGameTest {
 
@@ -129,6 +135,51 @@ class ChessGameTest {
 
             //then
             assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @ParameterizedTest
+        @MethodSource("acrossPiece")
+        @DisplayName("예외(IllegalArgument): 이동 경로를 기물이 가로 막고 있다면")
+        void blocked(String sourcePosition, String targetPosition, String blockedPosition, Piece sourcePiece,
+                     Piece targetPiece, Piece blockedPiece) {
+            //given
+            board.initializeEmpty();
+            board.move(sourcePosition, sourcePiece);
+            board.move(targetPosition, targetPiece);
+            board.move(blockedPosition, blockedPiece);
+
+            //when
+            Exception exception = catchException(() -> chessGame.move(sourcePosition, targetPosition));
+
+            //then
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> acrossPiece() {
+            return Stream.of(
+                    Arguments.arguments("a1", "a6", "a4", Rook.createWhite(), Pawn.createBlack(), Bishop.createBlack()),
+                    Arguments.arguments("a1", "a6", "a4", Queen.createWhite(), Pawn.createBlack(), Bishop.createBlack())
+            );
+        }
+
+        @Test
+        @DisplayName("나이트는 경로 상의 기물을 뛰어넘을 수 있다.")
+        void knightIgnoreBlockedPiece() {
+            //given
+            String sourcePosition = "a1";
+            String targetPosition = "b3";
+            String blockedPosition = "a2";
+
+            board.initializeEmpty();
+            board.move(sourcePosition, Knight.createWhite());
+            board.move(targetPosition, Pawn.createBlack());
+            board.move(blockedPosition, Bishop.createBlack());
+
+            //when
+            chessGame.move(sourcePosition, targetPosition);
+
+            //then
+            assertThat(board.findPiece(targetPosition)).isEqualTo(Knight.createWhite());
         }
     }
 
