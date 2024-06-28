@@ -130,7 +130,7 @@ public class ChessGame {
             // boardMap 수정
             board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
             board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
-        } else if (p instanceof Queen) {
+        } else if (p instanceof Queen || p instanceof Rook || p instanceof Bishop) {
             var newSourcePos = sourcePos.clone();
             Position dir = p.findDir(newSourcePos, targetPos);
 

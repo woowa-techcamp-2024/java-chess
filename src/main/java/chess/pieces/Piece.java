@@ -140,7 +140,7 @@ public abstract class Piece {
         return dirs.get(IntStream.range(0, distances.size())
                 .boxed()
                 .min(Comparator.comparing(distances::get))
-                .orElse(-1));
+                .orElseThrow(() -> new IllegalArgumentException("Error: 움직일 수 있는 방향이 없습니다.")));
     }
 
     @Override

@@ -224,4 +224,19 @@ class ChessGameTest {
         game.move("b1", "c3");
         assertEquals(Knight.class, game.findPiece("c3").getClass());
     }
+
+    @Test
+    @DisplayName("Bishop 이동 구현")
+    void moveBishop() {
+        String source = "a1";
+        String target = "g7";
+
+        game.initializeEmpty();
+
+        game.add(source, Piece.of(Bishop.class, WHITE, source));
+
+        game.move(source, target);
+
+        assertEquals(Bishop.class, game.findPiece(target).getClass());
+    }
 }
