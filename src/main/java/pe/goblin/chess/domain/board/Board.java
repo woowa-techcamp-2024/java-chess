@@ -53,8 +53,8 @@ public class Board {
         if (!possibleMoves.contains(to)) {
             throw new RuntimeException("not a valid move");
         }
-        setPieceAt(from, pieceToMove);
-        setPieceAt(to, new Blank());
+        setPieceAt(to, pieceToMove);
+        setPieceAt(from, new Blank());
     }
 
     private Set<Position> searchPossibleMoves(Piece pieceToMove, Position from) {
@@ -79,7 +79,7 @@ public class Board {
     }
 
     private void iterate(Piece pieceToMove, Position from, Set<Position> possibleMoves, Direction direction) {
-        for (int dist = 1; dist < pieceToMove.getMovableDistance(); dist++) {
+        for (int dist = 1; dist <= pieceToMove.getMovableDistance(); dist++) {
             int dr = direction.getYDegree() * dist;
             int dc = direction.getXDegree() * dist;
             Position newPosition = Position.addDelta(from, dr, dc);
@@ -98,7 +98,7 @@ public class Board {
     }
 
     private boolean isOutOfBound(Position position) {
-        return 0 <= position.row() && position.row() < rowSize && 0 <= position.col() && position.col() < columnSize;
+        return 0 > position.row() || position.row() >= rowSize || 0 > position.col() || position.col() >= columnSize;
     }
 
     public Piece findPieceAt(String posStr) {

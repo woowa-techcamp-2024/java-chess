@@ -55,19 +55,19 @@ public enum Direction {
     }
 
     public static List<Direction> whitePawnDirection() {
-        return Arrays.asList(NORTH);
-    }
-
-    public static List<Direction> whitePawnAttackDirection() {
-        return Arrays.asList(NORTHEAST, NORTHWEST);
-    }
-
-    public static List<Direction> blackPawnDirection() {
         return Arrays.asList(SOUTH);
     }
 
-    public static List<Direction> blackPawnAttackDirection() {
+    public static List<Direction> whitePawnAttackDirection() {
         return Arrays.asList(SOUTHEAST, SOUTHWEST);
+    }
+
+    public static List<Direction> blackPawnDirection() {
+        return Arrays.asList(NORTH);
+    }
+
+    public static List<Direction> blackPawnAttackDirection() {
+        return Arrays.asList(NORTHEAST, NORTHWEST);
     }
 }
 
