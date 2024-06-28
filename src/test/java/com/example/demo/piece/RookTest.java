@@ -13,7 +13,9 @@ class RookTest {
     @ParameterizedTest
     @MethodSource("colors")
     public void create(final Color color) {
-        Piece rook = new Rook(color);
+        var rook = Piece.builder(Type.ROOK)
+                .color(color)
+                .build();
         assertThat(rook.getColor()).isEqualTo(color);
     }
 
@@ -24,28 +26,34 @@ class RookTest {
     @Test
     @DisplayName("색을 지정하지 않고 룩을 생성하면 흰색이다.")
     public void create_기본생성자() {
-        Piece rook = new Rook();
+        var rook = Piece.builder(Type.ROOK)
+                .build();
         assertThat(rook.getColor()).isEqualTo(Color.WHITE);
     }
 
     @Test
     @DisplayName("검은 색 룩이라면 대문자 R를 출력한다.")
     public void print_black() {
-        Piece rook = new Rook(Color.BLACK);
+        var rook = Piece.builder(Type.ROOK)
+                .color(Color.BLACK)
+                .build();
         assertThat(rook.toString()).isEqualTo("R");
     }
 
     @Test
     @DisplayName("흰 색 룩이라면 소문자 r를 출력한다.")
     public void print_white() {
-        Piece rook = new Rook(Color.WHITE);
+        var rook = Piece.builder(Type.ROOK)
+                .color(Color.WHITE)
+                .build();
         assertThat(rook.toString()).isEqualTo("r");
     }
 
     @Test
     @DisplayName("룩의 점수는 5점이다.")
     public void score() {
-        Piece rook = new Rook();
+        var rook = Piece.builder(Type.ROOK)
+                .build();
         assertThat(rook.getPoint()).isEqualTo(5);
     }
 }

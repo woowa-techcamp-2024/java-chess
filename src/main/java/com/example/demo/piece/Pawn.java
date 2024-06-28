@@ -1,19 +1,9 @@
 package com.example.demo.piece;
 
-public class Pawn implements Piece {
-    private final Color color;
+public class Pawn extends Piece {
 
-    public Pawn() {
-        this(Color.WHITE);
-    }
-
-    public Pawn(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+    public Pawn(PieceBuilder pieceBuilder) {
+        super(pieceBuilder);
     }
 
     @Override
@@ -22,8 +12,13 @@ public class Pawn implements Piece {
     }
 
     @Override
-    public String toString(){
-        return switch (color) {
+    public Type getType() {
+        return Type.PAWN;
+    }
+
+    @Override
+    public String toString() {
+        return switch (getColor()) {
             case WHITE -> "p";
             case BLACK -> "P";
         };

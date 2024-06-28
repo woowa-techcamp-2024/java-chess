@@ -1,20 +1,9 @@
 package com.example.demo.piece;
 
-public class Bishop implements Piece {
+public class Bishop extends Piece {
 
-    private final Color color;
-
-    public Bishop() {
-        this(Color.WHITE);
-    }
-
-    public Bishop(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return this.color;
+    public Bishop(PieceBuilder builder) {
+        super(builder);
     }
 
     @Override
@@ -23,8 +12,13 @@ public class Bishop implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.BISHOP;
+    }
+
+    @Override
     public String toString(){
-        return switch (color) {
+        return switch (getColor()) {
             case WHITE -> "b";
             case BLACK -> "B";
         };

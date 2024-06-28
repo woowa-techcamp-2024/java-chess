@@ -13,7 +13,35 @@ public enum File {
         this.index = index;
     }
 
-    public int index(){
+    public int index() {
         return this.index;
+    }
+
+    /**
+     * 현재 File에서 step만큼 이동한 File을 반환합니다.
+     *
+     * @param step 이동할 거리
+     * @return 이동한 위치의 File 입니다. 만약 이동한 위치가 존재하지 않는다면 null을 반환합니다.
+     */
+    public File move(int step) {
+        try {
+            return values()[index + step];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public static File of(char file) {
+        return switch (file) {
+            case 'a' -> A;
+            case 'b' -> B;
+            case 'c' -> C;
+            case 'd' -> D;
+            case 'e' -> E;
+            case 'f' -> F;
+            case 'g' -> G;
+            case 'h' -> H;
+            default -> throw new IllegalArgumentException("Invalid file: " + file);
+        };
     }
 }

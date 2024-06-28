@@ -1,87 +1,194 @@
 package com.example.demo.context;
 
-import com.example.demo.piece.*;
+import com.example.demo.piece.Color;
+import com.example.demo.piece.Pawn;
+import com.example.demo.piece.Piece;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.*;
+
+import static com.example.demo.piece.Type.*;
 
 public class Board {
 
-    Piece[][] pieceLocation = new Piece[8][8];
+    private Piece[][] pieceLocation = new Piece[8][8];
+    private Map<Location, Set<Color>> checkPoints = new HashMap<>();
+
+    public boolean isCheckPoint(Location targetLocation, Color color) {
+        return checkPoints.getOrDefault(targetLocation, new HashSet<>()).contains(color);
+    }
 
     /**
      * <p>
-     * 보드는 생성시에 정해진 규칙에 따라서 말을 배치한 초기상태를 가져야한다.
+     *     체스판의 초기 상태를 설정합니다.
      * </p>
      * <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Immortal_game_animation.gif" />
      */
-    public static Board createBoard() {
-        Board board = new Board();
-
-        board.initPawn();
-        board.initKing();
-        board.initQueen();
-        board.initBishop();
-        board.initKnight();
-        board.initRook();
-
-        return board;
+    public void initBoard() {
+        this.pieceLocation = new Piece[8][8];
+        this.initPawn();
+        this.initKing();
+        this.initQueen();
+        this.initBishop();
+        this.initKnight();
+        this.initRook();
     }
 
     //--------------init board start----------------
     private void initPawn() {
         for (File file : File.values()) {
-            setPiece(Rank.TWO, file, new Pawn(Color.WHITE));
-            setPiece(Rank.SEVEN, file, new Pawn(Color.BLACK));
+            addPiece(Piece.builder(PAWN)
+                    .color(Color.WHITE)
+                    .rank(Rank.TWO)
+                    .file(file)
+                    .build());
+            addPiece(Piece.builder(PAWN)
+                    .color(Color.BLACK)
+                    .rank(Rank.SEVEN)
+                    .file(file)
+                    .build());
         }
     }
 
     private void initKing() {
-        setPiece(Rank.ONE, File.D, new King(Color.WHITE));
-        setPiece(Rank.EIGHT, File.D, new King(Color.BLACK));
+        addPiece(Piece.builder(KING)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.D)
+                .build());
+        addPiece(Piece.builder(KING)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.D)
+                .build());
     }
 
     private void initQueen() {
-        setPiece(Rank.ONE, File.E, new Queen(Color.WHITE));
-        setPiece(Rank.EIGHT, File.E, new Queen(Color.BLACK));
+        addPiece(Piece.builder(QUEEN)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.E)
+                .build());
+        addPiece(Piece.builder(QUEEN)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.E)
+                .build());
     }
 
     private void initBishop() {
-        setPiece(Rank.ONE, File.C, new Bishop(Color.WHITE));
-        setPiece(Rank.ONE, File.F, new Bishop(Color.WHITE));
-        setPiece(Rank.EIGHT, File.C, new Bishop(Color.BLACK));
-        setPiece(Rank.EIGHT, File.F, new Bishop(Color.BLACK));
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.C)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.F)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.C)
+                .build());
+        addPiece(Piece.builder(BISHOP)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.F)
+                .build());
     }
 
     private void initKnight() {
-        setPiece(Rank.ONE, File.B, new Knight(Color.WHITE));
-        setPiece(Rank.ONE, File.G, new Knight(Color.WHITE));
-        setPiece(Rank.EIGHT, File.B, new Knight(Color.BLACK));
-        setPiece(Rank.EIGHT, File.G, new Knight(Color.BLACK));
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.B)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.G)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.B)
+                .build());
+        addPiece(Piece.builder(KNIGHT)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.G)
+                .build());
     }
 
     private void initRook() {
-        setPiece(Rank.ONE, File.A, new Rook(Color.WHITE));
-        setPiece(Rank.ONE, File.H, new Rook(Color.WHITE));
-        setPiece(Rank.EIGHT, File.A, new Rook(Color.BLACK));
-        setPiece(Rank.EIGHT, File.H, new Rook(Color.BLACK));
+        addPiece(Piece.builder(ROOK)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.A)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.WHITE)
+                .rank(Rank.ONE)
+                .file(File.H)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.A)
+                .build());
+        addPiece(Piece.builder(ROOK)
+                .color(Color.BLACK)
+                .rank(Rank.EIGHT)
+                .file(File.H)
+                .build());
     }
+
     //--------------init board end  ----------------
+
+    /**
+     * 보드에 새로운 말을 추가합니다. 위치 정보는 piece의 초기 위치 값을 통해서 조회합니다.
+     *
+     * @param piece 추가할 말
+     */
+    public void addPiece(Piece piece) {
+        Rank row = piece.getRank();
+        File column = piece.getFile();
+        pieceLocation[row.index()][column.index()] = piece;
+    }
 
     public void setPiece(Rank row, File column, Piece piece) {
         pieceLocation[row.index()][column.index()] = piece;
+    }
+
+    public void setPiece(Location location, Piece piece) {
+        setPiece(location.rank(), location.file(), piece);
     }
 
     public Piece getPiece(Rank row, File column) {
         return pieceLocation[row.index()][column.index()];
     }
 
+    public Piece getPiece(Location location) {
+        return getPiece(location.rank(), location.file());
+    }
+
+    public void setCheckPoints(Map<Location, Set<Color>> checkPoints) {
+        this.checkPoints = checkPoints;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Piece[] pieces : pieceLocation) {
-            for (Piece piece : pieces) {
+        sb.append("  ");
+        for (File file : File.values()) {
+            sb.append(file.name() + " ");
+        }
+        sb.append("\n");
+        for (Rank rank : Rank.values()) {
+            sb.append(rank.index() + 1 + " ");
+            for (File file : File.values()) {
+                Piece piece = getPiece(rank, file);
                 if (piece != null) {
                     sb.append(piece);
                 } else {
@@ -124,6 +231,7 @@ public class Board {
 
     /**
      * 기물 조회시 높은 점수를 가진 기물순으로 순차적으로 정렬된 컬랙션을 반환한다.
+     *
      * @param color 조회할 기물의 색상
      * @return 정렬된 기물 컬랙션
      */

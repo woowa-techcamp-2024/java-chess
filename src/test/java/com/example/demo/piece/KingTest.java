@@ -13,7 +13,9 @@ class KingTest {
     @ParameterizedTest
     @MethodSource("colors")
     public void create(final Color color){
-        Piece king = new King(color);
+        Piece king = Piece.builder(Type.KING)
+                .color(color)
+                .build();
         assertThat(king.getColor()).isEqualTo(color);
     }
 
@@ -24,28 +26,28 @@ class KingTest {
     @Test
     @DisplayName("색을 지정하지 않고 킹을 생성하면 흰색이다.")
     public void create_기본생성자() {
-        Piece king = new King();
+        Piece king = King.builder(Type.KING).build();
         assertThat(king.getColor()).isEqualTo(Color.WHITE);
     }
 
     @Test
     @DisplayName("검은 색 킹이라면 대문자 K를 출력한다.")
     public void print_black(){
-        Piece king = new King(Color.BLACK);
+        Piece king = King.builder(Type.KING).color(Color.BLACK).build();
         assertThat(king.toString()).isEqualTo("K");
     }
 
     @Test
     @DisplayName("흰 색 킹이라면 소문자 k를 출력한다.")
     public void print_white(){
-        Piece king = new King(Color.WHITE);
+        Piece king = King.builder(Type.KING).color(Color.WHITE).build();
         assertThat(king.toString()).isEqualTo("k");
     }
 
     @Test
     @DisplayName("킹의 점수는 0점이다.")
     public void score(){
-        Piece king = new King();
+        Piece king = King.builder(Type.KING).build();
         assertThat(king.getPoint()).isEqualTo(0);
     }
 }

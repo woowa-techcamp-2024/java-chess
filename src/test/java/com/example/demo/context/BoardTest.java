@@ -17,7 +17,8 @@ class BoardTest {
     @Test
     @DisplayName("보드를 생성하면 폰의 초기 상태가 설정되어 있다.")
     public void create_pawn() {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         for (File file : File.values()) {
             Piece black = board.getPiece(Rank.TWO, file);
@@ -34,7 +35,8 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("kingLocations")
     public void create_king(Rank rank, File file, Color color) {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(King.class);
@@ -52,7 +54,8 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("queenLocations")
     public void create_queen(Rank rank, File file, Color color) {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Queen.class);
@@ -70,7 +73,8 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("bishopLocations")
     public void create_bishop(Rank rank, File file, Color color) {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Bishop.class);
@@ -90,7 +94,8 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("knightLocations")
     public void create_knight(Rank rank, File file, Color color) {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Knight.class);
@@ -110,7 +115,8 @@ class BoardTest {
     @ParameterizedTest
     @MethodSource("rookLocations")
     public void create_rook(Rank rank, File file, Color color) {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
 
         Piece piece = board.getPiece(rank, file);
         assertThat(piece).isInstanceOf(Rook.class);
@@ -129,7 +135,9 @@ class BoardTest {
     @Test
     @DisplayName("보드를 출력한다.")
     public void printBoard() {
-        Board board = Board.createBoard();
+        Board board = Game.builder().build();
+        board.initBoard();
+
         System.out.println(board);
     }
 
@@ -138,11 +146,10 @@ class BoardTest {
     public void calculateScoreCase1() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.ONE, File.A, new Queen(Color.WHITE));
-        board.setPiece(Rank.ONE, File.B, new Rook(Color.WHITE));
-        board.setPiece(Rank.ONE, File.C, new Knight(Color.WHITE));
-        board.setPiece(Rank.ONE, File.D, new Bishop(Color.WHITE));
-
+        board.addPiece(Piece.builder(Type.QUEEN).color(Color.WHITE).rank(Rank.ONE).file(File.A).build());
+        board.addPiece(Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.B).build());
+        board.addPiece(Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.C).build());
+        board.addPiece(Piece.builder(Type.BISHOP).color(Color.WHITE).rank(Rank.ONE).file(File.D).build());
         // when
         float score = board.getScore(Color.WHITE);
 
@@ -155,10 +162,9 @@ class BoardTest {
     public void calculateScoreCase2() {
         // given
         Board board = new Board();
-        board.setPiece(Rank.TWO, File.A, new Pawn(Color.WHITE));
-        board.setPiece(Rank.SEVEN, File.A, new Pawn(Color.WHITE));
-        board.setPiece(Rank.FOUR, File.A, new Pawn(Color.WHITE));
-
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.TWO).file(File.A).build());
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.SEVEN).file(File.A).build());
+        board.addPiece(Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.FOUR).file(File.A).build());
         // when
         float score = board.getScore(Color.WHITE);
 
@@ -172,19 +178,18 @@ class BoardTest {
         // given
         Board board = new Board();
 
-        var queen = new Queen(Color.WHITE);
-        var rook = new Rook(Color.WHITE);
-        var bishop = new Bishop(Color.WHITE);
-        var knight = new Knight(Color.WHITE);
-        var pawn1 = new Pawn(Color.WHITE);
-        var pawn2 = new Pawn(Color.WHITE);
-
-        board.setPiece(Rank.ONE, File.A, queen);
-        board.setPiece(Rank.ONE, File.B, rook);
-        board.setPiece(Rank.ONE, File.C, knight);
-        board.setPiece(Rank.ONE, File.D, bishop);
-        board.setPiece(Rank.TWO, File.A, pawn1);
-        board.setPiece(Rank.SEVEN, File.A, pawn2);
+        var queen = Piece.builder(Type.QUEEN).color(Color.WHITE).rank(Rank.ONE).file(File.A).build();
+        var rook = Piece.builder(Type.ROOK).color(Color.WHITE).rank(Rank.ONE).file(File.B).build();
+        var bishop = Piece.builder(Type.BISHOP).color(Color.WHITE).rank(Rank.ONE).file(File.D).build();
+        var knight = Piece.builder(Type.KNIGHT).color(Color.WHITE).rank(Rank.ONE).file(File.C).build();
+        var pawn1 = Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.TWO).file(File.A).build();
+        var pawn2 = Piece.builder(Type.PAWN).color(Color.WHITE).rank(Rank.SEVEN).file(File.A).build();
+        board.addPiece(queen);
+        board.addPiece(rook);
+        board.addPiece(bishop);
+        board.addPiece(knight);
+        board.addPiece(pawn1);
+        board.addPiece(pawn2);
 
         // when
         Collection<Piece> pieces = board.getPieces(Color.WHITE);
@@ -193,5 +198,4 @@ class BoardTest {
         assertThat(pieces.stream().map(Piece::toString).toList())
                 .containsExactly(queen.toString(), rook.toString(), bishop.toString(), knight.toString(), pawn1.toString(), pawn2.toString());
     }
-
 }

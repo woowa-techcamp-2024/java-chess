@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.context.Board;
 import com.example.demo.context.Game;
 import com.example.demo.handler.ChessHandler;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,9 +16,11 @@ public class DemoApplication {
         final Scanner input = new Scanner(System.in);
         ChessHandler cliHandler = new ChessHandler();
 
-        Game game = new Game(new Board());
-        while(!game.isEnd()){
+        Game game = Game.builder().build();
+
+        while (!game.isEnd()) {
             cliHandler.handle(input.next(), game);
+            game.calculateCheckPoint();
         }
     }
 

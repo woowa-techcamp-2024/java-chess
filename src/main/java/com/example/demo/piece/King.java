@@ -1,20 +1,9 @@
 package com.example.demo.piece;
 
-public class King implements Piece {
+public class King extends Piece {
 
-    private final Color color;
-
-    public King() {
-        this(Color.WHITE);
-    }
-
-    public King(Color color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+    public King(PieceBuilder builder){
+        super(builder);
     }
 
     @Override
@@ -23,8 +12,13 @@ public class King implements Piece {
     }
 
     @Override
+    public Type getType() {
+        return Type.KING;
+    }
+
+    @Override
     public String toString(){
-        return switch (color) {
+        return switch (getColor()) {
             case WHITE -> "k";
             case BLACK -> "K";
         };
