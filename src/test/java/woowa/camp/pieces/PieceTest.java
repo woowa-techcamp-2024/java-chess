@@ -20,8 +20,8 @@ public class PieceTest {
     @Test
     @DisplayName("[Success] 색상에 맞는 폰이 생성되어야 한다")
     void create() {
-        Piece pieceWhite = Piece.createWhitePieceOf(PAWN);
-        Piece pieceBlack = Piece.createBlackPieceOf(PAWN);
+        Piece pieceWhite = Pawn.createWhite();
+        Piece pieceBlack = Pawn.createBlack();
 
         verifyPawnColor(pieceWhite, WHITE, "p");
         verifyPawnColor(pieceBlack, BLACK, "P");
@@ -30,7 +30,7 @@ public class PieceTest {
     @Test
     @DisplayName("[Success] 색이 없는 Pawn을 생성하는 경우 기본 색상이 흰색(white)이다")
     void default_create_is_white() {
-        Piece piece = Piece.createWhitePieceOf(PAWN);
+        Piece piece = Pawn.createWhite();
         verifyPawnColor(piece, WHITE, "p");
     }
 
@@ -42,19 +42,19 @@ public class PieceTest {
     @Test
     @DisplayName("[Success] 색상, 종류에 따른 기물 생성")
     void create_piece() {
-        Piece blackKing = Piece.createBlackPieceOf(KING);
-        Piece blackQueen = Piece.createBlackPieceOf(QUEEN);
-        Piece blackRook = Piece.createBlackPieceOf(ROOK);
-        Piece blackBishop = Piece.createBlackPieceOf(BISHOP);
-        Piece blackKnight = Piece.createBlackPieceOf(KNIGHT);
-        Piece blackPawn = Piece.createBlackPieceOf(PAWN);
+        Piece blackKing = King.createBlack();
+        Piece blackQueen = Queen.createBlack();
+        Piece blackRook = Rook.createBlack();
+        Piece blackBishop = Bishop.createBlack();
+        Piece blackKnight = Knight.createBlack();
+        Piece blackPawn = Pawn.createBlack();
 
-        Piece whiteKing = Piece.createWhitePieceOf(KING);
-        Piece whiteQueen = Piece.createWhitePieceOf(QUEEN);
-        Piece whiteRook = Piece.createWhitePieceOf(ROOK);
-        Piece whiteBishop = Piece.createWhitePieceOf(BISHOP);
-        Piece whiteKnight = Piece.createWhitePieceOf(KNIGHT);
-        Piece whitePawn = Piece.createWhitePieceOf(PAWN);
+        Piece whiteKing = King.createWhite();
+        Piece whiteQueen = Queen.createWhite();
+        Piece whiteRook = Rook.createWhite();
+        Piece whiteBishop = Bishop.createWhite();
+        Piece whiteKnight = Knight.createWhite();
+        Piece whitePawn = Pawn.createWhite();
 
         verifyPiece(blackKing, KING, BLACK, "K");
         verifyPiece(blackQueen, QUEEN, BLACK, "Q");
