@@ -83,8 +83,8 @@ public class BoardTest {
         board.setPiece( Position.of("e1"), Rook.of(Piece.Color.WHITE));
         board.setPiece( Position.of("f1"), King.of(Piece.Color.WHITE));
 
-//        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
-//        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
     }
 
     @Test
@@ -108,10 +108,8 @@ public class BoardTest {
         board.setPiece( Position.of("e1"), Rook.of(Piece.Color.WHITE));
         board.setPiece( Position.of("f1"), King.of(Piece.Color.WHITE));
 
-//        board.showScore();
-
-//        assertEquals(20.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
-//        assertEquals(19.5, board.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(20.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(19.5, board.calculatePoint(Piece.Color.WHITE), 0.01);
     }
 
     @Test

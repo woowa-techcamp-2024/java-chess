@@ -4,11 +4,14 @@ import org.example.chess.pieces.*;
 import org.example.chess.pieces.global.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
 
 public class Board {
     private List<Rank> pieces;
+    public static double PAWN_DISCOUNT_RATE = 0.5;
 
     public Board() {
         initializeEmpty();
@@ -163,12 +166,29 @@ public class Board {
 //        return sb.toString();
 //    }
 
-//    public double calculatePoint(Piece.Color color) {
-////        revisePawnScore();
-//        return this.pieces.stream()
-//                .mapToDouble(rank -> rank.calculateScore(color))
-//                .sum();
-//    }
+    public double calculatePoint(Piece.Color color) {
+
+        double score = this.pieces.stream()
+                .mapToDouble(rank -> rank.calculateScoreWithoutPawn(color))
+                .sum();
+
+        // pawn 따로 계산
+        Map<Integer, Long> colIdxMap = this.pieces.stream()
+                .map(rank -> rank.getPawnsColIdx(color))
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(colIdx -> colIdx, Collectors.counting()));
+
+        for (Integer colIdx: colIdxMap.keySet()) {
+            long count = colIdxMap.get(colIdx);
+            if (count >= 2) {
+                score += count * PAWN_DISCOUNT_RATE;
+            } else {
+                score += count * Piece.Type.PAWN.getDefaultPoint();
+            }
+        }
+
+        return score;
+    }
 
 //    // TODO pawn 점수 저장하지 않도록 수정 필요
 //    // board pawn 들의 점수를 재조정하는 함수
@@ -260,18 +280,20 @@ public class Board {
             return this.pieceRow.stream().filter(Piece::isExist).count();
         }
 
-        //TODO 계산
-//        public double calculateScore(Piece.Color color) {
-//            return this.pieceRow.stream()
-//                    .filter(piece -> piece.getColor() == color)
-//                    .mapToDouble(Piece::)
-//                    .sum();
-//        }
+        public double calculateScoreWithoutPawn(Piece.Color color) {
+            return this.pieceRow.stream()
+                    .filter(piece -> !piece.isPawn())
+                    .filter(piece -> piece.getColor() == color)
+                    .mapToDouble(piece -> piece.getName().getDefaultPoint())
+                    .sum();
+        }
 
-//        public String showScore() {
-//            return Arrays.toString(this.pieceRow.stream()
-//                    .mapToDouble(Piece::getPoint)
-//                    .toArray());
-//        }
+        public List<Integer> getPawnsColIdx(Piece.Color color) {
+            return IntStream.range(0, this.pieceRow.size())
+                    .filter(i -> this.pieceRow.get(i).isPawn())
+                    .filter(i -> this.pieceRow.get(i).isSameColor(color))
+                    .boxed()
+                    .toList();
+        }
     }
 }
