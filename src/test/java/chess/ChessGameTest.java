@@ -198,7 +198,7 @@ class ChessGameTest {
     @DisplayName("Queen 이동 구현")
     void moveQueen(String s, String t) {
         game.initializeEmpty();
-        game.add(s, Piece.of(Queen.class, BLACK));
+        game.add(s, Piece.of(Queen.class, WHITE));
 
         game.move(s, t);
 
@@ -274,5 +274,17 @@ class ChessGameTest {
         assertEquals(Pawn.class, game.findPiece(target2).getClass());
 
         assertThrows(IllegalArgumentException.class, () -> game.move(target2, "a7"));
+    }
+
+    @Test
+    @DisplayName("이동하려는 위치가 기물의 현재 위치와 같다.")
+    void moveSamePos() {
+        String source = "a1";
+        String target = "a1";
+
+        game.initializeEmpty();
+        game.add(source, Piece.of(Bishop.class, WHITE, source));
+
+        assertThrows(IllegalArgumentException.class, () -> game.move(source, target));
     }
 }
