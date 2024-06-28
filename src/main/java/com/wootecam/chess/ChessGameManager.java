@@ -1,5 +1,8 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.error.ErrorMessage.NO_GAME_STARTED;
+import static com.wootecam.chess.error.ErrorMessage.UNSUPPORTED_COMMAND;
+
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.ScoreCalculationRule;
 import com.wootecam.chess.game.BoardState;
@@ -56,7 +59,7 @@ public class ChessGameManager {
                     break;
                 default:
                     if (!cmd.startsWith(CMD_MOVE)) {
-                        throw new IllegalArgumentException("Unknown command: " + cmd);
+                        throw new IllegalArgumentException(UNSUPPORTED_COMMAND.value);
                     }
                     move(chessGame, cmd);
             }
@@ -82,6 +85,7 @@ public class ChessGameManager {
         String target = split[2];
 
         BoardState boardState = chessGame.move(source, target);
+
         chessView.printChessBoard(boardState);
     }
 
@@ -94,7 +98,7 @@ public class ChessGameManager {
 
     private void validGameStarted(ChessGame chessGame) {
         if (chessGame == null) {
-            throw new IllegalStateException("You should start game first");
+            throw new IllegalStateException(NO_GAME_STARTED.value);
         }
     }
 

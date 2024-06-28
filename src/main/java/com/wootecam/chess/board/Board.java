@@ -1,5 +1,7 @@
 package com.wootecam.chess.board;
 
+import static com.wootecam.chess.error.ErrorMessage.PIECE_CANNOT_FOUND;
+
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.pieces.property.PieceType;
@@ -31,15 +33,15 @@ public class Board {
 
     public void move(Position source, Position target) {
         Piece piece = get(source);
-        validPiece(source, piece);
+        validPiece(piece);
 
         ranks[target.x].place(piece, target.y);
         ranks[source.x].clearSquare(source.y);
     }
 
-    private void validPiece(Position source, Piece piece) {
+    private void validPiece(Piece piece) {
         if (!piece.isPiece()) {
-            throw new IllegalArgumentException("No piece found at the source position: " + source);
+            throw new IllegalArgumentException(PIECE_CANNOT_FOUND.value);
         }
     }
 
