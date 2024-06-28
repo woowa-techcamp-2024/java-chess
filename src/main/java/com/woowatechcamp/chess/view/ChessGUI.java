@@ -14,19 +14,18 @@ import java.util.Map;
 
 public class ChessGUI extends JFrame {
     private ChessGame game;
-    private JPanel chessBoard;
-    private JLabel[][] pieceLabels;
     private JLabel draggedPieceLabel;
     private Position dragSource;
-    private JPanel glassPane;
-    private JLabel whiteScoreLabel;
-    private JLabel blackScoreLabel;
-    private JLabel timerLabel;
-    private Timer gameTimer;
     private int secondsElapsed;
-    private JButton startButton;
-    private JButton restartButton;
-    private List<JLabel> highlightedSquares = new ArrayList<>();
+    private final JPanel chessBoard;
+    private final JLabel[][] pieceLabels;
+    private final JPanel glassPane;
+    private final JLabel whiteScoreLabel;
+    private final JLabel blackScoreLabel;
+    private final JLabel timerLabel;
+    private final Timer gameTimer;
+    private final JButton startButton;
+    private final List<JLabel> highlightedSquares = new ArrayList<>();
     private static final Map<String, String> PIECE_SYMBOLS = new HashMap<>();
     private static final Color HIGHLIGHT_COLOR = new Color(0, 0, 255, 64);
 
@@ -76,7 +75,7 @@ public class ChessGUI extends JFrame {
         blackScoreLabel = new JLabel("Black: 0");
         timerLabel = new JLabel("Time: 00:00");
         startButton = new JButton("Start Game");
-        restartButton = new JButton("Restart Game");
+        JButton restartButton = new JButton("Restart Game");
 
         startButton.addActionListener(e -> startGame());
         restartButton.addActionListener(e -> restartGame());
@@ -152,7 +151,7 @@ public class ChessGUI extends JFrame {
     private void updateBoard() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                String positionString = String.format("%c%c", (char)('a' + col), (char)('1' + (7 - row)));
+                String positionString = String.format("%c%c", (char) ('a' + col), (char) ('1' + (7 - row)));
                 Position position = new Position(positionString);
                 Piece piece = game.getPieceAt(position);
                 if (piece != null) {
@@ -211,7 +210,7 @@ public class ChessGUI extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            String positionString = String.format("%c%c", (char)('a' + col), (char)('1' + (7 - row)));
+            String positionString = String.format("%c%c", (char) ('a' + col), (char) ('1' + (7 - row)));
             dragSource = new Position(positionString);
             Piece piece = game.getPieceAt(dragSource);
             if (piece != null) {
@@ -239,7 +238,7 @@ public class ChessGUI extends JFrame {
                 if (targetCol < 0) targetCol = 0;
                 if (targetCol > 7) targetCol = 7;
 
-                String targetPosString = String.format("%c%c", (char)('a' + targetCol), (char)('1' + (7 - targetRow)));
+                String targetPosString = String.format("%c%c", (char) ('a' + targetCol), (char) ('1' + (7 - targetRow)));
                 Position targetPos = new Position(targetPosString);
 
                 try {

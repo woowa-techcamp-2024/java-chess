@@ -175,7 +175,7 @@ public class Board {
         Piece piece = findPiece(to);
         piece.undoMove(from);
         ranks.get(piece.getPosition().getYPos())
-                        .setPiece(piece);
+                .setPiece(piece);
         ranks.get(capturedPiece.getPosition().getYPos())
                 .setPiece(capturedPiece);
     }

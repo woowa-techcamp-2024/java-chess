@@ -80,7 +80,8 @@ public abstract class Piece {
                     Position position = new Position(x, y);
                     validateMove(position, board);
                     possibleMoves.add(position);
-                } catch (IllegalArgumentException ignore) {}
+                } catch (IllegalArgumentException ignore) {
+                }
             }
         }
         return possibleMoves;
@@ -121,7 +122,7 @@ public abstract class Piece {
     }
 
     public enum Type {
-        PAWN ('♙', '♟', 1.0),
+        PAWN('♙', '♟', 1.0),
         KNIGHT('♘', '♞', 2.5),
         BISHOP('♗', '♝', 3.0),
         ROOK('♖', '♜', 5.0),

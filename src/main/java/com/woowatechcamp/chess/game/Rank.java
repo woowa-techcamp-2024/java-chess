@@ -7,6 +7,7 @@ import com.woowatechcamp.chess.pieces.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Rank {

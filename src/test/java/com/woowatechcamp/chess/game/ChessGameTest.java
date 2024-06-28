@@ -1,6 +1,7 @@
 package com.woowatechcamp.chess.game;
 
 import com.woowatechcamp.chess.pieces.Piece;
+
 import static org.assertj.core.api.Assertions.*;
 
 import com.woowatechcamp.chess.pieces.Position;
