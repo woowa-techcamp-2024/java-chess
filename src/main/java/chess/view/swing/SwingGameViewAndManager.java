@@ -160,6 +160,7 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
         startButton.addActionListener(e -> {
             if (start) {
                 showError("이미 게임이 실행중입니다.");
+                return;
             }
             chessGame.startGame();
             startGame();
@@ -196,6 +197,7 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
     @Override
     public void startGame() {
         this.start = true;
+        super.startGame();
     }
 
     @Override
@@ -206,5 +208,6 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
     @Override
     public void stopGame() {
         this.start = false;
+        super.endGame();
     }
 }
