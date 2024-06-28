@@ -3,7 +3,6 @@ package com.wootecam.chess.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,15 +33,5 @@ class TypeTest {
 
         // then
         assertThat(pawnPoint).isEqualTo(expected);
-    }
-
-    @Test
-    void 포인트_내림차순으로_정렬할_수_있다() {
-        // when
-        List<Type> types = Type.getDescPointOrderedTypes();
-
-        // then
-        assertThat(types).extracting(Type::getPoint)
-                .containsExactly(9.0, 5.0, 3.0, 2.5, 1.0, 0.0, 0.0);
     }
 }

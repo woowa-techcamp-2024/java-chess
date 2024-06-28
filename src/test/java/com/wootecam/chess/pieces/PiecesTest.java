@@ -10,22 +10,22 @@ public class PiecesTest {
     @Test
     void 모든_기물을_생성할_수_있다() {
         // when
-        Piece blank = Piece.createBlank();
+        Piece blank = new Blank();
 
         // then
         assertAll(
-                () -> verifyPiece(Piece.createWhite(Type.PAWN), Color.WHITE, Type.PAWN),
-                () -> verifyPiece(Piece.createBlack(Type.PAWN), Color.BLACK, Type.PAWN),
-                () -> verifyPiece(Piece.createWhite(Type.KNIGHT), Color.WHITE, Type.KNIGHT),
-                () -> verifyPiece(Piece.createBlack(Type.KNIGHT), Color.BLACK, Type.KNIGHT),
-                () -> verifyPiece(Piece.createWhite(Type.ROOK), Color.WHITE, Type.ROOK),
-                () -> verifyPiece(Piece.createBlack(Type.ROOK), Color.BLACK, Type.ROOK),
-                () -> verifyPiece(Piece.createWhite(Type.BISHOP), Color.WHITE, Type.BISHOP),
-                () -> verifyPiece(Piece.createBlack(Type.BISHOP), Color.BLACK, Type.BISHOP),
-                () -> verifyPiece(Piece.createWhite(Type.QUEEN), Color.WHITE, Type.QUEEN),
-                () -> verifyPiece(Piece.createBlack(Type.QUEEN), Color.BLACK, Type.QUEEN),
-                () -> verifyPiece(Piece.createWhite(Type.KING), Color.WHITE, Type.KING),
-                () -> verifyPiece(Piece.createBlack(Type.KING), Color.BLACK, Type.KING)
+                () -> verifyPiece(new Pawn(Color.WHITE), Color.WHITE, Type.PAWN),
+                () -> verifyPiece(new Pawn(Color.BLACK), Color.BLACK, Type.PAWN),
+                () -> verifyPiece(new Knight(Color.WHITE), Color.WHITE, Type.KNIGHT),
+                () -> verifyPiece(new Knight(Color.BLACK), Color.BLACK, Type.KNIGHT),
+                () -> verifyPiece(new Rook(Color.WHITE), Color.WHITE, Type.ROOK),
+                () -> verifyPiece(new Rook(Color.BLACK), Color.BLACK, Type.ROOK),
+                () -> verifyPiece(new Bishop(Color.WHITE), Color.WHITE, Type.BISHOP),
+                () -> verifyPiece(new Bishop(Color.BLACK), Color.BLACK, Type.BISHOP),
+                () -> verifyPiece(new Queen(Color.WHITE), Color.WHITE, Type.QUEEN),
+                () -> verifyPiece(new Queen(Color.BLACK), Color.BLACK, Type.QUEEN),
+                () -> verifyPiece(new King(Color.WHITE), Color.WHITE, Type.KING),
+                () -> verifyPiece(new King(Color.BLACK), Color.BLACK, Type.KING)
         );
     }
 
@@ -37,7 +37,7 @@ public class PiecesTest {
     @Test
     void 기물이_존재하지_않는_Piece도_생성할_수_잇다() {
         // when
-        Piece blankPiece = Piece.createBlank();
+        Piece blankPiece = new Blank();
 
         assertAll(
                 () -> assertThat(blankPiece.isWhite()).isFalse(),
@@ -49,8 +49,8 @@ public class PiecesTest {
     @Test
     void isWhite는_기물이_흰색인지에_대한_boolean_값을_반환한다() {
         // given
-        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
-        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
+        Piece whitePawn = new Pawn(Color.WHITE);
+        Piece blackPawn = new Pawn(Color.BLACK);
 
         // then
         assertAll(
@@ -62,8 +62,8 @@ public class PiecesTest {
     @Test
     void isBlack은_기물이_검정색인지에_대한_boolean_값을_반환한다() {
         // given
-        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
-        Piece blackPawn = new Piece(Color.BLACK, Type.PAWN);
+        Piece whitePawn = new Pawn(Color.WHITE);
+        Piece blackPawn = new Pawn(Color.BLACK);
 
         // when
         assertAll(
@@ -75,7 +75,7 @@ public class PiecesTest {
     @Test
     void 동일한_색상과_타입이면_참을_반환한다() {
         // given
-        Piece whitePawn = new Piece(Color.WHITE, Type.PAWN);
+        Piece whitePawn = new Pawn(Color.WHITE);
 
         // when
         boolean isSameColorAndType = whitePawn.isSameColorAndType(Color.WHITE, Type.PAWN);
@@ -87,7 +87,7 @@ public class PiecesTest {
     @Test
     void 동일한_색상을_가진_폰을_제외한_기물이라면_참을_반환한다() {
         // given
-        Piece piece = Piece.createBlack(Type.ROOK);
+        Piece piece = new Rook(Color.BLACK);
 
         // when
         boolean isApplicablePiece = piece.isApplicablePiece(Color.BLACK);

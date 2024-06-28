@@ -1,8 +1,13 @@
-package com.wootecam.chess.pieces;
+package com.wootecam.chess.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.wootecam.chess.pieces.Color;
+import com.wootecam.chess.pieces.King;
+import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.Rook;
+import com.wootecam.chess.pieces.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -78,7 +83,7 @@ class RankTest {
         Piece piece = blackOtherPieces.findPieceByColumn(0);
 
         // then
-        assertThat(piece).isEqualTo(Piece.createBlack(Type.ROOK));
+        assertThat(piece).isEqualTo(new Rook(Color.BLACK));
     }
 
     @Test
@@ -87,12 +92,12 @@ class RankTest {
         Rank rank = Rank.createBlanks();
 
         // when
-        Rank replacedRank = rank.placePiece(0, Piece.createBlack(Type.KING));
+        Rank replacedRank = rank.placePiece(0, new King(Color.BLACK));
 
         // then
         assertThat(replacedRank)
                 .extracting(newRank -> newRank.findPieceByColumn(0))
-                .isEqualTo(Piece.createBlack(Type.KING));
+                .isEqualTo(new King(Color.BLACK));
     }
 
     @Test

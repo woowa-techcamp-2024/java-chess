@@ -1,19 +1,46 @@
 package com.wootecam.chess;
 
+import com.wootecam.chess.board.Board;
+import com.wootecam.chess.board.Rank;
+import com.wootecam.chess.game.CoordinatesExtractor;
+import com.wootecam.chess.game.Game;
+import com.wootecam.chess.game.PieceMoveVerifier;
 import com.wootecam.chess.pieces.Color;
-import com.wootecam.chess.pieces.Rank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChessApplication {
 
-
-    private static final String START_COMMAND = "start";
-    private static final String END_COMMAND = "end";
+    private static final String[] ORDER = {"WHITE", "BLACK"};
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
+
+        Board board = initialize();
+        CoordinatesExtractor extractor = new CoordinatesExtractor();
+        PieceMoveVerifier pieceMoveVerifier = new PieceMoveVerifier();
+
+        Game game = new Game(board, extractor, pieceMoveVerifier);
+        ChessView chessView = new ChessView();
+
+        chessView.printStartMessage();
+        while (GameCommand.isContinue(inputReader.nextLine())) {
+            chessView.printBoard(board.getRanks());
+            chessView.printCommandInput();
+
+            String command = inputReader.nextLine();
+            String currentOrder = ORDER[COUNTER.getAndIncrement() % ORDER.length];
+
+            GameCommand.move(command, currentOrder, game::move);
+            chessView.printBoard(board.getRanks());
+            chessView.printStartMessage();
+        }
+    }
+
+    private static Board initialize() {
 
         List<Rank> ranks = new ArrayList<>();
         ranks.add(Rank.createBlackOtherPieces());
@@ -24,23 +51,7 @@ public class ChessApplication {
         ranks.add(Rank.createBlanks());
         ranks.add(Rank.createPawns(Color.WHITE));
         ranks.add(Rank.createWhiteOtherPieces());
-        CoordinatesExtractor extractor = new CoordinatesExtractor();
 
-        Board board = new Board(ranks, extractor);
-
-        while (isContinue(inputReader.nextLine())) {
-            board.print();
-        }
-    }
-
-    private static boolean isContinue(String input) {
-        if (START_COMMAND.equals(input)) {
-            return true;
-        }
-        if (END_COMMAND.equals(input)) {
-            return false;
-        }
-        String message = String.format("잘못된 입력입니다. ('%s', '%s'만 가능) input = %s", START_COMMAND, END_COMMAND, input);
-        throw new IllegalArgumentException(message);
+        return new Board(ranks);
     }
 }

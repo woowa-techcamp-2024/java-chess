@@ -1,8 +1,10 @@
 package com.wootecam.chess.pieces;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
-public class Piece {
+public abstract class Piece {
 
     private final Color color;
     private final Type type;
@@ -12,28 +14,15 @@ public class Piece {
         this.type = type;
     }
 
-    public static Piece createBlack(final Type type) {
-        return new Piece(Color.BLACK, type);
-    }
+    public abstract Optional<Direction> findDirection(final Position startPosition, final Position targetPosition);
 
-    public static Piece createWhite(final Type type) {
-        return new Piece(Color.WHITE, type);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NO_COLOR, Type.NO_PIECE);
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public String getRepresentation() {
-        return type.findRepresentation(color);
+    protected boolean findAnyMatchDirection(final Position startPosition,
+                                            final Position targetPosition,
+                                            final Direction direction,
+                                            final int moveCount) {
+        return IntStream.rangeClosed(1, moveCount)
+                .mapToObj(count -> startPosition.addPosition(direction.getRow() * count, direction.getColumn() * count))
+                .anyMatch(nextPosition -> nextPosition.equals(targetPosition));
     }
 
     public boolean isWhite() {
@@ -56,6 +45,22 @@ public class Piece {
         return this.color == color && type.isPiece();
     }
 
+    public boolean isTypeOf(final Type type) {
+        return this.type == type;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public String getRepresentation() {
+        return type.findRepresentation(color);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -74,5 +79,13 @@ public class Piece {
         int result = Objects.hashCode(color);
         result = 31 * result + Objects.hashCode(type);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "color=" + color +
+                ", type=" + type +
+                '}';
     }
 }
