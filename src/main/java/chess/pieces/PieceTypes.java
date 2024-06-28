@@ -22,18 +22,20 @@ public enum PieceTypes {
     }
 
     public enum Type {
-        PAWN('p', 1.0),
-        ROOK('r', 5.0),
-        KNIGHT('n', 2.5),
-        BISHOP('b', 3.0),
-        QUEEN('q', 9.0),
-        KING('k', 0.0), NO_PIECE('.', 0.0);
+        PAWN('p', 1.0,false),
+        ROOK('r', 5.0,false),
+        KNIGHT('n', 2.5,true),
+        BISHOP('b', 3.0,false),
+        QUEEN('q', 9.0,false),
+        KING('k', 0.0,false), NO_PIECE('.', 0.0,false);
         private final char representation;
         private final double point;
+        private final boolean jumpable;
 
-        Type(char representation, double point) {
+        Type(char representation, double point,boolean jumpable) {
             this.representation = representation;
             this.point = point;
+            this.jumpable = jumpable;
         }
 
         public char getRepresentation() {
@@ -42,6 +44,10 @@ public enum PieceTypes {
 
         public double getPoint() {
             return this.point;
+        }
+
+        public boolean isJumpable() {
+            return jumpable;
         }
     }
 

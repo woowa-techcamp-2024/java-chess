@@ -40,15 +40,17 @@ public class ChessGame {
             return;
         }
         //해당 위치에 색이 같으면 false, 아니면 true
-        board.findPiece(source)
-                    .ifPresent(p->{
+        boolean isPiece = board.findPiece(source)
+                    .map(p->{
                         if(!isSameTeam(piece,p)){
                             result.add(source);
                         }
-                    });
+                        return PieceTypes.Type.NO_PIECE.equals(p.getType());
+                    }).orElse(false);
         //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
         if (!piece.getCourse().isRecursive()) return;
 
+        if(!piece.getType().isJumpable()) return;
         findPossibleDirection(result,direction,piece,getNextPosition(source,direction));
     }
 
@@ -116,7 +118,7 @@ public class ChessGame {
         }
         //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
         if (!piece.getCourse().isRecursive()) return false;
-
+        if(!piece.getType().isJumpable() && board.findPiece(target).isPresent()) return false;
         return isFind(piece, direction, getNextPosition(source, direction), target);
     }
 
