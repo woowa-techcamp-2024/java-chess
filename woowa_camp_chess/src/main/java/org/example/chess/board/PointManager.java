@@ -18,7 +18,9 @@ public class PointManager {
         return "White: " + whitePoint + " Black: " + blackPoint;
     }
 
-    public void updatePointByPosition(Position position,Piece piece) {
+    public void updatePointByPosition(Position position) {
+        Piece piece = board.findPiece(position);
+
         double defaultPoint = getPiecePoint(position, piece);
 
         if(piece.getColor().equals(Piece.Color.WHITE))

@@ -33,6 +33,7 @@ public class GameImpl extends Game {
         Position desPos = Position.fromStr(des);
 
         Piece srcPiece = board.findPiece(src);
+        Piece desPiece = board.findPiece(desPos);
 
         // src 에 Blank 가 있다면 이동을 하지 못한다.
         if(srcPiece.getPieceType().equals(PieceType.NO_PIECE)) throw new IllegalArgumentException("말 선택이 잘못 되었습니다.");
@@ -51,10 +52,16 @@ public class GameImpl extends Game {
 
         if(!isPossibleDes) throw new IllegalArgumentException("잘못된 도착지 입니다.");
 
+
+
+        //todo : 상대 말을 먹는 행위를 하면 점수를 높여주어야 한다.
+        if (!desPiece.getPieceType().equals(PieceType.NO_PIECE)) {
+            pointManager.updatePointByPosition(desPos);
+        }
+
         board.move(src,des);
 
         srcPiece.increaseMoveCount();
-        //todo : 상대 말을 먹는 행위를 하면 점수를 높여주어야 한다.
 
         changeTurn();
     }

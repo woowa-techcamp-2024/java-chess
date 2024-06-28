@@ -1,5 +1,9 @@
 package org.example.chess.pieces;
 
+import org.example.chess.board.Board;
+import org.example.chess.board.Position;
+
+import java.util.List;
 import java.util.Objects;
 
 import static org.example.chess.pieces.Piece.Color.BLACK;
@@ -18,6 +22,11 @@ public abstract class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
+
+        public boolean isOpposite(Color color) {
+            return this.equals(WHITE)&&color.equals(BLACK) || this.equals(BLACK)&&color.equals(WHITE);
+        }
+
     }
 
     private final Color color;
@@ -50,6 +59,7 @@ public abstract class Piece {
         return representation;
     }
 
+
     public boolean isWhite() {
         return this.color.equals(WHITE);
     }
@@ -73,4 +83,8 @@ public abstract class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public abstract List<Position> getPossibleMovePosition(Position srcPosition, Board board);
+
+
 }
