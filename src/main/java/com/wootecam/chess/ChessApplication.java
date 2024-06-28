@@ -36,6 +36,7 @@ public class ChessApplication {
 
             GameCommand.move(command, currentOrder, game::move);
             chessView.printBoard(board.getRanks());
+            chessView.printStartMessage();
         }
     }
 

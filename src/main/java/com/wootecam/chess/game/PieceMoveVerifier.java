@@ -25,7 +25,9 @@ public class PieceMoveVerifier {
         if (startPiece.isTypeOf(Type.KNIGHT)) {
             verifyKnight(startPiece, targetPiece);
         }
-        verifyOtherMove(startPosition, targetPosition, startPiece, targetPiece, direction, pieceFinder);
+        if (Type.isOtherType(startPiece.getType())) {
+            verifyOtherMove(startPosition, targetPosition, startPiece, targetPiece, direction, pieceFinder);
+        }
     }
 
     private void verifyPawnMove(final Position startPosition,

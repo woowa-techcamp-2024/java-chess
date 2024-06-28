@@ -24,6 +24,10 @@ public enum Type {
         return pawnCount * PAWN.point / 2.0;
     }
 
+    public static boolean isOtherType(final Type type) {
+        return type != NO_PIECE && type != PAWN;
+    }
+
     public String findRepresentation(Color color) {
         if (color == Color.BLACK) {
             return representation.toUpperCase();
