@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.chess.board.BoardInitializeManagerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-06-28T01:23:36" hostname="woowatech24ui-MacBookPro.local" time="0.035">
+  <properties/>
+  <testcase name="create()" classname="org.example.chess.board.BoardInitializeManagerTest" time="0.031"/>
+  <testcase name="testCountPiecesByColorAndType()" classname="org.example.chess.board.BoardInitializeManagerTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

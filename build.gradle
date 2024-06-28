@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation("org.assertj:assertj-core:3.22.0")
+}
+
+application {
+    mainClassName = 'org.example.Game'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.example.Game'
+        )
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
