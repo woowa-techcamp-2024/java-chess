@@ -1,5 +1,7 @@
 package chess.piece;
 
+import chess.piece.rule.PieceMove;
+
 public abstract class Piece {
 
     protected final PieceColor color;
@@ -10,7 +12,13 @@ public abstract class Piece {
 
     public abstract Type getType();
 
+    public abstract PieceMove getMoveable();
+
     public PieceColor getColor() {
         return color;
+    }
+
+    public boolean isSameColor(final Piece piece) {
+        return this.color == piece.color;
     }
 }

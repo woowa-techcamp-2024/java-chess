@@ -1,19 +1,17 @@
-package chess;
+package chess.board;
 
 import chess.piece.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static chess.BoardFactory.*;
-import static chess.utils.StringUtils.appendNewLine;
+import static chess.board.BoardFactory.*;
 
 public class Board {
-
-    private static final int BOARD_SIZE = 8;
 
     private final Map<Position, Piece> board = new HashMap<>();
 
@@ -33,10 +31,20 @@ public class Board {
         this.board.put(position, piece);
     }
 
-    public void move(final String target, final Piece piece) {
-        Position position = getPosition(target);
+    public void move(final Position target, final Piece piece) {
+        if (piece.getType().equals(Type.PAWN)) {
+            ((Pawn) piece).completeFirstMove();
+        }
 
-        this.board.put(position, piece);
+        add(target, piece);
+    }
+
+    public void move(final Position source, final Position target) {
+        Piece piece = validatePieceInPosition(source);
+
+        move(target, piece);
+
+        this.board.remove(source);
     }
 
     public int pieceCount() {
@@ -44,13 +52,28 @@ public class Board {
     }
 
     public Piece findPiece(final Position position) {
-        return this.board.get(position);
+        return Optional.ofNullable(this.board.get(position))
+                .orElseGet(Blank::create);
     }
 
     public Piece findPiece(final String input) {
-        Position position = getPosition(input);
+        Position position = Position.of(input);
 
-        return this.board.get(position);
+        return Optional.ofNullable(this.board.get(position))
+                .orElseGet(Blank::create);
+    }
+
+    public List<Piece> findPiece(final PieceColor color) {
+        return this.board.values().stream()
+                .filter(piece -> piece.getColor().equals(color))
+                .collect(Collectors.toList());
+    }
+
+    public List<Position> findPosition(final PieceColor color) {
+        return this.board.entrySet().stream()
+                .filter(entry -> entry.getValue().getColor().equals(color))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public long getPieceResult(final PieceColor color, final Type type) {
@@ -83,35 +106,7 @@ public class Board {
                 .toList();
     }
 
-    public String showBoard() {
-        StringBuilder chessBoard = new StringBuilder();
-
-        for (int row = BOARD_SIZE; row >= 1; row--) {
-            for (int col = 1; col <= BOARD_SIZE; col++) {
-                Position position = Position.of(File.of(col), Rank.of(row));
-                char representation = getPieceInPosition(position);
-
-                chessBoard.append(representation);
-            }
-            chessBoard.append(appendNewLine(String.valueOf(Rank.of(row).getIndex())));
-        }
-
-        chessBoard.append(appendNewLine("abcdefgh"));
-
-        return chessBoard.toString();
-    }
-
-    public void print() {
-        System.out.println(showBoard());
-    }
-
-    private static Position getPosition(final String input) {
-        File file = File.of(input.charAt(0));
-        Rank rank = Rank.of(Character.getNumericValue(input.charAt(1)));
-        return Position.of(file, rank);
-    }
-
-    private char getPieceInPosition(final Position position) {
+    public char getPieceInPosition(final Position position) {
         Piece piece = board.getOrDefault(position, Blank.create());
 
         return piece.getType().getRepresentation(piece.getColor());
@@ -129,13 +124,25 @@ public class Board {
                             .toList();
                     return pawns.size() >= 2 ? pawns.stream() : Stream.empty();
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
+    private Piece validatePieceInPosition(final Position sourcePosition) {
+        Piece piece = Optional.ofNullable(this.board.get(sourcePosition))
+                .orElseGet(Blank::create);
 
-    private List<Piece> findPiece(final PieceColor color) {
-        return this.board.values().stream()
-                .filter(piece -> piece.getColor().equals(color))
-                .collect(Collectors.toList());
+        if (piece.getType().equals(Type.NO_PIECE)) {
+            throw new IllegalArgumentException("해당 위치에 말이 없습니다.");
+        }
+        return piece;
+    }
+
+    public Position findKingPosition(final PieceColor turn) {
+        return this.board.entrySet().stream()
+                .filter(entry -> entry.getValue().getType().equals(Type.KING))
+                .filter(entry -> entry.getValue().getColor().equals(turn))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .get();
     }
 }

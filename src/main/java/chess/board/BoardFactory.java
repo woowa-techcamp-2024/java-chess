@@ -1,4 +1,4 @@
-package chess;
+package chess.board;
 
 import chess.piece.*;
 
@@ -8,6 +8,9 @@ public class BoardFactory {
     private static final int rowNum = 9;
     private static final int whiteInitRowWithoutPawn = rowNum - 8;
     private static final int blackInitRowWithoutPawn = rowNum - 1;
+
+    private BoardFactory() {
+    }
 
     public static void createPawn(final Board board) {
         for (int col = 1; col <= boardSize; col++) {

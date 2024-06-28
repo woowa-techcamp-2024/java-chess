@@ -1,33 +1,51 @@
 package chess;
 
 import chess.config.AppConfig;
-
-import java.util.Scanner;
+import chess.piece.PieceColor;
+import chess.view.ConsoleView;
 
 public class Main {
-
-    private static final String start = "start";
-    private static final String end = "end";
 
     public static void main(String[] args) {
         ChessGame chessGame = AppConfig.chessGame();
 
-        Scanner scanner = new Scanner(System.in);
+        if (!ConsoleView.init()) return;
 
-        System.out.println("게임을 시작하시고 싶다면 'start' 또는 하지 않으시려면 'end'를 입력해주세요.");
+        String chessBoard = chessGame.start();
+
+        ConsoleView.printChessBoard(chessBoard);
+
+        PieceColor turn = PieceColor.WHITE;
 
         while (true) {
-            String commend = scanner.nextLine().trim();
-            if (commend.equals(start)) {
-                System.out.println("게임이 시작되었습니다.");
-                chessGame.start();
-                break;
-            } else if(commend.equals(end)) {
-                System.out.println("게임이 종료되었습니다.");
-                chessGame.end();
-                return;
+            String[] commands = ConsoleView.play(turn);
+
+            try {
+                chessBoard = chessGame.play(commands[0], commands[1], turn);
+
+                if (chessGame.isPromotion(commands[1])) {
+                    String promotionPiece = ConsoleView.promotion();
+                    chessGame.promotion(commands[1], promotionPiece);
+                }
+            } catch (RuntimeException e) {
+                ConsoleView.printErrorMessage(e.getMessage());
+                continue;
             }
-            System.out.println("잘못 입력하셨습니다. 'start' 또는 'end'를 입력해주세요.");
+
+            if(chessGame.isCheck(turn)) {
+                ConsoleView.check(turn.flip());
+            }
+
+            ConsoleView.printChessBoard(chessBoard);
+
+            if (chessGame.isCheckmate(turn)) {
+                break;
+            }
+
+            turn = turn.flip();
         }
+
+        ConsoleView.checkmate(turn);
     }
+
 }

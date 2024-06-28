@@ -1,6 +1,10 @@
-package chess;
+package chess.board;
+
+import chess.exception.InvalidMoveException;
 
 import java.util.Arrays;
+
+import static chess.exception.ExceptionConstant.INVALID_MOVE;
 
 public enum Rank {
     ONE(1), TWO(2), THREE(3), FOUR(4),
@@ -15,7 +19,7 @@ public enum Rank {
     public static Rank of(final int index) {
         return Arrays.stream(Rank.values()).filter(rank -> rank.index == index)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("범위 밖의 값입니다."));
+                .orElseThrow(() -> new InvalidMoveException(INVALID_MOVE));
     }
 
     public int getIndex() {
