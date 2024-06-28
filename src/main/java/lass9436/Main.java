@@ -9,16 +9,22 @@ public class Main {
 		{
 			Scanner scanner = new Scanner(System.in);
 			Board board = new Board();
-			board.initialize();
+			boolean isStarted = false;
 			while (true) {
 				String input = scanner.nextLine();
 				if (input.equals("start")) {
+					board.initialize();
+					isStarted = true;
 					System.out.println(board.showBoard());
 				}
 				if (input.equals("exit")) {
 					break;
 				}
 				if (input.startsWith("move")) {
+					if (!isStarted) {
+						System.out.println("not yet started");
+						continue;
+					}
 					String[] split = input.split(" ");
 					String sourcePosition = split[1];
 					String targetPosition = split[2];
