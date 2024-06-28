@@ -4,6 +4,8 @@ import static chess.board.Rank.createBlackPawnRank;
 import static chess.board.Rank.createBlankRank;
 import static chess.board.Rank.createWhitePawnRank;
 
+import chess.exception.InvalidMovePositionException;
+import chess.exception.PositionOutOfBoardException;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
@@ -42,7 +44,7 @@ public class Board {
 
     public Rank getRank(int rankNum) {
         if (rankNum < 0 || rankNum >= RANK_COUNT) {
-            throw new IllegalArgumentException();
+            throw new PositionOutOfBoardException();
         }
         return ranks.get(rankNum);
     }
@@ -76,7 +78,7 @@ public class Board {
 
     private void initializeRank(int rankNum, Rank rank) {
         if (rankNum >= RANK_COUNT) {
-            throw new IllegalArgumentException();
+            throw new PositionOutOfBoardException();
         }
         ranks.set(rankNum, rank);
     }
@@ -90,7 +92,7 @@ public class Board {
 
     public void move(Position source, Position target) {
         if (source == target) {
-            throw new IllegalArgumentException();
+            throw new InvalidMovePositionException();
         }
         Piece current = findPiece(source);
         List<Position> path = current.getPath(source, target);
@@ -107,7 +109,7 @@ public class Board {
         path.forEach(position -> {
             Piece other = findPiece(position);
             if (current.isSameTeam(other)) {
-                throw new IllegalArgumentException();
+                throw new InvalidMovePositionException();
             }
         });
     }
