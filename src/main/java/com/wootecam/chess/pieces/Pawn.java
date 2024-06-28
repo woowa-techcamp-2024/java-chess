@@ -6,6 +6,10 @@ import java.util.stream.IntStream;
 
 public class Pawn extends Piece {
 
+    private static final int BLACK_PAWN_INIT_ROW = 1;
+    private static final int BLACK_PAWN_DOUBLE_JUMP_ROW = 3;
+    private static final int WHITE_PAWN_DOUBLE_JUMP_ROW = 4;
+    private static final int WHITE_PAWN_INIT_ROW = 6;
     private static final int MOVE_COUNT = 1;
 
     public Pawn(final Color color) {
@@ -30,10 +34,10 @@ public class Pawn extends Piece {
     }
 
     private boolean isFirstMoveWithTwoJump(final Position startPosition, final Position targetPosition) {
-        return startPosition.row() == 1 && targetPosition.row() == 3
-                && startPosition.column() == targetPosition.column()
-                || startPosition.row() == 6 && targetPosition.row() == 4
-                && startPosition.column() == targetPosition.column();
+        return (startPosition.row() == BLACK_PAWN_INIT_ROW && targetPosition.row() == BLACK_PAWN_DOUBLE_JUMP_ROW
+                && startPosition.column() == targetPosition.column())
+                || (startPosition.row() == WHITE_PAWN_INIT_ROW && targetPosition.row() == WHITE_PAWN_DOUBLE_JUMP_ROW
+                && startPosition.column() == targetPosition.column());
     }
 
     private boolean findAnyMatchDirection(final Position startPosition, final Position targetPosition,
