@@ -1,6 +1,6 @@
 package com.woowatechcamp.chess.pieces;
 
-import com.woowatechcamp.chess.Board;
+import com.woowatechcamp.chess.game.Board;
 
 import java.util.List;
 
@@ -80,6 +80,12 @@ public class Pawn extends Piece {
     private boolean isMovingBackward(Direction direction) {
         return (getColor() == Color.BLACK && direction == Direction.SOUTH) ||
                 (getColor() == Color.WHITE && direction == Direction.NORTH);
+    }
+
+    @Override
+    public void undoMove(Position position) {
+        moveCount--;
+        super.undoMove(position);
     }
 
     private boolean isFirstMove() {

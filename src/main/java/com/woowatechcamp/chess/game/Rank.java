@@ -1,4 +1,4 @@
-package com.woowatechcamp.chess;
+package com.woowatechcamp.chess.game;
 
 import com.woowatechcamp.chess.pieces.Piece;
 import com.woowatechcamp.chess.pieces.PieceFactory;
@@ -7,6 +7,7 @@ import com.woowatechcamp.chess.pieces.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static com.woowatechcamp.utils.StringUtils.appendNewLine;
 
 public class Rank {

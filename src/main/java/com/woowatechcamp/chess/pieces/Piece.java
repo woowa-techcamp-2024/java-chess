@@ -1,7 +1,9 @@
 package com.woowatechcamp.chess.pieces;
 
-import com.woowatechcamp.chess.Board;
+import com.woowatechcamp.chess.game.Board;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -30,6 +32,19 @@ public abstract class Piece {
 
     abstract protected void validateMove(Position position, Board board);
 
+    public boolean canMoveTo(Position position, Board board) {
+        try {
+            validateMove(position, board);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void undoMove(Position position) {
+        this.position = position;
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -57,6 +72,21 @@ public abstract class Piece {
         return this.type == type && this.color == color;
     }
 
+    public List<Position> getPossibleMoves(Board board) {
+        List<Position> possibleMoves = new ArrayList<>();
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                try {
+                    Position position = new Position(x, y);
+                    validateMove(position, board);
+                    possibleMoves.add(position);
+                } catch (IllegalArgumentException ignore) {
+                }
+            }
+        }
+        return possibleMoves;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,13 +106,23 @@ public abstract class Piece {
     }
 
     public enum Color {
-        BLACK,
-        WHITE,
-        NONE;
+        BLACK("Black"),
+        WHITE("White"),
+        NONE("None");
+
+        private final String color;
+
+        private Color(String color) {
+            this.color = color;
+        }
+
+        public String getColor() {
+            return color;
+        }
     }
 
     public enum Type {
-        PAWN ('♙', '♟', 1.0),
+        PAWN('♙', '♟', 1.0),
         KNIGHT('♘', '♞', 2.5),
         BISHOP('♗', '♝', 3.0),
         ROOK('♖', '♜', 5.0),

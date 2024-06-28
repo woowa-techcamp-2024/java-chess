@@ -1,14 +1,15 @@
 package com.woowatechcamp.chess.pieces;
 
-import com.woowatechcamp.chess.Board;
-import org.junit.Before;
-import org.junit.Test;
+import com.woowatechcamp.chess.game.Board;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class KingTest {
     private Board board;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         board = new Board();
         board.initializeEmpty();

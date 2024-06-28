@@ -1,7 +1,10 @@
 package com.woowatechcamp.chess.pieces;
 
 public class PieceFactory {
-    private PieceFactory() {};
+    private PieceFactory() {
+    }
+
+    ;
 
     public static Piece createWhitePawn(Position position) {
         return new Pawn(Piece.Color.WHITE, position);
