@@ -26,7 +26,7 @@ public class Pawn extends Piece {
     public boolean verifyMovePosition(final Piece piece) {
         List<Direction> currentDirections = new ArrayList<>(directions);
         if (this.getPosition().getY() == 1 && this.isBlack()) currentDirections.add(Direction.NORTH_TWICE);
-        if (this.getPosition().getY() == 7 && this.isWhite()) currentDirections.add(Direction.SOUTH_TWICE);
+        if (this.getPosition().getY() == 6 && this.isWhite()) currentDirections.add(Direction.SOUTH_TWICE);
 
         // Pawn이 이동할 수 있는 장소에 있는가?
         boolean canMovePosition = false;
