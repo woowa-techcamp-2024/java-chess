@@ -3,12 +3,15 @@ package view;
 import chess.Board;
 import chess.ChessGame;
 import chess.Ranks;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import pieces.Piece;
@@ -20,6 +23,7 @@ public class ChessGUI extends JFrame {
 	private final ChessGame chessGame;
 	private JButton[][] chessSquares;
 	private StringBuilder command;
+	private JLabel turnLabel;
 	private int commandCount;
 
 	public ChessGUI() {
@@ -42,8 +46,14 @@ public class ChessGUI extends JFrame {
 		setSize(1000, 1000);
 		setLocationRelativeTo(null);
 
+		turnLabel = new JLabel();
+		updateTurnLabel();
 		JPanel boardPanel = new JPanel(new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE));
+		JPanel labelPanel = new JPanel(new FlowLayout());
+
+		labelPanel.add(turnLabel);
 		chessSquares = new JButton[Board.BOARD_SIZE][Board.BOARD_SIZE];
+
 
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int col = 0; col < Board.BOARD_SIZE; col++) {
@@ -59,7 +69,13 @@ public class ChessGUI extends JFrame {
 			}
 		}
 
+		getContentPane().add(labelPanel, BorderLayout.NORTH);
 		getContentPane().add(boardPanel);
+	}
+
+	private void updateTurnLabel() {
+		turnLabel.setText("Turn: " + (chessGame.getTurn() == 0 ? "WHITE" : "BLACK"));
+		turnLabel.setFont(new Font("Arial", Font.BOLD, 24));
 	}
 
 	private void setupChessboard(Piece[][] pieces) {
@@ -71,6 +87,7 @@ public class ChessGUI extends JFrame {
 				chessSquares[row][col].setBorderPainted(false);
 			}
 		}
+		updateTurnLabel();
 	}
 
 	private void handleSquareClick(char column, char rowReversed) {
