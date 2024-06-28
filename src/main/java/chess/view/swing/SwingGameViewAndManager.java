@@ -70,6 +70,10 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
                     tiles[px][py] = new PieceTileComponent(TILE_SIZE, (row + col) % 2 == 0 ? Color.WHITE : Color.GRAY, px, py, board.charAt(px * BOARD_SIZE + py));
                     tiles[px][py].addActionListener(e -> {
                         try {
+                            if(!start){
+                                showMessage("게임을 시작하지 않으셨습니다.");
+                                return;
+                            }
                             PieceTileComponent target = (PieceTileComponent) e.getSource();
                             if (selectedPieces.contains(target)) {//같은걸 클릭함.
                                 selectedPieces.remove(target);
@@ -146,6 +150,7 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
             chessGame.finishGame();
             endGame();
             showMessage("게임을 종료합니다.");
+            changeTurnLabel("Game is not running");
         });
         setEndButton(finishButton);
     }
@@ -159,6 +164,7 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
             chessGame.startGame();
             startGame();
             showMessage("게임을 시작합니다.");
+            changeTurnLabel("WhiteTurn");
         });
         setStartButton(startButton);
     }
@@ -189,7 +195,7 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
 
     @Override
     public void startGame() {
-
+        this.start = true;
     }
 
     @Override
@@ -199,22 +205,6 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
 
     @Override
     public void stopGame() {
-
-    }
-
-    protected class StartButtonClickAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            chessGame.startGame();
-            showMessage("게임을 시작합니다.");
-        }
-    }
-
-    protected class FinishButtonClickAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            chessGame.finishGame();
-            showMessage("게임을 종료합니다.");
-        }
+        this.start = false;
     }
 }
