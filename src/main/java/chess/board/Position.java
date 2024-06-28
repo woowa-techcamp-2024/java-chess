@@ -11,11 +11,11 @@ public class Position {
         file = parseFile(position);
     }
 
-    public int parseRank(String position) {
+    private int parseRank(String position) {
         return BOARD_SIZE - Character.getNumericValue(position.charAt(1));
     }
 
-    public int parseFile(String position) {
+    private int parseFile(String position) {
         return position.charAt(0) - 'a';
     }
 

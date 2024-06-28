@@ -2,6 +2,7 @@ package chess;
 
 import chess.board.Board;
 import chess.game.ChessGame;
+import chess.game.IllegalMoveException;
 import chess.view.ChessView;
 
 import java.util.Scanner;
@@ -42,9 +43,13 @@ public class Main {
             } else if(command.startsWith(Command.MOVE.getCommand())) {
                 String[] commands = command.split(" ");
                 if(commands.length != 3) {
-                    throw new IllegalArgumentException("move command requires 2 arguments");
+                    System.out.println("move command requires 2 arguments");
                 }
-                chessGame.move(commands[1], commands[2]);
+                try {
+                    chessGame.move(commands[1], commands[2]);
+                } catch (IllegalMoveException e) {
+                    System.out.println(e.getMessage());
+                }
             } else {
                 System.out.println("Invalid input! input again!");
                 continue;
