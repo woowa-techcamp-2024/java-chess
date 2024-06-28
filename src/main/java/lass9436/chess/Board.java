@@ -2,6 +2,7 @@ package lass9436.chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import lass9436.chess.pieces.Piece;
 import lass9436.utils.StringUtils;
@@ -127,25 +128,28 @@ public class Board {
 		map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), piece);
 	}
 
+	private double calculatePointKnightToQueen(Piece.Color color) {
+		return map.stream()
+			.mapToDouble(rank -> rank.calculatePointKnightToQueen(color))
+			.sum();
+	}
+
+	private double calculatePointPawn(Piece.Color color) {
+		return IntStream.range(0, 8)
+			.mapToDouble(column -> {
+				long pawnCount = map.stream()
+					.filter(rank -> {
+						Piece piece = rank.findPiece(column);
+						return piece.getColor() == color && piece.getType() == Piece.Type.PAWN;
+					})
+					.count();
+				return pawnCount >= 2 ? pawnCount * 0.5 : pawnCount;
+			})
+			.sum();
+	}
+
 	public double calculatePoint(Piece.Color color) {
-		double sum = 0;
-		for (Rank rank : map) {
-			sum += rank.calculatePointKnightToQueen(color);
-		}
-		for (int i = 0; i < 8; i++) {
-			int pawnCount = 0;
-			for (Rank rank : map) {
-				Piece piece = rank.findPiece(i);
-				if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
-					pawnCount++;
-				}
-			}
-			if (pawnCount >= 2)
-				sum += pawnCount * 0.5;
-			else
-				sum += pawnCount;
-		}
-		return sum;
+		return calculatePointKnightToQueen(color) + calculatePointPawn(color);
 	}
 
 	public Piece findPiece(String position) {
