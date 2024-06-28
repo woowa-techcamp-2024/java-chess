@@ -2,6 +2,9 @@ package chess.pieces;
 
 import chess.board.Coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Queen extends Piece {
 
     @Override
@@ -23,6 +26,28 @@ public class Queen extends Piece {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Coordinate> canMoveCoordinate(Coordinate from) {
+        List<Direction> directions = Direction.everyDirection();
+
+        List<Coordinate> canMoveCoordinates = new ArrayList<>();
+        for (Direction direction : directions) {
+            int count = 1;
+            while(true) {
+                int dy = (direction.getYDegree() * count++) + from.getRankIndex();
+                int dx = (direction.getXDegree() * count++) + from.getWidthIndex();
+                try {
+                    Coordinate coordinate = Coordinate.of(dy, dx);
+                    canMoveCoordinates.add(coordinate);
+                }
+                catch(Exception e) {
+                    break;
+                }
+            }
+        }
+        return canMoveCoordinates;
     }
 
     public static Queen createWhiteQueen() {

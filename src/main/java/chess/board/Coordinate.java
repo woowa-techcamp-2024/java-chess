@@ -1,5 +1,7 @@
 package chess.board;
 
+import java.util.Objects;
+
 public class Coordinate {
 
     private final int rankIndex;
@@ -20,6 +22,29 @@ public class Coordinate {
 
     public static Coordinate of(String coordinate) {
         return new Coordinate(coordinate);
+    }
+
+    public static Coordinate of(int rankIndex, int widthIndex) {
+        return new Coordinate(rankIndex, widthIndex);
+    }
+
+    private Coordinate(int rankIndex, int widthIndex) {
+        this.rankIndex = validateRankIndex(rankIndex);
+        this.widthIndex = validateWidthIndex(widthIndex);
+    }
+
+    private int validateRankIndex(int rankIndex) {
+        if(rankIndex < 0 || rankIndex >= RANK_HEIGHT) {
+            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
+        }
+        return rankIndex;
+    }
+
+    private int validateWidthIndex(int widthIndex) {
+        if(widthIndex < 0 || widthIndex >= BOARD_WIDTH) {
+            throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
+        }
+        return widthIndex;
     }
 
     private Coordinate(String coordinate) {
@@ -60,5 +85,18 @@ public class Coordinate {
             throw new IllegalArgumentException("범위를 넘어선 좌표입니다.");
         }
         return convertedWidth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinate that = (Coordinate) o;
+        return rankIndex == that.rankIndex && widthIndex == that.widthIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rankIndex, widthIndex);
     }
 }
