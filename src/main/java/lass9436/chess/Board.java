@@ -1,10 +1,10 @@
-package chess;
+package lass9436.chess;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chess.pieces.Piece;
-import utils.StringUtils;
+import lass9436.chess.pieces.Piece;
+import lass9436.utils.StringUtils;
 
 public class Board {
 

@@ -1,12 +1,12 @@
-package chess.pieces;
+package lass9436.chess.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import chess.Position;
+import lass9436.chess.Position;
 
-public class Rook extends Piece {
-	public Rook(Type type, Color color, Representation representation) {
+public class Queen extends Piece {
+	public Queen(Type type, Color color, Representation representation) {
 		super(type, color, representation);
 	}
 
@@ -17,6 +17,10 @@ public class Rook extends Piece {
 		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.RIGHT, 0));
 		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.UP, 0));
 		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.DOWN, 0));
+		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.LEFT_UP, 0));
+		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.RIGHT_UP, 0));
+		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.LEFT_DOWN, 0));
+		possibleMoves.add(getPossibleMovesOfDirection(currentPosition, Direction.RIGHT_DOWN, 0));
 		return possibleMoves;
 	}
 }

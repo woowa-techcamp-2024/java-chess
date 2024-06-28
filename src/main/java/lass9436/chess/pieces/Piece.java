@@ -1,10 +1,10 @@
-package chess.pieces;
+package lass9436.chess.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import chess.Position;
+import lass9436.chess.Position;
 
 public abstract class Piece implements Comparable<Piece> {
 

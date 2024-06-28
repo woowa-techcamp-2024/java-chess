@@ -1,12 +1,13 @@
 package chess;
 
+import static lass9436.utils.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static utils.StringUtils.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import chess.pieces.Piece;
+import lass9436.chess.Board;
+import lass9436.chess.pieces.Piece;
 
 public class BoardTest {
 

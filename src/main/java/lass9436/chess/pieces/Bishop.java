@@ -1,8 +1,8 @@
-package chess.pieces;
+package lass9436.chess.pieces;
 
 import java.util.List;
 
-import chess.Position;
+import lass9436.chess.Position;
 
 public class Bishop extends Piece {
 	public Bishop(Type type, Color color, Representation representation) {

@@ -1,4 +1,4 @@
-package chess;
+package lass9436.chess;
 
 import java.util.Objects;
 

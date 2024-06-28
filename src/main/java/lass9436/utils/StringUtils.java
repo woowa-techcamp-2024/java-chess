@@ -1,4 +1,4 @@
-package utils;
+package lass9436.utils;
 
 public class StringUtils {
 

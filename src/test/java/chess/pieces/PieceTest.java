@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import lass9436.chess.pieces.Piece;
+
 public class PieceTest {
 
 	@Test
