@@ -76,8 +76,8 @@ class GameTest {
             String targetCoordinates = "b3";
 
             // when
+            game.move(startCoordinates, targetCoordinates, Color.WHITE);
 
-            game.move(startCoordinates, targetCoordinates);
             // then
             assertAll(
                     () -> assertThat(board.findPiece(new Position(6, 1))).isEqualTo(new Blank()),
@@ -95,7 +95,7 @@ class GameTest {
                 String targetCoordinates = "b2";
 
                 // expect
-                assertThatThrownBy(() -> game.move(startCoordinates, targetCoordinates))
+                assertThatThrownBy(() -> game.move(startCoordinates, targetCoordinates, Color.WHITE))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("빈칸은 이동시킬 수 없습니다.");
             }

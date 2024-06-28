@@ -19,30 +19,36 @@ public class Game {
     private final CoordinatesExtractor extractor;
     private final PieceMoveVerifier pieceMoveVerifier;
 
-
     public Game(final Board board, final CoordinatesExtractor extractor, final PieceMoveVerifier pieceMoveVerifier) {
         this.board = board;
         this.extractor = extractor;
         this.pieceMoveVerifier = pieceMoveVerifier;
     }
 
-    public void move(final String startCoordinates, final String targetCoordinates) {
+    public void move(final String startCoordinates, final String targetCoordinates, final Color currentOrderColor) {
         Position startPosition = extractor.extractPosition(startCoordinates);
         Position targetPosition = extractor.extractPosition(targetCoordinates);
 
         Piece startPiece = board.findPiece(startPosition);
         Piece targetPiece = board.findPiece(targetPosition);
 
-        validateMovePieces(startPiece);
+        validateMovePieces(startPiece, currentOrderColor);
         pieceMoveVerifier.verifyMove(startPiece, targetPiece, startPosition, targetPosition, board::findPiece);
 
         board.updatePiece(startPosition, new Blank());
         board.updatePiece(targetPosition, startPiece);
     }
 
-    private void validateMovePieces(final Piece piece) {
+    private void validateMovePieces(final Piece piece, final Color currentOrderColor) {
         if (piece.isBlank()) {
             throw new IllegalArgumentException("빈칸은 이동시킬 수 없습니다.");
+        }
+        if (piece.getColor() != currentOrderColor) {
+            String message = String.format("지금은 %s(이)가 놓을 차례입니다. selectedColor = %s",
+                    currentOrderColor,
+                    piece.getColor()
+            );
+            throw new IllegalStateException(message);
         }
     }
 

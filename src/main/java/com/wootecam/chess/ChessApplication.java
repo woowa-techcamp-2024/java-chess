@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChessApplication {
 
+    private static final String[] ORDER = {"WHITE", "BLACK"};
     private static final String START_COMMAND = "start";
     private static final String END_COMMAND = "end";
     private static final String MOVE_COMMAND = "move";
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     public static void main(String[] args) {
         Scanner inputReader = new Scanner(System.in);
@@ -23,18 +26,20 @@ public class ChessApplication {
 
         ChessView chessView = new ChessView();
 
-        printStartMessage();
+        chessView.printStartMessage();
         while (isContinue(inputReader.nextLine())) {
             chessView.printBoard(board.getRanks());
-            System.out.println("명령을 입력하세요.");
-            String command = inputReader.nextLine();
 
-            if (command.startsWith(MOVE_COMMAND)) {
-                moveCommand(command, game);
+            chessView.printCommandInput();
+            String command = inputReader.nextLine();
+            String currentOrder = ORDER[COUNTER.getAndIncrement() % ORDER.length];
+
+            if (!command.startsWith(MOVE_COMMAND)) {
+                throw new IllegalArgumentException("'move {좌표1} {좌표2}'와 같이 입력해야 합니다.");
             }
+            moveCommand(command, game, currentOrder);
 
             chessView.printBoard(board.getRanks());
-            printStartMessage();
         }
     }
 
@@ -53,10 +58,6 @@ public class ChessApplication {
         return new Board(ranks);
     }
 
-    private static void printStartMessage() {
-        System.out.println("시작하려면 start를 종료하려면 end를 입력하세요.");
-    }
-
     private static boolean isContinue(String input) {
         if (START_COMMAND.equals(input)) {
             return true;
@@ -68,11 +69,11 @@ public class ChessApplication {
         throw new IllegalArgumentException(message);
     }
 
-    private static void moveCommand(final String command, final Game game) {
+    private static void moveCommand(final String command, final Game game, final String currentOrder) {
         StringTokenizer moveToken = new StringTokenizer(command.substring(MOVE_COMMAND.length()));
         String startCoordinates = moveToken.nextToken();
         String targetCoordinates = moveToken.nextToken();
 
-        game.move(startCoordinates, targetCoordinates);
+        game.move(startCoordinates, targetCoordinates, Color.valueOf(currentOrder));
     }
 }

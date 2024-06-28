@@ -35,6 +35,10 @@ public abstract class Piece {
         return this.color == color && type.isPiece();
     }
 
+    public boolean isTypeOf(final Type type) {
+        return this.type == type;
+    }
+
     public Color getColor() {
         return color;
     }
@@ -73,9 +77,5 @@ public abstract class Piece {
                 "color=" + color +
                 ", type=" + type +
                 '}';
-    }
-
-    public boolean isTypeOf(final Type type) {
-        return this.type == type;
     }
 }

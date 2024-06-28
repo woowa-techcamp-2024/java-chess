@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 
 public class ChessView {
 
+    public void printStartMessage() {
+        System.out.println("시작하려면 start를 종료하려면 end를 입력하세요.");
+    }
+
     public void printBoard(final List<Rank> ranks) {
         System.out.println(showBoard(ranks));
     }
@@ -21,5 +25,9 @@ public class ChessView {
 
     private String createRankResults(final Rank rank) {
         return rank.createResults();
+    }
+
+    public void printCommandInput() {
+        System.out.println("명령을 입력하세요.");
     }
 }
