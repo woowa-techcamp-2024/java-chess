@@ -1,4 +1,6 @@
 package com.wootecam.chess.game;
 
-public record ChessResult(double whiteScore, double blackScore, String winner) {
+import com.wootecam.chess.pieces.property.Color;
+
+public record ChessResult(double whiteScore, double blackScore, Color winner) {
 }

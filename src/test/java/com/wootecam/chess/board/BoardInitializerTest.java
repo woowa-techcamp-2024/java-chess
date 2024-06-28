@@ -35,7 +35,7 @@ class BoardInitializerTest {
     void 체스판을_초기화하면_모든_기물들이_제자리에_배치되어_있어야_한다() {
         boardInitializer.initialize(board);
 
-        List<List<Piece>> result = board.getCurrentState();
+        List<List<Piece>> result = board.getState();
 
         assertThat(result.get(0)).containsExactly(
                 Piece.createBlackRook(),

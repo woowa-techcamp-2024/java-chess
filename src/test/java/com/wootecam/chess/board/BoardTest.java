@@ -187,7 +187,7 @@ class BoardTest {
             board.add(Piece.createBlackKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            List<Piece> result = board.getPiecesSortedByScore(Color.BLACK, Order.DESC);
+            List<Piece> result = board.sortByPoint(Color.BLACK, Order.DESC);
 
             assertThat(result).containsExactly(
                     Piece.createBlackQueen(),
@@ -210,7 +210,7 @@ class BoardTest {
             board.add(Piece.createWhiteKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            List<Piece> result = board.getPiecesSortedByScore(Color.WHITE, Order.ASC);
+            List<Piece> result = board.sortByPoint(Color.WHITE, Order.ASC);
 
             assertThat(result).containsExactly(
                     Piece.createWhiteKing(),

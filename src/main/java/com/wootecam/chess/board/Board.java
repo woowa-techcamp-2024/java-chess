@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Board {
+
     public static final int MAX_COL = 8;
     public static final int MAX_ROW = 8;
 
@@ -35,6 +36,10 @@ public class Board {
         Piece piece = get(source);
         validPiece(piece);
 
+        if (get(target).isPiece()) {
+            --totalPieces;
+        }
+
         ranks[target.x].place(piece, target.y);
         ranks[source.x].clearSquare(source.y);
     }
@@ -53,12 +58,12 @@ public class Board {
         return totalPieces;
     }
 
-    public boolean isAllyPieceAt(Position pos, Piece piece) {
-        if (isEmpty(pos)) {
+    public boolean isAllyPieceAt(Position target, Piece piece) {
+        if (isEmpty(target)) {
             return false;
         }
 
-        Piece posPiece = ranks[pos.x].get(pos.y);
+        Piece posPiece = get(target);
         return posPiece.isAlly(piece);
     }
 
@@ -66,7 +71,7 @@ public class Board {
         return !ranks[pos.x].get(pos.y).isPiece();
     }
 
-    public List<List<Piece>> getCurrentState() {
+    public List<List<Piece>> getState() {
         return Arrays.stream(ranks)
                 .map(Rank::getPieces)
                 .toList();
@@ -82,7 +87,7 @@ public class Board {
         return calculationRule.apply(ranks, color);
     }
 
-    public List<Piece> getPiecesSortedByScore(Color color, Order order) {
+    public List<Piece> sortByPoint(Color color, Order order) {
         return Arrays.stream(ranks)
                 .flatMap(r -> r.getPieces(color).stream())
                 .sorted(order::compare)

@@ -11,6 +11,7 @@ import com.wootecam.chess.game.ChessResult;
 import com.wootecam.chess.io.Reader;
 import com.wootecam.chess.io.Writer;
 import com.wootecam.chess.pieces.Piece;
+import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.utils.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +51,6 @@ public class ChessView {
 
     public void printChessBoard(BoardState boardState) {
         List<List<Piece>> curState = boardState.boardState();
-
         StringBuilder message = new StringBuilder();
 
         message.append(BOLD).append(RED).append(FILE_IDENTIFIERS).append(RESET)
@@ -58,16 +58,7 @@ public class ChessView {
 
         for (int i = 0; i < curState.size(); i++) {
             int rowNumber = 8 - i;
-
-            message.append(BOLD).append(BLUE).append(rowNumber).append(RESET).append(BLANK);
-
-            String rowString = curState.get(i).stream()
-                    .map(Piece::getRepresentation)
-                    .map(rp -> rp.value)
-                    .collect(Collectors.joining(BLANK));
-
-            message.append(rowString).append(BLANK);
-            message.append(BOLD).append(BLUE).append(rowNumber).append(RESET).append(StringUtils.NEW_LINE);
+            updateChessBoardRank(message, rowNumber, curState.get(i));
         }
 
         message.append(BOLD).append(RED).append(FILE_IDENTIFIERS).append(RESET);
@@ -75,8 +66,21 @@ public class ChessView {
         writer.printLine(message);
     }
 
+    private void updateChessBoardRank(StringBuilder message, int rowNumber, List<Piece> curRowState) {
+        message.append(BOLD).append(BLUE).append(rowNumber).append(RESET).append(BLANK);
+
+        String rowString = curRowState.stream()
+                .map(Piece::getRepresentation)
+                .map(rp -> rp.value)
+                .collect(Collectors.joining(BLANK));
+
+        message.append(rowString).append(BLANK);
+        message.append(BOLD).append(BLUE).append(rowNumber).append(RESET).append(StringUtils.NEW_LINE);
+    }
+
     public void printChessResult(ChessResult result) {
-        String message = String.format(RESULT_MESSAGE, result.whiteScore(), result.blackScore(), result.winner());
+        Color winner = result.winner();
+        String message = String.format(RESULT_MESSAGE, result.whiteScore(), result.blackScore(), winner.displayName);
 
         writer.printLine(message);
     }

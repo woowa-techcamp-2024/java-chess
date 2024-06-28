@@ -31,7 +31,7 @@ public class ChessGame {
         board = new Board();
         boardInitializer.initialize(board);
 
-        return new BoardState(board.getCurrentState());
+        return new BoardState(board.getState());
     }
 
     public BoardState move(String source, String target) {
@@ -43,7 +43,7 @@ public class ChessGame {
 
         turn = turn.toggle();
 
-        return new BoardState(board.getCurrentState());
+        return new BoardState(board.getState());
     }
 
     private void validTurn(Position position) {
@@ -55,20 +55,20 @@ public class ChessGame {
     public ChessResult end() {
         double whiteScore = board.calculateScore(scoreCalculationRule, Color.WHITE);
         double blackScore = board.calculateScore(scoreCalculationRule, Color.BLACK);
-        String winner = determineWinner(whiteScore, blackScore);
+        Color winner = determineWinner(whiteScore, blackScore);
 
         return new ChessResult(whiteScore, blackScore, winner);
     }
 
-    private String determineWinner(double whiteScore, double blackScore) {
+    private Color determineWinner(double whiteScore, double blackScore) {
         if (whiteScore == blackScore) {
-            return "None(Draw)";
+            return Color.NO_COLOR;
         }
 
         if (whiteScore > blackScore) {
-            return "White";
+            return Color.WHITE;
         }
 
-        return "Black";
+        return Color.BLACK;
     }
 }
