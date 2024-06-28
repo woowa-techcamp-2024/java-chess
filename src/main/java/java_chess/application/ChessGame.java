@@ -22,6 +22,7 @@ public class ChessGame {
      */
     public void startGame() {
         board.initialize();
+        this.current = Color.WHITE;
     }
 
     /**
