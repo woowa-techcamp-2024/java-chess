@@ -1,11 +1,12 @@
 package com.wootecam.chess;
 
+import static com.wootecam.chess.BoardInitializeFixture.기본_체스판을_생성한다;
+import static com.wootecam.chess.BoardInitializeFixture.비어있는_체스판을_생성한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.board.Board;
-import com.wootecam.chess.board.Rank;
 import com.wootecam.chess.pieces.Blank;
 import com.wootecam.chess.pieces.Color;
 import com.wootecam.chess.pieces.King;
@@ -14,8 +15,6 @@ import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.Position;
 import com.wootecam.chess.pieces.Queen;
 import com.wootecam.chess.pieces.Rook;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,37 +32,9 @@ class GameTest {
     @BeforeEach
     void setUp() {
         verifier = new PieceMoveVerifier();
-        board = initialize();
         extractor = new CoordinatesExtractor();
+        board = 기본_체스판을_생성한다();
         game = new Game(board, extractor, verifier);
-    }
-
-    private Board initialize() {
-        List<Rank> ranks = new ArrayList<>();
-        ranks.add(Rank.createBlackOtherPieces());
-        ranks.add(Rank.createPawns(Color.BLACK));
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createPawns(Color.WHITE));
-        ranks.add(Rank.createWhiteOtherPieces());
-
-        return new Board(ranks);
-    }
-
-    private Board initializeEmpty() {
-        List<Rank> ranks = new ArrayList<>();
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-        ranks.add(Rank.createBlanks());
-
-        return new Board(ranks);
     }
 
     @Nested
@@ -107,7 +78,7 @@ class GameTest {
 
         @BeforeEach
         void setUp() {
-            board = initializeEmpty();
+            board = 비어있는_체스판을_생성한다();
             game = new Game(board, extractor, verifier);
         }
 
