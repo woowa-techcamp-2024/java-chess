@@ -9,6 +9,12 @@ cd /java-chess
 ./gradlew build
 ./gradlew run
 ```
+# 지원 가능한 기능
+- 기본적인 GUI
+- 본인의 턴이 아닌 경우 움직이려 할 때, alert
+- 이동할 수 없는 경로로 움직이려 할 때, alert
+- pawn의 promotion
+- 게임 종료
 
 ---
 초기 상태<br>
