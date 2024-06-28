@@ -7,6 +7,9 @@ import chess.exception.NotPlayerTurnException;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Position;
+import chess.sorter.Direction;
+import chess.sorter.PointSorter;
+import chess.sorter.Sorter;
 import java.util.List;
 
 public class ChessGame {
@@ -14,6 +17,8 @@ public class ChessGame {
     private final Board board;
 
     private final PointCalculator pointCalculator;
+
+    private final Sorter pointSorter;
 
     private static final Color firstTurn = Color.WHITE;
 
@@ -27,6 +32,7 @@ public class ChessGame {
                 new DefaultPointCalculateStrategy(),
                 new SameFilePawnPointCalculateStrategy()
         ));
+        this.pointSorter = new PointSorter();
         turn = 1;
     }
 
@@ -55,5 +61,13 @@ public class ChessGame {
 
     public double getPointByBlack() {
         return pointCalculator.calculate(board, Color.BLACK);
+    }
+
+    public List<Piece> sortPiecesByPointAsc(Color color) {
+        return board.sort(color, pointSorter, Direction.ASC);
+    }
+
+    public List<Piece> sortPiecesByPointDesc(Color color) {
+        return board.sort(color, pointSorter, Direction.ASC);
     }
 }
