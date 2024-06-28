@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.exception.InvalidMovePositionException;
 import chess.pieces.Position.Degree;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +72,7 @@ public enum Direction {
         return Arrays.stream(Direction.values())
                 .filter(direction -> direction.xDegree == xDegree && direction.yDegree == yDegree)
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(InvalidMovePositionException::new);
     }
 
     public static Direction valueOf(Degree degree) {

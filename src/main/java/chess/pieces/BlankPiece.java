@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.exception.InvalidMovePositionException;
 import java.util.List;
 
 public class BlankPiece extends Piece {
@@ -15,6 +16,6 @@ public class BlankPiece extends Piece {
 
     @Override
     protected void additionalCheck(Position src, Position target) {
-        throw new IllegalArgumentException();
+        throw new InvalidMovePositionException();
     }
 }
