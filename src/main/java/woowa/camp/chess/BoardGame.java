@@ -37,12 +37,29 @@ public class BoardGame {
 
         validateMove(sourcePiece, sourcePosition, destinationPiece);
 
+        final List<Position> path = sourcePiece.findPath(sourcePosition);
+        validatePath(path, sourcePosition, destinationPosition);
+
         doMove(sourcePiece, destinationPosition, sourcePosition);
     }
 
     private void doMove(final Piece sourcePiece, final Position destinationPosition, final Position sourcePosition) {
         board.replace(sourcePiece, destinationPosition);
         board.remove(sourcePosition);
+    }
+
+    private void validatePath(final List<Position> path, final Position source, final Position destination) {
+        if (!path.contains(destination)) {
+            throw new IllegalArgumentException("해당 피스가 갈 수 없는 위치입니다.");
+        }
+
+        for (Position position : path) {
+            if (!position.equals(destination)
+                    && board.getPieceBy(source.getRow(), source.getCol()).isPieceOf(NO_PIECE)) {
+                throw new IllegalArgumentException("중간에 기물이 있습니다.");
+            }
+        }
+
     }
 
     public double calculateScore(final Color color) {

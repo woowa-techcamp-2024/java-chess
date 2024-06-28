@@ -3,6 +3,8 @@ package woowa.camp.chess;
 import static woowa.camp.chess.BoardConstants.MAX_COL;
 import static woowa.camp.chess.BoardConstants.MAX_ROW;
 
+import java.util.List;
+
 public class Position {
 
     private final int row;
@@ -53,4 +55,70 @@ public class Position {
     public int getCol() {
         return col;
     }
+
+    public List<Position> getSurroundingPositions() {
+
+        return List.of();
+    }
+
+    public List<Position> getHorizontalVerticalAndDiagonalPositions() {
+
+        return List.of();
+    }
+
+    public List<Position> getHorizontalAndVerticalPositions() {
+
+        return List.of();
+    }
+
+    public List<Position> getDiagonalPositions() {
+
+        return List.of();
+    }
+
+    public List<Position> getCrossPositions() {
+
+        return List.of();
+    }
+
+    public Position getAdjacentSouthEast() {
+
+        return null;
+    }
+
+    public Position getAdjacentSouthWest() {
+
+        return null;
+    }
+
+    public List<Position> getAdjacentTwoTimeSouth() {
+
+        return null;
+    }
+
+    public Position getAdjacentSouth() {
+
+        return null;
+    }
+
+    public Position getAdjacentNorthEast() {
+
+        return null;
+    }
+
+    public Position getAdjacentNorthWest() {
+
+        return null;
+    }
+
+    public List<Position> getAdjacentTwoTimeWest() {
+
+        return null;
+    }
+
+    public Position getAdjacentWest() {
+
+        return null;
+    }
+
 }

@@ -4,6 +4,7 @@ import static woowa.camp.pieces.Piece.Color.BLACK;
 
 import java.util.List;
 import java.util.Objects;
+import woowa.camp.chess.Position;
 
 public abstract class Piece {
 
@@ -14,6 +15,8 @@ public abstract class Piece {
         this.type = type;
         this.color = color;
     }
+
+    public abstract List<Position> findPath(final Position source);
 
     public String getRepresentation() {
         return type.getRepresentation(color);
