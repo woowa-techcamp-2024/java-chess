@@ -17,14 +17,14 @@ public class PieceTest {
     @Test
     @DisplayName("Piece가 생성되어야 한다.")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING);
+        verifyPiece(Pawn.createWhitePawn(), Pawn.createBlackPawn(), Type.PAWN);
+        verifyPiece(Knight.createWhiteKnight(), Knight.createBlackKnight(), Type.KNIGHT);
+        verifyPiece(Rook.createWhiteRook(), Rook.createBlackRook(), Type.ROOK);
+        verifyPiece(Bishop.createWhiteBishop(), Bishop.createBlackBishop(), Type.BISHOP);
+        verifyPiece(Queen.createWhiteQueen(), Queen.createBlackQueen(), Type.QUEEN);
+        verifyPiece(King.createWhiteKing(), King.createBlackKing(), Type.KING);
 
-        Piece blank = Piece.createBlank();
+        Piece blank = Blank.createBlank();
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
@@ -42,7 +42,7 @@ public class PieceTest {
     @Test
     @DisplayName("검은색 말과 흰색 말을 구분할 수 있어야한다.")
     public void checkColor(){
-        Piece piece = Piece.createWhitePawn();
+        Piece piece = Pawn.createWhitePawn();
         assertFalse(piece.isBlack());
         assertTrue(piece.isWhite());
     }
