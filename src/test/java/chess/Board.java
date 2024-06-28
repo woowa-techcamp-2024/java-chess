@@ -49,30 +49,55 @@ public class Board {
 			.orElseThrow(() -> new IllegalArgumentException("impossible move"));
 	}
 
+	private boolean pawnCheck(Piece sourcePiece, Piece destinationPiece, Position sourcePosition,
+		Position destinationPosition) {
+		if (sourcePiece.getType() == Piece.Type.PAWN) {
+			if (sourcePosition.getCol() != destinationPosition.getCol()
+				&& destinationPiece.getType() == Piece.Type.NO_PIECE) {
+				return false;
+			}
+			if (sourcePosition.getCol() == destinationPosition.getCol()
+				&& destinationPiece.getType() != Piece.Type.NO_PIECE) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean colorCheck(Piece sourcePiece, Piece destinationPiece) {
+		return sourcePiece.getColor() == destinationPiece.getColor();
+	}
+
+	private boolean isPositionEquals(Position currentPosition, Position destinationPosition) {
+		return currentPosition.equals(destinationPosition);
+	}
+
+	private Piece findObstaclePiece(Position currentPosition) {
+		return map.get(currentPosition.getRow()).findPiece(currentPosition.getCol());
+	}
+
+	private boolean isObstacle(Position currentPosition) {
+		Piece obstaclePiece = findObstaclePiece(currentPosition);
+		return obstaclePiece.getType() != Piece.Type.NO_PIECE;
+	}
+
 	private void movePossibleCheck(List<Position> moves, Position sourcePosition, Position destinationPosition,
 		Piece sourcePiece, Piece destinationPiece) {
 		boolean isPossible = false;
 		for (Position move : moves) {
-			if (move.equals(destinationPosition)) {
-				if (sourcePiece.getType() == Piece.Type.PAWN) {
-					if (sourcePosition.getCol() != destinationPosition.getCol()
-						&& destinationPiece.getType() == Piece.Type.NO_PIECE) {
-						break;
-					}
-					if (sourcePosition.getCol() == destinationPosition.getCol()
-						&& destinationPiece.getType() != Piece.Type.NO_PIECE) {
-						break;
-					}
+			if (isPositionEquals(move, destinationPosition)) {
+				if (pawnCheck(sourcePiece, destinationPiece, sourcePosition, destinationPosition)) {
+					break;
 				}
-				if (sourcePiece.getColor() == destinationPiece.getColor()) {
+				if (colorCheck(sourcePiece, destinationPiece)) {
 					break;
 				}
 				isPossible = true;
 				break;
 			}
-			Piece piece = map.get(move.getRow()).findPiece(move.getCol());
-			if (piece.getType() != Piece.Type.NO_PIECE)
+			if (isObstacle(move)) {
 				break;
+			}
 		}
 		if (!isPossible)
 			throw new IllegalArgumentException("impossible move");
