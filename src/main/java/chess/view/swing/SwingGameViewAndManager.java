@@ -104,6 +104,9 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
                                     showError("이동할 수 없습니다.");
                                 }
                                 turnOffPossiblePosition();
+                                if(chessGame.isEnd()){
+                                    stopGame();
+                                }
                             }
                         } catch (Exception ee) {
                             showError(ee.getMessage());
@@ -209,5 +212,6 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
     public void stopGame() {
         this.start = false;
         super.endGame();
+        showMessage("게임이 종료되었습니다.");
     }
 }
