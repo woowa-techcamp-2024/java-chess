@@ -1,5 +1,7 @@
 package com.wootecam.chess.game;
 
+import static com.wootecam.chess.error.ErrorMessage.INVALID_TURN;
+
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.Position;
@@ -14,6 +16,7 @@ public class ChessGame {
     private final PieceMovementManager pieceMovementManager;
 
     private Board board;
+    private Color turn;
 
     public ChessGame(BoardInitializer boardInitializer,
                      ScoreCalculationRule scoreCalculationRule,
@@ -21,6 +24,7 @@ public class ChessGame {
         this.boardInitializer = boardInitializer;
         this.scoreCalculationRule = scoreCalculationRule;
         this.pieceMovementManager = pieceMovementManager;
+        this.turn = Color.WHITE;
     }
 
     public BoardState start() {
@@ -33,9 +37,19 @@ public class ChessGame {
     public BoardState move(String source, String target) {
         Position srcPos = new Position(source);
         Position trgPos = new Position(target);
+
+        validTurn(srcPos);
         pieceMovementManager.move(board, srcPos, trgPos);
 
+        turn = turn.toggle();
+
         return new BoardState(board.getCurrentState());
+    }
+
+    private void validTurn(Position position) {
+        if (board.isEmpty(position) || !board.get(position).isColor(turn)) {
+            throw new IllegalStateException(INVALID_TURN.value);
+        }
     }
 
     public ChessResult end() {

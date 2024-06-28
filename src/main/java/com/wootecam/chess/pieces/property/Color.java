@@ -12,4 +12,12 @@ public enum Color {
     public boolean isBlack() {
         return this == BLACK;
     }
+
+    public Color toggle() {
+        if (this == WHITE) {
+            return BLACK;
+        }
+
+        return WHITE;
+    }
 }
