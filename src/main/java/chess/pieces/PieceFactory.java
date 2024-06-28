@@ -2,7 +2,6 @@ package chess.pieces;
 
 import chess.Position;
 import chess.constant.Color;
-import chess.constant.Type;
 
 public class PieceFactory {
     public static Piece createMovedPiece(final Piece piece, final Position position) {
