@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.Converter.ColorConverter;
 import com.wootecam.chess.Converter.PieceTypeConverter;
-import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.pieces.property.PieceType;

@@ -1,6 +1,6 @@
 package com.wootecam.chess.pieces;
 
-import static com.wootecam.chess.common.ChessConstraint.isValidIndex;
+import static com.wootecam.chess.constraint.ChessConstraint.isValidIndex;
 
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.move.Direction;

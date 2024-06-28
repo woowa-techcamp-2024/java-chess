@@ -1,7 +1,7 @@
 package com.wootecam.chess.board;
 
 import static com.wootecam.chess.board.Board.MAX_ROW;
-import static com.wootecam.chess.common.ChessConstraint.validIndex;
+import static com.wootecam.chess.constraint.ChessConstraint.validIndex;
 
 import com.wootecam.chess.move.Direction;
 import java.util.Objects;

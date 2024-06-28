@@ -1,6 +1,5 @@
 package com.wootecam.chess.board;
 
-import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.pieces.property.PieceType;

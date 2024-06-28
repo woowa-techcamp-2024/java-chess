@@ -1,4 +1,4 @@
-package com.wootecam.chess.common;
+package com.wootecam.chess.board;
 
 public enum Order {
     ASC,

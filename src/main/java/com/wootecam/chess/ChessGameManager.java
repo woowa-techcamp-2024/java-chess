@@ -1,8 +1,12 @@
-package com.wootecam.chess.game;
+package com.wootecam.chess;
 
 import com.wootecam.chess.board.BoardInitializer;
 import com.wootecam.chess.board.ScoreCalculationRule;
-import com.wootecam.chess.common.Reader;
+import com.wootecam.chess.game.BoardState;
+import com.wootecam.chess.game.ChessGame;
+import com.wootecam.chess.game.ChessResult;
+import com.wootecam.chess.io.Reader;
+import com.wootecam.chess.io.Writer;
 import com.wootecam.chess.move.PieceMovementManager;
 import com.wootecam.chess.view.ChessView;
 
@@ -11,38 +15,36 @@ public class ChessGameManager {
     private static final String CMD_END = "end";
     private static final String CMD_MOVE = "move";
 
-    private static final BoardInitializer boardInitializer = new BoardInitializer();
-    private static final ScoreCalculationRule scoreCalculationRule = new ScoreCalculationRule();
-    private static final PieceMovementManager pieceMovementManager = new PieceMovementManager();
-    private static final ChessView chessView = new ChessView();
+    private final Reader reader = new Reader();
+    private final Writer writer = new Writer();
 
-    private final Reader reader;
+    private final BoardInitializer boardInitializer = new BoardInitializer();
+    private final ScoreCalculationRule scoreCalculationRule = new ScoreCalculationRule();
+    private final PieceMovementManager pieceMovementManager = new PieceMovementManager();
 
-    public ChessGameManager(Reader reader) {
-        this.reader = reader;
-    }
+    private final ChessView chessView = new ChessView(reader, writer);
 
     public static void main(String[] args) {
-        Reader reader = new Reader();
-        ChessGameManager manager = new ChessGameManager(reader);
+        ChessGameManager manager = new ChessGameManager();
+        manager.run();
+    }
 
+    public void run() {
         try {
-            manager.playGame(reader);
+            playGame();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            chessView.printErrorMessage(e.getMessage());
         } finally {
-            manager.close();
+            close();
         }
     }
 
-    public void playGame(Reader reader) {
+    public void playGame() {
         ChessGame chessGame = null;
         boolean isFinished = false;
 
-        chessView.printGreetMessage();
         while (!isFinished) {
-            System.out.print(">>> ");
-            String cmd = reader.readLine();
+            String cmd = chessView.readInput();
 
             switch (cmd) {
                 case CMD_START:
@@ -62,8 +64,12 @@ public class ChessGameManager {
     }
 
     private ChessGame startGame() {
-        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule, pieceMovementManager, chessView);
-        chessGame.start();
+        chessView.printGreetMessage();
+
+        ChessGame chessGame = new ChessGame(boardInitializer, scoreCalculationRule, pieceMovementManager);
+        BoardState boardState = chessGame.start();
+
+        chessView.printChessBoard(boardState);
 
         return chessGame;
     }
@@ -75,13 +81,15 @@ public class ChessGameManager {
         String source = split[1];
         String target = split[2];
 
-        chessGame.move(source, target);
+        BoardState boardState = chessGame.move(source, target);
+        chessView.printChessBoard(boardState);
     }
 
     private void endGame(ChessGame chessGame) {
         validGameStarted(chessGame);
 
-        chessGame.end();
+        ChessResult result = chessGame.end();
+        chessView.printChessResult(result);
     }
 
     private void validGameStarted(ChessGame chessGame) {

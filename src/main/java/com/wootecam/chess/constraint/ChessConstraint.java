@@ -1,4 +1,4 @@
-package com.wootecam.chess.common;
+package com.wootecam.chess.constraint;
 
 public final class ChessConstraint {
     public static final int MAX_ROW = 8;
