@@ -23,6 +23,10 @@ public abstract class Piece {
         return type;
     }
 
+    public Range getRange() {
+        return range;
+    }
+
     public char getRepresentation() {
         if (color.equals(Color.WHITE)) {
             return type.getWhiteRepresentation();

@@ -4,8 +4,10 @@ import com.woopaca.javachess.pieces.Color;
 import com.woopaca.javachess.pieces.Direction;
 import com.woopaca.javachess.pieces.Piece;
 import com.woopaca.javachess.pieces.PieceFactory;
+import com.woopaca.javachess.pieces.Range;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PieceHandler {
@@ -49,13 +51,45 @@ public class PieceHandler {
     }
 
     public List<Position> getPossibleMovePositions(Piece piece, Position sourcePosition) {
+        Range range = piece.getRange();
+        if (range == Range.INFINITY) {
+            return getInfinityPossibleMovePositions(piece, sourcePosition);
+        }
+
+        if (range == Range.ONE) {
+            return getOncePossibleMovePositions(piece, sourcePosition);
+        }
+
+        return Collections.emptyList();
+    }
+
+    private List<Position> getOncePossibleMovePositions(Piece piece, Position sourcePosition) {
+        List<Position> possiblePositions = new ArrayList<>();
+        List<Direction> directions = piece.getDirections();
+        for (Direction direction : directions) {
+            Position position = sourcePosition;
+            position = position.moveIn(direction);
+            if (position.isOutOfBound()) {
+                continue;
+            }
+
+            Piece findPiece = board.findPiece(position);
+            if (findPiece.getColor() == piece.getColor()) {
+                continue;
+            }
+            possiblePositions.add(position);
+        }
+        return possiblePositions;
+    }
+
+    private List<Position> getInfinityPossibleMovePositions(Piece piece, Position sourcePosition) {
         List<Position> possiblePositions = new ArrayList<>();
         List<Direction> directions = piece.getDirections();
         for (Direction direction : directions) {
             Position position = sourcePosition;
             while (true) {
                 position = position.moveIn(direction);
-                if (!position.isValid()) {
+                if (position.isOutOfBound()) {
                     break;
                 }
 

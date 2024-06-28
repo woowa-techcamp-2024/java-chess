@@ -4,6 +4,9 @@ import com.woopaca.javachess.chess.Board;
 import com.woopaca.javachess.chess.ChessView;
 import com.woopaca.javachess.chess.MoveCommand;
 import com.woopaca.javachess.chess.PieceHandler;
+import com.woopaca.javachess.chess.Position;
+import com.woopaca.javachess.pieces.Color;
+import com.woopaca.javachess.pieces.Piece;
 
 import java.util.Scanner;
 
@@ -19,6 +22,7 @@ public class ChessGame {
     private static final PieceHandler pieceHandler = new PieceHandler(board);
 
     private static boolean isStarted = false;
+    private static Color turn = Color.WHITE;
 
     public static void main(String[] args) {
         System.out.println("--- 체스 ---");
@@ -39,6 +43,7 @@ public class ChessGame {
 
                 if (input.startsWith(MOVE_COMMAND) && isStarted) {
                     MoveCommand moveCommand = new MoveCommand(input);
+                    validateCommand(moveCommand);
                     pieceHandler.movePiece(moveCommand);
                     System.out.println(chessView.showBoard());
                 }
@@ -54,6 +59,14 @@ public class ChessGame {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 올바르지 않은 입력입니다.");
+    }
+
+    private static void validateCommand(MoveCommand moveCommand) {
+        Position sourcePosition = moveCommand.getSourcePosition();
+        Piece piece = board.findPiece(sourcePosition);
+        if (piece.getColor() != turn) {
+            throw new IllegalArgumentException(String.format("[ERROR] %s의 차례입니다.", turn));
+        }
     }
 
     private static boolean isEndGame(String input) {

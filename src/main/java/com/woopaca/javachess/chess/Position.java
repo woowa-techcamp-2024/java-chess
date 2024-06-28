@@ -36,8 +36,8 @@ public class Position {
         );
     }
 
-    public boolean isValid() {
-        return file >= 0 && file < Board.BOARD_SIZE && rank > 0 && rank <= Board.BOARD_SIZE;
+    public boolean isOutOfBound() {
+        return file < 0 || file >= Board.BOARD_SIZE || rank <= 0 || rank > Board.BOARD_SIZE;
     }
 
     @Override
