@@ -1,12 +1,6 @@
 package chess.piece;
 
-import chess.Board;
-import chess.util.ChessPoint;
 import chess.util.Direction;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class Queen extends Piece {
     public static final char WHITE_REPRESENTATION = '♕';

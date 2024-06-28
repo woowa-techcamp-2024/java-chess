@@ -1,13 +1,6 @@
 package chess.piece;
 
-import chess.Board;
-import chess.util.ChessPoint;
 import chess.util.Direction;
-import chess.util.MoveRule;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Rook extends Piece {
     public static final char WHITE_REPRESENTATION = '♖';

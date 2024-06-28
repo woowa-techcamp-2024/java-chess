@@ -2,8 +2,6 @@ package chess.piece;
 
 import chess.util.Direction;
 
-import java.util.List;
-
 public class Bishop extends Piece {
     public static final char WHITE_REPRESENTATION = '♗';
     public static final char BLACK_REPRESENTATION = '♝';

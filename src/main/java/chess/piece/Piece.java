@@ -34,13 +34,19 @@ public abstract class Piece {
     protected final char representation;
     protected final List<Direction> movableDirections;
     protected final int moveDistance;
+    protected final List<MoveRule> specialMoveRules;
     private boolean isMoved = false;
 
-    protected Piece(Color color, char representation, List<Direction> movableDirections, int moveDistance) {
+    protected Piece(Color color, char representation, List<Direction> movableDirections, int moveDistance, List<MoveRule> specialMoveRules) {
         this.color = color;
         this.representation = representation;
         this.movableDirections = movableDirections;
         this.moveDistance = moveDistance;
+        this.specialMoveRules = specialMoveRules;
+    }
+
+    protected Piece(Color color, char representation, List<Direction> movableDirections, int moveDistance) {
+        this(color, representation, movableDirections, moveDistance, List.of(MoveRule.Common));
     }
 
     public char getRepresentation() {
@@ -73,8 +79,10 @@ public abstract class Piece {
         return getMovablePoints(source, board, true);
     }
 
-    protected Map<ChessPoint, MoveRule> getSpecialMovablePoints(ChessPoint source, Board board, boolean onlyAttackable) {
-        return Map.of();
+    private Map<ChessPoint, MoveRule> getSpecialMovablePoints(ChessPoint source, Board board, boolean onlyAttackable) {
+        Map<ChessPoint, MoveRule> resultMap = new HashMap<>();
+        specialMoveRules.forEach(moveRule -> moveRule.adapt(resultMap, board, source, this, onlyAttackable));
+        return resultMap;
     }
 
     public void setMoved() {
