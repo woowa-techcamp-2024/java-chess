@@ -205,4 +205,23 @@ class ChessGameTest {
 
         assertEquals(game.findPiece(t).getClass(), Queen.class);
     }
+
+    static Stream<Arguments> queenMove() {
+        return Stream.of(
+                Arguments.arguments("e1", "e3"),
+                Arguments.arguments("a1", "h8")
+        );
+    }
+
+
+    @Test
+    @DisplayName("Knight 이동 구현")
+    void moveKnight() {
+        game.initialize();
+
+        assertThrows(IllegalArgumentException.class, () -> game.move("b1", "d2"));
+
+        game.move("b1", "c3");
+        assertEquals(Knight.class, game.findPiece("c3").getClass());
+    }
 }
