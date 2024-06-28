@@ -1,9 +1,6 @@
 package com.example.demo.context;
 
-import com.example.demo.event.Event;
-import com.example.demo.event.EventPublisher;
-import com.example.demo.event.MoveActionEvent;
-import com.example.demo.event.PromotionEvent;
+import com.example.demo.event.*;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Type;
@@ -14,6 +11,7 @@ import java.util.*;
 public class Game extends Board {
     private Color currentTurnColor = Color.WHITE;
     private RuleManager ruleManager = RuleManager.getInstance();
+    private final EventPublisher publisher;
     private final User whiteUser;
     private final User blackUser;
     private boolean isEnd = false;
@@ -52,6 +50,7 @@ public class Game extends Board {
     public Game(GameBuilder builder) {
         this.whiteUser = builder.whiteUser;
         this.blackUser = builder.blackUser;
+        this.publisher = new EventPublisher();
     }
 
     public void start() {
@@ -76,13 +75,31 @@ public class Game extends Board {
         if (event instanceof PromotionEvent) {
             PromotionEvent promotionEvent = (PromotionEvent) event;
             Location location = promotionEvent.getLocation();
-            setPromotionPawn(location);
-            this.currentTurnColor = this.getPiece(location).getColor();
+
+            Piece piece = this.getPiece(location);
+
+            if ((location.rank() == Rank.ONE && piece.getColor() == Color.BLACK & piece.getType() == Type.PAWN) ||
+                    (location.rank() == Rank.EIGHT && piece.getColor() == Color.WHITE & piece.getType() == Type.PAWN)) {
+                setPromotionPawn(location);
+                setPromotionPawn(location);
+                this.currentTurnColor = this.getPiece(location).getColor();
+            }
         }
 
         if (event instanceof MoveActionEvent) {
             MoveActionEvent moveActionEvent = (MoveActionEvent) event;
             move(moveActionEvent.from(), moveActionEvent.to());
+        }
+
+        if (event instanceof EnPassantEvent) {
+            EnPassantEvent enPassantEvent = (EnPassantEvent) event;
+            this.getPiece(enPassantEvent.rank(), enPassantEvent.file())
+                    .setEnpassantTarget(true);
+        }
+
+        if (event instanceof DeletePieceEvent) {
+            DeletePieceEvent deletePieceEvent = (DeletePieceEvent) event;
+            this.setPiece(deletePieceEvent.rank(), deletePieceEvent.file(), null);
         }
     }
 
@@ -104,28 +121,39 @@ public class Game extends Board {
         }
 
 
-        if (!ruleManager.accept(this, from, to)) {
+        if (!ruleManager.accept(this, from, to, publisher)) {
             throw new RuntimeException("이동할 수 없습니다.");
         }
 
         move(from, to);
-        turn++;
+        nextTurn();
+        while (!this.publisher.isEmpty()) {
+            handle(this.publisher.consume());
+        }
     }
 
-    private void move(Location from, Location to){
+    private void move(Location from, Location to) {
         var piece = this.getPiece(from);
         this.setPiece(from, null);
         this.setPiece(to, piece);
         piece.setTurn(turn);
     }
 
-    public Color getTurn() {
+    public Color getTurnColor() {
         return currentTurnColor;
     }
 
-    public void nextTurn() {
+    public int getTurn() {
+        return turn;
+    }
+
+    private void nextTurn() {
         turn++;
         currentTurnColor = currentTurnColor == Color.WHITE ? Color.BLACK : Color.WHITE;
+    }
+
+    public void forceTurnColor(Color color) {
+        currentTurnColor = color;
     }
 
     /**
@@ -164,14 +192,13 @@ public class Game extends Board {
                         Location from = new Location(fromR, fromF);
                         Location to = new Location(toR, toF);
                         checkPoints.putIfAbsent(to, new HashSet<>(Color.values().length));
-                        if (ruleManager.accept(this, from, to)) {
+                        if (ruleManager.accept(this, from, to, null)) {
                             checkPoints.get(to).add(this.getPiece(from).getColor());
                         }
                     }
                 }
             }
         }
-        EventPublisher.INSTANCE.clear();
         this.setCheckPoints(checkPoints);
     }
 
@@ -190,6 +217,11 @@ public class Game extends Board {
         promotionPieceLocation = location;
     }
 
+    //todo
+    public List<Location> candidateLocations(Location of) {
+        return null;
+    }
+
     /**
      * 변경할 대상이 현재 턴의 색상인지 확인합니다.
      *
@@ -200,11 +232,6 @@ public class Game extends Board {
         if (this.getPiece(location).getColor() != currentTurnColor) {
             throw new RuntimeException("현재 턴의 말을 이동해야 합니다.");
         }
-    }
-
-    //todo
-    public List<Location> candidateLocations(Location of) {
-        return null;
     }
 
 }

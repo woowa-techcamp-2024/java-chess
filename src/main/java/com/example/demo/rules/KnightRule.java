@@ -2,6 +2,7 @@ package com.example.demo.rules;
 
 import com.example.demo.context.Game;
 import com.example.demo.context.Location;
+import com.example.demo.event.EventPublisher;
 
 import java.util.Arrays;
 
@@ -19,7 +20,7 @@ public class KnightRule implements Rule {
     };
 
     @Override
-    public boolean allow(Location from, Location to, Game board) {
+    public boolean allow(Location from, Location to, Game board, EventPublisher publisher) {
 
         return Arrays.stream(directions)
                 .map(step -> new Location(from.rank().move(step[0]), from.file().move(step[1])))

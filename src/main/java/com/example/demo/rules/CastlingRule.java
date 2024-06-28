@@ -8,40 +8,40 @@ import com.example.demo.piece.Type;
 
 public enum CastlingRule implements Rule {
 
-    WHITE_KING_SIDE((from, to, board) -> {
+    WHITE_KING_SIDE((from, to, board, publisher) -> {
         Location kingLocation = new Location(Rank.ONE, File.E);
         Location middleLocation = new Location(Rank.ONE, File.F);
         Location targetLocation = new Location(Rank.ONE, File.G);
         Location rookLocation = new Location(Rank.ONE, File.H);
 
-        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.WHITE);
+        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.WHITE, publisher);
     }),
 
-    BLACK_KING_SIDE((from, to, board) -> {
+    BLACK_KING_SIDE((from, to, board, publisher) -> {
         Location kingLocation = new Location(Rank.EIGHT, File.E);
         Location middleLocation = new Location(Rank.EIGHT, File.F);
         Location targetLocation = new Location(Rank.EIGHT, File.G);
         Location rookLocation = new Location(Rank.EIGHT, File.H);
 
-        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.BLACK);
+        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.BLACK, publisher);
     }),
 
-    WHITE_QUEEN_SIDE((from, to, board) -> {
+    WHITE_QUEEN_SIDE((from, to, board, publisher) -> {
         Location kingLocation = new Location(Rank.ONE, File.E);
         Location middleLocation = new Location(Rank.ONE, File.D);
         Location targetLocation = new Location(Rank.ONE, File.C);
         Location rookLocation = new Location(Rank.ONE, File.A);
 
-        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.WHITE);
+        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.WHITE, publisher);
     }),
 
-    BLACK_QUEEN_SIDE((from, to, board) -> {
+    BLACK_QUEEN_SIDE((from, to, board, publisher) -> {
         Location kingLocation = new Location(Rank.EIGHT, File.E);
         Location middleLocation = new Location(Rank.EIGHT, File.D);
         Location targetLocation = new Location(Rank.EIGHT, File.C);
         Location rookLocation = new Location(Rank.EIGHT, File.A);
 
-        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.BLACK);
+        return castlingRuleAllow(board, from, to, kingLocation, middleLocation, targetLocation, rookLocation, Color.BLACK, publisher);
     }),
     ;
 
@@ -52,8 +52,8 @@ public enum CastlingRule implements Rule {
     }
 
     @Override
-    public boolean allow(Location from, Location to, Game board) {
-        return this.rule.allow(from, to, board);
+    public boolean allow(Location from, Location to, Game board, EventPublisher publisher) {
+        return this.rule.allow(from, to, board, publisher);
     }
 
     public static boolean castlingRuleAllow(
@@ -64,7 +64,8 @@ public enum CastlingRule implements Rule {
             Location middleLocation,
             Location targetLocation,
             Location rookLocation,
-            Color color
+            Color color,
+            EventPublisher publisher
     ) {
         var king = board.getPiece(kingLocation);
         var rook = board.getPiece(rookLocation);
@@ -97,7 +98,9 @@ public enum CastlingRule implements Rule {
             return false;
         }
 
-        EventPublisher.INSTANCE.publish(new MoveActionEvent(rookLocation, middleLocation));
+        if(publisher != null){
+            publisher.publish(new MoveActionEvent(rookLocation, middleLocation));
+        }
         return true;
     }
 }

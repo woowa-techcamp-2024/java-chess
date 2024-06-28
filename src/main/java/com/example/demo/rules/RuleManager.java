@@ -2,6 +2,7 @@ package com.example.demo.rules;
 
 import com.example.demo.context.Game;
 import com.example.demo.context.Location;
+import com.example.demo.event.EventPublisher;
 import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
@@ -34,7 +35,10 @@ public class RuleManager {
                 .addHook(Hook.PROMOTION)
                 .build();
 
-        Rule white2StepRule = NormalRule.Builder.create(Type.PAWN, Color.WHITE, 2, 0).isApplyFirstMove().build();
+        Rule white2StepRule = NormalRule.Builder.create(Type.PAWN, Color.WHITE, 2, 0)
+                .isApplyFirstMove()
+                .addHook(Hook.SET_EN_PASSANT)
+                .build();
 
         Rule whiteAttackRule1 = NormalRule.Builder.create(Type.PAWN, Color.WHITE, 1, 1)
                 .addHook(Hook.PROMOTION)
@@ -49,7 +53,10 @@ public class RuleManager {
                 .addHook(Hook.PROMOTION)
                 .build();
 
-        Rule black2StepRule = NormalRule.Builder.create(Type.PAWN, Color.BLACK, -2, 0).isApplyFirstMove().build();
+        Rule black2StepRule = NormalRule.Builder.create(Type.PAWN, Color.BLACK, -2, 0)
+                .isApplyFirstMove()
+                .addHook(Hook.SET_EN_PASSANT)
+                .build();
 
         Rule blackAttackRule1 = NormalRule.Builder.create(Type.PAWN, Color.BLACK, -1, 1)
                 .addHook(Hook.PROMOTION)
@@ -74,6 +81,9 @@ public class RuleManager {
         attackPawnRules.add(whiteAttackRule2);
         attackPawnRules.add(blackAttackRule1);
         attackPawnRules.add(blackAttackRule2);
+
+        pawnRules.add(new EnpassantRule());
+        attackPawnRules.add(new EnpassantRule());
 
         rules.put(Type.PAWN, pawnRules);
         attackRules.put(Type.PAWN, attackPawnRules);
@@ -191,11 +201,11 @@ public class RuleManager {
      * @param to   이동할 위치를 나타냅니다.
      * @return 이동이 가능한 경우 true를 반환하고 이동이 불가능한 경우에는 false를 반환합니다.
      */
-    public boolean accept(Game board, Location from, Location to) {
+    public boolean accept(Game board, Location from, Location to, EventPublisher publisher) {
 
         // check global rules
         var notAllowedRules = Arrays.stream(GlobalRules.values())
-                .filter(rule -> !rule.allow(from, to, board))
+                .filter(rule -> !rule.allow(from, to, board, publisher))
                 .toList();
 
         if (!notAllowedRules.isEmpty()) {
@@ -211,7 +221,7 @@ public class RuleManager {
 
         return rules.getOrDefault(piece.getType(), new ArrayList<>())
                 .stream()
-                .anyMatch(rule -> rule.allow(from, to, board));
+                .anyMatch(rule -> rule.allow(from, to, board, publisher));
     }
 
     /**
@@ -220,7 +230,7 @@ public class RuleManager {
     public boolean canAttack(Game board, Location from, Location to) {
         // check global rules
         var notAllowedRules = Arrays.stream(GlobalRules.values())
-                .filter(rule -> !rule.allow(from, to, board))
+                .filter(rule -> !rule.allow(from, to, board, null))
                 .toList();
 
         if (!notAllowedRules.isEmpty()) {
@@ -236,6 +246,6 @@ public class RuleManager {
 
         return attackRules.getOrDefault(piece.getType(), new ArrayList<>())
                 .stream()
-                .anyMatch(rule -> rule.allow(from, to, board));
+                .anyMatch(rule -> rule.allow(from, to, board, null));
     }
 }

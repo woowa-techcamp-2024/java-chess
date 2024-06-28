@@ -10,6 +10,7 @@ public abstract class Piece implements Comparable<Piece> {
     private final Rank rank;
     private final File file;
     private int turn;
+    private boolean isEnpassantTarget = false;
 
     public static PieceBuilder builder(Type type) {
         return new PieceBuilder(type);
@@ -58,13 +59,13 @@ public abstract class Piece implements Comparable<Piece> {
         }
     }
 
-    public Piece(PieceBuilder builder){
+    public Piece(PieceBuilder builder) {
         this.color = builder.color;
         this.rank = builder.rank;
         this.file = builder.file;
     }
 
-    public Color getColor(){
+    public Color getColor() {
         return this.color;
     }
 
@@ -72,11 +73,11 @@ public abstract class Piece implements Comparable<Piece> {
 
     public abstract Type getType();
 
-    public boolean hasMoveHistory(){
+    public boolean hasMoveHistory() {
         return turn != 0;
     }
 
-    public Location getLocation(){
+    public Location getLocation() {
         return new Location(this.rank, this.file);
     }
 
@@ -88,8 +89,21 @@ public abstract class Piece implements Comparable<Piece> {
         return this.rank;
     }
 
+    public int getTurn(){
+        return turn;
+    }
+
     public void setTurn(int turn) {
-        if(turn < 0) throw new IllegalArgumentException("턴은 0 이상이어야 합니다.");
+        if (turn < 0) throw new IllegalArgumentException("턴은 0 이상이어야 합니다.");
         this.turn = turn;
+    }
+
+    public boolean isEnpassantTarget() {
+        return isEnpassantTarget;
+    }
+
+    public void setEnpassantTarget(boolean isEnpassantTarget) {
+        if (this.getType() != Type.PAWN) throw new IllegalArgumentException("폰이 아닌 말은 앙파상을 할 수 없습니다.");
+        this.isEnpassantTarget = isEnpassantTarget;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.demo.context;
 
-import com.example.demo.event.EventPublisher;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
 import com.example.demo.piece.Queen;
@@ -23,8 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class GameTest {
 
     private void synTurn(Game game, Color color) {
-        if (game.getTurn() == color) return;
-        game.nextTurn();
+        game.forceTurnColor(color);
     }
 
     @Nested
@@ -113,7 +111,10 @@ class GameTest {
             game.handleMoveCommand(first, from);
 
             // then
-            assertThatThrownBy(() -> game.handleMoveCommand(from, to))
+            assertThatThrownBy(() -> {
+                synTurn(game, game.getPiece(from).getColor());
+                game.handleMoveCommand(from, to);
+            })
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("이동할 수 없습니다.");
         }
@@ -397,12 +398,9 @@ class GameTest {
 
         // when
         game.handleMoveCommand(new Location(Rank.SEVEN, File.A), new Location(Rank.EIGHT, File.A));
-        var e = EventPublisher.INSTANCE.consume();
-        game.handle(e);
         game.promotion(Type.QUEEN);
 
         // then
-        assertThat(e).isNotNull();
         assertThat(game.getPiece(new Location(Rank.EIGHT, File.A))).isInstanceOf(Queen.class);
     }
 
@@ -426,7 +424,7 @@ class GameTest {
 
         // when
         game.handleMoveCommand(king.getLocation(), kingTo);
-        game.handle(EventPublisher.INSTANCE.consume());
+//        game.handle(EventPublisher.INSTANCE.consume());
 
         // then
         assertThat(game.getPiece(kingTo)).isEqualTo(king);
@@ -463,5 +461,38 @@ class GameTest {
                         new Location(Rank.ONE, File.C),
                         new Location(Rank.ONE, File.D)
                 ));
+    }
+
+    @Test
+    @DisplayName("앙파상 테스트")
+    public void enPassantTest() {
+        // given
+        Piece pawn = Piece.builder(Type.PAWN)
+                .color(Color.WHITE)
+                .rank(Rank.FIVE)
+                .file(File.B)
+                .build();
+
+        Piece enemy = Piece.builder(Type.PAWN)
+                .color(Color.BLACK)
+                .rank(Rank.SEVEN)
+                .file(File.A)
+                .build();
+
+        Game game = Game.builder().build();
+        game.setPiece(pawn.getRank(), pawn.getFile(), pawn);
+        game.setPiece(enemy.getRank(), enemy.getFile(), enemy);
+        synTurn(game, enemy.getColor());
+        game.handleMoveCommand(Location.of("a7"), Location.of("a5"));
+        game.calculateCheckPoint();
+        System.out.println(game);
+
+        // when
+        game.handleMoveCommand(Location.of("b5"), Location.of("a6"));
+        System.out.println(game);
+
+        // then
+        assertThat(game.getPiece(new Location(Rank.FIVE, File.A))).isNull();
+        assertThat(game.getPiece(new Location(Rank.SIX, File.A))).isEqualTo(pawn);
     }
 }

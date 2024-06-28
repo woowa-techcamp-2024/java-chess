@@ -4,6 +4,7 @@ import com.example.demo.context.File;
 import com.example.demo.context.Game;
 import com.example.demo.context.Location;
 import com.example.demo.context.Rank;
+import com.example.demo.event.EventPublisher;
 import com.example.demo.event.Hook;
 import com.example.demo.piece.Color;
 import com.example.demo.piece.Piece;
@@ -29,7 +30,7 @@ public class NormalRule implements Rule {
     private final boolean isAttackRule;
     private final List<Hook> hooks = new ArrayList<>();
 
-    public NormalRule(Builder builder){
+    public NormalRule(Builder builder) {
         this.rankStep = builder.rankStep;
         this.fileStep = builder.fileStep;
         this.targetColor = builder.targetColor;
@@ -45,10 +46,15 @@ public class NormalRule implements Rule {
     }
 
     @Override
-    public boolean allow(Location from, Location to, Game board) {
+    public boolean allow(Location from, Location to, Game board, EventPublisher publisher) {
 
         Piece piece = board.getPiece(from);
 
+        if (piece == null)
+            return false;
+        if (piece.getType() == Type.PAWN && isAttackRule && board.getPiece(to) == null) {
+            return false;
+        }
         if (isApplyFirstMove && piece.hasMoveHistory())
             return false;
         if (piece.getType() != targetType || piece.getColor() != targetColor)
@@ -70,11 +76,10 @@ public class NormalRule implements Rule {
             }
 
             if (board.getPiece(nextRank, nextFile) != null) {
-                if (attackChanceCount == 0){
+                if (attackChanceCount == 0) {
                     isAccept = false;
                     break;
-                }
-                else attackChanceCount--;
+                } else attackChanceCount--;
             }
 
             if (nextRank == to.rank() && nextFile == to.file()) {
@@ -90,13 +95,13 @@ public class NormalRule implements Rule {
 
         // run hook
         for (Hook hook : hooks) {
-            hook.run(to.rank(), to.file());
+            hook.run(to.rank(), to.file(), publisher);
         }
 
         return isAccept;
     }
 
-    public void addHook(Hook hook){
+    public void addHook(Hook hook) {
         hooks.add(hook);
     }
 
@@ -134,7 +139,7 @@ public class NormalRule implements Rule {
             return this;
         }
 
-        public Builder addHook(Hook hook){
+        public Builder addHook(Hook hook) {
             hooks.add(hook);
             return this;
         }
