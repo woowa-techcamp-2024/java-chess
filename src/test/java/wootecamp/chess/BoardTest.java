@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import wootecamp.chess.board.Board;
+import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.pieces.Piece;
 import wootecamp.chess.pieces.PieceFactory;
 
@@ -63,10 +64,10 @@ public class BoardTest {
     void findPiece() {
         board.initialize();
 
-        assertThat(board.findPiece("a8")).isEqualTo(PieceFactory.createBlackRook());
-        assertThat(board.findPiece("h8")).isEqualTo(PieceFactory.createBlackRook());
-        assertThat(board.findPiece("a1")).isEqualTo(PieceFactory.createWhiteRook());
-        assertThat(board.findPiece("h1")).isEqualTo(PieceFactory.createWhiteRook());
+        assertThat(board.findPiece(new BoardPosition("a8"))).isEqualTo(PieceFactory.createBlackRook());
+        assertThat(board.findPiece(new BoardPosition("h8"))).isEqualTo(PieceFactory.createBlackRook());
+        assertThat(board.findPiece(new BoardPosition("a1"))).isEqualTo(PieceFactory.createWhiteRook());
+        assertThat(board.findPiece(new BoardPosition("h1"))).isEqualTo(PieceFactory.createWhiteRook());
     }
 
     @Test
@@ -119,12 +120,12 @@ public class BoardTest {
     void move() {
         board.initialize();
 
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
+        BoardPosition source = new BoardPosition("b2");
+        BoardPosition target = new BoardPosition("b3");
 
-        board.move(sourcePosition, targetPosition);
+        board.move(source, target);
 
-        assertThat(board.findPiece(sourcePosition)).isEqualTo(PieceFactory.createEmptyPiece());
-        assertThat(board.findPiece(targetPosition)).isEqualTo(PieceFactory.createWhitePawn());
+        assertThat(board.findPiece(source)).isEqualTo(PieceFactory.createEmptyPiece());
+        assertThat(board.findPiece(target)).isEqualTo(PieceFactory.createWhitePawn());
     }
 }

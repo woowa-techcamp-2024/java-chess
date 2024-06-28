@@ -1,4 +1,4 @@
-package wootecamp.chess;
+package wootecamp.game;
 
 import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
@@ -6,29 +6,45 @@ import wootecamp.chess.board.MoveVector;
 import wootecamp.chess.pieces.Direction;
 import wootecamp.chess.pieces.Knight;
 import wootecamp.chess.pieces.Piece;
+import wootecamp.game.state.EndState;
+import wootecamp.game.state.ReadyState;
+import wootecamp.game.state.State;
 
 public class Game {
-    private final Board board = new Board();
+    private final GameInputManager gameInputManager;
+    private final GameOutputManager gameOutputManager;
+    private final Board board;
+
+    private State state = new ReadyState(this);
+
+    public Game(GameInputManager gameInputManager, GameOutputManager gameOutputManager, Board board) {
+        this.gameInputManager = gameInputManager;
+        this.gameOutputManager = gameOutputManager;
+        this.board = board;
+    }
+
+    public void changeState(State state) {
+        this.state = state;
+    }
 
     public void start() {
         board.initialize();
-        System.out.println(board.showBoard());
+        gameOutputManager.showBoard(board);
     }
 
     public void move(BoardPosition source, BoardPosition target) {
-        //TODO: source가 비어있는 경우 검증
         Piece piece = board.findPiece(source);
 
         verifyCrossMove(source, target, piece);
 
         if (verifyMove(source, target, piece)) {
             board.move(source, target);
-            System.out.println(board.showBoard());
+            gameOutputManager.showBoard(board);
             return;
         }
 
-        System.out.println(board.showBoard());
-        throw new RuntimeException("이동할 수 없는 위치");
+        gameOutputManager.showError("이동할 수 없는 위치입니다.");
+        gameOutputManager.showBoard(board);
     }
 
     private boolean verifyCrossMove(BoardPosition source, BoardPosition target, Piece piece) {
@@ -85,5 +101,14 @@ public class Game {
         return true;
     }
 
+    public boolean isEnd() {
+        //TODO 구조 개선
+        return state instanceof EndState;
+    }
 
+    public void receiveRequest() {
+        //TODO : input을 어떻게 처리할 지 구조 개선해야함
+        String request = gameInputManager.receiveRequest();
+        state.handleRequest(request);
+    }
 }
