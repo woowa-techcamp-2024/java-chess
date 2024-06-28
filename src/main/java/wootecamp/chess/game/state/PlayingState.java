@@ -1,7 +1,7 @@
-package wootecamp.game.state;
+package wootecamp.chess.game.state;
 
 import wootecamp.chess.board.BoardPosition;
-import wootecamp.game.Game;
+import wootecamp.chess.game.Game;
 
 public class PlayingState extends State {
     public PlayingState(Game game) {

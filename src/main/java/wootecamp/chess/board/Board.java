@@ -1,6 +1,6 @@
 package wootecamp.chess.board;
 
-import wootecamp.chess.PieceComparator;
+import wootecamp.chess.pieces.PieceComparator;
 import wootecamp.chess.pieces.Piece;
 import wootecamp.chess.pieces.PieceFactory;
 

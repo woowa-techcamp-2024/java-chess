@@ -1,8 +1,8 @@
 package wootecamp.chess;
 
-import wootecamp.game.ConsoleGameFactory;
-import wootecamp.game.Game;
-import wootecamp.game.GameFactory;
+import wootecamp.chess.game.ConsoleGameFactory;
+import wootecamp.chess.game.Game;
+import wootecamp.chess.game.GameFactory;
 
 public class Main {
     public static void main(String[] args) {

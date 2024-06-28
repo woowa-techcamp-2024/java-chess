@@ -1,6 +1,6 @@
-package wootecamp.game.state;
+package wootecamp.chess.game.state;
 
-import wootecamp.game.Game;
+import wootecamp.chess.game.Game;
 
 public class ReadyState extends State {
     public ReadyState(Game game) {

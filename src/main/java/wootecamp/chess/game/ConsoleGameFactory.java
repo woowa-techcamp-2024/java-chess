@@ -1,4 +1,4 @@
-package wootecamp.game;
+package wootecamp.chess.game;
 
 public class ConsoleGameFactory extends GameFactory {
 

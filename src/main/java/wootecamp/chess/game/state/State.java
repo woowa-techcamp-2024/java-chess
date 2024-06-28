@@ -1,7 +1,6 @@
-package wootecamp.game.state;
+package wootecamp.chess.game.state;
 
-import wootecamp.chess.board.Board;
-import wootecamp.game.Game;
+import wootecamp.chess.game.Game;
 
 public abstract class State {
     protected Game game;
