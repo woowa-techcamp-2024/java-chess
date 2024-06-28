@@ -30,7 +30,7 @@ public class Rule {
         validateTarget(source, target);
 
         if (getValidMoveInBoard(source).stream()
-                .anyMatch(position -> position.equals(target))) {
+                .noneMatch(position -> position.equals(target))) {
             throw new InvalidMoveException(INVALID_MOVE);
         }
 
