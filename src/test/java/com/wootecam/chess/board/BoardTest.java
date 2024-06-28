@@ -2,6 +2,7 @@ package com.wootecam.chess.board;
 
 import static com.wootecam.chess.Fixture.createBoard;
 import static com.wootecam.chess.Fixture.createPosition;
+import static com.wootecam.chess.pieces.NoPiece.BLANK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -9,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.wootecam.chess.Converter.ColorConverter;
 import com.wootecam.chess.Converter.PieceTypeConverter;
-import com.wootecam.chess.common.Order;
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
 import com.wootecam.chess.pieces.property.PieceType;
@@ -187,7 +187,7 @@ class BoardTest {
             board.add(Piece.createBlackKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            List<Piece> result = board.getPiecesSortedByScore(Color.BLACK, Order.DESC);
+            List<Piece> result = board.sortByPoint(Color.BLACK, Order.DESC);
 
             assertThat(result).containsExactly(
                     Piece.createBlackQueen(),
@@ -210,7 +210,7 @@ class BoardTest {
             board.add(Piece.createWhiteKing(), createPosition("e5"));
             board.add(Piece.createBlackQueen(), createPosition("f5"));
 
-            List<Piece> result = board.getPiecesSortedByScore(Color.WHITE, Order.ASC);
+            List<Piece> result = board.sortByPoint(Color.WHITE, Order.ASC);
 
             assertThat(result).containsExactly(
                     Piece.createWhiteKing(),
@@ -236,7 +236,7 @@ class BoardTest {
             board.move(createPosition("a8"), createPosition("b8"));
 
             assertAll(
-                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(Piece.BLANK),
+                    () -> assertThat(board.get(createPosition("a8"))).isEqualTo(BLANK),
                     () -> assertThat(board.get(createPosition("b8"))).isEqualTo(Piece.createBlackPawn())
             );
         }

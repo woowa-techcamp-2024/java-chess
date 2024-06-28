@@ -1,6 +1,8 @@
 package com.wootecam.chess.board;
 
 import static com.wootecam.chess.board.Board.MAX_COL;
+import static com.wootecam.chess.constraint.ChessConstraint.validFileIndex;
+import static com.wootecam.chess.pieces.NoPiece.BLANK;
 
 import com.wootecam.chess.pieces.Piece;
 import com.wootecam.chess.pieces.property.Color;
@@ -13,31 +15,31 @@ public class Rank {
 
     public Rank() {
         this.squares = new Piece[MAX_COL];
-        Arrays.fill(squares, Piece.BLANK);
+        Arrays.fill(squares, BLANK);
     }
 
     public void place(Piece piece, int index) {
-        checkValidIndex(index);
+        validFileIndex(index);
 
         squares[index] = piece;
     }
 
     public void clearSquare(int index) {
-        checkValidIndex(index);
+        validFileIndex(index);
 
-        squares[index] = Piece.BLANK;
-    }
-
-    private void checkValidIndex(int index) {
-        if (index < 0 || index >= MAX_COL) {
-            throw new IllegalArgumentException("The index is invalid: " + index);
-        }
+        squares[index] = BLANK;
     }
 
     public Piece get(int index) {
-        checkValidIndex(index);
+        validFileIndex(index);
 
         return squares[index];
+    }
+
+    public int countPiece(PieceType type, Color color) {
+        return (int) Arrays.stream(squares)
+                .filter(piece -> piece.hasTypeAndColor(type, color))
+                .count();
     }
 
     public List<Piece> getPieces() {
@@ -48,11 +50,5 @@ public class Rank {
         return Arrays.stream(squares)
                 .filter(p -> p.isColor(color))
                 .toList();
-    }
-
-    public int countPiece(PieceType type, Color color) {
-        return (int) Arrays.stream(squares)
-                .filter(piece -> piece.hasTypeAndColor(type, color))
-                .count();
     }
 }

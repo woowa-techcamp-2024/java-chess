@@ -1,5 +1,8 @@
 package com.wootecam.chess.move;
 
+import static com.wootecam.chess.error.ErrorMessage.PIECE_CANNOT_FOUND;
+import static com.wootecam.chess.error.ErrorMessage.PIECE_CANNOT_MOVE;
+
 import com.wootecam.chess.board.Board;
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.pieces.Pawn;
@@ -19,12 +22,12 @@ public class PieceMovementManager {
 
     public void move(Board board, Position from, Position to) {
         if (board.isEmpty(from)) {
-            throw new IllegalArgumentException("No piece found at the source position: " + from);
+            throw new IllegalArgumentException(PIECE_CANNOT_FOUND.value);
         }
 
         Piece piece = board.get(from);
         if (!(isPawnAndCanMove(board, piece, from, to) || isNotPawnAndCanMove(board, piece, from, to))) {
-            throw new IllegalArgumentException("Cannot move " + from + " to " + to);
+            throw new IllegalArgumentException(PIECE_CANNOT_MOVE.value);
         }
 
         board.move(from, to);
@@ -32,6 +35,10 @@ public class PieceMovementManager {
 
     private boolean isPawnAndCanMove(Board board, Piece piece, Position from, Position to) {
         return (piece.isPawn() && canPawnMove(board, (Pawn) piece, from, to));
+    }
+
+    private boolean isNotPawnAndCanMove(Board board, Piece piece, Position from, Position to) {
+        return !piece.isPawn() && canMoveExceptPawn(board, piece, from, to);
     }
 
     private boolean canMoveExceptPawn(Board board, Piece piece, Position from, Position to) {
@@ -58,10 +65,6 @@ public class PieceMovementManager {
         }
 
         return true;
-    }
-
-    private boolean isNotPawnAndCanMove(Board board, Piece piece, Position from, Position to) {
-        return !piece.isPawn() && canMoveExceptPawn(board, piece, from, to);
     }
 
     private boolean canPawnMove(Board board, Pawn pawn, Position from, Position to) {

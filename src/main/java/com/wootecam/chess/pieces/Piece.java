@@ -1,6 +1,6 @@
 package com.wootecam.chess.pieces;
 
-import static com.wootecam.chess.common.ChessConstraint.isValidIndex;
+import static com.wootecam.chess.constraint.ChessConstraint.isValidIndex;
 
 import com.wootecam.chess.board.Position;
 import com.wootecam.chess.move.Direction;
@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Piece {
-    public static final Piece BLANK = new Piece(PieceType.NO_PIECE, Color.NO_COLOR);
+public abstract class Piece {
 
     protected final PieceType type;
     protected final Color color;
@@ -88,7 +87,7 @@ public class Piece {
             case BISHOP -> new Bishop(type, color);
             case QUEEN -> new Queen(type, color);
             case KING -> new King(type, color);
-            default -> BLANK;
+            default -> NoPiece.BLANK;
         };
     }
 
@@ -128,9 +127,7 @@ public class Piece {
         return this.type == type && this.color == color;
     }
 
-    public Optional<Direction> findCorrectDirection(Position from, Position to) {
-        return Optional.empty();
-    }
+    public abstract Optional<Direction> findCorrectDirection(Position from, Position to);
 
     protected Optional<Direction> findCorrectDirectionInternal(Position from, Position to, List<Direction> directions,
                                                                int range) {

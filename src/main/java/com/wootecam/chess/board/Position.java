@@ -1,7 +1,8 @@
 package com.wootecam.chess.board;
 
 import static com.wootecam.chess.board.Board.MAX_ROW;
-import static com.wootecam.chess.common.ChessConstraint.validIndex;
+import static com.wootecam.chess.constraint.ChessConstraint.validIndex;
+import static com.wootecam.chess.error.ErrorMessage.INVALID_POSITION;
 
 import com.wootecam.chess.move.Direction;
 import java.util.Objects;
@@ -25,17 +26,17 @@ public class Position {
 
     private void validPositionForm(String position) {
         if (position.length() != 2) {
-            throw new IllegalArgumentException("Invalid position: " + position);
+            throw new IllegalArgumentException(INVALID_POSITION.value);
         }
 
         char row = position.charAt(1);
         if (row < '1' || row > '8') {
-            throw new IllegalArgumentException("Invalid position: " + position);
+            throw new IllegalArgumentException(INVALID_POSITION.value);
         }
 
         char col = position.charAt(0);
         if (col < 'a' || col > 'h') {
-            throw new IllegalArgumentException("Invalid position: " + position);
+            throw new IllegalArgumentException(INVALID_POSITION.value);
         }
     }
 

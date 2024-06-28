@@ -1,5 +1,6 @@
 package com.wootecam.chess.pieces;
 
+import static com.wootecam.chess.pieces.NoPiece.BLANK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -45,7 +46,7 @@ class PieceTest {
 
         @Test
         void 타입과_색이_없는_기물도_존재할_수_있다() {
-            Piece blank = Piece.BLANK;
+            Piece blank = BLANK;
             assertAll(
                     () -> assertThat(blank.getType()).isEqualTo(PieceType.NO_PIECE),
                     () -> assertThat(blank.getColor()).isEqualTo(Color.NO_COLOR)
