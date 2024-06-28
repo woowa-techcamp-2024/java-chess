@@ -7,8 +7,8 @@ public class MoveVector {
     private final int dy;
 
     public MoveVector(BoardPosition source, BoardPosition destination) {
-        this.dx = source.getFilePosition() - destination.getFilePosition();
-        this.dy = source.getRankPosition() - destination.getRankPosition();
+        this.dx = destination.getFilePosition() - source.getFilePosition();
+        this.dy = destination.getRankPosition() - source.getRankPosition();
     }
 
     public int getSquareDistance() {

@@ -42,8 +42,6 @@ public class Game {
             return;
         }
 
-        verifyJumpMove(source, target, piece);
-
         if (verifyMove(source, target, piece)) {
             board.move(source, target);
             gameOutputManager.showBoard(board);
@@ -63,10 +61,11 @@ public class Game {
         Direction direction = Direction.determineDirection(moveVector).get();
         BoardPosition curPosition = source.createNextPosition(direction);
 
-        while (curPosition.equals(target)) {
+        while (!curPosition.equals(target)) {
             if (!board.findPiece(curPosition).isEmptyPiece()) {
                 return false;
             }
+            curPosition = source.createNextPosition(direction);
         }
 
         return true;
