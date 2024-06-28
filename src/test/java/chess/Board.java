@@ -34,26 +34,38 @@ public class Board {
 		map.add(new Rank(Rank.Type.WHITE_ROOK_TO_KING));
 	}
 
-	public void move(String sourcePosition, String targetPosition) {
-		Position sourcePos = new Position(sourcePosition);
-		Position targetPos = new Position(targetPosition);
-		Piece movePiece = map.get(sourcePos.getRow()).findPiece(sourcePos.getCol());
-		Piece targetPiece = map.get(targetPos.getRow()).findPiece(targetPos.getCol());
-		List<List<Position>> allDirectionMoves = movePiece.getPossibleMoves(sourcePos);
-		List<Position> moves = allDirectionMoves.stream()
-			.filter(list -> list.contains(targetPos))
+	private Position createPosition(String position) {
+		return new Position(position);
+	}
+
+	private Piece findPieceWithPosition(Position position) {
+		return map.get(position.getRow()).findPiece(position.getCol());
+	}
+
+	private List<Position> findPossibleMoves(Piece piece, Position sourcePosition, Position destinationPosition) {
+		return piece.getPossibleMoves(sourcePosition).stream()
+			.filter(list -> list.contains(destinationPosition))
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException("impossible move"));
+	}
+
+	private void movePossibleCheck(List<Position> moves, Position sourcePosition, Position destinationPosition,
+		Piece sourcePiece, Piece destinationPiece) {
 		boolean isPossible = false;
 		for (Position move : moves) {
-			if (move.equals(targetPos)) {
-				if (movePiece.getType() == Piece.Type.PAWN) {
-					if (sourcePos.getCol() != targetPos.getCol() && targetPiece.getType() == Piece.Type.NO_PIECE) {
+			if (move.equals(destinationPosition)) {
+				if (sourcePiece.getType() == Piece.Type.PAWN) {
+					if (sourcePosition.getCol() != destinationPosition.getCol()
+						&& destinationPiece.getType() == Piece.Type.NO_PIECE) {
 						break;
 					}
-					if (sourcePos.getCol() == targetPos.getCol() && targetPiece.getType() != Piece.Type.NO_PIECE) {
+					if (sourcePosition.getCol() == destinationPosition.getCol()
+						&& destinationPiece.getType() != Piece.Type.NO_PIECE) {
 						break;
 					}
+				}
+				if (sourcePiece.getColor() == destinationPiece.getColor()) {
+					break;
 				}
 				isPossible = true;
 				break;
@@ -64,8 +76,25 @@ public class Board {
 		}
 		if (!isPossible)
 			throw new IllegalArgumentException("impossible move");
-		map.get(sourcePos.getRow()).setPiece(sourcePos.getCol(), Piece.createBlank());
-		map.get(targetPos.getRow()).setPiece(targetPos.getCol(), movePiece);
+	}
+
+	private void movePiece(Piece piece, Position sourcePosition, Position destinationPosition) {
+		map.get(sourcePosition.getRow()).setPiece(sourcePosition.getCol(), Piece.createBlank());
+		map.get(destinationPosition.getRow()).setPiece(destinationPosition.getCol(), piece);
+	}
+
+	public void move(String sourcePosition, String targetPosition) {
+		Position sourcePos = createPosition(sourcePosition);
+		Position targetPos = createPosition(targetPosition);
+
+		Piece movePiece = findPieceWithPosition(sourcePos);
+		Piece targetPiece = findPieceWithPosition(targetPos);
+
+		List<Position> moves = findPossibleMoves(movePiece, sourcePos, targetPos);
+
+		movePossibleCheck(moves, sourcePos, targetPos, movePiece, targetPiece);
+
+		movePiece(movePiece, sourcePos, targetPos);
 	}
 
 	public void addPiece(String position, Piece piece) {
