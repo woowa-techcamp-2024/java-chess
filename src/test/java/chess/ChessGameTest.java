@@ -239,4 +239,19 @@ class ChessGameTest {
 
         assertEquals(Bishop.class, game.findPiece(target).getClass());
     }
+
+    @Test
+    @DisplayName("Rook 이동 구현")
+    void moveRook() {
+        String source = "a1";
+        String target = "a8";
+
+        game.initializeEmpty();
+
+        game.add(source, Piece.of(Rook.class, WHITE, source));
+
+        game.move(source, target);
+
+        assertEquals(Rook.class, game.findPiece(target).getClass());
+    }
 }
