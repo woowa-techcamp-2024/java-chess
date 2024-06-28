@@ -1,4 +1,4 @@
-package com.wootecam.chess;
+package com.wootecam.chess.game;
 
 import static com.wootecam.chess.BoardInitializeFixture.기본_체스판을_생성한다;
 import static com.wootecam.chess.BoardInitializeFixture.비어있는_체스판을_생성한다;

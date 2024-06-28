@@ -2,7 +2,7 @@ package com.wootecam.chess.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.wootecam.chess.CoordinatesExtractor;
+import com.wootecam.chess.game.CoordinatesExtractor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

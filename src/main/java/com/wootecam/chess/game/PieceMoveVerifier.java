@@ -1,4 +1,4 @@
-package com.wootecam.chess;
+package com.wootecam.chess.game;
 
 import com.wootecam.chess.pieces.Direction;
 import com.wootecam.chess.pieces.Piece;

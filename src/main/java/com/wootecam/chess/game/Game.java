@@ -1,4 +1,4 @@
-package com.wootecam.chess;
+package com.wootecam.chess.game;
 
 import static com.wootecam.chess.board.Board.END_COLUMN_SYMBOL;
 import static com.wootecam.chess.board.Board.END_ROW_SYMBOL;

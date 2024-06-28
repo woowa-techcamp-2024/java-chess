@@ -1,6 +1,6 @@
 package com.wootecam.chess.pieces;
 
-import com.wootecam.chess.CoordinatesExtractor;
+import com.wootecam.chess.game.CoordinatesExtractor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
