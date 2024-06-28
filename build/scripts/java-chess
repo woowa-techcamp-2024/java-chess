@@ -210,7 +210,7 @@ DEFAULT_JVM_OPTS=""
 
 set -- \
         -classpath "$CLASSPATH" \
-        org.example.Game \
+        org.example.GameGUI \
         "$@"
 
 # Stop when "xargs" is not available.

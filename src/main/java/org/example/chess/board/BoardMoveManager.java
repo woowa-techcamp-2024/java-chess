@@ -120,4 +120,7 @@ public class BoardMoveManager {
         return positions;
     }
 
+    public Color getCurrentTurn() {
+        return currentTurn;
+    }
 }

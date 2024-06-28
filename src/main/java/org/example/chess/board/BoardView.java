@@ -47,4 +47,14 @@ public class BoardView {
     public void print() {
         System.out.println(createDisplayBoard());
     }
+
+    public char[][] getBoardRepresentation() {
+        char[][] representation = new char[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                representation[i][j] = board.getBoardOnlyRead().get(i).getPieces().get(j).getRepresentation().charAt(0);
+            }
+        }
+        return representation;
+    }
 }

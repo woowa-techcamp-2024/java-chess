@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.chess.board.BoardMoveManagerTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2024-06-28T01:23:36" hostname="woowatech24ui-MacBookPro.local" time="0.019">
+<testsuite name="org.example.chess.board.BoardMoveManagerTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2024-06-28T02:04:50" hostname="woowatech24ui-MacBookPro.local" time="0.019">
   <properties/>
-  <testcase name="move_SamePosition_ThrowsException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.002"/>
-  <testcase name="movePawnTwoSteps()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
+  <testcase name="move_SamePosition_ThrowsException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.003"/>
+  <testcase name="movePawnTwoSteps()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.002"/>
   <testcase name="moveKnightOverPieces()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
-  <testcase name="movePawnForward()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
+  <testcase name="movePawnForward()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.0"/>
   <testcase name="findPiece()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
   <testcase name="move_WrongTurn_ThrowsException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
   <testcase name="move_SameColorPiece_ThrowsException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
   <testcase name="movePawnTwoStepsWithEnemyInBetween()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
-  <testcase name="movePawnBlockedForward()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.0"/>
+  <testcase name="movePawnBlockedForward()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.002"/>
   <testcase name="movePawnDiagonalCapture()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
-  <testcase name="move_ValidMove_NoException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.001"/>
+  <testcase name="move_ValidMove_NoException()" classname="org.example.chess.board.BoardMoveManagerTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

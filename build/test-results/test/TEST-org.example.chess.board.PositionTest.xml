@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.chess.board.PositionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-28T01:23:36" hostname="woowatech24ui-MacBookPro.local" time="0.038">
+<testsuite name="org.example.chess.board.PositionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-28T02:04:50" hostname="woowatech24ui-MacBookPro.local" time="0.042">
   <properties/>
-  <testcase name="testDelta()" classname="org.example.chess.board.PositionTest" time="0.038"/>
+  <testcase name="testDelta()" classname="org.example.chess.board.PositionTest" time="0.042"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

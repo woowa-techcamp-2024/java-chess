@@ -72,7 +72,7 @@ set CLASSPATH=%APP_HOME%\lib\java-chess-1.0-SNAPSHOT.jar
 
 
 @rem Execute java-chess
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %JAVA_CHESS_OPTS%  -classpath "%CLASSPATH%" org.example.Game %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %JAVA_CHESS_OPTS%  -classpath "%CLASSPATH%" org.example.GameGUI %*
 
 :end
 @rem End local scope for the variables with windows NT shell

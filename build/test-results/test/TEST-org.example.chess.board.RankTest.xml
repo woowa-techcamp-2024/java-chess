@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.chess.board.RankTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-06-28T01:23:36" hostname="woowatech24ui-MacBookPro.local" time="0.003">
+<testsuite name="org.example.chess.board.RankTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-06-28T02:04:50" hostname="woowatech24ui-MacBookPro.local" time="0.003">
   <properties/>
   <testcase name="testCountBlackPiecesWithType()" classname="org.example.chess.board.RankTest" time="0.002"/>
-  <testcase name="testCountWhitePiecesWithType()" classname="org.example.chess.board.RankTest" time="0.0"/>
+  <testcase name="testCountWhitePiecesWithType()" classname="org.example.chess.board.RankTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

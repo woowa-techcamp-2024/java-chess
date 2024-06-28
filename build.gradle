@@ -19,13 +19,13 @@ dependencies {
 }
 
 application {
-    mainClassName = 'org.example.Game'
+    mainClassName = 'org.example.GameGUI'
 }
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'org.example.Game'
+                'Main-Class': 'org.example.GameGUI'
         )
     }
 }
