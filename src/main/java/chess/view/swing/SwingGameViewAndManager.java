@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Stack;
 
 public class SwingGameViewAndManager extends SwingViewComponent implements GameView, GameManager {
@@ -70,12 +71,21 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
                     tiles[px][py].addActionListener(e -> {
                         try {
                             PieceTileComponent target = (PieceTileComponent) e.getSource();
-                            if (selectedPieces.contains(target)) {
+                            if (selectedPieces.contains(target)) {//같은걸 클릭함.
                                 selectedPieces.remove(target);
+                                target.unSelectTile();
+                                turnOffPossiblePosition();
                                 return;
                             }
 
                             selectedPieces.add(target);
+                            target.selectTile();
+
+                            if(selectedPieces.size() == 1){
+                                List<String> possibleMovePositions = chessGame.possibleMovePositions(target.getPosition());
+                                turnOnPossiblePosition(possibleMovePositions);
+                            }
+
                             if (selectedPieces.size() == 2) {
                                 PieceTileComponent targetComponent = selectedPieces.pop();
                                 PieceTileComponent sourceComponent = selectedPieces.pop();
@@ -89,9 +99,12 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
                                 } else {
                                     showError("이동할 수 없습니다.");
                                 }
+                                turnOffPossiblePosition();
                             }
                         } catch (Exception ee) {
                             showError(ee.getMessage());
+                            turnOffPossiblePosition();
+                            selectedPieces.clear();
                         }
                     });
                     boardPanel.add(tiles[px][py]);
@@ -101,6 +114,26 @@ public class SwingGameViewAndManager extends SwingViewComponent implements GameV
         setBoardPanel(boardPanel);
         revalidate();
         repaint();
+    }
+
+    private void turnOnPossiblePosition(List<String> possibleMovePositions) {
+        for(String possibleMovePosition : possibleMovePositions){
+            for(int row =0;row<BOARD_SIZE;row++){
+                for(int col = 0;col<BOARD_SIZE;col++){
+                    if(tiles[row][col].getPosition().equals(possibleMovePosition)){
+                        tiles[row][col].selectTile();
+                    }
+                }
+            }
+        }
+    }
+
+    private void turnOffPossiblePosition() {
+        for(int row =0;row<BOARD_SIZE;row++){
+            for(int col = 0;col<BOARD_SIZE;col++){
+                tiles[row][col].unSelectTile();
+            }
+        }
     }
 
     private void initFinishButton(ChessGame chessGame) {

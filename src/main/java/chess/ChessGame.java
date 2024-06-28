@@ -5,6 +5,7 @@ import chess.pieces.Course;
 import chess.pieces.Direction;
 import chess.pieces.PieceTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,41 @@ public class ChessGame {
     private boolean isOwner(ChessPiece piece){
         return whiteTurn && PieceTypes.Color.WHITE.equals(piece.getColor())
                 || !whiteTurn && PieceTypes.Color.BLACK.equals(piece.getColor());
+    }
+    private void findPossibleDirection(List<String> result,Direction direction,ChessPiece piece,String source){
+        //범위 밖으로 나가면 false
+        if (!board.isIn(source)) {
+            return;
+        }
+        //해당 위치에 색이 같으면 false, 아니면 true
+        board.findPiece(source)
+                    .ifPresent(p->{
+                        if(!isSameTeam(piece,p)){
+                            result.add(source);
+                        }
+                    });
+        //이어서 갈 수 없다면 한번 검사하고, 검사에 통과하지 못하면 false
+        if (!piece.getCourse().isRecursive()) return;
+
+        findPossibleDirection(result,direction,piece,getNextPosition(source,direction));
+    }
+
+    private void dfs(List<String> result,ChessPiece piece,String source){
+        Course course = piece.getCourse();
+        List<Direction> directions = course.getDirections();
+
+        for(Direction direction : directions){
+            findPossibleDirection(result,direction,piece,getNextPosition(source,direction));
+        }
+    }
+
+    public List<String> possibleMovePositions(String position){
+        List<String> result = new ArrayList<>();
+        Optional<ChessPiece> piece = board.findPiece(position);
+        piece.ifPresent(p->{
+            dfs(result,p,position);
+        });
+        return result;
     }
 
     public boolean move(String source, String target) {
