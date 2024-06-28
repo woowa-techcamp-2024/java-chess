@@ -157,14 +157,15 @@ public class ChessGUIView extends JFrame {
                 updateAllButtons();
                 updateTurnLabel();
                 updateScoreLabel();
-            } catch (Exception e) {
+                chessGame.verifyCheckMate();
+            } catch (IllegalArgumentException e) {
                 showErrorDialog(e.getMessage());
-            } finally {
+            } catch (IllegalStateException e) {
                 resetAllButtonBorders();
+                showEndGameDialog();
             }
-        } else {
-            resetAllButtonBorders();
         }
+        resetAllButtonBorders();
     }
 
     private JButton generateResetButton() {
@@ -195,6 +196,24 @@ public class ChessGUIView extends JFrame {
     }
 
     private void showErrorDialog(String message) {
-        JOptionPane.showMessageDialog(this, message, "Check", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, "Wrong Choice",
+            JOptionPane.INFORMATION_MESSAGE);
     }
+
+    private void showEndGameDialog() {
+        var winner = chessGame.getTurn();
+        var option = JOptionPane.showOptionDialog(this, "Game Over: " + winner.name() + " win!",
+            "Game Over",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Restart"}, "Restart");
+        if (option == 0) {
+            chessGame.startGame();
+            updateAllButtons();
+            updateTurnLabel();
+            updateScoreLabel();
+        } else {
+            System.exit(0);
+        }
+    }
+
 }
