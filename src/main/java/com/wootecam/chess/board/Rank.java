@@ -52,12 +52,6 @@ public class Rank {
                 .toList());
     }
 
-    public String createResults() {
-        return pieces.stream()
-                .map(Piece::getRepresentation)
-                .collect(Collectors.joining());
-    }
-
     public int countPieces() {
         return (int) pieces.stream()
                 .filter(piece -> !piece.isBlank())
@@ -86,5 +80,11 @@ public class Rank {
                 .filter(piece -> piece.isApplicablePiece(color))
                 .mapToDouble(piece -> piece.getType().getPoint())
                 .sum();
+    }
+
+    public String createResults() {
+        return pieces.stream()
+                .map(Piece::getRepresentation)
+                .collect(Collectors.joining());
     }
 }
