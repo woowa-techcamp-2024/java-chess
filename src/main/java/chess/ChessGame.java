@@ -152,7 +152,31 @@ public class ChessGame {
             board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
             board.replacePiece(newSourcePos.getRow(), newSourcePos.getColumn(), p);
         } else {
-            p.move(source, target);
+            if (p.isMoved()) {
+                validateAvailableToMove(p,target);
+                p.move(source, target);
+                board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
+                board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
+                return ;
+            }
+
+            var newSourcePos = sourcePos.clone();
+            Position dir = p.findDir(newSourcePos, targetPos);
+            int moveCnt = 0;
+            while (!Objects.equals(newSourcePos, targetPos) || moveCnt < 2) {
+                var nextPos = newSourcePos.add(dir);
+                try {
+                    validateInBoard(nextPos.toString());
+                    validateAvailableToMove(p, nextPos.toString());
+                } catch (IllegalArgumentException e) {
+                    break;
+                }
+
+                p.move(newSourcePos.toString(), nextPos.toString());
+                newSourcePos = nextPos;
+                moveCnt++;
+            }
+            p.setMoved();
             board.replacePiece(sourcePos.getRow(), sourcePos.getColumn(), Piece.of(NoPiece.class, Color.NOCOLOR, sourcePos));
             board.replacePiece(targetPos.getRow(), targetPos.getColumn(), p);
         }

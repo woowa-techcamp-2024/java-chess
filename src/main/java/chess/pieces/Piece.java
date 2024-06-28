@@ -123,6 +123,12 @@ public abstract class Piece {
         setPosition(target);
     }
 
+    public void setMoved() {}
+
+    public boolean isMoved() {
+        return false;
+    }
+
     protected Set<Position> getDirs() {
         return Set.of();
     }

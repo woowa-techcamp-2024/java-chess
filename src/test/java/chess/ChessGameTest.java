@@ -254,4 +254,24 @@ class ChessGameTest {
 
         assertEquals(Rook.class, game.findPiece(target).getClass());
     }
+
+    @Test
+    @DisplayName("Pawn 이동 구현")
+    void movePawn() {
+        String source = "a2";
+        String target1 = "a4";
+        String target2 = "a5";
+
+        game.initialize();
+
+        game.move(source, target1);
+
+        assertEquals(Pawn.class, game.findPiece(target1).getClass());
+
+        game.move(target1, target2);
+
+        assertEquals(Pawn.class, game.findPiece(target2).getClass());
+
+        assertThrows(IllegalArgumentException.class, () -> game.move(target2, "a7"));
+    }
 }
