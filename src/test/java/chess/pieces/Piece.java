@@ -8,26 +8,11 @@ import chess.Position;
 
 public abstract class Piece implements Comparable<Piece> {
 
-	@Override
-	public int compareTo(Piece o) {
-		return (int)(this.getType().point - o.getType().point);
-	}
-
 	private final Type type;
 
 	private final Color color;
 
 	private final Representation representation;
-
-	public abstract List<List<Position>> getPossibleMoves(Position currentPosition);
-
-	public boolean isWhite() {
-		return color == Color.WHITE;
-	}
-
-	public boolean isBlack() {
-		return color == Color.BLACK;
-	}
 
 	public enum Type {
 		PAWN(1.0), KNIGHT(2.5), BISHOP(3.0), ROOK(5.0), QUEEN(9.0), KING(0.0), NO_PIECE(0.0);
@@ -42,56 +27,7 @@ public abstract class Piece implements Comparable<Piece> {
 		}
 	}
 
-	public enum Direction {
-		UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1),
-		LEFT_UP(-1, -1), LEFT_DOWN(1, -1), RIGHT_UP(-1, 1), RIGHT_DOWN(1, 1),
-		LEFT_LEFT_UP(-1, -2), LEFT_UP_UP(-2, -1), RIGHT_UP_UP(-2, 1), RIGHT_RIGHT_UP(-1, 2),
-		LEFT_LEFT_DOWN(1, -2), LEFT_DOWN_DOWN(2, -1), RIGHT_DOWN_DOWN(2, 1), RIGHT_RIGHT_DOWN(1, 2);
-
-		private final int dr, dc;
-
-		Direction(int dr, int dc) {
-			this.dr = dr;
-			this.dc = dc;
-		}
-
-		public int getDr() {
-			return dr;
-		}
-
-		public int getDc() {
-			return dc;
-		}
-	}
-
-	protected List<Position> getPossibleMovesOfDirection(Position curPos, Direction direction, int distance) {
-		List<Position> possibleMoves = new ArrayList<>();
-		Position nextPos = curPos;
-		if (distance == 0) {
-			while (true) {
-				nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
-				if (outOfBounds(nextPos))
-					break;
-				possibleMoves.add(nextPos);
-			}
-			return possibleMoves;
-		}
-		for (int i = 0; i < distance; i++) {
-			nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
-			if (outOfBounds(nextPos))
-				break;
-			possibleMoves.add(nextPos);
-		}
-		return possibleMoves;
-	}
-
-	private boolean outOfBounds(Position position) {
-		int row = position.getRow();
-		int col = position.getCol();
-		return row < 0 || row >= 8 || col < 0 || col >= 8;
-	}
-
-	public enum Color {WHITE, BLACK, NO_COLOR}
+	public enum Color {WHITE, BLACK, NO_COLOR;}
 
 	public enum Representation {
 		WHITE_PAWN('♙'), BLACK_PAWN('♟'),
@@ -111,6 +47,35 @@ public abstract class Piece implements Comparable<Piece> {
 		public char getSymbol() {
 			return symbol;
 		}
+	}
+
+	public enum Direction {
+		// 상하좌우
+		UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1),
+
+		// 대각선
+		LEFT_UP(-1, -1), LEFT_DOWN(1, -1), RIGHT_UP(-1, 1), RIGHT_DOWN(1, 1),
+
+		// 나이트
+		LEFT_LEFT_UP(-1, -2), LEFT_UP_UP(-2, -1), RIGHT_UP_UP(-2, 1), RIGHT_RIGHT_UP(-1, 2),
+		LEFT_LEFT_DOWN(1, -2), LEFT_DOWN_DOWN(2, -1), RIGHT_DOWN_DOWN(2, 1), RIGHT_RIGHT_DOWN(1, 2);
+
+		private final int dr;
+		private final int dc;
+
+		Direction(int dr, int dc) {
+			this.dr = dr;
+			this.dc = dc;
+		}
+
+		public int getDr() {
+			return dr;
+		}
+
+		public int getDc() {
+			return dc;
+		}
+
 	}
 
 	protected Piece(Type type, Color color, Representation representation) {
@@ -135,20 +100,6 @@ public abstract class Piece implements Comparable<Piece> {
 				new King(type, color, (color == Color.WHITE) ? Representation.WHITE_KING : Representation.BLACK_KING);
 			case NO_PIECE -> new NoPiece(type, color, Representation.NO_PIECE);
 		};
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof Piece piece))
-			return false;
-		return representation == piece.representation;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(representation);
 	}
 
 	public static Piece createBlank() {
@@ -203,6 +154,43 @@ public abstract class Piece implements Comparable<Piece> {
 		return create(Type.KING, Color.BLACK);
 	}
 
+	public abstract List<List<Position>> getPossibleMoves(Position currentPosition);
+
+	protected List<Position> getPossibleMovesOfDirection(Position curPos, Direction direction, int distance) {
+		List<Position> possibleMoves = new ArrayList<>();
+		Position nextPos = curPos;
+		if (distance == 0) {
+			while (true) {
+				nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
+				if (outOfBounds(nextPos))
+					break;
+				possibleMoves.add(nextPos);
+			}
+			return possibleMoves;
+		}
+		for (int i = 0; i < distance; i++) {
+			nextPos = new Position(nextPos.getRow() + direction.getDr(), nextPos.getCol() + direction.getDc());
+			if (outOfBounds(nextPos))
+				break;
+			possibleMoves.add(nextPos);
+		}
+		return possibleMoves;
+	}
+
+	private boolean outOfBounds(Position position) {
+		int row = position.getRow();
+		int col = position.getCol();
+		return row < 0 || row >= 8 || col < 0 || col >= 8;
+	}
+
+	public boolean isWhite() {
+		return color == Color.WHITE;
+	}
+
+	public boolean isBlack() {
+		return color == Color.BLACK;
+	}
+
 	public Color getColor() {
 		return color;
 	}
@@ -213,6 +201,25 @@ public abstract class Piece implements Comparable<Piece> {
 
 	public Representation getRepresentation() {
 		return representation;
+	}
+
+	@Override
+	public int compareTo(Piece o) {
+		return (int)(this.getType().point - o.getType().point);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Piece piece))
+			return false;
+		return representation == piece.representation;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(representation);
 	}
 
 }
