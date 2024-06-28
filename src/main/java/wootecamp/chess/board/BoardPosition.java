@@ -5,6 +5,8 @@ import wootecamp.chess.pieces.Direction;
 import java.util.Objects;
 
 public class BoardPosition {
+    private static final int BOARD_SIZE = 8;
+
     private final int rankPosition;
     private final int filePosition;
 
@@ -12,16 +14,23 @@ public class BoardPosition {
         char rankPosition = position.charAt(1);
         char filePosition = position.charAt(0);
 
+        validation(rankPosition, filePosition);
+
         this.rankPosition = parseRankToIndex(rankPosition);
         this.filePosition = parseFileToIndex(filePosition);
     }
 
     private BoardPosition(int filePosition, int rankPosition) {
+        validation(rankPosition, filePosition);
         this.rankPosition = rankPosition;
         this.filePosition = filePosition;
     }
 
-    //TODO : validation
+    private void validation(int filePosition, int rankPosition) {
+        if (filePosition < 0 || filePosition >= BOARD_SIZE || rankPosition < 0 || rankPosition >= BOARD_SIZE) {
+            throw new RuntimeException("보드를 벗어났습니다.");
+        }
+    }
 
     private int parseRankToIndex(final char rankPosition) {
         final char standardChar = '8';
