@@ -14,14 +14,14 @@ public class BoardPosition {
         char rankPosition = position.charAt(1);
         char filePosition = position.charAt(0);
 
-        validation(rankPosition, filePosition);
+//        validation(rankPosition, filePosition);
 
         this.rankPosition = parseRankToIndex(rankPosition);
         this.filePosition = parseFileToIndex(filePosition);
     }
 
     private BoardPosition(int filePosition, int rankPosition) {
-        validation(rankPosition, filePosition);
+//        validation(rankPosition, filePosition);
         this.rankPosition = rankPosition;
         this.filePosition = filePosition;
     }
