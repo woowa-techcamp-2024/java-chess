@@ -3,7 +3,7 @@
 2024 우아한 테크캠프 7기 체스 프로젝트
 
 # how to run
-
+- jdk 17 available
 ```
 cd /java-chess
 ./gradlew build
