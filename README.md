@@ -9,4 +9,4 @@
 - MVC 패턴은 가급적 지양합니다.
 
 ###
-SDK : Amazon corretto 17.0.1
+SDK : Amazon corretto 17.0.11
