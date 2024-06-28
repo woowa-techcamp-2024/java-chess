@@ -7,6 +7,7 @@ public class ConsoleGameInputManager implements GameInputManager {
 
     @Override
     public String receiveRequest() {
+        System.out.println("명령어를 입력해 주세요.");
         return SCANNER.nextLine();
     }
 }
