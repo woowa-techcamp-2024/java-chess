@@ -1,7 +1,7 @@
-package chess;
+package chess.board;
 
 import chess.pieces.Piece;
-import chess.pieces.Representation;
+import chess.pieces.type.Representation;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,9 @@
-package chess;
+package chess.board;
 
 import java.util.Arrays;
 
 public enum Position {
+    NO_POSITION(-1, -1),
     A8(0, 0),
     A7(0, 1),
     A6(0, 2),
@@ -74,6 +75,10 @@ public enum Position {
     Position(int file, int rank) {
         this.file = file;
         this.rank = rank;
+    }
+
+    public Position next(int fileStep, int rankStep) {
+        return Position.from(file + fileStep, rank + rankStep);
     }
 
     public static Position from(String position) {

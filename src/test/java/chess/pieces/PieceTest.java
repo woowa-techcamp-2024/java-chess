@@ -1,22 +1,37 @@
 package chess.pieces;
 
+import chess.board.Position;
+import chess.pieces.type.Color;
+import chess.pieces.type.Type;
 import org.junit.jupiter.api.*;
 
-import static chess.pieces.Representation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
+    @Nested
+    class TestBishop extends BishopTest {}
+    @Nested
+    class TestKing extends KingTest {}
+    @Nested
+    class TestKnight extends KnightTest {}
+    @Nested
+    class TestPawn extends PawnTest {}
+    @Nested
+    class TestQueen extends QueenTest {}
+    @Nested
+    class TestRook extends RookTest {}
+
     @Test
     @DisplayName("모든 종류의 기물이 생성되어야 한다")
     public void create_piece() {
-        verifyPiece(Piece.create(Type.PAWN, Color.WHITE), Piece.create(Type.PAWN, Color.BLACK), Type.PAWN);
-        verifyPiece(Piece.create(Type.KNIGHT, Color.WHITE), Piece.create(Type.KNIGHT, Color.BLACK), Type.KNIGHT);
-        verifyPiece(Piece.create(Type.ROOK, Color.WHITE), Piece.create(Type.ROOK, Color.BLACK), Type.ROOK);
-        verifyPiece(Piece.create(Type.BISHOP, Color.WHITE), Piece.create(Type.BISHOP, Color.BLACK), Type.BISHOP);
-        verifyPiece(Piece.create(Type.QUEEN, Color.WHITE), Piece.create(Type.QUEEN, Color.BLACK), Type.QUEEN);
-        verifyPiece(Piece.create(Type.KING, Color.WHITE), Piece.create(Type.KING, Color.BLACK), Type.KING);
+        verifyPiece(PieceFactory.createWhitePawn(Position.NO_POSITION), PieceFactory.createBlackPawn(Position.NO_POSITION), Type.PAWN);
+        verifyPiece(PieceFactory.createWhiteRook(Position.NO_POSITION), PieceFactory.createBlackRook(Position.NO_POSITION), Type.ROOK);
+        verifyPiece(PieceFactory.createWhiteKnight(Position.NO_POSITION), PieceFactory.createBlackKnight(Position.NO_POSITION), Type.KNIGHT);
+        verifyPiece(PieceFactory.createWhiteBishop(Position.NO_POSITION), PieceFactory.createBlackBishop(Position.NO_POSITION), Type.BISHOP);
+        verifyPiece(PieceFactory.createWhiteQueen(Position.NO_POSITION), PieceFactory.createBlackQueen(Position.NO_POSITION), Type.QUEEN);
+        verifyPiece(PieceFactory.createWhiteKing(Position.NO_POSITION), PieceFactory.createBlackKing(Position.NO_POSITION), Type.KING);
 
-        Piece blank = Piece.create(Type.NO_PIECE, Color.NOCOLOR);
+        Piece blank = PieceFactory.createBlank(Position.NO_POSITION);
         assertFalse(blank.getColor().isWhite());
         assertFalse(blank.getColor().isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
