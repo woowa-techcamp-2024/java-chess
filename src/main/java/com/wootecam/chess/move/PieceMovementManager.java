@@ -37,6 +37,10 @@ public class PieceMovementManager {
         return (piece.isPawn() && canPawnMove(board, (Pawn) piece, from, to));
     }
 
+    private boolean isNotPawnAndCanMove(Board board, Piece piece, Position from, Position to) {
+        return !piece.isPawn() && canMoveExceptPawn(board, piece, from, to);
+    }
+
     private boolean canMoveExceptPawn(Board board, Piece piece, Position from, Position to) {
         if (isAllyPieceAtTarget(board, piece, to)) {
             return false;
@@ -61,10 +65,6 @@ public class PieceMovementManager {
         }
 
         return true;
-    }
-
-    private boolean isNotPawnAndCanMove(Board board, Piece piece, Position from, Position to) {
-        return !piece.isPawn() && canMoveExceptPawn(board, piece, from, to);
     }
 
     private boolean canPawnMove(Board board, Pawn pawn, Position from, Position to) {
