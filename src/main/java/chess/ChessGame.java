@@ -163,7 +163,7 @@ public class ChessGame {
             var newSourcePos = sourcePos.clone();
             Position dir = p.findDir(newSourcePos, targetPos);
             int moveCnt = 0;
-            while (!Objects.equals(newSourcePos, targetPos) || moveCnt < 2) {
+            while (!Objects.equals(newSourcePos, targetPos) && moveCnt < 2) {
                 var nextPos = newSourcePos.add(dir);
                 try {
                     validateInBoard(nextPos.toString());

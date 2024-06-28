@@ -125,9 +125,10 @@ class ChessGameTest {
         game.move(sourcePosition, targetPosition);
 
         System.out.println(game.showBoard());
+        Piece piece = Piece.of(Pawn.class, WHITE, new Position(targetPosition));
 
         assertEquals(Piece.of(NoPiece.class, NOCOLOR, new Position(sourcePosition)), game.findPiece(sourcePosition));
-        assertEquals(Piece.of(Pawn.class, WHITE, new Position(targetPosition)), game.findPiece(targetPosition));
+        assertEquals(piece, game.findPiece(targetPosition));
     }
 
 
