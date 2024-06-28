@@ -31,3 +31,5 @@ java-chess/.idea/
 
 .DS_Store
 .idea
+.gradle
+build

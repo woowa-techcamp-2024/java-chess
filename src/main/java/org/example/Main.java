@@ -38,6 +38,8 @@ public class Main {
                 } catch (Exception e) {
                     System.out.println(e.getMessage() + " 이동에 실패하였습니다.");
                 }
+            } else {
+                System.out.println("잘못된 명령입니다.");
             }
         }
 
