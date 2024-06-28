@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
+    private static final int WHITE_PAWN_INITIAL_ROW = 6;
+    private static final int BLACK_PAWN_INITIAL_ROW = 1;
     private static final char REPRESENTATION = 'p';
     public static final double DEFAULT_POINT = 1.0;
 
@@ -43,8 +45,16 @@ public class Pawn extends Piece {
         }
         Position nextPosition = new Position(prevPosition.col() + direction.col, prevPosition.row() + direction.row);
         positions.add(nextPosition);
-        if (prevPosition.isPawnRow()) {
+        if (isWhiteInitPosition(prevPosition) || isBlackInitPosition(prevPosition)) {
             findNextPositions(nextPosition, direction, positions);
         }
+    }
+
+    private boolean isWhiteInitPosition(Position position) {
+        return color == Color.WHITE && position.row() == WHITE_PAWN_INITIAL_ROW;
+    }
+
+    private boolean isBlackInitPosition(Position position) {
+        return color == Color.BLACK && position.row() == BLACK_PAWN_INITIAL_ROW;
     }
 }

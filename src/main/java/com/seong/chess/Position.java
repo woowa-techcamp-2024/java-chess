@@ -40,8 +40,4 @@ public record Position(int col, int row) {
         char rawRow = (char) (7 - row + '1');
         return String.valueOf(rawCol) + rawRow;
     }
-
-    public boolean isPawnRow() {
-        return row == 1 || row == 6;
-    }
 }
