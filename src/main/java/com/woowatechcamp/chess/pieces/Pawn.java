@@ -82,6 +82,12 @@ public class Pawn extends Piece {
                 (getColor() == Color.WHITE && direction == Direction.NORTH);
     }
 
+    @Override
+    public void undoMove(Position position) {
+        moveCount--;
+        super.undoMove(position);
+    }
+
     private boolean isFirstMove() {
         return moveCount == 0;
     }

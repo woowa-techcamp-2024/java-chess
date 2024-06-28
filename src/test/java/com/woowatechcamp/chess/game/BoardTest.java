@@ -1,19 +1,19 @@
 package com.woowatechcamp.chess.game;
 
-import static com.woowatechcamp.utils.StringUtils.appendNewLine;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-
 import com.woowatechcamp.chess.pieces.Piece;
 import com.woowatechcamp.chess.pieces.PieceFactory;
 import com.woowatechcamp.chess.pieces.Position;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static com.woowatechcamp.utils.StringUtils.appendNewLine;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTest {
     private Board board;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         board = new Board();
     }

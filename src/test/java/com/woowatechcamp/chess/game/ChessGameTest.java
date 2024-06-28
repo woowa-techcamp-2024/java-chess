@@ -1,16 +1,16 @@
 package com.woowatechcamp.chess.game;
 
-import org.junit.Before;
-import org.junit.Test;
+import com.woowatechcamp.chess.pieces.Piece;
 import static org.assertj.core.api.Assertions.*;
 
 import com.woowatechcamp.chess.pieces.Position;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ChessGameTest {
-
     private ChessGame chessGame;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         chessGame = new ChessGame();
     }
@@ -41,35 +41,21 @@ public class ChessGameTest {
     }
 
     @Test
-    public void 킹이_잡히면_게임_종료() {
+    public void 체크메이트_시_게임_종료() {
         // 백색 폰을 전진시켜 흑색 퀸의 경로를 열어줍니다.
-        chessGame.move(new Position("e2"), new Position("e4"));
+        chessGame.move(new Position("f2"), new Position("f3"));
         chessGame.move(new Position("e7"), new Position("e5"));
 
-        // 백색 나이트를 밖으로 빼냅니다.
-        chessGame.move(new Position("g1"), new Position("f3"));
+        // 백색 폰을 한 칸 더 전진시킵니다.
+        chessGame.move(new Position("g2"), new Position("g4"));
         assertThat(chessGame.isFinish()).isFalse();
 
-        // 흑색 퀸을 공격 위치로 이동합니다.
+        // 흑색 퀸을 공격 위치로 이동하여 체크메이트를 만듭니다. (Fool's Mate)
         chessGame.move(new Position("d8"), new Position("h4"));
-        assertThat(chessGame.isFinish()).isFalse();
 
-        // 백색이 체크 상태를 무시하고 다른 말을 움직입니다.
-        chessGame.move(new Position("d2"), new Position("d3"));
-        assertThat(chessGame.isFinish()).isFalse();
-
-        // 흑색 퀸이 백색 폰을 잡고 f2로 이동합니다.
-        chessGame.move(new Position("h4"), new Position("e4"));
-        assertThat(chessGame.isFinish()).isFalse();
-
-        // 백색이 다시 체크 상태를 무시하고 다른 말을 움직입니다.
-        chessGame.move(new Position("c2"), new Position("c3"));
-        assertThat(chessGame.isFinish()).isFalse();
-
-        // 흑색 퀸이 백색 킹을 잡습니다.
-        chessGame.move(new Position("e4"), new Position("e1"));
-        // 킹이 잡혔으므로 게임이 종료되어야 합니다.
+        // 체크메이트가 되었으므로 게임이 종료되어야 합니다.
         assertThat(chessGame.isFinish()).isTrue();
+        assertThat(chessGame.getWinner()).isEqualTo(Piece.Color.BLACK);
     }
 
     @Test

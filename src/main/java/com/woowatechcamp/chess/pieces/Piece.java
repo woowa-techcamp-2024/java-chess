@@ -41,6 +41,10 @@ public abstract class Piece {
         return true;
     }
 
+    public void undoMove(Position position) {
+        this.position = position;
+    }
+
     public Position getPosition() {
         return position;
     }
