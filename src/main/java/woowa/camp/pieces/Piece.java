@@ -1,38 +1,22 @@
 package woowa.camp.pieces;
 
 import static woowa.camp.pieces.Piece.Color.BLACK;
-import static woowa.camp.pieces.Piece.Color.NONE;
-import static woowa.camp.pieces.Piece.Color.WHITE;
-import static woowa.camp.pieces.Piece.Type.NO_PIECE;
 
 import java.util.List;
 import java.util.Objects;
+import woowa.camp.chess.Position;
 
-public class Piece {
+public abstract class Piece {
 
     private final Type type;
     private final Color color;
 
-    private Piece(final Type type, final Color color) {
+    public Piece(Type type, Color color) {
         this.type = type;
         this.color = color;
     }
 
-    public static Piece createPiece(final Type type, final Color color) {
-        return new Piece(type, color);
-    }
-
-    public static Piece createWhitePieceOf(final Type type) {
-        return new Piece(type, WHITE);
-    }
-
-    public static Piece createBlackPieceOf(final Type type) {
-        return new Piece(type, BLACK);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(NO_PIECE, NONE);
-    }
+    public abstract List<Position> findPath(final Position source);
 
     public String getRepresentation() {
         return type.getRepresentation(color);
@@ -52,6 +36,10 @@ public class Piece {
 
     public double getDefaultScore() {
         return this.type.getDefaultScore();
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public enum Type {

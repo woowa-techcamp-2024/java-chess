@@ -22,9 +22,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import woowa.camp.pieces.Bishop;
+import woowa.camp.pieces.Blank;
+import woowa.camp.pieces.King;
+import woowa.camp.pieces.Knight;
+import woowa.camp.pieces.Pawn;
 import woowa.camp.pieces.Piece;
 import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
+import woowa.camp.pieces.Queen;
+import woowa.camp.pieces.Rook;
 
 public class BoardTest {
 
@@ -35,8 +42,8 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board();
-        white = Piece.createWhitePieceOf(Type.PAWN);
-        black = Piece.createBlackPieceOf(Type.PAWN);
+        white = Pawn.createWhite();
+        black = Pawn.createBlack();
     }
 
     @Nested
@@ -47,11 +54,11 @@ public class BoardTest {
         @DisplayName("[Success] 기물을 추가하면 기물 개수도 반영된다.")
         void board_add_pawn() {
             board.initialize();
-            board.move(white, Position.mapBy("a6"));
+            board.replace(white, Position.mapBy("a6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 1);
             verifyGetPiece(board, "a6", white);
 
-            board.move(black, Position.mapBy("b6"));
+            board.replace(black, Position.mapBy("b6"));
             verifyBoardGetPieceCount(board, INIT_PIECE_COUNT.getCount() + 2);
             verifyGetPiece(board, "b6", black);
         }
@@ -68,14 +75,13 @@ public class BoardTest {
         @Test
         @DisplayName("[Success] 임의의 위치에 기물을 이동할 수 있어야 한다.")
         void move() {
-            board.initializeEmpty();
+            BoardGame boardGame = BoardGame.createWithInitialize(board);
 
-            String position = "b5";
-            Piece piece = Piece.createBlackPieceOf(Type.ROOK);
-            board.move(piece, position);
-
-            Piece findPiece = board.findPieceBy(position);
-            assertThat(findPiece).isEqualTo(piece);
+            String sourcePosition = "b2";
+            String targetPosition = "b3";
+            boardGame.move(sourcePosition, targetPosition);
+            assertThat(board.findPieceBy(sourcePosition)).isEqualTo(Blank.create());
+            assertThat(board.findPieceBy(targetPosition)).isEqualTo(Pawn.createWhite());
         }
 
     }
@@ -88,10 +94,10 @@ public class BoardTest {
         @DisplayName("[Success] 체스위치에 대한 기물을 찾는다.")
         void findPawn() {
             board.initialize();
-            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("a8"));
-            assertThat(Piece.createBlackPieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("h8"));
-            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("a1"));
-            assertThat(Piece.createWhitePieceOf(Type.ROOK)).isEqualTo(board.findPieceBy("h1"));
+            assertThat(Rook.createBlack()).isEqualTo(board.findPieceBy("a8"));
+            assertThat(Rook.createBlack()).isEqualTo(board.findPieceBy("h8"));
+            assertThat(Rook.createWhite()).isEqualTo(board.findPieceBy("a1"));
+            assertThat(Rook.createWhite()).isEqualTo(board.findPieceBy("h1"));
         }
 
         @Test
@@ -159,8 +165,8 @@ public class BoardTest {
         @Test
         @DisplayName("[Success] 초기화한 Board의 기물 위치 확인")
         void initialBoardStatus() {
-            board.initialize();
-            String result = board.showBoard();
+            BoardGame boardGame = BoardGame.createWithInitialize(board);
+            String result = boardGame.showBoard();
             String expectedInitialBoardState = """
                     RNBQKBNR
                     PPPPPPPP
@@ -177,28 +183,27 @@ public class BoardTest {
         @ParameterizedTest
         @MethodSource("providePiecesAndCounts")
         @DisplayName("[Success] 초기화한 Board의 기물 개수 확인")
-        void initialGetPieceCount(Type type, Color color, int expectedCount) {
+        void initialGetPieceCount(Piece piece, int expectedCount) {
             board.initialize();
-            Piece piece = Piece.createPiece(type, color);
-            int actualCount = board.getPieceCount(piece.getType(), color);
+            int actualCount = board.getPieceCount(piece.getType(), piece.getColor());
             assertThat(actualCount).isEqualTo(expectedCount);
         }
 
         static Stream<Arguments> providePiecesAndCounts() {
             return Stream.of(
-                    Arguments.of(Type.KING, Color.BLACK, MAX_KING.getCount()),
-                    Arguments.of(Type.QUEEN, Color.BLACK, MAX_QUEEN.getCount()),
-                    Arguments.of(Type.ROOK, Color.BLACK, MAX_ROOK.getCount()),
-                    Arguments.of(Type.KNIGHT, Color.BLACK, MAX_KNIGHT.getCount()),
-                    Arguments.of(Type.BISHOP, Color.BLACK, MAX_BISHOP.getCount()),
-                    Arguments.of(Type.PAWN, Color.BLACK, MAX_PAWN.getCount()),
+                    Arguments.of(King.createBlack(), MAX_KING.getCount()),
+                    Arguments.of(Queen.createBlack(), MAX_QUEEN.getCount()),
+                    Arguments.of(Rook.createBlack(), MAX_ROOK.getCount()),
+                    Arguments.of(Knight.createBlack(), MAX_KNIGHT.getCount()),
+                    Arguments.of(Bishop.createBlack(), MAX_BISHOP.getCount()),
+                    Arguments.of(Pawn.createBlack(), MAX_PAWN.getCount()),
 
-                    Arguments.of(Type.KING, Color.WHITE, MAX_KING.getCount()),
-                    Arguments.of(Type.QUEEN, Color.WHITE, MAX_QUEEN.getCount()),
-                    Arguments.of(Type.ROOK, Color.WHITE, MAX_ROOK.getCount()),
-                    Arguments.of(Type.KNIGHT, Color.WHITE, MAX_KNIGHT.getCount()),
-                    Arguments.of(Type.BISHOP, Color.WHITE, MAX_BISHOP.getCount()),
-                    Arguments.of(Type.PAWN, Color.WHITE, MAX_PAWN.getCount())
+                    Arguments.of(King.createWhite(), MAX_KING.getCount()),
+                    Arguments.of(Queen.createWhite(), MAX_QUEEN.getCount()),
+                    Arguments.of(Rook.createWhite(), MAX_ROOK.getCount()),
+                    Arguments.of(Knight.createWhite(), MAX_KNIGHT.getCount()),
+                    Arguments.of(Bishop.createWhite(), MAX_BISHOP.getCount()),
+                    Arguments.of(Pawn.createWhite(), MAX_PAWN.getCount())
             );
         }
     }
@@ -210,26 +215,27 @@ public class BoardTest {
         @Test
         @DisplayName("색상을 기준으로 현재 남아 있는 기물에 따라 점수를 계산한다.")
         void calculate() {
-            board.initializeEmpty();
+            BoardGame boardGame = BoardGame.createWithEmptyInitialize(board);
 
-            addPiece("b6", Piece.createBlackPieceOf(Type.PAWN));
-            addPiece("e6", Piece.createBlackPieceOf(Type.QUEEN));
-            addPiece("b8", Piece.createBlackPieceOf(Type.KING));
-            addPiece("c8", Piece.createBlackPieceOf(Type.ROOK));
+            addPiece("b6", Pawn.createBlack());
+            addPiece("e6", Queen.createBlack());
+            addPiece("b8", King.createBlack());
+            addPiece("c8", Rook.createBlack());
 
-            addPiece("f2", Piece.createWhitePieceOf(Type.PAWN));
-            addPiece("g2", Piece.createWhitePieceOf(Type.PAWN));
-            addPiece("e1", Piece.createWhitePieceOf(Type.ROOK));
-            addPiece("f1", Piece.createWhitePieceOf(Type.KING));
+            addPiece("f2", Pawn.createWhite());
+            addPiece("g2", Pawn.createWhite());
+            addPiece("e1", Rook.createWhite());
+            addPiece("f1", King.createWhite());
 
-            Assertions.assertEquals(15.0, board.calculateScore(Color.BLACK), 0.01);
-            Assertions.assertEquals(7.0, board.calculateScore(Color.WHITE), 0.01);
+            Assertions.assertEquals(15.0, boardGame.calculateScore(Color.BLACK), 0.01);
+            Assertions.assertEquals(7.0, boardGame.calculateScore(Color.WHITE), 0.01);
 
-            System.out.println(board.showBoard());
+            System.out.println(boardGame.showBoard());
         }
 
         private void addPiece(String position, Piece piece) {
-            board.move(piece, position);
+            Position p = Position.mapBy(position);
+            board.replace(piece, p);
         }
     }
 
@@ -242,22 +248,23 @@ public class BoardTest {
         void descending() {
             board.initialize();
             List<Piece> result = board.getDescendingSortedPiecesFilterBy(Color.BLACK);
-            assertThat(result).containsExactly(Piece.createBlackPieceOf(Type.QUEEN),
-                    Piece.createBlackPieceOf(Type.ROOK),
-                    Piece.createBlackPieceOf(Type.ROOK),
-                    Piece.createBlackPieceOf(Type.BISHOP),
-                    Piece.createBlackPieceOf(Type.BISHOP),
-                    Piece.createBlackPieceOf(Type.KNIGHT),
-                    Piece.createBlackPieceOf(Type.KNIGHT),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.KING));
+            assertThat(result).containsExactly(
+                    Queen.createBlack(),
+                    Rook.createBlack(),
+                    Rook.createBlack(),
+                    Bishop.createBlack(),
+                    Bishop.createBlack(),
+                    Knight.createBlack(),
+                    Knight.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    King.createBlack());
         }
 
         @Test
@@ -267,22 +274,22 @@ public class BoardTest {
 
             List<Piece> result = board.getAscendingSortedPiecesFilterBy(Color.BLACK);
             assertThat(result).containsExactly(
-                    Piece.createBlackPieceOf(Type.KING),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.PAWN),
-                    Piece.createBlackPieceOf(Type.KNIGHT),
-                    Piece.createBlackPieceOf(Type.KNIGHT),
-                    Piece.createBlackPieceOf(Type.BISHOP),
-                    Piece.createBlackPieceOf(Type.BISHOP),
-                    Piece.createBlackPieceOf(Type.ROOK),
-                    Piece.createBlackPieceOf(Type.ROOK),
-                    Piece.createBlackPieceOf(Type.QUEEN));
+                    King.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Pawn.createBlack(),
+                    Knight.createBlack(),
+                    Knight.createBlack(),
+                    Bishop.createBlack(),
+                    Bishop.createBlack(),
+                    Rook.createBlack(),
+                    Rook.createBlack(),
+                    Queen.createBlack());
         }
     }
 }

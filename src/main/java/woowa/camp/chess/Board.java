@@ -2,22 +2,22 @@ package woowa.camp.chess;
 
 import static woowa.camp.chess.BoardConstants.MAX_COL;
 import static woowa.camp.chess.BoardConstants.MAX_ROW;
-import static woowa.camp.pieces.Piece.Type.BISHOP;
-import static woowa.camp.pieces.Piece.Type.KING;
-import static woowa.camp.pieces.Piece.Type.KNIGHT;
-import static woowa.camp.pieces.Piece.Type.PAWN;
-import static woowa.camp.pieces.Piece.Type.QUEEN;
-import static woowa.camp.pieces.Piece.Type.ROOK;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import woowa.camp.pieces.Bishop;
+import woowa.camp.pieces.Blank;
+import woowa.camp.pieces.King;
+import woowa.camp.pieces.Knight;
+import woowa.camp.pieces.Pawn;
 import woowa.camp.pieces.Piece;
 import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
-import woowa.camp.utils.StringUtils;
+import woowa.camp.pieces.Queen;
+import woowa.camp.pieces.Rook;
 
 public class Board {
 
@@ -49,33 +49,33 @@ public class Board {
     }
 
     private void initBlackRook() {
-        final Piece leftBlackRook = Piece.createBlackPieceOf(ROOK);
-        final Piece rightBlackRook = Piece.createBlackPieceOf(ROOK);
+        final Piece leftBlackRook = Rook.createBlack();
+        final Piece rightBlackRook = Rook.createBlack();
         board.get(0).replace(0, leftBlackRook);
         board.get(0).replace(7, rightBlackRook);
     }
 
     private void initBlackKnight() {
-        final Piece leftBlackKnight = Piece.createBlackPieceOf(KNIGHT);
-        final Piece rightBlackKnight = Piece.createBlackPieceOf(KNIGHT);
+        final Piece leftBlackKnight = Knight.createBlack();
+        final Piece rightBlackKnight = Knight.createBlack();
         board.get(0).replace(1, leftBlackKnight);
         board.get(0).replace(6, rightBlackKnight);
     }
 
     private void initBlackBishop() {
-        final Piece leftBlackBishop = Piece.createBlackPieceOf(BISHOP);
-        final Piece rightBlackBishop = Piece.createBlackPieceOf(BISHOP);
+        final Piece leftBlackBishop = Bishop.createBlack();
+        final Piece rightBlackBishop = Bishop.createBlack();
         board.get(0).replace(2, leftBlackBishop);
         board.get(0).replace(5, rightBlackBishop);
     }
 
     private void initBlackQueen() {
-        final Piece blackQueen = Piece.createBlackPieceOf(QUEEN);
+        final Piece blackQueen = Queen.createBlack();
         board.get(0).replace(3, blackQueen);
     }
 
     private void initBlackKing() {
-        final Piece blackKing = Piece.createBlackPieceOf(KING);
+        final Piece blackKing = King.createBlack();
         board.get(0).replace(4, blackKing);
     }
 
@@ -89,41 +89,41 @@ public class Board {
     }
 
     private void initWhiteRook() {
-        final Piece leftWhiteRook = Piece.createWhitePieceOf(ROOK);
-        final Piece rightWhiteRook = Piece.createWhitePieceOf(ROOK);
+        final Piece leftWhiteRook = Rook.createWhite();
+        final Piece rightWhiteRook = Rook.createWhite();
         board.get(7).replace(0, leftWhiteRook);
         board.get(7).replace(7, rightWhiteRook);
     }
 
     private void initWhiteKnight() {
-        final Piece leftWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
-        final Piece rightWhiteKnight = Piece.createWhitePieceOf(KNIGHT);
+        final Piece leftWhiteKnight = Knight.createWhite();
+        final Piece rightWhiteKnight = Knight.createWhite();
         board.get(7).replace(1, leftWhiteKnight);
         board.get(7).replace(6, rightWhiteKnight);
     }
 
     private void initWhiteBishop() {
-        final Piece leftWhiteBishop = Piece.createWhitePieceOf(BISHOP);
-        final Piece rightWhiteBishop = Piece.createWhitePieceOf(BISHOP);
+        final Piece leftWhiteBishop = Bishop.createWhite();
+        final Piece rightWhiteBishop = Bishop.createWhite();
         board.get(7).replace(2, leftWhiteBishop);
         board.get(7).replace(5, rightWhiteBishop);
     }
 
     private void initWhiteQueen() {
-        final Piece whiteQueen = Piece.createWhitePieceOf(QUEEN);
+        final Piece whiteQueen = Queen.createWhite();
         board.get(7).replace(3, whiteQueen);
     }
 
     private void initWhiteKing() {
-        final Piece whiteKing = Piece.createWhitePieceOf(KING);
+        final Piece whiteKing = King.createWhite();
         board.get(7).replace(4, whiteKing);
     }
 
     private void initPawns(final int initRow, final Color color) {
         IntStream.range(0, MAX_COL.getCount()).forEach(col -> {
-            final Piece piece = Piece.createPiece(PAWN, color);
+            final Piece piece = Pawn.create(color);
             final Position position = new Position(initRow, col);
-            move(piece, position);
+            replace(piece, position);
         });
     }
 
@@ -132,30 +132,19 @@ public class Board {
         return board.get(chessPosition.getRow()).get(chessPosition.getCol());
     }
 
-    // TODO: step1-6 움직임 요구사항 반영
-    public void move(final Piece piece, final String position) {
-        final Position chessPosition = Position.mapBy(position);
-        final int row = chessPosition.getRow();
-        final int col = chessPosition.getCol();
-        board.get(row).replace(col, piece);
+    public void replace(final Piece piece, final Position destination) {
+        final int destinationRow = destination.getRow();
+        final int destinationCol = destination.getCol();
+        board.get(destinationRow).replace(destinationCol, piece);
     }
 
-    public void move(final Piece piece, final Position position) {
-        final int row = position.getRow();
-        final int col = position.getCol();
-        board.get(row).replace(col, piece);
+    public void remove(final Position target) {
+        final int targetRow = target.getRow();
+        final int targetCol = target.getCol();
+        board.get(targetRow).replace(targetCol, Blank.create());
     }
 
-    public double calculateScore(final Color color) {
-        double score = 0.0;
-        for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final List<Piece> file = extractPiecesByFile(col, color);
-            score += Type.calculateScore(file);
-        }
-        return score;
-    }
-
-    private List<Piece> extractPiecesByFile(final int col, final Color color) {
+    public List<Piece> extractPiecesByFile(final int col, final Color color) {
         final List<Piece> piecesByFile = new ArrayList<>();
         for (int row = 0; row < MAX_ROW.getCount(); row++) {
             final Piece piece = getPieceBy(row, col);
@@ -164,22 +153,6 @@ public class Board {
             }
         }
         return piecesByFile;
-    }
-
-    public String showBoard() {
-        final StringBuilder sb = new StringBuilder();
-        for (int row = 0; row < MAX_ROW.getCount(); row++) {
-            appendRowRepresentation(row, sb);
-            sb.append(StringUtils.appendNewLine(""));
-        }
-        return sb.toString();
-    }
-
-    private void appendRowRepresentation(final int row, final StringBuilder sb) {
-        for (int col = 0; col < MAX_COL.getCount(); col++) {
-            final Piece piece = getPieceBy(row, col);
-            sb.append(piece.getRepresentation());
-        }
     }
 
     /* ----- getter ----- */
@@ -197,7 +170,7 @@ public class Board {
         return sb.toString();
     }
 
-    private Piece getPieceBy(final int row, final int col) {
+    public Piece getPieceBy(final int row, final int col) {
         return Optional.ofNullable(board.get(row).get(col))
                 .orElseThrow(() -> new IllegalArgumentException(String.format("(%d, %d)에 기물이 존재하지 않습니다.", row, col)));
     }

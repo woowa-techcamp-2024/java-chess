@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
+import woowa.camp.pieces.Blank;
 import woowa.camp.pieces.Piece;
 import woowa.camp.pieces.Piece.Color;
 import woowa.camp.pieces.Piece.Type;
@@ -20,7 +21,7 @@ public class Rank {
 
     public void initRank() {
         IntStream.range(0, MAX_COL.getCount())
-                .forEach(count -> pieces.add(Piece.createBlank()));
+                .forEach(count -> pieces.add(Blank.create()));
     }
 
     public void replace(final int index, final Piece piece) {
