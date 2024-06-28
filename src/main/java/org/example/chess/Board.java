@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.joining;
 
 public class Board {
-    private List<Rank> pieces;
+    private List<Rank> ranks;
     public static double PAWN_DISCOUNT_RATE = 0.5;
 
     public Board() {
@@ -19,8 +19,8 @@ public class Board {
 
     public void moveTo(Position from, Position to) {
         Piece piece = findPiece(from);
-        Rank fromRank = pieces.get(from.getRow());
-        Rank toRank = pieces.get(to.getRow());
+        Rank fromRank = ranks.get(from.getRow());
+        Rank toRank = ranks.get(to.getRow());
 
         List<MoveSeq> moveSeqs = piece.getMoveSeqs();
         validateNotEmpty(piece);
@@ -72,23 +72,23 @@ public class Board {
     }
 
     public Rank getUnmodifiableRank(int idx) {
-        return pieces.get(idx);
+        return ranks.get(idx);
     }
 
     public void setPiece(Position position, Piece piece) {
-        pieces.get(position.getRow()).setPiece(position.getCol(), piece);
+        ranks.get(position.getRow()).setPiece(position.getCol(), piece);
     }
 
     public int countPieces() {
-        return (int) pieces.stream().mapToLong(Rank::countPieces).sum();
+        return (int) ranks.stream().mapToLong(Rank::countPieces).sum();
     }
 
     public Piece findPiece(Position position) {
-        return pieces.get(position.getRow()).getPiece(position.getCol());
+        return ranks.get(position.getRow()).getPiece(position.getCol());
     }
 
     public String getWhitePawnsRepresentation() {
-        return pieces.stream()
+        return ranks.stream()
                 .flatMap(rank -> rank.pieceRow.stream())
                 .filter(piece -> piece.getName() == Piece.Type.PAWN)
                 .filter(piece -> piece.getColor() == Piece.Color.WHITE)
@@ -98,7 +98,7 @@ public class Board {
     }
 
     public String getBlackPawnsRepresentation() {
-        return pieces.stream()
+        return ranks.stream()
                 .flatMap(rank -> rank.pieceRow.stream())
                 .filter(piece -> piece.getName() == Piece.Type.PAWN)
                 .filter(piece -> piece.getColor() == Piece.Color.BLACK)
@@ -112,7 +112,7 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             board.add(new Rank());
         }
-        pieces = board;
+        ranks = board;
     }
 
     public void initialize() {
@@ -145,7 +145,7 @@ public class Board {
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
 
-        this.pieces.forEach(rank -> {
+        this.ranks.forEach(rank -> {
             sb.append(rank.getRepresentation()).append(System.lineSeparator());
         });
 
@@ -156,12 +156,12 @@ public class Board {
 
     public double calculatePoint(Piece.Color color) {
 
-        double score = this.pieces.stream()
+        double score = this.ranks.stream()
                 .mapToDouble(rank -> rank.calculateScoreWithoutPawn(color))
                 .sum();
 
         // pawn 따로 계산
-        Map<Integer, Long> colIdxMap = this.pieces.stream()
+        Map<Integer, Long> colIdxMap = this.ranks.stream()
                 .map(rank -> rank.getPawnsColIdx(color))
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(colIdx -> colIdx, Collectors.counting()));
@@ -177,20 +177,20 @@ public class Board {
 
         return score;
     }
-    
+
     public List<Piece> sort(Order order) {
         Comparator<Piece> asc = Comparator.comparingDouble(piece -> piece.getName().getDefaultPoint());
         Comparator<Piece> desc = (p1, p2) -> Double.compare(p2.getName().getDefaultPoint(), p1.getName().getDefaultPoint());
 
         if (order == Order.DESC) {
-            return this.pieces.stream()
+            return this.ranks.stream()
                     .map(Rank::getPieces)
                     .flatMap(List::stream)
                     .filter(Piece::isExist)
                     .sorted(desc)
                     .toList();
         }
-        return this.pieces.stream()
+        return this.ranks.stream()
                 .map(Rank::getPieces)
                 .flatMap(List::stream)
                 .filter(Piece::isExist)
