@@ -1,6 +1,10 @@
-package chess.view;
+package chess.view.console;
 
-public class ConsoleGameView implements GameView{
+import chess.view.GameInputView;
+import chess.view.GameOutputView;
+import chess.view.GameView;
+
+public class ConsoleGameView implements GameView {
     private final GameInputView inputView;
     private final GameOutputView outputView;
 
