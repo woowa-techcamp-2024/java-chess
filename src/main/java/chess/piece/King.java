@@ -1,7 +1,5 @@
 package chess.piece;
 
-import chess.Board;
-import chess.util.ChessPoint;
 import chess.util.Direction;
 import chess.util.MoveRule;
 
@@ -13,7 +11,7 @@ public class King extends Piece {
     public static final double DEFAULT_POINT = 0;
 
     private King(Color color, char representation) {
-        super(color, representation, Direction.everyDirection(), 1);
+        super(color, representation, Direction.everyDirection(), 1, List.of(MoveRule.Castling));
     }
 
     public static King create(Color color) {
@@ -26,16 +24,6 @@ public class King extends Piece {
 
     public static King createBlack() {
         return new King(Color.BLACK, BLACK_REPRESENTATION);
-    }
-
-    @Override
-    protected Map<ChessPoint, MoveRule> getSpecialMovablePoints(ChessPoint source, Board board, boolean onlyAttackable) {
-        Map<ChessPoint, MoveRule> movablePoints = new HashMap<>();
-
-        // castling
-        MoveRule.Castling.adapt(movablePoints, board, source, this, onlyAttackable);
-
-        return movablePoints;
     }
 
     @Override

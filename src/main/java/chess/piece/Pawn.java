@@ -1,9 +1,5 @@
 package chess.piece;
 
-
-import chess.Board;
-import chess.util.ChessPoint;
-import chess.util.Direction;
 import chess.util.MoveRule;
 
 import java.util.*;
@@ -14,7 +10,7 @@ public class Pawn extends Piece {
     public static final double DEFAULT_POINT = 1;
 
     private Pawn(Color color, char representation) {
-        super(color, representation, List.of(), 0);
+        super(color, representation, List.of(), 0, List.of(MoveRule.PawnMove));
     }
 
     public static Pawn create(Color color) {
@@ -27,15 +23,6 @@ public class Pawn extends Piece {
 
     public static Pawn createBlack() {
         return new Pawn(Color.BLACK, BLACK_REPRESENTATION);
-    }
-
-    @Override
-    protected Map<ChessPoint, MoveRule> getSpecialMovablePoints(ChessPoint source, Board board, boolean onlyAttackable) {
-        Map<ChessPoint, MoveRule> movablePoints = new HashMap<>();
-
-        MoveRule.PawnMove.adapt(movablePoints, board, source, this, onlyAttackable);
-
-        return movablePoints;
     }
 
     @Override
