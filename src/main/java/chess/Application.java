@@ -1,6 +1,6 @@
 package chess;
 
-import chess.board.Board;
+import chess.board.ChessGame;
 import chess.pieces.Position;
 import chess.view.ChessView;
 import java.util.Arrays;
@@ -8,23 +8,9 @@ import java.util.Scanner;
 
 public class Application {
 
-    private static Board board;
+    private static ChessGame chessGame;
 
     private static ChessView chessView;
-
-
-    enum GameControlCommand {
-        START, END, MOVE;
-
-
-        public static GameControlCommand valueOfIgnoreCase(String command) {
-            return Arrays.stream(GameControlCommand.values())
-                    .filter(c -> command.startsWith(c.name().toLowerCase()))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 command 입니다."));
-        }
-
-    }
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -32,25 +18,11 @@ public class Application {
             while (continueRunning) {
                 System.out.print("start/end/move src dest 입력: ");
                 String input = scanner.nextLine();
-                GameControlCommand command = getGameControlCommand(input);
-                if (command == null) {
-                    continue;
-                }
+                GameControlCommand command = GameControlCommand.valueOfIgnoreCase(input);
                 continueRunning = execute(command, input);
             }
         }
 
-    }
-
-    private static GameControlCommand getGameControlCommand(String input) {
-        GameControlCommand command;
-        try {
-            command = GameControlCommand.valueOfIgnoreCase(input);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return null;
-        }
-        return command;
     }
 
     private static boolean execute(GameControlCommand command, String originalCommand) {
@@ -68,16 +40,28 @@ public class Application {
     }
 
     private static void startGame() {
-        board = new Board();
-        board.initialize();
+        chessGame = new ChessGame();
         chessView = new ChessView();
-        chessView.print(board);
+        chessGame.initialize();
+        chessView.print(chessGame.getBoard());
     }
 
     private static void movePiece(String originalCommand) {
         String[] token = originalCommand.split(" ");
-        board.move(Position.fromString(token[1]), Position.fromString(token[2]));
-        chessView.print(board);
+        chessGame.move(Position.fromString(token[1]), Position.fromString(token[2]));
+        chessView.print(chessGame.getBoard());
+    }
+
+    enum GameControlCommand {
+        START, END, MOVE;
+
+
+        public static GameControlCommand valueOfIgnoreCase(String command) {
+            return Arrays.stream(GameControlCommand.values())
+                    .filter(c -> command.startsWith(c.name().toLowerCase()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException());
+        }
     }
 
 

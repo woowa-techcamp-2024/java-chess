@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.exception.InvalidMovePositionException;
 import chess.pieces.Position.Degree;
 
 public class King extends Piece {
@@ -17,7 +18,7 @@ public class King extends Piece {
     protected void additionalCheck(Position src, Position target) {
         Degree degree = degree(src, target);
         if (degree.isOverOneYDegree() || degree.isOverOneXDegree()) {
-            throw new IllegalArgumentException();
+            throw new InvalidMovePositionException();
         }
     }
 }

@@ -1,5 +1,7 @@
 package chess.pieces;
 
+import chess.exception.InvalidMovePositionException;
+
 public class Pawn extends Piece {
     private static final int WHITE_STARTING_RANK_NUMBER = 1;
     private static final int BLACK_STARTING_RANK_NUMBER = 6;
@@ -12,7 +14,7 @@ public class Pawn extends Piece {
 
     @Override
     Direction direction(Position src, Position target) {
-        return Direction.valueOf(degree(src, target));
+        return Direction.valueOfLinear(degree(src, target));
     }
 
     @Override
@@ -21,7 +23,7 @@ public class Pawn extends Piece {
             return;
         }
         if (degree(src, target).isOverOneYDegree()) {
-            throw new IllegalArgumentException();
+            throw new InvalidMovePositionException();
         }
     }
 

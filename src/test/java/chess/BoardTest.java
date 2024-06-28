@@ -9,6 +9,7 @@ import chess.board.Board;
 import chess.calculator.DefaultPointCalculateStrategy;
 import chess.calculator.PointCalculator;
 import chess.calculator.SameFilePawnPointCalculateStrategy;
+import chess.exception.InvalidMovePositionException;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
@@ -324,6 +325,14 @@ class BoardTest {
 
         Position sourcePosition = Position.b2;
 
-        assertThrows(IllegalArgumentException.class, () -> board.move(sourcePosition, sourcePosition));
+        assertThrows(InvalidMovePositionException.class, () -> board.move(sourcePosition, sourcePosition));
+    }
+
+
+    @DisplayName("같은 색의 말이 있는 곳으로 움직일 수 없다.")
+    @Test
+    void canNotMoveToSameColorPiecePosition() {
+        board.initialize();
+        assertThrows(InvalidMovePositionException.class, () -> board.move(Position.b1, Position.c2));
     }
 }

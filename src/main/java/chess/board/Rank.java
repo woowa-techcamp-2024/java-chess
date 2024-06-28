@@ -1,5 +1,6 @@
 package chess.board;
 
+import chess.exception.PositionOutOfBoardException;
 import chess.pieces.Piece;
 import chess.pieces.Piece.Color;
 import chess.pieces.Piece.Type;
@@ -17,7 +18,7 @@ public class Rank {
 
     public Rank(int size, List<Piece> rank) {
         if (size == 0 || rank == null || rank.size() != size) {
-            throw new IllegalArgumentException();
+            throw new PositionOutOfBoardException();
         }
         this.size = size;
         this.pieces = rank;
@@ -45,7 +46,7 @@ public class Rank {
 
     public Piece findPiece(int fileNum) {
         if (fileNum < 0 || fileNum >= size) {
-            throw new IllegalArgumentException();
+            throw new PositionOutOfBoardException();
         }
         return pieces.get(fileNum);
     }
@@ -75,7 +76,7 @@ public class Rank {
 
     public void set(int fileNum, Piece piece) {
         if (fileNum >= size || piece == null) {
-            throw new IllegalArgumentException();
+            throw new PositionOutOfBoardException();
         }
         pieces.set(fileNum, piece);
     }

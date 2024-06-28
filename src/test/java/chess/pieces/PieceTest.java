@@ -62,4 +62,5 @@ class PieceTest {
         assertTrue(whiteQueen.isWhite());
         assertFalse(whiteQueen.isBlack());
     }
+
 }

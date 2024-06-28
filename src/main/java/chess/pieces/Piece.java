@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.exception.InvalidMovePositionException;
 import chess.pieces.Position.Degree;
 import java.util.List;
 import java.util.Objects;
@@ -88,7 +89,7 @@ public abstract class Piece {
         Direction direction = direction(src, target);
 
         if (!directionList.contains(direction)) {
-            throw new IllegalArgumentException();
+            throw new InvalidMovePositionException();
         }
 
         return src.getPath(direction, target);
