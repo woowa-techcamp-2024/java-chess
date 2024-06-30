@@ -17,7 +17,9 @@ public class MoveVerifier {
     public boolean isMovable(Position from, Position to) {
         Piece piece = board.findPiece(from);
 
-        validateNotEmpty(piece);
+        if(!isEmpty(piece)) {
+            return false;
+        }
 
         List<MoveSeq> moveSeqs = piece.getMoveSeqs();
         for(MoveSeq moveSeq: moveSeqs) {
@@ -31,10 +33,12 @@ public class MoveVerifier {
         return false;
     }
 
-    private void validateNotEmpty(Piece piece) {
+    private boolean isEmpty(Piece piece) {
         if (piece.isBlank()) {
-            throw new RuntimeException("시작 자리에 말이 존재하지 않습니다.");
+            return false;
         }
+
+        return true;
     }
 
     private boolean isReachable(Position from, MoveSeq moveSeq, Position to) {

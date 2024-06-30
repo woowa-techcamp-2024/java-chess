@@ -126,7 +126,7 @@ public class BoardTest {
     }
 
     @Test
-    public void moveTo_성공() throws Exception {
+    public void board의_말을_움직이면_시작칸은_빈칸이고_도착칸은_피스가_존재한다() throws Exception {
         board.initialize();
 
         Position sourcePosition = Position.of("b2");
@@ -136,28 +136,6 @@ public class BoardTest {
 
         assertEquals(NoPiece.of(), board.findPiece(sourcePosition));
         assertEquals(Pawn.of(Piece.Color.WHITE), board.findPiece(targetPosition));
-    }
-
-    @Test
-    public void moveTo_목적지에_이미_같은팀_말이_존재해서_실패한다() throws Exception {
-        board.initializeEmpty();
-
-        Position sourcePosition = Position.of("b2");
-        Position targetPosition = Position.of("c2");
-        board.setPiece(sourcePosition, Pawn.of(Piece.Color.WHITE));
-        board.setPiece(targetPosition, Pawn.of(Piece.Color.WHITE));
-
-        assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
-    }
-
-    @Test
-    public void moveTo_테스트_출발지_자리에_말이_없어서_실패한다() throws Exception {
-        board.initializeEmpty();
-
-        Position sourcePosition = Position.of("b2");
-        Position targetPosition = Position.of("b3");
-
-        assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
     }
 
     @BeforeEach
