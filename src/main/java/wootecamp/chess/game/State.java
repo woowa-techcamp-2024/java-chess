@@ -1,5 +1,5 @@
 package wootecamp.chess.game;
 
 public enum State {
-    READY, PLAYING, END;
+    READY, STANDBY_PICKING, STANDBY_MOVING, END;
 }

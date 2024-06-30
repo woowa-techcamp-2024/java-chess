@@ -7,8 +7,8 @@ public class MoveVector {
     private final int dy;
 
     public MoveVector(BoardPosition source, BoardPosition destination) {
-        this.dx = destination.getFilePosition() - source.getFilePosition();
-        this.dy = destination.getRankPosition() - source.getRankPosition();
+        this.dx = destination.getX() - source.getX();
+        this.dy = destination.getY() - source.getY();
     }
 
     public double calculateInclination() {

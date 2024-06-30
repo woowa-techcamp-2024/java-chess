@@ -1,6 +1,10 @@
 package wootecamp.chess.pieces;
 
+import wootecamp.chess.board.Board;
+import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.board.MoveVector;
+
+import java.util.List;
 
 public class EmptyPiece extends Piece {
     public EmptyPiece() {
@@ -8,8 +12,18 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public boolean verifyMovePosition(MoveVector moveVector) {
-        throw new IllegalArgumentException("비어있는 위치입니다.");
+    public List<BoardPosition> findAllMovablePositions(Board board, BoardPosition source) {
+        throw new IllegalArgumentException("해당 칸은 비어있습니다.");
+    }
+
+    @Override
+    public List<MovableDirection> getMovableDirections() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isEmptyPiece() {
+        return true;
     }
 
     @Override

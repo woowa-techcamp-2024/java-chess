@@ -1,12 +1,22 @@
 package wootecamp.chess.pieces;
 
-import wootecamp.chess.board.MoveVector;
+import wootecamp.chess.board.Board;
+import wootecamp.chess.board.BoardPosition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
     public enum Color {
-        WHITE, BLACK, EMPTY
+        WHITE, BLACK, EMPTY;
+
+        public Color getOppositeColor() {
+            if (this == EMPTY) return EMPTY;
+            if (this == WHITE) return BLACK;
+            if (this == BLACK) return WHITE;
+            throw new IllegalArgumentException("잘못된 색상입니다.");
+        }
     }
 
     public enum Type {
@@ -43,7 +53,28 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public abstract boolean verifyMovePosition(MoveVector moveVector);
+    public List<BoardPosition> findAllMovablePositions(Board board, BoardPosition source) {
+        List<MovableDirection> movableDirections = getMovableDirections();
+        List<BoardPosition> movablePositions = new ArrayList<>();
+
+        for (MovableDirection movableDirection : movableDirections) {
+            BoardPosition curPosition = source;
+            for (int i = 0; i < movableDirection.times() && curPosition.canCreateNextPosition(movableDirection.direction()); i++) {
+                curPosition = curPosition.createNextPosition(movableDirection.direction());
+                Piece curPiece = board.findPiece(curPosition);
+                if (!curPiece.isEmptyPiece()) {
+                    break;
+                }
+
+                movablePositions.add(curPosition);
+            }
+        }
+
+        return movablePositions;
+    }
+
+    public abstract List<MovableDirection> getMovableDirections();
+
     public abstract boolean canJump();
 
 
@@ -52,7 +83,7 @@ public abstract class Piece {
     }
 
     public boolean isEmptyPiece() {
-        return isSamePiece(Color.EMPTY, Type.EMPTY);
+        return false;
     }
 
     public boolean isKing(final Color color) {
@@ -73,7 +104,7 @@ public abstract class Piece {
 
     public char getRepresentation() {
         char representation = type.getRepresentation();
-        if(this.color == Color.BLACK) {
+        if (this.color == Color.BLACK) {
             return Character.toUpperCase(representation);
         }
         return representation;

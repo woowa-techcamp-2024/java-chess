@@ -19,9 +19,9 @@ public enum Direction {
     SSE(1, 2),
     SSW(-1, 2),
     EEN(2, 1),
-    EES(2, 1),
+    EES(2, -1),
     WWN(-2, 1),
-    WWS(-2, 1);
+    WWS(-2, -1);
 
 
     private final int x;
@@ -49,12 +49,21 @@ public enum Direction {
     }
 
     public static List<Direction> whitePawnDirection() {
-        return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
+        return Arrays.asList(NORTH);
     }
 
     public static List<Direction> blackPawnDirection() {
-        return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
+        return Arrays.asList(SOUTH);
     }
+
+    public static List<Direction> whitePawnSpecificDirection() {
+        return Arrays.asList(NORTHEAST, NORTHWEST);
+    }
+
+    public static List<Direction> blackPawnSpecificDirection() {
+        return Arrays.asList(SOUTHEAST, SOUTHWEST);
+    }
+
 
     public int getX() {
         return x;
