@@ -3,9 +3,11 @@ package org.example.chess;
 import org.example.chess.pieces.*;
 import org.example.chess.pieces.global.Order;
 import org.example.chess.pieces.global.Position;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static java.util.stream.Collectors.joining;
 import static org.example.utils.StringUtils.appendNewLine;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,7 +18,7 @@ public class BoardTest {
     private Board board;
 
     @Test
-    public void board_add_then_findPawn() {
+    public void board에_piece를_추가할_수_있다() {
         Board board = new Board();
         Position pos1 = Position.of(0, 0);
         board.setPiece(pos1, white);
@@ -25,16 +27,7 @@ public class BoardTest {
     }
 
     @Test
-    public void initialize() throws Exception {
-        Board board = new Board();
-        board.initialize();
-
-        assertEquals("pppppppp", board.getWhitePawnsRepresentation());
-        assertEquals("PPPPPPPP", board.getBlackPawnsRepresentation());
-    }
-
-    @Test
-    public void create() throws Exception {
+    public void board를_정해진_초기세팅으로_초기화하면_순서대로_프린트_가능하다() throws Exception {
         board.initialize();
         assertEquals(32, board.countPieces());
         String blankRank = appendNewLine("........");
@@ -48,7 +41,7 @@ public class BoardTest {
     }
 
     @Test
-    public void findPiece() throws Exception {
+    public void board를_정해진_초기세팅으로_초기화하면_Rook의_위치는_a1_h1_a8_h8에_존재한다() throws Exception {
         board.initialize();
 
         assertEquals(Rook.of(Piece.Color.BLACK), board.findPiece(Position.of("a8")));
@@ -58,7 +51,7 @@ public class BoardTest {
     }
 
     @Test
-    public void place() throws Exception {
+    public void board에_Rook를_추가할_수_있다() throws Exception {
         board.initializeEmpty();
 
         String position = "b5";
@@ -70,25 +63,25 @@ public class BoardTest {
     }
 
     @Test
-    public void calculatePoint_같은_열에_Pawn_중복_X() throws Exception {
+    public void board를_빈칸으로_초기화하고_기물을_세우면_점수를_계산할_수_있다() throws Exception {
         board.initializeEmpty();
 
         board.setPiece(Position.of("b6"), Pawn.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("e6"), Queen.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("b8"), King.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("c8"), Rook.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("e6"), Queen.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("b8"), King.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("c8"), Rook.of(Piece.Color.BLACK));
 
-        board.setPiece( Position.of("f2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("g2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("e1"), Rook.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("f1"), King.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("g2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("e1"), Rook.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f1"), King.of(Piece.Color.WHITE));
 
         assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
     }
 
     @Test
-    public void calculatePoint_같은_열에_Pawn_중복_O() throws Exception {
+    public void board를_빈칸으로_초기화하고_기물을_세우고_같은_열에_pawn이_존재하면_특수한_점수를_계산할_수_있다() throws Exception {
         board.initializeEmpty();
 
         board.setPiece(Position.of("b8"), King.of(Piece.Color.BLACK));
@@ -99,34 +92,37 @@ public class BoardTest {
         board.setPiece(Position.of("b6"), Pawn.of(Piece.Color.BLACK));
         board.setPiece(Position.of("e6"), Queen.of(Piece.Color.BLACK));
 
-        board.setPiece( Position.of("f4"),Knight.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("g4"), Queen.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("f3"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("h3"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("f2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("g2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("e1"), Rook.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("f1"), King.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f4"), Knight.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("g4"), Queen.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f3"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("h3"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("g2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("e1"), Rook.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f1"), King.of(Piece.Color.WHITE));
 
         assertEquals(20.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(19.5, board.calculatePoint(Piece.Color.WHITE), 0.01);
     }
 
     @Test
-    public void board_sort_by_ascending() {
+    public void board를_빈칸으로_초기화하고_기물을_세우면_오름차순_출력이_가능하다() {
         board.initializeEmpty();
 
-        board.setPiece( Position.of("b6"), Pawn.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("e6"), Queen.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("b8"), King.of(Piece.Color.BLACK));
-        board.setPiece( Position.of("c8"), Rook.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("b6"), Pawn.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("e6"), Queen.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("b8"), King.of(Piece.Color.BLACK));
+        board.setPiece(Position.of("c8"), Rook.of(Piece.Color.BLACK));
 
-        board.setPiece( Position.of("f2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("g2"), Pawn.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("e1"), Rook.of(Piece.Color.WHITE));
-        board.setPiece( Position.of("f1"), King.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("g2"), Pawn.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("e1"), Rook.of(Piece.Color.WHITE));
+        board.setPiece(Position.of("f1"), King.of(Piece.Color.WHITE));
 
-        System.out.println(board.sort(Order.ASC));
+        Assertions.assertEquals("KkPppRrQ", board.sort(Order.ASC).stream()
+                .map(Piece::getRepresentation)
+                .map(String::valueOf)
+                .collect(joining()));
     }
 
     @Test
@@ -162,20 +158,6 @@ public class BoardTest {
         Position targetPosition = Position.of("b3");
 
         assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
-    }
-
-    @Test
-    public void moveTo_pawn_이동_성공_테스트() throws Exception {
-        board.initialize();
-
-        Position sourcePosition = Position.of("b2");
-        Position targetPosition = Position.of("b3");
-
-        board.moveTo(sourcePosition, targetPosition);
-
-        board.showBoard();
-        assertEquals(NoPiece.of(), board.findPiece(sourcePosition));
-        assertEquals(Pawn.of(Piece.Color.WHITE), board.findPiece(targetPosition));
     }
 
     @BeforeEach

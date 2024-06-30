@@ -13,10 +13,10 @@ public class BishopTest {
     public void 주어진_bishop_이동은_유효하다() {
         Piece.Color white = Piece.Color.WHITE;
         Position sourcePos = Position.of(2, 3);
-        Position movePosSW = Position.of(2+2, 3-2);
-        Position movePosSE = Position.of(2+2, 3+2);
-        Position movePosNW = Position.of(2-2, 3-2);
-        Position movePosNE = Position.of(2-2, 3+2);
+        Position movePosSW = Position.of(2 + 2, 3 - 2);
+        Position movePosSE = Position.of(2 + 2, 3 + 2);
+        Position movePosNW = Position.of(2 - 2, 3 - 2);
+        Position movePosNE = Position.of(2 - 2, 3 + 2);
 
         board.setPiece(sourcePos, Bishop.of(white));
         board.moveTo(sourcePos, movePosSW);
