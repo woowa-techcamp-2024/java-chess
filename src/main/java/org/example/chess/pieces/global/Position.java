@@ -45,9 +45,13 @@ public class Position {
     }
 
     public void validate(int row, int col) throws IllegalArgumentException {
-        if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+        if (isOutOfRange(row, col)) {
             throw new IllegalArgumentException(String.format("%s %s 잘못된 위치 인자입니다.", row, col));
         }
+    }
+
+    private static boolean isOutOfRange(int row, int col) {
+        return row < 0 || row >= 8 || col < 0 || col >= 8;
     }
 
     public Position copy() {
