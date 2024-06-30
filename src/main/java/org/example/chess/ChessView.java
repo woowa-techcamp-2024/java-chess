@@ -13,26 +13,9 @@ public class ChessView {
         this.board = board;
     }
 
-    public int countPieces() {
-        return board.countPieces();
-    }
-
-    public Piece findPiece(Position position) {
-        return board.findPiece(position);
-    }
-
-//    //TODO representation 리팩토링
-//    public String getRepresentation() {
-//        return board.g();
-//    }
-
     public String showBoard() {
         return board.showBoard();
     }
-
-//    public double calculatePoint(Piece.Color color) {
-//        return board.calculatePoint(color);
-//    }
 
     public List<Piece> showSortedOrder(Order order) {
         return board.sort(order);

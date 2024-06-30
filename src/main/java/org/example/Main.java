@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.chess.Board;
-import org.example.chess.Chess;
-import org.example.chess.ChessGame;
-import org.example.chess.ChessView;
+import org.example.chess.*;
 
 import java.util.Scanner;
 
@@ -23,7 +20,7 @@ public class Main {
 
                 Board board = new Board();
                 board.initialize();
-                chess = new Chess(new ChessGame(board), new ChessView(board));
+                chess = new Chess(new MoveActioner(board), new ChessView(board), new MoveVerifier(board));
             } else if (input.equals("end")) {
                 break;
             } else if (input.startsWith("move") && chess != null) {
