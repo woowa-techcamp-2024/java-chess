@@ -9,12 +9,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveVerifierTest {
     private Board board;
     private MoveVerifier moveVerifier;
+    private Piece.Color white;
 
     @Nested
     class 빈_보드가_주어졌을때 {
@@ -37,7 +40,20 @@ class MoveVerifierTest {
             board.setPiece(sourcePosition, Pawn.of(Piece.Color.WHITE));
             board.setPiece(targetPosition, Pawn.of(Piece.Color.WHITE));
 
-            assertThrows(RuntimeException.class, () -> board.moveTo(sourcePosition, targetPosition));
+            assertThrows(RuntimeException.class, () -> moveVerifier.isMovable(sourcePosition, targetPosition));
+        }
+
+        @Test
+        public void 지나가는_경로에_장애물이_존재하면_실패한다() {
+            board.initializeEmpty();
+
+            Position sourcePosition = Position.of("b2");
+            Position targetPosition = Position.of("d4");
+            Position obstaclePosition = Position.of("c3");
+            board.setPiece(sourcePosition, Bishop.of(white));
+            board.setPiece(obstaclePosition, Pawn.of(white));
+
+            assertEquals(false, moveVerifier.isMovable(sourcePosition, targetPosition));
         }
     }
 
@@ -46,64 +62,81 @@ class MoveVerifierTest {
         @Test
         public void pawn은_위로_한칸_움직일수있다() {
             Position sourcePosition = Position.of("b2");
-            board.setPiece(sourcePosition, Pawn.of(Piece.Color.WHITE));
+            board.setPiece(sourcePosition, Pawn.of(white));
 
             Position targetPosition = Position.of("b3");
-            board.moveTo(sourcePosition, targetPosition);
 
-            board.showBoard();
-            assertEquals(NoPiece.of(), board.findPiece(sourcePosition));
-            assertEquals(Pawn.of(Piece.Color.WHITE), board.findPiece(targetPosition));
+            Assertions.assertEquals(true, moveVerifier.isMovable(sourcePosition, targetPosition));
         }
 
         @Test
         public void pawn은_첫_이동에_대해서는_위로_두칸_움직일수있다() {
             Position sourcePosition = Position.of("b2");
-            board.setPiece(sourcePosition, Pawn.of(Piece.Color.WHITE));
+            board.setPiece(sourcePosition, Pawn.of(white));
 
             Position targetPosition = Position.of("b4");
-            board.moveTo(sourcePosition, targetPosition);
 
-            board.showBoard();
-            assertEquals(NoPiece.of(), board.findPiece(sourcePosition));
-            assertEquals(Pawn.of(Piece.Color.WHITE), board.findPiece(targetPosition));
+            Assertions.assertEquals(true, moveVerifier.isMovable(sourcePosition, targetPosition));
         }
     }
 
     @Nested
     class bishop이_주어졌을_때 {
         @Test
-        public void bishop은_북동_북서_남동_남서로_이동할수있다() {
-            Piece.Color white = Piece.Color.WHITE;
+        public void bishop은_북동로_이동할수있다() {
             Position sourcePos = Position.of(2, 3);
-            Position movePosSW = Position.of(2 + 2, 3 - 2);
-            Position movePosSE = Position.of(2 + 2, 3 + 2);
-            Position movePosNW = Position.of(2 - 2, 3 - 2);
             Position movePosNE = Position.of(2 - 2, 3 + 2);
 
             board.setPiece(sourcePos, Bishop.of(white));
-            board.moveTo(sourcePos, movePosSW);
-            Assertions.assertEquals(Bishop.of(white), board.findPiece(movePosSW));
 
-            board.setPiece(sourcePos, Bishop.of(white));
-            board.moveTo(sourcePos, movePosSE);
-            Assertions.assertEquals(Bishop.of(white), board.findPiece(movePosSE));
-
-            board.setPiece(sourcePos, Bishop.of(white));
-            board.moveTo(sourcePos, movePosNW);
-            Assertions.assertEquals(Bishop.of(white), board.findPiece(movePosNW));
-
-            board.setPiece(sourcePos, Bishop.of(white));
-            board.moveTo(sourcePos, movePosNE);
-            Assertions.assertEquals(Bishop.of(white), board.findPiece(movePosNE));
+            moveVerifier.isMovable(sourcePos, movePosNE);
         }
 
+        @Test
+        public void bishop은_북서로_이동할수있다() {
+            Position sourcePos = Position.of(2, 3);
+            Position movePosNW = Position.of(2 - 2, 3 - 2);
+
+            board.setPiece(sourcePos, Bishop.of(white));
+
+            moveVerifier.isMovable(sourcePos, movePosNW);
+        }
+        @Test
+        public void bishop은_남동로_이동할수있다() {
+            Position sourcePos = Position.of(2, 3);
+            Position movePosSE = Position.of(2 + 2, 3 + 2);
+
+            board.setPiece(sourcePos, Bishop.of(white));
+
+            moveVerifier.isMovable(sourcePos, movePosSE);
+        }
+        @Test
+        public void bishop은_남서로_이동할수있다() {
+            Position sourcePos = Position.of(2, 3);
+            Position movePosSW = Position.of(2 + 2, 3 - 2);
+
+            board.setPiece(sourcePos, Bishop.of(white));
+            moveVerifier.isMovable(sourcePos, movePosSW);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "3, 3, 4, 5",
+                "2, 7, 3, 3"
+                })
+        public void 이외의_이동은_불가하다(int r1, int c1, int r2, int c2) {
+            Position sourcePos = Position.of(r1, c1);
+            Position movePos = Position.of(r2, c2);
+
+            Assertions.assertEquals(false, moveVerifier.isMovable(sourcePos, movePos));
+        }
     }
 
     @BeforeEach()
     void setup() {
         board = new Board();
         moveVerifier = new MoveVerifier(board);
+        white = Piece.Color.WHITE;
         board.initializeEmpty();
     }
 }
