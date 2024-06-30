@@ -18,62 +18,14 @@ public class Board {
     }
 
     public void moveTo(Position from, Position to) {
-        Piece piece = findPiece(from);
+        Piece piece = this.findPiece(from);
         Rank fromRank = ranks.get(from.getRow());
         Rank toRank = ranks.get(to.getRow());
 
-        List<MoveSeq> moveSeqs = piece.getMoveSeqs();
-        validateNotEmpty(piece);
-
-        for(MoveSeq moveSeq: moveSeqs) {
-            if (isReachable(from, moveSeq, to)) {
-                fromRank.emptyPiece(from.getCol());
-                toRank.setPiece(to.getCol(), piece);
-
-                System.out.println("move success with "+ from + " -> " + to);
-                return;
-            }
-        }
-
-        throw new RuntimeException("move fail with "+ from + " -> " + to);
+        fromRank.emptyPiece(from.getCol());
+        toRank.setPiece(to.getCol(), piece);
     }
 
-    private boolean isReachable(Position from, MoveSeq moveSeq, Position to) {
-        Position cur = from.copy();
-        for (Move move : moveSeq.getMoves()) {
-            if (!cur.movable(move.getDir()) || !isOnceMovable(cur, move)) {
-                return false;
-            }
-
-            cur = cur.move(move.getDir());
-            if (cur.equals(to)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isOnceMovable(Position from, Move move) throws RuntimeException {
-        Piece startPiece = findPiece(from);
-        Piece destPiece = findPiece(from.move(move.getDir()));
-
-        if (destPiece.getName() == Piece.Type.NO_PIECE) {
-            return true;
-        }
-
-        return move.isJumpable() || startPiece.getColor() != destPiece.getColor();
-    }
-
-    private void validateNotEmpty(Piece piece) {
-        if (piece.isBlank()) {
-            throw new RuntimeException("시작 자리에 말이 존재하지 않습니다.");
-        }
-    }
-
-    public Rank getUnmodifiableRank(int idx) {
-        return ranks.get(idx);
-    }
 
     public void setPiece(Position position, Piece piece) {
         ranks.get(position.getRow()).setPiece(position.getCol(), piece);
@@ -166,7 +118,7 @@ public class Board {
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(colIdx -> colIdx, Collectors.counting()));
 
-        for (Integer colIdx: colIdxMap.keySet()) {
+        for (Integer colIdx : colIdxMap.keySet()) {
             long count = colIdxMap.get(colIdx);
             if (count >= 2) {
                 score += count * PAWN_DISCOUNT_RATE;
