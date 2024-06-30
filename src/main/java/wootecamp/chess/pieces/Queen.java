@@ -1,5 +1,6 @@
 package wootecamp.chess.pieces;
 
+import wootecamp.chess.board.Direction;
 import wootecamp.chess.board.MoveVector;
 
 import java.util.Optional;
@@ -11,8 +12,7 @@ public class Queen extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        Optional<Direction> direction = Direction.determineDirection(moveVector);
-        return direction.filter(it -> Direction.everyDirection().contains(it)).isPresent();
+        return moveVector.isLinearVector() || moveVector.isDiagonalVector();
     }
 
     @Override

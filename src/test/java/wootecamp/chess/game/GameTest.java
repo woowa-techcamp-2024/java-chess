@@ -27,6 +27,29 @@ public class GameTest {
         game = new Game(board);
     }
 
+    @Nested
+    class 게임의_상태가 {
+        @Test
+        void READY면_start_할_수_있다() {
+            assertThat(1).isZero();
+        }
+
+        @Test
+        void READY면_다른_명령은_할_수_없다() {
+            assertThat(1).isZero();
+        }
+
+        @Test
+        void PLAYING이면_move_할_수_있다() {
+            assertThat(1).isZero();
+        }
+
+        @Test
+        void PLAYING이면_end_할_수_있다() {
+            assertThat(1).isZero();
+        }
+    }
+
     static Stream<Arguments> provideValidMoves() {
         return Stream.of(
                 Arguments.of("e2", "e4"), // Pawn move
@@ -72,7 +95,7 @@ public class GameTest {
         Piece sourcePiece = board.findPiece(sourcePos);
         Piece targetPiece = board.findPiece(targetPos);
 
-        assertThatThrownBy(() -> game.move(sourcePos, targetPos)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> game.move(sourcePos, targetPos)).isInstanceOf(IllegalArgumentException.class);
         assertThat(board.findPiece(sourcePos)).isEqualTo(sourcePiece);
         assertThat(board.findPiece(targetPos)).isEqualTo(targetPiece);
     }

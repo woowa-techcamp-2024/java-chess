@@ -9,7 +9,7 @@ public class King extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        return moveVector.getSquareDistance() <= 2;
+        return moveVector.calculateSquareDistance() <= 2;
     }
 
     @Override

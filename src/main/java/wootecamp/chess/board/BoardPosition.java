@@ -1,21 +1,21 @@
 package wootecamp.chess.board;
 
-import wootecamp.chess.pieces.Direction;
-
 import java.util.Objects;
 
 public class BoardPosition {
     private static final int BOARD_SIZE = 8;
 
+    private final char rank;
+    private final char file;
     private final int rankPosition;
     private final int filePosition;
 
     public BoardPosition(final String position) {
-        char rankPosition = position.charAt(1);
-        char filePosition = position.charAt(0);
+        this.rank = position.charAt(1);
+        this.file = position.charAt(0);
 
-        int rankIndex = parseRankToIndex(rankPosition);
-        int fileIndex = parseFileToIndex(filePosition);
+        int rankIndex = parseRankToIndex(rank);
+        int fileIndex = parseFileToIndex(file);
 
         validation(rankIndex, fileIndex);
 
@@ -25,24 +25,45 @@ public class BoardPosition {
 
     private BoardPosition(int filePosition, int rankPosition) {
         validation(rankPosition, filePosition);
+
+        this.rank = parseIndexToRank(rankPosition);
+        this.file = parseIndexToFile(filePosition);
         this.rankPosition = rankPosition;
         this.filePosition = filePosition;
     }
 
     private void validation(int filePosition, int rankPosition) {
         if (filePosition < 0 || filePosition >= BOARD_SIZE || rankPosition < 0 || rankPosition >= BOARD_SIZE) {
-            throw new RuntimeException("보드를 벗어났습니다.");
+            throw new IllegalArgumentException("보드를 벗어났습니다.");
         }
     }
 
-    private int parseRankToIndex(final char rankPosition) {
+    private static int parseRankToIndex(final char rank) {
         final char standardChar = '1';
-        return rankPosition - standardChar;
+        return rank - standardChar;
     }
 
-    private int parseFileToIndex(final char filePosition) {
+    private static int parseFileToIndex(final char file) {
         final char standardChar = 'a';
-        return filePosition - standardChar;
+        return file - standardChar;
+    }
+
+    private static char parseIndexToRank(final int rankIndex) {
+        final char standardChar = '1';
+        return (char) (rankIndex + standardChar);
+    }
+
+    private static char parseIndexToFile(final int fileIndex) {
+        final char standardChar = 'a';
+        return (char) (fileIndex + standardChar);
+    }
+
+    public char getRank() {
+        return rank;
+    }
+
+    public char getFile() {
+        return file;
     }
 
     public int getRankPosition() {

@@ -3,7 +3,7 @@ package wootecamp.chess.game;
 import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.board.MoveVector;
-import wootecamp.chess.pieces.Direction;
+import wootecamp.chess.board.Direction;
 import wootecamp.chess.pieces.Piece;
 
 public class Game {
@@ -23,7 +23,7 @@ public class Game {
     public void move(BoardPosition source, BoardPosition target) {
         Piece piece = board.findPiece(source);
         if (piece.getColor() != curTurnColor) {
-            throw new RuntimeException("차례가 아닙니다.");
+            throw new IllegalArgumentException("차례가 아닙니다.");
         }
 
         if (verifyMove(source, target, piece)) {
@@ -41,7 +41,7 @@ public class Game {
         }
         MoveVector moveVector = new MoveVector(source, target);
 
-        Direction direction = Direction.determineDirection(moveVector).get();
+        Direction direction = moveVector.findDirection().get();
         BoardPosition curPosition = source.createNextPosition(direction);
 
         while (!curPosition.equals(target)) {
@@ -79,10 +79,25 @@ public class Game {
         }
 
         MoveVector moveVector = new MoveVector(source, target);
-        Direction direction = Direction.determineDirection(moveVector).get();
+        Direction direction = moveVector.findDirection().get();
+
+        Piece targetPiece = board.findPiece(target);
+
+        if (Direction.linearDirection().contains(direction)) {
+            if (!targetPiece.isEmptyPiece()) {
+                return false;
+            }
+            if (moveVector.calculateSquareDistance() == 4) {
+                if (piece.getColor() == Piece.Color.WHITE && source.getRank() != '2') {
+                    return false;
+                }
+                if (piece.getColor() == Piece.Color.BLACK && source.getRank() != '7') {
+                    return false;
+                }
+            }
+        }
 
         if (Direction.diagonalDirection().contains(direction)) {
-            Piece targetPiece = board.findPiece(target);
             Piece.Color color = piece.getColor() == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
             return targetPiece.isPawn(color);
         }
@@ -95,5 +110,9 @@ public class Game {
 
     public boolean isEnded() {
         return this.state == State.END;
+    }
+
+    public String showBoard() {
+        return board.showBoard();
     }
 }

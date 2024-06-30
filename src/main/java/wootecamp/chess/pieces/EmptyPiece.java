@@ -9,7 +9,7 @@ public class EmptyPiece extends Piece {
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        throw new RuntimeException("비어있는 위치입니다.");
+        throw new IllegalArgumentException("비어있는 위치입니다.");
     }
 
     @Override

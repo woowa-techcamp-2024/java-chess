@@ -12,7 +12,7 @@ public class ConsoleGameClient {
 
     public static void main(String[] args) {
         Board board = new Board();
-        Game game = new Game(board);
+        game = new Game(board);
 
         while (!game.isEnded()) {
             try {
@@ -28,18 +28,27 @@ public class ConsoleGameClient {
     private static void handleRequest(final String request) {
         if (request.equals("start")) {
             game.start();
+            System.out.println(game.showBoard());
+            return;
         }
         if (request.startsWith("move")) {
             move(request);
+            System.out.println(game.showBoard());
+            return;
         }
         if (request.equals("end")) {
             game.end();
+            return;
         }
         throw new IllegalArgumentException(request + "는 알 수 없는 요청입니다.");
     }
 
     private static void move(final String request) {
         String[] command = request.split(" ");
+
+        if(command.length != 3) {
+            throw new IllegalArgumentException("잘못된 이동 명령입니다.");
+        }
 
         BoardPosition source = new BoardPosition(command[1]);
         BoardPosition destination = new BoardPosition(command[2]);

@@ -1,49 +1,32 @@
 package wootecamp.chess.pieces;
 
+import wootecamp.chess.board.Direction;
 import wootecamp.chess.board.MoveVector;
 
+import java.util.List;
+
 public class Pawn extends Piece {
+    private static final List<Integer> VALID_SQUARE_DISTANCES = List.of(1, 2, 4);
+
     public Pawn(Color color) {
         super(color, Type.PAWN);
     }
 
     @Override
     public boolean verifyMovePosition(MoveVector moveVector) {
-        return Direction.determineDirection(moveVector).filter(it -> {
-                    if (color == Color.WHITE) {
-                        return verifyWhiteMovePosition(moveVector, it);
-                    }
-                    if (color == Color.BLACK) {
-                        return verifyBlackMovePosition(moveVector, it);
-                    }
-                    return false;
-                }
-        ).isPresent();
+        final Direction direction = moveVector.findDirection().orElseThrow(
+                () -> new IllegalArgumentException("정의되지 않은 방향입니다.")
+        );
+
+        final List<Direction> validDirections = color == Color.WHITE ?
+                Direction.whitePawnDirection() : Direction.blackPawnDirection();
+
+        return validDirections.contains(direction)
+                && VALID_SQUARE_DISTANCES.contains(moveVector.calculateSquareDistance());
     }
 
     @Override
     public boolean canJump() {
-        return false;
-    }
-
-    //TODO: 더 가독성이 좋아질 수 있도록 수정
-    private boolean verifyWhiteMovePosition(MoveVector moveVector, Direction direction) {
-        if (direction == Direction.SOUTH && moveVector.getSquareDistance() <= 4) {
-            return true;
-        }
-        if (direction == Direction.SOUTHWEST || direction == Direction.SOUTHEAST && moveVector.getSquareDistance() == 2) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean verifyBlackMovePosition(MoveVector moveVector, Direction direction) {
-        if (direction == Direction.NORTH && moveVector.getSquareDistance() <= 4) {
-            return true;
-        }
-        if (direction == Direction.NORTHWEST || direction == Direction.NORTHEAST && moveVector.getSquareDistance() == 2) {
-            return true;
-        }
         return false;
     }
 }
