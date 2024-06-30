@@ -12,9 +12,10 @@ import static wootecamp.chess.util.StringUtils.appendNewline;
 public class Board {
     public static int BOARD_SIZE = 8;
 
-    private List<Rank> board = new ArrayList<>();
+    private List<Rank> board = new ArrayList<>(BOARD_SIZE);
 
     public void initialize() {
+        board = new ArrayList<>(BOARD_SIZE);
         board.add(Rank.createInitialRank1());
         board.add(Rank.createInitialRank2());
 
@@ -29,6 +30,7 @@ public class Board {
 
 
     public void initializeEmpty() {
+        board = new ArrayList<>(BOARD_SIZE);
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.add(Rank.createEmptyRank());
         }

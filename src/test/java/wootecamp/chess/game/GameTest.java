@@ -2,6 +2,8 @@ package wootecamp.chess.game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,35 +11,20 @@ import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.pieces.Piece;
 import wootecamp.chess.pieces.PieceFactory;
+
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class GameTest {
     private Board board;
-    private GameInputManager gameInputManager;
-    private TestGameOutputManager gameOutputManager;
     private Game game;
-
-    private static class TestGameOutputManager implements GameOutputManager {
-        int showErrorCall = 0;
-        @Override
-        public void showBoard(Board board) {
-
-        }
-
-        @Override
-        public void showError(String message) {
-            showErrorCall++;
-        }
-    }
 
     @BeforeEach
     void init() {
         board = new Board();
-        gameInputManager = new ConsoleGameInputManager();
-        gameOutputManager = new TestGameOutputManager();
-        game = new Game(gameInputManager, gameOutputManager, board);
+        game = new Game(board);
     }
 
     static Stream<Arguments> provideValidMoves() {
@@ -84,9 +71,8 @@ public class GameTest {
 
         Piece sourcePiece = board.findPiece(sourcePos);
         Piece targetPiece = board.findPiece(targetPos);
-        game.move(sourcePos, targetPos);
 
-        assertThat(gameOutputManager.showErrorCall).isEqualTo(1);
+        assertThatThrownBy(() -> game.move(sourcePos, targetPos)).isInstanceOf(RuntimeException.class);
         assertThat(board.findPiece(sourcePos)).isEqualTo(sourcePiece);
         assertThat(board.findPiece(targetPos)).isEqualTo(targetPiece);
     }

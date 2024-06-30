@@ -3,54 +3,36 @@ package wootecamp.chess.game;
 import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
 import wootecamp.chess.board.MoveVector;
-import wootecamp.chess.game.state.EndState;
-import wootecamp.chess.game.state.PlayingState;
-import wootecamp.chess.game.state.ReadyState;
-import wootecamp.chess.game.state.State;
 import wootecamp.chess.pieces.Direction;
 import wootecamp.chess.pieces.Piece;
 
 public class Game {
-    private final GameInputManager gameInputManager;
-    private final GameOutputManager gameOutputManager;
     private final Board board;
 
-
-    private State state = new ReadyState(this);
     private Piece.Color curTurnColor = Piece.Color.WHITE;
+    private State state = State.READY;
 
-    public Game(GameInputManager gameInputManager, GameOutputManager gameOutputManager, Board board) {
-        this.gameInputManager = gameInputManager;
-        this.gameOutputManager = gameOutputManager;
+    public Game(Board board) {
         this.board = board;
-    }
-
-    public void changeState(State state) {
-        this.state = state;
     }
 
     public void start() {
         board.initialize();
-        gameOutputManager.showBoard(board);
     }
 
     public void move(BoardPosition source, BoardPosition target) {
         Piece piece = board.findPiece(source);
         if (piece.getColor() != curTurnColor) {
-            gameOutputManager.showError("차례가 아닙니다.");
-            gameOutputManager.showBoard(board);
-            return;
+            throw new RuntimeException("차례가 아닙니다.");
         }
 
         if (verifyMove(source, target, piece)) {
             board.move(source, target);
             curTurnColor = curTurnColor == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
-            gameOutputManager.showBoard(board);
             return;
         }
 
-        gameOutputManager.showError("이동할 수 없는 위치입니다.");
-        gameOutputManager.showBoard(board);
+        throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
     }
 
     private boolean verifyJumpMove(BoardPosition source, BoardPosition target, Piece piece) {
@@ -107,20 +89,11 @@ public class Game {
         return true;
     }
 
-    public boolean isEnd() {
-        return state instanceof EndState;
+    public void end() {
+        this.state = State.END;
     }
 
-    public void receiveRequest() {
-        //TODO : input을 어떻게 처리할 지 구조 개선해야함
-        try {
-            String request = gameInputManager.receiveRequest();
-            state.handleRequest(request);
-        } catch (RuntimeException e) {
-            gameOutputManager.showError(e.getMessage());
-            if(state instanceof PlayingState) {
-                gameOutputManager.showBoard(board);
-            }
-        }
+    public boolean isEnded() {
+        return this.state == State.END;
     }
 }

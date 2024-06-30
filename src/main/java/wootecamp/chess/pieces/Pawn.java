@@ -26,6 +26,7 @@ public class Pawn extends Piece {
         return false;
     }
 
+    //TODO: 더 가독성이 좋아질 수 있도록 수정
     private boolean verifyWhiteMovePosition(MoveVector moveVector, Direction direction) {
         if (direction == Direction.SOUTH && moveVector.getSquareDistance() <= 4) {
             return true;
