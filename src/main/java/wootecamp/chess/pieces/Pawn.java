@@ -6,7 +6,6 @@ import wootecamp.chess.board.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Pawn extends Piece {
     public Pawn(Color color) {
@@ -58,7 +57,7 @@ public class Pawn extends Piece {
             }
 
             BoardPosition curPosition = source.createNextPosition(direction.direction());
-            if(board.findPiece(curPosition).isPawn(color.getOppositeColor())) {
+            if(board.findPiece(curPosition).getColor() == color.getOppositeColor()) {
                 movablePositions.add(curPosition);
             }
         }
