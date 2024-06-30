@@ -54,9 +54,11 @@ public class Game {
         Piece piece = board.findPiece(selectedPosition);
         List<BoardPosition> movablePositions = piece.findAllMovablePositions(board, selectedPosition);
 
-        if (movablePositions.contains(target)) {
-            board.move(selectedPosition, target);
+        if (!movablePositions.contains(target)) {
+            throw new IllegalArgumentException("이동할 수 있는 위치가 아닙니다.");
         }
+
+        board.move(selectedPosition, target);
 
         selectedPosition = null;
         state = State.STANDBY_PICKING;
@@ -75,5 +77,13 @@ public class Game {
 
     public String showBoard() {
         return board.showBoard();
+    }
+
+    public Piece findPiece(BoardPosition boardPosition) {
+        return board.findPiece(boardPosition);
+    }
+
+    public State getState() {
+        return state;
     }
 }
