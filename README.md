@@ -4,7 +4,11 @@
 
 ## 프로젝트 환경
 - Java 17
-- Main 메소드로 콘솔에서 실행
+- 많은 오류와 부족한 점을 수정 중입니다..
+- ConsoleGameClient의 main 메서드로 콘솔에서 실행
+  - 시작 : start
+  - 진행 : "pick a2" 명령으로 이동하고자 하는 기물 선택, "move a4" 명령으로 선택된 기물 이동 
+- SwingGameClient의 main 메서드로 GUI로 실행
 
 ## 주의할 점
 
