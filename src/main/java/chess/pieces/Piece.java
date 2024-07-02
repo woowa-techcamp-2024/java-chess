@@ -13,6 +13,8 @@ public abstract class Piece {
     // 주변과의 상호작용은 ChessGame에서 담당하도록 변경
     public abstract boolean verifyMoveCoordinate(Coordinate from, Coordinate to);
 
+    public abstract List<Coordinate> canMoveCoordinate(Coordinate from);
+
     public final Color getColor() {
         return color;
     }
@@ -121,6 +123,14 @@ public abstract class Piece {
 
         public int getYDegree() {
             return yDegree;
+        }
+
+        public static List<Direction> linearDirection() {
+            return Arrays.asList(NORTH, EAST, SOUTH, WEST);
+        }
+
+        public static List<Direction> diagonalDirection() {
+            return Arrays.asList(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST);
         }
 
         public static List<Direction> everyDirection() {

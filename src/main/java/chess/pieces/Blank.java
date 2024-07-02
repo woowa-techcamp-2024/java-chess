@@ -2,11 +2,18 @@ package chess.pieces;
 
 import chess.board.Coordinate;
 
+import java.util.List;
+
 public class Blank extends Piece {
 
     @Override
     public boolean verifyMoveCoordinate(Coordinate from, Coordinate to) {
         return false;
+    }
+
+    @Override
+    public List<Coordinate> canMoveCoordinate(Coordinate from) {
+        return List.of();
     }
 
     public static Blank createBlank() {
