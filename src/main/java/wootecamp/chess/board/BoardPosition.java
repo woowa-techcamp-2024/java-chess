@@ -1,60 +1,97 @@
 package wootecamp.chess.board;
 
-import wootecamp.chess.pieces.Direction;
-
 import java.util.Objects;
+import java.util.Optional;
 
 public class BoardPosition {
     private static final int BOARD_SIZE = 8;
 
-    private final int rankPosition;
-    private final int filePosition;
+    private final char rank;
+    private final char file;
+    private final int y;
+    private final int x;
 
     public BoardPosition(final String position) {
-        char rankPosition = position.charAt(1);
-        char filePosition = position.charAt(0);
+        this.rank = position.charAt(1);
+        this.file = position.charAt(0);
 
-        int rankIndex = parseRankToIndex(rankPosition);
-        int fileIndex = parseFileToIndex(filePosition);
+        int rankIndex = parseRankToIndex(rank);
+        int fileIndex = parseFileToIndex(file);
 
-        validation(rankIndex, fileIndex);
+        this.x = fileIndex;
+        this.y = rankIndex;
 
-        this.rankPosition = rankIndex;
-        this.filePosition = fileIndex;
+        validate(x, y);
     }
 
-    private BoardPosition(int filePosition, int rankPosition) {
-        validation(rankPosition, filePosition);
-        this.rankPosition = rankPosition;
-        this.filePosition = filePosition;
+    public BoardPosition(int x, int y) {
+        validate(x, y);
+
+        this.rank = parseIndexToRank(y);
+        this.file = parseIndexToFile(x);
+        this.x = x;
+        this.y = y;
     }
 
-    private void validation(int filePosition, int rankPosition) {
-        if (filePosition < 0 || filePosition >= BOARD_SIZE || rankPosition < 0 || rankPosition >= BOARD_SIZE) {
-            throw new RuntimeException("보드를 벗어났습니다.");
+    private void validate(int x, int y) {
+        if (!validatePosition(x, y)) {
+            throw new IllegalArgumentException("보드를 벗어났습니다.");
         }
     }
 
-    private int parseRankToIndex(final char rankPosition) {
+    public boolean validatePosition(int x, int y) {
+        return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
+    }
+
+    private static int parseRankToIndex(final char rank) {
         final char standardChar = '1';
-        return rankPosition - standardChar;
+        return rank - standardChar;
     }
 
-    private int parseFileToIndex(final char filePosition) {
+    private static int parseFileToIndex(final char file) {
         final char standardChar = 'a';
-        return filePosition - standardChar;
+        return file - standardChar;
     }
 
-    public int getRankPosition() {
-        return rankPosition;
+    private static char parseIndexToRank(final int rankIndex) {
+        final char standardChar = '1';
+        return (char) (rankIndex + standardChar);
     }
 
-    public int getFilePosition() {
-        return filePosition;
+    private static char parseIndexToFile(final int fileIndex) {
+        final char standardChar = 'a';
+        return (char) (fileIndex + standardChar);
+    }
+
+    public char getRank() {
+        return rank;
+    }
+
+    public char getFile() {
+        return file;
+    }
+
+    public String showPosition() {
+        return String.valueOf(file) + rank;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public boolean canCreateNextPosition(final Direction direction) {
+        int nextX = x + direction.getX();
+        int nextY = y + direction.getY();
+
+        return validatePosition(nextX, nextY);
     }
 
     public BoardPosition createNextPosition(Direction direction) {
-        return new BoardPosition(this.filePosition + direction.getX(), this.rankPosition + direction.getY());
+        return new BoardPosition(this.x + direction.getX(),this.y + direction.getY());
     }
 
     @Override
@@ -62,11 +99,11 @@ public class BoardPosition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoardPosition that = (BoardPosition) o;
-        return rankPosition == that.rankPosition && filePosition == that.filePosition;
+        return y == that.y && x == that.x;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rankPosition, filePosition);
+        return Objects.hash(y, x);
     }
 }

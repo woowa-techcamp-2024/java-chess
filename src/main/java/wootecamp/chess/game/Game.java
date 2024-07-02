@@ -2,124 +2,88 @@ package wootecamp.chess.game;
 
 import wootecamp.chess.board.Board;
 import wootecamp.chess.board.BoardPosition;
-import wootecamp.chess.board.MoveVector;
-import wootecamp.chess.game.state.EndState;
-import wootecamp.chess.game.state.PlayingState;
-import wootecamp.chess.game.state.ReadyState;
-import wootecamp.chess.game.state.State;
-import wootecamp.chess.pieces.Direction;
 import wootecamp.chess.pieces.Piece;
 
+import java.util.List;
+
 public class Game {
-    private final GameInputManager gameInputManager;
-    private final GameOutputManager gameOutputManager;
     private final Board board;
 
-
-    private State state = new ReadyState(this);
     private Piece.Color curTurnColor = Piece.Color.WHITE;
+    private State state = State.READY;
+    private BoardPosition selectedPosition = null;
 
-    public Game(GameInputManager gameInputManager, GameOutputManager gameOutputManager, Board board) {
-        this.gameInputManager = gameInputManager;
-        this.gameOutputManager = gameOutputManager;
+    public Game(Board board) {
         this.board = board;
-    }
-
-    public void changeState(State state) {
-        this.state = state;
     }
 
     public void start() {
         board.initialize();
-        gameOutputManager.showBoard(board);
+        state = State.STANDBY_PICKING;
     }
 
-    public void move(BoardPosition source, BoardPosition target) {
+    public List<BoardPosition> pick(BoardPosition source) {
+        if (state != State.STANDBY_PICKING && state != State.STANDBY_MOVING) {
+            throw new IllegalArgumentException("기물 선택을 할 수 없는 상태입니다.");
+        }
+
         Piece piece = board.findPiece(source);
+        if (piece.isEmptyPiece()) {
+            throw new IllegalArgumentException("해당 칸에는 기물이 존재하지 않습니다.");
+        }
+
         if (piece.getColor() != curTurnColor) {
-            gameOutputManager.showError("차례가 아닙니다.");
-            gameOutputManager.showBoard(board);
-            return;
+            throw new IllegalArgumentException("차례가 아닙니다.");
         }
 
-        if (verifyMove(source, target, piece)) {
-            board.move(source, target);
-            gameOutputManager.showBoard(board);
-            return;
+        List<BoardPosition> movablePositions = piece.findAllMovablePositions(board, source);
+        if (movablePositions.isEmpty()) {
+            throw new IllegalArgumentException("해당 기물이 이동할 수 있는 위치가 없습니다.");
         }
 
-        gameOutputManager.showError("이동할 수 없는 위치입니다.");
-        gameOutputManager.showBoard(board);
+        selectedPosition = source;
+        state = State.STANDBY_MOVING;
+        return movablePositions;
     }
 
-    private boolean verifyJumpMove(BoardPosition source, BoardPosition target, Piece piece) {
-        if (piece.canJump()) {
-            return true;
-        }
-        MoveVector moveVector = new MoveVector(source, target);
-
-        Direction direction = Direction.determineDirection(moveVector).get();
-        BoardPosition curPosition = source.createNextPosition(direction);
-
-        while (!curPosition.equals(target)) {
-            if (!board.findPiece(curPosition).isEmptyPiece()) {
-                return false;
-            }
-            curPosition = source.createNextPosition(direction);
+    public void move(BoardPosition target) {
+        if (state != State.STANDBY_MOVING) {
+            throw new IllegalArgumentException("기물을 먼저 선택하세요.");
         }
 
-        return true;
-    }
+        Piece piece = board.findPiece(selectedPosition);
+        List<BoardPosition> movablePositions = piece.findAllMovablePositions(board, selectedPosition);
 
+        if (!movablePositions.contains(target)) {
+            throw new IllegalArgumentException("이동할 수 있는 위치가 아닙니다.");
+        }
 
-    private boolean verifyMove(BoardPosition source, BoardPosition target, Piece piece) {
-        return verifyPieceMove(source, target, piece)
-                && verifyJumpMove(source, target, piece)
-                && verifyTargetPosition(target, piece)
-                && verifyPawnMovement(source, target, piece);
-    }
+        board.move(selectedPosition, target);
 
-    private boolean verifyPieceMove(BoardPosition source, BoardPosition target, Piece piece) {
-        MoveVector moveVector = new MoveVector(source, target);
-        return piece.verifyMovePosition(moveVector);
+        selectedPosition = null;
+        state = State.STANDBY_PICKING;
+        curTurnColor = curTurnColor.getOppositeColor();
+        //TODO : King이 잡혔을 때, 프로모션 등의 상황 추가
     }
 
 
-    private boolean verifyTargetPosition(BoardPosition target, Piece piece) {
-        Piece targetPiece = board.findPiece(target);
-        return targetPiece.getColor() != piece.getColor();
+    public void end() {
+        this.state = State.END;
     }
 
-    private boolean verifyPawnMovement(BoardPosition source, BoardPosition target, Piece piece) {
-        if (!piece.getType().equals(Piece.Type.PAWN)) {
-            return true;
-        }
-
-        MoveVector moveVector = new MoveVector(source, target);
-        Direction direction = Direction.determineDirection(moveVector).get();
-
-        if (Direction.diagonalDirection().contains(direction)) {
-            Piece targetPiece = board.findPiece(target);
-            Piece.Color color = piece.getColor() == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
-            return targetPiece.isPawn(color);
-        }
-        return true;
+    public boolean isEnded() {
+        return this.state == State.END;
     }
 
-    public boolean isEnd() {
-        return state instanceof EndState;
+    public String showBoard() {
+        return board.showBoard();
     }
 
-    public void receiveRequest() {
-        //TODO : input을 어떻게 처리할 지 구조 개선해야함
-        try {
-            String request = gameInputManager.receiveRequest();
-            state.handleRequest(request);
-        } catch (RuntimeException e) {
-            gameOutputManager.showError(e.getMessage());
-            if(state instanceof PlayingState) {
-                gameOutputManager.showBoard(board);
-            }
-        }
+    public Piece findPiece(BoardPosition boardPosition) {
+        return board.findPiece(boardPosition);
+    }
+
+    public State getState() {
+        return state;
     }
 }
